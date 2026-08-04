@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	DividendBusinessDelegate
+ *  	DividendService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Dividend")
 public class DividendRestController extends BaseSpringRestController {
 
+	public DividendRestController( DividendService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Dividend.  if not key provided, calls create, otherwise calls save
      * @param		Dividend	dividend
@@ -93,7 +96,7 @@ public class DividendRestController extends BaseSpringRestController {
     	Dividend entity = null;
 		try {       
         	
-			entity = DividendBusinessDelegate.getDividendInstance().createDividend( command );
+			entity = service.createDividend( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class DividendRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateDividendCommand
 			// -----------------------------------------------
-			entity = DividendBusinessDelegate.getDividendInstance().updateDividend(command);;
+			entity = service.updateDividend(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "DividendController:update() - successfully update Dividend - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class DividendRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteDividendCommand command ) {                
     	try {
-        	DividendBusinessDelegate delegate = DividendBusinessDelegate.getDividendInstance();
+        	DividendService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Dividend with key " + command.getDividendId() );
@@ -151,7 +154,7 @@ public class DividendRestController extends BaseSpringRestController {
     	Dividend entity = null;
 
     	try {  
-    		entity = DividendBusinessDelegate.getDividendInstance().getDividend( new DividendFetchOneSummary( uuid ) );   
+    		entity = service.getDividend( new DividendFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Dividend using Id " + uuid );
@@ -171,7 +174,7 @@ public class DividendRestController extends BaseSpringRestController {
         
     	try {
             // load the Dividend
-            dividendList = DividendBusinessDelegate.getDividendInstance().getAllDividend();
+            dividendList = service.getAllDividend();
             
             if ( dividendList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Dividends" );
@@ -192,7 +195,7 @@ public class DividendRestController extends BaseSpringRestController {
 	@PutMapping("/assignCorporateAction")
 	public void assignCorporateAction( @RequestBody AssignCorporateActionToDividendCommand command ) {
 		try {
-			DividendBusinessDelegate.getDividendInstance().assignCorporateAction( command );   
+			service.assignCorporateAction( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign CorporateAction", exc );
@@ -206,7 +209,7 @@ public class DividendRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignCorporateAction")
 	public void unAssignCorporateAction( @RequestBody(required=true)  UnAssignCorporateActionFromDividendCommand command ) {
 		try {
-			DividendBusinessDelegate.getDividendInstance().unAssignCorporateAction( command );   
+			service.unAssignCorporateAction( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign CorporateAction", exc );
@@ -221,6 +224,7 @@ public class DividendRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Dividend dividend = null;
+	protected DividendService service = null;
     private static final Logger LOGGER = Logger.getLogger(DividendRestController.class.getName());
     
 }

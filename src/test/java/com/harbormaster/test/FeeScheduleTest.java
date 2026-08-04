@@ -94,7 +94,7 @@ public class FeeScheduleTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a FeeSchedule" );
 
         try {            
-            entity = FeeScheduleBusinessDelegate.getFeeScheduleInstance().createFeeSchedule( generateNewCommand() );
+            entity = FeeScheduleService.getFeeScheduleInstance().createFeeSchedule( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getFeeScheduleId();
@@ -125,7 +125,7 @@ public class FeeScheduleTest
         msg.append( theId );
 
         try {
-            entity = FeeScheduleBusinessDelegate.getFeeScheduleInstance().getFeeSchedule( new FeeScheduleFetchOneSummary(theId) );
+            entity = FeeScheduleService.getFeeScheduleInstance().getFeeSchedule( new FeeScheduleFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class FeeScheduleTest
 
             LOGGER.info( "-- Now updating the created FeeSchedule." );
             
-            FeeScheduleBusinessDelegate proxy = FeeScheduleBusinessDelegate.getFeeScheduleInstance();            
+            FeeScheduleService proxy = FeeScheduleService.getFeeScheduleInstance();            
             entity = proxy.updateFeeSchedule( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class FeeScheduleTest
         try {
         	DeleteFeeScheduleCommand deleteCommand = new DeleteFeeScheduleCommand( theId );
         	
-            FeeScheduleBusinessDelegate.getFeeScheduleInstance().delete( deleteCommand );
+            FeeScheduleService.getFeeScheduleInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted FeeSchedule with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class FeeScheduleTest
         List<FeeSchedule> collection  = null;
 
         try {
-            // call the static get method on the FeeScheduleBusinessDelegate
-            collection = FeeScheduleBusinessDelegate.getFeeScheduleInstance().getAllFeeSchedule();
+            // call the static get method on the FeeScheduleService
+            collection = FeeScheduleService.getFeeScheduleInstance().getAllFeeSchedule();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

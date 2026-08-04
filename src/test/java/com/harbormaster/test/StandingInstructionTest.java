@@ -94,7 +94,7 @@ public class StandingInstructionTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a StandingInstruction" );
 
         try {            
-            entity = StandingInstructionBusinessDelegate.getStandingInstructionInstance().createStandingInstruction( generateNewCommand() );
+            entity = StandingInstructionService.getStandingInstructionInstance().createStandingInstruction( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getStandingInstructionId();
@@ -125,7 +125,7 @@ public class StandingInstructionTest
         msg.append( theId );
 
         try {
-            entity = StandingInstructionBusinessDelegate.getStandingInstructionInstance().getStandingInstruction( new StandingInstructionFetchOneSummary(theId) );
+            entity = StandingInstructionService.getStandingInstructionInstance().getStandingInstruction( new StandingInstructionFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class StandingInstructionTest
 
             LOGGER.info( "-- Now updating the created StandingInstruction." );
             
-            StandingInstructionBusinessDelegate proxy = StandingInstructionBusinessDelegate.getStandingInstructionInstance();            
+            StandingInstructionService proxy = StandingInstructionService.getStandingInstructionInstance();            
             entity = proxy.updateStandingInstruction( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class StandingInstructionTest
         try {
         	DeleteStandingInstructionCommand deleteCommand = new DeleteStandingInstructionCommand( theId );
         	
-            StandingInstructionBusinessDelegate.getStandingInstructionInstance().delete( deleteCommand );
+            StandingInstructionService.getStandingInstructionInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted StandingInstruction with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class StandingInstructionTest
         List<StandingInstruction> collection  = null;
 
         try {
-            // call the static get method on the StandingInstructionBusinessDelegate
-            collection = StandingInstructionBusinessDelegate.getStandingInstructionInstance().getAllStandingInstruction();
+            // call the static get method on the StandingInstructionService
+            collection = StandingInstructionService.getStandingInstructionInstance().getAllStandingInstruction();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

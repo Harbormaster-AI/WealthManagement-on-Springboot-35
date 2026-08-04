@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	TaxLotBusinessDelegate
+ *  	TaxLotService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/TaxLot")
 public class TaxLotRestController extends BaseSpringRestController {
 
+	public TaxLotRestController( TaxLotService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a TaxLot.  if not key provided, calls create, otherwise calls save
      * @param		TaxLot	taxLot
@@ -93,7 +96,7 @@ public class TaxLotRestController extends BaseSpringRestController {
     	TaxLot entity = null;
 		try {       
         	
-			entity = TaxLotBusinessDelegate.getTaxLotInstance().createTaxLot( command );
+			entity = service.createTaxLot( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class TaxLotRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateTaxLotCommand
 			// -----------------------------------------------
-			entity = TaxLotBusinessDelegate.getTaxLotInstance().updateTaxLot(command);;
+			entity = service.updateTaxLot(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "TaxLotController:update() - successfully update TaxLot - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class TaxLotRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteTaxLotCommand command ) {                
     	try {
-        	TaxLotBusinessDelegate delegate = TaxLotBusinessDelegate.getTaxLotInstance();
+        	TaxLotService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted TaxLot with key " + command.getTaxLotId() );
@@ -151,7 +154,7 @@ public class TaxLotRestController extends BaseSpringRestController {
     	TaxLot entity = null;
 
     	try {  
-    		entity = TaxLotBusinessDelegate.getTaxLotInstance().getTaxLot( new TaxLotFetchOneSummary( uuid ) );   
+    		entity = service.getTaxLot( new TaxLotFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load TaxLot using Id " + uuid );
@@ -171,7 +174,7 @@ public class TaxLotRestController extends BaseSpringRestController {
         
     	try {
             // load the TaxLot
-            taxLotList = TaxLotBusinessDelegate.getTaxLotInstance().getAllTaxLot();
+            taxLotList = service.getAllTaxLot();
             
             if ( taxLotList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all TaxLots" );
@@ -192,7 +195,7 @@ public class TaxLotRestController extends BaseSpringRestController {
 	@PutMapping("/assignPosition")
 	public void assignPosition( @RequestBody AssignPositionToTaxLotCommand command ) {
 		try {
-			TaxLotBusinessDelegate.getTaxLotInstance().assignPosition( command );   
+			service.assignPosition( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Position", exc );
@@ -206,7 +209,7 @@ public class TaxLotRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignPosition")
 	public void unAssignPosition( @RequestBody(required=true)  UnAssignPositionFromTaxLotCommand command ) {
 		try {
-			TaxLotBusinessDelegate.getTaxLotInstance().unAssignPosition( command );   
+			service.unAssignPosition( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Position", exc );
@@ -221,6 +224,7 @@ public class TaxLotRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected TaxLot taxLot = null;
+	protected TaxLotService service = null;
     private static final Logger LOGGER = Logger.getLogger(TaxLotRestController.class.getName());
     
 }

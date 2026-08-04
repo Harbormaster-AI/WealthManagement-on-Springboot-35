@@ -94,7 +94,7 @@ public class HouseholdTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Household" );
 
         try {            
-            entity = HouseholdBusinessDelegate.getHouseholdInstance().createHousehold( generateNewCommand() );
+            entity = HouseholdService.getHouseholdInstance().createHousehold( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getHouseholdId();
@@ -125,7 +125,7 @@ public class HouseholdTest
         msg.append( theId );
 
         try {
-            entity = HouseholdBusinessDelegate.getHouseholdInstance().getHousehold( new HouseholdFetchOneSummary(theId) );
+            entity = HouseholdService.getHouseholdInstance().getHousehold( new HouseholdFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class HouseholdTest
 
             LOGGER.info( "-- Now updating the created Household." );
             
-            HouseholdBusinessDelegate proxy = HouseholdBusinessDelegate.getHouseholdInstance();            
+            HouseholdService proxy = HouseholdService.getHouseholdInstance();            
             entity = proxy.updateHousehold( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class HouseholdTest
         try {
         	DeleteHouseholdCommand deleteCommand = new DeleteHouseholdCommand( theId );
         	
-            HouseholdBusinessDelegate.getHouseholdInstance().delete( deleteCommand );
+            HouseholdService.getHouseholdInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Household with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class HouseholdTest
         List<Household> collection  = null;
 
         try {
-            // call the static get method on the HouseholdBusinessDelegate
-            collection = HouseholdBusinessDelegate.getHouseholdInstance().getAllHousehold();
+            // call the static get method on the HouseholdService
+            collection = HouseholdService.getHouseholdInstance().getAllHousehold();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

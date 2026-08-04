@@ -94,7 +94,7 @@ public class TaxLotTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a TaxLot" );
 
         try {            
-            entity = TaxLotBusinessDelegate.getTaxLotInstance().createTaxLot( generateNewCommand() );
+            entity = TaxLotService.getTaxLotInstance().createTaxLot( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getTaxLotId();
@@ -125,7 +125,7 @@ public class TaxLotTest
         msg.append( theId );
 
         try {
-            entity = TaxLotBusinessDelegate.getTaxLotInstance().getTaxLot( new TaxLotFetchOneSummary(theId) );
+            entity = TaxLotService.getTaxLotInstance().getTaxLot( new TaxLotFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class TaxLotTest
 
             LOGGER.info( "-- Now updating the created TaxLot." );
             
-            TaxLotBusinessDelegate proxy = TaxLotBusinessDelegate.getTaxLotInstance();            
+            TaxLotService proxy = TaxLotService.getTaxLotInstance();            
             entity = proxy.updateTaxLot( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class TaxLotTest
         try {
         	DeleteTaxLotCommand deleteCommand = new DeleteTaxLotCommand( theId );
         	
-            TaxLotBusinessDelegate.getTaxLotInstance().delete( deleteCommand );
+            TaxLotService.getTaxLotInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted TaxLot with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class TaxLotTest
         List<TaxLot> collection  = null;
 
         try {
-            // call the static get method on the TaxLotBusinessDelegate
-            collection = TaxLotBusinessDelegate.getTaxLotInstance().getAllTaxLot();
+            // call the static get method on the TaxLotService
+            collection = TaxLotService.getTaxLotInstance().getAllTaxLot();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	CashMovementBusinessDelegate
+ *  	CashMovementService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/CashMovement")
 public class CashMovementRestController extends BaseSpringRestController {
 
+	public CashMovementRestController( CashMovementService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a CashMovement.  if not key provided, calls create, otherwise calls save
      * @param		CashMovement	cashMovement
@@ -93,7 +96,7 @@ public class CashMovementRestController extends BaseSpringRestController {
     	CashMovement entity = null;
 		try {       
         	
-			entity = CashMovementBusinessDelegate.getCashMovementInstance().createCashMovement( command );
+			entity = service.createCashMovement( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class CashMovementRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateCashMovementCommand
 			// -----------------------------------------------
-			entity = CashMovementBusinessDelegate.getCashMovementInstance().updateCashMovement(command);;
+			entity = service.updateCashMovement(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "CashMovementController:update() - successfully update CashMovement - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class CashMovementRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteCashMovementCommand command ) {                
     	try {
-        	CashMovementBusinessDelegate delegate = CashMovementBusinessDelegate.getCashMovementInstance();
+        	CashMovementService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted CashMovement with key " + command.getCashMovementId() );
@@ -151,7 +154,7 @@ public class CashMovementRestController extends BaseSpringRestController {
     	CashMovement entity = null;
 
     	try {  
-    		entity = CashMovementBusinessDelegate.getCashMovementInstance().getCashMovement( new CashMovementFetchOneSummary( uuid ) );   
+    		entity = service.getCashMovement( new CashMovementFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load CashMovement using Id " + uuid );
@@ -171,7 +174,7 @@ public class CashMovementRestController extends BaseSpringRestController {
         
     	try {
             // load the CashMovement
-            cashMovementList = CashMovementBusinessDelegate.getCashMovementInstance().getAllCashMovement();
+            cashMovementList = service.getAllCashMovement();
             
             if ( cashMovementList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all CashMovements" );
@@ -192,7 +195,7 @@ public class CashMovementRestController extends BaseSpringRestController {
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToCashMovementCommand command ) {
 		try {
-			CashMovementBusinessDelegate.getCashMovementInstance().assignAccount( command );   
+			service.assignAccount( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
@@ -206,7 +209,7 @@ public class CashMovementRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromCashMovementCommand command ) {
 		try {
-			CashMovementBusinessDelegate.getCashMovementInstance().unAssignAccount( command );   
+			service.unAssignAccount( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
@@ -220,7 +223,7 @@ public class CashMovementRestController extends BaseSpringRestController {
 	@PutMapping("/assignRelatedInstruction")
 	public void assignRelatedInstruction( @RequestBody AssignRelatedInstructionToCashMovementCommand command ) {
 		try {
-			CashMovementBusinessDelegate.getCashMovementInstance().assignRelatedInstruction( command );   
+			service.assignRelatedInstruction( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign RelatedInstruction", exc );
@@ -234,7 +237,7 @@ public class CashMovementRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignRelatedInstruction")
 	public void unAssignRelatedInstruction( @RequestBody(required=true)  UnAssignRelatedInstructionFromCashMovementCommand command ) {
 		try {
-			CashMovementBusinessDelegate.getCashMovementInstance().unAssignRelatedInstruction( command );   
+			service.unAssignRelatedInstruction( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign RelatedInstruction", exc );
@@ -248,7 +251,7 @@ public class CashMovementRestController extends BaseSpringRestController {
 	@PutMapping("/assignRelatedTransaction")
 	public void assignRelatedTransaction( @RequestBody AssignRelatedTransactionToCashMovementCommand command ) {
 		try {
-			CashMovementBusinessDelegate.getCashMovementInstance().assignRelatedTransaction( command );   
+			service.assignRelatedTransaction( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign RelatedTransaction", exc );
@@ -262,7 +265,7 @@ public class CashMovementRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignRelatedTransaction")
 	public void unAssignRelatedTransaction( @RequestBody(required=true)  UnAssignRelatedTransactionFromCashMovementCommand command ) {
 		try {
-			CashMovementBusinessDelegate.getCashMovementInstance().unAssignRelatedTransaction( command );   
+			service.unAssignRelatedTransaction( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign RelatedTransaction", exc );
@@ -277,6 +280,7 @@ public class CashMovementRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected CashMovement cashMovement = null;
+	protected CashMovementService service = null;
     private static final Logger LOGGER = Logger.getLogger(CashMovementRestController.class.getName());
     
 }

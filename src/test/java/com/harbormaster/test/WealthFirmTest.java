@@ -94,7 +94,7 @@ public class WealthFirmTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a WealthFirm" );
 
         try {            
-            entity = WealthFirmBusinessDelegate.getWealthFirmInstance().createWealthFirm( generateNewCommand() );
+            entity = WealthFirmService.getWealthFirmInstance().createWealthFirm( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getWealthFirmId();
@@ -125,7 +125,7 @@ public class WealthFirmTest
         msg.append( theId );
 
         try {
-            entity = WealthFirmBusinessDelegate.getWealthFirmInstance().getWealthFirm( new WealthFirmFetchOneSummary(theId) );
+            entity = WealthFirmService.getWealthFirmInstance().getWealthFirm( new WealthFirmFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class WealthFirmTest
 
             LOGGER.info( "-- Now updating the created WealthFirm." );
             
-            WealthFirmBusinessDelegate proxy = WealthFirmBusinessDelegate.getWealthFirmInstance();            
+            WealthFirmService proxy = WealthFirmService.getWealthFirmInstance();            
             entity = proxy.updateWealthFirm( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class WealthFirmTest
         try {
         	DeleteWealthFirmCommand deleteCommand = new DeleteWealthFirmCommand( theId );
         	
-            WealthFirmBusinessDelegate.getWealthFirmInstance().delete( deleteCommand );
+            WealthFirmService.getWealthFirmInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted WealthFirm with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class WealthFirmTest
         List<WealthFirm> collection  = null;
 
         try {
-            // call the static get method on the WealthFirmBusinessDelegate
-            collection = WealthFirmBusinessDelegate.getWealthFirmInstance().getAllWealthFirm();
+            // call the static get method on the WealthFirmService
+            collection = WealthFirmService.getWealthFirmInstance().getAllWealthFirm();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

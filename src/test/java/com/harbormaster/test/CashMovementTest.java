@@ -94,7 +94,7 @@ public class CashMovementTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a CashMovement" );
 
         try {            
-            entity = CashMovementBusinessDelegate.getCashMovementInstance().createCashMovement( generateNewCommand() );
+            entity = CashMovementService.getCashMovementInstance().createCashMovement( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getCashMovementId();
@@ -125,7 +125,7 @@ public class CashMovementTest
         msg.append( theId );
 
         try {
-            entity = CashMovementBusinessDelegate.getCashMovementInstance().getCashMovement( new CashMovementFetchOneSummary(theId) );
+            entity = CashMovementService.getCashMovementInstance().getCashMovement( new CashMovementFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class CashMovementTest
 
             LOGGER.info( "-- Now updating the created CashMovement." );
             
-            CashMovementBusinessDelegate proxy = CashMovementBusinessDelegate.getCashMovementInstance();            
+            CashMovementService proxy = CashMovementService.getCashMovementInstance();            
             entity = proxy.updateCashMovement( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class CashMovementTest
         try {
         	DeleteCashMovementCommand deleteCommand = new DeleteCashMovementCommand( theId );
         	
-            CashMovementBusinessDelegate.getCashMovementInstance().delete( deleteCommand );
+            CashMovementService.getCashMovementInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted CashMovement with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class CashMovementTest
         List<CashMovement> collection  = null;
 
         try {
-            // call the static get method on the CashMovementBusinessDelegate
-            collection = CashMovementBusinessDelegate.getCashMovementInstance().getAllCashMovement();
+            // call the static get method on the CashMovementService
+            collection = CashMovementService.getCashMovementInstance().getAllCashMovement();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

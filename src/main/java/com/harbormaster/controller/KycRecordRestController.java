@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	KycRecordBusinessDelegate
+ *  	KycRecordService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/KycRecord")
 public class KycRecordRestController extends BaseSpringRestController {
 
+	public KycRecordRestController( KycRecordService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a KycRecord.  if not key provided, calls create, otherwise calls save
      * @param		KycRecord	kycRecord
@@ -93,7 +96,7 @@ public class KycRecordRestController extends BaseSpringRestController {
     	KycRecord entity = null;
 		try {       
         	
-			entity = KycRecordBusinessDelegate.getKycRecordInstance().createKycRecord( command );
+			entity = service.createKycRecord( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class KycRecordRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateKycRecordCommand
 			// -----------------------------------------------
-			entity = KycRecordBusinessDelegate.getKycRecordInstance().updateKycRecord(command);;
+			entity = service.updateKycRecord(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "KycRecordController:update() - successfully update KycRecord - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class KycRecordRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteKycRecordCommand command ) {                
     	try {
-        	KycRecordBusinessDelegate delegate = KycRecordBusinessDelegate.getKycRecordInstance();
+        	KycRecordService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted KycRecord with key " + command.getKycRecordId() );
@@ -151,7 +154,7 @@ public class KycRecordRestController extends BaseSpringRestController {
     	KycRecord entity = null;
 
     	try {  
-    		entity = KycRecordBusinessDelegate.getKycRecordInstance().getKycRecord( new KycRecordFetchOneSummary( uuid ) );   
+    		entity = service.getKycRecord( new KycRecordFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load KycRecord using Id " + uuid );
@@ -171,7 +174,7 @@ public class KycRecordRestController extends BaseSpringRestController {
         
     	try {
             // load the KycRecord
-            kycRecordList = KycRecordBusinessDelegate.getKycRecordInstance().getAllKycRecord();
+            kycRecordList = service.getAllKycRecord();
             
             if ( kycRecordList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all KycRecords" );
@@ -192,7 +195,7 @@ public class KycRecordRestController extends BaseSpringRestController {
 	@PutMapping("/assignClient")
 	public void assignClient( @RequestBody AssignClientToKycRecordCommand command ) {
 		try {
-			KycRecordBusinessDelegate.getKycRecordInstance().assignClient( command );   
+			service.assignClient( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Client", exc );
@@ -206,7 +209,7 @@ public class KycRecordRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignClient")
 	public void unAssignClient( @RequestBody(required=true)  UnAssignClientFromKycRecordCommand command ) {
 		try {
-			KycRecordBusinessDelegate.getKycRecordInstance().unAssignClient( command );   
+			service.unAssignClient( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Client", exc );
@@ -221,7 +224,7 @@ public class KycRecordRestController extends BaseSpringRestController {
 	@PutMapping("/addToDocuments")
 	public void addToDocuments( @RequestBody(required=true) AssignDocumentsToKycRecordCommand command ) {
 		try {
-			KycRecordBusinessDelegate.getKycRecordInstance().addToDocuments( command );   
+			service.addToDocuments( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Documents", exc );
@@ -236,7 +239,7 @@ public class KycRecordRestController extends BaseSpringRestController {
 	public void removeFromDocuments( 	@RequestBody(required=true) RemoveDocumentsFromKycRecordCommand command )
 	{		
 		try {
-			KycRecordBusinessDelegate.getKycRecordInstance().removeFromDocuments( command );
+			service.removeFromDocuments( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Documents", exc );
@@ -250,6 +253,7 @@ public class KycRecordRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected KycRecord kycRecord = null;
+	protected KycRecordService service = null;
     private static final Logger LOGGER = Logger.getLogger(KycRecordRestController.class.getName());
     
 }

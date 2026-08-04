@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	AdvisoryTeamBusinessDelegate
+ *  	AdvisoryTeamService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/AdvisoryTeam")
 public class AdvisoryTeamRestController extends BaseSpringRestController {
 
+	public AdvisoryTeamRestController( AdvisoryTeamService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a AdvisoryTeam.  if not key provided, calls create, otherwise calls save
      * @param		AdvisoryTeam	advisoryTeam
@@ -93,7 +96,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
     	AdvisoryTeam entity = null;
 		try {       
         	
-			entity = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().createAdvisoryTeam( command );
+			entity = service.createAdvisoryTeam( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateAdvisoryTeamCommand
 			// -----------------------------------------------
-			entity = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().updateAdvisoryTeam(command);;
+			entity = service.updateAdvisoryTeam(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "AdvisoryTeamController:update() - successfully update AdvisoryTeam - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAdvisoryTeamCommand command ) {                
     	try {
-        	AdvisoryTeamBusinessDelegate delegate = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance();
+        	AdvisoryTeamService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted AdvisoryTeam with key " + command.getAdvisoryTeamId() );
@@ -151,7 +154,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
     	AdvisoryTeam entity = null;
 
     	try {  
-    		entity = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().getAdvisoryTeam( new AdvisoryTeamFetchOneSummary( uuid ) );   
+    		entity = service.getAdvisoryTeam( new AdvisoryTeamFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load AdvisoryTeam using Id " + uuid );
@@ -171,7 +174,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
         
     	try {
             // load the AdvisoryTeam
-            advisoryTeamList = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().getAllAdvisoryTeam();
+            advisoryTeamList = service.getAllAdvisoryTeam();
             
             if ( advisoryTeamList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all AdvisoryTeams" );
@@ -193,7 +196,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 	@PutMapping("/addToAdvisors")
 	public void addToAdvisors( @RequestBody(required=true) AssignAdvisorsToAdvisoryTeamCommand command ) {
 		try {
-			AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().addToAdvisors( command );   
+			service.addToAdvisors( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Advisors", exc );
@@ -208,7 +211,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 	public void removeFromAdvisors( 	@RequestBody(required=true) RemoveAdvisorsFromAdvisoryTeamCommand command )
 	{		
 		try {
-			AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().removeFromAdvisors( command );
+			service.removeFromAdvisors( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Advisors", exc );
@@ -222,7 +225,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 	@PutMapping("/addToHouseholds")
 	public void addToHouseholds( @RequestBody(required=true) AssignHouseholdsToAdvisoryTeamCommand command ) {
 		try {
-			AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().addToHouseholds( command );   
+			service.addToHouseholds( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Households", exc );
@@ -237,7 +240,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 	public void removeFromHouseholds( 	@RequestBody(required=true) RemoveHouseholdsFromAdvisoryTeamCommand command )
 	{		
 		try {
-			AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().removeFromHouseholds( command );
+			service.removeFromHouseholds( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Households", exc );
@@ -251,6 +254,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected AdvisoryTeam advisoryTeam = null;
+	protected AdvisoryTeamService service = null;
     private static final Logger LOGGER = Logger.getLogger(AdvisoryTeamRestController.class.getName());
     
 }

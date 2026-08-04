@@ -94,7 +94,7 @@ public class PositionTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Position" );
 
         try {            
-            entity = PositionBusinessDelegate.getPositionInstance().createPosition( generateNewCommand() );
+            entity = PositionService.getPositionInstance().createPosition( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getPositionId();
@@ -125,7 +125,7 @@ public class PositionTest
         msg.append( theId );
 
         try {
-            entity = PositionBusinessDelegate.getPositionInstance().getPosition( new PositionFetchOneSummary(theId) );
+            entity = PositionService.getPositionInstance().getPosition( new PositionFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class PositionTest
 
             LOGGER.info( "-- Now updating the created Position." );
             
-            PositionBusinessDelegate proxy = PositionBusinessDelegate.getPositionInstance();            
+            PositionService proxy = PositionService.getPositionInstance();            
             entity = proxy.updatePosition( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class PositionTest
         try {
         	DeletePositionCommand deleteCommand = new DeletePositionCommand( theId );
         	
-            PositionBusinessDelegate.getPositionInstance().delete( deleteCommand );
+            PositionService.getPositionInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Position with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class PositionTest
         List<Position> collection  = null;
 
         try {
-            // call the static get method on the PositionBusinessDelegate
-            collection = PositionBusinessDelegate.getPositionInstance().getAllPosition();
+            // call the static get method on the PositionService
+            collection = PositionService.getPositionInstance().getAllPosition();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

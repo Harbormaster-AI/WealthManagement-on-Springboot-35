@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	InvoiceBusinessDelegate
+ *  	InvoiceService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Invoice")
 public class InvoiceRestController extends BaseSpringRestController {
 
+	public InvoiceRestController( InvoiceService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Invoice.  if not key provided, calls create, otherwise calls save
      * @param		Invoice	invoice
@@ -93,7 +96,7 @@ public class InvoiceRestController extends BaseSpringRestController {
     	Invoice entity = null;
 		try {       
         	
-			entity = InvoiceBusinessDelegate.getInvoiceInstance().createInvoice( command );
+			entity = service.createInvoice( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class InvoiceRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateInvoiceCommand
 			// -----------------------------------------------
-			entity = InvoiceBusinessDelegate.getInvoiceInstance().updateInvoice(command);;
+			entity = service.updateInvoice(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "InvoiceController:update() - successfully update Invoice - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class InvoiceRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteInvoiceCommand command ) {                
     	try {
-        	InvoiceBusinessDelegate delegate = InvoiceBusinessDelegate.getInvoiceInstance();
+        	InvoiceService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Invoice with key " + command.getInvoiceId() );
@@ -151,7 +154,7 @@ public class InvoiceRestController extends BaseSpringRestController {
     	Invoice entity = null;
 
     	try {  
-    		entity = InvoiceBusinessDelegate.getInvoiceInstance().getInvoice( new InvoiceFetchOneSummary( uuid ) );   
+    		entity = service.getInvoice( new InvoiceFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Invoice using Id " + uuid );
@@ -171,7 +174,7 @@ public class InvoiceRestController extends BaseSpringRestController {
         
     	try {
             // load the Invoice
-            invoiceList = InvoiceBusinessDelegate.getInvoiceInstance().getAllInvoice();
+            invoiceList = service.getAllInvoice();
             
             if ( invoiceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Invoices" );
@@ -192,7 +195,7 @@ public class InvoiceRestController extends BaseSpringRestController {
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToInvoiceCommand command ) {
 		try {
-			InvoiceBusinessDelegate.getInvoiceInstance().assignAccount( command );   
+			service.assignAccount( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
@@ -206,7 +209,7 @@ public class InvoiceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromInvoiceCommand command ) {
 		try {
-			InvoiceBusinessDelegate.getInvoiceInstance().unAssignAccount( command );   
+			service.unAssignAccount( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
@@ -220,7 +223,7 @@ public class InvoiceRestController extends BaseSpringRestController {
 	@PutMapping("/assignBillingRun")
 	public void assignBillingRun( @RequestBody AssignBillingRunToInvoiceCommand command ) {
 		try {
-			InvoiceBusinessDelegate.getInvoiceInstance().assignBillingRun( command );   
+			service.assignBillingRun( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign BillingRun", exc );
@@ -234,7 +237,7 @@ public class InvoiceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignBillingRun")
 	public void unAssignBillingRun( @RequestBody(required=true)  UnAssignBillingRunFromInvoiceCommand command ) {
 		try {
-			InvoiceBusinessDelegate.getInvoiceInstance().unAssignBillingRun( command );   
+			service.unAssignBillingRun( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign BillingRun", exc );
@@ -249,7 +252,7 @@ public class InvoiceRestController extends BaseSpringRestController {
 	@PutMapping("/addToFees")
 	public void addToFees( @RequestBody(required=true) AssignFeesToInvoiceCommand command ) {
 		try {
-			InvoiceBusinessDelegate.getInvoiceInstance().addToFees( command );   
+			service.addToFees( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Fees", exc );
@@ -264,7 +267,7 @@ public class InvoiceRestController extends BaseSpringRestController {
 	public void removeFromFees( 	@RequestBody(required=true) RemoveFeesFromInvoiceCommand command )
 	{		
 		try {
-			InvoiceBusinessDelegate.getInvoiceInstance().removeFromFees( command );
+			service.removeFromFees( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Fees", exc );
@@ -278,6 +281,7 @@ public class InvoiceRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Invoice invoice = null;
+	protected InvoiceService service = null;
     private static final Logger LOGGER = Logger.getLogger(InvoiceRestController.class.getName());
     
 }

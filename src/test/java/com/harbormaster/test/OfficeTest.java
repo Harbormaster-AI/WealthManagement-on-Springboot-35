@@ -94,7 +94,7 @@ public class OfficeTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Office" );
 
         try {            
-            entity = OfficeBusinessDelegate.getOfficeInstance().createOffice( generateNewCommand() );
+            entity = OfficeService.getOfficeInstance().createOffice( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getOfficeId();
@@ -125,7 +125,7 @@ public class OfficeTest
         msg.append( theId );
 
         try {
-            entity = OfficeBusinessDelegate.getOfficeInstance().getOffice( new OfficeFetchOneSummary(theId) );
+            entity = OfficeService.getOfficeInstance().getOffice( new OfficeFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class OfficeTest
 
             LOGGER.info( "-- Now updating the created Office." );
             
-            OfficeBusinessDelegate proxy = OfficeBusinessDelegate.getOfficeInstance();            
+            OfficeService proxy = OfficeService.getOfficeInstance();            
             entity = proxy.updateOffice( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class OfficeTest
         try {
         	DeleteOfficeCommand deleteCommand = new DeleteOfficeCommand( theId );
         	
-            OfficeBusinessDelegate.getOfficeInstance().delete( deleteCommand );
+            OfficeService.getOfficeInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Office with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class OfficeTest
         List<Office> collection  = null;
 
         try {
-            // call the static get method on the OfficeBusinessDelegate
-            collection = OfficeBusinessDelegate.getOfficeInstance().getAllOffice();
+            // call the static get method on the OfficeService
+            collection = OfficeService.getOfficeInstance().getAllOffice();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

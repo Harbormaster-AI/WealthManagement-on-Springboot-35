@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	AgreementBusinessDelegate
+ *  	AgreementService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Agreement")
 public class AgreementRestController extends BaseSpringRestController {
 
+	public AgreementRestController( AgreementService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Agreement.  if not key provided, calls create, otherwise calls save
      * @param		Agreement	agreement
@@ -93,7 +96,7 @@ public class AgreementRestController extends BaseSpringRestController {
     	Agreement entity = null;
 		try {       
         	
-			entity = AgreementBusinessDelegate.getAgreementInstance().createAgreement( command );
+			entity = service.createAgreement( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class AgreementRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateAgreementCommand
 			// -----------------------------------------------
-			entity = AgreementBusinessDelegate.getAgreementInstance().updateAgreement(command);;
+			entity = service.updateAgreement(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "AgreementController:update() - successfully update Agreement - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class AgreementRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAgreementCommand command ) {                
     	try {
-        	AgreementBusinessDelegate delegate = AgreementBusinessDelegate.getAgreementInstance();
+        	AgreementService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Agreement with key " + command.getAgreementId() );
@@ -151,7 +154,7 @@ public class AgreementRestController extends BaseSpringRestController {
     	Agreement entity = null;
 
     	try {  
-    		entity = AgreementBusinessDelegate.getAgreementInstance().getAgreement( new AgreementFetchOneSummary( uuid ) );   
+    		entity = service.getAgreement( new AgreementFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Agreement using Id " + uuid );
@@ -171,7 +174,7 @@ public class AgreementRestController extends BaseSpringRestController {
         
     	try {
             // load the Agreement
-            agreementList = AgreementBusinessDelegate.getAgreementInstance().getAllAgreement();
+            agreementList = service.getAllAgreement();
             
             if ( agreementList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Agreements" );
@@ -192,7 +195,7 @@ public class AgreementRestController extends BaseSpringRestController {
 	@PutMapping("/assignClient")
 	public void assignClient( @RequestBody AssignClientToAgreementCommand command ) {
 		try {
-			AgreementBusinessDelegate.getAgreementInstance().assignClient( command );   
+			service.assignClient( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Client", exc );
@@ -206,7 +209,7 @@ public class AgreementRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignClient")
 	public void unAssignClient( @RequestBody(required=true)  UnAssignClientFromAgreementCommand command ) {
 		try {
-			AgreementBusinessDelegate.getAgreementInstance().unAssignClient( command );   
+			service.unAssignClient( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Client", exc );
@@ -220,7 +223,7 @@ public class AgreementRestController extends BaseSpringRestController {
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToAgreementCommand command ) {
 		try {
-			AgreementBusinessDelegate.getAgreementInstance().assignAccount( command );   
+			service.assignAccount( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
@@ -234,7 +237,7 @@ public class AgreementRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromAgreementCommand command ) {
 		try {
-			AgreementBusinessDelegate.getAgreementInstance().unAssignAccount( command );   
+			service.unAssignAccount( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
@@ -249,7 +252,7 @@ public class AgreementRestController extends BaseSpringRestController {
 	@PutMapping("/addToDocuments")
 	public void addToDocuments( @RequestBody(required=true) AssignDocumentsToAgreementCommand command ) {
 		try {
-			AgreementBusinessDelegate.getAgreementInstance().addToDocuments( command );   
+			service.addToDocuments( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Documents", exc );
@@ -264,7 +267,7 @@ public class AgreementRestController extends BaseSpringRestController {
 	public void removeFromDocuments( 	@RequestBody(required=true) RemoveDocumentsFromAgreementCommand command )
 	{		
 		try {
-			AgreementBusinessDelegate.getAgreementInstance().removeFromDocuments( command );
+			service.removeFromDocuments( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Documents", exc );
@@ -278,6 +281,7 @@ public class AgreementRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Agreement agreement = null;
+	protected AgreementService service = null;
     private static final Logger LOGGER = Logger.getLogger(AgreementRestController.class.getName());
     
 }

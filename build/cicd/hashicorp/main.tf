@@ -59,8 +59,8 @@ resource "aws_key_pair" "generated" {
 # -------------------------------------------------------
 
 resource "aws_security_group" "web" {
-#  name        = "WealthManagementonSpringboot35-security-group-from-terraform" #optional, when omitted, terraform creates a random name
-  description = "security group for application WealthManagementonSpringboot35 created from terraform"
+#  name        = "WealthManagementonspringboot35-security-group-from-terraform" #optional, when omitted, terraform creates a random name
+  description = "security group for application WealthManagementonspringboot35 created from terraform"
   vpc_id      = "${aws-vpc}"
 
   # SSH access from anywhere
@@ -101,7 +101,7 @@ resource "aws_security_group" "web" {
 # -------------------------------------------------------
 
 resource "aws_security_group" "mysql" {
-  description = "security group for WealthManagementonSpringboot35 ${dEngine} created from terraform"
+  description = "security group for WealthManagementonspringboot35 ${dEngine} created from terraform"
   vpc_id      = "${aws-vpc}"
 
   # mysql access from anywhere
@@ -123,11 +123,11 @@ resource "aws_security_group" "mysql" {
 
 resource "aws_db_instance" "default" {
   depends_on             = ["aws_security_group.rds"]
-#  identifier             = "WealthManagementonSpringboot35-rds" # Terraform will create a unique id if not assigned
+#  identifier             = "WealthManagementonspringboot35-rds" # Terraform will create a unique id if not assigned
   allocated_storage      = 20
   engine                 = "mysql"
   instance_class         = "db.t3.medium"
-  name                   = "WealthManagementonSpringboot35"
+  name                   = "WealthManagementonspringboot35"
   username               = "${dbUsername}"
   password               = "${dbPassword}"
   vpc_security_group_ids = ["${aws_security_group.rds.id}"]
@@ -152,7 +152,7 @@ resource "aws_instance" "web" {
 
   instance_type = "t2.medium"
   
-  tags = { Name = "WealthManagementonSpringboot35 instance" } 
+  tags = { Name = "WealthManagementonspringboot35 instance" } 
 
   # -------------------------------------------------------
   # standard harbormaster community AMI with docker pre-installed
@@ -189,7 +189,7 @@ resource "aws_instance" "web" {
       "sudo apt-get -y update",
       "sudo docker login --username tylertravismya --password 69cutlass",
       "sudo docker pull theharbormaster/WealthManagement-on-springboot-35:latest",
-      "sudo docker run -it -p 8000:8000 -p 8080:8080 -e DATABASE_URL=jdbc:mysql://${aws_db_instance.default.endpoint}/WealthManagementonSpringboot35 theharbormaster/WealthManagement-on-springboot-35:latest"
+      "sudo docker run -it -p 8000:8000 -p 8080:8080 -e DATABASE_URL=jdbc:mysql://${aws_db_instance.default.endpoint}/WealthManagementonspringboot35 theharbormaster/WealthManagement-on-springboot-35:latest"
     ]
   }
 }

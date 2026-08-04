@@ -94,7 +94,7 @@ public class ComplianceRuleTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a ComplianceRule" );
 
         try {            
-            entity = ComplianceRuleBusinessDelegate.getComplianceRuleInstance().createComplianceRule( generateNewCommand() );
+            entity = ComplianceRuleService.getComplianceRuleInstance().createComplianceRule( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getComplianceRuleId();
@@ -125,7 +125,7 @@ public class ComplianceRuleTest
         msg.append( theId );
 
         try {
-            entity = ComplianceRuleBusinessDelegate.getComplianceRuleInstance().getComplianceRule( new ComplianceRuleFetchOneSummary(theId) );
+            entity = ComplianceRuleService.getComplianceRuleInstance().getComplianceRule( new ComplianceRuleFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class ComplianceRuleTest
 
             LOGGER.info( "-- Now updating the created ComplianceRule." );
             
-            ComplianceRuleBusinessDelegate proxy = ComplianceRuleBusinessDelegate.getComplianceRuleInstance();            
+            ComplianceRuleService proxy = ComplianceRuleService.getComplianceRuleInstance();            
             entity = proxy.updateComplianceRule( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class ComplianceRuleTest
         try {
         	DeleteComplianceRuleCommand deleteCommand = new DeleteComplianceRuleCommand( theId );
         	
-            ComplianceRuleBusinessDelegate.getComplianceRuleInstance().delete( deleteCommand );
+            ComplianceRuleService.getComplianceRuleInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted ComplianceRule with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class ComplianceRuleTest
         List<ComplianceRule> collection  = null;
 
         try {
-            // call the static get method on the ComplianceRuleBusinessDelegate
-            collection = ComplianceRuleBusinessDelegate.getComplianceRuleInstance().getAllComplianceRule();
+            // call the static get method on the ComplianceRuleService
+            collection = ComplianceRuleService.getComplianceRuleInstance().getAllComplianceRule();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

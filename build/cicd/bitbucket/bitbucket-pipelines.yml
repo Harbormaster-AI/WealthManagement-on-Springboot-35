@@ -4,7 +4,7 @@ image: maven:3.3.9
 pipelines:
   default:
   - step:
-      name: install dependencies and building WealthManagementonSpringboot35 
+      name: install dependencies and building WealthManagementonspringboot35 
       script:
 
         - export DEFAULT_HOST_ADDRESS=127.0.0.1
@@ -13,7 +13,7 @@ pipelines:
         - export DATABASE_PASSWORD=letmein2
         - export DATABASE_DIALECT=org.hibernate.dialect.MySQL8Dialect
         - export DATABASE_DRIVER=com.mysql.cj.jdbc.Driver
-        - export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonSpringboot35?createDatabaseIfNotExist=true
+        - export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonspringboot35?createDatabaseIfNotExist=true
         - mvn package
         - cd terraform && chmod 777 terraform.sh && ./terraform.sh install
       caches:

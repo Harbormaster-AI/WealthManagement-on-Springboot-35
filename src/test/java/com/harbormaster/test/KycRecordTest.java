@@ -94,7 +94,7 @@ public class KycRecordTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a KycRecord" );
 
         try {            
-            entity = KycRecordBusinessDelegate.getKycRecordInstance().createKycRecord( generateNewCommand() );
+            entity = KycRecordService.getKycRecordInstance().createKycRecord( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getKycRecordId();
@@ -125,7 +125,7 @@ public class KycRecordTest
         msg.append( theId );
 
         try {
-            entity = KycRecordBusinessDelegate.getKycRecordInstance().getKycRecord( new KycRecordFetchOneSummary(theId) );
+            entity = KycRecordService.getKycRecordInstance().getKycRecord( new KycRecordFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class KycRecordTest
 
             LOGGER.info( "-- Now updating the created KycRecord." );
             
-            KycRecordBusinessDelegate proxy = KycRecordBusinessDelegate.getKycRecordInstance();            
+            KycRecordService proxy = KycRecordService.getKycRecordInstance();            
             entity = proxy.updateKycRecord( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class KycRecordTest
         try {
         	DeleteKycRecordCommand deleteCommand = new DeleteKycRecordCommand( theId );
         	
-            KycRecordBusinessDelegate.getKycRecordInstance().delete( deleteCommand );
+            KycRecordService.getKycRecordInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted KycRecord with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class KycRecordTest
         List<KycRecord> collection  = null;
 
         try {
-            // call the static get method on the KycRecordBusinessDelegate
-            collection = KycRecordBusinessDelegate.getKycRecordInstance().getAllKycRecord();
+            // call the static get method on the KycRecordService
+            collection = KycRecordService.getKycRecordInstance().getAllKycRecord();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

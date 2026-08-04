@@ -94,7 +94,7 @@ public class MarketPriceTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a MarketPrice" );
 
         try {            
-            entity = MarketPriceBusinessDelegate.getMarketPriceInstance().createMarketPrice( generateNewCommand() );
+            entity = MarketPriceService.getMarketPriceInstance().createMarketPrice( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getMarketPriceId();
@@ -125,7 +125,7 @@ public class MarketPriceTest
         msg.append( theId );
 
         try {
-            entity = MarketPriceBusinessDelegate.getMarketPriceInstance().getMarketPrice( new MarketPriceFetchOneSummary(theId) );
+            entity = MarketPriceService.getMarketPriceInstance().getMarketPrice( new MarketPriceFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class MarketPriceTest
 
             LOGGER.info( "-- Now updating the created MarketPrice." );
             
-            MarketPriceBusinessDelegate proxy = MarketPriceBusinessDelegate.getMarketPriceInstance();            
+            MarketPriceService proxy = MarketPriceService.getMarketPriceInstance();            
             entity = proxy.updateMarketPrice( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class MarketPriceTest
         try {
         	DeleteMarketPriceCommand deleteCommand = new DeleteMarketPriceCommand( theId );
         	
-            MarketPriceBusinessDelegate.getMarketPriceInstance().delete( deleteCommand );
+            MarketPriceService.getMarketPriceInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted MarketPrice with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class MarketPriceTest
         List<MarketPrice> collection  = null;
 
         try {
-            // call the static get method on the MarketPriceBusinessDelegate
-            collection = MarketPriceBusinessDelegate.getMarketPriceInstance().getAllMarketPrice();
+            // call the static get method on the MarketPriceService
+            collection = MarketPriceService.getMarketPriceInstance().getAllMarketPrice();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

@@ -94,7 +94,7 @@ public class AgreementTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Agreement" );
 
         try {            
-            entity = AgreementBusinessDelegate.getAgreementInstance().createAgreement( generateNewCommand() );
+            entity = AgreementService.getAgreementInstance().createAgreement( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAgreementId();
@@ -125,7 +125,7 @@ public class AgreementTest
         msg.append( theId );
 
         try {
-            entity = AgreementBusinessDelegate.getAgreementInstance().getAgreement( new AgreementFetchOneSummary(theId) );
+            entity = AgreementService.getAgreementInstance().getAgreement( new AgreementFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class AgreementTest
 
             LOGGER.info( "-- Now updating the created Agreement." );
             
-            AgreementBusinessDelegate proxy = AgreementBusinessDelegate.getAgreementInstance();            
+            AgreementService proxy = AgreementService.getAgreementInstance();            
             entity = proxy.updateAgreement( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class AgreementTest
         try {
         	DeleteAgreementCommand deleteCommand = new DeleteAgreementCommand( theId );
         	
-            AgreementBusinessDelegate.getAgreementInstance().delete( deleteCommand );
+            AgreementService.getAgreementInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Agreement with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class AgreementTest
         List<Agreement> collection  = null;
 
         try {
-            // call the static get method on the AgreementBusinessDelegate
-            collection = AgreementBusinessDelegate.getAgreementInstance().getAllAgreement();
+            // call the static get method on the AgreementService
+            collection = AgreementService.getAgreementInstance().getAllAgreement();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

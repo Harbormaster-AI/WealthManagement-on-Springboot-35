@@ -94,7 +94,7 @@ public class OrderTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Order" );
 
         try {            
-            entity = OrderBusinessDelegate.getOrderInstance().createOrder( generateNewCommand() );
+            entity = OrderService.getOrderInstance().createOrder( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getOrderId();
@@ -125,7 +125,7 @@ public class OrderTest
         msg.append( theId );
 
         try {
-            entity = OrderBusinessDelegate.getOrderInstance().getOrder( new OrderFetchOneSummary(theId) );
+            entity = OrderService.getOrderInstance().getOrder( new OrderFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class OrderTest
 
             LOGGER.info( "-- Now updating the created Order." );
             
-            OrderBusinessDelegate proxy = OrderBusinessDelegate.getOrderInstance();            
+            OrderService proxy = OrderService.getOrderInstance();            
             entity = proxy.updateOrder( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class OrderTest
         try {
         	DeleteOrderCommand deleteCommand = new DeleteOrderCommand( theId );
         	
-            OrderBusinessDelegate.getOrderInstance().delete( deleteCommand );
+            OrderService.getOrderInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Order with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class OrderTest
         List<Order> collection  = null;
 
         try {
-            // call the static get method on the OrderBusinessDelegate
-            collection = OrderBusinessDelegate.getOrderInstance().getAllOrder();
+            // call the static get method on the OrderService
+            collection = OrderService.getOrderInstance().getAllOrder();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

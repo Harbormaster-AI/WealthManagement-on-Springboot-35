@@ -94,7 +94,7 @@ public class AdvisoryTeamTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a AdvisoryTeam" );
 
         try {            
-            entity = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().createAdvisoryTeam( generateNewCommand() );
+            entity = AdvisoryTeamService.getAdvisoryTeamInstance().createAdvisoryTeam( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAdvisoryTeamId();
@@ -125,7 +125,7 @@ public class AdvisoryTeamTest
         msg.append( theId );
 
         try {
-            entity = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().getAdvisoryTeam( new AdvisoryTeamFetchOneSummary(theId) );
+            entity = AdvisoryTeamService.getAdvisoryTeamInstance().getAdvisoryTeam( new AdvisoryTeamFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class AdvisoryTeamTest
 
             LOGGER.info( "-- Now updating the created AdvisoryTeam." );
             
-            AdvisoryTeamBusinessDelegate proxy = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance();            
+            AdvisoryTeamService proxy = AdvisoryTeamService.getAdvisoryTeamInstance();            
             entity = proxy.updateAdvisoryTeam( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class AdvisoryTeamTest
         try {
         	DeleteAdvisoryTeamCommand deleteCommand = new DeleteAdvisoryTeamCommand( theId );
         	
-            AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().delete( deleteCommand );
+            AdvisoryTeamService.getAdvisoryTeamInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted AdvisoryTeam with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class AdvisoryTeamTest
         List<AdvisoryTeam> collection  = null;
 
         try {
-            // call the static get method on the AdvisoryTeamBusinessDelegate
-            collection = AdvisoryTeamBusinessDelegate.getAdvisoryTeamInstance().getAllAdvisoryTeam();
+            // call the static get method on the AdvisoryTeamService
+            collection = AdvisoryTeamService.getAdvisoryTeamInstance().getAllAdvisoryTeam();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

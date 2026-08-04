@@ -94,7 +94,7 @@ public class DocumentTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Document" );
 
         try {            
-            entity = DocumentBusinessDelegate.getDocumentInstance().createDocument( generateNewCommand() );
+            entity = DocumentService.getDocumentInstance().createDocument( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getDocumentId();
@@ -125,7 +125,7 @@ public class DocumentTest
         msg.append( theId );
 
         try {
-            entity = DocumentBusinessDelegate.getDocumentInstance().getDocument( new DocumentFetchOneSummary(theId) );
+            entity = DocumentService.getDocumentInstance().getDocument( new DocumentFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class DocumentTest
 
             LOGGER.info( "-- Now updating the created Document." );
             
-            DocumentBusinessDelegate proxy = DocumentBusinessDelegate.getDocumentInstance();            
+            DocumentService proxy = DocumentService.getDocumentInstance();            
             entity = proxy.updateDocument( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class DocumentTest
         try {
         	DeleteDocumentCommand deleteCommand = new DeleteDocumentCommand( theId );
         	
-            DocumentBusinessDelegate.getDocumentInstance().delete( deleteCommand );
+            DocumentService.getDocumentInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Document with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class DocumentTest
         List<Document> collection  = null;
 
         try {
-            // call the static get method on the DocumentBusinessDelegate
-            collection = DocumentBusinessDelegate.getDocumentInstance().getAllDocument();
+            // call the static get method on the DocumentService
+            collection = DocumentService.getDocumentInstance().getAllDocument();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

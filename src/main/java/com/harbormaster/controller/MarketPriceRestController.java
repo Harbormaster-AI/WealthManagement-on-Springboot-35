@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	MarketPriceBusinessDelegate
+ *  	MarketPriceService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/MarketPrice")
 public class MarketPriceRestController extends BaseSpringRestController {
 
+	public MarketPriceRestController( MarketPriceService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a MarketPrice.  if not key provided, calls create, otherwise calls save
      * @param		MarketPrice	marketPrice
@@ -93,7 +96,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
     	MarketPrice entity = null;
 		try {       
         	
-			entity = MarketPriceBusinessDelegate.getMarketPriceInstance().createMarketPrice( command );
+			entity = service.createMarketPrice( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateMarketPriceCommand
 			// -----------------------------------------------
-			entity = MarketPriceBusinessDelegate.getMarketPriceInstance().updateMarketPrice(command);;
+			entity = service.updateMarketPrice(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "MarketPriceController:update() - successfully update MarketPrice - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteMarketPriceCommand command ) {                
     	try {
-        	MarketPriceBusinessDelegate delegate = MarketPriceBusinessDelegate.getMarketPriceInstance();
+        	MarketPriceService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted MarketPrice with key " + command.getMarketPriceId() );
@@ -151,7 +154,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
     	MarketPrice entity = null;
 
     	try {  
-    		entity = MarketPriceBusinessDelegate.getMarketPriceInstance().getMarketPrice( new MarketPriceFetchOneSummary( uuid ) );   
+    		entity = service.getMarketPrice( new MarketPriceFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load MarketPrice using Id " + uuid );
@@ -171,7 +174,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
         
     	try {
             // load the MarketPrice
-            marketPriceList = MarketPriceBusinessDelegate.getMarketPriceInstance().getAllMarketPrice();
+            marketPriceList = service.getAllMarketPrice();
             
             if ( marketPriceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all MarketPrices" );
@@ -192,7 +195,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
 	@PutMapping("/assignSecurity")
 	public void assignSecurity( @RequestBody AssignSecurityToMarketPriceCommand command ) {
 		try {
-			MarketPriceBusinessDelegate.getMarketPriceInstance().assignSecurity( command );   
+			service.assignSecurity( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Security", exc );
@@ -206,7 +209,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSecurity")
 	public void unAssignSecurity( @RequestBody(required=true)  UnAssignSecurityFromMarketPriceCommand command ) {
 		try {
-			MarketPriceBusinessDelegate.getMarketPriceInstance().unAssignSecurity( command );   
+			service.unAssignSecurity( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Security", exc );
@@ -221,6 +224,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected MarketPrice marketPrice = null;
+	protected MarketPriceService service = null;
     private static final Logger LOGGER = Logger.getLogger(MarketPriceRestController.class.getName());
     
 }

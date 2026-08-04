@@ -94,7 +94,7 @@ public class AdvisorTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Advisor" );
 
         try {            
-            entity = AdvisorBusinessDelegate.getAdvisorInstance().createAdvisor( generateNewCommand() );
+            entity = AdvisorService.getAdvisorInstance().createAdvisor( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAdvisorId();
@@ -125,7 +125,7 @@ public class AdvisorTest
         msg.append( theId );
 
         try {
-            entity = AdvisorBusinessDelegate.getAdvisorInstance().getAdvisor( new AdvisorFetchOneSummary(theId) );
+            entity = AdvisorService.getAdvisorInstance().getAdvisor( new AdvisorFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class AdvisorTest
 
             LOGGER.info( "-- Now updating the created Advisor." );
             
-            AdvisorBusinessDelegate proxy = AdvisorBusinessDelegate.getAdvisorInstance();            
+            AdvisorService proxy = AdvisorService.getAdvisorInstance();            
             entity = proxy.updateAdvisor( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class AdvisorTest
         try {
         	DeleteAdvisorCommand deleteCommand = new DeleteAdvisorCommand( theId );
         	
-            AdvisorBusinessDelegate.getAdvisorInstance().delete( deleteCommand );
+            AdvisorService.getAdvisorInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Advisor with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class AdvisorTest
         List<Advisor> collection  = null;
 
         try {
-            // call the static get method on the AdvisorBusinessDelegate
-            collection = AdvisorBusinessDelegate.getAdvisorInstance().getAllAdvisor();
+            // call the static get method on the AdvisorService
+            collection = AdvisorService.getAdvisorInstance().getAllAdvisor();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

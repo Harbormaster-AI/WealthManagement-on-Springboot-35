@@ -94,7 +94,7 @@ public class InvoiceTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Invoice" );
 
         try {            
-            entity = InvoiceBusinessDelegate.getInvoiceInstance().createInvoice( generateNewCommand() );
+            entity = InvoiceService.getInvoiceInstance().createInvoice( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getInvoiceId();
@@ -125,7 +125,7 @@ public class InvoiceTest
         msg.append( theId );
 
         try {
-            entity = InvoiceBusinessDelegate.getInvoiceInstance().getInvoice( new InvoiceFetchOneSummary(theId) );
+            entity = InvoiceService.getInvoiceInstance().getInvoice( new InvoiceFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class InvoiceTest
 
             LOGGER.info( "-- Now updating the created Invoice." );
             
-            InvoiceBusinessDelegate proxy = InvoiceBusinessDelegate.getInvoiceInstance();            
+            InvoiceService proxy = InvoiceService.getInvoiceInstance();            
             entity = proxy.updateInvoice( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class InvoiceTest
         try {
         	DeleteInvoiceCommand deleteCommand = new DeleteInvoiceCommand( theId );
         	
-            InvoiceBusinessDelegate.getInvoiceInstance().delete( deleteCommand );
+            InvoiceService.getInvoiceInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Invoice with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class InvoiceTest
         List<Invoice> collection  = null;
 
         try {
-            // call the static get method on the InvoiceBusinessDelegate
-            collection = InvoiceBusinessDelegate.getInvoiceInstance().getAllInvoice();
+            // call the static get method on the InvoiceService
+            collection = InvoiceService.getInvoiceInstance().getAllInvoice();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

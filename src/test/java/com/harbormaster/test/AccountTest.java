@@ -94,7 +94,7 @@ public class AccountTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Account" );
 
         try {            
-            entity = AccountBusinessDelegate.getAccountInstance().createAccount( generateNewCommand() );
+            entity = AccountService.getAccountInstance().createAccount( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAccountId();
@@ -125,7 +125,7 @@ public class AccountTest
         msg.append( theId );
 
         try {
-            entity = AccountBusinessDelegate.getAccountInstance().getAccount( new AccountFetchOneSummary(theId) );
+            entity = AccountService.getAccountInstance().getAccount( new AccountFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class AccountTest
 
             LOGGER.info( "-- Now updating the created Account." );
             
-            AccountBusinessDelegate proxy = AccountBusinessDelegate.getAccountInstance();            
+            AccountService proxy = AccountService.getAccountInstance();            
             entity = proxy.updateAccount( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class AccountTest
         try {
         	DeleteAccountCommand deleteCommand = new DeleteAccountCommand( theId );
         	
-            AccountBusinessDelegate.getAccountInstance().delete( deleteCommand );
+            AccountService.getAccountInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Account with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class AccountTest
         List<Account> collection  = null;
 
         try {
-            // call the static get method on the AccountBusinessDelegate
-            collection = AccountBusinessDelegate.getAccountInstance().getAllAccount();
+            // call the static get method on the AccountService
+            collection = AccountService.getAccountInstance().getAllAccount();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

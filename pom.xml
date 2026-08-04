@@ -27,8 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>jar</packaging>
-    <artifactId>WealthManagement-on-Springboot-35</artifactId>
-    <name>WealthManagement-on-Springboot-35</name>
+    <artifactId>WealthManagement-on-springboot-35</artifactId>
+    <name>WealthManagement-on-springboot-35</name>
     <description>Banking Restful backend</description>
 
     <parent>
@@ -331,6 +331,21 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
     </dependencies>

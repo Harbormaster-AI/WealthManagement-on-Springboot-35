@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	MeetingBusinessDelegate
+ *  	MeetingService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Meeting")
 public class MeetingRestController extends BaseSpringRestController {
 
+	public MeetingRestController( MeetingService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Meeting.  if not key provided, calls create, otherwise calls save
      * @param		Meeting	meeting
@@ -93,7 +96,7 @@ public class MeetingRestController extends BaseSpringRestController {
     	Meeting entity = null;
 		try {       
         	
-			entity = MeetingBusinessDelegate.getMeetingInstance().createMeeting( command );
+			entity = service.createMeeting( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class MeetingRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateMeetingCommand
 			// -----------------------------------------------
-			entity = MeetingBusinessDelegate.getMeetingInstance().updateMeeting(command);;
+			entity = service.updateMeeting(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "MeetingController:update() - successfully update Meeting - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class MeetingRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteMeetingCommand command ) {                
     	try {
-        	MeetingBusinessDelegate delegate = MeetingBusinessDelegate.getMeetingInstance();
+        	MeetingService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Meeting with key " + command.getMeetingId() );
@@ -151,7 +154,7 @@ public class MeetingRestController extends BaseSpringRestController {
     	Meeting entity = null;
 
     	try {  
-    		entity = MeetingBusinessDelegate.getMeetingInstance().getMeeting( new MeetingFetchOneSummary( uuid ) );   
+    		entity = service.getMeeting( new MeetingFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Meeting using Id " + uuid );
@@ -171,7 +174,7 @@ public class MeetingRestController extends BaseSpringRestController {
         
     	try {
             // load the Meeting
-            meetingList = MeetingBusinessDelegate.getMeetingInstance().getAllMeeting();
+            meetingList = service.getAllMeeting();
             
             if ( meetingList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Meetings" );
@@ -192,7 +195,7 @@ public class MeetingRestController extends BaseSpringRestController {
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToMeetingCommand command ) {
 		try {
-			MeetingBusinessDelegate.getMeetingInstance().assignHousehold( command );   
+			service.assignHousehold( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
@@ -206,7 +209,7 @@ public class MeetingRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromMeetingCommand command ) {
 		try {
-			MeetingBusinessDelegate.getMeetingInstance().unAssignHousehold( command );   
+			service.unAssignHousehold( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
@@ -220,7 +223,7 @@ public class MeetingRestController extends BaseSpringRestController {
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToMeetingCommand command ) {
 		try {
-			MeetingBusinessDelegate.getMeetingInstance().assignAdvisor( command );   
+			service.assignAdvisor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
@@ -234,7 +237,7 @@ public class MeetingRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromMeetingCommand command ) {
 		try {
-			MeetingBusinessDelegate.getMeetingInstance().unAssignAdvisor( command );   
+			service.unAssignAdvisor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
@@ -249,7 +252,7 @@ public class MeetingRestController extends BaseSpringRestController {
 	@PutMapping("/addToDocuments")
 	public void addToDocuments( @RequestBody(required=true) AssignDocumentsToMeetingCommand command ) {
 		try {
-			MeetingBusinessDelegate.getMeetingInstance().addToDocuments( command );   
+			service.addToDocuments( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Documents", exc );
@@ -264,7 +267,7 @@ public class MeetingRestController extends BaseSpringRestController {
 	public void removeFromDocuments( 	@RequestBody(required=true) RemoveDocumentsFromMeetingCommand command )
 	{		
 		try {
-			MeetingBusinessDelegate.getMeetingInstance().removeFromDocuments( command );
+			service.removeFromDocuments( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Documents", exc );
@@ -278,6 +281,7 @@ public class MeetingRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Meeting meeting = null;
+	protected MeetingService service = null;
     private static final Logger LOGGER = Logger.getLogger(MeetingRestController.class.getName());
     
 }

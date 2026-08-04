@@ -8,7 +8,7 @@ Harbormaster
 
 
 ## Application
-- Name: WealthManagement-on-Springboot-35
+- Name: WealthManagement-on-springboot-35
 - Description: Banking Restful backend
 - Company Name: Turnstone Biologics
 
@@ -130,7 +130,7 @@ e.getName()
 ## GitHub
 - Host: https://github.com
 - Owner: Harbormaster-AI
-- Repo: WealthManagement-on-Springboot-35
+- Repo: WealthManagement-on-springboot-35
 
 ## Docker
 - Host: docker.io

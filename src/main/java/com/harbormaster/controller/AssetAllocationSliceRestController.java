@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	AssetAllocationSliceBusinessDelegate
+ *  	AssetAllocationSliceService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/AssetAllocationSlice")
 public class AssetAllocationSliceRestController extends BaseSpringRestController {
 
+	public AssetAllocationSliceRestController( AssetAllocationSliceService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a AssetAllocationSlice.  if not key provided, calls create, otherwise calls save
      * @param		AssetAllocationSlice	assetAllocationSlice
@@ -93,7 +96,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
     	AssetAllocationSlice entity = null;
 		try {       
         	
-			entity = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().createAssetAllocationSlice( command );
+			entity = service.createAssetAllocationSlice( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
 			// -----------------------------------------------
 			// delegate the UpdateAssetAllocationSliceCommand
 			// -----------------------------------------------
-			entity = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().updateAssetAllocationSlice(command);;
+			entity = service.updateAssetAllocationSlice(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "AssetAllocationSliceController:update() - successfully update AssetAllocationSlice - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAssetAllocationSliceCommand command ) {                
     	try {
-        	AssetAllocationSliceBusinessDelegate delegate = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance();
+        	AssetAllocationSliceService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted AssetAllocationSlice with key " + command.getAssetAllocationSliceId() );
@@ -151,7 +154,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
     	AssetAllocationSlice entity = null;
 
     	try {  
-    		entity = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().getAssetAllocationSlice( new AssetAllocationSliceFetchOneSummary( uuid ) );   
+    		entity = service.getAssetAllocationSlice( new AssetAllocationSliceFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load AssetAllocationSlice using Id " + uuid );
@@ -171,7 +174,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
         
     	try {
             // load the AssetAllocationSlice
-            assetAllocationSliceList = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().getAllAssetAllocationSlice();
+            assetAllocationSliceList = service.getAllAssetAllocationSlice();
             
             if ( assetAllocationSliceList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all AssetAllocationSlices" );
@@ -192,7 +195,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
 	@PutMapping("/assignModelPortfolio")
 	public void assignModelPortfolio( @RequestBody AssignModelPortfolioToAssetAllocationSliceCommand command ) {
 		try {
-			AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().assignModelPortfolio( command );   
+			service.assignModelPortfolio( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign ModelPortfolio", exc );
@@ -206,7 +209,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
 	@PutMapping("/unAssignModelPortfolio")
 	public void unAssignModelPortfolio( @RequestBody(required=true)  UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) {
 		try {
-			AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().unAssignModelPortfolio( command );   
+			service.unAssignModelPortfolio( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign ModelPortfolio", exc );
@@ -221,6 +224,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
 // Attributes
 //************************************************************************
     protected AssetAllocationSlice assetAllocationSlice = null;
+	protected AssetAllocationSliceService service = null;
     private static final Logger LOGGER = Logger.getLogger(AssetAllocationSliceRestController.class.getName());
     
 }

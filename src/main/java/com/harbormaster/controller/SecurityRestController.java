@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	SecurityBusinessDelegate
+ *  	SecurityService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Security")
 public class SecurityRestController extends BaseSpringRestController {
 
+	public SecurityRestController( SecurityService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Security.  if not key provided, calls create, otherwise calls save
      * @param		Security	security
@@ -93,7 +96,7 @@ public class SecurityRestController extends BaseSpringRestController {
     	Security entity = null;
 		try {       
         	
-			entity = SecurityBusinessDelegate.getSecurityInstance().createSecurity( command );
+			entity = service.createSecurity( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class SecurityRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateSecurityCommand
 			// -----------------------------------------------
-			entity = SecurityBusinessDelegate.getSecurityInstance().updateSecurity(command);;
+			entity = service.updateSecurity(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "SecurityController:update() - successfully update Security - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class SecurityRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteSecurityCommand command ) {                
     	try {
-        	SecurityBusinessDelegate delegate = SecurityBusinessDelegate.getSecurityInstance();
+        	SecurityService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Security with key " + command.getSecurityId() );
@@ -151,7 +154,7 @@ public class SecurityRestController extends BaseSpringRestController {
     	Security entity = null;
 
     	try {  
-    		entity = SecurityBusinessDelegate.getSecurityInstance().getSecurity( new SecurityFetchOneSummary( uuid ) );   
+    		entity = service.getSecurity( new SecurityFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Security using Id " + uuid );
@@ -171,7 +174,7 @@ public class SecurityRestController extends BaseSpringRestController {
         
     	try {
             // load the Security
-            securityList = SecurityBusinessDelegate.getSecurityInstance().getAllSecurity();
+            securityList = service.getAllSecurity();
             
             if ( securityList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Securitys" );
@@ -193,7 +196,7 @@ public class SecurityRestController extends BaseSpringRestController {
 	@PutMapping("/addToCorporateActions")
 	public void addToCorporateActions( @RequestBody(required=true) AssignCorporateActionsToSecurityCommand command ) {
 		try {
-			SecurityBusinessDelegate.getSecurityInstance().addToCorporateActions( command );   
+			service.addToCorporateActions( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set CorporateActions", exc );
@@ -208,7 +211,7 @@ public class SecurityRestController extends BaseSpringRestController {
 	public void removeFromCorporateActions( 	@RequestBody(required=true) RemoveCorporateActionsFromSecurityCommand command )
 	{		
 		try {
-			SecurityBusinessDelegate.getSecurityInstance().removeFromCorporateActions( command );
+			service.removeFromCorporateActions( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set CorporateActions", exc );
@@ -222,7 +225,7 @@ public class SecurityRestController extends BaseSpringRestController {
 	@PutMapping("/addToPrices")
 	public void addToPrices( @RequestBody(required=true) AssignPricesToSecurityCommand command ) {
 		try {
-			SecurityBusinessDelegate.getSecurityInstance().addToPrices( command );   
+			service.addToPrices( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Prices", exc );
@@ -237,7 +240,7 @@ public class SecurityRestController extends BaseSpringRestController {
 	public void removeFromPrices( 	@RequestBody(required=true) RemovePricesFromSecurityCommand command )
 	{		
 		try {
-			SecurityBusinessDelegate.getSecurityInstance().removeFromPrices( command );
+			service.removeFromPrices( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Prices", exc );
@@ -251,7 +254,7 @@ public class SecurityRestController extends BaseSpringRestController {
 	@PutMapping("/addToBenchmarks")
 	public void addToBenchmarks( @RequestBody(required=true) AssignBenchmarksToSecurityCommand command ) {
 		try {
-			SecurityBusinessDelegate.getSecurityInstance().addToBenchmarks( command );   
+			service.addToBenchmarks( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Benchmarks", exc );
@@ -266,7 +269,7 @@ public class SecurityRestController extends BaseSpringRestController {
 	public void removeFromBenchmarks( 	@RequestBody(required=true) RemoveBenchmarksFromSecurityCommand command )
 	{		
 		try {
-			SecurityBusinessDelegate.getSecurityInstance().removeFromBenchmarks( command );
+			service.removeFromBenchmarks( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Benchmarks", exc );
@@ -280,6 +283,7 @@ public class SecurityRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Security security = null;
+	protected SecurityService service = null;
     private static final Logger LOGGER = Logger.getLogger(SecurityRestController.class.getName());
     
 }

@@ -94,7 +94,7 @@ public class ResearchNoteTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a ResearchNote" );
 
         try {            
-            entity = ResearchNoteBusinessDelegate.getResearchNoteInstance().createResearchNote( generateNewCommand() );
+            entity = ResearchNoteService.getResearchNoteInstance().createResearchNote( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getResearchNoteId();
@@ -125,7 +125,7 @@ public class ResearchNoteTest
         msg.append( theId );
 
         try {
-            entity = ResearchNoteBusinessDelegate.getResearchNoteInstance().getResearchNote( new ResearchNoteFetchOneSummary(theId) );
+            entity = ResearchNoteService.getResearchNoteInstance().getResearchNote( new ResearchNoteFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class ResearchNoteTest
 
             LOGGER.info( "-- Now updating the created ResearchNote." );
             
-            ResearchNoteBusinessDelegate proxy = ResearchNoteBusinessDelegate.getResearchNoteInstance();            
+            ResearchNoteService proxy = ResearchNoteService.getResearchNoteInstance();            
             entity = proxy.updateResearchNote( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class ResearchNoteTest
         try {
         	DeleteResearchNoteCommand deleteCommand = new DeleteResearchNoteCommand( theId );
         	
-            ResearchNoteBusinessDelegate.getResearchNoteInstance().delete( deleteCommand );
+            ResearchNoteService.getResearchNoteInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted ResearchNote with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class ResearchNoteTest
         List<ResearchNote> collection  = null;
 
         try {
-            // call the static get method on the ResearchNoteBusinessDelegate
-            collection = ResearchNoteBusinessDelegate.getResearchNoteInstance().getAllResearchNote();
+            // call the static get method on the ResearchNoteService
+            collection = ResearchNoteService.getResearchNoteInstance().getAllResearchNote();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

@@ -94,7 +94,7 @@ public class BenchmarkTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Benchmark" );
 
         try {            
-            entity = BenchmarkBusinessDelegate.getBenchmarkInstance().createBenchmark( generateNewCommand() );
+            entity = BenchmarkService.getBenchmarkInstance().createBenchmark( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getBenchmarkId();
@@ -125,7 +125,7 @@ public class BenchmarkTest
         msg.append( theId );
 
         try {
-            entity = BenchmarkBusinessDelegate.getBenchmarkInstance().getBenchmark( new BenchmarkFetchOneSummary(theId) );
+            entity = BenchmarkService.getBenchmarkInstance().getBenchmark( new BenchmarkFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class BenchmarkTest
 
             LOGGER.info( "-- Now updating the created Benchmark." );
             
-            BenchmarkBusinessDelegate proxy = BenchmarkBusinessDelegate.getBenchmarkInstance();            
+            BenchmarkService proxy = BenchmarkService.getBenchmarkInstance();            
             entity = proxy.updateBenchmark( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class BenchmarkTest
         try {
         	DeleteBenchmarkCommand deleteCommand = new DeleteBenchmarkCommand( theId );
         	
-            BenchmarkBusinessDelegate.getBenchmarkInstance().delete( deleteCommand );
+            BenchmarkService.getBenchmarkInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Benchmark with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class BenchmarkTest
         List<Benchmark> collection  = null;
 
         try {
-            // call the static get method on the BenchmarkBusinessDelegate
-            collection = BenchmarkBusinessDelegate.getBenchmarkInstance().getAllBenchmark();
+            // call the static get method on the BenchmarkService
+            collection = BenchmarkService.getBenchmarkInstance().getAllBenchmark();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

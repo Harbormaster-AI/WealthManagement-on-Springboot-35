@@ -94,7 +94,7 @@ public class CustodianTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Custodian" );
 
         try {            
-            entity = CustodianBusinessDelegate.getCustodianInstance().createCustodian( generateNewCommand() );
+            entity = CustodianService.getCustodianInstance().createCustodian( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getCustodianId();
@@ -125,7 +125,7 @@ public class CustodianTest
         msg.append( theId );
 
         try {
-            entity = CustodianBusinessDelegate.getCustodianInstance().getCustodian( new CustodianFetchOneSummary(theId) );
+            entity = CustodianService.getCustodianInstance().getCustodian( new CustodianFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class CustodianTest
 
             LOGGER.info( "-- Now updating the created Custodian." );
             
-            CustodianBusinessDelegate proxy = CustodianBusinessDelegate.getCustodianInstance();            
+            CustodianService proxy = CustodianService.getCustodianInstance();            
             entity = proxy.updateCustodian( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class CustodianTest
         try {
         	DeleteCustodianCommand deleteCommand = new DeleteCustodianCommand( theId );
         	
-            CustodianBusinessDelegate.getCustodianInstance().delete( deleteCommand );
+            CustodianService.getCustodianInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Custodian with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class CustodianTest
         List<Custodian> collection  = null;
 
         try {
-            // call the static get method on the CustodianBusinessDelegate
-            collection = CustodianBusinessDelegate.getCustodianInstance().getAllCustodian();
+            // call the static get method on the CustodianService
+            collection = CustodianService.getCustodianInstance().getAllCustodian();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

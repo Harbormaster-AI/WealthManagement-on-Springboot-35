@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	CustodianBusinessDelegate
+ *  	CustodianService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Custodian")
 public class CustodianRestController extends BaseSpringRestController {
 
+	public CustodianRestController( CustodianService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Custodian.  if not key provided, calls create, otherwise calls save
      * @param		Custodian	custodian
@@ -93,7 +96,7 @@ public class CustodianRestController extends BaseSpringRestController {
     	Custodian entity = null;
 		try {       
         	
-			entity = CustodianBusinessDelegate.getCustodianInstance().createCustodian( command );
+			entity = service.createCustodian( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class CustodianRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateCustodianCommand
 			// -----------------------------------------------
-			entity = CustodianBusinessDelegate.getCustodianInstance().updateCustodian(command);;
+			entity = service.updateCustodian(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "CustodianController:update() - successfully update Custodian - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class CustodianRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteCustodianCommand command ) {                
     	try {
-        	CustodianBusinessDelegate delegate = CustodianBusinessDelegate.getCustodianInstance();
+        	CustodianService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Custodian with key " + command.getCustodianId() );
@@ -151,7 +154,7 @@ public class CustodianRestController extends BaseSpringRestController {
     	Custodian entity = null;
 
     	try {  
-    		entity = CustodianBusinessDelegate.getCustodianInstance().getCustodian( new CustodianFetchOneSummary( uuid ) );   
+    		entity = service.getCustodian( new CustodianFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Custodian using Id " + uuid );
@@ -171,7 +174,7 @@ public class CustodianRestController extends BaseSpringRestController {
         
     	try {
             // load the Custodian
-            custodianList = CustodianBusinessDelegate.getCustodianInstance().getAllCustodian();
+            custodianList = service.getAllCustodian();
             
             if ( custodianList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Custodians" );
@@ -193,7 +196,7 @@ public class CustodianRestController extends BaseSpringRestController {
 	@PutMapping("/addToAccounts")
 	public void addToAccounts( @RequestBody(required=true) AssignAccountsToCustodianCommand command ) {
 		try {
-			CustodianBusinessDelegate.getCustodianInstance().addToAccounts( command );   
+			service.addToAccounts( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Accounts", exc );
@@ -208,7 +211,7 @@ public class CustodianRestController extends BaseSpringRestController {
 	public void removeFromAccounts( 	@RequestBody(required=true) RemoveAccountsFromCustodianCommand command )
 	{		
 		try {
-			CustodianBusinessDelegate.getCustodianInstance().removeFromAccounts( command );
+			service.removeFromAccounts( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Accounts", exc );
@@ -222,7 +225,7 @@ public class CustodianRestController extends BaseSpringRestController {
 	@PutMapping("/addToTransfers")
 	public void addToTransfers( @RequestBody(required=true) AssignTransfersToCustodianCommand command ) {
 		try {
-			CustodianBusinessDelegate.getCustodianInstance().addToTransfers( command );   
+			service.addToTransfers( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Transfers", exc );
@@ -237,7 +240,7 @@ public class CustodianRestController extends BaseSpringRestController {
 	public void removeFromTransfers( 	@RequestBody(required=true) RemoveTransfersFromCustodianCommand command )
 	{		
 		try {
-			CustodianBusinessDelegate.getCustodianInstance().removeFromTransfers( command );
+			service.removeFromTransfers( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Transfers", exc );
@@ -251,6 +254,7 @@ public class CustodianRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Custodian custodian = null;
+	protected CustodianService service = null;
     private static final Logger LOGGER = Logger.getLogger(CustodianRestController.class.getName());
     
 }

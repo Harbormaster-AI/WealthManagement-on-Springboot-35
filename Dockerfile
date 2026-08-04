@@ -1,7 +1,7 @@
 FROM eclipse-temurin:11-jre-alpine
 
 LABEL org.opencontainers.image.vendor="Harbormaster"
-LABEL org.opencontainers.image.title="WealthManagement-on-Springboot-35"
+LABEL org.opencontainers.image.title="WealthManagement-on-springboot-35"
 LABEL org.opencontainers.image.version="0.0.1"
 LABEL com.harbormaster.blueprint="Spring Boot 3.5"
 LABEL com.harbormaster.model="Wealth Management Capabilities Model"

@@ -94,7 +94,7 @@ public class ModelPortfolioTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a ModelPortfolio" );
 
         try {            
-            entity = ModelPortfolioBusinessDelegate.getModelPortfolioInstance().createModelPortfolio( generateNewCommand() );
+            entity = ModelPortfolioService.getModelPortfolioInstance().createModelPortfolio( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getModelPortfolioId();
@@ -125,7 +125,7 @@ public class ModelPortfolioTest
         msg.append( theId );
 
         try {
-            entity = ModelPortfolioBusinessDelegate.getModelPortfolioInstance().getModelPortfolio( new ModelPortfolioFetchOneSummary(theId) );
+            entity = ModelPortfolioService.getModelPortfolioInstance().getModelPortfolio( new ModelPortfolioFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class ModelPortfolioTest
 
             LOGGER.info( "-- Now updating the created ModelPortfolio." );
             
-            ModelPortfolioBusinessDelegate proxy = ModelPortfolioBusinessDelegate.getModelPortfolioInstance();            
+            ModelPortfolioService proxy = ModelPortfolioService.getModelPortfolioInstance();            
             entity = proxy.updateModelPortfolio( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class ModelPortfolioTest
         try {
         	DeleteModelPortfolioCommand deleteCommand = new DeleteModelPortfolioCommand( theId );
         	
-            ModelPortfolioBusinessDelegate.getModelPortfolioInstance().delete( deleteCommand );
+            ModelPortfolioService.getModelPortfolioInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted ModelPortfolio with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class ModelPortfolioTest
         List<ModelPortfolio> collection  = null;
 
         try {
-            // call the static get method on the ModelPortfolioBusinessDelegate
-            collection = ModelPortfolioBusinessDelegate.getModelPortfolioInstance().getAllModelPortfolio();
+            // call the static get method on the ModelPortfolioService
+            collection = ModelPortfolioService.getModelPortfolioInstance().getAllModelPortfolio();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

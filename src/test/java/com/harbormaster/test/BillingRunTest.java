@@ -94,7 +94,7 @@ public class BillingRunTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a BillingRun" );
 
         try {            
-            entity = BillingRunBusinessDelegate.getBillingRunInstance().createBillingRun( generateNewCommand() );
+            entity = BillingRunService.getBillingRunInstance().createBillingRun( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getBillingRunId();
@@ -125,7 +125,7 @@ public class BillingRunTest
         msg.append( theId );
 
         try {
-            entity = BillingRunBusinessDelegate.getBillingRunInstance().getBillingRun( new BillingRunFetchOneSummary(theId) );
+            entity = BillingRunService.getBillingRunInstance().getBillingRun( new BillingRunFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class BillingRunTest
 
             LOGGER.info( "-- Now updating the created BillingRun." );
             
-            BillingRunBusinessDelegate proxy = BillingRunBusinessDelegate.getBillingRunInstance();            
+            BillingRunService proxy = BillingRunService.getBillingRunInstance();            
             entity = proxy.updateBillingRun( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class BillingRunTest
         try {
         	DeleteBillingRunCommand deleteCommand = new DeleteBillingRunCommand( theId );
         	
-            BillingRunBusinessDelegate.getBillingRunInstance().delete( deleteCommand );
+            BillingRunService.getBillingRunInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted BillingRun with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class BillingRunTest
         List<BillingRun> collection  = null;
 
         try {
-            // call the static get method on the BillingRunBusinessDelegate
-            collection = BillingRunBusinessDelegate.getBillingRunInstance().getAllBillingRun();
+            // call the static get method on the BillingRunService
+            collection = BillingRunService.getBillingRunInstance().getAllBillingRun();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	ComplianceRuleBusinessDelegate
+ *  	ComplianceRuleService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/ComplianceRule")
 public class ComplianceRuleRestController extends BaseSpringRestController {
 
+	public ComplianceRuleRestController( ComplianceRuleService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a ComplianceRule.  if not key provided, calls create, otherwise calls save
      * @param		ComplianceRule	complianceRule
@@ -93,7 +96,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
     	ComplianceRule entity = null;
 		try {       
         	
-			entity = ComplianceRuleBusinessDelegate.getComplianceRuleInstance().createComplianceRule( command );
+			entity = service.createComplianceRule( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateComplianceRuleCommand
 			// -----------------------------------------------
-			entity = ComplianceRuleBusinessDelegate.getComplianceRuleInstance().updateComplianceRule(command);;
+			entity = service.updateComplianceRule(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ComplianceRuleController:update() - successfully update ComplianceRule - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteComplianceRuleCommand command ) {                
     	try {
-        	ComplianceRuleBusinessDelegate delegate = ComplianceRuleBusinessDelegate.getComplianceRuleInstance();
+        	ComplianceRuleService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ComplianceRule with key " + command.getComplianceRuleId() );
@@ -151,7 +154,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
     	ComplianceRule entity = null;
 
     	try {  
-    		entity = ComplianceRuleBusinessDelegate.getComplianceRuleInstance().getComplianceRule( new ComplianceRuleFetchOneSummary( uuid ) );   
+    		entity = service.getComplianceRule( new ComplianceRuleFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ComplianceRule using Id " + uuid );
@@ -171,7 +174,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
         
     	try {
             // load the ComplianceRule
-            complianceRuleList = ComplianceRuleBusinessDelegate.getComplianceRuleInstance().getAllComplianceRule();
+            complianceRuleList = service.getAllComplianceRule();
             
             if ( complianceRuleList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ComplianceRules" );
@@ -193,7 +196,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
 	@PutMapping("/addToAlerts")
 	public void addToAlerts( @RequestBody(required=true) AssignAlertsToComplianceRuleCommand command ) {
 		try {
-			ComplianceRuleBusinessDelegate.getComplianceRuleInstance().addToAlerts( command );   
+			service.addToAlerts( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Alerts", exc );
@@ -208,7 +211,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
 	public void removeFromAlerts( 	@RequestBody(required=true) RemoveAlertsFromComplianceRuleCommand command )
 	{		
 		try {
-			ComplianceRuleBusinessDelegate.getComplianceRuleInstance().removeFromAlerts( command );
+			service.removeFromAlerts( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Alerts", exc );
@@ -222,6 +225,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ComplianceRule complianceRule = null;
+	protected ComplianceRuleService service = null;
     private static final Logger LOGGER = Logger.getLogger(ComplianceRuleRestController.class.getName());
     
 }

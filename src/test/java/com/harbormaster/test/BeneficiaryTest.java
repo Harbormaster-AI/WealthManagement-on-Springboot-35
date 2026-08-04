@@ -94,7 +94,7 @@ public class BeneficiaryTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Beneficiary" );
 
         try {            
-            entity = BeneficiaryBusinessDelegate.getBeneficiaryInstance().createBeneficiary( generateNewCommand() );
+            entity = BeneficiaryService.getBeneficiaryInstance().createBeneficiary( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getBeneficiaryId();
@@ -125,7 +125,7 @@ public class BeneficiaryTest
         msg.append( theId );
 
         try {
-            entity = BeneficiaryBusinessDelegate.getBeneficiaryInstance().getBeneficiary( new BeneficiaryFetchOneSummary(theId) );
+            entity = BeneficiaryService.getBeneficiaryInstance().getBeneficiary( new BeneficiaryFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class BeneficiaryTest
 
             LOGGER.info( "-- Now updating the created Beneficiary." );
             
-            BeneficiaryBusinessDelegate proxy = BeneficiaryBusinessDelegate.getBeneficiaryInstance();            
+            BeneficiaryService proxy = BeneficiaryService.getBeneficiaryInstance();            
             entity = proxy.updateBeneficiary( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class BeneficiaryTest
         try {
         	DeleteBeneficiaryCommand deleteCommand = new DeleteBeneficiaryCommand( theId );
         	
-            BeneficiaryBusinessDelegate.getBeneficiaryInstance().delete( deleteCommand );
+            BeneficiaryService.getBeneficiaryInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Beneficiary with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class BeneficiaryTest
         List<Beneficiary> collection  = null;
 
         try {
-            // call the static get method on the BeneficiaryBusinessDelegate
-            collection = BeneficiaryBusinessDelegate.getBeneficiaryInstance().getAllBeneficiary();
+            // call the static get method on the BeneficiaryService
+            collection = BeneficiaryService.getBeneficiaryInstance().getAllBeneficiary();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

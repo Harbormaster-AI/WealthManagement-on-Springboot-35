@@ -94,7 +94,7 @@ public class ProposalTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Proposal" );
 
         try {            
-            entity = ProposalBusinessDelegate.getProposalInstance().createProposal( generateNewCommand() );
+            entity = ProposalService.getProposalInstance().createProposal( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getProposalId();
@@ -125,7 +125,7 @@ public class ProposalTest
         msg.append( theId );
 
         try {
-            entity = ProposalBusinessDelegate.getProposalInstance().getProposal( new ProposalFetchOneSummary(theId) );
+            entity = ProposalService.getProposalInstance().getProposal( new ProposalFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class ProposalTest
 
             LOGGER.info( "-- Now updating the created Proposal." );
             
-            ProposalBusinessDelegate proxy = ProposalBusinessDelegate.getProposalInstance();            
+            ProposalService proxy = ProposalService.getProposalInstance();            
             entity = proxy.updateProposal( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class ProposalTest
         try {
         	DeleteProposalCommand deleteCommand = new DeleteProposalCommand( theId );
         	
-            ProposalBusinessDelegate.getProposalInstance().delete( deleteCommand );
+            ProposalService.getProposalInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Proposal with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class ProposalTest
         List<Proposal> collection  = null;
 
         try {
-            // call the static get method on the ProposalBusinessDelegate
-            collection = ProposalBusinessDelegate.getProposalInstance().getAllProposal();
+            // call the static get method on the ProposalService
+            collection = ProposalService.getProposalInstance().getAllProposal();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

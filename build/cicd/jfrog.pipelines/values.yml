@@ -1,8 +1,8 @@
 gitRepo:
   gitProvider: 
-  path: /WealthManagement-on-Springboot-35
+  path: /WealthManagement-on-springboot-35
   TestDBUrl: 
-  TestDBName: WealthManagementonSpringboot35_test_db
+  TestDBName: WealthManagementonspringboot35_test_db
   TestDBPassword: 
   TestDBDialect: org.hibernate.dialect.MySQL8Dialect 
   TestDBDriver: com.mysql.cj.jdbc.Driver

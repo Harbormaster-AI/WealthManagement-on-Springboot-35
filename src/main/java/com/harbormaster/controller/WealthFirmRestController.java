@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	WealthFirmBusinessDelegate
+ *  	WealthFirmService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/WealthFirm")
 public class WealthFirmRestController extends BaseSpringRestController {
 
+	public WealthFirmRestController( WealthFirmService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a WealthFirm.  if not key provided, calls create, otherwise calls save
      * @param		WealthFirm	wealthFirm
@@ -93,7 +96,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
     	WealthFirm entity = null;
 		try {       
         	
-			entity = WealthFirmBusinessDelegate.getWealthFirmInstance().createWealthFirm( command );
+			entity = service.createWealthFirm( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateWealthFirmCommand
 			// -----------------------------------------------
-			entity = WealthFirmBusinessDelegate.getWealthFirmInstance().updateWealthFirm(command);;
+			entity = service.updateWealthFirm(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "WealthFirmController:update() - successfully update WealthFirm - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteWealthFirmCommand command ) {                
     	try {
-        	WealthFirmBusinessDelegate delegate = WealthFirmBusinessDelegate.getWealthFirmInstance();
+        	WealthFirmService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted WealthFirm with key " + command.getWealthFirmId() );
@@ -151,7 +154,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
     	WealthFirm entity = null;
 
     	try {  
-    		entity = WealthFirmBusinessDelegate.getWealthFirmInstance().getWealthFirm( new WealthFirmFetchOneSummary( uuid ) );   
+    		entity = service.getWealthFirm( new WealthFirmFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load WealthFirm using Id " + uuid );
@@ -171,7 +174,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
         
     	try {
             // load the WealthFirm
-            wealthFirmList = WealthFirmBusinessDelegate.getWealthFirmInstance().getAllWealthFirm();
+            wealthFirmList = service.getAllWealthFirm();
             
             if ( wealthFirmList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all WealthFirms" );
@@ -193,7 +196,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/addToAdvisors")
 	public void addToAdvisors( @RequestBody(required=true) AssignAdvisorsToWealthFirmCommand command ) {
 		try {
-			WealthFirmBusinessDelegate.getWealthFirmInstance().addToAdvisors( command );   
+			service.addToAdvisors( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Advisors", exc );
@@ -208,7 +211,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	public void removeFromAdvisors( 	@RequestBody(required=true) RemoveAdvisorsFromWealthFirmCommand command )
 	{		
 		try {
-			WealthFirmBusinessDelegate.getWealthFirmInstance().removeFromAdvisors( command );
+			service.removeFromAdvisors( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Advisors", exc );
@@ -222,7 +225,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/addToOffices")
 	public void addToOffices( @RequestBody(required=true) AssignOfficesToWealthFirmCommand command ) {
 		try {
-			WealthFirmBusinessDelegate.getWealthFirmInstance().addToOffices( command );   
+			service.addToOffices( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Offices", exc );
@@ -237,7 +240,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	public void removeFromOffices( 	@RequestBody(required=true) RemoveOfficesFromWealthFirmCommand command )
 	{		
 		try {
-			WealthFirmBusinessDelegate.getWealthFirmInstance().removeFromOffices( command );
+			service.removeFromOffices( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Offices", exc );
@@ -251,7 +254,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/addToCustodians")
 	public void addToCustodians( @RequestBody(required=true) AssignCustodiansToWealthFirmCommand command ) {
 		try {
-			WealthFirmBusinessDelegate.getWealthFirmInstance().addToCustodians( command );   
+			service.addToCustodians( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Custodians", exc );
@@ -266,7 +269,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	public void removeFromCustodians( 	@RequestBody(required=true) RemoveCustodiansFromWealthFirmCommand command )
 	{		
 		try {
-			WealthFirmBusinessDelegate.getWealthFirmInstance().removeFromCustodians( command );
+			service.removeFromCustodians( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Custodians", exc );
@@ -280,7 +283,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/addToInvestmentPrograms")
 	public void addToInvestmentPrograms( @RequestBody(required=true) AssignInvestmentProgramsToWealthFirmCommand command ) {
 		try {
-			WealthFirmBusinessDelegate.getWealthFirmInstance().addToInvestmentPrograms( command );   
+			service.addToInvestmentPrograms( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set InvestmentPrograms", exc );
@@ -295,7 +298,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	public void removeFromInvestmentPrograms( 	@RequestBody(required=true) RemoveInvestmentProgramsFromWealthFirmCommand command )
 	{		
 		try {
-			WealthFirmBusinessDelegate.getWealthFirmInstance().removeFromInvestmentPrograms( command );
+			service.removeFromInvestmentPrograms( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set InvestmentPrograms", exc );
@@ -309,6 +312,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected WealthFirm wealthFirm = null;
+	protected WealthFirmService service = null;
     private static final Logger LOGGER = Logger.getLogger(WealthFirmRestController.class.getName());
     
 }

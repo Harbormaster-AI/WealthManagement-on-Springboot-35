@@ -94,7 +94,7 @@ public class InvestmentProgramTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a InvestmentProgram" );
 
         try {            
-            entity = InvestmentProgramBusinessDelegate.getInvestmentProgramInstance().createInvestmentProgram( generateNewCommand() );
+            entity = InvestmentProgramService.getInvestmentProgramInstance().createInvestmentProgram( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getInvestmentProgramId();
@@ -125,7 +125,7 @@ public class InvestmentProgramTest
         msg.append( theId );
 
         try {
-            entity = InvestmentProgramBusinessDelegate.getInvestmentProgramInstance().getInvestmentProgram( new InvestmentProgramFetchOneSummary(theId) );
+            entity = InvestmentProgramService.getInvestmentProgramInstance().getInvestmentProgram( new InvestmentProgramFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class InvestmentProgramTest
 
             LOGGER.info( "-- Now updating the created InvestmentProgram." );
             
-            InvestmentProgramBusinessDelegate proxy = InvestmentProgramBusinessDelegate.getInvestmentProgramInstance();            
+            InvestmentProgramService proxy = InvestmentProgramService.getInvestmentProgramInstance();            
             entity = proxy.updateInvestmentProgram( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class InvestmentProgramTest
         try {
         	DeleteInvestmentProgramCommand deleteCommand = new DeleteInvestmentProgramCommand( theId );
         	
-            InvestmentProgramBusinessDelegate.getInvestmentProgramInstance().delete( deleteCommand );
+            InvestmentProgramService.getInvestmentProgramInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted InvestmentProgram with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class InvestmentProgramTest
         List<InvestmentProgram> collection  = null;
 
         try {
-            // call the static get method on the InvestmentProgramBusinessDelegate
-            collection = InvestmentProgramBusinessDelegate.getInvestmentProgramInstance().getAllInvestmentProgram();
+            // call the static get method on the InvestmentProgramService
+            collection = InvestmentProgramService.getInvestmentProgramInstance().getAllInvestmentProgram();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

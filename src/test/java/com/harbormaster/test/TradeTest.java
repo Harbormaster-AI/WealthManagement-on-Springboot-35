@@ -94,7 +94,7 @@ public class TradeTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Trade" );
 
         try {            
-            entity = TradeBusinessDelegate.getTradeInstance().createTrade( generateNewCommand() );
+            entity = TradeService.getTradeInstance().createTrade( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getTradeId();
@@ -125,7 +125,7 @@ public class TradeTest
         msg.append( theId );
 
         try {
-            entity = TradeBusinessDelegate.getTradeInstance().getTrade( new TradeFetchOneSummary(theId) );
+            entity = TradeService.getTradeInstance().getTrade( new TradeFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class TradeTest
 
             LOGGER.info( "-- Now updating the created Trade." );
             
-            TradeBusinessDelegate proxy = TradeBusinessDelegate.getTradeInstance();            
+            TradeService proxy = TradeService.getTradeInstance();            
             entity = proxy.updateTrade( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class TradeTest
         try {
         	DeleteTradeCommand deleteCommand = new DeleteTradeCommand( theId );
         	
-            TradeBusinessDelegate.getTradeInstance().delete( deleteCommand );
+            TradeService.getTradeInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Trade with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class TradeTest
         List<Trade> collection  = null;
 
         try {
-            // call the static get method on the TradeBusinessDelegate
-            collection = TradeBusinessDelegate.getTradeInstance().getAllTrade();
+            // call the static get method on the TradeService
+            collection = TradeService.getTradeInstance().getAllTrade();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

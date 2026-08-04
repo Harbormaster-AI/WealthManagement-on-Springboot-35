@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	ModelPortfolioBusinessDelegate
+ *  	ModelPortfolioService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/ModelPortfolio")
 public class ModelPortfolioRestController extends BaseSpringRestController {
 
+	public ModelPortfolioRestController( ModelPortfolioService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a ModelPortfolio.  if not key provided, calls create, otherwise calls save
      * @param		ModelPortfolio	modelPortfolio
@@ -93,7 +96,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
     	ModelPortfolio entity = null;
 		try {       
         	
-			entity = ModelPortfolioBusinessDelegate.getModelPortfolioInstance().createModelPortfolio( command );
+			entity = service.createModelPortfolio( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateModelPortfolioCommand
 			// -----------------------------------------------
-			entity = ModelPortfolioBusinessDelegate.getModelPortfolioInstance().updateModelPortfolio(command);;
+			entity = service.updateModelPortfolio(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ModelPortfolioController:update() - successfully update ModelPortfolio - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteModelPortfolioCommand command ) {                
     	try {
-        	ModelPortfolioBusinessDelegate delegate = ModelPortfolioBusinessDelegate.getModelPortfolioInstance();
+        	ModelPortfolioService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ModelPortfolio with key " + command.getModelPortfolioId() );
@@ -151,7 +154,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
     	ModelPortfolio entity = null;
 
     	try {  
-    		entity = ModelPortfolioBusinessDelegate.getModelPortfolioInstance().getModelPortfolio( new ModelPortfolioFetchOneSummary( uuid ) );   
+    		entity = service.getModelPortfolio( new ModelPortfolioFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ModelPortfolio using Id " + uuid );
@@ -171,7 +174,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
         
     	try {
             // load the ModelPortfolio
-            modelPortfolioList = ModelPortfolioBusinessDelegate.getModelPortfolioInstance().getAllModelPortfolio();
+            modelPortfolioList = service.getAllModelPortfolio();
             
             if ( modelPortfolioList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ModelPortfolios" );
@@ -193,7 +196,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/addToAllocations")
 	public void addToAllocations( @RequestBody(required=true) AssignAllocationsToModelPortfolioCommand command ) {
 		try {
-			ModelPortfolioBusinessDelegate.getModelPortfolioInstance().addToAllocations( command );   
+			service.addToAllocations( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Allocations", exc );
@@ -208,7 +211,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 	public void removeFromAllocations( 	@RequestBody(required=true) RemoveAllocationsFromModelPortfolioCommand command )
 	{		
 		try {
-			ModelPortfolioBusinessDelegate.getModelPortfolioInstance().removeFromAllocations( command );
+			service.removeFromAllocations( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Allocations", exc );
@@ -222,7 +225,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/addToPortfolios")
 	public void addToPortfolios( @RequestBody(required=true) AssignPortfoliosToModelPortfolioCommand command ) {
 		try {
-			ModelPortfolioBusinessDelegate.getModelPortfolioInstance().addToPortfolios( command );   
+			service.addToPortfolios( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Portfolios", exc );
@@ -237,7 +240,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 	public void removeFromPortfolios( 	@RequestBody(required=true) RemovePortfoliosFromModelPortfolioCommand command )
 	{		
 		try {
-			ModelPortfolioBusinessDelegate.getModelPortfolioInstance().removeFromPortfolios( command );
+			service.removeFromPortfolios( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Portfolios", exc );
@@ -251,6 +254,7 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ModelPortfolio modelPortfolio = null;
+	protected ModelPortfolioService service = null;
     private static final Logger LOGGER = Logger.getLogger(ModelPortfolioRestController.class.getName());
     
 }

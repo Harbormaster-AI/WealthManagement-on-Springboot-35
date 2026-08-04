@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	FeeScheduleBusinessDelegate
+ *  	FeeScheduleService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/FeeSchedule")
 public class FeeScheduleRestController extends BaseSpringRestController {
 
+	public FeeScheduleRestController( FeeScheduleService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a FeeSchedule.  if not key provided, calls create, otherwise calls save
      * @param		FeeSchedule	feeSchedule
@@ -93,7 +96,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
     	FeeSchedule entity = null;
 		try {       
         	
-			entity = FeeScheduleBusinessDelegate.getFeeScheduleInstance().createFeeSchedule( command );
+			entity = service.createFeeSchedule( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateFeeScheduleCommand
 			// -----------------------------------------------
-			entity = FeeScheduleBusinessDelegate.getFeeScheduleInstance().updateFeeSchedule(command);;
+			entity = service.updateFeeSchedule(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "FeeScheduleController:update() - successfully update FeeSchedule - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteFeeScheduleCommand command ) {                
     	try {
-        	FeeScheduleBusinessDelegate delegate = FeeScheduleBusinessDelegate.getFeeScheduleInstance();
+        	FeeScheduleService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted FeeSchedule with key " + command.getFeeScheduleId() );
@@ -151,7 +154,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
     	FeeSchedule entity = null;
 
     	try {  
-    		entity = FeeScheduleBusinessDelegate.getFeeScheduleInstance().getFeeSchedule( new FeeScheduleFetchOneSummary( uuid ) );   
+    		entity = service.getFeeSchedule( new FeeScheduleFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load FeeSchedule using Id " + uuid );
@@ -171,7 +174,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
         
     	try {
             // load the FeeSchedule
-            feeScheduleList = FeeScheduleBusinessDelegate.getFeeScheduleInstance().getAllFeeSchedule();
+            feeScheduleList = service.getAllFeeSchedule();
             
             if ( feeScheduleList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all FeeSchedules" );
@@ -193,7 +196,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 	@PutMapping("/addToAccounts")
 	public void addToAccounts( @RequestBody(required=true) AssignAccountsToFeeScheduleCommand command ) {
 		try {
-			FeeScheduleBusinessDelegate.getFeeScheduleInstance().addToAccounts( command );   
+			service.addToAccounts( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Accounts", exc );
@@ -208,7 +211,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 	public void removeFromAccounts( 	@RequestBody(required=true) RemoveAccountsFromFeeScheduleCommand command )
 	{		
 		try {
-			FeeScheduleBusinessDelegate.getFeeScheduleInstance().removeFromAccounts( command );
+			service.removeFromAccounts( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Accounts", exc );
@@ -222,7 +225,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 	@PutMapping("/addToBillingRuns")
 	public void addToBillingRuns( @RequestBody(required=true) AssignBillingRunsToFeeScheduleCommand command ) {
 		try {
-			FeeScheduleBusinessDelegate.getFeeScheduleInstance().addToBillingRuns( command );   
+			service.addToBillingRuns( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set BillingRuns", exc );
@@ -237,7 +240,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 	public void removeFromBillingRuns( 	@RequestBody(required=true) RemoveBillingRunsFromFeeScheduleCommand command )
 	{		
 		try {
-			FeeScheduleBusinessDelegate.getFeeScheduleInstance().removeFromBillingRuns( command );
+			service.removeFromBillingRuns( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set BillingRuns", exc );
@@ -251,6 +254,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected FeeSchedule feeSchedule = null;
+	protected FeeScheduleService service = null;
     private static final Logger LOGGER = Logger.getLogger(FeeScheduleRestController.class.getName());
     
 }

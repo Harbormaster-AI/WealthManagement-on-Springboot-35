@@ -52,7 +52,7 @@ resources:
     configuration:
       
       sourceArtifactory:                     # The name of the Artifactory Integration <required>
-      buildName:            WealthManagementonSpringboot35Build                    # The name of the build to associate with this BuildInfo <optional>
+      buildName:            WealthManagementonspringboot35Build                    # The name of the build to associate with this BuildInfo <optional>
       buildNumber:          1                                  # The number of the build to associate with this BuildInfo <optional>
       
   # ==========================================================
@@ -67,7 +67,7 @@ resources:
     configuration:
       
       sourceArtifactory:           # The name of the Artifactory Integration <required>
-      buildName:            WealthManagementonSpringboot35DockerBuild              # The name of the build to associate with this BuildInfo <optional>
+      buildName:            WealthManagementonspringboot35DockerBuild              # The name of the build to associate with this BuildInfo <optional>
       buildNumber:          1                                  # The number of the build to associate with this BuildInfo <optional>
 
   # ==========================================================
@@ -81,7 +81,7 @@ resources:
     configuration:
       
       sourceArtifactory:              # The name of the Artifactory Integration <required>
-      pattern:             /**/**/WealthManagementonSpringboot35*.jar    # Fhe application archive file to download <required>
+      pattern:             /**/**/WealthManagementonspringboot35*.jar    # Fhe application archive file to download <required>
       target:              target/                             # Where to download the file to <optional for download>
 
   # ==========================================================
@@ -97,12 +97,12 @@ resources:
     
       registry:                                    # The name of a Docker Registry Integration <required>
       sourceRepository:                        # The name of the repository in Artifactory to which the images will be published <required>
-      imageName:          //WealthManagementonSpringboot35 # The file path of the Docker image, of the form imageRepo/imageName <equired>
+      imageName:          //WealthManagementonspringboot35 # The file path of the Docker image, of the form imageRepo/imageName <equired>
       imageTag:           latest                                    # The version tag of the initial version of the Docker image <required>
       autoPull:           false                                     # When true, the image is automatically pulled to the machine running the step <default:false>
       
 pipelines:
-  - name: WealthManagementonSpringboot35Pipeline
+  - name: WealthManagementonspringboot35Pipeline
   
 
 
@@ -119,7 +119,7 @@ pipelines:
         
           dockerFileLocation:                  .                                        # Directory containing the Dockerfile, which is the file that has Docker build configuration. <required>
           dockerFileName:                      Dockerfile                               # Name of the Dockerfile <required>
-          dockerImageName:                     //WealthManagementonSpringboot35                             # The name of the Docker image to create <required>
+          dockerImageName:                     //WealthManagementonspringboot35                             # The name of the Docker image to create <required>
           dockerImageTag:                      latest                                   # The tag for the Docker image to create <required>
           affinityGroup:                       shared_affinity_group                    # used to bind steps <optional>
  

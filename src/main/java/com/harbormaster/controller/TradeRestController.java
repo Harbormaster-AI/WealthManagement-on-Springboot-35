@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	TradeBusinessDelegate
+ *  	TradeService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Trade")
 public class TradeRestController extends BaseSpringRestController {
 
+	public TradeRestController( TradeService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Trade.  if not key provided, calls create, otherwise calls save
      * @param		Trade	trade
@@ -93,7 +96,7 @@ public class TradeRestController extends BaseSpringRestController {
     	Trade entity = null;
 		try {       
         	
-			entity = TradeBusinessDelegate.getTradeInstance().createTrade( command );
+			entity = service.createTrade( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class TradeRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateTradeCommand
 			// -----------------------------------------------
-			entity = TradeBusinessDelegate.getTradeInstance().updateTrade(command);;
+			entity = service.updateTrade(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "TradeController:update() - successfully update Trade - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class TradeRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteTradeCommand command ) {                
     	try {
-        	TradeBusinessDelegate delegate = TradeBusinessDelegate.getTradeInstance();
+        	TradeService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Trade with key " + command.getTradeId() );
@@ -151,7 +154,7 @@ public class TradeRestController extends BaseSpringRestController {
     	Trade entity = null;
 
     	try {  
-    		entity = TradeBusinessDelegate.getTradeInstance().getTrade( new TradeFetchOneSummary( uuid ) );   
+    		entity = service.getTrade( new TradeFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Trade using Id " + uuid );
@@ -171,7 +174,7 @@ public class TradeRestController extends BaseSpringRestController {
         
     	try {
             // load the Trade
-            tradeList = TradeBusinessDelegate.getTradeInstance().getAllTrade();
+            tradeList = service.getAllTrade();
             
             if ( tradeList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Trades" );
@@ -192,7 +195,7 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/assignOrder")
 	public void assignOrder( @RequestBody AssignOrderToTradeCommand command ) {
 		try {
-			TradeBusinessDelegate.getTradeInstance().assignOrder( command );   
+			service.assignOrder( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Order", exc );
@@ -206,7 +209,7 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignOrder")
 	public void unAssignOrder( @RequestBody(required=true)  UnAssignOrderFromTradeCommand command ) {
 		try {
-			TradeBusinessDelegate.getTradeInstance().unAssignOrder( command );   
+			service.unAssignOrder( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Order", exc );
@@ -220,7 +223,7 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToTradeCommand command ) {
 		try {
-			TradeBusinessDelegate.getTradeInstance().assignAccount( command );   
+			service.assignAccount( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
@@ -234,7 +237,7 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromTradeCommand command ) {
 		try {
-			TradeBusinessDelegate.getTradeInstance().unAssignAccount( command );   
+			service.unAssignAccount( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
@@ -248,7 +251,7 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/assignSecurity")
 	public void assignSecurity( @RequestBody AssignSecurityToTradeCommand command ) {
 		try {
-			TradeBusinessDelegate.getTradeInstance().assignSecurity( command );   
+			service.assignSecurity( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Security", exc );
@@ -262,7 +265,7 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSecurity")
 	public void unAssignSecurity( @RequestBody(required=true)  UnAssignSecurityFromTradeCommand command ) {
 		try {
-			TradeBusinessDelegate.getTradeInstance().unAssignSecurity( command );   
+			service.unAssignSecurity( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Security", exc );
@@ -276,7 +279,7 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/assignTransaction")
 	public void assignTransaction( @RequestBody AssignTransactionToTradeCommand command ) {
 		try {
-			TradeBusinessDelegate.getTradeInstance().assignTransaction( command );   
+			service.assignTransaction( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Transaction", exc );
@@ -290,7 +293,7 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignTransaction")
 	public void unAssignTransaction( @RequestBody(required=true)  UnAssignTransactionFromTradeCommand command ) {
 		try {
-			TradeBusinessDelegate.getTradeInstance().unAssignTransaction( command );   
+			service.unAssignTransaction( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Transaction", exc );
@@ -305,6 +308,7 @@ public class TradeRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Trade trade = null;
+	protected TradeService service = null;
     private static final Logger LOGGER = Logger.getLogger(TradeRestController.class.getName());
     
 }

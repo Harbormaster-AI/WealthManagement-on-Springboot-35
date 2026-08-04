@@ -94,7 +94,7 @@ public class RebalancePlanTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a RebalancePlan" );
 
         try {            
-            entity = RebalancePlanBusinessDelegate.getRebalancePlanInstance().createRebalancePlan( generateNewCommand() );
+            entity = RebalancePlanService.getRebalancePlanInstance().createRebalancePlan( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getRebalancePlanId();
@@ -125,7 +125,7 @@ public class RebalancePlanTest
         msg.append( theId );
 
         try {
-            entity = RebalancePlanBusinessDelegate.getRebalancePlanInstance().getRebalancePlan( new RebalancePlanFetchOneSummary(theId) );
+            entity = RebalancePlanService.getRebalancePlanInstance().getRebalancePlan( new RebalancePlanFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class RebalancePlanTest
 
             LOGGER.info( "-- Now updating the created RebalancePlan." );
             
-            RebalancePlanBusinessDelegate proxy = RebalancePlanBusinessDelegate.getRebalancePlanInstance();            
+            RebalancePlanService proxy = RebalancePlanService.getRebalancePlanInstance();            
             entity = proxy.updateRebalancePlan( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class RebalancePlanTest
         try {
         	DeleteRebalancePlanCommand deleteCommand = new DeleteRebalancePlanCommand( theId );
         	
-            RebalancePlanBusinessDelegate.getRebalancePlanInstance().delete( deleteCommand );
+            RebalancePlanService.getRebalancePlanInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted RebalancePlan with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class RebalancePlanTest
         List<RebalancePlan> collection  = null;
 
         try {
-            // call the static get method on the RebalancePlanBusinessDelegate
-            collection = RebalancePlanBusinessDelegate.getRebalancePlanInstance().getAllRebalancePlan();
+            // call the static get method on the RebalancePlanService
+            collection = RebalancePlanService.getRebalancePlanInstance().getAllRebalancePlan();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

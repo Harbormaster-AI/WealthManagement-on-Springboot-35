@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	InvestmentPolicyBusinessDelegate
+ *  	InvestmentPolicyService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/InvestmentPolicy")
 public class InvestmentPolicyRestController extends BaseSpringRestController {
 
+	public InvestmentPolicyRestController( InvestmentPolicyService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a InvestmentPolicy.  if not key provided, calls create, otherwise calls save
      * @param		InvestmentPolicy	investmentPolicy
@@ -93,7 +96,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
     	InvestmentPolicy entity = null;
 		try {       
         	
-			entity = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().createInvestmentPolicy( command );
+			entity = service.createInvestmentPolicy( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateInvestmentPolicyCommand
 			// -----------------------------------------------
-			entity = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().updateInvestmentPolicy(command);;
+			entity = service.updateInvestmentPolicy(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "InvestmentPolicyController:update() - successfully update InvestmentPolicy - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteInvestmentPolicyCommand command ) {                
     	try {
-        	InvestmentPolicyBusinessDelegate delegate = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance();
+        	InvestmentPolicyService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted InvestmentPolicy with key " + command.getInvestmentPolicyId() );
@@ -151,7 +154,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
     	InvestmentPolicy entity = null;
 
     	try {  
-    		entity = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().getInvestmentPolicy( new InvestmentPolicyFetchOneSummary( uuid ) );   
+    		entity = service.getInvestmentPolicy( new InvestmentPolicyFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load InvestmentPolicy using Id " + uuid );
@@ -171,7 +174,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
         
     	try {
             // load the InvestmentPolicy
-            investmentPolicyList = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().getAllInvestmentPolicy();
+            investmentPolicyList = service.getAllInvestmentPolicy();
             
             if ( investmentPolicyList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all InvestmentPolicys" );
@@ -192,7 +195,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToInvestmentPolicyCommand command ) {
 		try {
-			InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().assignPortfolio( command );   
+			service.assignPortfolio( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
@@ -206,7 +209,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromInvestmentPolicyCommand command ) {
 		try {
-			InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().unAssignPortfolio( command );   
+			service.unAssignPortfolio( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
@@ -220,7 +223,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/assignRiskAssessment")
 	public void assignRiskAssessment( @RequestBody AssignRiskAssessmentToInvestmentPolicyCommand command ) {
 		try {
-			InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().assignRiskAssessment( command );   
+			service.assignRiskAssessment( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign RiskAssessment", exc );
@@ -234,7 +237,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignRiskAssessment")
 	public void unAssignRiskAssessment( @RequestBody(required=true)  UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) {
 		try {
-			InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().unAssignRiskAssessment( command );   
+			service.unAssignRiskAssessment( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign RiskAssessment", exc );
@@ -249,7 +252,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/addToGoals")
 	public void addToGoals( @RequestBody(required=true) AssignGoalsToInvestmentPolicyCommand command ) {
 		try {
-			InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().addToGoals( command );   
+			service.addToGoals( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Goals", exc );
@@ -264,7 +267,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	public void removeFromGoals( 	@RequestBody(required=true) RemoveGoalsFromInvestmentPolicyCommand command )
 	{		
 		try {
-			InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().removeFromGoals( command );
+			service.removeFromGoals( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Goals", exc );
@@ -278,6 +281,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected InvestmentPolicy investmentPolicy = null;
+	protected InvestmentPolicyService service = null;
     private static final Logger LOGGER = Logger.getLogger(InvestmentPolicyRestController.class.getName());
     
 }

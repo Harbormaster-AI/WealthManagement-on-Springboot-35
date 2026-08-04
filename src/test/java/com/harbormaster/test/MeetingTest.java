@@ -94,7 +94,7 @@ public class MeetingTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Meeting" );
 
         try {            
-            entity = MeetingBusinessDelegate.getMeetingInstance().createMeeting( generateNewCommand() );
+            entity = MeetingService.getMeetingInstance().createMeeting( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getMeetingId();
@@ -125,7 +125,7 @@ public class MeetingTest
         msg.append( theId );
 
         try {
-            entity = MeetingBusinessDelegate.getMeetingInstance().getMeeting( new MeetingFetchOneSummary(theId) );
+            entity = MeetingService.getMeetingInstance().getMeeting( new MeetingFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class MeetingTest
 
             LOGGER.info( "-- Now updating the created Meeting." );
             
-            MeetingBusinessDelegate proxy = MeetingBusinessDelegate.getMeetingInstance();            
+            MeetingService proxy = MeetingService.getMeetingInstance();            
             entity = proxy.updateMeeting( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class MeetingTest
         try {
         	DeleteMeetingCommand deleteCommand = new DeleteMeetingCommand( theId );
         	
-            MeetingBusinessDelegate.getMeetingInstance().delete( deleteCommand );
+            MeetingService.getMeetingInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Meeting with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class MeetingTest
         List<Meeting> collection  = null;
 
         try {
-            // call the static get method on the MeetingBusinessDelegate
-            collection = MeetingBusinessDelegate.getMeetingInstance().getAllMeeting();
+            // call the static get method on the MeetingService
+            collection = MeetingService.getMeetingInstance().getAllMeeting();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

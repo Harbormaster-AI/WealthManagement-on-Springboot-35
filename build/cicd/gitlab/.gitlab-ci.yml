@@ -30,7 +30,7 @@ before_script:
     - export DATABASE_PASSWORD=letmein2
     - export DATABASE_DIALECT=org.hibernate.dialect.MySQL8Dialect
     - export DATABASE_DRIVER=com.mysql.cj.jdbc.Driver
-    - export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonSpringboot35?createDatabaseIfNotExist=true
+    - export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonspringboot35?createDatabaseIfNotExist=true
 
 build:
   stage: build-and-test

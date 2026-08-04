@@ -1,18 +1,18 @@
-WealthManagementonSpringboot35Service:
+WealthManagementonspringboot35Service:
   build:
-    image: WealthManagementonSpringboot35
+    image: WealthManagementonspringboot35
     dockerfile: Dockerfile_For_Setup
   cached: true
   volumes:
     - ./tmp/code:/code 
 adddocker:
   build:
-    image: Harbormaster/WealthManagementonSpringboot35
+    image: Harbormaster/WealthManagementonspringboot35
     dockerfile: Dockerfile_For_CodeShip
   volumes_from:
-    - WealthManagementonSpringboot35Service
+    - WealthManagementonspringboot35Service
 terraform:
   build:
     dockerfile: Dockerfile_For_Terraform
   volumes_from:
-    - WealthManagementonSpringboot35Service
+    - WealthManagementonspringboot35Service

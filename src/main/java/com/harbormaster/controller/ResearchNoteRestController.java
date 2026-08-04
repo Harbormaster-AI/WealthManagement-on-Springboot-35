@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	ResearchNoteBusinessDelegate
+ *  	ResearchNoteService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/ResearchNote")
 public class ResearchNoteRestController extends BaseSpringRestController {
 
+	public ResearchNoteRestController( ResearchNoteService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a ResearchNote.  if not key provided, calls create, otherwise calls save
      * @param		ResearchNote	researchNote
@@ -93,7 +96,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
     	ResearchNote entity = null;
 		try {       
         	
-			entity = ResearchNoteBusinessDelegate.getResearchNoteInstance().createResearchNote( command );
+			entity = service.createResearchNote( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateResearchNoteCommand
 			// -----------------------------------------------
-			entity = ResearchNoteBusinessDelegate.getResearchNoteInstance().updateResearchNote(command);;
+			entity = service.updateResearchNote(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ResearchNoteController:update() - successfully update ResearchNote - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteResearchNoteCommand command ) {                
     	try {
-        	ResearchNoteBusinessDelegate delegate = ResearchNoteBusinessDelegate.getResearchNoteInstance();
+        	ResearchNoteService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ResearchNote with key " + command.getResearchNoteId() );
@@ -151,7 +154,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
     	ResearchNote entity = null;
 
     	try {  
-    		entity = ResearchNoteBusinessDelegate.getResearchNoteInstance().getResearchNote( new ResearchNoteFetchOneSummary( uuid ) );   
+    		entity = service.getResearchNote( new ResearchNoteFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ResearchNote using Id " + uuid );
@@ -171,7 +174,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
         
     	try {
             // load the ResearchNote
-            researchNoteList = ResearchNoteBusinessDelegate.getResearchNoteInstance().getAllResearchNote();
+            researchNoteList = service.getAllResearchNote();
             
             if ( researchNoteList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ResearchNotes" );
@@ -192,7 +195,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
 	@PutMapping("/assignSecurity")
 	public void assignSecurity( @RequestBody AssignSecurityToResearchNoteCommand command ) {
 		try {
-			ResearchNoteBusinessDelegate.getResearchNoteInstance().assignSecurity( command );   
+			service.assignSecurity( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Security", exc );
@@ -206,7 +209,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSecurity")
 	public void unAssignSecurity( @RequestBody(required=true)  UnAssignSecurityFromResearchNoteCommand command ) {
 		try {
-			ResearchNoteBusinessDelegate.getResearchNoteInstance().unAssignSecurity( command );   
+			service.unAssignSecurity( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Security", exc );
@@ -220,7 +223,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToResearchNoteCommand command ) {
 		try {
-			ResearchNoteBusinessDelegate.getResearchNoteInstance().assignAdvisor( command );   
+			service.assignAdvisor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
@@ -234,7 +237,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromResearchNoteCommand command ) {
 		try {
-			ResearchNoteBusinessDelegate.getResearchNoteInstance().unAssignAdvisor( command );   
+			service.unAssignAdvisor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
@@ -249,6 +252,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ResearchNote researchNote = null;
+	protected ResearchNoteService service = null;
     private static final Logger LOGGER = Logger.getLogger(ResearchNoteRestController.class.getName());
     
 }

@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	RebalancePlanBusinessDelegate
+ *  	RebalancePlanService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/RebalancePlan")
 public class RebalancePlanRestController extends BaseSpringRestController {
 
+	public RebalancePlanRestController( RebalancePlanService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a RebalancePlan.  if not key provided, calls create, otherwise calls save
      * @param		RebalancePlan	rebalancePlan
@@ -93,7 +96,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
     	RebalancePlan entity = null;
 		try {       
         	
-			entity = RebalancePlanBusinessDelegate.getRebalancePlanInstance().createRebalancePlan( command );
+			entity = service.createRebalancePlan( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateRebalancePlanCommand
 			// -----------------------------------------------
-			entity = RebalancePlanBusinessDelegate.getRebalancePlanInstance().updateRebalancePlan(command);;
+			entity = service.updateRebalancePlan(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "RebalancePlanController:update() - successfully update RebalancePlan - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteRebalancePlanCommand command ) {                
     	try {
-        	RebalancePlanBusinessDelegate delegate = RebalancePlanBusinessDelegate.getRebalancePlanInstance();
+        	RebalancePlanService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted RebalancePlan with key " + command.getRebalancePlanId() );
@@ -151,7 +154,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
     	RebalancePlan entity = null;
 
     	try {  
-    		entity = RebalancePlanBusinessDelegate.getRebalancePlanInstance().getRebalancePlan( new RebalancePlanFetchOneSummary( uuid ) );   
+    		entity = service.getRebalancePlan( new RebalancePlanFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load RebalancePlan using Id " + uuid );
@@ -171,7 +174,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
         
     	try {
             // load the RebalancePlan
-            rebalancePlanList = RebalancePlanBusinessDelegate.getRebalancePlanInstance().getAllRebalancePlan();
+            rebalancePlanList = service.getAllRebalancePlan();
             
             if ( rebalancePlanList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all RebalancePlans" );
@@ -192,7 +195,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToRebalancePlanCommand command ) {
 		try {
-			RebalancePlanBusinessDelegate.getRebalancePlanInstance().assignPortfolio( command );   
+			service.assignPortfolio( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
@@ -206,7 +209,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromRebalancePlanCommand command ) {
 		try {
-			RebalancePlanBusinessDelegate.getRebalancePlanInstance().unAssignPortfolio( command );   
+			service.unAssignPortfolio( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
@@ -220,7 +223,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToRebalancePlanCommand command ) {
 		try {
-			RebalancePlanBusinessDelegate.getRebalancePlanInstance().assignAdvisor( command );   
+			service.assignAdvisor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
@@ -234,7 +237,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromRebalancePlanCommand command ) {
 		try {
-			RebalancePlanBusinessDelegate.getRebalancePlanInstance().unAssignAdvisor( command );   
+			service.unAssignAdvisor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
@@ -249,7 +252,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	@PutMapping("/addToProposedOrders")
 	public void addToProposedOrders( @RequestBody(required=true) AssignProposedOrdersToRebalancePlanCommand command ) {
 		try {
-			RebalancePlanBusinessDelegate.getRebalancePlanInstance().addToProposedOrders( command );   
+			service.addToProposedOrders( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set ProposedOrders", exc );
@@ -264,7 +267,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	public void removeFromProposedOrders( 	@RequestBody(required=true) RemoveProposedOrdersFromRebalancePlanCommand command )
 	{		
 		try {
-			RebalancePlanBusinessDelegate.getRebalancePlanInstance().removeFromProposedOrders( command );
+			service.removeFromProposedOrders( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set ProposedOrders", exc );
@@ -278,6 +281,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected RebalancePlan rebalancePlan = null;
+	protected RebalancePlanService service = null;
     private static final Logger LOGGER = Logger.getLogger(RebalancePlanRestController.class.getName());
     
 }

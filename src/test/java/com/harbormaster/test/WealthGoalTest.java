@@ -94,7 +94,7 @@ public class WealthGoalTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a WealthGoal" );
 
         try {            
-            entity = WealthGoalBusinessDelegate.getWealthGoalInstance().createWealthGoal( generateNewCommand() );
+            entity = WealthGoalService.getWealthGoalInstance().createWealthGoal( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getWealthGoalId();
@@ -125,7 +125,7 @@ public class WealthGoalTest
         msg.append( theId );
 
         try {
-            entity = WealthGoalBusinessDelegate.getWealthGoalInstance().getWealthGoal( new WealthGoalFetchOneSummary(theId) );
+            entity = WealthGoalService.getWealthGoalInstance().getWealthGoal( new WealthGoalFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class WealthGoalTest
 
             LOGGER.info( "-- Now updating the created WealthGoal." );
             
-            WealthGoalBusinessDelegate proxy = WealthGoalBusinessDelegate.getWealthGoalInstance();            
+            WealthGoalService proxy = WealthGoalService.getWealthGoalInstance();            
             entity = proxy.updateWealthGoal( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class WealthGoalTest
         try {
         	DeleteWealthGoalCommand deleteCommand = new DeleteWealthGoalCommand( theId );
         	
-            WealthGoalBusinessDelegate.getWealthGoalInstance().delete( deleteCommand );
+            WealthGoalService.getWealthGoalInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted WealthGoal with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class WealthGoalTest
         List<WealthGoal> collection  = null;
 
         try {
-            // call the static get method on the WealthGoalBusinessDelegate
-            collection = WealthGoalBusinessDelegate.getWealthGoalInstance().getAllWealthGoal();
+            // call the static get method on the WealthGoalService
+            collection = WealthGoalService.getWealthGoalInstance().getAllWealthGoal();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

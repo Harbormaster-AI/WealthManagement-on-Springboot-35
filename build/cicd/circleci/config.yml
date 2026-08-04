@@ -60,7 +60,7 @@ jobs:
             MYSQL_PASSWORD: letmein2
             MYSQL_ALLOW_EMPTY_PASSWORD: yes
             MYSQL_ROOT_PASSWORD: letmein2
-            MYSQL_DATABASE: WealthManagementonSpringboot35
+            MYSQL_DATABASE: WealthManagementonspringboot35
 
     # env var assignments
     environment:
@@ -68,7 +68,7 @@ jobs:
         DATABASE_PASSWORD: letmein2
         DATABASE_DIALECT: org.hibernate.dialect.MySQL8Dialect
         DATABASE_DRIVER: com.mysql.jdbc.Driver
-        DATABASE_URL: jdbc:mysql://localhost:3306/WealthManagementonSpringboot35?createDatabaseIfNotExist=true
+        DATABASE_URL: jdbc:mysql://localhost:3306/WealthManagementonspringboot35?createDatabaseIfNotExist=true
         
 
     # steps the core build test job
@@ -92,7 +92,7 @@ jobs:
       - run: export DATABASE_PASSWORD=letmein2 
       - run: export DATABASE_DIALECT=org.hibernate.dialect.MySQL8Dialect 
       - run: export DATABASE_DRIVER=com.mysql.cj.jdbc.Driver 
-      - run: export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonSpringboot35?createDatabaseIfNotExist=true 
+      - run: export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonspringboot35?createDatabaseIfNotExist=true 
       - run:
           name: Building with testing
           command: echo building with testing...

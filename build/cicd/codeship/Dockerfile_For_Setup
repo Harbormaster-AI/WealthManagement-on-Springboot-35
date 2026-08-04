@@ -16,7 +16,7 @@ RUN export DATABASE_USERNAME=root
 RUN export DATABASE_PASSWORD=letmein2 
 RUN export DATABASE_DIALECT=org.hibernate.dialect.MySQL8Dialect 
 RUN export DATABASE_DRIVER=com.mysql.cj.jdbc.Driver 
-RUN export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonSpringboot35?createDatabaseIfNotExist=true 
+RUN export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonspringboot35?createDatabaseIfNotExist=true 
 
 # copy it all to gitRoot directory
 COPY . /gitRoot

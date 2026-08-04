@@ -94,7 +94,7 @@ public class PerformanceReportTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a PerformanceReport" );
 
         try {            
-            entity = PerformanceReportBusinessDelegate.getPerformanceReportInstance().createPerformanceReport( generateNewCommand() );
+            entity = PerformanceReportService.getPerformanceReportInstance().createPerformanceReport( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getPerformanceReportId();
@@ -125,7 +125,7 @@ public class PerformanceReportTest
         msg.append( theId );
 
         try {
-            entity = PerformanceReportBusinessDelegate.getPerformanceReportInstance().getPerformanceReport( new PerformanceReportFetchOneSummary(theId) );
+            entity = PerformanceReportService.getPerformanceReportInstance().getPerformanceReport( new PerformanceReportFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class PerformanceReportTest
 
             LOGGER.info( "-- Now updating the created PerformanceReport." );
             
-            PerformanceReportBusinessDelegate proxy = PerformanceReportBusinessDelegate.getPerformanceReportInstance();            
+            PerformanceReportService proxy = PerformanceReportService.getPerformanceReportInstance();            
             entity = proxy.updatePerformanceReport( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class PerformanceReportTest
         try {
         	DeletePerformanceReportCommand deleteCommand = new DeletePerformanceReportCommand( theId );
         	
-            PerformanceReportBusinessDelegate.getPerformanceReportInstance().delete( deleteCommand );
+            PerformanceReportService.getPerformanceReportInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted PerformanceReport with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class PerformanceReportTest
         List<PerformanceReport> collection  = null;
 
         try {
-            // call the static get method on the PerformanceReportBusinessDelegate
-            collection = PerformanceReportBusinessDelegate.getPerformanceReportInstance().getAllPerformanceReport();
+            // call the static get method on the PerformanceReportService
+            collection = PerformanceReportService.getPerformanceReportInstance().getAllPerformanceReport();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

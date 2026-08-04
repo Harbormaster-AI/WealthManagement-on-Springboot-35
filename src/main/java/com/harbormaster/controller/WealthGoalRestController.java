@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	WealthGoalBusinessDelegate
+ *  	WealthGoalService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/WealthGoal")
 public class WealthGoalRestController extends BaseSpringRestController {
 
+	public WealthGoalRestController( WealthGoalService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a WealthGoal.  if not key provided, calls create, otherwise calls save
      * @param		WealthGoal	wealthGoal
@@ -93,7 +96,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
     	WealthGoal entity = null;
 		try {       
         	
-			entity = WealthGoalBusinessDelegate.getWealthGoalInstance().createWealthGoal( command );
+			entity = service.createWealthGoal( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateWealthGoalCommand
 			// -----------------------------------------------
-			entity = WealthGoalBusinessDelegate.getWealthGoalInstance().updateWealthGoal(command);;
+			entity = service.updateWealthGoal(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "WealthGoalController:update() - successfully update WealthGoal - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteWealthGoalCommand command ) {                
     	try {
-        	WealthGoalBusinessDelegate delegate = WealthGoalBusinessDelegate.getWealthGoalInstance();
+        	WealthGoalService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted WealthGoal with key " + command.getWealthGoalId() );
@@ -151,7 +154,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
     	WealthGoal entity = null;
 
     	try {  
-    		entity = WealthGoalBusinessDelegate.getWealthGoalInstance().getWealthGoal( new WealthGoalFetchOneSummary( uuid ) );   
+    		entity = service.getWealthGoal( new WealthGoalFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load WealthGoal using Id " + uuid );
@@ -171,7 +174,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
         
     	try {
             // load the WealthGoal
-            wealthGoalList = WealthGoalBusinessDelegate.getWealthGoalInstance().getAllWealthGoal();
+            wealthGoalList = service.getAllWealthGoal();
             
             if ( wealthGoalList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all WealthGoals" );
@@ -192,7 +195,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToWealthGoalCommand command ) {
 		try {
-			WealthGoalBusinessDelegate.getWealthGoalInstance().assignHousehold( command );   
+			service.assignHousehold( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
@@ -206,7 +209,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromWealthGoalCommand command ) {
 		try {
-			WealthGoalBusinessDelegate.getWealthGoalInstance().unAssignHousehold( command );   
+			service.unAssignHousehold( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
@@ -220,7 +223,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToWealthGoalCommand command ) {
 		try {
-			WealthGoalBusinessDelegate.getWealthGoalInstance().assignPortfolio( command );   
+			service.assignPortfolio( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
@@ -234,7 +237,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromWealthGoalCommand command ) {
 		try {
-			WealthGoalBusinessDelegate.getWealthGoalInstance().unAssignPortfolio( command );   
+			service.unAssignPortfolio( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
@@ -248,7 +251,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
 	@PutMapping("/assignInvestmentPolicy")
 	public void assignInvestmentPolicy( @RequestBody AssignInvestmentPolicyToWealthGoalCommand command ) {
 		try {
-			WealthGoalBusinessDelegate.getWealthGoalInstance().assignInvestmentPolicy( command );   
+			service.assignInvestmentPolicy( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign InvestmentPolicy", exc );
@@ -262,7 +265,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignInvestmentPolicy")
 	public void unAssignInvestmentPolicy( @RequestBody(required=true)  UnAssignInvestmentPolicyFromWealthGoalCommand command ) {
 		try {
-			WealthGoalBusinessDelegate.getWealthGoalInstance().unAssignInvestmentPolicy( command );   
+			service.unAssignInvestmentPolicy( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign InvestmentPolicy", exc );
@@ -277,6 +280,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected WealthGoal wealthGoal = null;
+	protected WealthGoalService service = null;
     private static final Logger LOGGER = Logger.getLogger(WealthGoalRestController.class.getName());
     
 }

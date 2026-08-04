@@ -94,7 +94,7 @@ public class RiskAssessmentTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a RiskAssessment" );
 
         try {            
-            entity = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().createRiskAssessment( generateNewCommand() );
+            entity = RiskAssessmentService.getRiskAssessmentInstance().createRiskAssessment( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getRiskAssessmentId();
@@ -125,7 +125,7 @@ public class RiskAssessmentTest
         msg.append( theId );
 
         try {
-            entity = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().getRiskAssessment( new RiskAssessmentFetchOneSummary(theId) );
+            entity = RiskAssessmentService.getRiskAssessmentInstance().getRiskAssessment( new RiskAssessmentFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class RiskAssessmentTest
 
             LOGGER.info( "-- Now updating the created RiskAssessment." );
             
-            RiskAssessmentBusinessDelegate proxy = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance();            
+            RiskAssessmentService proxy = RiskAssessmentService.getRiskAssessmentInstance();            
             entity = proxy.updateRiskAssessment( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class RiskAssessmentTest
         try {
         	DeleteRiskAssessmentCommand deleteCommand = new DeleteRiskAssessmentCommand( theId );
         	
-            RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().delete( deleteCommand );
+            RiskAssessmentService.getRiskAssessmentInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted RiskAssessment with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class RiskAssessmentTest
         List<RiskAssessment> collection  = null;
 
         try {
-            // call the static get method on the RiskAssessmentBusinessDelegate
-            collection = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().getAllRiskAssessment();
+            // call the static get method on the RiskAssessmentService
+            collection = RiskAssessmentService.getRiskAssessmentInstance().getAllRiskAssessment();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

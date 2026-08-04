@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	CorporateActionBusinessDelegate
+ *  	CorporateActionService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/CorporateAction")
 public class CorporateActionRestController extends BaseSpringRestController {
 
+	public CorporateActionRestController( CorporateActionService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a CorporateAction.  if not key provided, calls create, otherwise calls save
      * @param		CorporateAction	corporateAction
@@ -93,7 +96,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
     	CorporateAction entity = null;
 		try {       
         	
-			entity = CorporateActionBusinessDelegate.getCorporateActionInstance().createCorporateAction( command );
+			entity = service.createCorporateAction( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateCorporateActionCommand
 			// -----------------------------------------------
-			entity = CorporateActionBusinessDelegate.getCorporateActionInstance().updateCorporateAction(command);;
+			entity = service.updateCorporateAction(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "CorporateActionController:update() - successfully update CorporateAction - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteCorporateActionCommand command ) {                
     	try {
-        	CorporateActionBusinessDelegate delegate = CorporateActionBusinessDelegate.getCorporateActionInstance();
+        	CorporateActionService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted CorporateAction with key " + command.getCorporateActionId() );
@@ -151,7 +154,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
     	CorporateAction entity = null;
 
     	try {  
-    		entity = CorporateActionBusinessDelegate.getCorporateActionInstance().getCorporateAction( new CorporateActionFetchOneSummary( uuid ) );   
+    		entity = service.getCorporateAction( new CorporateActionFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load CorporateAction using Id " + uuid );
@@ -171,7 +174,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
         
     	try {
             // load the CorporateAction
-            corporateActionList = CorporateActionBusinessDelegate.getCorporateActionInstance().getAllCorporateAction();
+            corporateActionList = service.getAllCorporateAction();
             
             if ( corporateActionList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all CorporateActions" );
@@ -192,7 +195,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
 	@PutMapping("/assignSecurity")
 	public void assignSecurity( @RequestBody AssignSecurityToCorporateActionCommand command ) {
 		try {
-			CorporateActionBusinessDelegate.getCorporateActionInstance().assignSecurity( command );   
+			service.assignSecurity( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Security", exc );
@@ -206,7 +209,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignSecurity")
 	public void unAssignSecurity( @RequestBody(required=true)  UnAssignSecurityFromCorporateActionCommand command ) {
 		try {
-			CorporateActionBusinessDelegate.getCorporateActionInstance().unAssignSecurity( command );   
+			service.unAssignSecurity( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Security", exc );
@@ -221,7 +224,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
 	@PutMapping("/addToDividends")
 	public void addToDividends( @RequestBody(required=true) AssignDividendsToCorporateActionCommand command ) {
 		try {
-			CorporateActionBusinessDelegate.getCorporateActionInstance().addToDividends( command );   
+			service.addToDividends( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Dividends", exc );
@@ -236,7 +239,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
 	public void removeFromDividends( 	@RequestBody(required=true) RemoveDividendsFromCorporateActionCommand command )
 	{		
 		try {
-			CorporateActionBusinessDelegate.getCorporateActionInstance().removeFromDividends( command );
+			service.removeFromDividends( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Dividends", exc );
@@ -250,6 +253,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected CorporateAction corporateAction = null;
+	protected CorporateActionService service = null;
     private static final Logger LOGGER = Logger.getLogger(CorporateActionRestController.class.getName());
     
 }

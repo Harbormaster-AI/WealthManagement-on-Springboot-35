@@ -94,7 +94,7 @@ public class TransactionTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Transaction" );
 
         try {            
-            entity = TransactionBusinessDelegate.getTransactionInstance().createTransaction( generateNewCommand() );
+            entity = TransactionService.getTransactionInstance().createTransaction( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getTransactionId();
@@ -125,7 +125,7 @@ public class TransactionTest
         msg.append( theId );
 
         try {
-            entity = TransactionBusinessDelegate.getTransactionInstance().getTransaction( new TransactionFetchOneSummary(theId) );
+            entity = TransactionService.getTransactionInstance().getTransaction( new TransactionFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class TransactionTest
 
             LOGGER.info( "-- Now updating the created Transaction." );
             
-            TransactionBusinessDelegate proxy = TransactionBusinessDelegate.getTransactionInstance();            
+            TransactionService proxy = TransactionService.getTransactionInstance();            
             entity = proxy.updateTransaction( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class TransactionTest
         try {
         	DeleteTransactionCommand deleteCommand = new DeleteTransactionCommand( theId );
         	
-            TransactionBusinessDelegate.getTransactionInstance().delete( deleteCommand );
+            TransactionService.getTransactionInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Transaction with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class TransactionTest
         List<Transaction> collection  = null;
 
         try {
-            // call the static get method on the TransactionBusinessDelegate
-            collection = TransactionBusinessDelegate.getTransactionInstance().getAllTransaction();
+            // call the static get method on the TransactionService
+            collection = TransactionService.getTransactionInstance().getAllTransaction();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

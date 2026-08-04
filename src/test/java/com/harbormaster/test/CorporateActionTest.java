@@ -94,7 +94,7 @@ public class CorporateActionTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a CorporateAction" );
 
         try {            
-            entity = CorporateActionBusinessDelegate.getCorporateActionInstance().createCorporateAction( generateNewCommand() );
+            entity = CorporateActionService.getCorporateActionInstance().createCorporateAction( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getCorporateActionId();
@@ -125,7 +125,7 @@ public class CorporateActionTest
         msg.append( theId );
 
         try {
-            entity = CorporateActionBusinessDelegate.getCorporateActionInstance().getCorporateAction( new CorporateActionFetchOneSummary(theId) );
+            entity = CorporateActionService.getCorporateActionInstance().getCorporateAction( new CorporateActionFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class CorporateActionTest
 
             LOGGER.info( "-- Now updating the created CorporateAction." );
             
-            CorporateActionBusinessDelegate proxy = CorporateActionBusinessDelegate.getCorporateActionInstance();            
+            CorporateActionService proxy = CorporateActionService.getCorporateActionInstance();            
             entity = proxy.updateCorporateAction( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class CorporateActionTest
         try {
         	DeleteCorporateActionCommand deleteCommand = new DeleteCorporateActionCommand( theId );
         	
-            CorporateActionBusinessDelegate.getCorporateActionInstance().delete( deleteCommand );
+            CorporateActionService.getCorporateActionInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted CorporateAction with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class CorporateActionTest
         List<CorporateAction> collection  = null;
 
         try {
-            // call the static get method on the CorporateActionBusinessDelegate
-            collection = CorporateActionBusinessDelegate.getCorporateActionInstance().getAllCorporateAction();
+            // call the static get method on the CorporateActionService
+            collection = CorporateActionService.getCorporateActionInstance().getAllCorporateAction();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

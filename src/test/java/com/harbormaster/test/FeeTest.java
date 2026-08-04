@@ -94,7 +94,7 @@ public class FeeTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Fee" );
 
         try {            
-            entity = FeeBusinessDelegate.getFeeInstance().createFee( generateNewCommand() );
+            entity = FeeService.getFeeInstance().createFee( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getFeeId();
@@ -125,7 +125,7 @@ public class FeeTest
         msg.append( theId );
 
         try {
-            entity = FeeBusinessDelegate.getFeeInstance().getFee( new FeeFetchOneSummary(theId) );
+            entity = FeeService.getFeeInstance().getFee( new FeeFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class FeeTest
 
             LOGGER.info( "-- Now updating the created Fee." );
             
-            FeeBusinessDelegate proxy = FeeBusinessDelegate.getFeeInstance();            
+            FeeService proxy = FeeService.getFeeInstance();            
             entity = proxy.updateFee( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class FeeTest
         try {
         	DeleteFeeCommand deleteCommand = new DeleteFeeCommand( theId );
         	
-            FeeBusinessDelegate.getFeeInstance().delete( deleteCommand );
+            FeeService.getFeeInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Fee with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class FeeTest
         List<Fee> collection  = null;
 
         try {
-            // call the static get method on the FeeBusinessDelegate
-            collection = FeeBusinessDelegate.getFeeInstance().getAllFee();
+            // call the static get method on the FeeService
+            collection = FeeService.getFeeInstance().getAllFee();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	RiskAssessmentBusinessDelegate
+ *  	RiskAssessmentService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/RiskAssessment")
 public class RiskAssessmentRestController extends BaseSpringRestController {
 
+	public RiskAssessmentRestController( RiskAssessmentService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a RiskAssessment.  if not key provided, calls create, otherwise calls save
      * @param		RiskAssessment	riskAssessment
@@ -93,7 +96,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
     	RiskAssessment entity = null;
 		try {       
         	
-			entity = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().createRiskAssessment( command );
+			entity = service.createRiskAssessment( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateRiskAssessmentCommand
 			// -----------------------------------------------
-			entity = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().updateRiskAssessment(command);;
+			entity = service.updateRiskAssessment(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "RiskAssessmentController:update() - successfully update RiskAssessment - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteRiskAssessmentCommand command ) {                
     	try {
-        	RiskAssessmentBusinessDelegate delegate = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance();
+        	RiskAssessmentService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted RiskAssessment with key " + command.getRiskAssessmentId() );
@@ -151,7 +154,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
     	RiskAssessment entity = null;
 
     	try {  
-    		entity = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().getRiskAssessment( new RiskAssessmentFetchOneSummary( uuid ) );   
+    		entity = service.getRiskAssessment( new RiskAssessmentFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load RiskAssessment using Id " + uuid );
@@ -171,7 +174,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
         
     	try {
             // load the RiskAssessment
-            riskAssessmentList = RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().getAllRiskAssessment();
+            riskAssessmentList = service.getAllRiskAssessment();
             
             if ( riskAssessmentList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all RiskAssessments" );
@@ -192,7 +195,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToRiskAssessmentCommand command ) {
 		try {
-			RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().assignHousehold( command );   
+			service.assignHousehold( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
@@ -206,7 +209,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromRiskAssessmentCommand command ) {
 		try {
-			RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().unAssignHousehold( command );   
+			service.unAssignHousehold( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
@@ -220,7 +223,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToRiskAssessmentCommand command ) {
 		try {
-			RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().assignAdvisor( command );   
+			service.assignAdvisor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
@@ -234,7 +237,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromRiskAssessmentCommand command ) {
 		try {
-			RiskAssessmentBusinessDelegate.getRiskAssessmentInstance().unAssignAdvisor( command );   
+			service.unAssignAdvisor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
@@ -249,6 +252,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected RiskAssessment riskAssessment = null;
+	protected RiskAssessmentService service = null;
     private static final Logger LOGGER = Logger.getLogger(RiskAssessmentRestController.class.getName());
     
 }

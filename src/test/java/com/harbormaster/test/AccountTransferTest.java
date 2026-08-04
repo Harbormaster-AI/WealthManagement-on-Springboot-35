@@ -94,7 +94,7 @@ public class AccountTransferTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a AccountTransfer" );
 
         try {            
-            entity = AccountTransferBusinessDelegate.getAccountTransferInstance().createAccountTransfer( generateNewCommand() );
+            entity = AccountTransferService.getAccountTransferInstance().createAccountTransfer( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAccountTransferId();
@@ -125,7 +125,7 @@ public class AccountTransferTest
         msg.append( theId );
 
         try {
-            entity = AccountTransferBusinessDelegate.getAccountTransferInstance().getAccountTransfer( new AccountTransferFetchOneSummary(theId) );
+            entity = AccountTransferService.getAccountTransferInstance().getAccountTransfer( new AccountTransferFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class AccountTransferTest
 
             LOGGER.info( "-- Now updating the created AccountTransfer." );
             
-            AccountTransferBusinessDelegate proxy = AccountTransferBusinessDelegate.getAccountTransferInstance();            
+            AccountTransferService proxy = AccountTransferService.getAccountTransferInstance();            
             entity = proxy.updateAccountTransfer( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class AccountTransferTest
         try {
         	DeleteAccountTransferCommand deleteCommand = new DeleteAccountTransferCommand( theId );
         	
-            AccountTransferBusinessDelegate.getAccountTransferInstance().delete( deleteCommand );
+            AccountTransferService.getAccountTransferInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted AccountTransfer with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class AccountTransferTest
         List<AccountTransfer> collection  = null;
 
         try {
-            // call the static get method on the AccountTransferBusinessDelegate
-            collection = AccountTransferBusinessDelegate.getAccountTransferInstance().getAllAccountTransfer();
+            // call the static get method on the AccountTransferService
+            collection = AccountTransferService.getAccountTransferInstance().getAllAccountTransfer();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

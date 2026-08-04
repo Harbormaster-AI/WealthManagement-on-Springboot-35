@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	HouseholdBusinessDelegate
+ *  	HouseholdService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Household")
 public class HouseholdRestController extends BaseSpringRestController {
 
+	public HouseholdRestController( HouseholdService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Household.  if not key provided, calls create, otherwise calls save
      * @param		Household	household
@@ -93,7 +96,7 @@ public class HouseholdRestController extends BaseSpringRestController {
     	Household entity = null;
 		try {       
         	
-			entity = HouseholdBusinessDelegate.getHouseholdInstance().createHousehold( command );
+			entity = service.createHousehold( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateHouseholdCommand
 			// -----------------------------------------------
-			entity = HouseholdBusinessDelegate.getHouseholdInstance().updateHousehold(command);;
+			entity = service.updateHousehold(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "HouseholdController:update() - successfully update Household - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class HouseholdRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteHouseholdCommand command ) {                
     	try {
-        	HouseholdBusinessDelegate delegate = HouseholdBusinessDelegate.getHouseholdInstance();
+        	HouseholdService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Household with key " + command.getHouseholdId() );
@@ -151,7 +154,7 @@ public class HouseholdRestController extends BaseSpringRestController {
     	Household entity = null;
 
     	try {  
-    		entity = HouseholdBusinessDelegate.getHouseholdInstance().getHousehold( new HouseholdFetchOneSummary( uuid ) );   
+    		entity = service.getHousehold( new HouseholdFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Household using Id " + uuid );
@@ -171,7 +174,7 @@ public class HouseholdRestController extends BaseSpringRestController {
         
     	try {
             // load the Household
-            householdList = HouseholdBusinessDelegate.getHouseholdInstance().getAllHousehold();
+            householdList = service.getAllHousehold();
             
             if ( householdList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Households" );
@@ -192,7 +195,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/assignPrimaryAdvisor")
 	public void assignPrimaryAdvisor( @RequestBody AssignPrimaryAdvisorToHouseholdCommand command ) {
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().assignPrimaryAdvisor( command );   
+			service.assignPrimaryAdvisor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign PrimaryAdvisor", exc );
@@ -206,7 +209,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignPrimaryAdvisor")
 	public void unAssignPrimaryAdvisor( @RequestBody(required=true)  UnAssignPrimaryAdvisorFromHouseholdCommand command ) {
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().unAssignPrimaryAdvisor( command );   
+			service.unAssignPrimaryAdvisor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign PrimaryAdvisor", exc );
@@ -221,7 +224,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/addToClients")
 	public void addToClients( @RequestBody(required=true) AssignClientsToHouseholdCommand command ) {
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().addToClients( command );   
+			service.addToClients( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Clients", exc );
@@ -236,7 +239,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	public void removeFromClients( 	@RequestBody(required=true) RemoveClientsFromHouseholdCommand command )
 	{		
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().removeFromClients( command );
+			service.removeFromClients( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Clients", exc );
@@ -250,7 +253,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/addToPortfolios")
 	public void addToPortfolios( @RequestBody(required=true) AssignPortfoliosToHouseholdCommand command ) {
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().addToPortfolios( command );   
+			service.addToPortfolios( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Portfolios", exc );
@@ -265,7 +268,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	public void removeFromPortfolios( 	@RequestBody(required=true) RemovePortfoliosFromHouseholdCommand command )
 	{		
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().removeFromPortfolios( command );
+			service.removeFromPortfolios( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Portfolios", exc );
@@ -279,7 +282,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/addToGoals")
 	public void addToGoals( @RequestBody(required=true) AssignGoalsToHouseholdCommand command ) {
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().addToGoals( command );   
+			service.addToGoals( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Goals", exc );
@@ -294,7 +297,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	public void removeFromGoals( 	@RequestBody(required=true) RemoveGoalsFromHouseholdCommand command )
 	{		
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().removeFromGoals( command );
+			service.removeFromGoals( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Goals", exc );
@@ -308,7 +311,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/addToRiskAssessments")
 	public void addToRiskAssessments( @RequestBody(required=true) AssignRiskAssessmentsToHouseholdCommand command ) {
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().addToRiskAssessments( command );   
+			service.addToRiskAssessments( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set RiskAssessments", exc );
@@ -323,7 +326,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 	public void removeFromRiskAssessments( 	@RequestBody(required=true) RemoveRiskAssessmentsFromHouseholdCommand command )
 	{		
 		try {
-			HouseholdBusinessDelegate.getHouseholdInstance().removeFromRiskAssessments( command );
+			service.removeFromRiskAssessments( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set RiskAssessments", exc );
@@ -337,6 +340,7 @@ public class HouseholdRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Household household = null;
+	protected HouseholdService service = null;
     private static final Logger LOGGER = Logger.getLogger(HouseholdRestController.class.getName());
     
 }

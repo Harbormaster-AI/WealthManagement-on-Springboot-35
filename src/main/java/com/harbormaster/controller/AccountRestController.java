@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	AccountBusinessDelegate
+ *  	AccountService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Account")
 public class AccountRestController extends BaseSpringRestController {
 
+	public AccountRestController( AccountService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Account.  if not key provided, calls create, otherwise calls save
      * @param		Account	account
@@ -93,7 +96,7 @@ public class AccountRestController extends BaseSpringRestController {
     	Account entity = null;
 		try {       
         	
-			entity = AccountBusinessDelegate.getAccountInstance().createAccount( command );
+			entity = service.createAccount( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class AccountRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateAccountCommand
 			// -----------------------------------------------
-			entity = AccountBusinessDelegate.getAccountInstance().updateAccount(command);;
+			entity = service.updateAccount(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "AccountController:update() - successfully update Account - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class AccountRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAccountCommand command ) {                
     	try {
-        	AccountBusinessDelegate delegate = AccountBusinessDelegate.getAccountInstance();
+        	AccountService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Account with key " + command.getAccountId() );
@@ -151,7 +154,7 @@ public class AccountRestController extends BaseSpringRestController {
     	Account entity = null;
 
     	try {  
-    		entity = AccountBusinessDelegate.getAccountInstance().getAccount( new AccountFetchOneSummary( uuid ) );   
+    		entity = service.getAccount( new AccountFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Account using Id " + uuid );
@@ -171,7 +174,7 @@ public class AccountRestController extends BaseSpringRestController {
         
     	try {
             // load the Account
-            accountList = AccountBusinessDelegate.getAccountInstance().getAllAccount();
+            accountList = service.getAllAccount();
             
             if ( accountList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Accounts" );
@@ -192,7 +195,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().assignHousehold( command );   
+			service.assignHousehold( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
@@ -206,7 +209,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().unAssignHousehold( command );   
+			service.unAssignHousehold( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
@@ -220,7 +223,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().assignAdvisor( command );   
+			service.assignAdvisor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
@@ -234,7 +237,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().unAssignAdvisor( command );   
+			service.unAssignAdvisor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
@@ -248,7 +251,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/assignCustodian")
 	public void assignCustodian( @RequestBody AssignCustodianToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().assignCustodian( command );   
+			service.assignCustodian( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Custodian", exc );
@@ -262,7 +265,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignCustodian")
 	public void unAssignCustodian( @RequestBody(required=true)  UnAssignCustodianFromAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().unAssignCustodian( command );   
+			service.unAssignCustodian( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Custodian", exc );
@@ -276,7 +279,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().assignPortfolio( command );   
+			service.assignPortfolio( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
@@ -290,7 +293,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().unAssignPortfolio( command );   
+			service.unAssignPortfolio( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
@@ -305,7 +308,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/addToBeneficiaries")
 	public void addToBeneficiaries( @RequestBody(required=true) AssignBeneficiariesToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().addToBeneficiaries( command );   
+			service.addToBeneficiaries( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Beneficiaries", exc );
@@ -320,7 +323,7 @@ public class AccountRestController extends BaseSpringRestController {
 	public void removeFromBeneficiaries( 	@RequestBody(required=true) RemoveBeneficiariesFromAccountCommand command )
 	{		
 		try {
-			AccountBusinessDelegate.getAccountInstance().removeFromBeneficiaries( command );
+			service.removeFromBeneficiaries( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Beneficiaries", exc );
@@ -334,7 +337,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/addToPositions")
 	public void addToPositions( @RequestBody(required=true) AssignPositionsToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().addToPositions( command );   
+			service.addToPositions( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Positions", exc );
@@ -349,7 +352,7 @@ public class AccountRestController extends BaseSpringRestController {
 	public void removeFromPositions( 	@RequestBody(required=true) RemovePositionsFromAccountCommand command )
 	{		
 		try {
-			AccountBusinessDelegate.getAccountInstance().removeFromPositions( command );
+			service.removeFromPositions( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Positions", exc );
@@ -363,7 +366,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/addToTransactions")
 	public void addToTransactions( @RequestBody(required=true) AssignTransactionsToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().addToTransactions( command );   
+			service.addToTransactions( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Transactions", exc );
@@ -378,7 +381,7 @@ public class AccountRestController extends BaseSpringRestController {
 	public void removeFromTransactions( 	@RequestBody(required=true) RemoveTransactionsFromAccountCommand command )
 	{		
 		try {
-			AccountBusinessDelegate.getAccountInstance().removeFromTransactions( command );
+			service.removeFromTransactions( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Transactions", exc );
@@ -392,7 +395,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/addToFees")
 	public void addToFees( @RequestBody(required=true) AssignFeesToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().addToFees( command );   
+			service.addToFees( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Fees", exc );
@@ -407,7 +410,7 @@ public class AccountRestController extends BaseSpringRestController {
 	public void removeFromFees( 	@RequestBody(required=true) RemoveFeesFromAccountCommand command )
 	{		
 		try {
-			AccountBusinessDelegate.getAccountInstance().removeFromFees( command );
+			service.removeFromFees( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Fees", exc );
@@ -421,7 +424,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/addToStandingInstructions")
 	public void addToStandingInstructions( @RequestBody(required=true) AssignStandingInstructionsToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().addToStandingInstructions( command );   
+			service.addToStandingInstructions( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set StandingInstructions", exc );
@@ -436,7 +439,7 @@ public class AccountRestController extends BaseSpringRestController {
 	public void removeFromStandingInstructions( 	@RequestBody(required=true) RemoveStandingInstructionsFromAccountCommand command )
 	{		
 		try {
-			AccountBusinessDelegate.getAccountInstance().removeFromStandingInstructions( command );
+			service.removeFromStandingInstructions( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set StandingInstructions", exc );
@@ -450,7 +453,7 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/addToInvoices")
 	public void addToInvoices( @RequestBody(required=true) AssignInvoicesToAccountCommand command ) {
 		try {
-			AccountBusinessDelegate.getAccountInstance().addToInvoices( command );   
+			service.addToInvoices( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Invoices", exc );
@@ -465,7 +468,7 @@ public class AccountRestController extends BaseSpringRestController {
 	public void removeFromInvoices( 	@RequestBody(required=true) RemoveInvoicesFromAccountCommand command )
 	{		
 		try {
-			AccountBusinessDelegate.getAccountInstance().removeFromInvoices( command );
+			service.removeFromInvoices( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Invoices", exc );
@@ -479,6 +482,7 @@ public class AccountRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Account account = null;
+	protected AccountService service = null;
     private static final Logger LOGGER = Logger.getLogger(AccountRestController.class.getName());
     
 }

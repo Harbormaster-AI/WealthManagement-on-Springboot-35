@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	ProposalBusinessDelegate
+ *  	ProposalService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Proposal")
 public class ProposalRestController extends BaseSpringRestController {
 
+	public ProposalRestController( ProposalService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Proposal.  if not key provided, calls create, otherwise calls save
      * @param		Proposal	proposal
@@ -93,7 +96,7 @@ public class ProposalRestController extends BaseSpringRestController {
     	Proposal entity = null;
 		try {       
         	
-			entity = ProposalBusinessDelegate.getProposalInstance().createProposal( command );
+			entity = service.createProposal( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class ProposalRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateProposalCommand
 			// -----------------------------------------------
-			entity = ProposalBusinessDelegate.getProposalInstance().updateProposal(command);;
+			entity = service.updateProposal(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ProposalController:update() - successfully update Proposal - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class ProposalRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteProposalCommand command ) {                
     	try {
-        	ProposalBusinessDelegate delegate = ProposalBusinessDelegate.getProposalInstance();
+        	ProposalService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Proposal with key " + command.getProposalId() );
@@ -151,7 +154,7 @@ public class ProposalRestController extends BaseSpringRestController {
     	Proposal entity = null;
 
     	try {  
-    		entity = ProposalBusinessDelegate.getProposalInstance().getProposal( new ProposalFetchOneSummary( uuid ) );   
+    		entity = service.getProposal( new ProposalFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Proposal using Id " + uuid );
@@ -171,7 +174,7 @@ public class ProposalRestController extends BaseSpringRestController {
         
     	try {
             // load the Proposal
-            proposalList = ProposalBusinessDelegate.getProposalInstance().getAllProposal();
+            proposalList = service.getAllProposal();
             
             if ( proposalList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Proposals" );
@@ -192,7 +195,7 @@ public class ProposalRestController extends BaseSpringRestController {
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToProposalCommand command ) {
 		try {
-			ProposalBusinessDelegate.getProposalInstance().assignHousehold( command );   
+			service.assignHousehold( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
@@ -206,7 +209,7 @@ public class ProposalRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromProposalCommand command ) {
 		try {
-			ProposalBusinessDelegate.getProposalInstance().unAssignHousehold( command );   
+			service.unAssignHousehold( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
@@ -220,7 +223,7 @@ public class ProposalRestController extends BaseSpringRestController {
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToProposalCommand command ) {
 		try {
-			ProposalBusinessDelegate.getProposalInstance().assignAdvisor( command );   
+			service.assignAdvisor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
@@ -234,7 +237,7 @@ public class ProposalRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromProposalCommand command ) {
 		try {
-			ProposalBusinessDelegate.getProposalInstance().unAssignAdvisor( command );   
+			service.unAssignAdvisor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
@@ -248,7 +251,7 @@ public class ProposalRestController extends BaseSpringRestController {
 	@PutMapping("/assignModelPortfolio")
 	public void assignModelPortfolio( @RequestBody AssignModelPortfolioToProposalCommand command ) {
 		try {
-			ProposalBusinessDelegate.getProposalInstance().assignModelPortfolio( command );   
+			service.assignModelPortfolio( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign ModelPortfolio", exc );
@@ -262,7 +265,7 @@ public class ProposalRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignModelPortfolio")
 	public void unAssignModelPortfolio( @RequestBody(required=true)  UnAssignModelPortfolioFromProposalCommand command ) {
 		try {
-			ProposalBusinessDelegate.getProposalInstance().unAssignModelPortfolio( command );   
+			service.unAssignModelPortfolio( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign ModelPortfolio", exc );
@@ -276,7 +279,7 @@ public class ProposalRestController extends BaseSpringRestController {
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToProposalCommand command ) {
 		try {
-			ProposalBusinessDelegate.getProposalInstance().assignAccount( command );   
+			service.assignAccount( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
@@ -290,7 +293,7 @@ public class ProposalRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromProposalCommand command ) {
 		try {
-			ProposalBusinessDelegate.getProposalInstance().unAssignAccount( command );   
+			service.unAssignAccount( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
@@ -305,6 +308,7 @@ public class ProposalRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Proposal proposal = null;
+	protected ProposalService service = null;
     private static final Logger LOGGER = Logger.getLogger(ProposalRestController.class.getName());
     
 }

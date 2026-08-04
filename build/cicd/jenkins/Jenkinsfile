@@ -13,7 +13,7 @@ pipeline {
                 sh export DATABASE_PASSWORD=letmein2
                 sh export DATABASE_DIALECT=org.hibernate.dialect.MySQL8Dialect
                 sh export DATABASE_DRIVER=com.mysql.cj.jdbc.Driver
-                sh export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonSpringboot35?createDatabaseIfNotExist=true
+                sh export DATABASE_URL=jdbc:mysql://localhost:3306/WealthManagementonspringboot35?createDatabaseIfNotExist=true
             }
             
         stage('build') {

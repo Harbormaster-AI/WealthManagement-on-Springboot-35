@@ -94,7 +94,7 @@ public class InvestmentPolicyTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a InvestmentPolicy" );
 
         try {            
-            entity = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().createInvestmentPolicy( generateNewCommand() );
+            entity = InvestmentPolicyService.getInvestmentPolicyInstance().createInvestmentPolicy( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getInvestmentPolicyId();
@@ -125,7 +125,7 @@ public class InvestmentPolicyTest
         msg.append( theId );
 
         try {
-            entity = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().getInvestmentPolicy( new InvestmentPolicyFetchOneSummary(theId) );
+            entity = InvestmentPolicyService.getInvestmentPolicyInstance().getInvestmentPolicy( new InvestmentPolicyFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class InvestmentPolicyTest
 
             LOGGER.info( "-- Now updating the created InvestmentPolicy." );
             
-            InvestmentPolicyBusinessDelegate proxy = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance();            
+            InvestmentPolicyService proxy = InvestmentPolicyService.getInvestmentPolicyInstance();            
             entity = proxy.updateInvestmentPolicy( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class InvestmentPolicyTest
         try {
         	DeleteInvestmentPolicyCommand deleteCommand = new DeleteInvestmentPolicyCommand( theId );
         	
-            InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().delete( deleteCommand );
+            InvestmentPolicyService.getInvestmentPolicyInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted InvestmentPolicy with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class InvestmentPolicyTest
         List<InvestmentPolicy> collection  = null;
 
         try {
-            // call the static get method on the InvestmentPolicyBusinessDelegate
-            collection = InvestmentPolicyBusinessDelegate.getInvestmentPolicyInstance().getAllInvestmentPolicy();
+            // call the static get method on the InvestmentPolicyService
+            collection = InvestmentPolicyService.getInvestmentPolicyInstance().getAllInvestmentPolicy();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

@@ -94,7 +94,7 @@ public class AssetAllocationSliceTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a AssetAllocationSlice" );
 
         try {            
-            entity = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().createAssetAllocationSlice( generateNewCommand() );
+            entity = AssetAllocationSliceService.getAssetAllocationSliceInstance().createAssetAllocationSlice( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAssetAllocationSliceId();
@@ -125,7 +125,7 @@ public class AssetAllocationSliceTest
         msg.append( theId );
 
         try {
-            entity = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().getAssetAllocationSlice( new AssetAllocationSliceFetchOneSummary(theId) );
+            entity = AssetAllocationSliceService.getAssetAllocationSliceInstance().getAssetAllocationSlice( new AssetAllocationSliceFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class AssetAllocationSliceTest
 
             LOGGER.info( "-- Now updating the created AssetAllocationSlice." );
             
-            AssetAllocationSliceBusinessDelegate proxy = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance();            
+            AssetAllocationSliceService proxy = AssetAllocationSliceService.getAssetAllocationSliceInstance();            
             entity = proxy.updateAssetAllocationSlice( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class AssetAllocationSliceTest
         try {
         	DeleteAssetAllocationSliceCommand deleteCommand = new DeleteAssetAllocationSliceCommand( theId );
         	
-            AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().delete( deleteCommand );
+            AssetAllocationSliceService.getAssetAllocationSliceInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted AssetAllocationSlice with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class AssetAllocationSliceTest
         List<AssetAllocationSlice> collection  = null;
 
         try {
-            // call the static get method on the AssetAllocationSliceBusinessDelegate
-            collection = AssetAllocationSliceBusinessDelegate.getAssetAllocationSliceInstance().getAllAssetAllocationSlice();
+            // call the static get method on the AssetAllocationSliceService
+            collection = AssetAllocationSliceService.getAssetAllocationSliceInstance().getAllAssetAllocationSlice();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

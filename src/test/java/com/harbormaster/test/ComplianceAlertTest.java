@@ -94,7 +94,7 @@ public class ComplianceAlertTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a ComplianceAlert" );
 
         try {            
-            entity = ComplianceAlertBusinessDelegate.getComplianceAlertInstance().createComplianceAlert( generateNewCommand() );
+            entity = ComplianceAlertService.getComplianceAlertInstance().createComplianceAlert( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getComplianceAlertId();
@@ -125,7 +125,7 @@ public class ComplianceAlertTest
         msg.append( theId );
 
         try {
-            entity = ComplianceAlertBusinessDelegate.getComplianceAlertInstance().getComplianceAlert( new ComplianceAlertFetchOneSummary(theId) );
+            entity = ComplianceAlertService.getComplianceAlertInstance().getComplianceAlert( new ComplianceAlertFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class ComplianceAlertTest
 
             LOGGER.info( "-- Now updating the created ComplianceAlert." );
             
-            ComplianceAlertBusinessDelegate proxy = ComplianceAlertBusinessDelegate.getComplianceAlertInstance();            
+            ComplianceAlertService proxy = ComplianceAlertService.getComplianceAlertInstance();            
             entity = proxy.updateComplianceAlert( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class ComplianceAlertTest
         try {
         	DeleteComplianceAlertCommand deleteCommand = new DeleteComplianceAlertCommand( theId );
         	
-            ComplianceAlertBusinessDelegate.getComplianceAlertInstance().delete( deleteCommand );
+            ComplianceAlertService.getComplianceAlertInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted ComplianceAlert with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class ComplianceAlertTest
         List<ComplianceAlert> collection  = null;
 
         try {
-            // call the static get method on the ComplianceAlertBusinessDelegate
-            collection = ComplianceAlertBusinessDelegate.getComplianceAlertInstance().getAllComplianceAlert();
+            // call the static get method on the ComplianceAlertService
+            collection = ComplianceAlertService.getComplianceAlertInstance().getAllComplianceAlert();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

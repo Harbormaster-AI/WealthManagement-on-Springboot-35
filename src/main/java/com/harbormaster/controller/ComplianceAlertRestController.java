@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	ComplianceAlertBusinessDelegate
+ *  	ComplianceAlertService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/ComplianceAlert")
 public class ComplianceAlertRestController extends BaseSpringRestController {
 
+	public ComplianceAlertRestController( ComplianceAlertService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a ComplianceAlert.  if not key provided, calls create, otherwise calls save
      * @param		ComplianceAlert	complianceAlert
@@ -93,7 +96,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
     	ComplianceAlert entity = null;
 		try {       
         	
-			entity = ComplianceAlertBusinessDelegate.getComplianceAlertInstance().createComplianceAlert( command );
+			entity = service.createComplianceAlert( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateComplianceAlertCommand
 			// -----------------------------------------------
-			entity = ComplianceAlertBusinessDelegate.getComplianceAlertInstance().updateComplianceAlert(command);;
+			entity = service.updateComplianceAlert(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "ComplianceAlertController:update() - successfully update ComplianceAlert - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteComplianceAlertCommand command ) {                
     	try {
-        	ComplianceAlertBusinessDelegate delegate = ComplianceAlertBusinessDelegate.getComplianceAlertInstance();
+        	ComplianceAlertService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted ComplianceAlert with key " + command.getComplianceAlertId() );
@@ -151,7 +154,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
     	ComplianceAlert entity = null;
 
     	try {  
-    		entity = ComplianceAlertBusinessDelegate.getComplianceAlertInstance().getComplianceAlert( new ComplianceAlertFetchOneSummary( uuid ) );   
+    		entity = service.getComplianceAlert( new ComplianceAlertFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load ComplianceAlert using Id " + uuid );
@@ -171,7 +174,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
         
     	try {
             // load the ComplianceAlert
-            complianceAlertList = ComplianceAlertBusinessDelegate.getComplianceAlertInstance().getAllComplianceAlert();
+            complianceAlertList = service.getAllComplianceAlert();
             
             if ( complianceAlertList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all ComplianceAlerts" );
@@ -192,7 +195,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/assignRule")
 	public void assignRule( @RequestBody AssignRuleToComplianceAlertCommand command ) {
 		try {
-			ComplianceAlertBusinessDelegate.getComplianceAlertInstance().assignRule( command );   
+			service.assignRule( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Rule", exc );
@@ -206,7 +209,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignRule")
 	public void unAssignRule( @RequestBody(required=true)  UnAssignRuleFromComplianceAlertCommand command ) {
 		try {
-			ComplianceAlertBusinessDelegate.getComplianceAlertInstance().unAssignRule( command );   
+			service.unAssignRule( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Rule", exc );
@@ -220,7 +223,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToComplianceAlertCommand command ) {
 		try {
-			ComplianceAlertBusinessDelegate.getComplianceAlertInstance().assignAccount( command );   
+			service.assignAccount( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
@@ -234,7 +237,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromComplianceAlertCommand command ) {
 		try {
-			ComplianceAlertBusinessDelegate.getComplianceAlertInstance().unAssignAccount( command );   
+			service.unAssignAccount( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
@@ -248,7 +251,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/assignOrder")
 	public void assignOrder( @RequestBody AssignOrderToComplianceAlertCommand command ) {
 		try {
-			ComplianceAlertBusinessDelegate.getComplianceAlertInstance().assignOrder( command );   
+			service.assignOrder( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Order", exc );
@@ -262,7 +265,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignOrder")
 	public void unAssignOrder( @RequestBody(required=true)  UnAssignOrderFromComplianceAlertCommand command ) {
 		try {
-			ComplianceAlertBusinessDelegate.getComplianceAlertInstance().unAssignOrder( command );   
+			service.unAssignOrder( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Order", exc );
@@ -276,7 +279,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToComplianceAlertCommand command ) {
 		try {
-			ComplianceAlertBusinessDelegate.getComplianceAlertInstance().assignAdvisor( command );   
+			service.assignAdvisor( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
@@ -290,7 +293,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromComplianceAlertCommand command ) {
 		try {
-			ComplianceAlertBusinessDelegate.getComplianceAlertInstance().unAssignAdvisor( command );   
+			service.unAssignAdvisor( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
@@ -305,6 +308,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected ComplianceAlert complianceAlert = null;
+	protected ComplianceAlertService service = null;
     private static final Logger LOGGER = Logger.getLogger(ComplianceAlertRestController.class.getName());
     
 }

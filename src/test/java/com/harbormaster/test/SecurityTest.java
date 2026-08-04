@@ -94,7 +94,7 @@ public class SecurityTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Security" );
 
         try {            
-            entity = SecurityBusinessDelegate.getSecurityInstance().createSecurity( generateNewCommand() );
+            entity = SecurityService.getSecurityInstance().createSecurity( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getSecurityId();
@@ -125,7 +125,7 @@ public class SecurityTest
         msg.append( theId );
 
         try {
-            entity = SecurityBusinessDelegate.getSecurityInstance().getSecurity( new SecurityFetchOneSummary(theId) );
+            entity = SecurityService.getSecurityInstance().getSecurity( new SecurityFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class SecurityTest
 
             LOGGER.info( "-- Now updating the created Security." );
             
-            SecurityBusinessDelegate proxy = SecurityBusinessDelegate.getSecurityInstance();            
+            SecurityService proxy = SecurityService.getSecurityInstance();            
             entity = proxy.updateSecurity( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class SecurityTest
         try {
         	DeleteSecurityCommand deleteCommand = new DeleteSecurityCommand( theId );
         	
-            SecurityBusinessDelegate.getSecurityInstance().delete( deleteCommand );
+            SecurityService.getSecurityInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Security with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class SecurityTest
         List<Security> collection  = null;
 
         try {
-            // call the static get method on the SecurityBusinessDelegate
-            collection = SecurityBusinessDelegate.getSecurityInstance().getAllSecurity();
+            // call the static get method on the SecurityService
+            collection = SecurityService.getSecurityInstance().getAllSecurity();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

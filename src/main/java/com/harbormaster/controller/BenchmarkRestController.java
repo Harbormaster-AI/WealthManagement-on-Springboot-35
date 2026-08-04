@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	BenchmarkBusinessDelegate
+ *  	BenchmarkService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Benchmark")
 public class BenchmarkRestController extends BaseSpringRestController {
 
+	public BenchmarkRestController( BenchmarkService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Benchmark.  if not key provided, calls create, otherwise calls save
      * @param		Benchmark	benchmark
@@ -93,7 +96,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
     	Benchmark entity = null;
 		try {       
         	
-			entity = BenchmarkBusinessDelegate.getBenchmarkInstance().createBenchmark( command );
+			entity = service.createBenchmark( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdateBenchmarkCommand
 			// -----------------------------------------------
-			entity = BenchmarkBusinessDelegate.getBenchmarkInstance().updateBenchmark(command);;
+			entity = service.updateBenchmark(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "BenchmarkController:update() - successfully update Benchmark - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteBenchmarkCommand command ) {                
     	try {
-        	BenchmarkBusinessDelegate delegate = BenchmarkBusinessDelegate.getBenchmarkInstance();
+        	BenchmarkService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Benchmark with key " + command.getBenchmarkId() );
@@ -151,7 +154,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
     	Benchmark entity = null;
 
     	try {  
-    		entity = BenchmarkBusinessDelegate.getBenchmarkInstance().getBenchmark( new BenchmarkFetchOneSummary( uuid ) );   
+    		entity = service.getBenchmark( new BenchmarkFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Benchmark using Id " + uuid );
@@ -171,7 +174,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
         
     	try {
             // load the Benchmark
-            benchmarkList = BenchmarkBusinessDelegate.getBenchmarkInstance().getAllBenchmark();
+            benchmarkList = service.getAllBenchmark();
             
             if ( benchmarkList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Benchmarks" );
@@ -193,7 +196,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
 	@PutMapping("/addToPerformanceReports")
 	public void addToPerformanceReports( @RequestBody(required=true) AssignPerformanceReportsToBenchmarkCommand command ) {
 		try {
-			BenchmarkBusinessDelegate.getBenchmarkInstance().addToPerformanceReports( command );   
+			service.addToPerformanceReports( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set PerformanceReports", exc );
@@ -208,7 +211,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
 	public void removeFromPerformanceReports( 	@RequestBody(required=true) RemovePerformanceReportsFromBenchmarkCommand command )
 	{		
 		try {
-			BenchmarkBusinessDelegate.getBenchmarkInstance().removeFromPerformanceReports( command );
+			service.removeFromPerformanceReports( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set PerformanceReports", exc );
@@ -222,7 +225,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
 	@PutMapping("/addToConstituents")
 	public void addToConstituents( @RequestBody(required=true) AssignConstituentsToBenchmarkCommand command ) {
 		try {
-			BenchmarkBusinessDelegate.getBenchmarkInstance().addToConstituents( command );   
+			service.addToConstituents( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Constituents", exc );
@@ -237,7 +240,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
 	public void removeFromConstituents( 	@RequestBody(required=true) RemoveConstituentsFromBenchmarkCommand command )
 	{		
 		try {
-			BenchmarkBusinessDelegate.getBenchmarkInstance().removeFromConstituents( command );
+			service.removeFromConstituents( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Constituents", exc );
@@ -251,6 +254,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Benchmark benchmark = null;
+	protected BenchmarkService service = null;
     private static final Logger LOGGER = Logger.getLogger(BenchmarkRestController.class.getName());
     
 }

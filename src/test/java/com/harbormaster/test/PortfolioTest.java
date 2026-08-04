@@ -94,7 +94,7 @@ public class PortfolioTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Portfolio" );
 
         try {            
-            entity = PortfolioBusinessDelegate.getPortfolioInstance().createPortfolio( generateNewCommand() );
+            entity = PortfolioService.getPortfolioInstance().createPortfolio( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getPortfolioId();
@@ -125,7 +125,7 @@ public class PortfolioTest
         msg.append( theId );
 
         try {
-            entity = PortfolioBusinessDelegate.getPortfolioInstance().getPortfolio( new PortfolioFetchOneSummary(theId) );
+            entity = PortfolioService.getPortfolioInstance().getPortfolio( new PortfolioFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class PortfolioTest
 
             LOGGER.info( "-- Now updating the created Portfolio." );
             
-            PortfolioBusinessDelegate proxy = PortfolioBusinessDelegate.getPortfolioInstance();            
+            PortfolioService proxy = PortfolioService.getPortfolioInstance();            
             entity = proxy.updatePortfolio( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class PortfolioTest
         try {
         	DeletePortfolioCommand deleteCommand = new DeletePortfolioCommand( theId );
         	
-            PortfolioBusinessDelegate.getPortfolioInstance().delete( deleteCommand );
+            PortfolioService.getPortfolioInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Portfolio with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class PortfolioTest
         List<Portfolio> collection  = null;
 
         try {
-            // call the static get method on the PortfolioBusinessDelegate
-            collection = PortfolioBusinessDelegate.getPortfolioInstance().getAllPortfolio();
+            // call the static get method on the PortfolioService
+            collection = PortfolioService.getPortfolioInstance().getAllPortfolio();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

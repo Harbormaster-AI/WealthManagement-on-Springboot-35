@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.harbormaster.api.*;
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.exception.*;
 
@@ -62,7 +62,7 @@ import com.harbormaster.exception.*;
  *
  * <h3>Services Used</h3>
  *
- *  	PortfolioBusinessDelegate
+ *  	PortfolioService
  *
  * <h3>Produces</h3>
  *
@@ -83,6 +83,9 @@ import com.harbormaster.exception.*;
 @RequestMapping("/Portfolio")
 public class PortfolioRestController extends BaseSpringRestController {
 
+	public PortfolioRestController( PortfolioService service ) {
+		this.service = service;
+	}
     /**
      * Handles create a Portfolio.  if not key provided, calls create, otherwise calls save
      * @param		Portfolio	portfolio
@@ -93,7 +96,7 @@ public class PortfolioRestController extends BaseSpringRestController {
     	Portfolio entity = null;
 		try {       
         	
-			entity = PortfolioBusinessDelegate.getPortfolioInstance().createPortfolio( command );
+			entity = service.createPortfolio( command );
         }
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
@@ -114,7 +117,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 			// -----------------------------------------------
 			// delegate the UpdatePortfolioCommand
 			// -----------------------------------------------
-			entity = PortfolioBusinessDelegate.getPortfolioInstance().updatePortfolio(command);;
+			entity = service.updatePortfolio(command);;
 	    }
 	    catch( Throwable exc ) {
 	    	LOGGER.log( Level.WARNING, "PortfolioController:update() - successfully update Portfolio - " + exc.getMessage());        	
@@ -130,7 +133,7 @@ public class PortfolioRestController extends BaseSpringRestController {
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeletePortfolioCommand command ) {                
     	try {
-        	PortfolioBusinessDelegate delegate = PortfolioBusinessDelegate.getPortfolioInstance();
+        	PortfolioService delegate = service;
 
         	delegate.delete( command );
     		LOGGER.log( Level.WARNING, "Successfully deleted Portfolio with key " + command.getPortfolioId() );
@@ -151,7 +154,7 @@ public class PortfolioRestController extends BaseSpringRestController {
     	Portfolio entity = null;
 
     	try {  
-    		entity = PortfolioBusinessDelegate.getPortfolioInstance().getPortfolio( new PortfolioFetchOneSummary( uuid ) );   
+    		entity = service.getPortfolio( new PortfolioFetchOneSummary( uuid ) );   
         }
         catch( Throwable exc ) {
             LOGGER.log( Level.WARNING, "failed to load Portfolio using Id " + uuid );
@@ -171,7 +174,7 @@ public class PortfolioRestController extends BaseSpringRestController {
         
     	try {
             // load the Portfolio
-            portfolioList = PortfolioBusinessDelegate.getPortfolioInstance().getAllPortfolio();
+            portfolioList = service.getAllPortfolio();
             
             if ( portfolioList != null )
                 LOGGER.log( Level.INFO,  "successfully loaded all Portfolios" );
@@ -192,7 +195,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().assignAccount( command );   
+			service.assignAccount( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
@@ -206,7 +209,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().unAssignAccount( command );   
+			service.unAssignAccount( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
@@ -220,7 +223,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/assignModelPortfolio")
 	public void assignModelPortfolio( @RequestBody AssignModelPortfolioToPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().assignModelPortfolio( command );   
+			service.assignModelPortfolio( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign ModelPortfolio", exc );
@@ -234,7 +237,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignModelPortfolio")
 	public void unAssignModelPortfolio( @RequestBody(required=true)  UnAssignModelPortfolioFromPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().unAssignModelPortfolio( command );   
+			service.unAssignModelPortfolio( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign ModelPortfolio", exc );
@@ -248,7 +251,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/assignBenchmark")
 	public void assignBenchmark( @RequestBody AssignBenchmarkToPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().assignBenchmark( command );   
+			service.assignBenchmark( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign Benchmark", exc );
@@ -262,7 +265,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignBenchmark")
 	public void unAssignBenchmark( @RequestBody(required=true)  UnAssignBenchmarkFromPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().unAssignBenchmark( command );   
+			service.unAssignBenchmark( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign Benchmark", exc );
@@ -276,7 +279,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/assignInvestmentPolicy")
 	public void assignInvestmentPolicy( @RequestBody AssignInvestmentPolicyToPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().assignInvestmentPolicy( command );   
+			service.assignInvestmentPolicy( command );   
 		}
         catch( Throwable exc ) {
         	LOGGER.log( Level.WARNING, "Failed to assign InvestmentPolicy", exc );
@@ -290,7 +293,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/unAssignInvestmentPolicy")
 	public void unAssignInvestmentPolicy( @RequestBody(required=true)  UnAssignInvestmentPolicyFromPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().unAssignInvestmentPolicy( command );   
+			service.unAssignInvestmentPolicy( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to unassign InvestmentPolicy", exc );
@@ -305,7 +308,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/addToPositions")
 	public void addToPositions( @RequestBody(required=true) AssignPositionsToPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().addToPositions( command );   
+			service.addToPositions( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set Positions", exc );
@@ -320,7 +323,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	public void removeFromPositions( 	@RequestBody(required=true) RemovePositionsFromPortfolioCommand command )
 	{		
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().removeFromPositions( command );
+			service.removeFromPositions( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set Positions", exc );
@@ -334,7 +337,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/addToPerformanceReports")
 	public void addToPerformanceReports( @RequestBody(required=true) AssignPerformanceReportsToPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().addToPerformanceReports( command );   
+			service.addToPerformanceReports( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set PerformanceReports", exc );
@@ -349,7 +352,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	public void removeFromPerformanceReports( 	@RequestBody(required=true) RemovePerformanceReportsFromPortfolioCommand command )
 	{		
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().removeFromPerformanceReports( command );
+			service.removeFromPerformanceReports( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set PerformanceReports", exc );
@@ -363,7 +366,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/addToRebalancePlans")
 	public void addToRebalancePlans( @RequestBody(required=true) AssignRebalancePlansToPortfolioCommand command ) {
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().addToRebalancePlans( command );   
+			service.addToRebalancePlans( command );   
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to add to Set RebalancePlans", exc );
@@ -378,7 +381,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 	public void removeFromRebalancePlans( 	@RequestBody(required=true) RemoveRebalancePlansFromPortfolioCommand command )
 	{		
 		try {
-			PortfolioBusinessDelegate.getPortfolioInstance().removeFromRebalancePlans( command );
+			service.removeFromRebalancePlans( command );
 		}
 		catch( Exception exc ) {
 			LOGGER.log( Level.WARNING, "Failed to remove from Set RebalancePlans", exc );
@@ -392,6 +395,7 @@ public class PortfolioRestController extends BaseSpringRestController {
 // Attributes
 //************************************************************************
     protected Portfolio portfolio = null;
+	protected PortfolioService service = null;
     private static final Logger LOGGER = Logger.getLogger(PortfolioRestController.class.getName());
     
 }

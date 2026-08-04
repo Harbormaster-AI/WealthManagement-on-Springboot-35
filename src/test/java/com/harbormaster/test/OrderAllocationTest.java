@@ -94,7 +94,7 @@ public class OrderAllocationTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a OrderAllocation" );
 
         try {            
-            entity = OrderAllocationBusinessDelegate.getOrderAllocationInstance().createOrderAllocation( generateNewCommand() );
+            entity = OrderAllocationService.getOrderAllocationInstance().createOrderAllocation( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getOrderAllocationId();
@@ -125,7 +125,7 @@ public class OrderAllocationTest
         msg.append( theId );
 
         try {
-            entity = OrderAllocationBusinessDelegate.getOrderAllocationInstance().getOrderAllocation( new OrderAllocationFetchOneSummary(theId) );
+            entity = OrderAllocationService.getOrderAllocationInstance().getOrderAllocation( new OrderAllocationFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class OrderAllocationTest
 
             LOGGER.info( "-- Now updating the created OrderAllocation." );
             
-            OrderAllocationBusinessDelegate proxy = OrderAllocationBusinessDelegate.getOrderAllocationInstance();            
+            OrderAllocationService proxy = OrderAllocationService.getOrderAllocationInstance();            
             entity = proxy.updateOrderAllocation( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class OrderAllocationTest
         try {
         	DeleteOrderAllocationCommand deleteCommand = new DeleteOrderAllocationCommand( theId );
         	
-            OrderAllocationBusinessDelegate.getOrderAllocationInstance().delete( deleteCommand );
+            OrderAllocationService.getOrderAllocationInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted OrderAllocation with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class OrderAllocationTest
         List<OrderAllocation> collection  = null;
 
         try {
-            // call the static get method on the OrderAllocationBusinessDelegate
-            collection = OrderAllocationBusinessDelegate.getOrderAllocationInstance().getAllOrderAllocation();
+            // call the static get method on the OrderAllocationService
+            collection = OrderAllocationService.getOrderAllocationInstance().getAllOrderAllocation();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

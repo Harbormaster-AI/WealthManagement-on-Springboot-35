@@ -94,7 +94,7 @@ public class DividendTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Dividend" );
 
         try {            
-            entity = DividendBusinessDelegate.getDividendInstance().createDividend( generateNewCommand() );
+            entity = DividendService.getDividendInstance().createDividend( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getDividendId();
@@ -125,7 +125,7 @@ public class DividendTest
         msg.append( theId );
 
         try {
-            entity = DividendBusinessDelegate.getDividendInstance().getDividend( new DividendFetchOneSummary(theId) );
+            entity = DividendService.getDividendInstance().getDividend( new DividendFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class DividendTest
 
             LOGGER.info( "-- Now updating the created Dividend." );
             
-            DividendBusinessDelegate proxy = DividendBusinessDelegate.getDividendInstance();            
+            DividendService proxy = DividendService.getDividendInstance();            
             entity = proxy.updateDividend( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class DividendTest
         try {
         	DeleteDividendCommand deleteCommand = new DeleteDividendCommand( theId );
         	
-            DividendBusinessDelegate.getDividendInstance().delete( deleteCommand );
+            DividendService.getDividendInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Dividend with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class DividendTest
         List<Dividend> collection  = null;
 
         try {
-            // call the static get method on the DividendBusinessDelegate
-            collection = DividendBusinessDelegate.getDividendInstance().getAllDividend();
+            // call the static get method on the DividendService
+            collection = DividendService.getDividendInstance().getAllDividend();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

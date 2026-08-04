@@ -94,7 +94,7 @@ public class ClientTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Client" );
 
         try {            
-            entity = ClientBusinessDelegate.getClientInstance().createClient( generateNewCommand() );
+            entity = ClientService.getClientInstance().createClient( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getClientId();
@@ -125,7 +125,7 @@ public class ClientTest
         msg.append( theId );
 
         try {
-            entity = ClientBusinessDelegate.getClientInstance().getClient( new ClientFetchOneSummary(theId) );
+            entity = ClientService.getClientInstance().getClient( new ClientFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,7 +166,7 @@ public class ClientTest
 
             LOGGER.info( "-- Now updating the created Client." );
             
-            ClientBusinessDelegate proxy = ClientBusinessDelegate.getClientInstance();            
+            ClientService proxy = ClientService.getClientInstance();            
             entity = proxy.updateClient( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
@@ -193,7 +193,7 @@ public class ClientTest
         try {
         	DeleteClientCommand deleteCommand = new DeleteClientCommand( theId );
         	
-            ClientBusinessDelegate.getClientInstance().delete( deleteCommand );
+            ClientService.getClientInstance().delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Client with primary key " + theId );            
         }
@@ -217,8 +217,8 @@ public class ClientTest
         List<Client> collection  = null;
 
         try {
-            // call the static get method on the ClientBusinessDelegate
-            collection = ClientBusinessDelegate.getClientInstance().getAllClient();
+            // call the static get method on the ClientService
+            collection = ClientService.getClientInstance().getAllClient();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );

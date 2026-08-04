@@ -5,7 +5,7 @@ resource "kubernetes_service" "app-master" {
 
   spec {
     selector = {
-      app  = "WealthManagementonSpringboot35"
+      app  = "WealthManagementonspringboot35"
     }
 
     port {

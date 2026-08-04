@@ -1,4 +1,4 @@
-package com.harbormaster.metric;
+package com.harbormaster.metrics;
 
 public class MetricKey {
 

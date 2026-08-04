@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(TradeRepository.class) );
 	}
 
-
-   /**
-	* Trade Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	TradeService
-	*/
-	public static TradeService getTradeInstance() {
-		return( new TradeService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -525,5 +515,5 @@ extends BaseService {
     private final TradeEntityProjector projector;
 	private Trade trade 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Trade.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(TradeService.class);
 }

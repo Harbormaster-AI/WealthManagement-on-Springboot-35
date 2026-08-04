@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(CorporateActionRepository.class) );
 	}
 
-
-   /**
-	* CorporateAction Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	CorporateActionService
-	*/
-	public static CorporateActionService getCorporateActionInstance() {
-		return( new CorporateActionService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -418,5 +408,5 @@ extends BaseService {
     private final CorporateActionEntityProjector projector;
 	private CorporateAction corporateAction 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CorporateAction.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CorporateActionService.class);
 }

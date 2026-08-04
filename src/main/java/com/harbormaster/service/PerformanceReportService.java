@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(PerformanceReportRepository.class) );
 	}
 
-
-   /**
-	* PerformanceReport Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	PerformanceReportService
-	*/
-	public static PerformanceReportService getPerformanceReportInstance() {
-		return( new PerformanceReportService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -419,5 +409,5 @@ extends BaseService {
     private final PerformanceReportEntityProjector projector;
 	private PerformanceReport performanceReport 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(PerformanceReport.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(PerformanceReportService.class);
 }

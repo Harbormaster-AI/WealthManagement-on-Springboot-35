@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(HouseholdRepository.class) );
 	}
 
-
-   /**
-	* Household Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	HouseholdService
-	*/
-	public static HouseholdService getHouseholdInstance() {
-		return( new HouseholdService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -571,5 +561,5 @@ extends BaseService {
     private final HouseholdEntityProjector projector;
 	private Household household 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Household.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(HouseholdService.class);
 }

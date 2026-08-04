@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(AccountTransferRepository.class) );
 	}
 
-
-   /**
-	* AccountTransfer Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	AccountTransferService
-	*/
-	public static AccountTransferService getAccountTransferInstance() {
-		return( new AccountTransferService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -469,5 +459,5 @@ extends BaseService {
     private final AccountTransferEntityProjector projector;
 	private AccountTransfer accountTransfer 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountTransfer.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountTransferService.class);
 }

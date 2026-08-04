@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(FeeScheduleRepository.class) );
 	}
 
-
-   /**
-	* FeeSchedule Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	FeeScheduleService
-	*/
-	public static FeeScheduleService getFeeScheduleInstance() {
-		return( new FeeScheduleService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -421,5 +411,5 @@ extends BaseService {
     private final FeeScheduleEntityProjector projector;
 	private FeeSchedule feeSchedule 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeSchedule.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeScheduleService.class);
 }

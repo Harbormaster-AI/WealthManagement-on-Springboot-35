@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(OfficeRepository.class) );
 	}
 
-
-   /**
-	* Office Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	OfficeService
-	*/
-	public static OfficeService getOfficeInstance() {
-		return( new OfficeService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -414,5 +404,5 @@ extends BaseService {
     private final OfficeEntityProjector projector;
 	private Office office 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Office.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(OfficeService.class);
 }

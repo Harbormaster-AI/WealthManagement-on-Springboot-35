@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(InvestmentProgramRepository.class) );
 	}
 
-
-   /**
-	* InvestmentProgram Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	InvestmentProgramService
-	*/
-	public static InvestmentProgramService getInvestmentProgramInstance() {
-		return( new InvestmentProgramService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -417,5 +407,5 @@ extends BaseService {
     private final InvestmentProgramEntityProjector projector;
 	private InvestmentProgram investmentProgram 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentProgram.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentProgramService.class);
 }

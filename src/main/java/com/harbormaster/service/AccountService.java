@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(AccountRepository.class) );
 	}
 
-
-   /**
-	* Account Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	AccountService
-	*/
-	public static AccountService getAccountInstance() {
-		return( new AccountService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -845,5 +835,5 @@ extends BaseService {
     private final AccountEntityProjector projector;
 	private Account account 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Account.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountService.class);
 }

@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(RiskAssessmentRepository.class) );
 	}
 
-
-   /**
-	* RiskAssessment Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	RiskAssessmentService
-	*/
-	public static RiskAssessmentService getRiskAssessmentInstance() {
-		return( new RiskAssessmentService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -417,5 +407,5 @@ extends BaseService {
     private final RiskAssessmentEntityProjector projector;
 	private RiskAssessment riskAssessment 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(RiskAssessment.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(RiskAssessmentService.class);
 }

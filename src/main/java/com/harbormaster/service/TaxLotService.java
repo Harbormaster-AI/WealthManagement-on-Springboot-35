@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(TaxLotRepository.class) );
 	}
 
-
-   /**
-	* TaxLot Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	TaxLotService
-	*/
-	public static TaxLotService getTaxLotInstance() {
-		return( new TaxLotService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -363,5 +353,5 @@ extends BaseService {
     private final TaxLotEntityProjector projector;
 	private TaxLot taxLot 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(TaxLot.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(TaxLotService.class);
 }

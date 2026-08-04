@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(KycRecordRepository.class) );
 	}
 
-
-   /**
-	* KycRecord Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	KycRecordService
-	*/
-	public static KycRecordService getKycRecordInstance() {
-		return( new KycRecordService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -418,5 +408,5 @@ extends BaseService {
     private final KycRecordEntityProjector projector;
 	private KycRecord kycRecord 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(KycRecord.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(KycRecordService.class);
 }

@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(TransactionRepository.class) );
 	}
 
-
-   /**
-	* Transaction Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	TransactionService
-	*/
-	public static TransactionService getTransactionInstance() {
-		return( new TransactionService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -523,5 +513,5 @@ extends BaseService {
     private final TransactionEntityProjector projector;
 	private Transaction transaction 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Transaction.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(TransactionService.class);
 }

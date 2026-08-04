@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(ComplianceAlertRepository.class) );
 	}
 
-
-   /**
-	* ComplianceAlert Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	ComplianceAlertService
-	*/
-	public static ComplianceAlertService getComplianceAlertInstance() {
-		return( new ComplianceAlertService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -521,5 +511,5 @@ extends BaseService {
     private final ComplianceAlertEntityProjector projector;
 	private ComplianceAlert complianceAlert 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceAlert.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceAlertService.class);
 }

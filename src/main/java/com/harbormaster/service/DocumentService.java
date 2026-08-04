@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(DocumentRepository.class) );
 	}
 
-
-   /**
-	* Document Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	DocumentService
-	*/
-	public static DocumentService getDocumentInstance() {
-		return( new DocumentService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -469,5 +459,5 @@ extends BaseService {
     private final DocumentEntityProjector projector;
 	private Document document 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Document.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(DocumentService.class);
 }

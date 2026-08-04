@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(PositionRepository.class) );
 	}
 
-
-   /**
-	* Position Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	PositionService
-	*/
-	public static PositionService getPositionInstance() {
-		return( new PositionService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -523,5 +513,5 @@ extends BaseService {
     private final PositionEntityProjector projector;
 	private Position position 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Position.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(PositionService.class);
 }

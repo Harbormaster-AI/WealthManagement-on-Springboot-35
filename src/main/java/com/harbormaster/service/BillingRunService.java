@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(BillingRunRepository.class) );
 	}
 
-
-   /**
-	* BillingRun Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	BillingRunService
-	*/
-	public static BillingRunService getBillingRunInstance() {
-		return( new BillingRunService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -418,5 +408,5 @@ extends BaseService {
     private final BillingRunEntityProjector projector;
 	private BillingRun billingRun 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(BillingRun.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(BillingRunService.class);
 }

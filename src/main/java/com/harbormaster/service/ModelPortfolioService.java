@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(ModelPortfolioRepository.class) );
 	}
 
-
-   /**
-	* ModelPortfolio Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	ModelPortfolioService
-	*/
-	public static ModelPortfolioService getModelPortfolioInstance() {
-		return( new ModelPortfolioService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -417,5 +407,5 @@ extends BaseService {
     private final ModelPortfolioEntityProjector projector;
 	private ModelPortfolio modelPortfolio 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ModelPortfolio.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ModelPortfolioService.class);
 }

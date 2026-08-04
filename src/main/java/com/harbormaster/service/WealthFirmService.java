@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(WealthFirmRepository.class) );
 	}
 
-
-   /**
-	* WealthFirm Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	WealthFirmService
-	*/
-	public static WealthFirmService getWealthFirmInstance() {
-		return( new WealthFirmService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -525,5 +515,5 @@ extends BaseService {
     private final WealthFirmEntityProjector projector;
 	private WealthFirm wealthFirm 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthFirm.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthFirmService.class);
 }

@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(ResearchNoteRepository.class) );
 	}
 
-
-   /**
-	* ResearchNote Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	ResearchNoteService
-	*/
-	public static ResearchNoteService getResearchNoteInstance() {
-		return( new ResearchNoteService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -419,5 +409,5 @@ extends BaseService {
     private final ResearchNoteEntityProjector projector;
 	private ResearchNote researchNote 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ResearchNote.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ResearchNoteService.class);
 }

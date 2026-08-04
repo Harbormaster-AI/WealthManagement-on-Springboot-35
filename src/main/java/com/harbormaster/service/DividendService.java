@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(DividendRepository.class) );
 	}
 
-
-   /**
-	* Dividend Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	DividendService
-	*/
-	public static DividendService getDividendInstance() {
-		return( new DividendService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -361,5 +351,5 @@ extends BaseService {
     private final DividendEntityProjector projector;
 	private Dividend dividend 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Dividend.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(DividendService.class);
 }

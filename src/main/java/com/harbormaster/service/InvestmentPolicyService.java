@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(InvestmentPolicyRepository.class) );
 	}
 
-
-   /**
-	* InvestmentPolicy Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	InvestmentPolicyService
-	*/
-	public static InvestmentPolicyService getInvestmentPolicyInstance() {
-		return( new InvestmentPolicyService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -468,5 +458,5 @@ extends BaseService {
     private final InvestmentPolicyEntityProjector projector;
 	private InvestmentPolicy investmentPolicy 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentPolicy.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentPolicyService.class);
 }

@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(OrderAllocationRepository.class) );
 	}
 
-
-   /**
-	* OrderAllocation Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	OrderAllocationService
-	*/
-	public static OrderAllocationService getOrderAllocationInstance() {
-		return( new OrderAllocationService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -463,5 +453,5 @@ extends BaseService {
     private final OrderAllocationEntityProjector projector;
 	private OrderAllocation orderAllocation 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderAllocation.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderAllocationService.class);
 }

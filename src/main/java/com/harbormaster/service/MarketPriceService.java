@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(MarketPriceRepository.class) );
 	}
 
-
-   /**
-	* MarketPrice Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	MarketPriceService
-	*/
-	public static MarketPriceService getMarketPriceInstance() {
-		return( new MarketPriceService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -363,5 +353,5 @@ extends BaseService {
     private final MarketPriceEntityProjector projector;
 	private MarketPrice marketPrice 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(MarketPrice.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(MarketPriceService.class);
 }

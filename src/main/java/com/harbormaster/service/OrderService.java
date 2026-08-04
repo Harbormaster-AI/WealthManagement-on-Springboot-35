@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(OrderRepository.class) );
 	}
 
-
-   /**
-	* Order Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	OrderService
-	*/
-	public static OrderService getOrderInstance() {
-		return( new OrderService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -583,5 +573,5 @@ extends BaseService {
     private final OrderEntityProjector projector;
 	private Order order 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Order.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderService.class);
 }

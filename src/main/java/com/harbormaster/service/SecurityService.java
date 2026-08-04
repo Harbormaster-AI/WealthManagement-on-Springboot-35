@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(SecurityRepository.class) );
 	}
 
-
-   /**
-	* Security Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	SecurityService
-	*/
-	public static SecurityService getSecurityInstance() {
-		return( new SecurityService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -480,5 +470,5 @@ extends BaseService {
     private final SecurityEntityProjector projector;
 	private Security security 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Security.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(SecurityService.class);
 }

@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(CustodianRepository.class) );
 	}
 
-
-   /**
-	* Custodian Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	CustodianService
-	*/
-	public static CustodianService getCustodianInstance() {
-		return( new CustodianService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -417,5 +407,5 @@ extends BaseService {
     private final CustodianEntityProjector projector;
 	private Custodian custodian 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Custodian.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustodianService.class);
 }

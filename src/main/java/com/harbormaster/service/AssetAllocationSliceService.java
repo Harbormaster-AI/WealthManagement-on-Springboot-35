@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(AssetAllocationSliceRepository.class) );
 	}
 
-
-   /**
-	* AssetAllocationSlice Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	AssetAllocationSliceService
-	*/
-	public static AssetAllocationSliceService getAssetAllocationSliceInstance() {
-		return( new AssetAllocationSliceService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -361,5 +351,5 @@ extends BaseService {
     private final AssetAllocationSliceEntityProjector projector;
 	private AssetAllocationSlice assetAllocationSlice 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AssetAllocationSlice.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AssetAllocationSliceService.class);
 }

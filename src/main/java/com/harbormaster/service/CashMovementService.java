@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(CashMovementRepository.class) );
 	}
 
-
-   /**
-	* CashMovement Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	CashMovementService
-	*/
-	public static CashMovementService getCashMovementInstance() {
-		return( new CashMovementService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -469,5 +459,5 @@ extends BaseService {
     private final CashMovementEntityProjector projector;
 	private CashMovement cashMovement 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CashMovement.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CashMovementService.class);
 }

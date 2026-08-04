@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(BenchmarkRepository.class) );
 	}
 
-
-   /**
-	* Benchmark Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	BenchmarkService
-	*/
-	public static BenchmarkService getBenchmarkInstance() {
-		return( new BenchmarkService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -415,5 +405,5 @@ extends BaseService {
     private final BenchmarkEntityProjector projector;
 	private Benchmark benchmark 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Benchmark.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(BenchmarkService.class);
 }

@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(AdvisoryTeamRepository.class) );
 	}
 
-
-   /**
-	* AdvisoryTeam Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	AdvisoryTeamService
-	*/
-	public static AdvisoryTeamService getAdvisoryTeamInstance() {
-		return( new AdvisoryTeamService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -415,5 +405,5 @@ extends BaseService {
     private final AdvisoryTeamEntityProjector projector;
 	private AdvisoryTeam advisoryTeam 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisoryTeam.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisoryTeamService.class);
 }

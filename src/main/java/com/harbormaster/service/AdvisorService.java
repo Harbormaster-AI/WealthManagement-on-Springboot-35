@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(AdvisorRepository.class) );
 	}
 
-
-   /**
-	* Advisor Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	AdvisorService
-	*/
-	public static AdvisorService getAdvisorInstance() {
-		return( new AdvisorService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -522,5 +512,5 @@ extends BaseService {
     private final AdvisorEntityProjector projector;
 	private Advisor advisor 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Advisor.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisorService.class);
 }

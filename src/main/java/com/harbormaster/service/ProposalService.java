@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(ProposalRepository.class) );
 	}
 
-
-   /**
-	* Proposal Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	ProposalService
-	*/
-	public static ProposalService getProposalInstance() {
-		return( new ProposalService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -523,5 +513,5 @@ extends BaseService {
     private final ProposalEntityProjector projector;
 	private Proposal proposal 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Proposal.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ProposalService.class);
 }

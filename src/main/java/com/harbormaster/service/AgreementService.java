@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(AgreementRepository.class) );
 	}
 
-
-   /**
-	* Agreement Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	AgreementService
-	*/
-	public static AgreementService getAgreementInstance() {
-		return( new AgreementService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -468,5 +458,5 @@ extends BaseService {
     private final AgreementEntityProjector projector;
 	private Agreement agreement 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Agreement.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AgreementService.class);
 }

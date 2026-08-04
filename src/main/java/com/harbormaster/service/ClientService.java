@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(ClientRepository.class) );
 	}
 
-
-   /**
-	* Client Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	ClientService
-	*/
-	public static ClientService getClientInstance() {
-		return( new ClientService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -631,5 +621,5 @@ extends BaseService {
     private final ClientEntityProjector projector;
 	private Client client 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Client.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ClientService.class);
 }

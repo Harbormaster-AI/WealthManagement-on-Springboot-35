@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(BeneficiaryRepository.class) );
 	}
 
-
-   /**
-	* Beneficiary Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	BeneficiaryService
-	*/
-	public static BeneficiaryService getBeneficiaryInstance() {
-		return( new BeneficiaryService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -418,5 +408,5 @@ extends BaseService {
     private final BeneficiaryEntityProjector projector;
 	private Beneficiary beneficiary 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Beneficiary.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(BeneficiaryService.class);
 }

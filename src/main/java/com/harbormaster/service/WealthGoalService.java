@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(WealthGoalRepository.class) );
 	}
 
-
-   /**
-	* WealthGoal Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	WealthGoalService
-	*/
-	public static WealthGoalService getWealthGoalInstance() {
-		return( new WealthGoalService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -471,5 +461,5 @@ extends BaseService {
     private final WealthGoalEntityProjector projector;
 	private WealthGoal wealthGoal 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthGoal.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthGoalService.class);
 }

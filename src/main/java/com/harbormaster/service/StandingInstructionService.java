@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(StandingInstructionRepository.class) );
 	}
 
-
-   /**
-	* StandingInstruction Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	StandingInstructionService
-	*/
-	public static StandingInstructionService getStandingInstructionInstance() {
-		return( new StandingInstructionService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -419,5 +409,5 @@ extends BaseService {
     private final StandingInstructionEntityProjector projector;
 	private StandingInstruction standingInstruction 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(StandingInstruction.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(StandingInstructionService.class);
 }

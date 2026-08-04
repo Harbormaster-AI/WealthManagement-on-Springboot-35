@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(ComplianceRuleRepository.class) );
 	}
 
-
-   /**
-	* ComplianceRule Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	ComplianceRuleService
-	*/
-	public static ComplianceRuleService getComplianceRuleInstance() {
-		return( new ComplianceRuleService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -366,5 +356,5 @@ extends BaseService {
     private final ComplianceRuleEntityProjector projector;
 	private ComplianceRule complianceRule 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceRule.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceRuleService.class);
 }

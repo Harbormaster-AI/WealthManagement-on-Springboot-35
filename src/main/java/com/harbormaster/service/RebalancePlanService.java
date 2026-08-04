@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(RebalancePlanRepository.class) );
 	}
 
-
-   /**
-	* RebalancePlan Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	RebalancePlanService
-	*/
-	public static RebalancePlanService getRebalancePlanInstance() {
-		return( new RebalancePlanService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -468,5 +458,5 @@ extends BaseService {
     private final RebalancePlanEntityProjector projector;
 	private RebalancePlan rebalancePlan 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(RebalancePlan.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(RebalancePlanService.class);
 }

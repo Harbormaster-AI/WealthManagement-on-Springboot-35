@@ -107,17 +107,7 @@ extends BaseService {
 							applicationContext.getBean(FeeRepository.class) );
 	}
 
-
-   /**
-	* Fee Business Delegate Factory Method
-	*
-	* All methods are expected to be self-sufficient.
-	*
-	* @return 	FeeService
-	*/
-	public static FeeService getFeeInstance() {
-		return( new FeeService() );
-	}
+	
  
    /**
     * Creates the provided command.
@@ -417,5 +407,5 @@ extends BaseService {
     private final FeeEntityProjector projector;
 	private Fee fee 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Fee.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeService.class);
 }

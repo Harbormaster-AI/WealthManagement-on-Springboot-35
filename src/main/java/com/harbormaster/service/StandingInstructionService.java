@@ -419,5 +419,5 @@ extends BaseService {
     private final StandingInstructionEntityProjector projector;
 	private StandingInstruction standingInstruction 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(StandingInstruction.class);
 }

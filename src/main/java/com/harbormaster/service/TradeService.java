@@ -525,5 +525,5 @@ extends BaseService {
     private final TradeEntityProjector projector;
 	private Trade trade 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Trade.class);
 }

@@ -361,5 +361,5 @@ extends BaseService {
     private final DividendEntityProjector projector;
 	private Dividend dividend 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Dividend.class);
 }

@@ -419,5 +419,5 @@ extends BaseService {
     private final ResearchNoteEntityProjector projector;
 	private ResearchNote researchNote 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ResearchNote.class);
 }

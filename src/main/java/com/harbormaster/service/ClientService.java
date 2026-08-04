@@ -631,5 +631,5 @@ extends BaseService {
     private final ClientEntityProjector projector;
 	private Client client 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Client.class);
 }

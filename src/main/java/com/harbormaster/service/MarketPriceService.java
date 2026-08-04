@@ -363,5 +363,5 @@ extends BaseService {
     private final MarketPriceEntityProjector projector;
 	private MarketPrice marketPrice 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(MarketPrice.class);
 }

@@ -471,5 +471,5 @@ extends BaseService {
     private final WealthGoalEntityProjector projector;
 	private WealthGoal wealthGoal 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthGoal.class);
 }

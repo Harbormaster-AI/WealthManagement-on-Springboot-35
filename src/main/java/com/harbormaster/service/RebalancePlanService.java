@@ -468,5 +468,5 @@ extends BaseService {
     private final RebalancePlanEntityProjector projector;
 	private RebalancePlan rebalancePlan 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(RebalancePlan.class);
 }

@@ -415,5 +415,5 @@ extends BaseService {
     private final AdvisoryTeamEntityProjector projector;
 	private AdvisoryTeam advisoryTeam 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisoryTeam.class);
 }

@@ -571,5 +571,5 @@ extends BaseService {
     private final HouseholdEntityProjector projector;
 	private Household household 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Household.class);
 }

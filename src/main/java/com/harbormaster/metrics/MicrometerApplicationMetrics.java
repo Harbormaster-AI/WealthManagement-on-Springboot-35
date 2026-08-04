@@ -34,11 +34,10 @@ public class MicrometerApplicationMetrics
             String operation,
             String status) {
 
-        MetricKey key =
-                new MetricKey(
-                        entity,
-                        operation,
-                        status);
+        MetricKey key = new MetricKey();
+        key.setEntity(entity);
+        key.setOperation(operation);
+        key.setStatus(status);
 
         Counter counter =
                 counters.computeIfAbsent(
@@ -54,10 +53,10 @@ public class MicrometerApplicationMetrics
             String operation,
             long durationNanos) {
 
-        MetricKey key =
-                new MetricKey(
-                        entity,
-                        operation);
+        MetricKey key = new MetricKey();
+
+        key.setEntity(entity);
+        key.setOperation(operation);
 
         Timer timer =
                 timers.computeIfAbsent(
@@ -80,7 +79,7 @@ public class MicrometerApplicationMetrics
                 operation,
                 "failure");
 
-        Counter.builder(MetricNames.EXCEPTION)
+        Counter.builder(MetricNames.EXCEPTIONS)
                 .tag("entity", entity)
                 .tag("operation", operation)
                 .tag("exception", exception)
@@ -92,9 +91,9 @@ public class MicrometerApplicationMetrics
             MetricKey key) {
 
         return Counter.builder(MetricNames.OPERATIONS)
-                .tag("entity", key.entity())
-                .tag("operation", key.operation())
-                .tag("status", key.status())
+                .tag("entity", key.getEntity())
+                .tag("operation", key.getOperation())
+                .tag("status", key.getStatus())
                 .register(registry);
     }
 
@@ -103,8 +102,8 @@ public class MicrometerApplicationMetrics
 
         return Timer.builder(
                         MetricNames.OPERATION_DURATION)
-                .tag("entity", key.entity())
-                .tag("operation", key.operation())
+                .tag("entity", key.getEntity())
+                .tag("operation", key.getOperation())
                 .register(registry);
     }
 }

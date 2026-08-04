@@ -525,5 +525,5 @@ extends BaseService {
     private final WealthFirmEntityProjector projector;
 	private WealthFirm wealthFirm 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthFirm.class);
 }

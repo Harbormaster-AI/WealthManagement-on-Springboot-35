@@ -418,5 +418,5 @@ extends BaseService {
     private final BeneficiaryEntityProjector projector;
 	private Beneficiary beneficiary 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Beneficiary.class);
 }

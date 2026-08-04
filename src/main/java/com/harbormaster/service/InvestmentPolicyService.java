@@ -468,5 +468,5 @@ extends BaseService {
     private final InvestmentPolicyEntityProjector projector;
 	private InvestmentPolicy investmentPolicy 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentPolicy.class);
 }

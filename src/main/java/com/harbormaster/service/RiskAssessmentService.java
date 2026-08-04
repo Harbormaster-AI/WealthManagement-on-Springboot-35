@@ -417,5 +417,5 @@ extends BaseService {
     private final RiskAssessmentEntityProjector projector;
 	private RiskAssessment riskAssessment 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(RiskAssessment.class);
 }

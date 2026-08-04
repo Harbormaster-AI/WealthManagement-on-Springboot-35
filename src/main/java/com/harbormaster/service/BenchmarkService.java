@@ -415,5 +415,5 @@ extends BaseService {
     private final BenchmarkEntityProjector projector;
 	private Benchmark benchmark 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(Benchmark.class);
 }

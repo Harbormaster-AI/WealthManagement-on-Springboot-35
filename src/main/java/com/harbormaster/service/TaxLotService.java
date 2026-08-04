@@ -363,5 +363,5 @@ extends BaseService {
     private final TaxLotEntityProjector projector;
 	private TaxLot taxLot 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(TaxLot.class);
 }

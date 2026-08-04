@@ -1,4 +1,4 @@
-package com.harbormaster.metric;
+package com.harbormaster.metrics;
 
 public class MetricKey {
 
@@ -42,9 +42,9 @@ public class MetricKey {
         this.status = status;
     }
 
-    protected String metric,
-    protected String entity,
-    protected String operation,
-    protected String status
+    protected String metric;
+    protected String entity;
+    protected String operation;
+    protected String status;
 
 }

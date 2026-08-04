@@ -521,5 +521,5 @@ extends BaseService {
     private final ComplianceAlertEntityProjector projector;
 	private ComplianceAlert complianceAlert 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceAlert.class);
 }

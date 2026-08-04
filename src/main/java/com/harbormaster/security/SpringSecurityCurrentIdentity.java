@@ -1,3 +1,5 @@
+package com.harbormaster.security;
+
 import java.util.Collection;
 import java.util.stream.Collectors;
 

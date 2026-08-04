@@ -366,5 +366,5 @@ extends BaseService {
     private final ComplianceRuleEntityProjector projector;
 	private ComplianceRule complianceRule 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceRule.class);
 }

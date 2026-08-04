@@ -87,7 +87,7 @@ public class TestSpringRestController
 		}
 	}
 
-	private ApplicatonContext ctx;
+	private ApplicationContext ctx;
 }
 
 

@@ -21,9 +21,12 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.test;
+package com.harbormaster.test;
 
 import java.util.logging.*;
+
+import org.springframework.context.ApplicationContext;
+
 
 /**
  * Base class for application Test classes.

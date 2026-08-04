@@ -27,6 +27,8 @@ import java.util.logging.*;
 
 import org.springframework.context.ApplicationContext;
 
+import com.harbormaster.service.*;
+
 
 /**
  * Base class for application Test classes.

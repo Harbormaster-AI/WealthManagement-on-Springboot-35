@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.test;
+		package com.harbormaster.test;
 
 import java.util.logging.*;
 
@@ -37,57 +37,57 @@ public class BaseTest
 	 */
 	protected BaseTest() {
 	}
-	
-	public static void runTheTest( Handler logHandler ) 
-    {
-         try {
-		    new WealthFirmTest().setHandler(logHandler).testCRUD();
-		    new OfficeTest().setHandler(logHandler).testCRUD();
-		    new AdvisorTest().setHandler(logHandler).testCRUD();
-		    new AdvisoryTeamTest().setHandler(logHandler).testCRUD();
-		    new HouseholdTest().setHandler(logHandler).testCRUD();
-		    new ClientTest().setHandler(logHandler).testCRUD();
-		    new KycRecordTest().setHandler(logHandler).testCRUD();
-		    new BeneficiaryTest().setHandler(logHandler).testCRUD();
-		    new CustodianTest().setHandler(logHandler).testCRUD();
-		    new AccountTest().setHandler(logHandler).testCRUD();
-		    new PortfolioTest().setHandler(logHandler).testCRUD();
-		    new InvestmentProgramTest().setHandler(logHandler).testCRUD();
-		    new ModelPortfolioTest().setHandler(logHandler).testCRUD();
-		    new AssetAllocationSliceTest().setHandler(logHandler).testCRUD();
-		    new InvestmentPolicyTest().setHandler(logHandler).testCRUD();
-		    new RiskAssessmentTest().setHandler(logHandler).testCRUD();
-		    new WealthGoalTest().setHandler(logHandler).testCRUD();
-		    new SecurityTest().setHandler(logHandler).testCRUD();
-		    new MarketPriceTest().setHandler(logHandler).testCRUD();
-		    new CorporateActionTest().setHandler(logHandler).testCRUD();
-		    new DividendTest().setHandler(logHandler).testCRUD();
-		    new PositionTest().setHandler(logHandler).testCRUD();
-		    new TaxLotTest().setHandler(logHandler).testCRUD();
-		    new TransactionTest().setHandler(logHandler).testCRUD();
-		    new OrderTest().setHandler(logHandler).testCRUD();
-		    new OrderAllocationTest().setHandler(logHandler).testCRUD();
-		    new TradeTest().setHandler(logHandler).testCRUD();
-		    new RebalancePlanTest().setHandler(logHandler).testCRUD();
-		    new PerformanceReportTest().setHandler(logHandler).testCRUD();
-		    new BenchmarkTest().setHandler(logHandler).testCRUD();
-		    new FeeScheduleTest().setHandler(logHandler).testCRUD();
-		    new FeeTest().setHandler(logHandler).testCRUD();
-		    new BillingRunTest().setHandler(logHandler).testCRUD();
-		    new InvoiceTest().setHandler(logHandler).testCRUD();
-		    new DocumentTest().setHandler(logHandler).testCRUD();
-		    new AgreementTest().setHandler(logHandler).testCRUD();
-		    new ComplianceRuleTest().setHandler(logHandler).testCRUD();
-		    new ComplianceAlertTest().setHandler(logHandler).testCRUD();
-		    new ProposalTest().setHandler(logHandler).testCRUD();
-		    new AccountTransferTest().setHandler(logHandler).testCRUD();
-		    new StandingInstructionTest().setHandler(logHandler).testCRUD();
-		    new CashMovementTest().setHandler(logHandler).testCRUD();
-		    new ResearchNoteTest().setHandler(logHandler).testCRUD();
-		    new MeetingTest().setHandler(logHandler).testCRUD();
-        } catch( Throwable exc ) {
-        	exc.printStackTrace();
-        }
-    }
-	
+
+	public static void runTheTest( ApplicationContext context, Handler logHandler )
+	{
+ 		try {
+			new WealthFirmTest(context.getBean(WealthFirmService.class)).setHandler(logHandler).testCRUD();
+			new OfficeTest(context.getBean(OfficeService.class)).setHandler(logHandler).testCRUD();
+			new AdvisorTest(context.getBean(AdvisorService.class)).setHandler(logHandler).testCRUD();
+			new AdvisoryTeamTest(context.getBean(AdvisoryTeamService.class)).setHandler(logHandler).testCRUD();
+			new HouseholdTest(context.getBean(HouseholdService.class)).setHandler(logHandler).testCRUD();
+			new ClientTest(context.getBean(ClientService.class)).setHandler(logHandler).testCRUD();
+			new KycRecordTest(context.getBean(KycRecordService.class)).setHandler(logHandler).testCRUD();
+			new BeneficiaryTest(context.getBean(BeneficiaryService.class)).setHandler(logHandler).testCRUD();
+			new CustodianTest(context.getBean(CustodianService.class)).setHandler(logHandler).testCRUD();
+			new AccountTest(context.getBean(AccountService.class)).setHandler(logHandler).testCRUD();
+			new PortfolioTest(context.getBean(PortfolioService.class)).setHandler(logHandler).testCRUD();
+			new InvestmentProgramTest(context.getBean(InvestmentProgramService.class)).setHandler(logHandler).testCRUD();
+			new ModelPortfolioTest(context.getBean(ModelPortfolioService.class)).setHandler(logHandler).testCRUD();
+			new AssetAllocationSliceTest(context.getBean(AssetAllocationSliceService.class)).setHandler(logHandler).testCRUD();
+			new InvestmentPolicyTest(context.getBean(InvestmentPolicyService.class)).setHandler(logHandler).testCRUD();
+			new RiskAssessmentTest(context.getBean(RiskAssessmentService.class)).setHandler(logHandler).testCRUD();
+			new WealthGoalTest(context.getBean(WealthGoalService.class)).setHandler(logHandler).testCRUD();
+			new SecurityTest(context.getBean(SecurityService.class)).setHandler(logHandler).testCRUD();
+			new MarketPriceTest(context.getBean(MarketPriceService.class)).setHandler(logHandler).testCRUD();
+			new CorporateActionTest(context.getBean(CorporateActionService.class)).setHandler(logHandler).testCRUD();
+			new DividendTest(context.getBean(DividendService.class)).setHandler(logHandler).testCRUD();
+			new PositionTest(context.getBean(PositionService.class)).setHandler(logHandler).testCRUD();
+			new TaxLotTest(context.getBean(TaxLotService.class)).setHandler(logHandler).testCRUD();
+			new TransactionTest(context.getBean(TransactionService.class)).setHandler(logHandler).testCRUD();
+			new OrderTest(context.getBean(OrderService.class)).setHandler(logHandler).testCRUD();
+			new OrderAllocationTest(context.getBean(OrderAllocationService.class)).setHandler(logHandler).testCRUD();
+			new TradeTest(context.getBean(TradeService.class)).setHandler(logHandler).testCRUD();
+			new RebalancePlanTest(context.getBean(RebalancePlanService.class)).setHandler(logHandler).testCRUD();
+			new PerformanceReportTest(context.getBean(PerformanceReportService.class)).setHandler(logHandler).testCRUD();
+			new BenchmarkTest(context.getBean(BenchmarkService.class)).setHandler(logHandler).testCRUD();
+			new FeeScheduleTest(context.getBean(FeeScheduleService.class)).setHandler(logHandler).testCRUD();
+			new FeeTest(context.getBean(FeeService.class)).setHandler(logHandler).testCRUD();
+			new BillingRunTest(context.getBean(BillingRunService.class)).setHandler(logHandler).testCRUD();
+			new InvoiceTest(context.getBean(InvoiceService.class)).setHandler(logHandler).testCRUD();
+			new DocumentTest(context.getBean(DocumentService.class)).setHandler(logHandler).testCRUD();
+			new AgreementTest(context.getBean(AgreementService.class)).setHandler(logHandler).testCRUD();
+			new ComplianceRuleTest(context.getBean(ComplianceRuleService.class)).setHandler(logHandler).testCRUD();
+			new ComplianceAlertTest(context.getBean(ComplianceAlertService.class)).setHandler(logHandler).testCRUD();
+			new ProposalTest(context.getBean(ProposalService.class)).setHandler(logHandler).testCRUD();
+			new AccountTransferTest(context.getBean(AccountTransferService.class)).setHandler(logHandler).testCRUD();
+			new StandingInstructionTest(context.getBean(StandingInstructionService.class)).setHandler(logHandler).testCRUD();
+			new CashMovementTest(context.getBean(CashMovementService.class)).setHandler(logHandler).testCRUD();
+			new ResearchNoteTest(context.getBean(ResearchNoteService.class)).setHandler(logHandler).testCRUD();
+			new MeetingTest(context.getBean(MeetingService.class)).setHandler(logHandler).testCRUD();
+		} catch( Throwable exc ) {
+			exc.printStackTrace();
+		}
+	}
+
 }

@@ -107,7 +107,7 @@ extends BaseService {
 							applicationContext.getBean(KycRecordRepository.class) );
 	}
 
-	
+
  
    /**
     * Creates the provided command.

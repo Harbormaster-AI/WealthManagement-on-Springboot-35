@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class BillingRunTest
 {
 
 // constructors
 
-    public BillingRunTest()
+    public BillingRunTest(BillingRunService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class BillingRunTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a BillingRun" );
 
         try {            
-            entity = BillingRunService.getBillingRunInstance().createBillingRun( generateNewCommand() );
+            entity = service.createBillingRun( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getBillingRunId();
@@ -125,7 +128,7 @@ public class BillingRunTest
         msg.append( theId );
 
         try {
-            entity = BillingRunService.getBillingRunInstance().getBillingRun( new BillingRunFetchOneSummary(theId) );
+            entity = service.getBillingRun( new BillingRunFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class BillingRunTest
 
             LOGGER.info( "-- Now updating the created BillingRun." );
             
-            BillingRunService proxy = BillingRunService.getBillingRunInstance();            
-            entity = proxy.updateBillingRun( updateCommand );   
+            entity = service.updateBillingRun( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class BillingRunTest
         try {
         	DeleteBillingRunCommand deleteCommand = new DeleteBillingRunCommand( theId );
         	
-            BillingRunService.getBillingRunInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted BillingRun with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class BillingRunTest
 
         try {
             // call the static get method on the BillingRunService
-            collection = BillingRunService.getBillingRunInstance().getAllBillingRun();
+            collection = service.getAllBillingRun();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class BillingRunTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(BillingRun.class.getName());
+    protected BillingRunService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(BillingRun.class.getName());
+
 }

@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class ModelPortfolioTest
 {
 
 // constructors
 
-    public ModelPortfolioTest()
+    public ModelPortfolioTest(ModelPortfolioService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class ModelPortfolioTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a ModelPortfolio" );
 
         try {            
-            entity = ModelPortfolioService.getModelPortfolioInstance().createModelPortfolio( generateNewCommand() );
+            entity = service.createModelPortfolio( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getModelPortfolioId();
@@ -125,7 +128,7 @@ public class ModelPortfolioTest
         msg.append( theId );
 
         try {
-            entity = ModelPortfolioService.getModelPortfolioInstance().getModelPortfolio( new ModelPortfolioFetchOneSummary(theId) );
+            entity = service.getModelPortfolio( new ModelPortfolioFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class ModelPortfolioTest
 
             LOGGER.info( "-- Now updating the created ModelPortfolio." );
             
-            ModelPortfolioService proxy = ModelPortfolioService.getModelPortfolioInstance();            
-            entity = proxy.updateModelPortfolio( updateCommand );   
+            entity = service.updateModelPortfolio( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class ModelPortfolioTest
         try {
         	DeleteModelPortfolioCommand deleteCommand = new DeleteModelPortfolioCommand( theId );
         	
-            ModelPortfolioService.getModelPortfolioInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted ModelPortfolio with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class ModelPortfolioTest
 
         try {
             // call the static get method on the ModelPortfolioService
-            collection = ModelPortfolioService.getModelPortfolioInstance().getAllModelPortfolio();
+            collection = service.getAllModelPortfolio();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class ModelPortfolioTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(ModelPortfolio.class.getName());
+    protected ModelPortfolioService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(ModelPortfolio.class.getName());
+
 }

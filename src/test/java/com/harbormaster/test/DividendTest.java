@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class DividendTest
 {
 
 // constructors
 
-    public DividendTest()
+    public DividendTest(DividendService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class DividendTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Dividend" );
 
         try {            
-            entity = DividendService.getDividendInstance().createDividend( generateNewCommand() );
+            entity = service.createDividend( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getDividendId();
@@ -125,7 +128,7 @@ public class DividendTest
         msg.append( theId );
 
         try {
-            entity = DividendService.getDividendInstance().getDividend( new DividendFetchOneSummary(theId) );
+            entity = service.getDividend( new DividendFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class DividendTest
 
             LOGGER.info( "-- Now updating the created Dividend." );
             
-            DividendService proxy = DividendService.getDividendInstance();            
-            entity = proxy.updateDividend( updateCommand );   
+            entity = service.updateDividend( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class DividendTest
         try {
         	DeleteDividendCommand deleteCommand = new DeleteDividendCommand( theId );
         	
-            DividendService.getDividendInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Dividend with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class DividendTest
 
         try {
             // call the static get method on the DividendService
-            collection = DividendService.getDividendInstance().getAllDividend();
+            collection = service.getAllDividend();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class DividendTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Dividend.class.getName());
+    protected DividendService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Dividend.class.getName());
+
 }

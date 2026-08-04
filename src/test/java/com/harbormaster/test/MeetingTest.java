@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class MeetingTest
 {
 
 // constructors
 
-    public MeetingTest()
+    public MeetingTest(MeetingService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class MeetingTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Meeting" );
 
         try {            
-            entity = MeetingService.getMeetingInstance().createMeeting( generateNewCommand() );
+            entity = service.createMeeting( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getMeetingId();
@@ -125,7 +128,7 @@ public class MeetingTest
         msg.append( theId );
 
         try {
-            entity = MeetingService.getMeetingInstance().getMeeting( new MeetingFetchOneSummary(theId) );
+            entity = service.getMeeting( new MeetingFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class MeetingTest
 
             LOGGER.info( "-- Now updating the created Meeting." );
             
-            MeetingService proxy = MeetingService.getMeetingInstance();            
-            entity = proxy.updateMeeting( updateCommand );   
+            entity = service.updateMeeting( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class MeetingTest
         try {
         	DeleteMeetingCommand deleteCommand = new DeleteMeetingCommand( theId );
         	
-            MeetingService.getMeetingInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Meeting with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class MeetingTest
 
         try {
             // call the static get method on the MeetingService
-            collection = MeetingService.getMeetingInstance().getAllMeeting();
+            collection = service.getAllMeeting();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class MeetingTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Meeting.class.getName());
+    protected MeetingService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Meeting.class.getName());
+
 }

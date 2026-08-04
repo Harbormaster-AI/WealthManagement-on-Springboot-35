@@ -1,21 +1,12 @@
 package com.harbormaster.metrics;
 
+import com.harbormaster.security.CurrentIdentity;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
-@Aspect
-@Component
-public class ServiceObservabilityAspect {
-
-    @Around("execution(public * com.harbormaster..service..*(..))")
-    public Object observe(ProceedingJoinPoint pjp)
-            throws Throwable {
-
-        return pjp.proceed();
-    }
-}
 @Aspect
 @Component
 public class ServiceObservabilityAspect {
@@ -61,13 +52,15 @@ public class ServiceObservabilityAspect {
 
             if (currentIdentity != null) {
 
-                MDC.put(
-                        "userId",
-                        currentIdentity.getSubject());
+                if (currentIdentity.getSubject() != null) {
+                    MDC.put("userId",
+                            currentIdentity.getSubject());
+                }
 
-                MDC.put(
-                        "organizationId",
-                        currentIdentity.getOrganizationId());
+                if (currentIdentity.getOrganizationId() != null) {
+                    MDC.put("organizationId",
+                            currentIdentity.getOrganizationId());
+                }
             }
 
             //

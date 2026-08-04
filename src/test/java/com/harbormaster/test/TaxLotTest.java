@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class TaxLotTest
 {
 
 // constructors
 
-    public TaxLotTest()
+    public TaxLotTest(TaxLotService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class TaxLotTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a TaxLot" );
 
         try {            
-            entity = TaxLotService.getTaxLotInstance().createTaxLot( generateNewCommand() );
+            entity = service.createTaxLot( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getTaxLotId();
@@ -125,7 +128,7 @@ public class TaxLotTest
         msg.append( theId );
 
         try {
-            entity = TaxLotService.getTaxLotInstance().getTaxLot( new TaxLotFetchOneSummary(theId) );
+            entity = service.getTaxLot( new TaxLotFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class TaxLotTest
 
             LOGGER.info( "-- Now updating the created TaxLot." );
             
-            TaxLotService proxy = TaxLotService.getTaxLotInstance();            
-            entity = proxy.updateTaxLot( updateCommand );   
+            entity = service.updateTaxLot( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class TaxLotTest
         try {
         	DeleteTaxLotCommand deleteCommand = new DeleteTaxLotCommand( theId );
         	
-            TaxLotService.getTaxLotInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted TaxLot with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class TaxLotTest
 
         try {
             // call the static get method on the TaxLotService
-            collection = TaxLotService.getTaxLotInstance().getAllTaxLot();
+            collection = service.getAllTaxLot();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class TaxLotTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(TaxLot.class.getName());
+    protected TaxLotService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(TaxLot.class.getName());
+
 }

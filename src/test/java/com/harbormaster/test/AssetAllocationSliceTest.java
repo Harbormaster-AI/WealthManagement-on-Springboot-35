@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class AssetAllocationSliceTest
 {
 
 // constructors
 
-    public AssetAllocationSliceTest()
+    public AssetAllocationSliceTest(AssetAllocationSliceService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class AssetAllocationSliceTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a AssetAllocationSlice" );
 
         try {            
-            entity = AssetAllocationSliceService.getAssetAllocationSliceInstance().createAssetAllocationSlice( generateNewCommand() );
+            entity = service.createAssetAllocationSlice( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAssetAllocationSliceId();
@@ -125,7 +128,7 @@ public class AssetAllocationSliceTest
         msg.append( theId );
 
         try {
-            entity = AssetAllocationSliceService.getAssetAllocationSliceInstance().getAssetAllocationSlice( new AssetAllocationSliceFetchOneSummary(theId) );
+            entity = service.getAssetAllocationSlice( new AssetAllocationSliceFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class AssetAllocationSliceTest
 
             LOGGER.info( "-- Now updating the created AssetAllocationSlice." );
             
-            AssetAllocationSliceService proxy = AssetAllocationSliceService.getAssetAllocationSliceInstance();            
-            entity = proxy.updateAssetAllocationSlice( updateCommand );   
+            entity = service.updateAssetAllocationSlice( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class AssetAllocationSliceTest
         try {
         	DeleteAssetAllocationSliceCommand deleteCommand = new DeleteAssetAllocationSliceCommand( theId );
         	
-            AssetAllocationSliceService.getAssetAllocationSliceInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted AssetAllocationSlice with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class AssetAllocationSliceTest
 
         try {
             // call the static get method on the AssetAllocationSliceService
-            collection = AssetAllocationSliceService.getAssetAllocationSliceInstance().getAllAssetAllocationSlice();
+            collection = service.getAllAssetAllocationSlice();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class AssetAllocationSliceTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(AssetAllocationSlice.class.getName());
+    protected AssetAllocationSliceService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(AssetAllocationSlice.class.getName());
+
 }

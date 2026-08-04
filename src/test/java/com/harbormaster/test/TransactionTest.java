@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class TransactionTest
 {
 
 // constructors
 
-    public TransactionTest()
+    public TransactionTest(TransactionService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class TransactionTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Transaction" );
 
         try {            
-            entity = TransactionService.getTransactionInstance().createTransaction( generateNewCommand() );
+            entity = service.createTransaction( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getTransactionId();
@@ -125,7 +128,7 @@ public class TransactionTest
         msg.append( theId );
 
         try {
-            entity = TransactionService.getTransactionInstance().getTransaction( new TransactionFetchOneSummary(theId) );
+            entity = service.getTransaction( new TransactionFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class TransactionTest
 
             LOGGER.info( "-- Now updating the created Transaction." );
             
-            TransactionService proxy = TransactionService.getTransactionInstance();            
-            entity = proxy.updateTransaction( updateCommand );   
+            entity = service.updateTransaction( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class TransactionTest
         try {
         	DeleteTransactionCommand deleteCommand = new DeleteTransactionCommand( theId );
         	
-            TransactionService.getTransactionInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Transaction with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class TransactionTest
 
         try {
             // call the static get method on the TransactionService
-            collection = TransactionService.getTransactionInstance().getAllTransaction();
+            collection = service.getAllTransaction();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class TransactionTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Transaction.class.getName());
+    protected TransactionService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Transaction.class.getName());
+
 }

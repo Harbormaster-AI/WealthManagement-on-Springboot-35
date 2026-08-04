@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class PerformanceReportTest
 {
 
 // constructors
 
-    public PerformanceReportTest()
+    public PerformanceReportTest(PerformanceReportService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class PerformanceReportTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a PerformanceReport" );
 
         try {            
-            entity = PerformanceReportService.getPerformanceReportInstance().createPerformanceReport( generateNewCommand() );
+            entity = service.createPerformanceReport( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getPerformanceReportId();
@@ -125,7 +128,7 @@ public class PerformanceReportTest
         msg.append( theId );
 
         try {
-            entity = PerformanceReportService.getPerformanceReportInstance().getPerformanceReport( new PerformanceReportFetchOneSummary(theId) );
+            entity = service.getPerformanceReport( new PerformanceReportFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class PerformanceReportTest
 
             LOGGER.info( "-- Now updating the created PerformanceReport." );
             
-            PerformanceReportService proxy = PerformanceReportService.getPerformanceReportInstance();            
-            entity = proxy.updatePerformanceReport( updateCommand );   
+            entity = service.updatePerformanceReport( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class PerformanceReportTest
         try {
         	DeletePerformanceReportCommand deleteCommand = new DeletePerformanceReportCommand( theId );
         	
-            PerformanceReportService.getPerformanceReportInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted PerformanceReport with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class PerformanceReportTest
 
         try {
             // call the static get method on the PerformanceReportService
-            collection = PerformanceReportService.getPerformanceReportInstance().getAllPerformanceReport();
+            collection = service.getAllPerformanceReport();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class PerformanceReportTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(PerformanceReport.class.getName());
+    protected PerformanceReportService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(PerformanceReport.class.getName());
+
 }

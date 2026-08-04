@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class DocumentTest
 {
 
 // constructors
 
-    public DocumentTest()
+    public DocumentTest(DocumentService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class DocumentTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Document" );
 
         try {            
-            entity = DocumentService.getDocumentInstance().createDocument( generateNewCommand() );
+            entity = service.createDocument( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getDocumentId();
@@ -125,7 +128,7 @@ public class DocumentTest
         msg.append( theId );
 
         try {
-            entity = DocumentService.getDocumentInstance().getDocument( new DocumentFetchOneSummary(theId) );
+            entity = service.getDocument( new DocumentFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class DocumentTest
 
             LOGGER.info( "-- Now updating the created Document." );
             
-            DocumentService proxy = DocumentService.getDocumentInstance();            
-            entity = proxy.updateDocument( updateCommand );   
+            entity = service.updateDocument( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class DocumentTest
         try {
         	DeleteDocumentCommand deleteCommand = new DeleteDocumentCommand( theId );
         	
-            DocumentService.getDocumentInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Document with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class DocumentTest
 
         try {
             // call the static get method on the DocumentService
-            collection = DocumentService.getDocumentInstance().getAllDocument();
+            collection = service.getAllDocument();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class DocumentTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Document.class.getName());
+    protected DocumentService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Document.class.getName());
+
 }

@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class FeeTest
 {
 
 // constructors
 
-    public FeeTest()
+    public FeeTest(FeeService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class FeeTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Fee" );
 
         try {            
-            entity = FeeService.getFeeInstance().createFee( generateNewCommand() );
+            entity = service.createFee( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getFeeId();
@@ -125,7 +128,7 @@ public class FeeTest
         msg.append( theId );
 
         try {
-            entity = FeeService.getFeeInstance().getFee( new FeeFetchOneSummary(theId) );
+            entity = service.getFee( new FeeFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class FeeTest
 
             LOGGER.info( "-- Now updating the created Fee." );
             
-            FeeService proxy = FeeService.getFeeInstance();            
-            entity = proxy.updateFee( updateCommand );   
+            entity = service.updateFee( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class FeeTest
         try {
         	DeleteFeeCommand deleteCommand = new DeleteFeeCommand( theId );
         	
-            FeeService.getFeeInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Fee with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class FeeTest
 
         try {
             // call the static get method on the FeeService
-            collection = FeeService.getFeeInstance().getAllFee();
+            collection = service.getAllFee();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class FeeTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Fee.class.getName());
+    protected FeeService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Fee.class.getName());
+
 }

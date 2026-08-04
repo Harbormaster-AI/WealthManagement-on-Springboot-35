@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class AgreementTest
 {
 
 // constructors
 
-    public AgreementTest()
+    public AgreementTest(AgreementService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class AgreementTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Agreement" );
 
         try {            
-            entity = AgreementService.getAgreementInstance().createAgreement( generateNewCommand() );
+            entity = service.createAgreement( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAgreementId();
@@ -125,7 +128,7 @@ public class AgreementTest
         msg.append( theId );
 
         try {
-            entity = AgreementService.getAgreementInstance().getAgreement( new AgreementFetchOneSummary(theId) );
+            entity = service.getAgreement( new AgreementFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class AgreementTest
 
             LOGGER.info( "-- Now updating the created Agreement." );
             
-            AgreementService proxy = AgreementService.getAgreementInstance();            
-            entity = proxy.updateAgreement( updateCommand );   
+            entity = service.updateAgreement( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class AgreementTest
         try {
         	DeleteAgreementCommand deleteCommand = new DeleteAgreementCommand( theId );
         	
-            AgreementService.getAgreementInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Agreement with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class AgreementTest
 
         try {
             // call the static get method on the AgreementService
-            collection = AgreementService.getAgreementInstance().getAllAgreement();
+            collection = service.getAllAgreement();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class AgreementTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Agreement.class.getName());
+    protected AgreementService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Agreement.class.getName());
+
 }

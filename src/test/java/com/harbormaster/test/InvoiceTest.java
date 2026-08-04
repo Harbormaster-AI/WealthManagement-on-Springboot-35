@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class InvoiceTest
 {
 
 // constructors
 
-    public InvoiceTest()
+    public InvoiceTest(InvoiceService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class InvoiceTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Invoice" );
 
         try {            
-            entity = InvoiceService.getInvoiceInstance().createInvoice( generateNewCommand() );
+            entity = service.createInvoice( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getInvoiceId();
@@ -125,7 +128,7 @@ public class InvoiceTest
         msg.append( theId );
 
         try {
-            entity = InvoiceService.getInvoiceInstance().getInvoice( new InvoiceFetchOneSummary(theId) );
+            entity = service.getInvoice( new InvoiceFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class InvoiceTest
 
             LOGGER.info( "-- Now updating the created Invoice." );
             
-            InvoiceService proxy = InvoiceService.getInvoiceInstance();            
-            entity = proxy.updateInvoice( updateCommand );   
+            entity = service.updateInvoice( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class InvoiceTest
         try {
         	DeleteInvoiceCommand deleteCommand = new DeleteInvoiceCommand( theId );
         	
-            InvoiceService.getInvoiceInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Invoice with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class InvoiceTest
 
         try {
             // call the static get method on the InvoiceService
-            collection = InvoiceService.getInvoiceInstance().getAllInvoice();
+            collection = service.getAllInvoice();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class InvoiceTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Invoice.class.getName());
+    protected InvoiceService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Invoice.class.getName());
+
 }

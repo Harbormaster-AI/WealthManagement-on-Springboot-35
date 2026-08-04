@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class RiskAssessmentTest
 {
 
 // constructors
 
-    public RiskAssessmentTest()
+    public RiskAssessmentTest(RiskAssessmentService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class RiskAssessmentTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a RiskAssessment" );
 
         try {            
-            entity = RiskAssessmentService.getRiskAssessmentInstance().createRiskAssessment( generateNewCommand() );
+            entity = service.createRiskAssessment( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getRiskAssessmentId();
@@ -125,7 +128,7 @@ public class RiskAssessmentTest
         msg.append( theId );
 
         try {
-            entity = RiskAssessmentService.getRiskAssessmentInstance().getRiskAssessment( new RiskAssessmentFetchOneSummary(theId) );
+            entity = service.getRiskAssessment( new RiskAssessmentFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class RiskAssessmentTest
 
             LOGGER.info( "-- Now updating the created RiskAssessment." );
             
-            RiskAssessmentService proxy = RiskAssessmentService.getRiskAssessmentInstance();            
-            entity = proxy.updateRiskAssessment( updateCommand );   
+            entity = service.updateRiskAssessment( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class RiskAssessmentTest
         try {
         	DeleteRiskAssessmentCommand deleteCommand = new DeleteRiskAssessmentCommand( theId );
         	
-            RiskAssessmentService.getRiskAssessmentInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted RiskAssessment with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class RiskAssessmentTest
 
         try {
             // call the static get method on the RiskAssessmentService
-            collection = RiskAssessmentService.getRiskAssessmentInstance().getAllRiskAssessment();
+            collection = service.getAllRiskAssessment();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class RiskAssessmentTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(RiskAssessment.class.getName());
+    protected RiskAssessmentService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(RiskAssessment.class.getName());
+
 }

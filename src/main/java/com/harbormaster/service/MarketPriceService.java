@@ -107,7 +107,7 @@ extends BaseService {
 							applicationContext.getBean(MarketPriceRepository.class) );
 	}
 
-	
+
  
    /**
     * Creates the provided command.

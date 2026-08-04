@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class SecurityTest
 {
 
 // constructors
 
-    public SecurityTest()
+    public SecurityTest(SecurityService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class SecurityTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Security" );
 
         try {            
-            entity = SecurityService.getSecurityInstance().createSecurity( generateNewCommand() );
+            entity = service.createSecurity( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getSecurityId();
@@ -125,7 +128,7 @@ public class SecurityTest
         msg.append( theId );
 
         try {
-            entity = SecurityService.getSecurityInstance().getSecurity( new SecurityFetchOneSummary(theId) );
+            entity = service.getSecurity( new SecurityFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class SecurityTest
 
             LOGGER.info( "-- Now updating the created Security." );
             
-            SecurityService proxy = SecurityService.getSecurityInstance();            
-            entity = proxy.updateSecurity( updateCommand );   
+            entity = service.updateSecurity( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class SecurityTest
         try {
         	DeleteSecurityCommand deleteCommand = new DeleteSecurityCommand( theId );
         	
-            SecurityService.getSecurityInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Security with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class SecurityTest
 
         try {
             // call the static get method on the SecurityService
-            collection = SecurityService.getSecurityInstance().getAllSecurity();
+            collection = service.getAllSecurity();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class SecurityTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Security.class.getName());
+    protected SecurityService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Security.class.getName());
+
 }

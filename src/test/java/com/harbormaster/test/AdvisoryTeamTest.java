@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class AdvisoryTeamTest
 {
 
 // constructors
 
-    public AdvisoryTeamTest()
+    public AdvisoryTeamTest(AdvisoryTeamService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class AdvisoryTeamTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a AdvisoryTeam" );
 
         try {            
-            entity = AdvisoryTeamService.getAdvisoryTeamInstance().createAdvisoryTeam( generateNewCommand() );
+            entity = service.createAdvisoryTeam( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAdvisoryTeamId();
@@ -125,7 +128,7 @@ public class AdvisoryTeamTest
         msg.append( theId );
 
         try {
-            entity = AdvisoryTeamService.getAdvisoryTeamInstance().getAdvisoryTeam( new AdvisoryTeamFetchOneSummary(theId) );
+            entity = service.getAdvisoryTeam( new AdvisoryTeamFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class AdvisoryTeamTest
 
             LOGGER.info( "-- Now updating the created AdvisoryTeam." );
             
-            AdvisoryTeamService proxy = AdvisoryTeamService.getAdvisoryTeamInstance();            
-            entity = proxy.updateAdvisoryTeam( updateCommand );   
+            entity = service.updateAdvisoryTeam( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class AdvisoryTeamTest
         try {
         	DeleteAdvisoryTeamCommand deleteCommand = new DeleteAdvisoryTeamCommand( theId );
         	
-            AdvisoryTeamService.getAdvisoryTeamInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted AdvisoryTeam with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class AdvisoryTeamTest
 
         try {
             // call the static get method on the AdvisoryTeamService
-            collection = AdvisoryTeamService.getAdvisoryTeamInstance().getAllAdvisoryTeam();
+            collection = service.getAllAdvisoryTeam();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class AdvisoryTeamTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(AdvisoryTeam.class.getName());
+    protected AdvisoryTeamService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(AdvisoryTeam.class.getName());
+
 }

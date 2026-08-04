@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class WealthGoalTest
 {
 
 // constructors
 
-    public WealthGoalTest()
+    public WealthGoalTest(WealthGoalService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class WealthGoalTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a WealthGoal" );
 
         try {            
-            entity = WealthGoalService.getWealthGoalInstance().createWealthGoal( generateNewCommand() );
+            entity = service.createWealthGoal( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getWealthGoalId();
@@ -125,7 +128,7 @@ public class WealthGoalTest
         msg.append( theId );
 
         try {
-            entity = WealthGoalService.getWealthGoalInstance().getWealthGoal( new WealthGoalFetchOneSummary(theId) );
+            entity = service.getWealthGoal( new WealthGoalFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class WealthGoalTest
 
             LOGGER.info( "-- Now updating the created WealthGoal." );
             
-            WealthGoalService proxy = WealthGoalService.getWealthGoalInstance();            
-            entity = proxy.updateWealthGoal( updateCommand );   
+            entity = service.updateWealthGoal( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class WealthGoalTest
         try {
         	DeleteWealthGoalCommand deleteCommand = new DeleteWealthGoalCommand( theId );
         	
-            WealthGoalService.getWealthGoalInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted WealthGoal with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class WealthGoalTest
 
         try {
             // call the static get method on the WealthGoalService
-            collection = WealthGoalService.getWealthGoalInstance().getAllWealthGoal();
+            collection = service.getAllWealthGoal();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class WealthGoalTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(WealthGoal.class.getName());
+    protected WealthGoalService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(WealthGoal.class.getName());
+
 }

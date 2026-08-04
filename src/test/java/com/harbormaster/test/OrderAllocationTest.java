@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class OrderAllocationTest
 {
 
 // constructors
 
-    public OrderAllocationTest()
+    public OrderAllocationTest(OrderAllocationService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class OrderAllocationTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a OrderAllocation" );
 
         try {            
-            entity = OrderAllocationService.getOrderAllocationInstance().createOrderAllocation( generateNewCommand() );
+            entity = service.createOrderAllocation( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getOrderAllocationId();
@@ -125,7 +128,7 @@ public class OrderAllocationTest
         msg.append( theId );
 
         try {
-            entity = OrderAllocationService.getOrderAllocationInstance().getOrderAllocation( new OrderAllocationFetchOneSummary(theId) );
+            entity = service.getOrderAllocation( new OrderAllocationFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class OrderAllocationTest
 
             LOGGER.info( "-- Now updating the created OrderAllocation." );
             
-            OrderAllocationService proxy = OrderAllocationService.getOrderAllocationInstance();            
-            entity = proxy.updateOrderAllocation( updateCommand );   
+            entity = service.updateOrderAllocation( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class OrderAllocationTest
         try {
         	DeleteOrderAllocationCommand deleteCommand = new DeleteOrderAllocationCommand( theId );
         	
-            OrderAllocationService.getOrderAllocationInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted OrderAllocation with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class OrderAllocationTest
 
         try {
             // call the static get method on the OrderAllocationService
-            collection = OrderAllocationService.getOrderAllocationInstance().getAllOrderAllocation();
+            collection = service.getAllOrderAllocation();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class OrderAllocationTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(OrderAllocation.class.getName());
+    protected OrderAllocationService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(OrderAllocation.class.getName());
+
 }

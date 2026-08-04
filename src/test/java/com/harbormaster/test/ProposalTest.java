@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class ProposalTest
 {
 
 // constructors
 
-    public ProposalTest()
+    public ProposalTest(ProposalService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class ProposalTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Proposal" );
 
         try {            
-            entity = ProposalService.getProposalInstance().createProposal( generateNewCommand() );
+            entity = service.createProposal( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getProposalId();
@@ -125,7 +128,7 @@ public class ProposalTest
         msg.append( theId );
 
         try {
-            entity = ProposalService.getProposalInstance().getProposal( new ProposalFetchOneSummary(theId) );
+            entity = service.getProposal( new ProposalFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class ProposalTest
 
             LOGGER.info( "-- Now updating the created Proposal." );
             
-            ProposalService proxy = ProposalService.getProposalInstance();            
-            entity = proxy.updateProposal( updateCommand );   
+            entity = service.updateProposal( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class ProposalTest
         try {
         	DeleteProposalCommand deleteCommand = new DeleteProposalCommand( theId );
         	
-            ProposalService.getProposalInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Proposal with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class ProposalTest
 
         try {
             // call the static get method on the ProposalService
-            collection = ProposalService.getProposalInstance().getAllProposal();
+            collection = service.getAllProposal();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class ProposalTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Proposal.class.getName());
+    protected ProposalService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Proposal.class.getName());
+
 }

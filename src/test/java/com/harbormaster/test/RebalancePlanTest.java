@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class RebalancePlanTest
 {
 
 // constructors
 
-    public RebalancePlanTest()
+    public RebalancePlanTest(RebalancePlanService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class RebalancePlanTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a RebalancePlan" );
 
         try {            
-            entity = RebalancePlanService.getRebalancePlanInstance().createRebalancePlan( generateNewCommand() );
+            entity = service.createRebalancePlan( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getRebalancePlanId();
@@ -125,7 +128,7 @@ public class RebalancePlanTest
         msg.append( theId );
 
         try {
-            entity = RebalancePlanService.getRebalancePlanInstance().getRebalancePlan( new RebalancePlanFetchOneSummary(theId) );
+            entity = service.getRebalancePlan( new RebalancePlanFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class RebalancePlanTest
 
             LOGGER.info( "-- Now updating the created RebalancePlan." );
             
-            RebalancePlanService proxy = RebalancePlanService.getRebalancePlanInstance();            
-            entity = proxy.updateRebalancePlan( updateCommand );   
+            entity = service.updateRebalancePlan( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class RebalancePlanTest
         try {
         	DeleteRebalancePlanCommand deleteCommand = new DeleteRebalancePlanCommand( theId );
         	
-            RebalancePlanService.getRebalancePlanInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted RebalancePlan with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class RebalancePlanTest
 
         try {
             // call the static get method on the RebalancePlanService
-            collection = RebalancePlanService.getRebalancePlanInstance().getAllRebalancePlan();
+            collection = service.getAllRebalancePlan();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class RebalancePlanTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(RebalancePlan.class.getName());
+    protected RebalancePlanService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(RebalancePlan.class.getName());
+
 }

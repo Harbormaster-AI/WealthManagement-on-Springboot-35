@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class CorporateActionTest
 {
 
 // constructors
 
-    public CorporateActionTest()
+    public CorporateActionTest(CorporateActionService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class CorporateActionTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a CorporateAction" );
 
         try {            
-            entity = CorporateActionService.getCorporateActionInstance().createCorporateAction( generateNewCommand() );
+            entity = service.createCorporateAction( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getCorporateActionId();
@@ -125,7 +128,7 @@ public class CorporateActionTest
         msg.append( theId );
 
         try {
-            entity = CorporateActionService.getCorporateActionInstance().getCorporateAction( new CorporateActionFetchOneSummary(theId) );
+            entity = service.getCorporateAction( new CorporateActionFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class CorporateActionTest
 
             LOGGER.info( "-- Now updating the created CorporateAction." );
             
-            CorporateActionService proxy = CorporateActionService.getCorporateActionInstance();            
-            entity = proxy.updateCorporateAction( updateCommand );   
+            entity = service.updateCorporateAction( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class CorporateActionTest
         try {
         	DeleteCorporateActionCommand deleteCommand = new DeleteCorporateActionCommand( theId );
         	
-            CorporateActionService.getCorporateActionInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted CorporateAction with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class CorporateActionTest
 
         try {
             // call the static get method on the CorporateActionService
-            collection = CorporateActionService.getCorporateActionInstance().getAllCorporateAction();
+            collection = service.getAllCorporateAction();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class CorporateActionTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(CorporateAction.class.getName());
+    protected CorporateActionService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(CorporateAction.class.getName());
+
 }

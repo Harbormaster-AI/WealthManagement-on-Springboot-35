@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class ComplianceRuleTest
 {
 
 // constructors
 
-    public ComplianceRuleTest()
+    public ComplianceRuleTest(ComplianceRuleService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class ComplianceRuleTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a ComplianceRule" );
 
         try {            
-            entity = ComplianceRuleService.getComplianceRuleInstance().createComplianceRule( generateNewCommand() );
+            entity = service.createComplianceRule( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getComplianceRuleId();
@@ -125,7 +128,7 @@ public class ComplianceRuleTest
         msg.append( theId );
 
         try {
-            entity = ComplianceRuleService.getComplianceRuleInstance().getComplianceRule( new ComplianceRuleFetchOneSummary(theId) );
+            entity = service.getComplianceRule( new ComplianceRuleFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class ComplianceRuleTest
 
             LOGGER.info( "-- Now updating the created ComplianceRule." );
             
-            ComplianceRuleService proxy = ComplianceRuleService.getComplianceRuleInstance();            
-            entity = proxy.updateComplianceRule( updateCommand );   
+            entity = service.updateComplianceRule( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class ComplianceRuleTest
         try {
         	DeleteComplianceRuleCommand deleteCommand = new DeleteComplianceRuleCommand( theId );
         	
-            ComplianceRuleService.getComplianceRuleInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted ComplianceRule with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class ComplianceRuleTest
 
         try {
             // call the static get method on the ComplianceRuleService
-            collection = ComplianceRuleService.getComplianceRuleInstance().getAllComplianceRule();
+            collection = service.getAllComplianceRule();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class ComplianceRuleTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(ComplianceRule.class.getName());
+    protected ComplianceRuleService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(ComplianceRule.class.getName());
+
 }

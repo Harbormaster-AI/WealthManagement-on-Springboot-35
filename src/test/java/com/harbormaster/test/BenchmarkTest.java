@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class BenchmarkTest
 {
 
 // constructors
 
-    public BenchmarkTest()
+    public BenchmarkTest(BenchmarkService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class BenchmarkTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Benchmark" );
 
         try {            
-            entity = BenchmarkService.getBenchmarkInstance().createBenchmark( generateNewCommand() );
+            entity = service.createBenchmark( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getBenchmarkId();
@@ -125,7 +128,7 @@ public class BenchmarkTest
         msg.append( theId );
 
         try {
-            entity = BenchmarkService.getBenchmarkInstance().getBenchmark( new BenchmarkFetchOneSummary(theId) );
+            entity = service.getBenchmark( new BenchmarkFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class BenchmarkTest
 
             LOGGER.info( "-- Now updating the created Benchmark." );
             
-            BenchmarkService proxy = BenchmarkService.getBenchmarkInstance();            
-            entity = proxy.updateBenchmark( updateCommand );   
+            entity = service.updateBenchmark( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class BenchmarkTest
         try {
         	DeleteBenchmarkCommand deleteCommand = new DeleteBenchmarkCommand( theId );
         	
-            BenchmarkService.getBenchmarkInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Benchmark with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class BenchmarkTest
 
         try {
             // call the static get method on the BenchmarkService
-            collection = BenchmarkService.getBenchmarkInstance().getAllBenchmark();
+            collection = service.getAllBenchmark();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class BenchmarkTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Benchmark.class.getName());
+    protected BenchmarkService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Benchmark.class.getName());
+
 }

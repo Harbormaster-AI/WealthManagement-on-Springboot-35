@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class OfficeTest
 {
 
 // constructors
 
-    public OfficeTest()
+    public OfficeTest(OfficeService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class OfficeTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Office" );
 
         try {            
-            entity = OfficeService.getOfficeInstance().createOffice( generateNewCommand() );
+            entity = service.createOffice( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getOfficeId();
@@ -125,7 +128,7 @@ public class OfficeTest
         msg.append( theId );
 
         try {
-            entity = OfficeService.getOfficeInstance().getOffice( new OfficeFetchOneSummary(theId) );
+            entity = service.getOffice( new OfficeFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class OfficeTest
 
             LOGGER.info( "-- Now updating the created Office." );
             
-            OfficeService proxy = OfficeService.getOfficeInstance();            
-            entity = proxy.updateOffice( updateCommand );   
+            entity = service.updateOffice( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class OfficeTest
         try {
         	DeleteOfficeCommand deleteCommand = new DeleteOfficeCommand( theId );
         	
-            OfficeService.getOfficeInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Office with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class OfficeTest
 
         try {
             // call the static get method on the OfficeService
-            collection = OfficeService.getOfficeInstance().getAllOffice();
+            collection = service.getAllOffice();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class OfficeTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Office.class.getName());
+    protected OfficeService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Office.class.getName());
+
 }

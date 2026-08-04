@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class FeeScheduleTest
 {
 
 // constructors
 
-    public FeeScheduleTest()
+    public FeeScheduleTest(FeeScheduleService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class FeeScheduleTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a FeeSchedule" );
 
         try {            
-            entity = FeeScheduleService.getFeeScheduleInstance().createFeeSchedule( generateNewCommand() );
+            entity = service.createFeeSchedule( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getFeeScheduleId();
@@ -125,7 +128,7 @@ public class FeeScheduleTest
         msg.append( theId );
 
         try {
-            entity = FeeScheduleService.getFeeScheduleInstance().getFeeSchedule( new FeeScheduleFetchOneSummary(theId) );
+            entity = service.getFeeSchedule( new FeeScheduleFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class FeeScheduleTest
 
             LOGGER.info( "-- Now updating the created FeeSchedule." );
             
-            FeeScheduleService proxy = FeeScheduleService.getFeeScheduleInstance();            
-            entity = proxy.updateFeeSchedule( updateCommand );   
+            entity = service.updateFeeSchedule( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class FeeScheduleTest
         try {
         	DeleteFeeScheduleCommand deleteCommand = new DeleteFeeScheduleCommand( theId );
         	
-            FeeScheduleService.getFeeScheduleInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted FeeSchedule with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class FeeScheduleTest
 
         try {
             // call the static get method on the FeeScheduleService
-            collection = FeeScheduleService.getFeeScheduleInstance().getAllFeeSchedule();
+            collection = service.getAllFeeSchedule();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class FeeScheduleTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(FeeSchedule.class.getName());
+    protected FeeScheduleService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(FeeSchedule.class.getName());
+
 }

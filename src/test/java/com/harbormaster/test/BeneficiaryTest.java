@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class BeneficiaryTest
 {
 
 // constructors
 
-    public BeneficiaryTest()
+    public BeneficiaryTest(BeneficiaryService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class BeneficiaryTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Beneficiary" );
 
         try {            
-            entity = BeneficiaryService.getBeneficiaryInstance().createBeneficiary( generateNewCommand() );
+            entity = service.createBeneficiary( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getBeneficiaryId();
@@ -125,7 +128,7 @@ public class BeneficiaryTest
         msg.append( theId );
 
         try {
-            entity = BeneficiaryService.getBeneficiaryInstance().getBeneficiary( new BeneficiaryFetchOneSummary(theId) );
+            entity = service.getBeneficiary( new BeneficiaryFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class BeneficiaryTest
 
             LOGGER.info( "-- Now updating the created Beneficiary." );
             
-            BeneficiaryService proxy = BeneficiaryService.getBeneficiaryInstance();            
-            entity = proxy.updateBeneficiary( updateCommand );   
+            entity = service.updateBeneficiary( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class BeneficiaryTest
         try {
         	DeleteBeneficiaryCommand deleteCommand = new DeleteBeneficiaryCommand( theId );
         	
-            BeneficiaryService.getBeneficiaryInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Beneficiary with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class BeneficiaryTest
 
         try {
             // call the static get method on the BeneficiaryService
-            collection = BeneficiaryService.getBeneficiaryInstance().getAllBeneficiary();
+            collection = service.getAllBeneficiary();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class BeneficiaryTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Beneficiary.class.getName());
+    protected BeneficiaryService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Beneficiary.class.getName());
+
 }

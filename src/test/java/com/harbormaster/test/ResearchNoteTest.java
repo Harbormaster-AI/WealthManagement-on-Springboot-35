@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class ResearchNoteTest
 {
 
 // constructors
 
-    public ResearchNoteTest()
+    public ResearchNoteTest(ResearchNoteService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class ResearchNoteTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a ResearchNote" );
 
         try {            
-            entity = ResearchNoteService.getResearchNoteInstance().createResearchNote( generateNewCommand() );
+            entity = service.createResearchNote( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getResearchNoteId();
@@ -125,7 +128,7 @@ public class ResearchNoteTest
         msg.append( theId );
 
         try {
-            entity = ResearchNoteService.getResearchNoteInstance().getResearchNote( new ResearchNoteFetchOneSummary(theId) );
+            entity = service.getResearchNote( new ResearchNoteFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class ResearchNoteTest
 
             LOGGER.info( "-- Now updating the created ResearchNote." );
             
-            ResearchNoteService proxy = ResearchNoteService.getResearchNoteInstance();            
-            entity = proxy.updateResearchNote( updateCommand );   
+            entity = service.updateResearchNote( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class ResearchNoteTest
         try {
         	DeleteResearchNoteCommand deleteCommand = new DeleteResearchNoteCommand( theId );
         	
-            ResearchNoteService.getResearchNoteInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted ResearchNote with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class ResearchNoteTest
 
         try {
             // call the static get method on the ResearchNoteService
-            collection = ResearchNoteService.getResearchNoteInstance().getAllResearchNote();
+            collection = service.getAllResearchNote();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class ResearchNoteTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(ResearchNote.class.getName());
+    protected ResearchNoteService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(ResearchNote.class.getName());
+
 }

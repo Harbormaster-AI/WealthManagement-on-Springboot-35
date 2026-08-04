@@ -107,7 +107,7 @@ extends BaseService {
 							applicationContext.getBean(AssetAllocationSliceRepository.class) );
 	}
 
-	
+
  
    /**
     * Creates the provided command.

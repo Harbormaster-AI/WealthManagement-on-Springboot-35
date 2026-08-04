@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class WealthFirmTest
 {
 
 // constructors
 
-    public WealthFirmTest()
+    public WealthFirmTest(WealthFirmService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class WealthFirmTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a WealthFirm" );
 
         try {            
-            entity = WealthFirmService.getWealthFirmInstance().createWealthFirm( generateNewCommand() );
+            entity = service.createWealthFirm( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getWealthFirmId();
@@ -125,7 +128,7 @@ public class WealthFirmTest
         msg.append( theId );
 
         try {
-            entity = WealthFirmService.getWealthFirmInstance().getWealthFirm( new WealthFirmFetchOneSummary(theId) );
+            entity = service.getWealthFirm( new WealthFirmFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class WealthFirmTest
 
             LOGGER.info( "-- Now updating the created WealthFirm." );
             
-            WealthFirmService proxy = WealthFirmService.getWealthFirmInstance();            
-            entity = proxy.updateWealthFirm( updateCommand );   
+            entity = service.updateWealthFirm( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class WealthFirmTest
         try {
         	DeleteWealthFirmCommand deleteCommand = new DeleteWealthFirmCommand( theId );
         	
-            WealthFirmService.getWealthFirmInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted WealthFirm with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class WealthFirmTest
 
         try {
             // call the static get method on the WealthFirmService
-            collection = WealthFirmService.getWealthFirmInstance().getAllWealthFirm();
+            collection = service.getAllWealthFirm();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class WealthFirmTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(WealthFirm.class.getName());
+    protected WealthFirmService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(WealthFirm.class.getName());
+
 }

@@ -107,7 +107,7 @@ extends BaseService {
 							applicationContext.getBean(OrderRepository.class) );
 	}
 
-	
+
  
    /**
     * Creates the provided command.

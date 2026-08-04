@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class PositionTest
 {
 
 // constructors
 
-    public PositionTest()
+    public PositionTest(PositionService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class PositionTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Position" );
 
         try {            
-            entity = PositionService.getPositionInstance().createPosition( generateNewCommand() );
+            entity = service.createPosition( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getPositionId();
@@ -125,7 +128,7 @@ public class PositionTest
         msg.append( theId );
 
         try {
-            entity = PositionService.getPositionInstance().getPosition( new PositionFetchOneSummary(theId) );
+            entity = service.getPosition( new PositionFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class PositionTest
 
             LOGGER.info( "-- Now updating the created Position." );
             
-            PositionService proxy = PositionService.getPositionInstance();            
-            entity = proxy.updatePosition( updateCommand );   
+            entity = service.updatePosition( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class PositionTest
         try {
         	DeletePositionCommand deleteCommand = new DeletePositionCommand( theId );
         	
-            PositionService.getPositionInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Position with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class PositionTest
 
         try {
             // call the static get method on the PositionService
-            collection = PositionService.getPositionInstance().getAllPosition();
+            collection = service.getAllPosition();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class PositionTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Position.class.getName());
+    protected PositionService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Position.class.getName());
+
 }

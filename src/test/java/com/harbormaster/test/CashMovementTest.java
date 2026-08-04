@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class CashMovementTest
 {
 
 // constructors
 
-    public CashMovementTest()
+    public CashMovementTest(CashMovementService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class CashMovementTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a CashMovement" );
 
         try {            
-            entity = CashMovementService.getCashMovementInstance().createCashMovement( generateNewCommand() );
+            entity = service.createCashMovement( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getCashMovementId();
@@ -125,7 +128,7 @@ public class CashMovementTest
         msg.append( theId );
 
         try {
-            entity = CashMovementService.getCashMovementInstance().getCashMovement( new CashMovementFetchOneSummary(theId) );
+            entity = service.getCashMovement( new CashMovementFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class CashMovementTest
 
             LOGGER.info( "-- Now updating the created CashMovement." );
             
-            CashMovementService proxy = CashMovementService.getCashMovementInstance();            
-            entity = proxy.updateCashMovement( updateCommand );   
+            entity = service.updateCashMovement( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class CashMovementTest
         try {
         	DeleteCashMovementCommand deleteCommand = new DeleteCashMovementCommand( theId );
         	
-            CashMovementService.getCashMovementInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted CashMovement with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class CashMovementTest
 
         try {
             // call the static get method on the CashMovementService
-            collection = CashMovementService.getCashMovementInstance().getAllCashMovement();
+            collection = service.getAllCashMovement();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class CashMovementTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(CashMovement.class.getName());
+    protected CashMovementService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(CashMovement.class.getName());
+
 }

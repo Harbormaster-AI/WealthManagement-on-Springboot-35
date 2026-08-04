@@ -107,7 +107,7 @@ extends BaseService {
 							applicationContext.getBean(ComplianceRuleRepository.class) );
 	}
 
-	
+
  
    /**
     * Creates the provided command.

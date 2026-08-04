@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class CustodianTest
 {
 
 // constructors
 
-    public CustodianTest()
+    public CustodianTest(CustodianService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class CustodianTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Custodian" );
 
         try {            
-            entity = CustodianService.getCustodianInstance().createCustodian( generateNewCommand() );
+            entity = service.createCustodian( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getCustodianId();
@@ -125,7 +128,7 @@ public class CustodianTest
         msg.append( theId );
 
         try {
-            entity = CustodianService.getCustodianInstance().getCustodian( new CustodianFetchOneSummary(theId) );
+            entity = service.getCustodian( new CustodianFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class CustodianTest
 
             LOGGER.info( "-- Now updating the created Custodian." );
             
-            CustodianService proxy = CustodianService.getCustodianInstance();            
-            entity = proxy.updateCustodian( updateCommand );   
+            entity = service.updateCustodian( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class CustodianTest
         try {
         	DeleteCustodianCommand deleteCommand = new DeleteCustodianCommand( theId );
         	
-            CustodianService.getCustodianInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Custodian with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class CustodianTest
 
         try {
             // call the static get method on the CustodianService
-            collection = CustodianService.getCustodianInstance().getAllCustodian();
+            collection = service.getAllCustodian();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class CustodianTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Custodian.class.getName());
+    protected CustodianService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Custodian.class.getName());
+
 }

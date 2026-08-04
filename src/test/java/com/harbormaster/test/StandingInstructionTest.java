@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class StandingInstructionTest
 {
 
 // constructors
 
-    public StandingInstructionTest()
+    public StandingInstructionTest(StandingInstructionService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class StandingInstructionTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a StandingInstruction" );
 
         try {            
-            entity = StandingInstructionService.getStandingInstructionInstance().createStandingInstruction( generateNewCommand() );
+            entity = service.createStandingInstruction( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getStandingInstructionId();
@@ -125,7 +128,7 @@ public class StandingInstructionTest
         msg.append( theId );
 
         try {
-            entity = StandingInstructionService.getStandingInstructionInstance().getStandingInstruction( new StandingInstructionFetchOneSummary(theId) );
+            entity = service.getStandingInstruction( new StandingInstructionFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class StandingInstructionTest
 
             LOGGER.info( "-- Now updating the created StandingInstruction." );
             
-            StandingInstructionService proxy = StandingInstructionService.getStandingInstructionInstance();            
-            entity = proxy.updateStandingInstruction( updateCommand );   
+            entity = service.updateStandingInstruction( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class StandingInstructionTest
         try {
         	DeleteStandingInstructionCommand deleteCommand = new DeleteStandingInstructionCommand( theId );
         	
-            StandingInstructionService.getStandingInstructionInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted StandingInstruction with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class StandingInstructionTest
 
         try {
             // call the static get method on the StandingInstructionService
-            collection = StandingInstructionService.getStandingInstructionInstance().getAllStandingInstruction();
+            collection = service.getAllStandingInstruction();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class StandingInstructionTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(StandingInstruction.class.getName());
+    protected StandingInstructionService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(StandingInstruction.class.getName());
+
 }

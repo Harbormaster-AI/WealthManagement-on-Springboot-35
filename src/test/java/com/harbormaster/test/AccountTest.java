@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class AccountTest
 {
 
 // constructors
 
-    public AccountTest()
+    public AccountTest(AccountService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class AccountTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a Account" );
 
         try {            
-            entity = AccountService.getAccountInstance().createAccount( generateNewCommand() );
+            entity = service.createAccount( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getAccountId();
@@ -125,7 +128,7 @@ public class AccountTest
         msg.append( theId );
 
         try {
-            entity = AccountService.getAccountInstance().getAccount( new AccountFetchOneSummary(theId) );
+            entity = service.getAccount( new AccountFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class AccountTest
 
             LOGGER.info( "-- Now updating the created Account." );
             
-            AccountService proxy = AccountService.getAccountInstance();            
-            entity = proxy.updateAccount( updateCommand );   
+            entity = service.updateAccount( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class AccountTest
         try {
         	DeleteAccountCommand deleteCommand = new DeleteAccountCommand( theId );
         	
-            AccountService.getAccountInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted Account with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class AccountTest
 
         try {
             // call the static get method on the AccountService
-            collection = AccountService.getAccountInstance().getAllAccount();
+            collection = service.getAllAccount();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class AccountTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(Account.class.getName());
+    protected AccountService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(Account.class.getName());
+
 }

@@ -107,7 +107,7 @@ extends BaseService {
 							applicationContext.getBean(WealthFirmRepository.class) );
 	}
 
-	
+
  
    /**
     * Creates the provided command.

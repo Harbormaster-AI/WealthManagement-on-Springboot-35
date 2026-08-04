@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class ComplianceAlertTest
 {
 
 // constructors
 
-    public ComplianceAlertTest()
+    public ComplianceAlertTest(ComplianceAlertService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class ComplianceAlertTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a ComplianceAlert" );
 
         try {            
-            entity = ComplianceAlertService.getComplianceAlertInstance().createComplianceAlert( generateNewCommand() );
+            entity = service.createComplianceAlert( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getComplianceAlertId();
@@ -125,7 +128,7 @@ public class ComplianceAlertTest
         msg.append( theId );
 
         try {
-            entity = ComplianceAlertService.getComplianceAlertInstance().getComplianceAlert( new ComplianceAlertFetchOneSummary(theId) );
+            entity = service.getComplianceAlert( new ComplianceAlertFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class ComplianceAlertTest
 
             LOGGER.info( "-- Now updating the created ComplianceAlert." );
             
-            ComplianceAlertService proxy = ComplianceAlertService.getComplianceAlertInstance();            
-            entity = proxy.updateComplianceAlert( updateCommand );   
+            entity = service.updateComplianceAlert( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class ComplianceAlertTest
         try {
         	DeleteComplianceAlertCommand deleteCommand = new DeleteComplianceAlertCommand( theId );
         	
-            ComplianceAlertService.getComplianceAlertInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted ComplianceAlert with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class ComplianceAlertTest
 
         try {
             // call the static get method on the ComplianceAlertService
-            collection = ComplianceAlertService.getComplianceAlertInstance().getAllComplianceAlert();
+            collection = service.getAllComplianceAlert();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class ComplianceAlertTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(ComplianceAlert.class.getName());
+    protected ComplianceAlertService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(ComplianceAlert.class.getName());
+
 }

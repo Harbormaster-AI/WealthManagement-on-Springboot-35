@@ -29,8 +29,9 @@ import java.util.logging.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.stereotype.Component;
 
-import com.harbormaster.delegate.*;
+import com.harbormaster.service.*;
 import com.harbormaster.entity.*;
 import com.harbormaster.api.*;
 
@@ -39,13 +40,15 @@ import com.harbormaster.api.*;
  *
  * @author    Harbormaster Dev Team
  */
+@Component
 public class InvestmentProgramTest
 {
 
 // constructors
 
-    public InvestmentProgramTest()
+    public InvestmentProgramTest(InvestmentProgramService service)
     {
+        this.service = service;
     	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
@@ -94,7 +97,7 @@ public class InvestmentProgramTest
         StringBuilder msg = new StringBuilder( "-- Failed to create a InvestmentProgram" );
 
         try {            
-            entity = InvestmentProgramService.getInvestmentProgramInstance().createInvestmentProgram( generateNewCommand() );
+            entity = service.createInvestmentProgram( generateNewCommand() );
             assertNotNull( entity, msg.toString() );
 
             theId = entity.getInvestmentProgramId();
@@ -125,7 +128,7 @@ public class InvestmentProgramTest
         msg.append( theId );
 
         try {
-            entity = InvestmentProgramService.getInvestmentProgramInstance().getInvestmentProgram( new InvestmentProgramFetchOneSummary(theId) );
+            entity = service.getInvestmentProgram( new InvestmentProgramFetchOneSummary(theId) );
             
             assertNotNull( entity,msg.toString() );
 
@@ -166,8 +169,7 @@ public class InvestmentProgramTest
 
             LOGGER.info( "-- Now updating the created InvestmentProgram." );
             
-            InvestmentProgramService proxy = InvestmentProgramService.getInvestmentProgramInstance();            
-            entity = proxy.updateInvestmentProgram( updateCommand );   
+            entity = service.updateInvestmentProgram( updateCommand );   
             
             assertNotNull( entity, msg.toString()  );
 
@@ -193,7 +195,7 @@ public class InvestmentProgramTest
         try {
         	DeleteInvestmentProgramCommand deleteCommand = new DeleteInvestmentProgramCommand( theId );
         	
-            InvestmentProgramService.getInvestmentProgramInstance().delete( deleteCommand );
+            service.delete( deleteCommand );
             
             LOGGER.info( "-- Successfully deleted InvestmentProgram with primary key " + theId );            
         }
@@ -218,7 +220,7 @@ public class InvestmentProgramTest
 
         try {
             // call the static get method on the InvestmentProgramService
-            collection = InvestmentProgramService.getInvestmentProgramInstance().getAllInvestmentProgram();
+            collection = service.getAllInvestmentProgram();
 
             if ( collection == null || collection.size() == 0 ) {
                 LOGGER.warning( unexpectedErrorMsg );
@@ -283,7 +285,9 @@ public class InvestmentProgramTest
 // attributes 
 
     protected UUID theId  = null;
-	private final Logger LOGGER = Logger.getLogger(InvestmentProgram.class.getName());
+    protected InvestmentProgramService service = null;
 	private Handler handler = null;
 	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private final Logger LOGGER = Logger.getLogger(InvestmentProgram.class.getName());
+
 }

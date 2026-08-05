@@ -197,10 +197,8 @@ public class TaxLotService
 	 * Method to retrieve the TaxLot via TaxLotFetchOneSummary
 	 * @param 	summary TaxLotFetchOneSummary
 	 * @return 	TaxLotFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public TaxLot getTaxLot( TaxLotFetchOneSummary summary )
-throws BusinessException {
+	public TaxLot getTaxLot( TaxLotFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "TaxLotFetchOneSummary arg cannot be null" );
@@ -235,20 +233,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all TaxLots
 	 *
 	 * @return 	List<TaxLot>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<TaxLot> getAllTaxLot() {
 		List<TaxLot> list = projector.findAll( new FindAllTaxLotQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Position on TaxLot
 	 * @param		command AssignPositionToTaxLotCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPosition( AssignPositionToTaxLotCommand command ) throws BusinessException {
+	public void assignPosition( AssignPositionToTaxLotCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -264,9 +259,8 @@ throws BusinessException {
 	/**
 	 * unAssign Position on TaxLot
 	 * @param		command UnAssignPositionFromTaxLotCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPosition( UnAssignPositionFromTaxLotCommand command ) throws BusinessException {
+	public void unAssignPosition( UnAssignPositionFromTaxLotCommand command ) {
 
 		// --------------------------------------
 		// validate the command

@@ -203,10 +203,8 @@ public class WealthGoalService
 	 * Method to retrieve the WealthGoal via WealthGoalFetchOneSummary
 	 * @param 	summary WealthGoalFetchOneSummary
 	 * @return 	WealthGoalFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public WealthGoal getWealthGoal( WealthGoalFetchOneSummary summary )
-throws BusinessException {
+	public WealthGoal getWealthGoal( WealthGoalFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "WealthGoalFetchOneSummary arg cannot be null" );
@@ -241,20 +239,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all WealthGoals
 	 *
 	 * @return 	List<WealthGoal>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<WealthGoal> getAllWealthGoal() {
 		List<WealthGoal> list = projector.findAll( new FindAllWealthGoalQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Household on WealthGoal
 	 * @param		command AssignHouseholdToWealthGoalCommand
-	 * @exception	BusinessException
 	 */
-	public void assignHousehold( AssignHouseholdToWealthGoalCommand command ) throws BusinessException {
+	public void assignHousehold( AssignHouseholdToWealthGoalCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -270,9 +265,8 @@ throws BusinessException {
 	/**
 	 * unAssign Household on WealthGoal
 	 * @param		command UnAssignHouseholdFromWealthGoalCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignHousehold( UnAssignHouseholdFromWealthGoalCommand command ) throws BusinessException {
+	public void unAssignHousehold( UnAssignHouseholdFromWealthGoalCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -288,9 +282,8 @@ throws BusinessException {
 	/**
 	 * assign Portfolio on WealthGoal
 	 * @param		command AssignPortfolioToWealthGoalCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPortfolio( AssignPortfolioToWealthGoalCommand command ) throws BusinessException {
+	public void assignPortfolio( AssignPortfolioToWealthGoalCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -306,9 +299,8 @@ throws BusinessException {
 	/**
 	 * unAssign Portfolio on WealthGoal
 	 * @param		command UnAssignPortfolioFromWealthGoalCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPortfolio( UnAssignPortfolioFromWealthGoalCommand command ) throws BusinessException {
+	public void unAssignPortfolio( UnAssignPortfolioFromWealthGoalCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -324,9 +316,8 @@ throws BusinessException {
 	/**
 	 * assign InvestmentPolicy on WealthGoal
 	 * @param		command AssignInvestmentPolicyToWealthGoalCommand
-	 * @exception	BusinessException
 	 */
-	public void assignInvestmentPolicy( AssignInvestmentPolicyToWealthGoalCommand command ) throws BusinessException {
+	public void assignInvestmentPolicy( AssignInvestmentPolicyToWealthGoalCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -342,9 +333,8 @@ throws BusinessException {
 	/**
 	 * unAssign InvestmentPolicy on WealthGoal
 	 * @param		command UnAssignInvestmentPolicyFromWealthGoalCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws BusinessException {
+	public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromWealthGoalCommand command ) {
 
 		// --------------------------------------
 		// validate the command

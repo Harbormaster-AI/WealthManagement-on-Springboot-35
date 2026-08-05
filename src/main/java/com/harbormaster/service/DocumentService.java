@@ -201,10 +201,8 @@ public class DocumentService
 	 * Method to retrieve the Document via DocumentFetchOneSummary
 	 * @param 	summary DocumentFetchOneSummary
 	 * @return 	DocumentFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Document getDocument( DocumentFetchOneSummary summary )
-throws BusinessException {
+	public Document getDocument( DocumentFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "DocumentFetchOneSummary arg cannot be null" );
@@ -239,20 +237,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Documents
 	 *
 	 * @return 	List<Document>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Document> getAllDocument() {
 		List<Document> list = projector.findAll( new FindAllDocumentQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Client on Document
 	 * @param		command AssignClientToDocumentCommand
-	 * @exception	BusinessException
 	 */
-	public void assignClient( AssignClientToDocumentCommand command ) throws BusinessException {
+	public void assignClient( AssignClientToDocumentCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -268,9 +263,8 @@ throws BusinessException {
 	/**
 	 * unAssign Client on Document
 	 * @param		command UnAssignClientFromDocumentCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignClient( UnAssignClientFromDocumentCommand command ) throws BusinessException {
+	public void unAssignClient( UnAssignClientFromDocumentCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -286,9 +280,8 @@ throws BusinessException {
 	/**
 	 * assign KycRecord on Document
 	 * @param		command AssignKycRecordToDocumentCommand
-	 * @exception	BusinessException
 	 */
-	public void assignKycRecord( AssignKycRecordToDocumentCommand command ) throws BusinessException {
+	public void assignKycRecord( AssignKycRecordToDocumentCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -304,9 +297,8 @@ throws BusinessException {
 	/**
 	 * unAssign KycRecord on Document
 	 * @param		command UnAssignKycRecordFromDocumentCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignKycRecord( UnAssignKycRecordFromDocumentCommand command ) throws BusinessException {
+	public void unAssignKycRecord( UnAssignKycRecordFromDocumentCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -322,9 +314,8 @@ throws BusinessException {
 	/**
 	 * assign Agreement on Document
 	 * @param		command AssignAgreementToDocumentCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAgreement( AssignAgreementToDocumentCommand command ) throws BusinessException {
+	public void assignAgreement( AssignAgreementToDocumentCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -340,9 +331,8 @@ throws BusinessException {
 	/**
 	 * unAssign Agreement on Document
 	 * @param		command UnAssignAgreementFromDocumentCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAgreement( UnAssignAgreementFromDocumentCommand command ) throws BusinessException {
+	public void unAssignAgreement( UnAssignAgreementFromDocumentCommand command ) {
 
 		// --------------------------------------
 		// validate the command

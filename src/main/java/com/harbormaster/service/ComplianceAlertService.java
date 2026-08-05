@@ -202,10 +202,8 @@ public class ComplianceAlertService
 	 * Method to retrieve the ComplianceAlert via ComplianceAlertFetchOneSummary
 	 * @param 	summary ComplianceAlertFetchOneSummary
 	 * @return 	ComplianceAlertFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public ComplianceAlert getComplianceAlert( ComplianceAlertFetchOneSummary summary )
-throws BusinessException {
+	public ComplianceAlert getComplianceAlert( ComplianceAlertFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "ComplianceAlertFetchOneSummary arg cannot be null" );
@@ -240,20 +238,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all ComplianceAlerts
 	 *
 	 * @return 	List<ComplianceAlert>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<ComplianceAlert> getAllComplianceAlert() {
 		List<ComplianceAlert> list = projector.findAll( new FindAllComplianceAlertQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Rule on ComplianceAlert
 	 * @param		command AssignRuleToComplianceAlertCommand
-	 * @exception	BusinessException
 	 */
-	public void assignRule( AssignRuleToComplianceAlertCommand command ) throws BusinessException {
+	public void assignRule( AssignRuleToComplianceAlertCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -269,9 +264,8 @@ throws BusinessException {
 	/**
 	 * unAssign Rule on ComplianceAlert
 	 * @param		command UnAssignRuleFromComplianceAlertCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignRule( UnAssignRuleFromComplianceAlertCommand command ) throws BusinessException {
+	public void unAssignRule( UnAssignRuleFromComplianceAlertCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -287,9 +281,8 @@ throws BusinessException {
 	/**
 	 * assign Account on ComplianceAlert
 	 * @param		command AssignAccountToComplianceAlertCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToComplianceAlertCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToComplianceAlertCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -305,9 +298,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on ComplianceAlert
 	 * @param		command UnAssignAccountFromComplianceAlertCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromComplianceAlertCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromComplianceAlertCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -323,9 +315,8 @@ throws BusinessException {
 	/**
 	 * assign Order on ComplianceAlert
 	 * @param		command AssignOrderToComplianceAlertCommand
-	 * @exception	BusinessException
 	 */
-	public void assignOrder( AssignOrderToComplianceAlertCommand command ) throws BusinessException {
+	public void assignOrder( AssignOrderToComplianceAlertCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -341,9 +332,8 @@ throws BusinessException {
 	/**
 	 * unAssign Order on ComplianceAlert
 	 * @param		command UnAssignOrderFromComplianceAlertCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignOrder( UnAssignOrderFromComplianceAlertCommand command ) throws BusinessException {
+	public void unAssignOrder( UnAssignOrderFromComplianceAlertCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -359,9 +349,8 @@ throws BusinessException {
 	/**
 	 * assign Advisor on ComplianceAlert
 	 * @param		command AssignAdvisorToComplianceAlertCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisor( AssignAdvisorToComplianceAlertCommand command ) throws BusinessException {
+	public void assignAdvisor( AssignAdvisorToComplianceAlertCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -377,9 +366,8 @@ throws BusinessException {
 	/**
 	 * unAssign Advisor on ComplianceAlert
 	 * @param		command UnAssignAdvisorFromComplianceAlertCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisor( UnAssignAdvisorFromComplianceAlertCommand command ) throws BusinessException {
+	public void unAssignAdvisor( UnAssignAdvisorFromComplianceAlertCommand command ) {
 
 		// --------------------------------------
 		// validate the command

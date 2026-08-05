@@ -201,10 +201,8 @@ public class MeetingService
 	 * Method to retrieve the Meeting via MeetingFetchOneSummary
 	 * @param 	summary MeetingFetchOneSummary
 	 * @return 	MeetingFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Meeting getMeeting( MeetingFetchOneSummary summary )
-throws BusinessException {
+	public Meeting getMeeting( MeetingFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "MeetingFetchOneSummary arg cannot be null" );
@@ -239,20 +237,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Meetings
 	 *
 	 * @return 	List<Meeting>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Meeting> getAllMeeting() {
 		List<Meeting> list = projector.findAll( new FindAllMeetingQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Household on Meeting
 	 * @param		command AssignHouseholdToMeetingCommand
-	 * @exception	BusinessException
 	 */
-	public void assignHousehold( AssignHouseholdToMeetingCommand command ) throws BusinessException {
+	public void assignHousehold( AssignHouseholdToMeetingCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -268,9 +263,8 @@ throws BusinessException {
 	/**
 	 * unAssign Household on Meeting
 	 * @param		command UnAssignHouseholdFromMeetingCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignHousehold( UnAssignHouseholdFromMeetingCommand command ) throws BusinessException {
+	public void unAssignHousehold( UnAssignHouseholdFromMeetingCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -286,9 +280,8 @@ throws BusinessException {
 	/**
 	 * assign Advisor on Meeting
 	 * @param		command AssignAdvisorToMeetingCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisor( AssignAdvisorToMeetingCommand command ) throws BusinessException {
+	public void assignAdvisor( AssignAdvisorToMeetingCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -304,9 +297,8 @@ throws BusinessException {
 	/**
 	 * unAssign Advisor on Meeting
 	 * @param		command UnAssignAdvisorFromMeetingCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisor( UnAssignAdvisorFromMeetingCommand command ) throws BusinessException {
+	public void unAssignAdvisor( UnAssignAdvisorFromMeetingCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -323,9 +315,8 @@ throws BusinessException {
 	/**
 	 * add Document to Documents
 	 * @param		command AssignDocumentsToMeetingCommand
-	 * @exception	BusinessException
 	 */
-	public void addToDocuments( AssignDocumentsToMeetingCommand command ) throws BusinessException {
+	public void addToDocuments( AssignDocumentsToMeetingCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -341,9 +332,8 @@ throws BusinessException {
 	/**
 	 * remove Document from Documents
 	 * @param		command RemoveDocumentsFromMeetingCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromDocuments( RemoveDocumentsFromMeetingCommand command ) throws BusinessException {
+	public void removeFromDocuments( RemoveDocumentsFromMeetingCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

@@ -195,10 +195,8 @@ public class DividendService
 	 * Method to retrieve the Dividend via DividendFetchOneSummary
 	 * @param 	summary DividendFetchOneSummary
 	 * @return 	DividendFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Dividend getDividend( DividendFetchOneSummary summary )
-throws BusinessException {
+	public Dividend getDividend( DividendFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "DividendFetchOneSummary arg cannot be null" );
@@ -233,20 +231,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Dividends
 	 *
 	 * @return 	List<Dividend>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Dividend> getAllDividend() {
 		List<Dividend> list = projector.findAll( new FindAllDividendQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign CorporateAction on Dividend
 	 * @param		command AssignCorporateActionToDividendCommand
-	 * @exception	BusinessException
 	 */
-	public void assignCorporateAction( AssignCorporateActionToDividendCommand command ) throws BusinessException {
+	public void assignCorporateAction( AssignCorporateActionToDividendCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -262,9 +257,8 @@ throws BusinessException {
 	/**
 	 * unAssign CorporateAction on Dividend
 	 * @param		command UnAssignCorporateActionFromDividendCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignCorporateAction( UnAssignCorporateActionFromDividendCommand command ) throws BusinessException {
+	public void unAssignCorporateAction( UnAssignCorporateActionFromDividendCommand command ) {
 
 		// --------------------------------------
 		// validate the command

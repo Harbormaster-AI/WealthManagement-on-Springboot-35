@@ -198,10 +198,8 @@ public class CustodianService
 	 * Method to retrieve the Custodian via CustodianFetchOneSummary
 	 * @param 	summary CustodianFetchOneSummary
 	 * @return 	CustodianFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Custodian getCustodian( CustodianFetchOneSummary summary )
-throws BusinessException {
+	public Custodian getCustodian( CustodianFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "CustodianFetchOneSummary arg cannot be null" );
@@ -236,11 +234,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Custodians
 	 *
 	 * @return 	List<Custodian>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Custodian> getAllCustodian() {
 		List<Custodian> list = projector.findAll( new FindAllCustodianQuery() );
-
 		return list;
 	}
 
@@ -248,9 +244,8 @@ throws BusinessException {
 	/**
 	 * add Account to Accounts
 	 * @param		command AssignAccountsToCustodianCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAccounts( AssignAccountsToCustodianCommand command ) throws BusinessException {
+	public void addToAccounts( AssignAccountsToCustodianCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -266,9 +261,8 @@ throws BusinessException {
 	/**
 	 * remove Account from Accounts
 	 * @param		command RemoveAccountsFromCustodianCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAccounts( RemoveAccountsFromCustodianCommand command ) throws BusinessException {
+	public void removeFromAccounts( RemoveAccountsFromCustodianCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -283,9 +277,8 @@ throws BusinessException {
 	/**
 	 * add AccountTransfer to Transfers
 	 * @param		command AssignTransfersToCustodianCommand
-	 * @exception	BusinessException
 	 */
-	public void addToTransfers( AssignTransfersToCustodianCommand command ) throws BusinessException {
+	public void addToTransfers( AssignTransfersToCustodianCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -301,9 +294,8 @@ throws BusinessException {
 	/**
 	 * remove AccountTransfer from Transfers
 	 * @param		command RemoveTransfersFromCustodianCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromTransfers( RemoveTransfersFromCustodianCommand command ) throws BusinessException {
+	public void removeFromTransfers( RemoveTransfersFromCustodianCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

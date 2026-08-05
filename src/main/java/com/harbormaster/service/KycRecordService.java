@@ -200,10 +200,8 @@ public class KycRecordService
 	 * Method to retrieve the KycRecord via KycRecordFetchOneSummary
 	 * @param 	summary KycRecordFetchOneSummary
 	 * @return 	KycRecordFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public KycRecord getKycRecord( KycRecordFetchOneSummary summary )
-throws BusinessException {
+	public KycRecord getKycRecord( KycRecordFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "KycRecordFetchOneSummary arg cannot be null" );
@@ -238,20 +236,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all KycRecords
 	 *
 	 * @return 	List<KycRecord>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<KycRecord> getAllKycRecord() {
 		List<KycRecord> list = projector.findAll( new FindAllKycRecordQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Client on KycRecord
 	 * @param		command AssignClientToKycRecordCommand
-	 * @exception	BusinessException
 	 */
-	public void assignClient( AssignClientToKycRecordCommand command ) throws BusinessException {
+	public void assignClient( AssignClientToKycRecordCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -267,9 +262,8 @@ throws BusinessException {
 	/**
 	 * unAssign Client on KycRecord
 	 * @param		command UnAssignClientFromKycRecordCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignClient( UnAssignClientFromKycRecordCommand command ) throws BusinessException {
+	public void unAssignClient( UnAssignClientFromKycRecordCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -286,9 +280,8 @@ throws BusinessException {
 	/**
 	 * add Document to Documents
 	 * @param		command AssignDocumentsToKycRecordCommand
-	 * @exception	BusinessException
 	 */
-	public void addToDocuments( AssignDocumentsToKycRecordCommand command ) throws BusinessException {
+	public void addToDocuments( AssignDocumentsToKycRecordCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -304,9 +297,8 @@ throws BusinessException {
 	/**
 	 * remove Document from Documents
 	 * @param		command RemoveDocumentsFromKycRecordCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromDocuments( RemoveDocumentsFromKycRecordCommand command ) throws BusinessException {
+	public void removeFromDocuments( RemoveDocumentsFromKycRecordCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

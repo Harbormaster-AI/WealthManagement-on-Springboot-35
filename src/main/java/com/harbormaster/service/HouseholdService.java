@@ -197,10 +197,8 @@ public class HouseholdService
 	 * Method to retrieve the Household via HouseholdFetchOneSummary
 	 * @param 	summary HouseholdFetchOneSummary
 	 * @return 	HouseholdFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Household getHousehold( HouseholdFetchOneSummary summary )
-throws BusinessException {
+	public Household getHousehold( HouseholdFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "HouseholdFetchOneSummary arg cannot be null" );
@@ -235,20 +233,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Households
 	 *
 	 * @return 	List<Household>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Household> getAllHousehold() {
 		List<Household> list = projector.findAll( new FindAllHouseholdQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign PrimaryAdvisor on Household
 	 * @param		command AssignPrimaryAdvisorToHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPrimaryAdvisor( AssignPrimaryAdvisorToHouseholdCommand command ) throws BusinessException {
+	public void assignPrimaryAdvisor( AssignPrimaryAdvisorToHouseholdCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -264,9 +259,8 @@ throws BusinessException {
 	/**
 	 * unAssign PrimaryAdvisor on Household
 	 * @param		command UnAssignPrimaryAdvisorFromHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPrimaryAdvisor( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws BusinessException {
+	public void unAssignPrimaryAdvisor( UnAssignPrimaryAdvisorFromHouseholdCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -283,9 +277,8 @@ throws BusinessException {
 	/**
 	 * add Client to Clients
 	 * @param		command AssignClientsToHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void addToClients( AssignClientsToHouseholdCommand command ) throws BusinessException {
+	public void addToClients( AssignClientsToHouseholdCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -301,9 +294,8 @@ throws BusinessException {
 	/**
 	 * remove Client from Clients
 	 * @param		command RemoveClientsFromHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromClients( RemoveClientsFromHouseholdCommand command ) throws BusinessException {
+	public void removeFromClients( RemoveClientsFromHouseholdCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -318,9 +310,8 @@ throws BusinessException {
 	/**
 	 * add Portfolio to Portfolios
 	 * @param		command AssignPortfoliosToHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void addToPortfolios( AssignPortfoliosToHouseholdCommand command ) throws BusinessException {
+	public void addToPortfolios( AssignPortfoliosToHouseholdCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -336,9 +327,8 @@ throws BusinessException {
 	/**
 	 * remove Portfolio from Portfolios
 	 * @param		command RemovePortfoliosFromHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromPortfolios( RemovePortfoliosFromHouseholdCommand command ) throws BusinessException {
+	public void removeFromPortfolios( RemovePortfoliosFromHouseholdCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -353,9 +343,8 @@ throws BusinessException {
 	/**
 	 * add WealthGoal to Goals
 	 * @param		command AssignGoalsToHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void addToGoals( AssignGoalsToHouseholdCommand command ) throws BusinessException {
+	public void addToGoals( AssignGoalsToHouseholdCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -371,9 +360,8 @@ throws BusinessException {
 	/**
 	 * remove WealthGoal from Goals
 	 * @param		command RemoveGoalsFromHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromGoals( RemoveGoalsFromHouseholdCommand command ) throws BusinessException {
+	public void removeFromGoals( RemoveGoalsFromHouseholdCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -388,9 +376,8 @@ throws BusinessException {
 	/**
 	 * add RiskAssessment to RiskAssessments
 	 * @param		command AssignRiskAssessmentsToHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void addToRiskAssessments( AssignRiskAssessmentsToHouseholdCommand command ) throws BusinessException {
+	public void addToRiskAssessments( AssignRiskAssessmentsToHouseholdCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -406,9 +393,8 @@ throws BusinessException {
 	/**
 	 * remove RiskAssessment from RiskAssessments
 	 * @param		command RemoveRiskAssessmentsFromHouseholdCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromRiskAssessments( RemoveRiskAssessmentsFromHouseholdCommand command ) throws BusinessException {
+	public void removeFromRiskAssessments( RemoveRiskAssessmentsFromHouseholdCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

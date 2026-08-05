@@ -199,10 +199,8 @@ public class ComplianceRuleService
 	 * Method to retrieve the ComplianceRule via ComplianceRuleFetchOneSummary
 	 * @param 	summary ComplianceRuleFetchOneSummary
 	 * @return 	ComplianceRuleFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public ComplianceRule getComplianceRule( ComplianceRuleFetchOneSummary summary )
-throws BusinessException {
+	public ComplianceRule getComplianceRule( ComplianceRuleFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "ComplianceRuleFetchOneSummary arg cannot be null" );
@@ -237,11 +235,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all ComplianceRules
 	 *
 	 * @return 	List<ComplianceRule>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<ComplianceRule> getAllComplianceRule() {
 		List<ComplianceRule> list = projector.findAll( new FindAllComplianceRuleQuery() );
-
 		return list;
 	}
 
@@ -249,9 +245,8 @@ throws BusinessException {
 	/**
 	 * add ComplianceAlert to Alerts
 	 * @param		command AssignAlertsToComplianceRuleCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAlerts( AssignAlertsToComplianceRuleCommand command ) throws BusinessException {
+	public void addToAlerts( AssignAlertsToComplianceRuleCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -267,9 +262,8 @@ throws BusinessException {
 	/**
 	 * remove ComplianceAlert from Alerts
 	 * @param		command RemoveAlertsFromComplianceRuleCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAlerts( RemoveAlertsFromComplianceRuleCommand command ) throws BusinessException {
+	public void removeFromAlerts( RemoveAlertsFromComplianceRuleCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

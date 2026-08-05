@@ -196,10 +196,8 @@ public class OfficeService
 	 * Method to retrieve the Office via OfficeFetchOneSummary
 	 * @param 	summary OfficeFetchOneSummary
 	 * @return 	OfficeFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Office getOffice( OfficeFetchOneSummary summary )
-throws BusinessException {
+	public Office getOffice( OfficeFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "OfficeFetchOneSummary arg cannot be null" );
@@ -234,20 +232,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Offices
 	 *
 	 * @return 	List<Office>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Office> getAllOffice() {
 		List<Office> list = projector.findAll( new FindAllOfficeQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Firm on Office
 	 * @param		command AssignFirmToOfficeCommand
-	 * @exception	BusinessException
 	 */
-	public void assignFirm( AssignFirmToOfficeCommand command ) throws BusinessException {
+	public void assignFirm( AssignFirmToOfficeCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -263,9 +258,8 @@ throws BusinessException {
 	/**
 	 * unAssign Firm on Office
 	 * @param		command UnAssignFirmFromOfficeCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignFirm( UnAssignFirmFromOfficeCommand command ) throws BusinessException {
+	public void unAssignFirm( UnAssignFirmFromOfficeCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -282,9 +276,8 @@ throws BusinessException {
 	/**
 	 * add Advisor to Advisors
 	 * @param		command AssignAdvisorsToOfficeCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAdvisors( AssignAdvisorsToOfficeCommand command ) throws BusinessException {
+	public void addToAdvisors( AssignAdvisorsToOfficeCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -300,9 +293,8 @@ throws BusinessException {
 	/**
 	 * remove Advisor from Advisors
 	 * @param		command RemoveAdvisorsFromOfficeCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAdvisors( RemoveAdvisorsFromOfficeCommand command ) throws BusinessException {
+	public void removeFromAdvisors( RemoveAdvisorsFromOfficeCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

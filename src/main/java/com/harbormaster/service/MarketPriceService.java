@@ -197,10 +197,8 @@ public class MarketPriceService
 	 * Method to retrieve the MarketPrice via MarketPriceFetchOneSummary
 	 * @param 	summary MarketPriceFetchOneSummary
 	 * @return 	MarketPriceFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public MarketPrice getMarketPrice( MarketPriceFetchOneSummary summary )
-throws BusinessException {
+	public MarketPrice getMarketPrice( MarketPriceFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "MarketPriceFetchOneSummary arg cannot be null" );
@@ -235,20 +233,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all MarketPrices
 	 *
 	 * @return 	List<MarketPrice>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<MarketPrice> getAllMarketPrice() {
 		List<MarketPrice> list = projector.findAll( new FindAllMarketPriceQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Security on MarketPrice
 	 * @param		command AssignSecurityToMarketPriceCommand
-	 * @exception	BusinessException
 	 */
-	public void assignSecurity( AssignSecurityToMarketPriceCommand command ) throws BusinessException {
+	public void assignSecurity( AssignSecurityToMarketPriceCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -264,9 +259,8 @@ throws BusinessException {
 	/**
 	 * unAssign Security on MarketPrice
 	 * @param		command UnAssignSecurityFromMarketPriceCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignSecurity( UnAssignSecurityFromMarketPriceCommand command ) throws BusinessException {
+	public void unAssignSecurity( UnAssignSecurityFromMarketPriceCommand command ) {
 
 		// --------------------------------------
 		// validate the command

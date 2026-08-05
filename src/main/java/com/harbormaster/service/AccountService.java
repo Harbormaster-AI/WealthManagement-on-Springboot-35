@@ -214,10 +214,8 @@ public class AccountService
 	 * Method to retrieve the Account via AccountFetchOneSummary
 	 * @param 	summary AccountFetchOneSummary
 	 * @return 	AccountFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Account getAccount( AccountFetchOneSummary summary )
-throws BusinessException {
+	public Account getAccount( AccountFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "AccountFetchOneSummary arg cannot be null" );
@@ -252,20 +250,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Accounts
 	 *
 	 * @return 	List<Account>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Account> getAllAccount() {
 		List<Account> list = projector.findAll( new FindAllAccountQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Household on Account
 	 * @param		command AssignHouseholdToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void assignHousehold( AssignHouseholdToAccountCommand command ) throws BusinessException {
+	public void assignHousehold( AssignHouseholdToAccountCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -281,9 +276,8 @@ throws BusinessException {
 	/**
 	 * unAssign Household on Account
 	 * @param		command UnAssignHouseholdFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignHousehold( UnAssignHouseholdFromAccountCommand command ) throws BusinessException {
+	public void unAssignHousehold( UnAssignHouseholdFromAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -299,9 +293,8 @@ throws BusinessException {
 	/**
 	 * assign Advisor on Account
 	 * @param		command AssignAdvisorToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisor( AssignAdvisorToAccountCommand command ) throws BusinessException {
+	public void assignAdvisor( AssignAdvisorToAccountCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -317,9 +310,8 @@ throws BusinessException {
 	/**
 	 * unAssign Advisor on Account
 	 * @param		command UnAssignAdvisorFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisor( UnAssignAdvisorFromAccountCommand command ) throws BusinessException {
+	public void unAssignAdvisor( UnAssignAdvisorFromAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -335,9 +327,8 @@ throws BusinessException {
 	/**
 	 * assign Custodian on Account
 	 * @param		command AssignCustodianToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void assignCustodian( AssignCustodianToAccountCommand command ) throws BusinessException {
+	public void assignCustodian( AssignCustodianToAccountCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -353,9 +344,8 @@ throws BusinessException {
 	/**
 	 * unAssign Custodian on Account
 	 * @param		command UnAssignCustodianFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignCustodian( UnAssignCustodianFromAccountCommand command ) throws BusinessException {
+	public void unAssignCustodian( UnAssignCustodianFromAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -371,9 +361,8 @@ throws BusinessException {
 	/**
 	 * assign Portfolio on Account
 	 * @param		command AssignPortfolioToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPortfolio( AssignPortfolioToAccountCommand command ) throws BusinessException {
+	public void assignPortfolio( AssignPortfolioToAccountCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -389,9 +378,8 @@ throws BusinessException {
 	/**
 	 * unAssign Portfolio on Account
 	 * @param		command UnAssignPortfolioFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPortfolio( UnAssignPortfolioFromAccountCommand command ) throws BusinessException {
+	public void unAssignPortfolio( UnAssignPortfolioFromAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -408,9 +396,8 @@ throws BusinessException {
 	/**
 	 * add Beneficiary to Beneficiaries
 	 * @param		command AssignBeneficiariesToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void addToBeneficiaries( AssignBeneficiariesToAccountCommand command ) throws BusinessException {
+	public void addToBeneficiaries( AssignBeneficiariesToAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -426,9 +413,8 @@ throws BusinessException {
 	/**
 	 * remove Beneficiary from Beneficiaries
 	 * @param		command RemoveBeneficiariesFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromBeneficiaries( RemoveBeneficiariesFromAccountCommand command ) throws BusinessException {
+	public void removeFromBeneficiaries( RemoveBeneficiariesFromAccountCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -443,9 +429,8 @@ throws BusinessException {
 	/**
 	 * add Position to Positions
 	 * @param		command AssignPositionsToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void addToPositions( AssignPositionsToAccountCommand command ) throws BusinessException {
+	public void addToPositions( AssignPositionsToAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -461,9 +446,8 @@ throws BusinessException {
 	/**
 	 * remove Position from Positions
 	 * @param		command RemovePositionsFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromPositions( RemovePositionsFromAccountCommand command ) throws BusinessException {
+	public void removeFromPositions( RemovePositionsFromAccountCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -478,9 +462,8 @@ throws BusinessException {
 	/**
 	 * add Transaction to Transactions
 	 * @param		command AssignTransactionsToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void addToTransactions( AssignTransactionsToAccountCommand command ) throws BusinessException {
+	public void addToTransactions( AssignTransactionsToAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -496,9 +479,8 @@ throws BusinessException {
 	/**
 	 * remove Transaction from Transactions
 	 * @param		command RemoveTransactionsFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromTransactions( RemoveTransactionsFromAccountCommand command ) throws BusinessException {
+	public void removeFromTransactions( RemoveTransactionsFromAccountCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -513,9 +495,8 @@ throws BusinessException {
 	/**
 	 * add Fee to Fees
 	 * @param		command AssignFeesToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void addToFees( AssignFeesToAccountCommand command ) throws BusinessException {
+	public void addToFees( AssignFeesToAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -531,9 +512,8 @@ throws BusinessException {
 	/**
 	 * remove Fee from Fees
 	 * @param		command RemoveFeesFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromFees( RemoveFeesFromAccountCommand command ) throws BusinessException {
+	public void removeFromFees( RemoveFeesFromAccountCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -548,9 +528,8 @@ throws BusinessException {
 	/**
 	 * add StandingInstruction to StandingInstructions
 	 * @param		command AssignStandingInstructionsToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void addToStandingInstructions( AssignStandingInstructionsToAccountCommand command ) throws BusinessException {
+	public void addToStandingInstructions( AssignStandingInstructionsToAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -566,9 +545,8 @@ throws BusinessException {
 	/**
 	 * remove StandingInstruction from StandingInstructions
 	 * @param		command RemoveStandingInstructionsFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromStandingInstructions( RemoveStandingInstructionsFromAccountCommand command ) throws BusinessException {
+	public void removeFromStandingInstructions( RemoveStandingInstructionsFromAccountCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -583,9 +561,8 @@ throws BusinessException {
 	/**
 	 * add Invoice to Invoices
 	 * @param		command AssignInvoicesToAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void addToInvoices( AssignInvoicesToAccountCommand command ) throws BusinessException {
+	public void addToInvoices( AssignInvoicesToAccountCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -601,9 +578,8 @@ throws BusinessException {
 	/**
 	 * remove Invoice from Invoices
 	 * @param		command RemoveInvoicesFromAccountCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromInvoices( RemoveInvoicesFromAccountCommand command ) throws BusinessException {
+	public void removeFromInvoices( RemoveInvoicesFromAccountCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

@@ -198,10 +198,8 @@ public class InvestmentProgramService
 	 * Method to retrieve the InvestmentProgram via InvestmentProgramFetchOneSummary
 	 * @param 	summary InvestmentProgramFetchOneSummary
 	 * @return 	InvestmentProgramFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public InvestmentProgram getInvestmentProgram( InvestmentProgramFetchOneSummary summary )
-throws BusinessException {
+	public InvestmentProgram getInvestmentProgram( InvestmentProgramFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "InvestmentProgramFetchOneSummary arg cannot be null" );
@@ -236,11 +234,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all InvestmentPrograms
 	 *
 	 * @return 	List<InvestmentProgram>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<InvestmentProgram> getAllInvestmentProgram() {
 		List<InvestmentProgram> list = projector.findAll( new FindAllInvestmentProgramQuery() );
-
 		return list;
 	}
 
@@ -248,9 +244,8 @@ throws BusinessException {
 	/**
 	 * add ModelPortfolio to ModelPortfolios
 	 * @param		command AssignModelPortfoliosToInvestmentProgramCommand
-	 * @exception	BusinessException
 	 */
-	public void addToModelPortfolios( AssignModelPortfoliosToInvestmentProgramCommand command ) throws BusinessException {
+	public void addToModelPortfolios( AssignModelPortfoliosToInvestmentProgramCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -266,9 +261,8 @@ throws BusinessException {
 	/**
 	 * remove ModelPortfolio from ModelPortfolios
 	 * @param		command RemoveModelPortfoliosFromInvestmentProgramCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromModelPortfolios( RemoveModelPortfoliosFromInvestmentProgramCommand command ) throws BusinessException {
+	public void removeFromModelPortfolios( RemoveModelPortfoliosFromInvestmentProgramCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -283,9 +277,8 @@ throws BusinessException {
 	/**
 	 * add FeeSchedule to FeeSchedules
 	 * @param		command AssignFeeSchedulesToInvestmentProgramCommand
-	 * @exception	BusinessException
 	 */
-	public void addToFeeSchedules( AssignFeeSchedulesToInvestmentProgramCommand command ) throws BusinessException {
+	public void addToFeeSchedules( AssignFeeSchedulesToInvestmentProgramCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -301,9 +294,8 @@ throws BusinessException {
 	/**
 	 * remove FeeSchedule from FeeSchedules
 	 * @param		command RemoveFeeSchedulesFromInvestmentProgramCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromFeeSchedules( RemoveFeeSchedulesFromInvestmentProgramCommand command ) throws BusinessException {
+	public void removeFromFeeSchedules( RemoveFeeSchedulesFromInvestmentProgramCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

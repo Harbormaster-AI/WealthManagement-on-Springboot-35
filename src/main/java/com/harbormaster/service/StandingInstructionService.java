@@ -202,10 +202,8 @@ public class StandingInstructionService
 	 * Method to retrieve the StandingInstruction via StandingInstructionFetchOneSummary
 	 * @param 	summary StandingInstructionFetchOneSummary
 	 * @return 	StandingInstructionFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public StandingInstruction getStandingInstruction( StandingInstructionFetchOneSummary summary )
-throws BusinessException {
+	public StandingInstruction getStandingInstruction( StandingInstructionFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "StandingInstructionFetchOneSummary arg cannot be null" );
@@ -240,20 +238,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all StandingInstructions
 	 *
 	 * @return 	List<StandingInstruction>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<StandingInstruction> getAllStandingInstruction() {
 		List<StandingInstruction> list = projector.findAll( new FindAllStandingInstructionQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Account on StandingInstruction
 	 * @param		command AssignAccountToStandingInstructionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToStandingInstructionCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToStandingInstructionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -269,9 +264,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on StandingInstruction
 	 * @param		command UnAssignAccountFromStandingInstructionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromStandingInstructionCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromStandingInstructionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -287,9 +281,8 @@ throws BusinessException {
 	/**
 	 * assign DestinationAccount on StandingInstruction
 	 * @param		command AssignDestinationAccountToStandingInstructionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignDestinationAccount( AssignDestinationAccountToStandingInstructionCommand command ) throws BusinessException {
+	public void assignDestinationAccount( AssignDestinationAccountToStandingInstructionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -305,9 +298,8 @@ throws BusinessException {
 	/**
 	 * unAssign DestinationAccount on StandingInstruction
 	 * @param		command UnAssignDestinationAccountFromStandingInstructionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignDestinationAccount( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws BusinessException {
+	public void unAssignDestinationAccount( UnAssignDestinationAccountFromStandingInstructionCommand command ) {
 
 		// --------------------------------------
 		// validate the command

@@ -201,10 +201,8 @@ public class AccountTransferService
 	 * Method to retrieve the AccountTransfer via AccountTransferFetchOneSummary
 	 * @param 	summary AccountTransferFetchOneSummary
 	 * @return 	AccountTransferFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public AccountTransfer getAccountTransfer( AccountTransferFetchOneSummary summary )
-throws BusinessException {
+	public AccountTransfer getAccountTransfer( AccountTransferFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "AccountTransferFetchOneSummary arg cannot be null" );
@@ -239,20 +237,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all AccountTransfers
 	 *
 	 * @return 	List<AccountTransfer>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<AccountTransfer> getAllAccountTransfer() {
 		List<AccountTransfer> list = projector.findAll( new FindAllAccountTransferQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign FromCustodian on AccountTransfer
 	 * @param		command AssignFromCustodianToAccountTransferCommand
-	 * @exception	BusinessException
 	 */
-	public void assignFromCustodian( AssignFromCustodianToAccountTransferCommand command ) throws BusinessException {
+	public void assignFromCustodian( AssignFromCustodianToAccountTransferCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -268,9 +263,8 @@ throws BusinessException {
 	/**
 	 * unAssign FromCustodian on AccountTransfer
 	 * @param		command UnAssignFromCustodianFromAccountTransferCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignFromCustodian( UnAssignFromCustodianFromAccountTransferCommand command ) throws BusinessException {
+	public void unAssignFromCustodian( UnAssignFromCustodianFromAccountTransferCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -286,9 +280,8 @@ throws BusinessException {
 	/**
 	 * assign ToCustodian on AccountTransfer
 	 * @param		command AssignToCustodianToAccountTransferCommand
-	 * @exception	BusinessException
 	 */
-	public void assignToCustodian( AssignToCustodianToAccountTransferCommand command ) throws BusinessException {
+	public void assignToCustodian( AssignToCustodianToAccountTransferCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -304,9 +297,8 @@ throws BusinessException {
 	/**
 	 * unAssign ToCustodian on AccountTransfer
 	 * @param		command UnAssignToCustodianFromAccountTransferCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignToCustodian( UnAssignToCustodianFromAccountTransferCommand command ) throws BusinessException {
+	public void unAssignToCustodian( UnAssignToCustodianFromAccountTransferCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -322,9 +314,8 @@ throws BusinessException {
 	/**
 	 * assign Account on AccountTransfer
 	 * @param		command AssignAccountToAccountTransferCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToAccountTransferCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToAccountTransferCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -340,9 +331,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on AccountTransfer
 	 * @param		command UnAssignAccountFromAccountTransferCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromAccountTransferCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromAccountTransferCommand command ) {
 
 		// --------------------------------------
 		// validate the command

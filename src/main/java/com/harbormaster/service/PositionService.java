@@ -202,10 +202,8 @@ public class PositionService
 	 * Method to retrieve the Position via PositionFetchOneSummary
 	 * @param 	summary PositionFetchOneSummary
 	 * @return 	PositionFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Position getPosition( PositionFetchOneSummary summary )
-throws BusinessException {
+	public Position getPosition( PositionFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "PositionFetchOneSummary arg cannot be null" );
@@ -240,20 +238,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Positions
 	 *
 	 * @return 	List<Position>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Position> getAllPosition() {
 		List<Position> list = projector.findAll( new FindAllPositionQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Portfolio on Position
 	 * @param		command AssignPortfolioToPositionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPortfolio( AssignPortfolioToPositionCommand command ) throws BusinessException {
+	public void assignPortfolio( AssignPortfolioToPositionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -269,9 +264,8 @@ throws BusinessException {
 	/**
 	 * unAssign Portfolio on Position
 	 * @param		command UnAssignPortfolioFromPositionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPortfolio( UnAssignPortfolioFromPositionCommand command ) throws BusinessException {
+	public void unAssignPortfolio( UnAssignPortfolioFromPositionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -287,9 +281,8 @@ throws BusinessException {
 	/**
 	 * assign Security on Position
 	 * @param		command AssignSecurityToPositionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignSecurity( AssignSecurityToPositionCommand command ) throws BusinessException {
+	public void assignSecurity( AssignSecurityToPositionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -305,9 +298,8 @@ throws BusinessException {
 	/**
 	 * unAssign Security on Position
 	 * @param		command UnAssignSecurityFromPositionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignSecurity( UnAssignSecurityFromPositionCommand command ) throws BusinessException {
+	public void unAssignSecurity( UnAssignSecurityFromPositionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -324,9 +316,8 @@ throws BusinessException {
 	/**
 	 * add TaxLot to TaxLots
 	 * @param		command AssignTaxLotsToPositionCommand
-	 * @exception	BusinessException
 	 */
-	public void addToTaxLots( AssignTaxLotsToPositionCommand command ) throws BusinessException {
+	public void addToTaxLots( AssignTaxLotsToPositionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -342,9 +333,8 @@ throws BusinessException {
 	/**
 	 * remove TaxLot from TaxLots
 	 * @param		command RemoveTaxLotsFromPositionCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromTaxLots( RemoveTaxLotsFromPositionCommand command ) throws BusinessException {
+	public void removeFromTaxLots( RemoveTaxLotsFromPositionCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -359,9 +349,8 @@ throws BusinessException {
 	/**
 	 * add Transaction to Transactions
 	 * @param		command AssignTransactionsToPositionCommand
-	 * @exception	BusinessException
 	 */
-	public void addToTransactions( AssignTransactionsToPositionCommand command ) throws BusinessException {
+	public void addToTransactions( AssignTransactionsToPositionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -377,9 +366,8 @@ throws BusinessException {
 	/**
 	 * remove Transaction from Transactions
 	 * @param		command RemoveTransactionsFromPositionCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromTransactions( RemoveTransactionsFromPositionCommand command ) throws BusinessException {
+	public void removeFromTransactions( RemoveTransactionsFromPositionCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

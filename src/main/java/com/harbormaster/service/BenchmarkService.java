@@ -196,10 +196,8 @@ public class BenchmarkService
 	 * Method to retrieve the Benchmark via BenchmarkFetchOneSummary
 	 * @param 	summary BenchmarkFetchOneSummary
 	 * @return 	BenchmarkFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Benchmark getBenchmark( BenchmarkFetchOneSummary summary )
-throws BusinessException {
+	public Benchmark getBenchmark( BenchmarkFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "BenchmarkFetchOneSummary arg cannot be null" );
@@ -234,11 +232,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Benchmarks
 	 *
 	 * @return 	List<Benchmark>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Benchmark> getAllBenchmark() {
 		List<Benchmark> list = projector.findAll( new FindAllBenchmarkQuery() );
-
 		return list;
 	}
 
@@ -246,9 +242,8 @@ throws BusinessException {
 	/**
 	 * add PerformanceReport to PerformanceReports
 	 * @param		command AssignPerformanceReportsToBenchmarkCommand
-	 * @exception	BusinessException
 	 */
-	public void addToPerformanceReports( AssignPerformanceReportsToBenchmarkCommand command ) throws BusinessException {
+	public void addToPerformanceReports( AssignPerformanceReportsToBenchmarkCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -264,9 +259,8 @@ throws BusinessException {
 	/**
 	 * remove PerformanceReport from PerformanceReports
 	 * @param		command RemovePerformanceReportsFromBenchmarkCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromPerformanceReports( RemovePerformanceReportsFromBenchmarkCommand command ) throws BusinessException {
+	public void removeFromPerformanceReports( RemovePerformanceReportsFromBenchmarkCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -281,9 +275,8 @@ throws BusinessException {
 	/**
 	 * add Security to Constituents
 	 * @param		command AssignConstituentsToBenchmarkCommand
-	 * @exception	BusinessException
 	 */
-	public void addToConstituents( AssignConstituentsToBenchmarkCommand command ) throws BusinessException {
+	public void addToConstituents( AssignConstituentsToBenchmarkCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -299,9 +292,8 @@ throws BusinessException {
 	/**
 	 * remove Security from Constituents
 	 * @param		command RemoveConstituentsFromBenchmarkCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromConstituents( RemoveConstituentsFromBenchmarkCommand command ) throws BusinessException {
+	public void removeFromConstituents( RemoveConstituentsFromBenchmarkCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

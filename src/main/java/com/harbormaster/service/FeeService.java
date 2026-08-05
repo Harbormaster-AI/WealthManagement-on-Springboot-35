@@ -200,10 +200,8 @@ public class FeeService
 	 * Method to retrieve the Fee via FeeFetchOneSummary
 	 * @param 	summary FeeFetchOneSummary
 	 * @return 	FeeFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Fee getFee( FeeFetchOneSummary summary )
-throws BusinessException {
+	public Fee getFee( FeeFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "FeeFetchOneSummary arg cannot be null" );
@@ -238,20 +236,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Fees
 	 *
 	 * @return 	List<Fee>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Fee> getAllFee() {
 		List<Fee> list = projector.findAll( new FindAllFeeQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Account on Fee
 	 * @param		command AssignAccountToFeeCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToFeeCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToFeeCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -267,9 +262,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on Fee
 	 * @param		command UnAssignAccountFromFeeCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromFeeCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromFeeCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -285,9 +279,8 @@ throws BusinessException {
 	/**
 	 * assign Invoice on Fee
 	 * @param		command AssignInvoiceToFeeCommand
-	 * @exception	BusinessException
 	 */
-	public void assignInvoice( AssignInvoiceToFeeCommand command ) throws BusinessException {
+	public void assignInvoice( AssignInvoiceToFeeCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -303,9 +296,8 @@ throws BusinessException {
 	/**
 	 * unAssign Invoice on Fee
 	 * @param		command UnAssignInvoiceFromFeeCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignInvoice( UnAssignInvoiceFromFeeCommand command ) throws BusinessException {
+	public void unAssignInvoice( UnAssignInvoiceFromFeeCommand command ) {
 
 		// --------------------------------------
 		// validate the command

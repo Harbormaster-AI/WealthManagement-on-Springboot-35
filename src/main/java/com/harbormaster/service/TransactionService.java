@@ -204,10 +204,8 @@ public class TransactionService
 	 * Method to retrieve the Transaction via TransactionFetchOneSummary
 	 * @param 	summary TransactionFetchOneSummary
 	 * @return 	TransactionFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Transaction getTransaction( TransactionFetchOneSummary summary )
-throws BusinessException {
+	public Transaction getTransaction( TransactionFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "TransactionFetchOneSummary arg cannot be null" );
@@ -242,20 +240,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Transactions
 	 *
 	 * @return 	List<Transaction>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Transaction> getAllTransaction() {
 		List<Transaction> list = projector.findAll( new FindAllTransactionQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Account on Transaction
 	 * @param		command AssignAccountToTransactionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToTransactionCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToTransactionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -271,9 +266,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on Transaction
 	 * @param		command UnAssignAccountFromTransactionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromTransactionCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromTransactionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -289,9 +283,8 @@ throws BusinessException {
 	/**
 	 * assign Security on Transaction
 	 * @param		command AssignSecurityToTransactionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignSecurity( AssignSecurityToTransactionCommand command ) throws BusinessException {
+	public void assignSecurity( AssignSecurityToTransactionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -307,9 +300,8 @@ throws BusinessException {
 	/**
 	 * unAssign Security on Transaction
 	 * @param		command UnAssignSecurityFromTransactionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignSecurity( UnAssignSecurityFromTransactionCommand command ) throws BusinessException {
+	public void unAssignSecurity( UnAssignSecurityFromTransactionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -325,9 +317,8 @@ throws BusinessException {
 	/**
 	 * assign Order on Transaction
 	 * @param		command AssignOrderToTransactionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignOrder( AssignOrderToTransactionCommand command ) throws BusinessException {
+	public void assignOrder( AssignOrderToTransactionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -343,9 +334,8 @@ throws BusinessException {
 	/**
 	 * unAssign Order on Transaction
 	 * @param		command UnAssignOrderFromTransactionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignOrder( UnAssignOrderFromTransactionCommand command ) throws BusinessException {
+	public void unAssignOrder( UnAssignOrderFromTransactionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -361,9 +351,8 @@ throws BusinessException {
 	/**
 	 * assign Position on Transaction
 	 * @param		command AssignPositionToTransactionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPosition( AssignPositionToTransactionCommand command ) throws BusinessException {
+	public void assignPosition( AssignPositionToTransactionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -379,9 +368,8 @@ throws BusinessException {
 	/**
 	 * unAssign Position on Transaction
 	 * @param		command UnAssignPositionFromTransactionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPosition( UnAssignPositionFromTransactionCommand command ) throws BusinessException {
+	public void unAssignPosition( UnAssignPositionFromTransactionCommand command ) {
 
 		// --------------------------------------
 		// validate the command

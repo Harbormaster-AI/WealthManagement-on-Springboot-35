@@ -207,10 +207,8 @@ public class PortfolioService
 	 * Method to retrieve the Portfolio via PortfolioFetchOneSummary
 	 * @param 	summary PortfolioFetchOneSummary
 	 * @return 	PortfolioFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Portfolio getPortfolio( PortfolioFetchOneSummary summary )
-throws BusinessException {
+	public Portfolio getPortfolio( PortfolioFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "PortfolioFetchOneSummary arg cannot be null" );
@@ -245,20 +243,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Portfolios
 	 *
 	 * @return 	List<Portfolio>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Portfolio> getAllPortfolio() {
 		List<Portfolio> list = projector.findAll( new FindAllPortfolioQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Account on Portfolio
 	 * @param		command AssignAccountToPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToPortfolioCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToPortfolioCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -274,9 +269,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on Portfolio
 	 * @param		command UnAssignAccountFromPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromPortfolioCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -292,9 +286,8 @@ throws BusinessException {
 	/**
 	 * assign ModelPortfolio on Portfolio
 	 * @param		command AssignModelPortfolioToPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void assignModelPortfolio( AssignModelPortfolioToPortfolioCommand command ) throws BusinessException {
+	public void assignModelPortfolio( AssignModelPortfolioToPortfolioCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -310,9 +303,8 @@ throws BusinessException {
 	/**
 	 * unAssign ModelPortfolio on Portfolio
 	 * @param		command UnAssignModelPortfolioFromPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignModelPortfolio( UnAssignModelPortfolioFromPortfolioCommand command ) throws BusinessException {
+	public void unAssignModelPortfolio( UnAssignModelPortfolioFromPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -328,9 +320,8 @@ throws BusinessException {
 	/**
 	 * assign Benchmark on Portfolio
 	 * @param		command AssignBenchmarkToPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void assignBenchmark( AssignBenchmarkToPortfolioCommand command ) throws BusinessException {
+	public void assignBenchmark( AssignBenchmarkToPortfolioCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -346,9 +337,8 @@ throws BusinessException {
 	/**
 	 * unAssign Benchmark on Portfolio
 	 * @param		command UnAssignBenchmarkFromPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignBenchmark( UnAssignBenchmarkFromPortfolioCommand command ) throws BusinessException {
+	public void unAssignBenchmark( UnAssignBenchmarkFromPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -364,9 +354,8 @@ throws BusinessException {
 	/**
 	 * assign InvestmentPolicy on Portfolio
 	 * @param		command AssignInvestmentPolicyToPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void assignInvestmentPolicy( AssignInvestmentPolicyToPortfolioCommand command ) throws BusinessException {
+	public void assignInvestmentPolicy( AssignInvestmentPolicyToPortfolioCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -382,9 +371,8 @@ throws BusinessException {
 	/**
 	 * unAssign InvestmentPolicy on Portfolio
 	 * @param		command UnAssignInvestmentPolicyFromPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws BusinessException {
+	public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -401,9 +389,8 @@ throws BusinessException {
 	/**
 	 * add Position to Positions
 	 * @param		command AssignPositionsToPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void addToPositions( AssignPositionsToPortfolioCommand command ) throws BusinessException {
+	public void addToPositions( AssignPositionsToPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -419,9 +406,8 @@ throws BusinessException {
 	/**
 	 * remove Position from Positions
 	 * @param		command RemovePositionsFromPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromPositions( RemovePositionsFromPortfolioCommand command ) throws BusinessException {
+	public void removeFromPositions( RemovePositionsFromPortfolioCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -436,9 +422,8 @@ throws BusinessException {
 	/**
 	 * add PerformanceReport to PerformanceReports
 	 * @param		command AssignPerformanceReportsToPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void addToPerformanceReports( AssignPerformanceReportsToPortfolioCommand command ) throws BusinessException {
+	public void addToPerformanceReports( AssignPerformanceReportsToPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -454,9 +439,8 @@ throws BusinessException {
 	/**
 	 * remove PerformanceReport from PerformanceReports
 	 * @param		command RemovePerformanceReportsFromPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromPerformanceReports( RemovePerformanceReportsFromPortfolioCommand command ) throws BusinessException {
+	public void removeFromPerformanceReports( RemovePerformanceReportsFromPortfolioCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -471,9 +455,8 @@ throws BusinessException {
 	/**
 	 * add RebalancePlan to RebalancePlans
 	 * @param		command AssignRebalancePlansToPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void addToRebalancePlans( AssignRebalancePlansToPortfolioCommand command ) throws BusinessException {
+	public void addToRebalancePlans( AssignRebalancePlansToPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -489,9 +472,8 @@ throws BusinessException {
 	/**
 	 * remove RebalancePlan from RebalancePlans
 	 * @param		command RemoveRebalancePlansFromPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromRebalancePlans( RemoveRebalancePlansFromPortfolioCommand command ) throws BusinessException {
+	public void removeFromRebalancePlans( RemoveRebalancePlansFromPortfolioCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

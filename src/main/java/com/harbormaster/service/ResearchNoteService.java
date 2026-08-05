@@ -202,10 +202,8 @@ public class ResearchNoteService
 	 * Method to retrieve the ResearchNote via ResearchNoteFetchOneSummary
 	 * @param 	summary ResearchNoteFetchOneSummary
 	 * @return 	ResearchNoteFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public ResearchNote getResearchNote( ResearchNoteFetchOneSummary summary )
-throws BusinessException {
+	public ResearchNote getResearchNote( ResearchNoteFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "ResearchNoteFetchOneSummary arg cannot be null" );
@@ -240,20 +238,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all ResearchNotes
 	 *
 	 * @return 	List<ResearchNote>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<ResearchNote> getAllResearchNote() {
 		List<ResearchNote> list = projector.findAll( new FindAllResearchNoteQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Security on ResearchNote
 	 * @param		command AssignSecurityToResearchNoteCommand
-	 * @exception	BusinessException
 	 */
-	public void assignSecurity( AssignSecurityToResearchNoteCommand command ) throws BusinessException {
+	public void assignSecurity( AssignSecurityToResearchNoteCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -269,9 +264,8 @@ throws BusinessException {
 	/**
 	 * unAssign Security on ResearchNote
 	 * @param		command UnAssignSecurityFromResearchNoteCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignSecurity( UnAssignSecurityFromResearchNoteCommand command ) throws BusinessException {
+	public void unAssignSecurity( UnAssignSecurityFromResearchNoteCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -287,9 +281,8 @@ throws BusinessException {
 	/**
 	 * assign Advisor on ResearchNote
 	 * @param		command AssignAdvisorToResearchNoteCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisor( AssignAdvisorToResearchNoteCommand command ) throws BusinessException {
+	public void assignAdvisor( AssignAdvisorToResearchNoteCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -305,9 +298,8 @@ throws BusinessException {
 	/**
 	 * unAssign Advisor on ResearchNote
 	 * @param		command UnAssignAdvisorFromResearchNoteCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisor( UnAssignAdvisorFromResearchNoteCommand command ) throws BusinessException {
+	public void unAssignAdvisor( UnAssignAdvisorFromResearchNoteCommand command ) {
 
 		// --------------------------------------
 		// validate the command

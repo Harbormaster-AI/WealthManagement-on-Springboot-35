@@ -206,10 +206,8 @@ public class TradeService
 	 * Method to retrieve the Trade via TradeFetchOneSummary
 	 * @param 	summary TradeFetchOneSummary
 	 * @return 	TradeFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Trade getTrade( TradeFetchOneSummary summary )
-throws BusinessException {
+	public Trade getTrade( TradeFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "TradeFetchOneSummary arg cannot be null" );
@@ -244,20 +242,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Trades
 	 *
 	 * @return 	List<Trade>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Trade> getAllTrade() {
 		List<Trade> list = projector.findAll( new FindAllTradeQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Order on Trade
 	 * @param		command AssignOrderToTradeCommand
-	 * @exception	BusinessException
 	 */
-	public void assignOrder( AssignOrderToTradeCommand command ) throws BusinessException {
+	public void assignOrder( AssignOrderToTradeCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -273,9 +268,8 @@ throws BusinessException {
 	/**
 	 * unAssign Order on Trade
 	 * @param		command UnAssignOrderFromTradeCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignOrder( UnAssignOrderFromTradeCommand command ) throws BusinessException {
+	public void unAssignOrder( UnAssignOrderFromTradeCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -291,9 +285,8 @@ throws BusinessException {
 	/**
 	 * assign Account on Trade
 	 * @param		command AssignAccountToTradeCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToTradeCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToTradeCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -309,9 +302,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on Trade
 	 * @param		command UnAssignAccountFromTradeCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromTradeCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromTradeCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -327,9 +319,8 @@ throws BusinessException {
 	/**
 	 * assign Security on Trade
 	 * @param		command AssignSecurityToTradeCommand
-	 * @exception	BusinessException
 	 */
-	public void assignSecurity( AssignSecurityToTradeCommand command ) throws BusinessException {
+	public void assignSecurity( AssignSecurityToTradeCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -345,9 +336,8 @@ throws BusinessException {
 	/**
 	 * unAssign Security on Trade
 	 * @param		command UnAssignSecurityFromTradeCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignSecurity( UnAssignSecurityFromTradeCommand command ) throws BusinessException {
+	public void unAssignSecurity( UnAssignSecurityFromTradeCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -363,9 +353,8 @@ throws BusinessException {
 	/**
 	 * assign Transaction on Trade
 	 * @param		command AssignTransactionToTradeCommand
-	 * @exception	BusinessException
 	 */
-	public void assignTransaction( AssignTransactionToTradeCommand command ) throws BusinessException {
+	public void assignTransaction( AssignTransactionToTradeCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -381,9 +370,8 @@ throws BusinessException {
 	/**
 	 * unAssign Transaction on Trade
 	 * @param		command UnAssignTransactionFromTradeCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignTransaction( UnAssignTransactionFromTradeCommand command ) throws BusinessException {
+	public void unAssignTransaction( UnAssignTransactionFromTradeCommand command ) {
 
 		// --------------------------------------
 		// validate the command

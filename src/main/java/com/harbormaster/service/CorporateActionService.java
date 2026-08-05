@@ -200,10 +200,8 @@ public class CorporateActionService
 	 * Method to retrieve the CorporateAction via CorporateActionFetchOneSummary
 	 * @param 	summary CorporateActionFetchOneSummary
 	 * @return 	CorporateActionFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public CorporateAction getCorporateAction( CorporateActionFetchOneSummary summary )
-throws BusinessException {
+	public CorporateAction getCorporateAction( CorporateActionFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "CorporateActionFetchOneSummary arg cannot be null" );
@@ -238,20 +236,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all CorporateActions
 	 *
 	 * @return 	List<CorporateAction>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<CorporateAction> getAllCorporateAction() {
 		List<CorporateAction> list = projector.findAll( new FindAllCorporateActionQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Security on CorporateAction
 	 * @param		command AssignSecurityToCorporateActionCommand
-	 * @exception	BusinessException
 	 */
-	public void assignSecurity( AssignSecurityToCorporateActionCommand command ) throws BusinessException {
+	public void assignSecurity( AssignSecurityToCorporateActionCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -267,9 +262,8 @@ throws BusinessException {
 	/**
 	 * unAssign Security on CorporateAction
 	 * @param		command UnAssignSecurityFromCorporateActionCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignSecurity( UnAssignSecurityFromCorporateActionCommand command ) throws BusinessException {
+	public void unAssignSecurity( UnAssignSecurityFromCorporateActionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -286,9 +280,8 @@ throws BusinessException {
 	/**
 	 * add Dividend to Dividends
 	 * @param		command AssignDividendsToCorporateActionCommand
-	 * @exception	BusinessException
 	 */
-	public void addToDividends( AssignDividendsToCorporateActionCommand command ) throws BusinessException {
+	public void addToDividends( AssignDividendsToCorporateActionCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -304,9 +297,8 @@ throws BusinessException {
 	/**
 	 * remove Dividend from Dividends
 	 * @param		command RemoveDividendsFromCorporateActionCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromDividends( RemoveDividendsFromCorporateActionCommand command ) throws BusinessException {
+	public void removeFromDividends( RemoveDividendsFromCorporateActionCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

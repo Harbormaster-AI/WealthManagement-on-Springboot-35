@@ -200,10 +200,8 @@ public class BillingRunService
 	 * Method to retrieve the BillingRun via BillingRunFetchOneSummary
 	 * @param 	summary BillingRunFetchOneSummary
 	 * @return 	BillingRunFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public BillingRun getBillingRun( BillingRunFetchOneSummary summary )
-throws BusinessException {
+	public BillingRun getBillingRun( BillingRunFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "BillingRunFetchOneSummary arg cannot be null" );
@@ -238,20 +236,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all BillingRuns
 	 *
 	 * @return 	List<BillingRun>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<BillingRun> getAllBillingRun() {
 		List<BillingRun> list = projector.findAll( new FindAllBillingRunQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign FeeSchedule on BillingRun
 	 * @param		command AssignFeeScheduleToBillingRunCommand
-	 * @exception	BusinessException
 	 */
-	public void assignFeeSchedule( AssignFeeScheduleToBillingRunCommand command ) throws BusinessException {
+	public void assignFeeSchedule( AssignFeeScheduleToBillingRunCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -267,9 +262,8 @@ throws BusinessException {
 	/**
 	 * unAssign FeeSchedule on BillingRun
 	 * @param		command UnAssignFeeScheduleFromBillingRunCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignFeeSchedule( UnAssignFeeScheduleFromBillingRunCommand command ) throws BusinessException {
+	public void unAssignFeeSchedule( UnAssignFeeScheduleFromBillingRunCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -286,9 +280,8 @@ throws BusinessException {
 	/**
 	 * add Invoice to Invoices
 	 * @param		command AssignInvoicesToBillingRunCommand
-	 * @exception	BusinessException
 	 */
-	public void addToInvoices( AssignInvoicesToBillingRunCommand command ) throws BusinessException {
+	public void addToInvoices( AssignInvoicesToBillingRunCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -304,9 +297,8 @@ throws BusinessException {
 	/**
 	 * remove Invoice from Invoices
 	 * @param		command RemoveInvoicesFromBillingRunCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromInvoices( RemoveInvoicesFromBillingRunCommand command ) throws BusinessException {
+	public void removeFromInvoices( RemoveInvoicesFromBillingRunCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

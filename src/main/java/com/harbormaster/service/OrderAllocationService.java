@@ -195,10 +195,8 @@ public class OrderAllocationService
 	 * Method to retrieve the OrderAllocation via OrderAllocationFetchOneSummary
 	 * @param 	summary OrderAllocationFetchOneSummary
 	 * @return 	OrderAllocationFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public OrderAllocation getOrderAllocation( OrderAllocationFetchOneSummary summary )
-throws BusinessException {
+	public OrderAllocation getOrderAllocation( OrderAllocationFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "OrderAllocationFetchOneSummary arg cannot be null" );
@@ -233,20 +231,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all OrderAllocations
 	 *
 	 * @return 	List<OrderAllocation>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<OrderAllocation> getAllOrderAllocation() {
 		List<OrderAllocation> list = projector.findAll( new FindAllOrderAllocationQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Order on OrderAllocation
 	 * @param		command AssignOrderToOrderAllocationCommand
-	 * @exception	BusinessException
 	 */
-	public void assignOrder( AssignOrderToOrderAllocationCommand command ) throws BusinessException {
+	public void assignOrder( AssignOrderToOrderAllocationCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -262,9 +257,8 @@ throws BusinessException {
 	/**
 	 * unAssign Order on OrderAllocation
 	 * @param		command UnAssignOrderFromOrderAllocationCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignOrder( UnAssignOrderFromOrderAllocationCommand command ) throws BusinessException {
+	public void unAssignOrder( UnAssignOrderFromOrderAllocationCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -280,9 +274,8 @@ throws BusinessException {
 	/**
 	 * assign Account on OrderAllocation
 	 * @param		command AssignAccountToOrderAllocationCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToOrderAllocationCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToOrderAllocationCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -298,9 +291,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on OrderAllocation
 	 * @param		command UnAssignAccountFromOrderAllocationCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromOrderAllocationCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromOrderAllocationCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -316,9 +308,8 @@ throws BusinessException {
 	/**
 	 * assign Portfolio on OrderAllocation
 	 * @param		command AssignPortfolioToOrderAllocationCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPortfolio( AssignPortfolioToOrderAllocationCommand command ) throws BusinessException {
+	public void assignPortfolio( AssignPortfolioToOrderAllocationCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -334,9 +325,8 @@ throws BusinessException {
 	/**
 	 * unAssign Portfolio on OrderAllocation
 	 * @param		command UnAssignPortfolioFromOrderAllocationCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPortfolio( UnAssignPortfolioFromOrderAllocationCommand command ) throws BusinessException {
+	public void unAssignPortfolio( UnAssignPortfolioFromOrderAllocationCommand command ) {
 
 		// --------------------------------------
 		// validate the command

@@ -200,10 +200,8 @@ public class RiskAssessmentService
 	 * Method to retrieve the RiskAssessment via RiskAssessmentFetchOneSummary
 	 * @param 	summary RiskAssessmentFetchOneSummary
 	 * @return 	RiskAssessmentFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public RiskAssessment getRiskAssessment( RiskAssessmentFetchOneSummary summary )
-throws BusinessException {
+	public RiskAssessment getRiskAssessment( RiskAssessmentFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "RiskAssessmentFetchOneSummary arg cannot be null" );
@@ -238,20 +236,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all RiskAssessments
 	 *
 	 * @return 	List<RiskAssessment>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<RiskAssessment> getAllRiskAssessment() {
 		List<RiskAssessment> list = projector.findAll( new FindAllRiskAssessmentQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Household on RiskAssessment
 	 * @param		command AssignHouseholdToRiskAssessmentCommand
-	 * @exception	BusinessException
 	 */
-	public void assignHousehold( AssignHouseholdToRiskAssessmentCommand command ) throws BusinessException {
+	public void assignHousehold( AssignHouseholdToRiskAssessmentCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -267,9 +262,8 @@ throws BusinessException {
 	/**
 	 * unAssign Household on RiskAssessment
 	 * @param		command UnAssignHouseholdFromRiskAssessmentCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignHousehold( UnAssignHouseholdFromRiskAssessmentCommand command ) throws BusinessException {
+	public void unAssignHousehold( UnAssignHouseholdFromRiskAssessmentCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -285,9 +279,8 @@ throws BusinessException {
 	/**
 	 * assign Advisor on RiskAssessment
 	 * @param		command AssignAdvisorToRiskAssessmentCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisor( AssignAdvisorToRiskAssessmentCommand command ) throws BusinessException {
+	public void assignAdvisor( AssignAdvisorToRiskAssessmentCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -303,9 +296,8 @@ throws BusinessException {
 	/**
 	 * unAssign Advisor on RiskAssessment
 	 * @param		command UnAssignAdvisorFromRiskAssessmentCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisor( UnAssignAdvisorFromRiskAssessmentCommand command ) throws BusinessException {
+	public void unAssignAdvisor( UnAssignAdvisorFromRiskAssessmentCommand command ) {
 
 		// --------------------------------------
 		// validate the command

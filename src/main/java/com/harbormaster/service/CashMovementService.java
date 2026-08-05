@@ -201,10 +201,8 @@ public class CashMovementService
 	 * Method to retrieve the CashMovement via CashMovementFetchOneSummary
 	 * @param 	summary CashMovementFetchOneSummary
 	 * @return 	CashMovementFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public CashMovement getCashMovement( CashMovementFetchOneSummary summary )
-throws BusinessException {
+	public CashMovement getCashMovement( CashMovementFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "CashMovementFetchOneSummary arg cannot be null" );
@@ -239,20 +237,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all CashMovements
 	 *
 	 * @return 	List<CashMovement>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<CashMovement> getAllCashMovement() {
 		List<CashMovement> list = projector.findAll( new FindAllCashMovementQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Account on CashMovement
 	 * @param		command AssignAccountToCashMovementCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToCashMovementCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToCashMovementCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -268,9 +263,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on CashMovement
 	 * @param		command UnAssignAccountFromCashMovementCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromCashMovementCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromCashMovementCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -286,9 +280,8 @@ throws BusinessException {
 	/**
 	 * assign RelatedInstruction on CashMovement
 	 * @param		command AssignRelatedInstructionToCashMovementCommand
-	 * @exception	BusinessException
 	 */
-	public void assignRelatedInstruction( AssignRelatedInstructionToCashMovementCommand command ) throws BusinessException {
+	public void assignRelatedInstruction( AssignRelatedInstructionToCashMovementCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -304,9 +297,8 @@ throws BusinessException {
 	/**
 	 * unAssign RelatedInstruction on CashMovement
 	 * @param		command UnAssignRelatedInstructionFromCashMovementCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignRelatedInstruction( UnAssignRelatedInstructionFromCashMovementCommand command ) throws BusinessException {
+	public void unAssignRelatedInstruction( UnAssignRelatedInstructionFromCashMovementCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -322,9 +314,8 @@ throws BusinessException {
 	/**
 	 * assign RelatedTransaction on CashMovement
 	 * @param		command AssignRelatedTransactionToCashMovementCommand
-	 * @exception	BusinessException
 	 */
-	public void assignRelatedTransaction( AssignRelatedTransactionToCashMovementCommand command ) throws BusinessException {
+	public void assignRelatedTransaction( AssignRelatedTransactionToCashMovementCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -340,9 +331,8 @@ throws BusinessException {
 	/**
 	 * unAssign RelatedTransaction on CashMovement
 	 * @param		command UnAssignRelatedTransactionFromCashMovementCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignRelatedTransaction( UnAssignRelatedTransactionFromCashMovementCommand command ) throws BusinessException {
+	public void unAssignRelatedTransaction( UnAssignRelatedTransactionFromCashMovementCommand command ) {
 
 		// --------------------------------------
 		// validate the command

@@ -211,10 +211,8 @@ public class OrderService
 	 * Method to retrieve the Order via OrderFetchOneSummary
 	 * @param 	summary OrderFetchOneSummary
 	 * @return 	OrderFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Order getOrder( OrderFetchOneSummary summary )
-throws BusinessException {
+	public Order getOrder( OrderFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "OrderFetchOneSummary arg cannot be null" );
@@ -249,20 +247,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Orders
 	 *
 	 * @return 	List<Order>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Order> getAllOrder() {
 		List<Order> list = projector.findAll( new FindAllOrderQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Account on Order
 	 * @param		command AssignAccountToOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToOrderCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToOrderCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -278,9 +273,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on Order
 	 * @param		command UnAssignAccountFromOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromOrderCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromOrderCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -296,9 +290,8 @@ throws BusinessException {
 	/**
 	 * assign Security on Order
 	 * @param		command AssignSecurityToOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void assignSecurity( AssignSecurityToOrderCommand command ) throws BusinessException {
+	public void assignSecurity( AssignSecurityToOrderCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -314,9 +307,8 @@ throws BusinessException {
 	/**
 	 * unAssign Security on Order
 	 * @param		command UnAssignSecurityFromOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignSecurity( UnAssignSecurityFromOrderCommand command ) throws BusinessException {
+	public void unAssignSecurity( UnAssignSecurityFromOrderCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -332,9 +324,8 @@ throws BusinessException {
 	/**
 	 * assign Advisor on Order
 	 * @param		command AssignAdvisorToOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisor( AssignAdvisorToOrderCommand command ) throws BusinessException {
+	public void assignAdvisor( AssignAdvisorToOrderCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -350,9 +341,8 @@ throws BusinessException {
 	/**
 	 * unAssign Advisor on Order
 	 * @param		command UnAssignAdvisorFromOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisor( UnAssignAdvisorFromOrderCommand command ) throws BusinessException {
+	public void unAssignAdvisor( UnAssignAdvisorFromOrderCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -369,9 +359,8 @@ throws BusinessException {
 	/**
 	 * add OrderAllocation to Allocations
 	 * @param		command AssignAllocationsToOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAllocations( AssignAllocationsToOrderCommand command ) throws BusinessException {
+	public void addToAllocations( AssignAllocationsToOrderCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -387,9 +376,8 @@ throws BusinessException {
 	/**
 	 * remove OrderAllocation from Allocations
 	 * @param		command RemoveAllocationsFromOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAllocations( RemoveAllocationsFromOrderCommand command ) throws BusinessException {
+	public void removeFromAllocations( RemoveAllocationsFromOrderCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -404,9 +392,8 @@ throws BusinessException {
 	/**
 	 * add Trade to Trades
 	 * @param		command AssignTradesToOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void addToTrades( AssignTradesToOrderCommand command ) throws BusinessException {
+	public void addToTrades( AssignTradesToOrderCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -422,9 +409,8 @@ throws BusinessException {
 	/**
 	 * remove Trade from Trades
 	 * @param		command RemoveTradesFromOrderCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromTrades( RemoveTradesFromOrderCommand command ) throws BusinessException {
+	public void removeFromTrades( RemoveTradesFromOrderCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

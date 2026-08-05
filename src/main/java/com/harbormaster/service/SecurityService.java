@@ -209,10 +209,8 @@ public class SecurityService
 	 * Method to retrieve the Security via SecurityFetchOneSummary
 	 * @param 	summary SecurityFetchOneSummary
 	 * @return 	SecurityFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Security getSecurity( SecurityFetchOneSummary summary )
-throws BusinessException {
+	public Security getSecurity( SecurityFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "SecurityFetchOneSummary arg cannot be null" );
@@ -247,11 +245,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Securitys
 	 *
 	 * @return 	List<Security>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Security> getAllSecurity() {
 		List<Security> list = projector.findAll( new FindAllSecurityQuery() );
-
 		return list;
 	}
 
@@ -259,9 +255,8 @@ throws BusinessException {
 	/**
 	 * add CorporateAction to CorporateActions
 	 * @param		command AssignCorporateActionsToSecurityCommand
-	 * @exception	BusinessException
 	 */
-	public void addToCorporateActions( AssignCorporateActionsToSecurityCommand command ) throws BusinessException {
+	public void addToCorporateActions( AssignCorporateActionsToSecurityCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -277,9 +272,8 @@ throws BusinessException {
 	/**
 	 * remove CorporateAction from CorporateActions
 	 * @param		command RemoveCorporateActionsFromSecurityCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromCorporateActions( RemoveCorporateActionsFromSecurityCommand command ) throws BusinessException {
+	public void removeFromCorporateActions( RemoveCorporateActionsFromSecurityCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -294,9 +288,8 @@ throws BusinessException {
 	/**
 	 * add MarketPrice to Prices
 	 * @param		command AssignPricesToSecurityCommand
-	 * @exception	BusinessException
 	 */
-	public void addToPrices( AssignPricesToSecurityCommand command ) throws BusinessException {
+	public void addToPrices( AssignPricesToSecurityCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -312,9 +305,8 @@ throws BusinessException {
 	/**
 	 * remove MarketPrice from Prices
 	 * @param		command RemovePricesFromSecurityCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromPrices( RemovePricesFromSecurityCommand command ) throws BusinessException {
+	public void removeFromPrices( RemovePricesFromSecurityCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -329,9 +321,8 @@ throws BusinessException {
 	/**
 	 * add Benchmark to Benchmarks
 	 * @param		command AssignBenchmarksToSecurityCommand
-	 * @exception	BusinessException
 	 */
-	public void addToBenchmarks( AssignBenchmarksToSecurityCommand command ) throws BusinessException {
+	public void addToBenchmarks( AssignBenchmarksToSecurityCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -347,9 +338,8 @@ throws BusinessException {
 	/**
 	 * remove Benchmark from Benchmarks
 	 * @param		command RemoveBenchmarksFromSecurityCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromBenchmarks( RemoveBenchmarksFromSecurityCommand command ) throws BusinessException {
+	public void removeFromBenchmarks( RemoveBenchmarksFromSecurityCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

@@ -196,10 +196,8 @@ public class AdvisoryTeamService
 	 * Method to retrieve the AdvisoryTeam via AdvisoryTeamFetchOneSummary
 	 * @param 	summary AdvisoryTeamFetchOneSummary
 	 * @return 	AdvisoryTeamFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public AdvisoryTeam getAdvisoryTeam( AdvisoryTeamFetchOneSummary summary )
-throws BusinessException {
+	public AdvisoryTeam getAdvisoryTeam( AdvisoryTeamFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "AdvisoryTeamFetchOneSummary arg cannot be null" );
@@ -234,11 +232,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all AdvisoryTeams
 	 *
 	 * @return 	List<AdvisoryTeam>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<AdvisoryTeam> getAllAdvisoryTeam() {
 		List<AdvisoryTeam> list = projector.findAll( new FindAllAdvisoryTeamQuery() );
-
 		return list;
 	}
 
@@ -246,9 +242,8 @@ throws BusinessException {
 	/**
 	 * add Advisor to Advisors
 	 * @param		command AssignAdvisorsToAdvisoryTeamCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAdvisors( AssignAdvisorsToAdvisoryTeamCommand command ) throws BusinessException {
+	public void addToAdvisors( AssignAdvisorsToAdvisoryTeamCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -264,9 +259,8 @@ throws BusinessException {
 	/**
 	 * remove Advisor from Advisors
 	 * @param		command RemoveAdvisorsFromAdvisoryTeamCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAdvisors( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws BusinessException {
+	public void removeFromAdvisors( RemoveAdvisorsFromAdvisoryTeamCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -281,9 +275,8 @@ throws BusinessException {
 	/**
 	 * add Household to Households
 	 * @param		command AssignHouseholdsToAdvisoryTeamCommand
-	 * @exception	BusinessException
 	 */
-	public void addToHouseholds( AssignHouseholdsToAdvisoryTeamCommand command ) throws BusinessException {
+	public void addToHouseholds( AssignHouseholdsToAdvisoryTeamCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -299,9 +292,8 @@ throws BusinessException {
 	/**
 	 * remove Household from Households
 	 * @param		command RemoveHouseholdsFromAdvisoryTeamCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromHouseholds( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws BusinessException {
+	public void removeFromHouseholds( RemoveHouseholdsFromAdvisoryTeamCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

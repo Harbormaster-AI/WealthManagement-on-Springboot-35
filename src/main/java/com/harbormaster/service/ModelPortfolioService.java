@@ -198,10 +198,8 @@ public class ModelPortfolioService
 	 * Method to retrieve the ModelPortfolio via ModelPortfolioFetchOneSummary
 	 * @param 	summary ModelPortfolioFetchOneSummary
 	 * @return 	ModelPortfolioFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public ModelPortfolio getModelPortfolio( ModelPortfolioFetchOneSummary summary )
-throws BusinessException {
+	public ModelPortfolio getModelPortfolio( ModelPortfolioFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "ModelPortfolioFetchOneSummary arg cannot be null" );
@@ -236,11 +234,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all ModelPortfolios
 	 *
 	 * @return 	List<ModelPortfolio>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<ModelPortfolio> getAllModelPortfolio() {
 		List<ModelPortfolio> list = projector.findAll( new FindAllModelPortfolioQuery() );
-
 		return list;
 	}
 
@@ -248,9 +244,8 @@ throws BusinessException {
 	/**
 	 * add AssetAllocationSlice to Allocations
 	 * @param		command AssignAllocationsToModelPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAllocations( AssignAllocationsToModelPortfolioCommand command ) throws BusinessException {
+	public void addToAllocations( AssignAllocationsToModelPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -266,9 +261,8 @@ throws BusinessException {
 	/**
 	 * remove AssetAllocationSlice from Allocations
 	 * @param		command RemoveAllocationsFromModelPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAllocations( RemoveAllocationsFromModelPortfolioCommand command ) throws BusinessException {
+	public void removeFromAllocations( RemoveAllocationsFromModelPortfolioCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -283,9 +277,8 @@ throws BusinessException {
 	/**
 	 * add Portfolio to Portfolios
 	 * @param		command AssignPortfoliosToModelPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void addToPortfolios( AssignPortfoliosToModelPortfolioCommand command ) throws BusinessException {
+	public void addToPortfolios( AssignPortfoliosToModelPortfolioCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -301,9 +294,8 @@ throws BusinessException {
 	/**
 	 * remove Portfolio from Portfolios
 	 * @param		command RemovePortfoliosFromModelPortfolioCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromPortfolios( RemovePortfoliosFromModelPortfolioCommand command ) throws BusinessException {
+	public void removeFromPortfolios( RemovePortfoliosFromModelPortfolioCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

@@ -202,10 +202,8 @@ public class WealthFirmService
 	 * Method to retrieve the WealthFirm via WealthFirmFetchOneSummary
 	 * @param 	summary WealthFirmFetchOneSummary
 	 * @return 	WealthFirmFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public WealthFirm getWealthFirm( WealthFirmFetchOneSummary summary )
-throws BusinessException {
+	public WealthFirm getWealthFirm( WealthFirmFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "WealthFirmFetchOneSummary arg cannot be null" );
@@ -240,11 +238,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all WealthFirms
 	 *
 	 * @return 	List<WealthFirm>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<WealthFirm> getAllWealthFirm() {
 		List<WealthFirm> list = projector.findAll( new FindAllWealthFirmQuery() );
-
 		return list;
 	}
 
@@ -252,9 +248,8 @@ throws BusinessException {
 	/**
 	 * add Advisor to Advisors
 	 * @param		command AssignAdvisorsToWealthFirmCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAdvisors( AssignAdvisorsToWealthFirmCommand command ) throws BusinessException {
+	public void addToAdvisors( AssignAdvisorsToWealthFirmCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -270,9 +265,8 @@ throws BusinessException {
 	/**
 	 * remove Advisor from Advisors
 	 * @param		command RemoveAdvisorsFromWealthFirmCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAdvisors( RemoveAdvisorsFromWealthFirmCommand command ) throws BusinessException {
+	public void removeFromAdvisors( RemoveAdvisorsFromWealthFirmCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -287,9 +281,8 @@ throws BusinessException {
 	/**
 	 * add Office to Offices
 	 * @param		command AssignOfficesToWealthFirmCommand
-	 * @exception	BusinessException
 	 */
-	public void addToOffices( AssignOfficesToWealthFirmCommand command ) throws BusinessException {
+	public void addToOffices( AssignOfficesToWealthFirmCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -305,9 +298,8 @@ throws BusinessException {
 	/**
 	 * remove Office from Offices
 	 * @param		command RemoveOfficesFromWealthFirmCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromOffices( RemoveOfficesFromWealthFirmCommand command ) throws BusinessException {
+	public void removeFromOffices( RemoveOfficesFromWealthFirmCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -322,9 +314,8 @@ throws BusinessException {
 	/**
 	 * add Custodian to Custodians
 	 * @param		command AssignCustodiansToWealthFirmCommand
-	 * @exception	BusinessException
 	 */
-	public void addToCustodians( AssignCustodiansToWealthFirmCommand command ) throws BusinessException {
+	public void addToCustodians( AssignCustodiansToWealthFirmCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -340,9 +331,8 @@ throws BusinessException {
 	/**
 	 * remove Custodian from Custodians
 	 * @param		command RemoveCustodiansFromWealthFirmCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromCustodians( RemoveCustodiansFromWealthFirmCommand command ) throws BusinessException {
+	public void removeFromCustodians( RemoveCustodiansFromWealthFirmCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -357,9 +347,8 @@ throws BusinessException {
 	/**
 	 * add InvestmentProgram to InvestmentPrograms
 	 * @param		command AssignInvestmentProgramsToWealthFirmCommand
-	 * @exception	BusinessException
 	 */
-	public void addToInvestmentPrograms( AssignInvestmentProgramsToWealthFirmCommand command ) throws BusinessException {
+	public void addToInvestmentPrograms( AssignInvestmentProgramsToWealthFirmCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -375,9 +364,8 @@ throws BusinessException {
 	/**
 	 * remove InvestmentProgram from InvestmentPrograms
 	 * @param		command RemoveInvestmentProgramsFromWealthFirmCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromInvestmentPrograms( RemoveInvestmentProgramsFromWealthFirmCommand command ) throws BusinessException {
+	public void removeFromInvestmentPrograms( RemoveInvestmentProgramsFromWealthFirmCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

@@ -199,10 +199,8 @@ public class AgreementService
 	 * Method to retrieve the Agreement via AgreementFetchOneSummary
 	 * @param 	summary AgreementFetchOneSummary
 	 * @return 	AgreementFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Agreement getAgreement( AgreementFetchOneSummary summary )
-throws BusinessException {
+	public Agreement getAgreement( AgreementFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "AgreementFetchOneSummary arg cannot be null" );
@@ -237,20 +235,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Agreements
 	 *
 	 * @return 	List<Agreement>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Agreement> getAllAgreement() {
 		List<Agreement> list = projector.findAll( new FindAllAgreementQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Client on Agreement
 	 * @param		command AssignClientToAgreementCommand
-	 * @exception	BusinessException
 	 */
-	public void assignClient( AssignClientToAgreementCommand command ) throws BusinessException {
+	public void assignClient( AssignClientToAgreementCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -266,9 +261,8 @@ throws BusinessException {
 	/**
 	 * unAssign Client on Agreement
 	 * @param		command UnAssignClientFromAgreementCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignClient( UnAssignClientFromAgreementCommand command ) throws BusinessException {
+	public void unAssignClient( UnAssignClientFromAgreementCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -284,9 +278,8 @@ throws BusinessException {
 	/**
 	 * assign Account on Agreement
 	 * @param		command AssignAccountToAgreementCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToAgreementCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToAgreementCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -302,9 +295,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on Agreement
 	 * @param		command UnAssignAccountFromAgreementCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromAgreementCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromAgreementCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -321,9 +313,8 @@ throws BusinessException {
 	/**
 	 * add Document to Documents
 	 * @param		command AssignDocumentsToAgreementCommand
-	 * @exception	BusinessException
 	 */
-	public void addToDocuments( AssignDocumentsToAgreementCommand command ) throws BusinessException {
+	public void addToDocuments( AssignDocumentsToAgreementCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -339,9 +330,8 @@ throws BusinessException {
 	/**
 	 * remove Document from Documents
 	 * @param		command RemoveDocumentsFromAgreementCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromDocuments( RemoveDocumentsFromAgreementCommand command ) throws BusinessException {
+	public void removeFromDocuments( RemoveDocumentsFromAgreementCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

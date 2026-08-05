@@ -202,10 +202,8 @@ public class FeeScheduleService
 	 * Method to retrieve the FeeSchedule via FeeScheduleFetchOneSummary
 	 * @param 	summary FeeScheduleFetchOneSummary
 	 * @return 	FeeScheduleFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public FeeSchedule getFeeSchedule( FeeScheduleFetchOneSummary summary )
-throws BusinessException {
+	public FeeSchedule getFeeSchedule( FeeScheduleFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "FeeScheduleFetchOneSummary arg cannot be null" );
@@ -240,11 +238,9 @@ throws BusinessException {
 	 * Method to retrieve a collection of all FeeSchedules
 	 *
 	 * @return 	List<FeeSchedule>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<FeeSchedule> getAllFeeSchedule() {
 		List<FeeSchedule> list = projector.findAll( new FindAllFeeScheduleQuery() );
-
 		return list;
 	}
 
@@ -252,9 +248,8 @@ throws BusinessException {
 	/**
 	 * add Account to Accounts
 	 * @param		command AssignAccountsToFeeScheduleCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAccounts( AssignAccountsToFeeScheduleCommand command ) throws BusinessException {
+	public void addToAccounts( AssignAccountsToFeeScheduleCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -270,9 +265,8 @@ throws BusinessException {
 	/**
 	 * remove Account from Accounts
 	 * @param		command RemoveAccountsFromFeeScheduleCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAccounts( RemoveAccountsFromFeeScheduleCommand command ) throws BusinessException {
+	public void removeFromAccounts( RemoveAccountsFromFeeScheduleCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -287,9 +281,8 @@ throws BusinessException {
 	/**
 	 * add BillingRun to BillingRuns
 	 * @param		command AssignBillingRunsToFeeScheduleCommand
-	 * @exception	BusinessException
 	 */
-	public void addToBillingRuns( AssignBillingRunsToFeeScheduleCommand command ) throws BusinessException {
+	public void addToBillingRuns( AssignBillingRunsToFeeScheduleCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -305,9 +298,8 @@ throws BusinessException {
 	/**
 	 * remove BillingRun from BillingRuns
 	 * @param		command RemoveBillingRunsFromFeeScheduleCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromBillingRuns( RemoveBillingRunsFromFeeScheduleCommand command ) throws BusinessException {
+	public void removeFromBillingRuns( RemoveBillingRunsFromFeeScheduleCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

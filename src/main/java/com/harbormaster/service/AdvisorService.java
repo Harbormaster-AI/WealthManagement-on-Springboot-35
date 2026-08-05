@@ -202,10 +202,8 @@ public class AdvisorService
 	 * Method to retrieve the Advisor via AdvisorFetchOneSummary
 	 * @param 	summary AdvisorFetchOneSummary
 	 * @return 	AdvisorFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Advisor getAdvisor( AdvisorFetchOneSummary summary )
-throws BusinessException {
+	public Advisor getAdvisor( AdvisorFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "AdvisorFetchOneSummary arg cannot be null" );
@@ -240,20 +238,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Advisors
 	 *
 	 * @return 	List<Advisor>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Advisor> getAllAdvisor() {
 		List<Advisor> list = projector.findAll( new FindAllAdvisorQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Firm on Advisor
 	 * @param		command AssignFirmToAdvisorCommand
-	 * @exception	BusinessException
 	 */
-	public void assignFirm( AssignFirmToAdvisorCommand command ) throws BusinessException {
+	public void assignFirm( AssignFirmToAdvisorCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -269,9 +264,8 @@ throws BusinessException {
 	/**
 	 * unAssign Firm on Advisor
 	 * @param		command UnAssignFirmFromAdvisorCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignFirm( UnAssignFirmFromAdvisorCommand command ) throws BusinessException {
+	public void unAssignFirm( UnAssignFirmFromAdvisorCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -287,9 +281,8 @@ throws BusinessException {
 	/**
 	 * assign Office on Advisor
 	 * @param		command AssignOfficeToAdvisorCommand
-	 * @exception	BusinessException
 	 */
-	public void assignOffice( AssignOfficeToAdvisorCommand command ) throws BusinessException {
+	public void assignOffice( AssignOfficeToAdvisorCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -305,9 +298,8 @@ throws BusinessException {
 	/**
 	 * unAssign Office on Advisor
 	 * @param		command UnAssignOfficeFromAdvisorCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignOffice( UnAssignOfficeFromAdvisorCommand command ) throws BusinessException {
+	public void unAssignOffice( UnAssignOfficeFromAdvisorCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -323,9 +315,8 @@ throws BusinessException {
 	/**
 	 * assign AdvisoryTeam on Advisor
 	 * @param		command AssignAdvisoryTeamToAdvisorCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisoryTeam( AssignAdvisoryTeamToAdvisorCommand command ) throws BusinessException {
+	public void assignAdvisoryTeam( AssignAdvisoryTeamToAdvisorCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -341,9 +332,8 @@ throws BusinessException {
 	/**
 	 * unAssign AdvisoryTeam on Advisor
 	 * @param		command UnAssignAdvisoryTeamFromAdvisorCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisoryTeam( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws BusinessException {
+	public void unAssignAdvisoryTeam( UnAssignAdvisoryTeamFromAdvisorCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -360,9 +350,8 @@ throws BusinessException {
 	/**
 	 * add Client to Clients
 	 * @param		command AssignClientsToAdvisorCommand
-	 * @exception	BusinessException
 	 */
-	public void addToClients( AssignClientsToAdvisorCommand command ) throws BusinessException {
+	public void addToClients( AssignClientsToAdvisorCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -378,9 +367,8 @@ throws BusinessException {
 	/**
 	 * remove Client from Clients
 	 * @param		command RemoveClientsFromAdvisorCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromClients( RemoveClientsFromAdvisorCommand command ) throws BusinessException {
+	public void removeFromClients( RemoveClientsFromAdvisorCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

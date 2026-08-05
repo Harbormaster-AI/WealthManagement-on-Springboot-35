@@ -195,10 +195,8 @@ public class AssetAllocationSliceService
 	 * Method to retrieve the AssetAllocationSlice via AssetAllocationSliceFetchOneSummary
 	 * @param 	summary AssetAllocationSliceFetchOneSummary
 	 * @return 	AssetAllocationSliceFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public AssetAllocationSlice getAssetAllocationSlice( AssetAllocationSliceFetchOneSummary summary )
-throws BusinessException {
+	public AssetAllocationSlice getAssetAllocationSlice( AssetAllocationSliceFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "AssetAllocationSliceFetchOneSummary arg cannot be null" );
@@ -233,20 +231,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all AssetAllocationSlices
 	 *
 	 * @return 	List<AssetAllocationSlice>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<AssetAllocationSlice> getAllAssetAllocationSlice() {
 		List<AssetAllocationSlice> list = projector.findAll( new FindAllAssetAllocationSliceQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign ModelPortfolio on AssetAllocationSlice
 	 * @param		command AssignModelPortfolioToAssetAllocationSliceCommand
-	 * @exception	BusinessException
 	 */
-	public void assignModelPortfolio( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws BusinessException {
+	public void assignModelPortfolio( AssignModelPortfolioToAssetAllocationSliceCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -262,9 +257,8 @@ throws BusinessException {
 	/**
 	 * unAssign ModelPortfolio on AssetAllocationSlice
 	 * @param		command UnAssignModelPortfolioFromAssetAllocationSliceCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignModelPortfolio( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws BusinessException {
+	public void unAssignModelPortfolio( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) {
 
 		// --------------------------------------
 		// validate the command

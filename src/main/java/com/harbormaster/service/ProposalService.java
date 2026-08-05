@@ -204,10 +204,8 @@ public class ProposalService
 	 * Method to retrieve the Proposal via ProposalFetchOneSummary
 	 * @param 	summary ProposalFetchOneSummary
 	 * @return 	ProposalFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Proposal getProposal( ProposalFetchOneSummary summary )
-throws BusinessException {
+	public Proposal getProposal( ProposalFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "ProposalFetchOneSummary arg cannot be null" );
@@ -242,20 +240,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Proposals
 	 *
 	 * @return 	List<Proposal>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Proposal> getAllProposal() {
 		List<Proposal> list = projector.findAll( new FindAllProposalQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Household on Proposal
 	 * @param		command AssignHouseholdToProposalCommand
-	 * @exception	BusinessException
 	 */
-	public void assignHousehold( AssignHouseholdToProposalCommand command ) throws BusinessException {
+	public void assignHousehold( AssignHouseholdToProposalCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -271,9 +266,8 @@ throws BusinessException {
 	/**
 	 * unAssign Household on Proposal
 	 * @param		command UnAssignHouseholdFromProposalCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignHousehold( UnAssignHouseholdFromProposalCommand command ) throws BusinessException {
+	public void unAssignHousehold( UnAssignHouseholdFromProposalCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -289,9 +283,8 @@ throws BusinessException {
 	/**
 	 * assign Advisor on Proposal
 	 * @param		command AssignAdvisorToProposalCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisor( AssignAdvisorToProposalCommand command ) throws BusinessException {
+	public void assignAdvisor( AssignAdvisorToProposalCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -307,9 +300,8 @@ throws BusinessException {
 	/**
 	 * unAssign Advisor on Proposal
 	 * @param		command UnAssignAdvisorFromProposalCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisor( UnAssignAdvisorFromProposalCommand command ) throws BusinessException {
+	public void unAssignAdvisor( UnAssignAdvisorFromProposalCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -325,9 +317,8 @@ throws BusinessException {
 	/**
 	 * assign ModelPortfolio on Proposal
 	 * @param		command AssignModelPortfolioToProposalCommand
-	 * @exception	BusinessException
 	 */
-	public void assignModelPortfolio( AssignModelPortfolioToProposalCommand command ) throws BusinessException {
+	public void assignModelPortfolio( AssignModelPortfolioToProposalCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -343,9 +334,8 @@ throws BusinessException {
 	/**
 	 * unAssign ModelPortfolio on Proposal
 	 * @param		command UnAssignModelPortfolioFromProposalCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignModelPortfolio( UnAssignModelPortfolioFromProposalCommand command ) throws BusinessException {
+	public void unAssignModelPortfolio( UnAssignModelPortfolioFromProposalCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -361,9 +351,8 @@ throws BusinessException {
 	/**
 	 * assign Account on Proposal
 	 * @param		command AssignAccountToProposalCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToProposalCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToProposalCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -379,9 +368,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on Proposal
 	 * @param		command UnAssignAccountFromProposalCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromProposalCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromProposalCommand command ) {
 
 		// --------------------------------------
 		// validate the command

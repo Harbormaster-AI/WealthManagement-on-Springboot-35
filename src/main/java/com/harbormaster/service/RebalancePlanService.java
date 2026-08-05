@@ -199,10 +199,8 @@ public class RebalancePlanService
 	 * Method to retrieve the RebalancePlan via RebalancePlanFetchOneSummary
 	 * @param 	summary RebalancePlanFetchOneSummary
 	 * @return 	RebalancePlanFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public RebalancePlan getRebalancePlan( RebalancePlanFetchOneSummary summary )
-throws BusinessException {
+	public RebalancePlan getRebalancePlan( RebalancePlanFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "RebalancePlanFetchOneSummary arg cannot be null" );
@@ -237,20 +235,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all RebalancePlans
 	 *
 	 * @return 	List<RebalancePlan>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<RebalancePlan> getAllRebalancePlan() {
 		List<RebalancePlan> list = projector.findAll( new FindAllRebalancePlanQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Portfolio on RebalancePlan
 	 * @param		command AssignPortfolioToRebalancePlanCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPortfolio( AssignPortfolioToRebalancePlanCommand command ) throws BusinessException {
+	public void assignPortfolio( AssignPortfolioToRebalancePlanCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -266,9 +261,8 @@ throws BusinessException {
 	/**
 	 * unAssign Portfolio on RebalancePlan
 	 * @param		command UnAssignPortfolioFromRebalancePlanCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPortfolio( UnAssignPortfolioFromRebalancePlanCommand command ) throws BusinessException {
+	public void unAssignPortfolio( UnAssignPortfolioFromRebalancePlanCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -284,9 +278,8 @@ throws BusinessException {
 	/**
 	 * assign Advisor on RebalancePlan
 	 * @param		command AssignAdvisorToRebalancePlanCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAdvisor( AssignAdvisorToRebalancePlanCommand command ) throws BusinessException {
+	public void assignAdvisor( AssignAdvisorToRebalancePlanCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -302,9 +295,8 @@ throws BusinessException {
 	/**
 	 * unAssign Advisor on RebalancePlan
 	 * @param		command UnAssignAdvisorFromRebalancePlanCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAdvisor( UnAssignAdvisorFromRebalancePlanCommand command ) throws BusinessException {
+	public void unAssignAdvisor( UnAssignAdvisorFromRebalancePlanCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -321,9 +313,8 @@ throws BusinessException {
 	/**
 	 * add Order to ProposedOrders
 	 * @param		command AssignProposedOrdersToRebalancePlanCommand
-	 * @exception	BusinessException
 	 */
-	public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) throws BusinessException {
+	public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -339,9 +330,8 @@ throws BusinessException {
 	/**
 	 * remove Order from ProposedOrders
 	 * @param		command RemoveProposedOrdersFromRebalancePlanCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command ) throws BusinessException {
+	public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

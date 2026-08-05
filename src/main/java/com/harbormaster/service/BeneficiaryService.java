@@ -200,10 +200,8 @@ public class BeneficiaryService
 	 * Method to retrieve the Beneficiary via BeneficiaryFetchOneSummary
 	 * @param 	summary BeneficiaryFetchOneSummary
 	 * @return 	BeneficiaryFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Beneficiary getBeneficiary( BeneficiaryFetchOneSummary summary )
-throws BusinessException {
+	public Beneficiary getBeneficiary( BeneficiaryFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "BeneficiaryFetchOneSummary arg cannot be null" );
@@ -238,20 +236,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Beneficiarys
 	 *
 	 * @return 	List<Beneficiary>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Beneficiary> getAllBeneficiary() {
 		List<Beneficiary> list = projector.findAll( new FindAllBeneficiaryQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Client on Beneficiary
 	 * @param		command AssignClientToBeneficiaryCommand
-	 * @exception	BusinessException
 	 */
-	public void assignClient( AssignClientToBeneficiaryCommand command ) throws BusinessException {
+	public void assignClient( AssignClientToBeneficiaryCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -267,9 +262,8 @@ throws BusinessException {
 	/**
 	 * unAssign Client on Beneficiary
 	 * @param		command UnAssignClientFromBeneficiaryCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignClient( UnAssignClientFromBeneficiaryCommand command ) throws BusinessException {
+	public void unAssignClient( UnAssignClientFromBeneficiaryCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -286,9 +280,8 @@ throws BusinessException {
 	/**
 	 * add Account to Accounts
 	 * @param		command AssignAccountsToBeneficiaryCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAccounts( AssignAccountsToBeneficiaryCommand command ) throws BusinessException {
+	public void addToAccounts( AssignAccountsToBeneficiaryCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -304,9 +297,8 @@ throws BusinessException {
 	/**
 	 * remove Account from Accounts
 	 * @param		command RemoveAccountsFromBeneficiaryCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAccounts( RemoveAccountsFromBeneficiaryCommand command ) throws BusinessException {
+	public void removeFromAccounts( RemoveAccountsFromBeneficiaryCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

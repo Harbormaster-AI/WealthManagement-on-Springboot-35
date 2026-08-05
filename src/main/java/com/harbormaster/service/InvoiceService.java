@@ -203,10 +203,8 @@ public class InvoiceService
 	 * Method to retrieve the Invoice via InvoiceFetchOneSummary
 	 * @param 	summary InvoiceFetchOneSummary
 	 * @return 	InvoiceFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Invoice getInvoice( InvoiceFetchOneSummary summary )
-throws BusinessException {
+	public Invoice getInvoice( InvoiceFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "InvoiceFetchOneSummary arg cannot be null" );
@@ -241,20 +239,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Invoices
 	 *
 	 * @return 	List<Invoice>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Invoice> getAllInvoice() {
 		List<Invoice> list = projector.findAll( new FindAllInvoiceQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Account on Invoice
 	 * @param		command AssignAccountToInvoiceCommand
-	 * @exception	BusinessException
 	 */
-	public void assignAccount( AssignAccountToInvoiceCommand command ) throws BusinessException {
+	public void assignAccount( AssignAccountToInvoiceCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -270,9 +265,8 @@ throws BusinessException {
 	/**
 	 * unAssign Account on Invoice
 	 * @param		command UnAssignAccountFromInvoiceCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignAccount( UnAssignAccountFromInvoiceCommand command ) throws BusinessException {
+	public void unAssignAccount( UnAssignAccountFromInvoiceCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -288,9 +282,8 @@ throws BusinessException {
 	/**
 	 * assign BillingRun on Invoice
 	 * @param		command AssignBillingRunToInvoiceCommand
-	 * @exception	BusinessException
 	 */
-	public void assignBillingRun( AssignBillingRunToInvoiceCommand command ) throws BusinessException {
+	public void assignBillingRun( AssignBillingRunToInvoiceCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -306,9 +299,8 @@ throws BusinessException {
 	/**
 	 * unAssign BillingRun on Invoice
 	 * @param		command UnAssignBillingRunFromInvoiceCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignBillingRun( UnAssignBillingRunFromInvoiceCommand command ) throws BusinessException {
+	public void unAssignBillingRun( UnAssignBillingRunFromInvoiceCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -325,9 +317,8 @@ throws BusinessException {
 	/**
 	 * add Fee to Fees
 	 * @param		command AssignFeesToInvoiceCommand
-	 * @exception	BusinessException
 	 */
-	public void addToFees( AssignFeesToInvoiceCommand command ) throws BusinessException {
+	public void addToFees( AssignFeesToInvoiceCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -343,9 +334,8 @@ throws BusinessException {
 	/**
 	 * remove Fee from Fees
 	 * @param		command RemoveFeesFromInvoiceCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromFees( RemoveFeesFromInvoiceCommand command ) throws BusinessException {
+	public void removeFromFees( RemoveFeesFromInvoiceCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

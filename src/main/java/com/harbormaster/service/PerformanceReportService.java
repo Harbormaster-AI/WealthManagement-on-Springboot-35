@@ -202,10 +202,8 @@ public class PerformanceReportService
 	 * Method to retrieve the PerformanceReport via PerformanceReportFetchOneSummary
 	 * @param 	summary PerformanceReportFetchOneSummary
 	 * @return 	PerformanceReportFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public PerformanceReport getPerformanceReport( PerformanceReportFetchOneSummary summary )
-throws BusinessException {
+	public PerformanceReport getPerformanceReport( PerformanceReportFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "PerformanceReportFetchOneSummary arg cannot be null" );
@@ -240,20 +238,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all PerformanceReports
 	 *
 	 * @return 	List<PerformanceReport>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<PerformanceReport> getAllPerformanceReport() {
 		List<PerformanceReport> list = projector.findAll( new FindAllPerformanceReportQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Portfolio on PerformanceReport
 	 * @param		command AssignPortfolioToPerformanceReportCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPortfolio( AssignPortfolioToPerformanceReportCommand command ) throws BusinessException {
+	public void assignPortfolio( AssignPortfolioToPerformanceReportCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -269,9 +264,8 @@ throws BusinessException {
 	/**
 	 * unAssign Portfolio on PerformanceReport
 	 * @param		command UnAssignPortfolioFromPerformanceReportCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPortfolio( UnAssignPortfolioFromPerformanceReportCommand command ) throws BusinessException {
+	public void unAssignPortfolio( UnAssignPortfolioFromPerformanceReportCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -287,9 +281,8 @@ throws BusinessException {
 	/**
 	 * assign Benchmark on PerformanceReport
 	 * @param		command AssignBenchmarkToPerformanceReportCommand
-	 * @exception	BusinessException
 	 */
-	public void assignBenchmark( AssignBenchmarkToPerformanceReportCommand command ) throws BusinessException {
+	public void assignBenchmark( AssignBenchmarkToPerformanceReportCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -305,9 +298,8 @@ throws BusinessException {
 	/**
 	 * unAssign Benchmark on PerformanceReport
 	 * @param		command UnAssignBenchmarkFromPerformanceReportCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignBenchmark( UnAssignBenchmarkFromPerformanceReportCommand command ) throws BusinessException {
+	public void unAssignBenchmark( UnAssignBenchmarkFromPerformanceReportCommand command ) {
 
 		// --------------------------------------
 		// validate the command

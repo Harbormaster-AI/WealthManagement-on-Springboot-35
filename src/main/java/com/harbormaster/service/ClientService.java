@@ -206,10 +206,8 @@ public class ClientService
 	 * Method to retrieve the Client via ClientFetchOneSummary
 	 * @param 	summary ClientFetchOneSummary
 	 * @return 	ClientFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public Client getClient( ClientFetchOneSummary summary )
-throws BusinessException {
+	public Client getClient( ClientFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "ClientFetchOneSummary arg cannot be null" );
@@ -244,20 +242,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all Clients
 	 *
 	 * @return 	List<Client>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<Client> getAllClient() {
 		List<Client> list = projector.findAll( new FindAllClientQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Household on Client
 	 * @param		command AssignHouseholdToClientCommand
-	 * @exception	BusinessException
 	 */
-	public void assignHousehold( AssignHouseholdToClientCommand command ) throws BusinessException {
+	public void assignHousehold( AssignHouseholdToClientCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -273,9 +268,8 @@ throws BusinessException {
 	/**
 	 * unAssign Household on Client
 	 * @param		command UnAssignHouseholdFromClientCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignHousehold( UnAssignHouseholdFromClientCommand command ) throws BusinessException {
+	public void unAssignHousehold( UnAssignHouseholdFromClientCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -291,9 +285,8 @@ throws BusinessException {
 	/**
 	 * assign KycRecord on Client
 	 * @param		command AssignKycRecordToClientCommand
-	 * @exception	BusinessException
 	 */
-	public void assignKycRecord( AssignKycRecordToClientCommand command ) throws BusinessException {
+	public void assignKycRecord( AssignKycRecordToClientCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -309,9 +302,8 @@ throws BusinessException {
 	/**
 	 * unAssign KycRecord on Client
 	 * @param		command UnAssignKycRecordFromClientCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignKycRecord( UnAssignKycRecordFromClientCommand command ) throws BusinessException {
+	public void unAssignKycRecord( UnAssignKycRecordFromClientCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -328,9 +320,8 @@ throws BusinessException {
 	/**
 	 * add Account to Accounts
 	 * @param		command AssignAccountsToClientCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAccounts( AssignAccountsToClientCommand command ) throws BusinessException {
+	public void addToAccounts( AssignAccountsToClientCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -346,9 +337,8 @@ throws BusinessException {
 	/**
 	 * remove Account from Accounts
 	 * @param		command RemoveAccountsFromClientCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAccounts( RemoveAccountsFromClientCommand command ) throws BusinessException {
+	public void removeFromAccounts( RemoveAccountsFromClientCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -363,9 +353,8 @@ throws BusinessException {
 	/**
 	 * add Document to Documents
 	 * @param		command AssignDocumentsToClientCommand
-	 * @exception	BusinessException
 	 */
-	public void addToDocuments( AssignDocumentsToClientCommand command ) throws BusinessException {
+	public void addToDocuments( AssignDocumentsToClientCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -381,9 +370,8 @@ throws BusinessException {
 	/**
 	 * remove Document from Documents
 	 * @param		command RemoveDocumentsFromClientCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromDocuments( RemoveDocumentsFromClientCommand command ) throws BusinessException {
+	public void removeFromDocuments( RemoveDocumentsFromClientCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -398,9 +386,8 @@ throws BusinessException {
 	/**
 	 * add Beneficiary to Beneficiaries
 	 * @param		command AssignBeneficiariesToClientCommand
-	 * @exception	BusinessException
 	 */
-	public void addToBeneficiaries( AssignBeneficiariesToClientCommand command ) throws BusinessException {
+	public void addToBeneficiaries( AssignBeneficiariesToClientCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -416,9 +403,8 @@ throws BusinessException {
 	/**
 	 * remove Beneficiary from Beneficiaries
 	 * @param		command RemoveBeneficiariesFromClientCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromBeneficiaries( RemoveBeneficiariesFromClientCommand command ) throws BusinessException {
+	public void removeFromBeneficiaries( RemoveBeneficiariesFromClientCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------
@@ -433,9 +419,8 @@ throws BusinessException {
 	/**
 	 * add Agreement to Agreements
 	 * @param		command AssignAgreementsToClientCommand
-	 * @exception	BusinessException
 	 */
-	public void addToAgreements( AssignAgreementsToClientCommand command ) throws BusinessException {
+	public void addToAgreements( AssignAgreementsToClientCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -451,9 +436,8 @@ throws BusinessException {
 	/**
 	 * remove Agreement from Agreements
 	 * @param		command RemoveAgreementsFromClientCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromAgreements( RemoveAgreementsFromClientCommand command ) throws BusinessException {
+	public void removeFromAgreements( RemoveAgreementsFromClientCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

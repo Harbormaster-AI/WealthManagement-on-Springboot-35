@@ -199,10 +199,8 @@ public class InvestmentPolicyService
 	 * Method to retrieve the InvestmentPolicy via InvestmentPolicyFetchOneSummary
 	 * @param 	summary InvestmentPolicyFetchOneSummary
 	 * @return 	InvestmentPolicyFetchOneResponse
-	 * @exception BusinessException - Thrown if processing any related problems
 	 */
-public InvestmentPolicy getInvestmentPolicy( InvestmentPolicyFetchOneSummary summary )
-throws BusinessException {
+	public InvestmentPolicy getInvestmentPolicy( InvestmentPolicyFetchOneSummary summary ) {
 
 		if( summary == null )
 			throw new IllegalArgumentException( "InvestmentPolicyFetchOneSummary arg cannot be null" );
@@ -237,20 +235,17 @@ throws BusinessException {
 	 * Method to retrieve a collection of all InvestmentPolicys
 	 *
 	 * @return 	List<InvestmentPolicy>
-	 * @exception BusinessException Thrown if any problems
 	 */
     public List<InvestmentPolicy> getAllInvestmentPolicy() {
 		List<InvestmentPolicy> list = projector.findAll( new FindAllInvestmentPolicyQuery() );
-
 		return list;
 	}
 
 	/**
 	 * assign Portfolio on InvestmentPolicy
 	 * @param		command AssignPortfolioToInvestmentPolicyCommand
-	 * @exception	BusinessException
 	 */
-	public void assignPortfolio( AssignPortfolioToInvestmentPolicyCommand command ) throws BusinessException {
+	public void assignPortfolio( AssignPortfolioToInvestmentPolicyCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -266,9 +261,8 @@ throws BusinessException {
 	/**
 	 * unAssign Portfolio on InvestmentPolicy
 	 * @param		command UnAssignPortfolioFromInvestmentPolicyCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignPortfolio( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws BusinessException {
+	public void unAssignPortfolio( UnAssignPortfolioFromInvestmentPolicyCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -284,9 +278,8 @@ throws BusinessException {
 	/**
 	 * assign RiskAssessment on InvestmentPolicy
 	 * @param		command AssignRiskAssessmentToInvestmentPolicyCommand
-	 * @exception	BusinessException
 	 */
-	public void assignRiskAssessment( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws BusinessException {
+	public void assignRiskAssessment( AssignRiskAssessmentToInvestmentPolicyCommand command ) {
 		// --------------------------------------
 		// best to validate the command now
 		// --------------------------------------
@@ -302,9 +295,8 @@ throws BusinessException {
 	/**
 	 * unAssign RiskAssessment on InvestmentPolicy
 	 * @param		command UnAssignRiskAssessmentFromInvestmentPolicyCommand
-	 * @exception	BusinessException
 	 */
-	public void unAssignRiskAssessment( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws BusinessException {
+	public void unAssignRiskAssessment( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -321,9 +313,8 @@ throws BusinessException {
 	/**
 	 * add WealthGoal to Goals
 	 * @param		command AssignGoalsToInvestmentPolicyCommand
-	 * @exception	BusinessException
 	 */
-	public void addToGoals( AssignGoalsToInvestmentPolicyCommand command ) throws BusinessException {
+	public void addToGoals( AssignGoalsToInvestmentPolicyCommand command ) {
 
 		// --------------------------------------
 		// validate the command
@@ -339,9 +330,8 @@ throws BusinessException {
 	/**
 	 * remove WealthGoal from Goals
 	 * @param		command RemoveGoalsFromInvestmentPolicyCommand
-	 * @exception	BusinessException
 	 */
-	public void removeFromGoals( RemoveGoalsFromInvestmentPolicyCommand command ) throws BusinessException {
+	public void removeFromGoals( RemoveGoalsFromInvestmentPolicyCommand command )  {
 		// --------------------------------------
 		// validate the command
 		// --------------------------------------

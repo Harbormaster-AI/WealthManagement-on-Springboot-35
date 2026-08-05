@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -74,24 +74,24 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class BenchmarkValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected BenchmarkValidator() {	
+	protected BenchmarkValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Benchmark
 	 */
 	public void validate( CreateBenchmarkCommand benchmark )throws ValidationException {
 		if ( benchmark == null )
-			throw new ValidationException( "Benchmark", "validating CreateBenchmarkCommand" );
+		throw new ValidationException( "Benchmark", "validating CreateBenchmarkCommand" );
 
 //		Assert.isNull( benchmark.getBenchmarkId(), "CreateBenchmarkCommand identifier should be null" );
 		if ( benchmark.getName() == null )
-			throw new ValidationException( "Benchmark", "validating access on getName" );
+		throw new ValidationException( "Benchmark", "validating access on getName" );
 	}
 
 	/**
@@ -99,102 +99,102 @@ public class BenchmarkValidator {
 	 */
 	public void validate( UpdateBenchmarkCommand benchmark ) throws ValidationException {
 		if ( benchmark == null )
-			throw new ValidationException( "Benchmark", "validating UpdateBenchmarkCommand" );
+		throw new ValidationException( "Benchmark", "validating UpdateBenchmarkCommand" );
 		if ( benchmark.getName() == null )
-			throw new ValidationException( "Benchmark", "validating method getName" );
-    }
+		throw new ValidationException( "Benchmark", "validating method getName" );
+}
 
-	/**
-	 * handles delete validation for a Benchmark
-	 */
-    public void validate( DeleteBenchmarkCommand benchmark ) throws ValidationException {
-		if ( benchmark == null )
-			throw new ValidationException( "Benchmark", "validating DeleteBenchmarkCommand" );
+/**
+ * handles delete validation for a Benchmark
+ */
+public void validate( DeleteBenchmarkCommand benchmark ) throws ValidationException {
+	if ( benchmark == null )
+	throw new ValidationException( "Benchmark", "validating DeleteBenchmarkCommand" );
 
-		if ( benchmark.getName() == null )
-			throw new ValidationException( "Benchmark", "validating getName" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Benchmark
-	 */
-	public void validate( BenchmarkFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Benchmark", "validating summary );
-	}
+	if ( benchmark.getName() == null )
+	throw new ValidationException( "Benchmark", "validating getName" );
+}
+
+/**
+ * handles fetchOne validation for a Benchmark
+ */
+public void validate( BenchmarkFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Benchmark", "validating summary );
+}
 
 
-	/**
-	 * handles add to PerformanceReports validation for a Benchmark
-	 * 
-	 * @param	command AssignPerformanceReportsToBenchmarkCommand
-	 */	
-	public void validate( AssignPerformanceReportsToBenchmarkCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Benchmark", "validating AssignPerformanceReportsToBenchmarkCommand" );
+		/**
+ * handles add to PerformanceReports validation for a Benchmark
+ *
+ * @param	command AssignPerformanceReportsToBenchmarkCommand
+ */
+public void validate( AssignPerformanceReportsToBenchmarkCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Benchmark", "validating AssignPerformanceReportsToBenchmarkCommand" );
 
-		if ( command.getBenchmarkId() == null ) }
-			throw new ValidationException( "Benchmark", "validating identity on AssignPerformanceReportsToBenchmarkCommand" );
+	if ( command.getBenchmarkId() == null )
+	throw new ValidationException( "Benchmark", "validating identity on AssignPerformanceReportsToBenchmarkCommand" );
 
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Benchmark", "validating addTo attribute on AssignPerformanceReportsToBenchmarkCommand" );
-
-	}
-
-	/**
-	 * handles remove from PerformanceReports validation for a Benchmark
-	 * 
-	 * @param	command RemovePerformanceReportsFromBenchmarkCommand
-	 */	
-	public void validate( RemovePerformanceReportsFromBenchmarkCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Benchmark", "validating RemovePerformanceReportsFromBenchmarkCommand");
-
-		if( command.getBenchmarkId() == null )
-			throw new ValidationException"Benchmark", "validating id on RemovePerformanceReportsFromBenchmarkCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Benchmark", "validating remove from";
-
-		if( command.getRemoveFrom().getPerformanceReportId() == null )
-			throw new ValidationException"Benchmark", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to Constituents validation for a Benchmark
-	 * 
-	 * @param	command AssignConstituentsToBenchmarkCommand
-	 */	
-	public void validate( AssignConstituentsToBenchmarkCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Benchmark", "validating AssignConstituentsToBenchmarkCommand" );
-
-		if ( command.getBenchmarkId() == null ) }
-			throw new ValidationException( "Benchmark", "validating identity on AssignConstituentsToBenchmarkCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Benchmark", "validating addTo attribute on AssignConstituentsToBenchmarkCommand" );
-
-	}
-
-	/**
-	 * handles remove from Constituents validation for a Benchmark
-	 * 
-	 * @param	command RemoveConstituentsFromBenchmarkCommand
-	 */	
-	public void validate( RemoveConstituentsFromBenchmarkCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Benchmark", "validating RemoveConstituentsFromBenchmarkCommand");
-
-		if( command.getBenchmarkId() == null )
-			throw new ValidationException"Benchmark", "validating id on RemoveConstituentsFromBenchmarkCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Benchmark", "validating remove from";
-
-		if( command.getRemoveFrom().getSecurityId() == null )
-			throw new ValidationException"Benchmark", "validating id on remove from}";
-	}
-	
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Benchmark", "validating addTo attribute on AssignPerformanceReportsToBenchmarkCommand" );
 
 }
+
+/**
+ * handles remove from PerformanceReports validation for a Benchmark
+ *
+ * @param	command RemovePerformanceReportsFromBenchmarkCommand
+ */
+public void validate( RemovePerformanceReportsFromBenchmarkCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Benchmark", "validating RemovePerformanceReportsFromBenchmarkCommand");
+
+	if( command.getBenchmarkId() == null )
+	throw new ValidationException"Benchmark", "validating id on RemovePerformanceReportsFromBenchmarkCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Benchmark", "validating remove from";
+
+	if( command.getRemoveFrom().getPerformanceReportId() == null )
+	throw new ValidationException"Benchmark", "validating id on remove from}";
+}
+	
+/**
+ * handles add to Constituents validation for a Benchmark
+ *
+ * @param	command AssignConstituentsToBenchmarkCommand
+ */
+public void validate( AssignConstituentsToBenchmarkCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Benchmark", "validating AssignConstituentsToBenchmarkCommand" );
+
+	if ( command.getBenchmarkId() == null )
+	throw new ValidationException( "Benchmark", "validating identity on AssignConstituentsToBenchmarkCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Benchmark", "validating addTo attribute on AssignConstituentsToBenchmarkCommand" );
+
+}
+
+/**
+ * handles remove from Constituents validation for a Benchmark
+ *
+ * @param	command RemoveConstituentsFromBenchmarkCommand
+ */
+public void validate( RemoveConstituentsFromBenchmarkCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Benchmark", "validating RemoveConstituentsFromBenchmarkCommand");
+
+	if( command.getBenchmarkId() == null )
+	throw new ValidationException"Benchmark", "validating id on RemoveConstituentsFromBenchmarkCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Benchmark", "validating remove from";
+
+	if( command.getRemoveFrom().getSecurityId() == null )
+	throw new ValidationException"Benchmark", "validating id on remove from}";
+}
+	
+
+		}

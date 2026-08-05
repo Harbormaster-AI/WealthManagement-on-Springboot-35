@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -80,28 +80,28 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class OrderValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected OrderValidator() {	
+	protected OrderValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Order
 	 */
 	public void validate( CreateOrderCommand order )throws ValidationException {
 		if ( order == null )
-			throw new ValidationException( "Order", "validating CreateOrderCommand" );
+		throw new ValidationException( "Order", "validating CreateOrderCommand" );
 
 //		Assert.isNull( order.getOrderId(), "CreateOrderCommand identifier should be null" );
 		if ( order.getOrderNumber() == null )
-			throw new ValidationException( "Order", "validating access on getOrderNumber" );
+		throw new ValidationException( "Order", "validating access on getOrderNumber" );
 		if ( order.getQuantity() == null )
-			throw new ValidationException( "Order", "validating access on getQuantity" );
+		throw new ValidationException( "Order", "validating access on getQuantity" );
 		if ( order.getLimitPrice() == null )
-			throw new ValidationException( "Order", "validating access on getLimitPrice" );
+		throw new ValidationException( "Order", "validating access on getLimitPrice" );
 	}
 
 	/**
@@ -109,193 +109,193 @@ public class OrderValidator {
 	 */
 	public void validate( UpdateOrderCommand order ) throws ValidationException {
 		if ( order == null )
-			throw new ValidationException( "Order", "validating UpdateOrderCommand" );
+		throw new ValidationException( "Order", "validating UpdateOrderCommand" );
 		if ( order.getOrderNumber() == null )
-			throw new ValidationException( "Order", "validating method getOrderNumber" );
+		throw new ValidationException( "Order", "validating method getOrderNumber" );
 		if ( order.getQuantity() == null )
-			throw new ValidationException( "Order", "validating method getQuantity" );
+		throw new ValidationException( "Order", "validating method getQuantity" );
 		if ( order.getLimitPrice() == null )
-			throw new ValidationException( "Order", "validating method getLimitPrice" );
-    }
+		throw new ValidationException( "Order", "validating method getLimitPrice" );
+}
 
-	/**
-	 * handles delete validation for a Order
-	 */
-    public void validate( DeleteOrderCommand order ) throws ValidationException {
-		if ( order == null )
-			throw new ValidationException( "Order", "validating DeleteOrderCommand" );
+/**
+ * handles delete validation for a Order
+ */
+public void validate( DeleteOrderCommand order ) throws ValidationException {
+	if ( order == null )
+	throw new ValidationException( "Order", "validating DeleteOrderCommand" );
 
-		if ( order.getLimitPrice() == null )
-			throw new ValidationException( "Order", "validating getLimitPrice" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Order
-	 */
-	public void validate( OrderFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Order", "validating summary );
-	}
+	if ( order.getLimitPrice() == null )
+	throw new ValidationException( "Order", "validating getLimitPrice" );
+}
 
-	/**
-	 * handles assign Account validation for a Order
-	 * 
-	 * @param	command AssignAccountToOrderCommand
-	 */	
-	public void validate( AssignAccountToOrderCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Order", "validating AssignAccountToOrderCommand" );
+/**
+ * handles fetchOne validation for a Order
+ */
+public void validate( OrderFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Order", "validating summary );
+}
 
-		if ( command.getOrderId() == null )
-			throw new ValidationException( "Order", "validating identifier" );
+/**
+ * handles assign Account validation for a Order
+ *
+ * @param	command AssignAccountToOrderCommand
+ */
+public void validate( AssignAccountToOrderCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Order", "validating AssignAccountToOrderCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Order", "validating assignment" );
+	if ( command.getOrderId() == null )
+	throw new ValidationException( "Order", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Account validation for a Order
-	 * 
-	 * @param	command UnAssignAccountFromOrderCommand
-	 */	
-	public void validate( UnAssignAccountFromOrderCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Order", "validating UnAssignAccountFromOrderCommand" );
-
-		if ( command.getOrderId() == null ) }
-			throw new ValidationException( "Order", "validating identity on UnAssignAccountFromOrderCommand" );
-	}
-	/**
-	 * handles assign Security validation for a Order
-	 * 
-	 * @param	command AssignSecurityToOrderCommand
-	 */	
-	public void validate( AssignSecurityToOrderCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Order", "validating AssignSecurityToOrderCommand" );
-
-		if ( command.getOrderId() == null )
-			throw new ValidationException( "Order", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Order", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Security validation for a Order
-	 * 
-	 * @param	command UnAssignSecurityFromOrderCommand
-	 */	
-	public void validate( UnAssignSecurityFromOrderCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Order", "validating UnAssignSecurityFromOrderCommand" );
-
-		if ( command.getOrderId() == null ) }
-			throw new ValidationException( "Order", "validating identity on UnAssignSecurityFromOrderCommand" );
-	}
-	/**
-	 * handles assign Advisor validation for a Order
-	 * 
-	 * @param	command AssignAdvisorToOrderCommand
-	 */	
-	public void validate( AssignAdvisorToOrderCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Order", "validating AssignAdvisorToOrderCommand" );
-
-		if ( command.getOrderId() == null )
-			throw new ValidationException( "Order", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Order", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Advisor validation for a Order
-	 * 
-	 * @param	command UnAssignAdvisorFromOrderCommand
-	 */	
-	public void validate( UnAssignAdvisorFromOrderCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Order", "validating UnAssignAdvisorFromOrderCommand" );
-
-		if ( command.getOrderId() == null ) }
-			throw new ValidationException( "Order", "validating identity on UnAssignAdvisorFromOrderCommand" );
-	}
-
-	/**
-	 * handles add to Allocations validation for a Order
-	 * 
-	 * @param	command AssignAllocationsToOrderCommand
-	 */	
-	public void validate( AssignAllocationsToOrderCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Order", "validating AssignAllocationsToOrderCommand" );
-
-		if ( command.getOrderId() == null ) }
-			throw new ValidationException( "Order", "validating identity on AssignAllocationsToOrderCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Order", "validating addTo attribute on AssignAllocationsToOrderCommand" );
-
-	}
-
-	/**
-	 * handles remove from Allocations validation for a Order
-	 * 
-	 * @param	command RemoveAllocationsFromOrderCommand
-	 */	
-	public void validate( RemoveAllocationsFromOrderCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Order", "validating RemoveAllocationsFromOrderCommand");
-
-		if( command.getOrderId() == null )
-			throw new ValidationException"Order", "validating id on RemoveAllocationsFromOrderCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Order", "validating remove from";
-
-		if( command.getRemoveFrom().getOrderAllocationId() == null )
-			throw new ValidationException"Order", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to Trades validation for a Order
-	 * 
-	 * @param	command AssignTradesToOrderCommand
-	 */	
-	public void validate( AssignTradesToOrderCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Order", "validating AssignTradesToOrderCommand" );
-
-		if ( command.getOrderId() == null ) }
-			throw new ValidationException( "Order", "validating identity on AssignTradesToOrderCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Order", "validating addTo attribute on AssignTradesToOrderCommand" );
-
-	}
-
-	/**
-	 * handles remove from Trades validation for a Order
-	 * 
-	 * @param	command RemoveTradesFromOrderCommand
-	 */	
-	public void validate( RemoveTradesFromOrderCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Order", "validating RemoveTradesFromOrderCommand");
-
-		if( command.getOrderId() == null )
-			throw new ValidationException"Order", "validating id on RemoveTradesFromOrderCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Order", "validating remove from";
-
-		if( command.getRemoveFrom().getTradeId() == null )
-			throw new ValidationException"Order", "validating id on remove from}";
-	}
-	
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Order", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Account validation for a Order
+ *
+ * @param	command UnAssignAccountFromOrderCommand
+ */
+public void validate( UnAssignAccountFromOrderCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Order", "validating UnAssignAccountFromOrderCommand" );
+
+	if ( command.getOrderId() == null ) }
+			throw new ValidationException( "Order", "validating identity on UnAssignAccountFromOrderCommand" );
+	}
+			/**
+ * handles assign Security validation for a Order
+ *
+ * @param	command AssignSecurityToOrderCommand
+ */
+public void validate( AssignSecurityToOrderCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Order", "validating AssignSecurityToOrderCommand" );
+
+	if ( command.getOrderId() == null )
+	throw new ValidationException( "Order", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Order", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Security validation for a Order
+ *
+ * @param	command UnAssignSecurityFromOrderCommand
+ */
+public void validate( UnAssignSecurityFromOrderCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Order", "validating UnAssignSecurityFromOrderCommand" );
+
+	if ( command.getOrderId() == null ) }
+			throw new ValidationException( "Order", "validating identity on UnAssignSecurityFromOrderCommand" );
+	}
+			/**
+ * handles assign Advisor validation for a Order
+ *
+ * @param	command AssignAdvisorToOrderCommand
+ */
+public void validate( AssignAdvisorToOrderCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Order", "validating AssignAdvisorToOrderCommand" );
+
+	if ( command.getOrderId() == null )
+	throw new ValidationException( "Order", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Order", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Advisor validation for a Order
+ *
+ * @param	command UnAssignAdvisorFromOrderCommand
+ */
+public void validate( UnAssignAdvisorFromOrderCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Order", "validating UnAssignAdvisorFromOrderCommand" );
+
+	if ( command.getOrderId() == null ) }
+			throw new ValidationException( "Order", "validating identity on UnAssignAdvisorFromOrderCommand" );
+	}
+			
+		/**
+ * handles add to Allocations validation for a Order
+ *
+ * @param	command AssignAllocationsToOrderCommand
+ */
+public void validate( AssignAllocationsToOrderCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Order", "validating AssignAllocationsToOrderCommand" );
+
+	if ( command.getOrderId() == null )
+	throw new ValidationException( "Order", "validating identity on AssignAllocationsToOrderCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Order", "validating addTo attribute on AssignAllocationsToOrderCommand" );
+
+}
+
+/**
+ * handles remove from Allocations validation for a Order
+ *
+ * @param	command RemoveAllocationsFromOrderCommand
+ */
+public void validate( RemoveAllocationsFromOrderCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Order", "validating RemoveAllocationsFromOrderCommand");
+
+	if( command.getOrderId() == null )
+	throw new ValidationException"Order", "validating id on RemoveAllocationsFromOrderCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Order", "validating remove from";
+
+	if( command.getRemoveFrom().getOrderAllocationId() == null )
+	throw new ValidationException"Order", "validating id on remove from}";
+}
+	
+/**
+ * handles add to Trades validation for a Order
+ *
+ * @param	command AssignTradesToOrderCommand
+ */
+public void validate( AssignTradesToOrderCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Order", "validating AssignTradesToOrderCommand" );
+
+	if ( command.getOrderId() == null )
+	throw new ValidationException( "Order", "validating identity on AssignTradesToOrderCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Order", "validating addTo attribute on AssignTradesToOrderCommand" );
+
+}
+
+/**
+ * handles remove from Trades validation for a Order
+ *
+ * @param	command RemoveTradesFromOrderCommand
+ */
+public void validate( RemoveTradesFromOrderCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Order", "validating RemoveTradesFromOrderCommand");
+
+	if( command.getOrderId() == null )
+	throw new ValidationException"Order", "validating id on RemoveTradesFromOrderCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Order", "validating remove from";
+
+	if( command.getRemoveFrom().getTradeId() == null )
+	throw new ValidationException"Order", "validating id on remove from}";
+}
+	
+
+		}

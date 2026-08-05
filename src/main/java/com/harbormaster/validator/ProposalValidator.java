@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -74,28 +74,28 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class ProposalValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected ProposalValidator() {	
+	protected ProposalValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Proposal
 	 */
 	public void validate( CreateProposalCommand proposal )throws ValidationException {
 		if ( proposal == null )
-			throw new ValidationException( "Proposal", "validating CreateProposalCommand" );
+		throw new ValidationException( "Proposal", "validating CreateProposalCommand" );
 
 //		Assert.isNull( proposal.getProposalId(), "CreateProposalCommand identifier should be null" );
 		if ( proposal.getProposalNumber() == null )
-			throw new ValidationException( "Proposal", "validating access on getProposalNumber" );
+		throw new ValidationException( "Proposal", "validating access on getProposalNumber" );
 		if ( proposal.getCreatedDate() == null )
-			throw new ValidationException( "Proposal", "validating access on getCreatedDate" );
+		throw new ValidationException( "Proposal", "validating access on getCreatedDate" );
 		if ( proposal.getRecommendationText() == null )
-			throw new ValidationException( "Proposal", "validating access on getRecommendationText" );
+		throw new ValidationException( "Proposal", "validating access on getRecommendationText" );
 	}
 
 	/**
@@ -103,150 +103,150 @@ public class ProposalValidator {
 	 */
 	public void validate( UpdateProposalCommand proposal ) throws ValidationException {
 		if ( proposal == null )
-			throw new ValidationException( "Proposal", "validating UpdateProposalCommand" );
+		throw new ValidationException( "Proposal", "validating UpdateProposalCommand" );
 		if ( proposal.getProposalNumber() == null )
-			throw new ValidationException( "Proposal", "validating method getProposalNumber" );
+		throw new ValidationException( "Proposal", "validating method getProposalNumber" );
 		if ( proposal.getCreatedDate() == null )
-			throw new ValidationException( "Proposal", "validating method getCreatedDate" );
+		throw new ValidationException( "Proposal", "validating method getCreatedDate" );
 		if ( proposal.getRecommendationText() == null )
-			throw new ValidationException( "Proposal", "validating method getRecommendationText" );
-    }
+		throw new ValidationException( "Proposal", "validating method getRecommendationText" );
+}
 
-	/**
-	 * handles delete validation for a Proposal
-	 */
-    public void validate( DeleteProposalCommand proposal ) throws ValidationException {
-		if ( proposal == null )
-			throw new ValidationException( "Proposal", "validating DeleteProposalCommand" );
+/**
+ * handles delete validation for a Proposal
+ */
+public void validate( DeleteProposalCommand proposal ) throws ValidationException {
+	if ( proposal == null )
+	throw new ValidationException( "Proposal", "validating DeleteProposalCommand" );
 
-		if ( proposal.getRecommendationText() == null )
-			throw new ValidationException( "Proposal", "validating getRecommendationText" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Proposal
-	 */
-	public void validate( ProposalFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Proposal", "validating summary );
-	}
+	if ( proposal.getRecommendationText() == null )
+	throw new ValidationException( "Proposal", "validating getRecommendationText" );
+}
 
-	/**
-	 * handles assign Household validation for a Proposal
-	 * 
-	 * @param	command AssignHouseholdToProposalCommand
-	 */	
-	public void validate( AssignHouseholdToProposalCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Proposal", "validating AssignHouseholdToProposalCommand" );
+/**
+ * handles fetchOne validation for a Proposal
+ */
+public void validate( ProposalFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Proposal", "validating summary );
+}
 
-		if ( command.getProposalId() == null )
-			throw new ValidationException( "Proposal", "validating identifier" );
+/**
+ * handles assign Household validation for a Proposal
+ *
+ * @param	command AssignHouseholdToProposalCommand
+ */
+public void validate( AssignHouseholdToProposalCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Proposal", "validating AssignHouseholdToProposalCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Proposal", "validating assignment" );
+	if ( command.getProposalId() == null )
+	throw new ValidationException( "Proposal", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Household validation for a Proposal
-	 * 
-	 * @param	command UnAssignHouseholdFromProposalCommand
-	 */	
-	public void validate( UnAssignHouseholdFromProposalCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Proposal", "validating UnAssignHouseholdFromProposalCommand" );
-
-		if ( command.getProposalId() == null ) }
-			throw new ValidationException( "Proposal", "validating identity on UnAssignHouseholdFromProposalCommand" );
-	}
-	/**
-	 * handles assign Advisor validation for a Proposal
-	 * 
-	 * @param	command AssignAdvisorToProposalCommand
-	 */	
-	public void validate( AssignAdvisorToProposalCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Proposal", "validating AssignAdvisorToProposalCommand" );
-
-		if ( command.getProposalId() == null )
-			throw new ValidationException( "Proposal", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Proposal", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Advisor validation for a Proposal
-	 * 
-	 * @param	command UnAssignAdvisorFromProposalCommand
-	 */	
-	public void validate( UnAssignAdvisorFromProposalCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Proposal", "validating UnAssignAdvisorFromProposalCommand" );
-
-		if ( command.getProposalId() == null ) }
-			throw new ValidationException( "Proposal", "validating identity on UnAssignAdvisorFromProposalCommand" );
-	}
-	/**
-	 * handles assign ModelPortfolio validation for a Proposal
-	 * 
-	 * @param	command AssignModelPortfolioToProposalCommand
-	 */	
-	public void validate( AssignModelPortfolioToProposalCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Proposal", "validating AssignModelPortfolioToProposalCommand" );
-
-		if ( command.getProposalId() == null )
-			throw new ValidationException( "Proposal", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Proposal", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign ModelPortfolio validation for a Proposal
-	 * 
-	 * @param	command UnAssignModelPortfolioFromProposalCommand
-	 */	
-	public void validate( UnAssignModelPortfolioFromProposalCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Proposal", "validating UnAssignModelPortfolioFromProposalCommand" );
-
-		if ( command.getProposalId() == null ) }
-			throw new ValidationException( "Proposal", "validating identity on UnAssignModelPortfolioFromProposalCommand" );
-	}
-	/**
-	 * handles assign Account validation for a Proposal
-	 * 
-	 * @param	command AssignAccountToProposalCommand
-	 */	
-	public void validate( AssignAccountToProposalCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Proposal", "validating AssignAccountToProposalCommand" );
-
-		if ( command.getProposalId() == null )
-			throw new ValidationException( "Proposal", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Proposal", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Account validation for a Proposal
-	 * 
-	 * @param	command UnAssignAccountFromProposalCommand
-	 */	
-	public void validate( UnAssignAccountFromProposalCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Proposal", "validating UnAssignAccountFromProposalCommand" );
-
-		if ( command.getProposalId() == null ) }
-			throw new ValidationException( "Proposal", "validating identity on UnAssignAccountFromProposalCommand" );
-	}
-
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Proposal", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Household validation for a Proposal
+ *
+ * @param	command UnAssignHouseholdFromProposalCommand
+ */
+public void validate( UnAssignHouseholdFromProposalCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Proposal", "validating UnAssignHouseholdFromProposalCommand" );
+
+	if ( command.getProposalId() == null ) }
+			throw new ValidationException( "Proposal", "validating identity on UnAssignHouseholdFromProposalCommand" );
+	}
+			/**
+ * handles assign Advisor validation for a Proposal
+ *
+ * @param	command AssignAdvisorToProposalCommand
+ */
+public void validate( AssignAdvisorToProposalCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Proposal", "validating AssignAdvisorToProposalCommand" );
+
+	if ( command.getProposalId() == null )
+	throw new ValidationException( "Proposal", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Proposal", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Advisor validation for a Proposal
+ *
+ * @param	command UnAssignAdvisorFromProposalCommand
+ */
+public void validate( UnAssignAdvisorFromProposalCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Proposal", "validating UnAssignAdvisorFromProposalCommand" );
+
+	if ( command.getProposalId() == null ) }
+			throw new ValidationException( "Proposal", "validating identity on UnAssignAdvisorFromProposalCommand" );
+	}
+			/**
+ * handles assign ModelPortfolio validation for a Proposal
+ *
+ * @param	command AssignModelPortfolioToProposalCommand
+ */
+public void validate( AssignModelPortfolioToProposalCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Proposal", "validating AssignModelPortfolioToProposalCommand" );
+
+	if ( command.getProposalId() == null )
+	throw new ValidationException( "Proposal", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Proposal", "validating assignment" );
+
+}
+
+/**
+ * handles unassign ModelPortfolio validation for a Proposal
+ *
+ * @param	command UnAssignModelPortfolioFromProposalCommand
+ */
+public void validate( UnAssignModelPortfolioFromProposalCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Proposal", "validating UnAssignModelPortfolioFromProposalCommand" );
+
+	if ( command.getProposalId() == null ) }
+			throw new ValidationException( "Proposal", "validating identity on UnAssignModelPortfolioFromProposalCommand" );
+	}
+			/**
+ * handles assign Account validation for a Proposal
+ *
+ * @param	command AssignAccountToProposalCommand
+ */
+public void validate( AssignAccountToProposalCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Proposal", "validating AssignAccountToProposalCommand" );
+
+	if ( command.getProposalId() == null )
+	throw new ValidationException( "Proposal", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Proposal", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Account validation for a Proposal
+ *
+ * @param	command UnAssignAccountFromProposalCommand
+ */
+public void validate( UnAssignAccountFromProposalCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Proposal", "validating UnAssignAccountFromProposalCommand" );
+
+	if ( command.getProposalId() == null ) }
+			throw new ValidationException( "Proposal", "validating identity on UnAssignAccountFromProposalCommand" );
+	}
+			
+		
+		}

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -98,30 +98,30 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class AccountValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected AccountValidator() {	
+	protected AccountValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Account
 	 */
 	public void validate( CreateAccountCommand account )throws ValidationException {
 		if ( account == null )
-			throw new ValidationException( "Account", "validating CreateAccountCommand" );
+		throw new ValidationException( "Account", "validating CreateAccountCommand" );
 
 //		Assert.isNull( account.getAccountId(), "CreateAccountCommand identifier should be null" );
 		if ( account.getName() == null )
-			throw new ValidationException( "Account", "validating access on getName" );
+		throw new ValidationException( "Account", "validating access on getName" );
 		if ( account.getAccountNumber() == null )
-			throw new ValidationException( "Account", "validating access on getAccountNumber" );
+		throw new ValidationException( "Account", "validating access on getAccountNumber" );
 		if ( account.getBaseCurrency() == null )
-			throw new ValidationException( "Account", "validating access on getBaseCurrency" );
+		throw new ValidationException( "Account", "validating access on getBaseCurrency" );
 		if ( account.getOpenedDate() == null )
-			throw new ValidationException( "Account", "validating access on getOpenedDate" );
+		throw new ValidationException( "Account", "validating access on getOpenedDate" );
 	}
 
 	/**
@@ -129,368 +129,368 @@ public class AccountValidator {
 	 */
 	public void validate( UpdateAccountCommand account ) throws ValidationException {
 		if ( account == null )
-			throw new ValidationException( "Account", "validating UpdateAccountCommand" );
+		throw new ValidationException( "Account", "validating UpdateAccountCommand" );
 		if ( account.getName() == null )
-			throw new ValidationException( "Account", "validating method getName" );
+		throw new ValidationException( "Account", "validating method getName" );
 		if ( account.getAccountNumber() == null )
-			throw new ValidationException( "Account", "validating method getAccountNumber" );
+		throw new ValidationException( "Account", "validating method getAccountNumber" );
 		if ( account.getBaseCurrency() == null )
-			throw new ValidationException( "Account", "validating method getBaseCurrency" );
+		throw new ValidationException( "Account", "validating method getBaseCurrency" );
 		if ( account.getOpenedDate() == null )
-			throw new ValidationException( "Account", "validating method getOpenedDate" );
-    }
-
-	/**
-	 * handles delete validation for a Account
-	 */
-    public void validate( DeleteAccountCommand account ) throws ValidationException {
-		if ( account == null )
-			throw new ValidationException( "Account", "validating DeleteAccountCommand" );
-
-		if ( account.getOpenedDate() == null )
-			throw new ValidationException( "Account", "validating getOpenedDate" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Account
-	 */
-	public void validate( AccountFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Account", "validating summary );
-	}
-
-	/**
-	 * handles assign Household validation for a Account
-	 * 
-	 * @param	command AssignHouseholdToAccountCommand
-	 */	
-	public void validate( AssignHouseholdToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignHouseholdToAccountCommand" );
-
-		if ( command.getAccountId() == null )
-			throw new ValidationException( "Account", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Account", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Household validation for a Account
-	 * 
-	 * @param	command UnAssignHouseholdFromAccountCommand
-	 */	
-	public void validate( UnAssignHouseholdFromAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating UnAssignHouseholdFromAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on UnAssignHouseholdFromAccountCommand" );
-	}
-	/**
-	 * handles assign Advisor validation for a Account
-	 * 
-	 * @param	command AssignAdvisorToAccountCommand
-	 */	
-	public void validate( AssignAdvisorToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignAdvisorToAccountCommand" );
-
-		if ( command.getAccountId() == null )
-			throw new ValidationException( "Account", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Account", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Advisor validation for a Account
-	 * 
-	 * @param	command UnAssignAdvisorFromAccountCommand
-	 */	
-	public void validate( UnAssignAdvisorFromAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating UnAssignAdvisorFromAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on UnAssignAdvisorFromAccountCommand" );
-	}
-	/**
-	 * handles assign Custodian validation for a Account
-	 * 
-	 * @param	command AssignCustodianToAccountCommand
-	 */	
-	public void validate( AssignCustodianToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignCustodianToAccountCommand" );
-
-		if ( command.getAccountId() == null )
-			throw new ValidationException( "Account", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Account", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Custodian validation for a Account
-	 * 
-	 * @param	command UnAssignCustodianFromAccountCommand
-	 */	
-	public void validate( UnAssignCustodianFromAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating UnAssignCustodianFromAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on UnAssignCustodianFromAccountCommand" );
-	}
-	/**
-	 * handles assign Portfolio validation for a Account
-	 * 
-	 * @param	command AssignPortfolioToAccountCommand
-	 */	
-	public void validate( AssignPortfolioToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignPortfolioToAccountCommand" );
-
-		if ( command.getAccountId() == null )
-			throw new ValidationException( "Account", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Account", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Portfolio validation for a Account
-	 * 
-	 * @param	command UnAssignPortfolioFromAccountCommand
-	 */	
-	public void validate( UnAssignPortfolioFromAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating UnAssignPortfolioFromAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on UnAssignPortfolioFromAccountCommand" );
-	}
-
-	/**
-	 * handles add to Beneficiaries validation for a Account
-	 * 
-	 * @param	command AssignBeneficiariesToAccountCommand
-	 */	
-	public void validate( AssignBeneficiariesToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignBeneficiariesToAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on AssignBeneficiariesToAccountCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Account", "validating addTo attribute on AssignBeneficiariesToAccountCommand" );
-
-	}
-
-	/**
-	 * handles remove from Beneficiaries validation for a Account
-	 * 
-	 * @param	command RemoveBeneficiariesFromAccountCommand
-	 */	
-	public void validate( RemoveBeneficiariesFromAccountCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Account", "validating RemoveBeneficiariesFromAccountCommand");
-
-		if( command.getAccountId() == null )
-			throw new ValidationException"Account", "validating id on RemoveBeneficiariesFromAccountCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Account", "validating remove from";
-
-		if( command.getRemoveFrom().getBeneficiaryId() == null )
-			throw new ValidationException"Account", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to Positions validation for a Account
-	 * 
-	 * @param	command AssignPositionsToAccountCommand
-	 */	
-	public void validate( AssignPositionsToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignPositionsToAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on AssignPositionsToAccountCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Account", "validating addTo attribute on AssignPositionsToAccountCommand" );
-
-	}
-
-	/**
-	 * handles remove from Positions validation for a Account
-	 * 
-	 * @param	command RemovePositionsFromAccountCommand
-	 */	
-	public void validate( RemovePositionsFromAccountCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Account", "validating RemovePositionsFromAccountCommand");
-
-		if( command.getAccountId() == null )
-			throw new ValidationException"Account", "validating id on RemovePositionsFromAccountCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Account", "validating remove from";
-
-		if( command.getRemoveFrom().getPositionId() == null )
-			throw new ValidationException"Account", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to Transactions validation for a Account
-	 * 
-	 * @param	command AssignTransactionsToAccountCommand
-	 */	
-	public void validate( AssignTransactionsToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignTransactionsToAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on AssignTransactionsToAccountCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Account", "validating addTo attribute on AssignTransactionsToAccountCommand" );
-
-	}
-
-	/**
-	 * handles remove from Transactions validation for a Account
-	 * 
-	 * @param	command RemoveTransactionsFromAccountCommand
-	 */	
-	public void validate( RemoveTransactionsFromAccountCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Account", "validating RemoveTransactionsFromAccountCommand");
-
-		if( command.getAccountId() == null )
-			throw new ValidationException"Account", "validating id on RemoveTransactionsFromAccountCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Account", "validating remove from";
-
-		if( command.getRemoveFrom().getTransactionId() == null )
-			throw new ValidationException"Account", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to Fees validation for a Account
-	 * 
-	 * @param	command AssignFeesToAccountCommand
-	 */	
-	public void validate( AssignFeesToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignFeesToAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on AssignFeesToAccountCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Account", "validating addTo attribute on AssignFeesToAccountCommand" );
-
-	}
-
-	/**
-	 * handles remove from Fees validation for a Account
-	 * 
-	 * @param	command RemoveFeesFromAccountCommand
-	 */	
-	public void validate( RemoveFeesFromAccountCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Account", "validating RemoveFeesFromAccountCommand");
-
-		if( command.getAccountId() == null )
-			throw new ValidationException"Account", "validating id on RemoveFeesFromAccountCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Account", "validating remove from";
-
-		if( command.getRemoveFrom().getFeeId() == null )
-			throw new ValidationException"Account", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to StandingInstructions validation for a Account
-	 * 
-	 * @param	command AssignStandingInstructionsToAccountCommand
-	 */	
-	public void validate( AssignStandingInstructionsToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignStandingInstructionsToAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on AssignStandingInstructionsToAccountCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Account", "validating addTo attribute on AssignStandingInstructionsToAccountCommand" );
-
-	}
-
-	/**
-	 * handles remove from StandingInstructions validation for a Account
-	 * 
-	 * @param	command RemoveStandingInstructionsFromAccountCommand
-	 */	
-	public void validate( RemoveStandingInstructionsFromAccountCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Account", "validating RemoveStandingInstructionsFromAccountCommand");
-
-		if( command.getAccountId() == null )
-			throw new ValidationException"Account", "validating id on RemoveStandingInstructionsFromAccountCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Account", "validating remove from";
-
-		if( command.getRemoveFrom().getStandingInstructionId() == null )
-			throw new ValidationException"Account", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to Invoices validation for a Account
-	 * 
-	 * @param	command AssignInvoicesToAccountCommand
-	 */	
-	public void validate( AssignInvoicesToAccountCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Account", "validating AssignInvoicesToAccountCommand" );
-
-		if ( command.getAccountId() == null ) }
-			throw new ValidationException( "Account", "validating identity on AssignInvoicesToAccountCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Account", "validating addTo attribute on AssignInvoicesToAccountCommand" );
-
-	}
-
-	/**
-	 * handles remove from Invoices validation for a Account
-	 * 
-	 * @param	command RemoveInvoicesFromAccountCommand
-	 */	
-	public void validate( RemoveInvoicesFromAccountCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Account", "validating RemoveInvoicesFromAccountCommand");
-
-		if( command.getAccountId() == null )
-			throw new ValidationException"Account", "validating id on RemoveInvoicesFromAccountCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Account", "validating remove from";
-
-		if( command.getRemoveFrom().getInvoiceId() == null )
-			throw new ValidationException"Account", "validating id on remove from}";
-	}
-	
+		throw new ValidationException( "Account", "validating method getOpenedDate" );
+}
+
+/**
+ * handles delete validation for a Account
+ */
+public void validate( DeleteAccountCommand account ) throws ValidationException {
+	if ( account == null )
+	throw new ValidationException( "Account", "validating DeleteAccountCommand" );
+
+	if ( account.getOpenedDate() == null )
+	throw new ValidationException( "Account", "validating getOpenedDate" );
+}
+
+/**
+ * handles fetchOne validation for a Account
+ */
+public void validate( AccountFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Account", "validating summary );
+}
+
+/**
+ * handles assign Household validation for a Account
+ *
+ * @param	command AssignHouseholdToAccountCommand
+ */
+public void validate( AssignHouseholdToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignHouseholdToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Account", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Household validation for a Account
+ *
+ * @param	command UnAssignHouseholdFromAccountCommand
+ */
+public void validate( UnAssignHouseholdFromAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating UnAssignHouseholdFromAccountCommand" );
+
+	if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on UnAssignHouseholdFromAccountCommand" );
+	}
+			/**
+ * handles assign Advisor validation for a Account
+ *
+ * @param	command AssignAdvisorToAccountCommand
+ */
+public void validate( AssignAdvisorToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignAdvisorToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Account", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Advisor validation for a Account
+ *
+ * @param	command UnAssignAdvisorFromAccountCommand
+ */
+public void validate( UnAssignAdvisorFromAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating UnAssignAdvisorFromAccountCommand" );
+
+	if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on UnAssignAdvisorFromAccountCommand" );
+	}
+			/**
+ * handles assign Custodian validation for a Account
+ *
+ * @param	command AssignCustodianToAccountCommand
+ */
+public void validate( AssignCustodianToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignCustodianToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Account", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Custodian validation for a Account
+ *
+ * @param	command UnAssignCustodianFromAccountCommand
+ */
+public void validate( UnAssignCustodianFromAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating UnAssignCustodianFromAccountCommand" );
+
+	if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on UnAssignCustodianFromAccountCommand" );
+	}
+			/**
+ * handles assign Portfolio validation for a Account
+ *
+ * @param	command AssignPortfolioToAccountCommand
+ */
+public void validate( AssignPortfolioToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignPortfolioToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Account", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Portfolio validation for a Account
+ *
+ * @param	command UnAssignPortfolioFromAccountCommand
+ */
+public void validate( UnAssignPortfolioFromAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating UnAssignPortfolioFromAccountCommand" );
+
+	if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on UnAssignPortfolioFromAccountCommand" );
+	}
+			
+		/**
+ * handles add to Beneficiaries validation for a Account
+ *
+ * @param	command AssignBeneficiariesToAccountCommand
+ */
+public void validate( AssignBeneficiariesToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignBeneficiariesToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identity on AssignBeneficiariesToAccountCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Account", "validating addTo attribute on AssignBeneficiariesToAccountCommand" );
+
+}
+
+/**
+ * handles remove from Beneficiaries validation for a Account
+ *
+ * @param	command RemoveBeneficiariesFromAccountCommand
+ */
+public void validate( RemoveBeneficiariesFromAccountCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Account", "validating RemoveBeneficiariesFromAccountCommand");
+
+	if( command.getAccountId() == null )
+	throw new ValidationException"Account", "validating id on RemoveBeneficiariesFromAccountCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Account", "validating remove from";
+
+	if( command.getRemoveFrom().getBeneficiaryId() == null )
+	throw new ValidationException"Account", "validating id on remove from}";
+}
+	
+/**
+ * handles add to Positions validation for a Account
+ *
+ * @param	command AssignPositionsToAccountCommand
+ */
+public void validate( AssignPositionsToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignPositionsToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identity on AssignPositionsToAccountCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Account", "validating addTo attribute on AssignPositionsToAccountCommand" );
+
+}
+
+/**
+ * handles remove from Positions validation for a Account
+ *
+ * @param	command RemovePositionsFromAccountCommand
+ */
+public void validate( RemovePositionsFromAccountCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Account", "validating RemovePositionsFromAccountCommand");
+
+	if( command.getAccountId() == null )
+	throw new ValidationException"Account", "validating id on RemovePositionsFromAccountCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Account", "validating remove from";
+
+	if( command.getRemoveFrom().getPositionId() == null )
+	throw new ValidationException"Account", "validating id on remove from}";
+}
+	
+/**
+ * handles add to Transactions validation for a Account
+ *
+ * @param	command AssignTransactionsToAccountCommand
+ */
+public void validate( AssignTransactionsToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignTransactionsToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identity on AssignTransactionsToAccountCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Account", "validating addTo attribute on AssignTransactionsToAccountCommand" );
+
+}
+
+/**
+ * handles remove from Transactions validation for a Account
+ *
+ * @param	command RemoveTransactionsFromAccountCommand
+ */
+public void validate( RemoveTransactionsFromAccountCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Account", "validating RemoveTransactionsFromAccountCommand");
+
+	if( command.getAccountId() == null )
+	throw new ValidationException"Account", "validating id on RemoveTransactionsFromAccountCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Account", "validating remove from";
+
+	if( command.getRemoveFrom().getTransactionId() == null )
+	throw new ValidationException"Account", "validating id on remove from}";
+}
+	
+/**
+ * handles add to Fees validation for a Account
+ *
+ * @param	command AssignFeesToAccountCommand
+ */
+public void validate( AssignFeesToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignFeesToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identity on AssignFeesToAccountCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Account", "validating addTo attribute on AssignFeesToAccountCommand" );
+
+}
+
+/**
+ * handles remove from Fees validation for a Account
+ *
+ * @param	command RemoveFeesFromAccountCommand
+ */
+public void validate( RemoveFeesFromAccountCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Account", "validating RemoveFeesFromAccountCommand");
+
+	if( command.getAccountId() == null )
+	throw new ValidationException"Account", "validating id on RemoveFeesFromAccountCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Account", "validating remove from";
+
+	if( command.getRemoveFrom().getFeeId() == null )
+	throw new ValidationException"Account", "validating id on remove from}";
+}
+	
+/**
+ * handles add to StandingInstructions validation for a Account
+ *
+ * @param	command AssignStandingInstructionsToAccountCommand
+ */
+public void validate( AssignStandingInstructionsToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignStandingInstructionsToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identity on AssignStandingInstructionsToAccountCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Account", "validating addTo attribute on AssignStandingInstructionsToAccountCommand" );
+
+}
+
+/**
+ * handles remove from StandingInstructions validation for a Account
+ *
+ * @param	command RemoveStandingInstructionsFromAccountCommand
+ */
+public void validate( RemoveStandingInstructionsFromAccountCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Account", "validating RemoveStandingInstructionsFromAccountCommand");
+
+	if( command.getAccountId() == null )
+	throw new ValidationException"Account", "validating id on RemoveStandingInstructionsFromAccountCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Account", "validating remove from";
+
+	if( command.getRemoveFrom().getStandingInstructionId() == null )
+	throw new ValidationException"Account", "validating id on remove from}";
+}
+	
+/**
+ * handles add to Invoices validation for a Account
+ *
+ * @param	command AssignInvoicesToAccountCommand
+ */
+public void validate( AssignInvoicesToAccountCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Account", "validating AssignInvoicesToAccountCommand" );
+
+	if ( command.getAccountId() == null )
+	throw new ValidationException( "Account", "validating identity on AssignInvoicesToAccountCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Account", "validating addTo attribute on AssignInvoicesToAccountCommand" );
+
+}
+
+/**
+ * handles remove from Invoices validation for a Account
+ *
+ * @param	command RemoveInvoicesFromAccountCommand
+ */
+public void validate( RemoveInvoicesFromAccountCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Account", "validating RemoveInvoicesFromAccountCommand");
+
+	if( command.getAccountId() == null )
+	throw new ValidationException"Account", "validating id on RemoveInvoicesFromAccountCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Account", "validating remove from";
+
+	if( command.getRemoveFrom().getInvoiceId() == null )
+	throw new ValidationException"Account", "validating id on remove from}";
+}
+	
+
+		}

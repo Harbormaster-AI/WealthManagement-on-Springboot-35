@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -72,26 +72,26 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class KycRecordValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected KycRecordValidator() {	
+	protected KycRecordValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a KycRecord
 	 */
 	public void validate( CreateKycRecordCommand kycRecord )throws ValidationException {
 		if ( kycRecord == null )
-			throw new ValidationException( "KycRecord", "validating CreateKycRecordCommand" );
+		throw new ValidationException( "KycRecord", "validating CreateKycRecordCommand" );
 
 //		Assert.isNull( kycRecord.getKycRecordId(), "CreateKycRecordCommand identifier should be null" );
 		if ( kycRecord.getAssessmentDate() == null )
-			throw new ValidationException( "KycRecord", "validating access on getAssessmentDate" );
+		throw new ValidationException( "KycRecord", "validating access on getAssessmentDate" );
 		if ( kycRecord.getSourceOfWealth() == null )
-			throw new ValidationException( "KycRecord", "validating access on getSourceOfWealth" );
+		throw new ValidationException( "KycRecord", "validating access on getSourceOfWealth" );
 	}
 
 	/**
@@ -99,97 +99,97 @@ public class KycRecordValidator {
 	 */
 	public void validate( UpdateKycRecordCommand kycRecord ) throws ValidationException {
 		if ( kycRecord == null )
-			throw new ValidationException( "KycRecord", "validating UpdateKycRecordCommand" );
+		throw new ValidationException( "KycRecord", "validating UpdateKycRecordCommand" );
 		if ( kycRecord.getAssessmentDate() == null )
-			throw new ValidationException( "KycRecord", "validating method getAssessmentDate" );
+		throw new ValidationException( "KycRecord", "validating method getAssessmentDate" );
 		if ( kycRecord.getSourceOfWealth() == null )
-			throw new ValidationException( "KycRecord", "validating method getSourceOfWealth" );
-    }
+		throw new ValidationException( "KycRecord", "validating method getSourceOfWealth" );
+}
 
-	/**
-	 * handles delete validation for a KycRecord
-	 */
-    public void validate( DeleteKycRecordCommand kycRecord ) throws ValidationException {
-		if ( kycRecord == null )
-			throw new ValidationException( "KycRecord", "validating DeleteKycRecordCommand" );
+/**
+ * handles delete validation for a KycRecord
+ */
+public void validate( DeleteKycRecordCommand kycRecord ) throws ValidationException {
+	if ( kycRecord == null )
+	throw new ValidationException( "KycRecord", "validating DeleteKycRecordCommand" );
 
-		if ( kycRecord.getSourceOfWealth() == null )
-			throw new ValidationException( "KycRecord", "validating getSourceOfWealth" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a KycRecord
-	 */
-	public void validate( KycRecordFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "KycRecord", "validating summary );
-	}
+	if ( kycRecord.getSourceOfWealth() == null )
+	throw new ValidationException( "KycRecord", "validating getSourceOfWealth" );
+}
 
-	/**
-	 * handles assign Client validation for a KycRecord
-	 * 
-	 * @param	command AssignClientToKycRecordCommand
-	 */	
-	public void validate( AssignClientToKycRecordCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "KycRecord", "validating AssignClientToKycRecordCommand" );
+/**
+ * handles fetchOne validation for a KycRecord
+ */
+public void validate( KycRecordFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "KycRecord", "validating summary );
+}
 
-		if ( command.getKycRecordId() == null )
-			throw new ValidationException( "KycRecord", "validating identifier" );
+/**
+ * handles assign Client validation for a KycRecord
+ *
+ * @param	command AssignClientToKycRecordCommand
+ */
+public void validate( AssignClientToKycRecordCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "KycRecord", "validating AssignClientToKycRecordCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "KycRecord", "validating assignment" );
+	if ( command.getKycRecordId() == null )
+	throw new ValidationException( "KycRecord", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Client validation for a KycRecord
-	 * 
-	 * @param	command UnAssignClientFromKycRecordCommand
-	 */	
-	public void validate( UnAssignClientFromKycRecordCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "KycRecord", "validating UnAssignClientFromKycRecordCommand" );
-
-		if ( command.getKycRecordId() == null ) }
-			throw new ValidationException( "KycRecord", "validating identity on UnAssignClientFromKycRecordCommand" );
-	}
-
-	/**
-	 * handles add to Documents validation for a KycRecord
-	 * 
-	 * @param	command AssignDocumentsToKycRecordCommand
-	 */	
-	public void validate( AssignDocumentsToKycRecordCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "KycRecord", "validating AssignDocumentsToKycRecordCommand" );
-
-		if ( command.getKycRecordId() == null ) }
-			throw new ValidationException( "KycRecord", "validating identity on AssignDocumentsToKycRecordCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "KycRecord", "validating addTo attribute on AssignDocumentsToKycRecordCommand" );
-
-	}
-
-	/**
-	 * handles remove from Documents validation for a KycRecord
-	 * 
-	 * @param	command RemoveDocumentsFromKycRecordCommand
-	 */	
-	public void validate( RemoveDocumentsFromKycRecordCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("KycRecord", "validating RemoveDocumentsFromKycRecordCommand");
-
-		if( command.getKycRecordId() == null )
-			throw new ValidationException"KycRecord", "validating id on RemoveDocumentsFromKycRecordCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"KycRecord", "validating remove from";
-
-		if( command.getRemoveFrom().getDocumentId() == null )
-			throw new ValidationException"KycRecord", "validating id on remove from}";
-	}
-	
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "KycRecord", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Client validation for a KycRecord
+ *
+ * @param	command UnAssignClientFromKycRecordCommand
+ */
+public void validate( UnAssignClientFromKycRecordCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "KycRecord", "validating UnAssignClientFromKycRecordCommand" );
+
+	if ( command.getKycRecordId() == null ) }
+			throw new ValidationException( "KycRecord", "validating identity on UnAssignClientFromKycRecordCommand" );
+	}
+			
+		/**
+ * handles add to Documents validation for a KycRecord
+ *
+ * @param	command AssignDocumentsToKycRecordCommand
+ */
+public void validate( AssignDocumentsToKycRecordCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "KycRecord", "validating AssignDocumentsToKycRecordCommand" );
+
+	if ( command.getKycRecordId() == null )
+	throw new ValidationException( "KycRecord", "validating identity on AssignDocumentsToKycRecordCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "KycRecord", "validating addTo attribute on AssignDocumentsToKycRecordCommand" );
+
+}
+
+/**
+ * handles remove from Documents validation for a KycRecord
+ *
+ * @param	command RemoveDocumentsFromKycRecordCommand
+ */
+public void validate( RemoveDocumentsFromKycRecordCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("KycRecord", "validating RemoveDocumentsFromKycRecordCommand");
+
+	if( command.getKycRecordId() == null )
+	throw new ValidationException"KycRecord", "validating id on RemoveDocumentsFromKycRecordCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"KycRecord", "validating remove from";
+
+	if( command.getRemoveFrom().getDocumentId() == null )
+	throw new ValidationException"KycRecord", "validating id on remove from}";
+}
+	
+
+		}

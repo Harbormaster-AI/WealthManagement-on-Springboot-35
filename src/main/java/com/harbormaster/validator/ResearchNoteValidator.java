@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -70,30 +70,30 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class ResearchNoteValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected ResearchNoteValidator() {	
+	protected ResearchNoteValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a ResearchNote
 	 */
 	public void validate( CreateResearchNoteCommand researchNote )throws ValidationException {
 		if ( researchNote == null )
-			throw new ValidationException( "ResearchNote", "validating CreateResearchNoteCommand" );
+		throw new ValidationException( "ResearchNote", "validating CreateResearchNoteCommand" );
 
 //		Assert.isNull( researchNote.getResearchNoteId(), "CreateResearchNoteCommand identifier should be null" );
 		if ( researchNote.getTitle() == null )
-			throw new ValidationException( "ResearchNote", "validating access on getTitle" );
+		throw new ValidationException( "ResearchNote", "validating access on getTitle" );
 		if ( researchNote.getPublishedDate() == null )
-			throw new ValidationException( "ResearchNote", "validating access on getPublishedDate" );
+		throw new ValidationException( "ResearchNote", "validating access on getPublishedDate" );
 		if ( researchNote.getAuthor() == null )
-			throw new ValidationException( "ResearchNote", "validating access on getAuthor" );
+		throw new ValidationException( "ResearchNote", "validating access on getAuthor" );
 		if ( researchNote.getContentSummary() == null )
-			throw new ValidationException( "ResearchNote", "validating access on getContentSummary" );
+		throw new ValidationException( "ResearchNote", "validating access on getContentSummary" );
 	}
 
 	/**
@@ -101,94 +101,94 @@ public class ResearchNoteValidator {
 	 */
 	public void validate( UpdateResearchNoteCommand researchNote ) throws ValidationException {
 		if ( researchNote == null )
-			throw new ValidationException( "ResearchNote", "validating UpdateResearchNoteCommand" );
+		throw new ValidationException( "ResearchNote", "validating UpdateResearchNoteCommand" );
 		if ( researchNote.getTitle() == null )
-			throw new ValidationException( "ResearchNote", "validating method getTitle" );
+		throw new ValidationException( "ResearchNote", "validating method getTitle" );
 		if ( researchNote.getPublishedDate() == null )
-			throw new ValidationException( "ResearchNote", "validating method getPublishedDate" );
+		throw new ValidationException( "ResearchNote", "validating method getPublishedDate" );
 		if ( researchNote.getAuthor() == null )
-			throw new ValidationException( "ResearchNote", "validating method getAuthor" );
+		throw new ValidationException( "ResearchNote", "validating method getAuthor" );
 		if ( researchNote.getContentSummary() == null )
-			throw new ValidationException( "ResearchNote", "validating method getContentSummary" );
-    }
+		throw new ValidationException( "ResearchNote", "validating method getContentSummary" );
+}
 
-	/**
-	 * handles delete validation for a ResearchNote
-	 */
-    public void validate( DeleteResearchNoteCommand researchNote ) throws ValidationException {
-		if ( researchNote == null )
-			throw new ValidationException( "ResearchNote", "validating DeleteResearchNoteCommand" );
+/**
+ * handles delete validation for a ResearchNote
+ */
+public void validate( DeleteResearchNoteCommand researchNote ) throws ValidationException {
+	if ( researchNote == null )
+	throw new ValidationException( "ResearchNote", "validating DeleteResearchNoteCommand" );
 
-		if ( researchNote.getContentSummary() == null )
-			throw new ValidationException( "ResearchNote", "validating getContentSummary" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a ResearchNote
-	 */
-	public void validate( ResearchNoteFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "ResearchNote", "validating summary );
-	}
+	if ( researchNote.getContentSummary() == null )
+	throw new ValidationException( "ResearchNote", "validating getContentSummary" );
+}
 
-	/**
-	 * handles assign Security validation for a ResearchNote
-	 * 
-	 * @param	command AssignSecurityToResearchNoteCommand
-	 */	
-	public void validate( AssignSecurityToResearchNoteCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "ResearchNote", "validating AssignSecurityToResearchNoteCommand" );
+/**
+ * handles fetchOne validation for a ResearchNote
+ */
+public void validate( ResearchNoteFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "ResearchNote", "validating summary );
+}
 
-		if ( command.getResearchNoteId() == null )
-			throw new ValidationException( "ResearchNote", "validating identifier" );
+/**
+ * handles assign Security validation for a ResearchNote
+ *
+ * @param	command AssignSecurityToResearchNoteCommand
+ */
+public void validate( AssignSecurityToResearchNoteCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "ResearchNote", "validating AssignSecurityToResearchNoteCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "ResearchNote", "validating assignment" );
+	if ( command.getResearchNoteId() == null )
+	throw new ValidationException( "ResearchNote", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Security validation for a ResearchNote
-	 * 
-	 * @param	command UnAssignSecurityFromResearchNoteCommand
-	 */	
-	public void validate( UnAssignSecurityFromResearchNoteCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "ResearchNote", "validating UnAssignSecurityFromResearchNoteCommand" );
-
-		if ( command.getResearchNoteId() == null ) }
-			throw new ValidationException( "ResearchNote", "validating identity on UnAssignSecurityFromResearchNoteCommand" );
-	}
-	/**
-	 * handles assign Advisor validation for a ResearchNote
-	 * 
-	 * @param	command AssignAdvisorToResearchNoteCommand
-	 */	
-	public void validate( AssignAdvisorToResearchNoteCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "ResearchNote", "validating AssignAdvisorToResearchNoteCommand" );
-
-		if ( command.getResearchNoteId() == null )
-			throw new ValidationException( "ResearchNote", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "ResearchNote", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Advisor validation for a ResearchNote
-	 * 
-	 * @param	command UnAssignAdvisorFromResearchNoteCommand
-	 */	
-	public void validate( UnAssignAdvisorFromResearchNoteCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "ResearchNote", "validating UnAssignAdvisorFromResearchNoteCommand" );
-
-		if ( command.getResearchNoteId() == null ) }
-			throw new ValidationException( "ResearchNote", "validating identity on UnAssignAdvisorFromResearchNoteCommand" );
-	}
-
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "ResearchNote", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Security validation for a ResearchNote
+ *
+ * @param	command UnAssignSecurityFromResearchNoteCommand
+ */
+public void validate( UnAssignSecurityFromResearchNoteCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "ResearchNote", "validating UnAssignSecurityFromResearchNoteCommand" );
+
+	if ( command.getResearchNoteId() == null ) }
+			throw new ValidationException( "ResearchNote", "validating identity on UnAssignSecurityFromResearchNoteCommand" );
+	}
+			/**
+ * handles assign Advisor validation for a ResearchNote
+ *
+ * @param	command AssignAdvisorToResearchNoteCommand
+ */
+public void validate( AssignAdvisorToResearchNoteCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "ResearchNote", "validating AssignAdvisorToResearchNoteCommand" );
+
+	if ( command.getResearchNoteId() == null )
+	throw new ValidationException( "ResearchNote", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "ResearchNote", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Advisor validation for a ResearchNote
+ *
+ * @param	command UnAssignAdvisorFromResearchNoteCommand
+ */
+public void validate( UnAssignAdvisorFromResearchNoteCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "ResearchNote", "validating UnAssignAdvisorFromResearchNoteCommand" );
+
+	if ( command.getResearchNoteId() == null ) }
+			throw new ValidationException( "ResearchNote", "validating identity on UnAssignAdvisorFromResearchNoteCommand" );
+	}
+			
+		
+		}

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -72,26 +72,26 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class AccountTransferValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected AccountTransferValidator() {	
+	protected AccountTransferValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a AccountTransfer
 	 */
 	public void validate( CreateAccountTransferCommand accountTransfer )throws ValidationException {
 		if ( accountTransfer == null )
-			throw new ValidationException( "AccountTransfer", "validating CreateAccountTransferCommand" );
+		throw new ValidationException( "AccountTransfer", "validating CreateAccountTransferCommand" );
 
 //		Assert.isNull( accountTransfer.getAccountTransferId(), "CreateAccountTransferCommand identifier should be null" );
 		if ( accountTransfer.getRequestDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating access on getRequestDate" );
+		throw new ValidationException( "AccountTransfer", "validating access on getRequestDate" );
 		if ( accountTransfer.getCompletionDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating access on getCompletionDate" );
+		throw new ValidationException( "AccountTransfer", "validating access on getCompletionDate" );
 	}
 
 	/**
@@ -99,119 +99,119 @@ public class AccountTransferValidator {
 	 */
 	public void validate( UpdateAccountTransferCommand accountTransfer ) throws ValidationException {
 		if ( accountTransfer == null )
-			throw new ValidationException( "AccountTransfer", "validating UpdateAccountTransferCommand" );
+		throw new ValidationException( "AccountTransfer", "validating UpdateAccountTransferCommand" );
 		if ( accountTransfer.getRequestDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating method getRequestDate" );
+		throw new ValidationException( "AccountTransfer", "validating method getRequestDate" );
 		if ( accountTransfer.getCompletionDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating method getCompletionDate" );
-    }
+		throw new ValidationException( "AccountTransfer", "validating method getCompletionDate" );
+}
 
-	/**
-	 * handles delete validation for a AccountTransfer
-	 */
-    public void validate( DeleteAccountTransferCommand accountTransfer ) throws ValidationException {
-		if ( accountTransfer == null )
-			throw new ValidationException( "AccountTransfer", "validating DeleteAccountTransferCommand" );
+/**
+ * handles delete validation for a AccountTransfer
+ */
+public void validate( DeleteAccountTransferCommand accountTransfer ) throws ValidationException {
+	if ( accountTransfer == null )
+	throw new ValidationException( "AccountTransfer", "validating DeleteAccountTransferCommand" );
 
-		if ( accountTransfer.getCompletionDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating getCompletionDate" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a AccountTransfer
-	 */
-	public void validate( AccountTransferFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "AccountTransfer", "validating summary );
-	}
+	if ( accountTransfer.getCompletionDate() == null )
+	throw new ValidationException( "AccountTransfer", "validating getCompletionDate" );
+}
 
-	/**
-	 * handles assign FromCustodian validation for a AccountTransfer
-	 * 
-	 * @param	command AssignFromCustodianToAccountTransferCommand
-	 */	
-	public void validate( AssignFromCustodianToAccountTransferCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "AccountTransfer", "validating AssignFromCustodianToAccountTransferCommand" );
+/**
+ * handles fetchOne validation for a AccountTransfer
+ */
+public void validate( AccountTransferFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "AccountTransfer", "validating summary );
+}
 
-		if ( command.getAccountTransferId() == null )
-			throw new ValidationException( "AccountTransfer", "validating identifier" );
+/**
+ * handles assign FromCustodian validation for a AccountTransfer
+ *
+ * @param	command AssignFromCustodianToAccountTransferCommand
+ */
+public void validate( AssignFromCustodianToAccountTransferCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "AccountTransfer", "validating AssignFromCustodianToAccountTransferCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "AccountTransfer", "validating assignment" );
+	if ( command.getAccountTransferId() == null )
+	throw new ValidationException( "AccountTransfer", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign FromCustodian validation for a AccountTransfer
-	 * 
-	 * @param	command UnAssignFromCustodianFromAccountTransferCommand
-	 */	
-	public void validate( UnAssignFromCustodianFromAccountTransferCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "AccountTransfer", "validating UnAssignFromCustodianFromAccountTransferCommand" );
-
-		if ( command.getAccountTransferId() == null ) }
-			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignFromCustodianFromAccountTransferCommand" );
-	}
-	/**
-	 * handles assign ToCustodian validation for a AccountTransfer
-	 * 
-	 * @param	command AssignToCustodianToAccountTransferCommand
-	 */	
-	public void validate( AssignToCustodianToAccountTransferCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "AccountTransfer", "validating AssignToCustodianToAccountTransferCommand" );
-
-		if ( command.getAccountTransferId() == null )
-			throw new ValidationException( "AccountTransfer", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "AccountTransfer", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign ToCustodian validation for a AccountTransfer
-	 * 
-	 * @param	command UnAssignToCustodianFromAccountTransferCommand
-	 */	
-	public void validate( UnAssignToCustodianFromAccountTransferCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "AccountTransfer", "validating UnAssignToCustodianFromAccountTransferCommand" );
-
-		if ( command.getAccountTransferId() == null ) }
-			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignToCustodianFromAccountTransferCommand" );
-	}
-	/**
-	 * handles assign Account validation for a AccountTransfer
-	 * 
-	 * @param	command AssignAccountToAccountTransferCommand
-	 */	
-	public void validate( AssignAccountToAccountTransferCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "AccountTransfer", "validating AssignAccountToAccountTransferCommand" );
-
-		if ( command.getAccountTransferId() == null )
-			throw new ValidationException( "AccountTransfer", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "AccountTransfer", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Account validation for a AccountTransfer
-	 * 
-	 * @param	command UnAssignAccountFromAccountTransferCommand
-	 */	
-	public void validate( UnAssignAccountFromAccountTransferCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "AccountTransfer", "validating UnAssignAccountFromAccountTransferCommand" );
-
-		if ( command.getAccountTransferId() == null ) }
-			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignAccountFromAccountTransferCommand" );
-	}
-
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "AccountTransfer", "validating assignment" );
 
 }
+
+/**
+ * handles unassign FromCustodian validation for a AccountTransfer
+ *
+ * @param	command UnAssignFromCustodianFromAccountTransferCommand
+ */
+public void validate( UnAssignFromCustodianFromAccountTransferCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "AccountTransfer", "validating UnAssignFromCustodianFromAccountTransferCommand" );
+
+	if ( command.getAccountTransferId() == null ) }
+			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignFromCustodianFromAccountTransferCommand" );
+	}
+			/**
+ * handles assign ToCustodian validation for a AccountTransfer
+ *
+ * @param	command AssignToCustodianToAccountTransferCommand
+ */
+public void validate( AssignToCustodianToAccountTransferCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "AccountTransfer", "validating AssignToCustodianToAccountTransferCommand" );
+
+	if ( command.getAccountTransferId() == null )
+	throw new ValidationException( "AccountTransfer", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "AccountTransfer", "validating assignment" );
+
+}
+
+/**
+ * handles unassign ToCustodian validation for a AccountTransfer
+ *
+ * @param	command UnAssignToCustodianFromAccountTransferCommand
+ */
+public void validate( UnAssignToCustodianFromAccountTransferCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "AccountTransfer", "validating UnAssignToCustodianFromAccountTransferCommand" );
+
+	if ( command.getAccountTransferId() == null ) }
+			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignToCustodianFromAccountTransferCommand" );
+	}
+			/**
+ * handles assign Account validation for a AccountTransfer
+ *
+ * @param	command AssignAccountToAccountTransferCommand
+ */
+public void validate( AssignAccountToAccountTransferCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "AccountTransfer", "validating AssignAccountToAccountTransferCommand" );
+
+	if ( command.getAccountTransferId() == null )
+	throw new ValidationException( "AccountTransfer", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "AccountTransfer", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Account validation for a AccountTransfer
+ *
+ * @param	command UnAssignAccountFromAccountTransferCommand
+ */
+public void validate( UnAssignAccountFromAccountTransferCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "AccountTransfer", "validating UnAssignAccountFromAccountTransferCommand" );
+
+	if ( command.getAccountTransferId() == null ) }
+			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignAccountFromAccountTransferCommand" );
+	}
+			
+		
+		}

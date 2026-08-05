@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -72,30 +72,30 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class BeneficiaryValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected BeneficiaryValidator() {	
+	protected BeneficiaryValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Beneficiary
 	 */
 	public void validate( CreateBeneficiaryCommand beneficiary )throws ValidationException {
 		if ( beneficiary == null )
-			throw new ValidationException( "Beneficiary", "validating CreateBeneficiaryCommand" );
+		throw new ValidationException( "Beneficiary", "validating CreateBeneficiaryCommand" );
 
 //		Assert.isNull( beneficiary.getBeneficiaryId(), "CreateBeneficiaryCommand identifier should be null" );
 		if ( beneficiary.getFirstName() == null )
-			throw new ValidationException( "Beneficiary", "validating access on getFirstName" );
+		throw new ValidationException( "Beneficiary", "validating access on getFirstName" );
 		if ( beneficiary.getLastName() == null )
-			throw new ValidationException( "Beneficiary", "validating access on getLastName" );
+		throw new ValidationException( "Beneficiary", "validating access on getLastName" );
 		if ( beneficiary.getRelationship() == null )
-			throw new ValidationException( "Beneficiary", "validating access on getRelationship" );
+		throw new ValidationException( "Beneficiary", "validating access on getRelationship" );
 		if ( beneficiary.getAllocationPercent() == null )
-			throw new ValidationException( "Beneficiary", "validating access on getAllocationPercent" );
+		throw new ValidationException( "Beneficiary", "validating access on getAllocationPercent" );
 	}
 
 	/**
@@ -103,101 +103,101 @@ public class BeneficiaryValidator {
 	 */
 	public void validate( UpdateBeneficiaryCommand beneficiary ) throws ValidationException {
 		if ( beneficiary == null )
-			throw new ValidationException( "Beneficiary", "validating UpdateBeneficiaryCommand" );
+		throw new ValidationException( "Beneficiary", "validating UpdateBeneficiaryCommand" );
 		if ( beneficiary.getFirstName() == null )
-			throw new ValidationException( "Beneficiary", "validating method getFirstName" );
+		throw new ValidationException( "Beneficiary", "validating method getFirstName" );
 		if ( beneficiary.getLastName() == null )
-			throw new ValidationException( "Beneficiary", "validating method getLastName" );
+		throw new ValidationException( "Beneficiary", "validating method getLastName" );
 		if ( beneficiary.getRelationship() == null )
-			throw new ValidationException( "Beneficiary", "validating method getRelationship" );
+		throw new ValidationException( "Beneficiary", "validating method getRelationship" );
 		if ( beneficiary.getAllocationPercent() == null )
-			throw new ValidationException( "Beneficiary", "validating method getAllocationPercent" );
-    }
+		throw new ValidationException( "Beneficiary", "validating method getAllocationPercent" );
+}
 
-	/**
-	 * handles delete validation for a Beneficiary
-	 */
-    public void validate( DeleteBeneficiaryCommand beneficiary ) throws ValidationException {
-		if ( beneficiary == null )
-			throw new ValidationException( "Beneficiary", "validating DeleteBeneficiaryCommand" );
+/**
+ * handles delete validation for a Beneficiary
+ */
+public void validate( DeleteBeneficiaryCommand beneficiary ) throws ValidationException {
+	if ( beneficiary == null )
+	throw new ValidationException( "Beneficiary", "validating DeleteBeneficiaryCommand" );
 
-		if ( beneficiary.getAllocationPercent() == null )
-			throw new ValidationException( "Beneficiary", "validating getAllocationPercent" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Beneficiary
-	 */
-	public void validate( BeneficiaryFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Beneficiary", "validating summary );
-	}
+	if ( beneficiary.getAllocationPercent() == null )
+	throw new ValidationException( "Beneficiary", "validating getAllocationPercent" );
+}
 
-	/**
-	 * handles assign Client validation for a Beneficiary
-	 * 
-	 * @param	command AssignClientToBeneficiaryCommand
-	 */	
-	public void validate( AssignClientToBeneficiaryCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Beneficiary", "validating AssignClientToBeneficiaryCommand" );
+/**
+ * handles fetchOne validation for a Beneficiary
+ */
+public void validate( BeneficiaryFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Beneficiary", "validating summary );
+}
 
-		if ( command.getBeneficiaryId() == null )
-			throw new ValidationException( "Beneficiary", "validating identifier" );
+/**
+ * handles assign Client validation for a Beneficiary
+ *
+ * @param	command AssignClientToBeneficiaryCommand
+ */
+public void validate( AssignClientToBeneficiaryCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Beneficiary", "validating AssignClientToBeneficiaryCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Beneficiary", "validating assignment" );
+	if ( command.getBeneficiaryId() == null )
+	throw new ValidationException( "Beneficiary", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Client validation for a Beneficiary
-	 * 
-	 * @param	command UnAssignClientFromBeneficiaryCommand
-	 */	
-	public void validate( UnAssignClientFromBeneficiaryCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Beneficiary", "validating UnAssignClientFromBeneficiaryCommand" );
-
-		if ( command.getBeneficiaryId() == null ) }
-			throw new ValidationException( "Beneficiary", "validating identity on UnAssignClientFromBeneficiaryCommand" );
-	}
-
-	/**
-	 * handles add to Accounts validation for a Beneficiary
-	 * 
-	 * @param	command AssignAccountsToBeneficiaryCommand
-	 */	
-	public void validate( AssignAccountsToBeneficiaryCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Beneficiary", "validating AssignAccountsToBeneficiaryCommand" );
-
-		if ( command.getBeneficiaryId() == null ) }
-			throw new ValidationException( "Beneficiary", "validating identity on AssignAccountsToBeneficiaryCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Beneficiary", "validating addTo attribute on AssignAccountsToBeneficiaryCommand" );
-
-	}
-
-	/**
-	 * handles remove from Accounts validation for a Beneficiary
-	 * 
-	 * @param	command RemoveAccountsFromBeneficiaryCommand
-	 */	
-	public void validate( RemoveAccountsFromBeneficiaryCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Beneficiary", "validating RemoveAccountsFromBeneficiaryCommand");
-
-		if( command.getBeneficiaryId() == null )
-			throw new ValidationException"Beneficiary", "validating id on RemoveAccountsFromBeneficiaryCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Beneficiary", "validating remove from";
-
-		if( command.getRemoveFrom().getAccountId() == null )
-			throw new ValidationException"Beneficiary", "validating id on remove from}";
-	}
-	
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Beneficiary", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Client validation for a Beneficiary
+ *
+ * @param	command UnAssignClientFromBeneficiaryCommand
+ */
+public void validate( UnAssignClientFromBeneficiaryCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Beneficiary", "validating UnAssignClientFromBeneficiaryCommand" );
+
+	if ( command.getBeneficiaryId() == null ) }
+			throw new ValidationException( "Beneficiary", "validating identity on UnAssignClientFromBeneficiaryCommand" );
+	}
+			
+		/**
+ * handles add to Accounts validation for a Beneficiary
+ *
+ * @param	command AssignAccountsToBeneficiaryCommand
+ */
+public void validate( AssignAccountsToBeneficiaryCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Beneficiary", "validating AssignAccountsToBeneficiaryCommand" );
+
+	if ( command.getBeneficiaryId() == null )
+	throw new ValidationException( "Beneficiary", "validating identity on AssignAccountsToBeneficiaryCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Beneficiary", "validating addTo attribute on AssignAccountsToBeneficiaryCommand" );
+
+}
+
+/**
+ * handles remove from Accounts validation for a Beneficiary
+ *
+ * @param	command RemoveAccountsFromBeneficiaryCommand
+ */
+public void validate( RemoveAccountsFromBeneficiaryCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Beneficiary", "validating RemoveAccountsFromBeneficiaryCommand");
+
+	if( command.getBeneficiaryId() == null )
+	throw new ValidationException"Beneficiary", "validating id on RemoveAccountsFromBeneficiaryCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Beneficiary", "validating remove from";
+
+	if( command.getRemoveFrom().getAccountId() == null )
+	throw new ValidationException"Beneficiary", "validating id on remove from}";
+}
+	
+
+		}

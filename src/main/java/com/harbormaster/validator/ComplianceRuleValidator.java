@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -70,28 +70,28 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class ComplianceRuleValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected ComplianceRuleValidator() {	
+	protected ComplianceRuleValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a ComplianceRule
 	 */
 	public void validate( CreateComplianceRuleCommand complianceRule )throws ValidationException {
 		if ( complianceRule == null )
-			throw new ValidationException( "ComplianceRule", "validating CreateComplianceRuleCommand" );
+		throw new ValidationException( "ComplianceRule", "validating CreateComplianceRuleCommand" );
 
 //		Assert.isNull( complianceRule.getComplianceRuleId(), "CreateComplianceRuleCommand identifier should be null" );
 		if ( complianceRule.getName() == null )
-			throw new ValidationException( "ComplianceRule", "validating access on getName" );
+		throw new ValidationException( "ComplianceRule", "validating access on getName" );
 		if ( complianceRule.getRuleCode() == null )
-			throw new ValidationException( "ComplianceRule", "validating access on getRuleCode" );
+		throw new ValidationException( "ComplianceRule", "validating access on getRuleCode" );
 		if ( complianceRule.getDescription() == null )
-			throw new ValidationException( "ComplianceRule", "validating access on getDescription" );
+		throw new ValidationException( "ComplianceRule", "validating access on getDescription" );
 	}
 
 	/**
@@ -99,70 +99,70 @@ public class ComplianceRuleValidator {
 	 */
 	public void validate( UpdateComplianceRuleCommand complianceRule ) throws ValidationException {
 		if ( complianceRule == null )
-			throw new ValidationException( "ComplianceRule", "validating UpdateComplianceRuleCommand" );
+		throw new ValidationException( "ComplianceRule", "validating UpdateComplianceRuleCommand" );
 		if ( complianceRule.getName() == null )
-			throw new ValidationException( "ComplianceRule", "validating method getName" );
+		throw new ValidationException( "ComplianceRule", "validating method getName" );
 		if ( complianceRule.getRuleCode() == null )
-			throw new ValidationException( "ComplianceRule", "validating method getRuleCode" );
+		throw new ValidationException( "ComplianceRule", "validating method getRuleCode" );
 		if ( complianceRule.getDescription() == null )
-			throw new ValidationException( "ComplianceRule", "validating method getDescription" );
-    }
+		throw new ValidationException( "ComplianceRule", "validating method getDescription" );
+}
 
-	/**
-	 * handles delete validation for a ComplianceRule
-	 */
-    public void validate( DeleteComplianceRuleCommand complianceRule ) throws ValidationException {
-		if ( complianceRule == null )
-			throw new ValidationException( "ComplianceRule", "validating DeleteComplianceRuleCommand" );
+/**
+ * handles delete validation for a ComplianceRule
+ */
+public void validate( DeleteComplianceRuleCommand complianceRule ) throws ValidationException {
+	if ( complianceRule == null )
+	throw new ValidationException( "ComplianceRule", "validating DeleteComplianceRuleCommand" );
 
-		if ( complianceRule.getDescription() == null )
-			throw new ValidationException( "ComplianceRule", "validating getDescription" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a ComplianceRule
-	 */
-	public void validate( ComplianceRuleFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "ComplianceRule", "validating summary );
-	}
+	if ( complianceRule.getDescription() == null )
+	throw new ValidationException( "ComplianceRule", "validating getDescription" );
+}
+
+/**
+ * handles fetchOne validation for a ComplianceRule
+ */
+public void validate( ComplianceRuleFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "ComplianceRule", "validating summary );
+}
 
 
-	/**
-	 * handles add to Alerts validation for a ComplianceRule
-	 * 
-	 * @param	command AssignAlertsToComplianceRuleCommand
-	 */	
-	public void validate( AssignAlertsToComplianceRuleCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "ComplianceRule", "validating AssignAlertsToComplianceRuleCommand" );
+		/**
+ * handles add to Alerts validation for a ComplianceRule
+ *
+ * @param	command AssignAlertsToComplianceRuleCommand
+ */
+public void validate( AssignAlertsToComplianceRuleCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "ComplianceRule", "validating AssignAlertsToComplianceRuleCommand" );
 
-		if ( command.getComplianceRuleId() == null ) }
-			throw new ValidationException( "ComplianceRule", "validating identity on AssignAlertsToComplianceRuleCommand" );
+	if ( command.getComplianceRuleId() == null )
+	throw new ValidationException( "ComplianceRule", "validating identity on AssignAlertsToComplianceRuleCommand" );
 
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "ComplianceRule", "validating addTo attribute on AssignAlertsToComplianceRuleCommand" );
-
-	}
-
-	/**
-	 * handles remove from Alerts validation for a ComplianceRule
-	 * 
-	 * @param	command RemoveAlertsFromComplianceRuleCommand
-	 */	
-	public void validate( RemoveAlertsFromComplianceRuleCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("ComplianceRule", "validating RemoveAlertsFromComplianceRuleCommand");
-
-		if( command.getComplianceRuleId() == null )
-			throw new ValidationException"ComplianceRule", "validating id on RemoveAlertsFromComplianceRuleCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"ComplianceRule", "validating remove from";
-
-		if( command.getRemoveFrom().getComplianceAlertId() == null )
-			throw new ValidationException"ComplianceRule", "validating id on remove from}";
-	}
-	
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "ComplianceRule", "validating addTo attribute on AssignAlertsToComplianceRuleCommand" );
 
 }
+
+/**
+ * handles remove from Alerts validation for a ComplianceRule
+ *
+ * @param	command RemoveAlertsFromComplianceRuleCommand
+ */
+public void validate( RemoveAlertsFromComplianceRuleCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("ComplianceRule", "validating RemoveAlertsFromComplianceRuleCommand");
+
+	if( command.getComplianceRuleId() == null )
+	throw new ValidationException"ComplianceRule", "validating id on RemoveAlertsFromComplianceRuleCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"ComplianceRule", "validating remove from";
+
+	if( command.getRemoveFrom().getComplianceAlertId() == null )
+	throw new ValidationException"ComplianceRule", "validating id on remove from}";
+}
+	
+
+		}

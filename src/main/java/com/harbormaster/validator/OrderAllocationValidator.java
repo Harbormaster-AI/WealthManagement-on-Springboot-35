@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -72,24 +72,24 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class OrderAllocationValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected OrderAllocationValidator() {	
+	protected OrderAllocationValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a OrderAllocation
 	 */
 	public void validate( CreateOrderAllocationCommand orderAllocation )throws ValidationException {
 		if ( orderAllocation == null )
-			throw new ValidationException( "OrderAllocation", "validating CreateOrderAllocationCommand" );
+		throw new ValidationException( "OrderAllocation", "validating CreateOrderAllocationCommand" );
 
 //		Assert.isNull( orderAllocation.getOrderAllocationId(), "CreateOrderAllocationCommand identifier should be null" );
 		if ( orderAllocation.getAllocationPercent() == null )
-			throw new ValidationException( "OrderAllocation", "validating access on getAllocationPercent" );
+		throw new ValidationException( "OrderAllocation", "validating access on getAllocationPercent" );
 	}
 
 	/**
@@ -97,117 +97,117 @@ public class OrderAllocationValidator {
 	 */
 	public void validate( UpdateOrderAllocationCommand orderAllocation ) throws ValidationException {
 		if ( orderAllocation == null )
-			throw new ValidationException( "OrderAllocation", "validating UpdateOrderAllocationCommand" );
+		throw new ValidationException( "OrderAllocation", "validating UpdateOrderAllocationCommand" );
 		if ( orderAllocation.getAllocationPercent() == null )
-			throw new ValidationException( "OrderAllocation", "validating method getAllocationPercent" );
-    }
+		throw new ValidationException( "OrderAllocation", "validating method getAllocationPercent" );
+}
 
-	/**
-	 * handles delete validation for a OrderAllocation
-	 */
-    public void validate( DeleteOrderAllocationCommand orderAllocation ) throws ValidationException {
-		if ( orderAllocation == null )
-			throw new ValidationException( "OrderAllocation", "validating DeleteOrderAllocationCommand" );
+/**
+ * handles delete validation for a OrderAllocation
+ */
+public void validate( DeleteOrderAllocationCommand orderAllocation ) throws ValidationException {
+	if ( orderAllocation == null )
+	throw new ValidationException( "OrderAllocation", "validating DeleteOrderAllocationCommand" );
 
-		if ( orderAllocation.getAllocationPercent() == null )
-			throw new ValidationException( "OrderAllocation", "validating getAllocationPercent" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a OrderAllocation
-	 */
-	public void validate( OrderAllocationFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "OrderAllocation", "validating summary );
-	}
+	if ( orderAllocation.getAllocationPercent() == null )
+	throw new ValidationException( "OrderAllocation", "validating getAllocationPercent" );
+}
 
-	/**
-	 * handles assign Order validation for a OrderAllocation
-	 * 
-	 * @param	command AssignOrderToOrderAllocationCommand
-	 */	
-	public void validate( AssignOrderToOrderAllocationCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "OrderAllocation", "validating AssignOrderToOrderAllocationCommand" );
+/**
+ * handles fetchOne validation for a OrderAllocation
+ */
+public void validate( OrderAllocationFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "OrderAllocation", "validating summary );
+}
 
-		if ( command.getOrderAllocationId() == null )
-			throw new ValidationException( "OrderAllocation", "validating identifier" );
+/**
+ * handles assign Order validation for a OrderAllocation
+ *
+ * @param	command AssignOrderToOrderAllocationCommand
+ */
+public void validate( AssignOrderToOrderAllocationCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "OrderAllocation", "validating AssignOrderToOrderAllocationCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "OrderAllocation", "validating assignment" );
+	if ( command.getOrderAllocationId() == null )
+	throw new ValidationException( "OrderAllocation", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Order validation for a OrderAllocation
-	 * 
-	 * @param	command UnAssignOrderFromOrderAllocationCommand
-	 */	
-	public void validate( UnAssignOrderFromOrderAllocationCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "OrderAllocation", "validating UnAssignOrderFromOrderAllocationCommand" );
-
-		if ( command.getOrderAllocationId() == null ) }
-			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignOrderFromOrderAllocationCommand" );
-	}
-	/**
-	 * handles assign Account validation for a OrderAllocation
-	 * 
-	 * @param	command AssignAccountToOrderAllocationCommand
-	 */	
-	public void validate( AssignAccountToOrderAllocationCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "OrderAllocation", "validating AssignAccountToOrderAllocationCommand" );
-
-		if ( command.getOrderAllocationId() == null )
-			throw new ValidationException( "OrderAllocation", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "OrderAllocation", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Account validation for a OrderAllocation
-	 * 
-	 * @param	command UnAssignAccountFromOrderAllocationCommand
-	 */	
-	public void validate( UnAssignAccountFromOrderAllocationCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "OrderAllocation", "validating UnAssignAccountFromOrderAllocationCommand" );
-
-		if ( command.getOrderAllocationId() == null ) }
-			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignAccountFromOrderAllocationCommand" );
-	}
-	/**
-	 * handles assign Portfolio validation for a OrderAllocation
-	 * 
-	 * @param	command AssignPortfolioToOrderAllocationCommand
-	 */	
-	public void validate( AssignPortfolioToOrderAllocationCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "OrderAllocation", "validating AssignPortfolioToOrderAllocationCommand" );
-
-		if ( command.getOrderAllocationId() == null )
-			throw new ValidationException( "OrderAllocation", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "OrderAllocation", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Portfolio validation for a OrderAllocation
-	 * 
-	 * @param	command UnAssignPortfolioFromOrderAllocationCommand
-	 */	
-	public void validate( UnAssignPortfolioFromOrderAllocationCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "OrderAllocation", "validating UnAssignPortfolioFromOrderAllocationCommand" );
-
-		if ( command.getOrderAllocationId() == null ) }
-			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignPortfolioFromOrderAllocationCommand" );
-	}
-
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "OrderAllocation", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Order validation for a OrderAllocation
+ *
+ * @param	command UnAssignOrderFromOrderAllocationCommand
+ */
+public void validate( UnAssignOrderFromOrderAllocationCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "OrderAllocation", "validating UnAssignOrderFromOrderAllocationCommand" );
+
+	if ( command.getOrderAllocationId() == null ) }
+			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignOrderFromOrderAllocationCommand" );
+	}
+			/**
+ * handles assign Account validation for a OrderAllocation
+ *
+ * @param	command AssignAccountToOrderAllocationCommand
+ */
+public void validate( AssignAccountToOrderAllocationCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "OrderAllocation", "validating AssignAccountToOrderAllocationCommand" );
+
+	if ( command.getOrderAllocationId() == null )
+	throw new ValidationException( "OrderAllocation", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "OrderAllocation", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Account validation for a OrderAllocation
+ *
+ * @param	command UnAssignAccountFromOrderAllocationCommand
+ */
+public void validate( UnAssignAccountFromOrderAllocationCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "OrderAllocation", "validating UnAssignAccountFromOrderAllocationCommand" );
+
+	if ( command.getOrderAllocationId() == null ) }
+			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignAccountFromOrderAllocationCommand" );
+	}
+			/**
+ * handles assign Portfolio validation for a OrderAllocation
+ *
+ * @param	command AssignPortfolioToOrderAllocationCommand
+ */
+public void validate( AssignPortfolioToOrderAllocationCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "OrderAllocation", "validating AssignPortfolioToOrderAllocationCommand" );
+
+	if ( command.getOrderAllocationId() == null )
+	throw new ValidationException( "OrderAllocation", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "OrderAllocation", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Portfolio validation for a OrderAllocation
+ *
+ * @param	command UnAssignPortfolioFromOrderAllocationCommand
+ */
+public void validate( UnAssignPortfolioFromOrderAllocationCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "OrderAllocation", "validating UnAssignPortfolioFromOrderAllocationCommand" );
+
+	if ( command.getOrderAllocationId() == null ) }
+			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignPortfolioFromOrderAllocationCommand" );
+	}
+			
+		
+		}

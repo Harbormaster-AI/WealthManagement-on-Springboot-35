@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -68,26 +68,26 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class DividendValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected DividendValidator() {	
+	protected DividendValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Dividend
 	 */
 	public void validate( CreateDividendCommand dividend )throws ValidationException {
 		if ( dividend == null )
-			throw new ValidationException( "Dividend", "validating CreateDividendCommand" );
+		throw new ValidationException( "Dividend", "validating CreateDividendCommand" );
 
 //		Assert.isNull( dividend.getDividendId(), "CreateDividendCommand identifier should be null" );
 		if ( dividend.getGrossAmount() == null )
-			throw new ValidationException( "Dividend", "validating access on getGrossAmount" );
+		throw new ValidationException( "Dividend", "validating access on getGrossAmount" );
 		if ( dividend.getTaxWithheld() == null )
-			throw new ValidationException( "Dividend", "validating access on getTaxWithheld" );
+		throw new ValidationException( "Dividend", "validating access on getTaxWithheld" );
 	}
 
 	/**
@@ -95,61 +95,61 @@ public class DividendValidator {
 	 */
 	public void validate( UpdateDividendCommand dividend ) throws ValidationException {
 		if ( dividend == null )
-			throw new ValidationException( "Dividend", "validating UpdateDividendCommand" );
+		throw new ValidationException( "Dividend", "validating UpdateDividendCommand" );
 		if ( dividend.getGrossAmount() == null )
-			throw new ValidationException( "Dividend", "validating method getGrossAmount" );
+		throw new ValidationException( "Dividend", "validating method getGrossAmount" );
 		if ( dividend.getTaxWithheld() == null )
-			throw new ValidationException( "Dividend", "validating method getTaxWithheld" );
-    }
+		throw new ValidationException( "Dividend", "validating method getTaxWithheld" );
+}
 
-	/**
-	 * handles delete validation for a Dividend
-	 */
-    public void validate( DeleteDividendCommand dividend ) throws ValidationException {
-		if ( dividend == null )
-			throw new ValidationException( "Dividend", "validating DeleteDividendCommand" );
+/**
+ * handles delete validation for a Dividend
+ */
+public void validate( DeleteDividendCommand dividend ) throws ValidationException {
+	if ( dividend == null )
+	throw new ValidationException( "Dividend", "validating DeleteDividendCommand" );
 
-		if ( dividend.getTaxWithheld() == null )
-			throw new ValidationException( "Dividend", "validating getTaxWithheld" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Dividend
-	 */
-	public void validate( DividendFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Dividend", "validating summary );
-	}
+	if ( dividend.getTaxWithheld() == null )
+	throw new ValidationException( "Dividend", "validating getTaxWithheld" );
+}
 
-	/**
-	 * handles assign CorporateAction validation for a Dividend
-	 * 
-	 * @param	command AssignCorporateActionToDividendCommand
-	 */	
-	public void validate( AssignCorporateActionToDividendCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Dividend", "validating AssignCorporateActionToDividendCommand" );
+/**
+ * handles fetchOne validation for a Dividend
+ */
+public void validate( DividendFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Dividend", "validating summary );
+}
 
-		if ( command.getDividendId() == null )
-			throw new ValidationException( "Dividend", "validating identifier" );
+/**
+ * handles assign CorporateAction validation for a Dividend
+ *
+ * @param	command AssignCorporateActionToDividendCommand
+ */
+public void validate( AssignCorporateActionToDividendCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Dividend", "validating AssignCorporateActionToDividendCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Dividend", "validating assignment" );
+	if ( command.getDividendId() == null )
+	throw new ValidationException( "Dividend", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign CorporateAction validation for a Dividend
-	 * 
-	 * @param	command UnAssignCorporateActionFromDividendCommand
-	 */	
-	public void validate( UnAssignCorporateActionFromDividendCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Dividend", "validating UnAssignCorporateActionFromDividendCommand" );
-
-		if ( command.getDividendId() == null ) }
-			throw new ValidationException( "Dividend", "validating identity on UnAssignCorporateActionFromDividendCommand" );
-	}
-
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Dividend", "validating assignment" );
 
 }
+
+/**
+ * handles unassign CorporateAction validation for a Dividend
+ *
+ * @param	command UnAssignCorporateActionFromDividendCommand
+ */
+public void validate( UnAssignCorporateActionFromDividendCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Dividend", "validating UnAssignCorporateActionFromDividendCommand" );
+
+	if ( command.getDividendId() == null ) }
+			throw new ValidationException( "Dividend", "validating identity on UnAssignCorporateActionFromDividendCommand" );
+	}
+			
+		
+		}

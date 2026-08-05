@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -74,28 +74,28 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class CustodianValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected CustodianValidator() {	
+	protected CustodianValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Custodian
 	 */
 	public void validate( CreateCustodianCommand custodian )throws ValidationException {
 		if ( custodian == null )
-			throw new ValidationException( "Custodian", "validating CreateCustodianCommand" );
+		throw new ValidationException( "Custodian", "validating CreateCustodianCommand" );
 
 //		Assert.isNull( custodian.getCustodianId(), "CreateCustodianCommand identifier should be null" );
 		if ( custodian.getName() == null )
-			throw new ValidationException( "Custodian", "validating access on getName" );
+		throw new ValidationException( "Custodian", "validating access on getName" );
 		if ( custodian.getClearingNumber() == null )
-			throw new ValidationException( "Custodian", "validating access on getClearingNumber" );
+		throw new ValidationException( "Custodian", "validating access on getClearingNumber" );
 		if ( custodian.getCountry() == null )
-			throw new ValidationException( "Custodian", "validating access on getCountry" );
+		throw new ValidationException( "Custodian", "validating access on getCountry" );
 	}
 
 	/**
@@ -103,106 +103,106 @@ public class CustodianValidator {
 	 */
 	public void validate( UpdateCustodianCommand custodian ) throws ValidationException {
 		if ( custodian == null )
-			throw new ValidationException( "Custodian", "validating UpdateCustodianCommand" );
+		throw new ValidationException( "Custodian", "validating UpdateCustodianCommand" );
 		if ( custodian.getName() == null )
-			throw new ValidationException( "Custodian", "validating method getName" );
+		throw new ValidationException( "Custodian", "validating method getName" );
 		if ( custodian.getClearingNumber() == null )
-			throw new ValidationException( "Custodian", "validating method getClearingNumber" );
+		throw new ValidationException( "Custodian", "validating method getClearingNumber" );
 		if ( custodian.getCountry() == null )
-			throw new ValidationException( "Custodian", "validating method getCountry" );
-    }
+		throw new ValidationException( "Custodian", "validating method getCountry" );
+}
 
-	/**
-	 * handles delete validation for a Custodian
-	 */
-    public void validate( DeleteCustodianCommand custodian ) throws ValidationException {
-		if ( custodian == null )
-			throw new ValidationException( "Custodian", "validating DeleteCustodianCommand" );
+/**
+ * handles delete validation for a Custodian
+ */
+public void validate( DeleteCustodianCommand custodian ) throws ValidationException {
+	if ( custodian == null )
+	throw new ValidationException( "Custodian", "validating DeleteCustodianCommand" );
 
-		if ( custodian.getCountry() == null )
-			throw new ValidationException( "Custodian", "validating getCountry" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Custodian
-	 */
-	public void validate( CustodianFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Custodian", "validating summary );
-	}
+	if ( custodian.getCountry() == null )
+	throw new ValidationException( "Custodian", "validating getCountry" );
+}
+
+/**
+ * handles fetchOne validation for a Custodian
+ */
+public void validate( CustodianFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Custodian", "validating summary );
+}
 
 
-	/**
-	 * handles add to Accounts validation for a Custodian
-	 * 
-	 * @param	command AssignAccountsToCustodianCommand
-	 */	
-	public void validate( AssignAccountsToCustodianCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Custodian", "validating AssignAccountsToCustodianCommand" );
+		/**
+ * handles add to Accounts validation for a Custodian
+ *
+ * @param	command AssignAccountsToCustodianCommand
+ */
+public void validate( AssignAccountsToCustodianCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Custodian", "validating AssignAccountsToCustodianCommand" );
 
-		if ( command.getCustodianId() == null ) }
-			throw new ValidationException( "Custodian", "validating identity on AssignAccountsToCustodianCommand" );
+	if ( command.getCustodianId() == null )
+	throw new ValidationException( "Custodian", "validating identity on AssignAccountsToCustodianCommand" );
 
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Custodian", "validating addTo attribute on AssignAccountsToCustodianCommand" );
-
-	}
-
-	/**
-	 * handles remove from Accounts validation for a Custodian
-	 * 
-	 * @param	command RemoveAccountsFromCustodianCommand
-	 */	
-	public void validate( RemoveAccountsFromCustodianCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Custodian", "validating RemoveAccountsFromCustodianCommand");
-
-		if( command.getCustodianId() == null )
-			throw new ValidationException"Custodian", "validating id on RemoveAccountsFromCustodianCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Custodian", "validating remove from";
-
-		if( command.getRemoveFrom().getAccountId() == null )
-			throw new ValidationException"Custodian", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to Transfers validation for a Custodian
-	 * 
-	 * @param	command AssignTransfersToCustodianCommand
-	 */	
-	public void validate( AssignTransfersToCustodianCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Custodian", "validating AssignTransfersToCustodianCommand" );
-
-		if ( command.getCustodianId() == null ) }
-			throw new ValidationException( "Custodian", "validating identity on AssignTransfersToCustodianCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Custodian", "validating addTo attribute on AssignTransfersToCustodianCommand" );
-
-	}
-
-	/**
-	 * handles remove from Transfers validation for a Custodian
-	 * 
-	 * @param	command RemoveTransfersFromCustodianCommand
-	 */	
-	public void validate( RemoveTransfersFromCustodianCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Custodian", "validating RemoveTransfersFromCustodianCommand");
-
-		if( command.getCustodianId() == null )
-			throw new ValidationException"Custodian", "validating id on RemoveTransfersFromCustodianCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Custodian", "validating remove from";
-
-		if( command.getRemoveFrom().getAccountTransferId() == null )
-			throw new ValidationException"Custodian", "validating id on remove from}";
-	}
-	
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Custodian", "validating addTo attribute on AssignAccountsToCustodianCommand" );
 
 }
+
+/**
+ * handles remove from Accounts validation for a Custodian
+ *
+ * @param	command RemoveAccountsFromCustodianCommand
+ */
+public void validate( RemoveAccountsFromCustodianCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Custodian", "validating RemoveAccountsFromCustodianCommand");
+
+	if( command.getCustodianId() == null )
+	throw new ValidationException"Custodian", "validating id on RemoveAccountsFromCustodianCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Custodian", "validating remove from";
+
+	if( command.getRemoveFrom().getAccountId() == null )
+	throw new ValidationException"Custodian", "validating id on remove from}";
+}
+	
+/**
+ * handles add to Transfers validation for a Custodian
+ *
+ * @param	command AssignTransfersToCustodianCommand
+ */
+public void validate( AssignTransfersToCustodianCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Custodian", "validating AssignTransfersToCustodianCommand" );
+
+	if ( command.getCustodianId() == null )
+	throw new ValidationException( "Custodian", "validating identity on AssignTransfersToCustodianCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Custodian", "validating addTo attribute on AssignTransfersToCustodianCommand" );
+
+}
+
+/**
+ * handles remove from Transfers validation for a Custodian
+ *
+ * @param	command RemoveTransfersFromCustodianCommand
+ */
+public void validate( RemoveTransfersFromCustodianCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Custodian", "validating RemoveTransfersFromCustodianCommand");
+
+	if( command.getCustodianId() == null )
+	throw new ValidationException"Custodian", "validating id on RemoveTransfersFromCustodianCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Custodian", "validating remove from";
+
+	if( command.getRemoveFrom().getAccountTransferId() == null )
+	throw new ValidationException"Custodian", "validating id on remove from}";
+}
+	
+
+		}

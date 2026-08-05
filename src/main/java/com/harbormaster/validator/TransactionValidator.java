@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -74,30 +74,30 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class TransactionValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected TransactionValidator() {	
+	protected TransactionValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Transaction
 	 */
 	public void validate( CreateTransactionCommand transaction )throws ValidationException {
 		if ( transaction == null )
-			throw new ValidationException( "Transaction", "validating CreateTransactionCommand" );
+		throw new ValidationException( "Transaction", "validating CreateTransactionCommand" );
 
 //		Assert.isNull( transaction.getTransactionId(), "CreateTransactionCommand identifier should be null" );
 		if ( transaction.getTradeDate() == null )
-			throw new ValidationException( "Transaction", "validating access on getTradeDate" );
+		throw new ValidationException( "Transaction", "validating access on getTradeDate" );
 		if ( transaction.getSettleDate() == null )
-			throw new ValidationException( "Transaction", "validating access on getSettleDate" );
+		throw new ValidationException( "Transaction", "validating access on getSettleDate" );
 		if ( transaction.getAmount() == null )
-			throw new ValidationException( "Transaction", "validating access on getAmount" );
+		throw new ValidationException( "Transaction", "validating access on getAmount" );
 		if ( transaction.getQuantity() == null )
-			throw new ValidationException( "Transaction", "validating access on getQuantity" );
+		throw new ValidationException( "Transaction", "validating access on getQuantity" );
 	}
 
 	/**
@@ -105,152 +105,152 @@ public class TransactionValidator {
 	 */
 	public void validate( UpdateTransactionCommand transaction ) throws ValidationException {
 		if ( transaction == null )
-			throw new ValidationException( "Transaction", "validating UpdateTransactionCommand" );
+		throw new ValidationException( "Transaction", "validating UpdateTransactionCommand" );
 		if ( transaction.getTradeDate() == null )
-			throw new ValidationException( "Transaction", "validating method getTradeDate" );
+		throw new ValidationException( "Transaction", "validating method getTradeDate" );
 		if ( transaction.getSettleDate() == null )
-			throw new ValidationException( "Transaction", "validating method getSettleDate" );
+		throw new ValidationException( "Transaction", "validating method getSettleDate" );
 		if ( transaction.getAmount() == null )
-			throw new ValidationException( "Transaction", "validating method getAmount" );
+		throw new ValidationException( "Transaction", "validating method getAmount" );
 		if ( transaction.getQuantity() == null )
-			throw new ValidationException( "Transaction", "validating method getQuantity" );
-    }
+		throw new ValidationException( "Transaction", "validating method getQuantity" );
+}
 
-	/**
-	 * handles delete validation for a Transaction
-	 */
-    public void validate( DeleteTransactionCommand transaction ) throws ValidationException {
-		if ( transaction == null )
-			throw new ValidationException( "Transaction", "validating DeleteTransactionCommand" );
+/**
+ * handles delete validation for a Transaction
+ */
+public void validate( DeleteTransactionCommand transaction ) throws ValidationException {
+	if ( transaction == null )
+	throw new ValidationException( "Transaction", "validating DeleteTransactionCommand" );
 
-		if ( transaction.getQuantity() == null )
-			throw new ValidationException( "Transaction", "validating getQuantity" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Transaction
-	 */
-	public void validate( TransactionFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Transaction", "validating summary );
-	}
+	if ( transaction.getQuantity() == null )
+	throw new ValidationException( "Transaction", "validating getQuantity" );
+}
 
-	/**
-	 * handles assign Account validation for a Transaction
-	 * 
-	 * @param	command AssignAccountToTransactionCommand
-	 */	
-	public void validate( AssignAccountToTransactionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Transaction", "validating AssignAccountToTransactionCommand" );
+/**
+ * handles fetchOne validation for a Transaction
+ */
+public void validate( TransactionFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Transaction", "validating summary );
+}
 
-		if ( command.getTransactionId() == null )
-			throw new ValidationException( "Transaction", "validating identifier" );
+/**
+ * handles assign Account validation for a Transaction
+ *
+ * @param	command AssignAccountToTransactionCommand
+ */
+public void validate( AssignAccountToTransactionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Transaction", "validating AssignAccountToTransactionCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Transaction", "validating assignment" );
+	if ( command.getTransactionId() == null )
+	throw new ValidationException( "Transaction", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Account validation for a Transaction
-	 * 
-	 * @param	command UnAssignAccountFromTransactionCommand
-	 */	
-	public void validate( UnAssignAccountFromTransactionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Transaction", "validating UnAssignAccountFromTransactionCommand" );
-
-		if ( command.getTransactionId() == null ) }
-			throw new ValidationException( "Transaction", "validating identity on UnAssignAccountFromTransactionCommand" );
-	}
-	/**
-	 * handles assign Security validation for a Transaction
-	 * 
-	 * @param	command AssignSecurityToTransactionCommand
-	 */	
-	public void validate( AssignSecurityToTransactionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Transaction", "validating AssignSecurityToTransactionCommand" );
-
-		if ( command.getTransactionId() == null )
-			throw new ValidationException( "Transaction", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Transaction", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Security validation for a Transaction
-	 * 
-	 * @param	command UnAssignSecurityFromTransactionCommand
-	 */	
-	public void validate( UnAssignSecurityFromTransactionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Transaction", "validating UnAssignSecurityFromTransactionCommand" );
-
-		if ( command.getTransactionId() == null ) }
-			throw new ValidationException( "Transaction", "validating identity on UnAssignSecurityFromTransactionCommand" );
-	}
-	/**
-	 * handles assign Order validation for a Transaction
-	 * 
-	 * @param	command AssignOrderToTransactionCommand
-	 */	
-	public void validate( AssignOrderToTransactionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Transaction", "validating AssignOrderToTransactionCommand" );
-
-		if ( command.getTransactionId() == null )
-			throw new ValidationException( "Transaction", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Transaction", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Order validation for a Transaction
-	 * 
-	 * @param	command UnAssignOrderFromTransactionCommand
-	 */	
-	public void validate( UnAssignOrderFromTransactionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Transaction", "validating UnAssignOrderFromTransactionCommand" );
-
-		if ( command.getTransactionId() == null ) }
-			throw new ValidationException( "Transaction", "validating identity on UnAssignOrderFromTransactionCommand" );
-	}
-	/**
-	 * handles assign Position validation for a Transaction
-	 * 
-	 * @param	command AssignPositionToTransactionCommand
-	 */	
-	public void validate( AssignPositionToTransactionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Transaction", "validating AssignPositionToTransactionCommand" );
-
-		if ( command.getTransactionId() == null )
-			throw new ValidationException( "Transaction", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Transaction", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Position validation for a Transaction
-	 * 
-	 * @param	command UnAssignPositionFromTransactionCommand
-	 */	
-	public void validate( UnAssignPositionFromTransactionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Transaction", "validating UnAssignPositionFromTransactionCommand" );
-
-		if ( command.getTransactionId() == null ) }
-			throw new ValidationException( "Transaction", "validating identity on UnAssignPositionFromTransactionCommand" );
-	}
-
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Transaction", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Account validation for a Transaction
+ *
+ * @param	command UnAssignAccountFromTransactionCommand
+ */
+public void validate( UnAssignAccountFromTransactionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Transaction", "validating UnAssignAccountFromTransactionCommand" );
+
+	if ( command.getTransactionId() == null ) }
+			throw new ValidationException( "Transaction", "validating identity on UnAssignAccountFromTransactionCommand" );
+	}
+			/**
+ * handles assign Security validation for a Transaction
+ *
+ * @param	command AssignSecurityToTransactionCommand
+ */
+public void validate( AssignSecurityToTransactionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Transaction", "validating AssignSecurityToTransactionCommand" );
+
+	if ( command.getTransactionId() == null )
+	throw new ValidationException( "Transaction", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Transaction", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Security validation for a Transaction
+ *
+ * @param	command UnAssignSecurityFromTransactionCommand
+ */
+public void validate( UnAssignSecurityFromTransactionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Transaction", "validating UnAssignSecurityFromTransactionCommand" );
+
+	if ( command.getTransactionId() == null ) }
+			throw new ValidationException( "Transaction", "validating identity on UnAssignSecurityFromTransactionCommand" );
+	}
+			/**
+ * handles assign Order validation for a Transaction
+ *
+ * @param	command AssignOrderToTransactionCommand
+ */
+public void validate( AssignOrderToTransactionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Transaction", "validating AssignOrderToTransactionCommand" );
+
+	if ( command.getTransactionId() == null )
+	throw new ValidationException( "Transaction", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Transaction", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Order validation for a Transaction
+ *
+ * @param	command UnAssignOrderFromTransactionCommand
+ */
+public void validate( UnAssignOrderFromTransactionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Transaction", "validating UnAssignOrderFromTransactionCommand" );
+
+	if ( command.getTransactionId() == null ) }
+			throw new ValidationException( "Transaction", "validating identity on UnAssignOrderFromTransactionCommand" );
+	}
+			/**
+ * handles assign Position validation for a Transaction
+ *
+ * @param	command AssignPositionToTransactionCommand
+ */
+public void validate( AssignPositionToTransactionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Transaction", "validating AssignPositionToTransactionCommand" );
+
+	if ( command.getTransactionId() == null )
+	throw new ValidationException( "Transaction", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Transaction", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Position validation for a Transaction
+ *
+ * @param	command UnAssignPositionFromTransactionCommand
+ */
+public void validate( UnAssignPositionFromTransactionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Transaction", "validating UnAssignPositionFromTransactionCommand" );
+
+	if ( command.getTransactionId() == null ) }
+			throw new ValidationException( "Transaction", "validating identity on UnAssignPositionFromTransactionCommand" );
+	}
+			
+		
+		}

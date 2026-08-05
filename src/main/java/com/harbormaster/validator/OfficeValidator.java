@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -72,26 +72,26 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class OfficeValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected OfficeValidator() {	
+	protected OfficeValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Office
 	 */
 	public void validate( CreateOfficeCommand office )throws ValidationException {
 		if ( office == null )
-			throw new ValidationException( "Office", "validating CreateOfficeCommand" );
+		throw new ValidationException( "Office", "validating CreateOfficeCommand" );
 
 //		Assert.isNull( office.getOfficeId(), "CreateOfficeCommand identifier should be null" );
 		if ( office.getName() == null )
-			throw new ValidationException( "Office", "validating access on getName" );
+		throw new ValidationException( "Office", "validating access on getName" );
 		if ( office.getAddress() == null )
-			throw new ValidationException( "Office", "validating access on getAddress" );
+		throw new ValidationException( "Office", "validating access on getAddress" );
 	}
 
 	/**
@@ -99,97 +99,97 @@ public class OfficeValidator {
 	 */
 	public void validate( UpdateOfficeCommand office ) throws ValidationException {
 		if ( office == null )
-			throw new ValidationException( "Office", "validating UpdateOfficeCommand" );
+		throw new ValidationException( "Office", "validating UpdateOfficeCommand" );
 		if ( office.getName() == null )
-			throw new ValidationException( "Office", "validating method getName" );
+		throw new ValidationException( "Office", "validating method getName" );
 		if ( office.getAddress() == null )
-			throw new ValidationException( "Office", "validating method getAddress" );
-    }
+		throw new ValidationException( "Office", "validating method getAddress" );
+}
 
-	/**
-	 * handles delete validation for a Office
-	 */
-    public void validate( DeleteOfficeCommand office ) throws ValidationException {
-		if ( office == null )
-			throw new ValidationException( "Office", "validating DeleteOfficeCommand" );
+/**
+ * handles delete validation for a Office
+ */
+public void validate( DeleteOfficeCommand office ) throws ValidationException {
+	if ( office == null )
+	throw new ValidationException( "Office", "validating DeleteOfficeCommand" );
 
-		if ( office.getAddress() == null )
-			throw new ValidationException( "Office", "validating getAddress" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Office
-	 */
-	public void validate( OfficeFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Office", "validating summary );
-	}
+	if ( office.getAddress() == null )
+	throw new ValidationException( "Office", "validating getAddress" );
+}
 
-	/**
-	 * handles assign Firm validation for a Office
-	 * 
-	 * @param	command AssignFirmToOfficeCommand
-	 */	
-	public void validate( AssignFirmToOfficeCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Office", "validating AssignFirmToOfficeCommand" );
+/**
+ * handles fetchOne validation for a Office
+ */
+public void validate( OfficeFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Office", "validating summary );
+}
 
-		if ( command.getOfficeId() == null )
-			throw new ValidationException( "Office", "validating identifier" );
+/**
+ * handles assign Firm validation for a Office
+ *
+ * @param	command AssignFirmToOfficeCommand
+ */
+public void validate( AssignFirmToOfficeCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Office", "validating AssignFirmToOfficeCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Office", "validating assignment" );
+	if ( command.getOfficeId() == null )
+	throw new ValidationException( "Office", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Firm validation for a Office
-	 * 
-	 * @param	command UnAssignFirmFromOfficeCommand
-	 */	
-	public void validate( UnAssignFirmFromOfficeCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Office", "validating UnAssignFirmFromOfficeCommand" );
-
-		if ( command.getOfficeId() == null ) }
-			throw new ValidationException( "Office", "validating identity on UnAssignFirmFromOfficeCommand" );
-	}
-
-	/**
-	 * handles add to Advisors validation for a Office
-	 * 
-	 * @param	command AssignAdvisorsToOfficeCommand
-	 */	
-	public void validate( AssignAdvisorsToOfficeCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Office", "validating AssignAdvisorsToOfficeCommand" );
-
-		if ( command.getOfficeId() == null ) }
-			throw new ValidationException( "Office", "validating identity on AssignAdvisorsToOfficeCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Office", "validating addTo attribute on AssignAdvisorsToOfficeCommand" );
-
-	}
-
-	/**
-	 * handles remove from Advisors validation for a Office
-	 * 
-	 * @param	command RemoveAdvisorsFromOfficeCommand
-	 */	
-	public void validate( RemoveAdvisorsFromOfficeCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Office", "validating RemoveAdvisorsFromOfficeCommand");
-
-		if( command.getOfficeId() == null )
-			throw new ValidationException"Office", "validating id on RemoveAdvisorsFromOfficeCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Office", "validating remove from";
-
-		if( command.getRemoveFrom().getAdvisorId() == null )
-			throw new ValidationException"Office", "validating id on remove from}";
-	}
-	
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Office", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Firm validation for a Office
+ *
+ * @param	command UnAssignFirmFromOfficeCommand
+ */
+public void validate( UnAssignFirmFromOfficeCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Office", "validating UnAssignFirmFromOfficeCommand" );
+
+	if ( command.getOfficeId() == null ) }
+			throw new ValidationException( "Office", "validating identity on UnAssignFirmFromOfficeCommand" );
+	}
+			
+		/**
+ * handles add to Advisors validation for a Office
+ *
+ * @param	command AssignAdvisorsToOfficeCommand
+ */
+public void validate( AssignAdvisorsToOfficeCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Office", "validating AssignAdvisorsToOfficeCommand" );
+
+	if ( command.getOfficeId() == null )
+	throw new ValidationException( "Office", "validating identity on AssignAdvisorsToOfficeCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Office", "validating addTo attribute on AssignAdvisorsToOfficeCommand" );
+
+}
+
+/**
+ * handles remove from Advisors validation for a Office
+ *
+ * @param	command RemoveAdvisorsFromOfficeCommand
+ */
+public void validate( RemoveAdvisorsFromOfficeCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Office", "validating RemoveAdvisorsFromOfficeCommand");
+
+	if( command.getOfficeId() == null )
+	throw new ValidationException"Office", "validating id on RemoveAdvisorsFromOfficeCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Office", "validating remove from";
+
+	if( command.getRemoveFrom().getAdvisorId() == null )
+	throw new ValidationException"Office", "validating id on remove from}";
+}
+	
+
+		}

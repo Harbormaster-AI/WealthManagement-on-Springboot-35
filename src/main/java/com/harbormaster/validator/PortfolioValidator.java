@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -86,28 +86,28 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class PortfolioValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected PortfolioValidator() {	
+	protected PortfolioValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Portfolio
 	 */
 	public void validate( CreatePortfolioCommand portfolio )throws ValidationException {
 		if ( portfolio == null )
-			throw new ValidationException( "Portfolio", "validating CreatePortfolioCommand" );
+		throw new ValidationException( "Portfolio", "validating CreatePortfolioCommand" );
 
 //		Assert.isNull( portfolio.getPortfolioId(), "CreatePortfolioCommand identifier should be null" );
 		if ( portfolio.getName() == null )
-			throw new ValidationException( "Portfolio", "validating access on getName" );
+		throw new ValidationException( "Portfolio", "validating access on getName" );
 		if ( portfolio.getBaseCurrency() == null )
-			throw new ValidationException( "Portfolio", "validating access on getBaseCurrency" );
+		throw new ValidationException( "Portfolio", "validating access on getBaseCurrency" );
 		if ( portfolio.getInceptionDate() == null )
-			throw new ValidationException( "Portfolio", "validating access on getInceptionDate" );
+		throw new ValidationException( "Portfolio", "validating access on getInceptionDate" );
 	}
 
 	/**
@@ -115,258 +115,258 @@ public class PortfolioValidator {
 	 */
 	public void validate( UpdatePortfolioCommand portfolio ) throws ValidationException {
 		if ( portfolio == null )
-			throw new ValidationException( "Portfolio", "validating UpdatePortfolioCommand" );
+		throw new ValidationException( "Portfolio", "validating UpdatePortfolioCommand" );
 		if ( portfolio.getName() == null )
-			throw new ValidationException( "Portfolio", "validating method getName" );
+		throw new ValidationException( "Portfolio", "validating method getName" );
 		if ( portfolio.getBaseCurrency() == null )
-			throw new ValidationException( "Portfolio", "validating method getBaseCurrency" );
+		throw new ValidationException( "Portfolio", "validating method getBaseCurrency" );
 		if ( portfolio.getInceptionDate() == null )
-			throw new ValidationException( "Portfolio", "validating method getInceptionDate" );
-    }
+		throw new ValidationException( "Portfolio", "validating method getInceptionDate" );
+}
 
-	/**
-	 * handles delete validation for a Portfolio
-	 */
-    public void validate( DeletePortfolioCommand portfolio ) throws ValidationException {
-		if ( portfolio == null )
-			throw new ValidationException( "Portfolio", "validating DeletePortfolioCommand" );
+/**
+ * handles delete validation for a Portfolio
+ */
+public void validate( DeletePortfolioCommand portfolio ) throws ValidationException {
+	if ( portfolio == null )
+	throw new ValidationException( "Portfolio", "validating DeletePortfolioCommand" );
 
-		if ( portfolio.getInceptionDate() == null )
-			throw new ValidationException( "Portfolio", "validating getInceptionDate" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Portfolio
-	 */
-	public void validate( PortfolioFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Portfolio", "validating summary );
-	}
+	if ( portfolio.getInceptionDate() == null )
+	throw new ValidationException( "Portfolio", "validating getInceptionDate" );
+}
 
-	/**
-	 * handles assign Account validation for a Portfolio
-	 * 
-	 * @param	command AssignAccountToPortfolioCommand
-	 */	
-	public void validate( AssignAccountToPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating AssignAccountToPortfolioCommand" );
+/**
+ * handles fetchOne validation for a Portfolio
+ */
+public void validate( PortfolioFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Portfolio", "validating summary );
+}
 
-		if ( command.getPortfolioId() == null )
-			throw new ValidationException( "Portfolio", "validating identifier" );
+/**
+ * handles assign Account validation for a Portfolio
+ *
+ * @param	command AssignAccountToPortfolioCommand
+ */
+public void validate( AssignAccountToPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating AssignAccountToPortfolioCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Portfolio", "validating assignment" );
+	if ( command.getPortfolioId() == null )
+	throw new ValidationException( "Portfolio", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Account validation for a Portfolio
-	 * 
-	 * @param	command UnAssignAccountFromPortfolioCommand
-	 */	
-	public void validate( UnAssignAccountFromPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating UnAssignAccountFromPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null ) }
-			throw new ValidationException( "Portfolio", "validating identity on UnAssignAccountFromPortfolioCommand" );
-	}
-	/**
-	 * handles assign ModelPortfolio validation for a Portfolio
-	 * 
-	 * @param	command AssignModelPortfolioToPortfolioCommand
-	 */	
-	public void validate( AssignModelPortfolioToPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating AssignModelPortfolioToPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null )
-			throw new ValidationException( "Portfolio", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Portfolio", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign ModelPortfolio validation for a Portfolio
-	 * 
-	 * @param	command UnAssignModelPortfolioFromPortfolioCommand
-	 */	
-	public void validate( UnAssignModelPortfolioFromPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating UnAssignModelPortfolioFromPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null ) }
-			throw new ValidationException( "Portfolio", "validating identity on UnAssignModelPortfolioFromPortfolioCommand" );
-	}
-	/**
-	 * handles assign Benchmark validation for a Portfolio
-	 * 
-	 * @param	command AssignBenchmarkToPortfolioCommand
-	 */	
-	public void validate( AssignBenchmarkToPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating AssignBenchmarkToPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null )
-			throw new ValidationException( "Portfolio", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Portfolio", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Benchmark validation for a Portfolio
-	 * 
-	 * @param	command UnAssignBenchmarkFromPortfolioCommand
-	 */	
-	public void validate( UnAssignBenchmarkFromPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating UnAssignBenchmarkFromPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null ) }
-			throw new ValidationException( "Portfolio", "validating identity on UnAssignBenchmarkFromPortfolioCommand" );
-	}
-	/**
-	 * handles assign InvestmentPolicy validation for a Portfolio
-	 * 
-	 * @param	command AssignInvestmentPolicyToPortfolioCommand
-	 */	
-	public void validate( AssignInvestmentPolicyToPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating AssignInvestmentPolicyToPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null )
-			throw new ValidationException( "Portfolio", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Portfolio", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign InvestmentPolicy validation for a Portfolio
-	 * 
-	 * @param	command UnAssignInvestmentPolicyFromPortfolioCommand
-	 */	
-	public void validate( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating UnAssignInvestmentPolicyFromPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null ) }
-			throw new ValidationException( "Portfolio", "validating identity on UnAssignInvestmentPolicyFromPortfolioCommand" );
-	}
-
-	/**
-	 * handles add to Positions validation for a Portfolio
-	 * 
-	 * @param	command AssignPositionsToPortfolioCommand
-	 */	
-	public void validate( AssignPositionsToPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating AssignPositionsToPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null ) }
-			throw new ValidationException( "Portfolio", "validating identity on AssignPositionsToPortfolioCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Portfolio", "validating addTo attribute on AssignPositionsToPortfolioCommand" );
-
-	}
-
-	/**
-	 * handles remove from Positions validation for a Portfolio
-	 * 
-	 * @param	command RemovePositionsFromPortfolioCommand
-	 */	
-	public void validate( RemovePositionsFromPortfolioCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Portfolio", "validating RemovePositionsFromPortfolioCommand");
-
-		if( command.getPortfolioId() == null )
-			throw new ValidationException"Portfolio", "validating id on RemovePositionsFromPortfolioCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Portfolio", "validating remove from";
-
-		if( command.getRemoveFrom().getPositionId() == null )
-			throw new ValidationException"Portfolio", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to PerformanceReports validation for a Portfolio
-	 * 
-	 * @param	command AssignPerformanceReportsToPortfolioCommand
-	 */	
-	public void validate( AssignPerformanceReportsToPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating AssignPerformanceReportsToPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null ) }
-			throw new ValidationException( "Portfolio", "validating identity on AssignPerformanceReportsToPortfolioCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Portfolio", "validating addTo attribute on AssignPerformanceReportsToPortfolioCommand" );
-
-	}
-
-	/**
-	 * handles remove from PerformanceReports validation for a Portfolio
-	 * 
-	 * @param	command RemovePerformanceReportsFromPortfolioCommand
-	 */	
-	public void validate( RemovePerformanceReportsFromPortfolioCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Portfolio", "validating RemovePerformanceReportsFromPortfolioCommand");
-
-		if( command.getPortfolioId() == null )
-			throw new ValidationException"Portfolio", "validating id on RemovePerformanceReportsFromPortfolioCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Portfolio", "validating remove from";
-
-		if( command.getRemoveFrom().getPerformanceReportId() == null )
-			throw new ValidationException"Portfolio", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to RebalancePlans validation for a Portfolio
-	 * 
-	 * @param	command AssignRebalancePlansToPortfolioCommand
-	 */	
-	public void validate( AssignRebalancePlansToPortfolioCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Portfolio", "validating AssignRebalancePlansToPortfolioCommand" );
-
-		if ( command.getPortfolioId() == null ) }
-			throw new ValidationException( "Portfolio", "validating identity on AssignRebalancePlansToPortfolioCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Portfolio", "validating addTo attribute on AssignRebalancePlansToPortfolioCommand" );
-
-	}
-
-	/**
-	 * handles remove from RebalancePlans validation for a Portfolio
-	 * 
-	 * @param	command RemoveRebalancePlansFromPortfolioCommand
-	 */	
-	public void validate( RemoveRebalancePlansFromPortfolioCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Portfolio", "validating RemoveRebalancePlansFromPortfolioCommand");
-
-		if( command.getPortfolioId() == null )
-			throw new ValidationException"Portfolio", "validating id on RemoveRebalancePlansFromPortfolioCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Portfolio", "validating remove from";
-
-		if( command.getRemoveFrom().getRebalancePlanId() == null )
-			throw new ValidationException"Portfolio", "validating id on remove from}";
-	}
-	
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Portfolio", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Account validation for a Portfolio
+ *
+ * @param	command UnAssignAccountFromPortfolioCommand
+ */
+public void validate( UnAssignAccountFromPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating UnAssignAccountFromPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null ) }
+			throw new ValidationException( "Portfolio", "validating identity on UnAssignAccountFromPortfolioCommand" );
+	}
+			/**
+ * handles assign ModelPortfolio validation for a Portfolio
+ *
+ * @param	command AssignModelPortfolioToPortfolioCommand
+ */
+public void validate( AssignModelPortfolioToPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating AssignModelPortfolioToPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null )
+	throw new ValidationException( "Portfolio", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Portfolio", "validating assignment" );
+
+}
+
+/**
+ * handles unassign ModelPortfolio validation for a Portfolio
+ *
+ * @param	command UnAssignModelPortfolioFromPortfolioCommand
+ */
+public void validate( UnAssignModelPortfolioFromPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating UnAssignModelPortfolioFromPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null ) }
+			throw new ValidationException( "Portfolio", "validating identity on UnAssignModelPortfolioFromPortfolioCommand" );
+	}
+			/**
+ * handles assign Benchmark validation for a Portfolio
+ *
+ * @param	command AssignBenchmarkToPortfolioCommand
+ */
+public void validate( AssignBenchmarkToPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating AssignBenchmarkToPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null )
+	throw new ValidationException( "Portfolio", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Portfolio", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Benchmark validation for a Portfolio
+ *
+ * @param	command UnAssignBenchmarkFromPortfolioCommand
+ */
+public void validate( UnAssignBenchmarkFromPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating UnAssignBenchmarkFromPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null ) }
+			throw new ValidationException( "Portfolio", "validating identity on UnAssignBenchmarkFromPortfolioCommand" );
+	}
+			/**
+ * handles assign InvestmentPolicy validation for a Portfolio
+ *
+ * @param	command AssignInvestmentPolicyToPortfolioCommand
+ */
+public void validate( AssignInvestmentPolicyToPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating AssignInvestmentPolicyToPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null )
+	throw new ValidationException( "Portfolio", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Portfolio", "validating assignment" );
+
+}
+
+/**
+ * handles unassign InvestmentPolicy validation for a Portfolio
+ *
+ * @param	command UnAssignInvestmentPolicyFromPortfolioCommand
+ */
+public void validate( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating UnAssignInvestmentPolicyFromPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null ) }
+			throw new ValidationException( "Portfolio", "validating identity on UnAssignInvestmentPolicyFromPortfolioCommand" );
+	}
+			
+		/**
+ * handles add to Positions validation for a Portfolio
+ *
+ * @param	command AssignPositionsToPortfolioCommand
+ */
+public void validate( AssignPositionsToPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating AssignPositionsToPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null )
+	throw new ValidationException( "Portfolio", "validating identity on AssignPositionsToPortfolioCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Portfolio", "validating addTo attribute on AssignPositionsToPortfolioCommand" );
+
+}
+
+/**
+ * handles remove from Positions validation for a Portfolio
+ *
+ * @param	command RemovePositionsFromPortfolioCommand
+ */
+public void validate( RemovePositionsFromPortfolioCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Portfolio", "validating RemovePositionsFromPortfolioCommand");
+
+	if( command.getPortfolioId() == null )
+	throw new ValidationException"Portfolio", "validating id on RemovePositionsFromPortfolioCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Portfolio", "validating remove from";
+
+	if( command.getRemoveFrom().getPositionId() == null )
+	throw new ValidationException"Portfolio", "validating id on remove from}";
+}
+	
+/**
+ * handles add to PerformanceReports validation for a Portfolio
+ *
+ * @param	command AssignPerformanceReportsToPortfolioCommand
+ */
+public void validate( AssignPerformanceReportsToPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating AssignPerformanceReportsToPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null )
+	throw new ValidationException( "Portfolio", "validating identity on AssignPerformanceReportsToPortfolioCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Portfolio", "validating addTo attribute on AssignPerformanceReportsToPortfolioCommand" );
+
+}
+
+/**
+ * handles remove from PerformanceReports validation for a Portfolio
+ *
+ * @param	command RemovePerformanceReportsFromPortfolioCommand
+ */
+public void validate( RemovePerformanceReportsFromPortfolioCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Portfolio", "validating RemovePerformanceReportsFromPortfolioCommand");
+
+	if( command.getPortfolioId() == null )
+	throw new ValidationException"Portfolio", "validating id on RemovePerformanceReportsFromPortfolioCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Portfolio", "validating remove from";
+
+	if( command.getRemoveFrom().getPerformanceReportId() == null )
+	throw new ValidationException"Portfolio", "validating id on remove from}";
+}
+	
+/**
+ * handles add to RebalancePlans validation for a Portfolio
+ *
+ * @param	command AssignRebalancePlansToPortfolioCommand
+ */
+public void validate( AssignRebalancePlansToPortfolioCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Portfolio", "validating AssignRebalancePlansToPortfolioCommand" );
+
+	if ( command.getPortfolioId() == null )
+	throw new ValidationException( "Portfolio", "validating identity on AssignRebalancePlansToPortfolioCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Portfolio", "validating addTo attribute on AssignRebalancePlansToPortfolioCommand" );
+
+}
+
+/**
+ * handles remove from RebalancePlans validation for a Portfolio
+ *
+ * @param	command RemoveRebalancePlansFromPortfolioCommand
+ */
+public void validate( RemoveRebalancePlansFromPortfolioCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Portfolio", "validating RemoveRebalancePlansFromPortfolioCommand");
+
+	if( command.getPortfolioId() == null )
+	throw new ValidationException"Portfolio", "validating id on RemoveRebalancePlansFromPortfolioCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Portfolio", "validating remove from";
+
+	if( command.getRemoveFrom().getRebalancePlanId() == null )
+	throw new ValidationException"Portfolio", "validating id on remove from}";
+}
+	
+
+		}

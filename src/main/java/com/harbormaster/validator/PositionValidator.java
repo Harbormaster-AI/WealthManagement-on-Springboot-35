@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -78,26 +78,26 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class PositionValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected PositionValidator() {	
+	protected PositionValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Position
 	 */
 	public void validate( CreatePositionCommand position )throws ValidationException {
 		if ( position == null )
-			throw new ValidationException( "Position", "validating CreatePositionCommand" );
+		throw new ValidationException( "Position", "validating CreatePositionCommand" );
 
 //		Assert.isNull( position.getPositionId(), "CreatePositionCommand identifier should be null" );
 		if ( position.getQuantity() == null )
-			throw new ValidationException( "Position", "validating access on getQuantity" );
+		throw new ValidationException( "Position", "validating access on getQuantity" );
 		if ( position.getCostBasis() == null )
-			throw new ValidationException( "Position", "validating access on getCostBasis" );
+		throw new ValidationException( "Position", "validating access on getCostBasis" );
 	}
 
 	/**
@@ -105,162 +105,162 @@ public class PositionValidator {
 	 */
 	public void validate( UpdatePositionCommand position ) throws ValidationException {
 		if ( position == null )
-			throw new ValidationException( "Position", "validating UpdatePositionCommand" );
+		throw new ValidationException( "Position", "validating UpdatePositionCommand" );
 		if ( position.getQuantity() == null )
-			throw new ValidationException( "Position", "validating method getQuantity" );
+		throw new ValidationException( "Position", "validating method getQuantity" );
 		if ( position.getCostBasis() == null )
-			throw new ValidationException( "Position", "validating method getCostBasis" );
-    }
+		throw new ValidationException( "Position", "validating method getCostBasis" );
+}
 
-	/**
-	 * handles delete validation for a Position
-	 */
-    public void validate( DeletePositionCommand position ) throws ValidationException {
-		if ( position == null )
-			throw new ValidationException( "Position", "validating DeletePositionCommand" );
+/**
+ * handles delete validation for a Position
+ */
+public void validate( DeletePositionCommand position ) throws ValidationException {
+	if ( position == null )
+	throw new ValidationException( "Position", "validating DeletePositionCommand" );
 
-		if ( position.getCostBasis() == null )
-			throw new ValidationException( "Position", "validating getCostBasis" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Position
-	 */
-	public void validate( PositionFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Position", "validating summary );
-	}
+	if ( position.getCostBasis() == null )
+	throw new ValidationException( "Position", "validating getCostBasis" );
+}
 
-	/**
-	 * handles assign Portfolio validation for a Position
-	 * 
-	 * @param	command AssignPortfolioToPositionCommand
-	 */	
-	public void validate( AssignPortfolioToPositionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Position", "validating AssignPortfolioToPositionCommand" );
+/**
+ * handles fetchOne validation for a Position
+ */
+public void validate( PositionFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Position", "validating summary );
+}
 
-		if ( command.getPositionId() == null )
-			throw new ValidationException( "Position", "validating identifier" );
+/**
+ * handles assign Portfolio validation for a Position
+ *
+ * @param	command AssignPortfolioToPositionCommand
+ */
+public void validate( AssignPortfolioToPositionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Position", "validating AssignPortfolioToPositionCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Position", "validating assignment" );
+	if ( command.getPositionId() == null )
+	throw new ValidationException( "Position", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Portfolio validation for a Position
-	 * 
-	 * @param	command UnAssignPortfolioFromPositionCommand
-	 */	
-	public void validate( UnAssignPortfolioFromPositionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Position", "validating UnAssignPortfolioFromPositionCommand" );
-
-		if ( command.getPositionId() == null ) }
-			throw new ValidationException( "Position", "validating identity on UnAssignPortfolioFromPositionCommand" );
-	}
-	/**
-	 * handles assign Security validation for a Position
-	 * 
-	 * @param	command AssignSecurityToPositionCommand
-	 */	
-	public void validate( AssignSecurityToPositionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Position", "validating AssignSecurityToPositionCommand" );
-
-		if ( command.getPositionId() == null )
-			throw new ValidationException( "Position", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Position", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Security validation for a Position
-	 * 
-	 * @param	command UnAssignSecurityFromPositionCommand
-	 */	
-	public void validate( UnAssignSecurityFromPositionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Position", "validating UnAssignSecurityFromPositionCommand" );
-
-		if ( command.getPositionId() == null ) }
-			throw new ValidationException( "Position", "validating identity on UnAssignSecurityFromPositionCommand" );
-	}
-
-	/**
-	 * handles add to TaxLots validation for a Position
-	 * 
-	 * @param	command AssignTaxLotsToPositionCommand
-	 */	
-	public void validate( AssignTaxLotsToPositionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Position", "validating AssignTaxLotsToPositionCommand" );
-
-		if ( command.getPositionId() == null ) }
-			throw new ValidationException( "Position", "validating identity on AssignTaxLotsToPositionCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Position", "validating addTo attribute on AssignTaxLotsToPositionCommand" );
-
-	}
-
-	/**
-	 * handles remove from TaxLots validation for a Position
-	 * 
-	 * @param	command RemoveTaxLotsFromPositionCommand
-	 */	
-	public void validate( RemoveTaxLotsFromPositionCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Position", "validating RemoveTaxLotsFromPositionCommand");
-
-		if( command.getPositionId() == null )
-			throw new ValidationException"Position", "validating id on RemoveTaxLotsFromPositionCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Position", "validating remove from";
-
-		if( command.getRemoveFrom().getTaxLotId() == null )
-			throw new ValidationException"Position", "validating id on remove from}";
-	}
-	
-	/**
-	 * handles add to Transactions validation for a Position
-	 * 
-	 * @param	command AssignTransactionsToPositionCommand
-	 */	
-	public void validate( AssignTransactionsToPositionCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Position", "validating AssignTransactionsToPositionCommand" );
-
-		if ( command.getPositionId() == null ) }
-			throw new ValidationException( "Position", "validating identity on AssignTransactionsToPositionCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Position", "validating addTo attribute on AssignTransactionsToPositionCommand" );
-
-	}
-
-	/**
-	 * handles remove from Transactions validation for a Position
-	 * 
-	 * @param	command RemoveTransactionsFromPositionCommand
-	 */	
-	public void validate( RemoveTransactionsFromPositionCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Position", "validating RemoveTransactionsFromPositionCommand");
-
-		if( command.getPositionId() == null )
-			throw new ValidationException"Position", "validating id on RemoveTransactionsFromPositionCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Position", "validating remove from";
-
-		if( command.getRemoveFrom().getTransactionId() == null )
-			throw new ValidationException"Position", "validating id on remove from}";
-	}
-	
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Position", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Portfolio validation for a Position
+ *
+ * @param	command UnAssignPortfolioFromPositionCommand
+ */
+public void validate( UnAssignPortfolioFromPositionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Position", "validating UnAssignPortfolioFromPositionCommand" );
+
+	if ( command.getPositionId() == null ) }
+			throw new ValidationException( "Position", "validating identity on UnAssignPortfolioFromPositionCommand" );
+	}
+			/**
+ * handles assign Security validation for a Position
+ *
+ * @param	command AssignSecurityToPositionCommand
+ */
+public void validate( AssignSecurityToPositionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Position", "validating AssignSecurityToPositionCommand" );
+
+	if ( command.getPositionId() == null )
+	throw new ValidationException( "Position", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Position", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Security validation for a Position
+ *
+ * @param	command UnAssignSecurityFromPositionCommand
+ */
+public void validate( UnAssignSecurityFromPositionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Position", "validating UnAssignSecurityFromPositionCommand" );
+
+	if ( command.getPositionId() == null ) }
+			throw new ValidationException( "Position", "validating identity on UnAssignSecurityFromPositionCommand" );
+	}
+			
+		/**
+ * handles add to TaxLots validation for a Position
+ *
+ * @param	command AssignTaxLotsToPositionCommand
+ */
+public void validate( AssignTaxLotsToPositionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Position", "validating AssignTaxLotsToPositionCommand" );
+
+	if ( command.getPositionId() == null )
+	throw new ValidationException( "Position", "validating identity on AssignTaxLotsToPositionCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Position", "validating addTo attribute on AssignTaxLotsToPositionCommand" );
+
+}
+
+/**
+ * handles remove from TaxLots validation for a Position
+ *
+ * @param	command RemoveTaxLotsFromPositionCommand
+ */
+public void validate( RemoveTaxLotsFromPositionCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Position", "validating RemoveTaxLotsFromPositionCommand");
+
+	if( command.getPositionId() == null )
+	throw new ValidationException"Position", "validating id on RemoveTaxLotsFromPositionCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Position", "validating remove from";
+
+	if( command.getRemoveFrom().getTaxLotId() == null )
+	throw new ValidationException"Position", "validating id on remove from}";
+}
+	
+/**
+ * handles add to Transactions validation for a Position
+ *
+ * @param	command AssignTransactionsToPositionCommand
+ */
+public void validate( AssignTransactionsToPositionCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Position", "validating AssignTransactionsToPositionCommand" );
+
+	if ( command.getPositionId() == null )
+	throw new ValidationException( "Position", "validating identity on AssignTransactionsToPositionCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Position", "validating addTo attribute on AssignTransactionsToPositionCommand" );
+
+}
+
+/**
+ * handles remove from Transactions validation for a Position
+ *
+ * @param	command RemoveTransactionsFromPositionCommand
+ */
+public void validate( RemoveTransactionsFromPositionCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Position", "validating RemoveTransactionsFromPositionCommand");
+
+	if( command.getPositionId() == null )
+	throw new ValidationException"Position", "validating id on RemoveTransactionsFromPositionCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Position", "validating remove from";
+
+	if( command.getRemoveFrom().getTransactionId() == null )
+	throw new ValidationException"Position", "validating id on remove from}";
+}
+	
+
+		}

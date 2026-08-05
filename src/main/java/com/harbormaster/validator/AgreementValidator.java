@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -74,24 +74,24 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class AgreementValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected AgreementValidator() {	
+	protected AgreementValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a Agreement
 	 */
 	public void validate( CreateAgreementCommand agreement )throws ValidationException {
 		if ( agreement == null )
-			throw new ValidationException( "Agreement", "validating CreateAgreementCommand" );
+		throw new ValidationException( "Agreement", "validating CreateAgreementCommand" );
 
 //		Assert.isNull( agreement.getAgreementId(), "CreateAgreementCommand identifier should be null" );
 		if ( agreement.getEffectiveDate() == null )
-			throw new ValidationException( "Agreement", "validating access on getEffectiveDate" );
+		throw new ValidationException( "Agreement", "validating access on getEffectiveDate" );
 	}
 
 	/**
@@ -99,124 +99,124 @@ public class AgreementValidator {
 	 */
 	public void validate( UpdateAgreementCommand agreement ) throws ValidationException {
 		if ( agreement == null )
-			throw new ValidationException( "Agreement", "validating UpdateAgreementCommand" );
+		throw new ValidationException( "Agreement", "validating UpdateAgreementCommand" );
 		if ( agreement.getEffectiveDate() == null )
-			throw new ValidationException( "Agreement", "validating method getEffectiveDate" );
-    }
+		throw new ValidationException( "Agreement", "validating method getEffectiveDate" );
+}
 
-	/**
-	 * handles delete validation for a Agreement
-	 */
-    public void validate( DeleteAgreementCommand agreement ) throws ValidationException {
-		if ( agreement == null )
-			throw new ValidationException( "Agreement", "validating DeleteAgreementCommand" );
+/**
+ * handles delete validation for a Agreement
+ */
+public void validate( DeleteAgreementCommand agreement ) throws ValidationException {
+	if ( agreement == null )
+	throw new ValidationException( "Agreement", "validating DeleteAgreementCommand" );
 
-		if ( agreement.getEffectiveDate() == null )
-			throw new ValidationException( "Agreement", "validating getEffectiveDate" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a Agreement
-	 */
-	public void validate( AgreementFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "Agreement", "validating summary );
-	}
+	if ( agreement.getEffectiveDate() == null )
+	throw new ValidationException( "Agreement", "validating getEffectiveDate" );
+}
 
-	/**
-	 * handles assign Client validation for a Agreement
-	 * 
-	 * @param	command AssignClientToAgreementCommand
-	 */	
-	public void validate( AssignClientToAgreementCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Agreement", "validating AssignClientToAgreementCommand" );
+/**
+ * handles fetchOne validation for a Agreement
+ */
+public void validate( AgreementFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "Agreement", "validating summary );
+}
 
-		if ( command.getAgreementId() == null )
-			throw new ValidationException( "Agreement", "validating identifier" );
+/**
+ * handles assign Client validation for a Agreement
+ *
+ * @param	command AssignClientToAgreementCommand
+ */
+public void validate( AssignClientToAgreementCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Agreement", "validating AssignClientToAgreementCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Agreement", "validating assignment" );
+	if ( command.getAgreementId() == null )
+	throw new ValidationException( "Agreement", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Client validation for a Agreement
-	 * 
-	 * @param	command UnAssignClientFromAgreementCommand
-	 */	
-	public void validate( UnAssignClientFromAgreementCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Agreement", "validating UnAssignClientFromAgreementCommand" );
-
-		if ( command.getAgreementId() == null ) }
-			throw new ValidationException( "Agreement", "validating identity on UnAssignClientFromAgreementCommand" );
-	}
-	/**
-	 * handles assign Account validation for a Agreement
-	 * 
-	 * @param	command AssignAccountToAgreementCommand
-	 */	
-	public void validate( AssignAccountToAgreementCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Agreement", "validating AssignAccountToAgreementCommand" );
-
-		if ( command.getAgreementId() == null )
-			throw new ValidationException( "Agreement", "validating identifier" );
-
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "Agreement", "validating assignment" );
-
-	}
-
-	/**
-	 * handles unassign Account validation for a Agreement
-	 * 
-	 * @param	command UnAssignAccountFromAgreementCommand
-	 */	
-	public void validate( UnAssignAccountFromAgreementCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Agreement", "validating UnAssignAccountFromAgreementCommand" );
-
-		if ( command.getAgreementId() == null ) }
-			throw new ValidationException( "Agreement", "validating identity on UnAssignAccountFromAgreementCommand" );
-	}
-
-	/**
-	 * handles add to Documents validation for a Agreement
-	 * 
-	 * @param	command AssignDocumentsToAgreementCommand
-	 */	
-	public void validate( AssignDocumentsToAgreementCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "Agreement", "validating AssignDocumentsToAgreementCommand" );
-
-		if ( command.getAgreementId() == null ) }
-			throw new ValidationException( "Agreement", "validating identity on AssignDocumentsToAgreementCommand" );
-
-		if ( command.command.getAddTo() == null ) }
-			throw new ValidationException( "Agreement", "validating addTo attribute on AssignDocumentsToAgreementCommand" );
-
-	}
-
-	/**
-	 * handles remove from Documents validation for a Agreement
-	 * 
-	 * @param	command RemoveDocumentsFromAgreementCommand
-	 */	
-	public void validate( RemoveDocumentsFromAgreementCommand ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException("Agreement", "validating RemoveDocumentsFromAgreementCommand");
-
-		if( command.getAgreementId() == null )
-			throw new ValidationException"Agreement", "validating id on RemoveDocumentsFromAgreementCommand";
-
-		if( command.getRemoveFrom() == null )
-			throw new ValidationException"Agreement", "validating remove from";
-
-		if( command.getRemoveFrom().getDocumentId() == null )
-			throw new ValidationException"Agreement", "validating id on remove from}";
-	}
-	
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Agreement", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Client validation for a Agreement
+ *
+ * @param	command UnAssignClientFromAgreementCommand
+ */
+public void validate( UnAssignClientFromAgreementCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Agreement", "validating UnAssignClientFromAgreementCommand" );
+
+	if ( command.getAgreementId() == null ) }
+			throw new ValidationException( "Agreement", "validating identity on UnAssignClientFromAgreementCommand" );
+	}
+			/**
+ * handles assign Account validation for a Agreement
+ *
+ * @param	command AssignAccountToAgreementCommand
+ */
+public void validate( AssignAccountToAgreementCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Agreement", "validating AssignAccountToAgreementCommand" );
+
+	if ( command.getAgreementId() == null )
+	throw new ValidationException( "Agreement", "validating identifier" );
+
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "Agreement", "validating assignment" );
+
+}
+
+/**
+ * handles unassign Account validation for a Agreement
+ *
+ * @param	command UnAssignAccountFromAgreementCommand
+ */
+public void validate( UnAssignAccountFromAgreementCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Agreement", "validating UnAssignAccountFromAgreementCommand" );
+
+	if ( command.getAgreementId() == null ) }
+			throw new ValidationException( "Agreement", "validating identity on UnAssignAccountFromAgreementCommand" );
+	}
+			
+		/**
+ * handles add to Documents validation for a Agreement
+ *
+ * @param	command AssignDocumentsToAgreementCommand
+ */
+public void validate( AssignDocumentsToAgreementCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "Agreement", "validating AssignDocumentsToAgreementCommand" );
+
+	if ( command.getAgreementId() == null )
+	throw new ValidationException( "Agreement", "validating identity on AssignDocumentsToAgreementCommand" );
+
+	if ( command.command.getAddTo() == null )
+		throw new ValidationException( "Agreement", "validating addTo attribute on AssignDocumentsToAgreementCommand" );
+
+}
+
+/**
+ * handles remove from Documents validation for a Agreement
+ *
+ * @param	command RemoveDocumentsFromAgreementCommand
+ */
+public void validate( RemoveDocumentsFromAgreementCommand ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException("Agreement", "validating RemoveDocumentsFromAgreementCommand");
+
+	if( command.getAgreementId() == null )
+	throw new ValidationException"Agreement", "validating id on RemoveDocumentsFromAgreementCommand";
+
+	if( command.getRemoveFrom() == null )
+		throw new ValidationException"Agreement", "validating remove from";
+
+	if( command.getRemoveFrom().getDocumentId() == null )
+	throw new ValidationException"Agreement", "validating id on remove from}";
+}
+	
+
+		}

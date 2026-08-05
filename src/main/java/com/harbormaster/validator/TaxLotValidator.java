@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.validator;
+		package com.harbormaster.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -68,28 +68,28 @@ import com.harbormaster.exception.*;
  */
 @Component
 public class TaxLotValidator {
-		
+
 	/**
 	 * default constructor
 	 */
-	protected TaxLotValidator() {	
+	protected TaxLotValidator() {
 	}
 
-		
+
 	/**
 	 * handles creation validation for a TaxLot
 	 */
 	public void validate( CreateTaxLotCommand taxLot )throws ValidationException {
 		if ( taxLot == null )
-			throw new ValidationException( "TaxLot", "validating CreateTaxLotCommand" );
+		throw new ValidationException( "TaxLot", "validating CreateTaxLotCommand" );
 
 //		Assert.isNull( taxLot.getTaxLotId(), "CreateTaxLotCommand identifier should be null" );
 		if ( taxLot.getAcquisitionDate() == null )
-			throw new ValidationException( "TaxLot", "validating access on getAcquisitionDate" );
+		throw new ValidationException( "TaxLot", "validating access on getAcquisitionDate" );
 		if ( taxLot.getQuantity() == null )
-			throw new ValidationException( "TaxLot", "validating access on getQuantity" );
+		throw new ValidationException( "TaxLot", "validating access on getQuantity" );
 		if ( taxLot.getUnitCost() == null )
-			throw new ValidationException( "TaxLot", "validating access on getUnitCost" );
+		throw new ValidationException( "TaxLot", "validating access on getUnitCost" );
 	}
 
 	/**
@@ -97,63 +97,63 @@ public class TaxLotValidator {
 	 */
 	public void validate( UpdateTaxLotCommand taxLot ) throws ValidationException {
 		if ( taxLot == null )
-			throw new ValidationException( "TaxLot", "validating UpdateTaxLotCommand" );
+		throw new ValidationException( "TaxLot", "validating UpdateTaxLotCommand" );
 		if ( taxLot.getAcquisitionDate() == null )
-			throw new ValidationException( "TaxLot", "validating method getAcquisitionDate" );
+		throw new ValidationException( "TaxLot", "validating method getAcquisitionDate" );
 		if ( taxLot.getQuantity() == null )
-			throw new ValidationException( "TaxLot", "validating method getQuantity" );
+		throw new ValidationException( "TaxLot", "validating method getQuantity" );
 		if ( taxLot.getUnitCost() == null )
-			throw new ValidationException( "TaxLot", "validating method getUnitCost" );
-    }
+		throw new ValidationException( "TaxLot", "validating method getUnitCost" );
+}
 
-	/**
-	 * handles delete validation for a TaxLot
-	 */
-    public void validate( DeleteTaxLotCommand taxLot ) throws ValidationException {
-		if ( taxLot == null )
-			throw new ValidationException( "TaxLot", "validating DeleteTaxLotCommand" );
+/**
+ * handles delete validation for a TaxLot
+ */
+public void validate( DeleteTaxLotCommand taxLot ) throws ValidationException {
+	if ( taxLot == null )
+	throw new ValidationException( "TaxLot", "validating DeleteTaxLotCommand" );
 
-		if ( taxLot.getUnitCost() == null )
-			throw new ValidationException( "TaxLot", "validating getUnitCost" );
-	}
-	
-	/**
-	 * handles fetchOne validation for a TaxLot
-	 */
-	public void validate( TaxLotFetchOneSummary summary ) throws ValidationException {
-		if ( summary == null )
-			throw new ValidationException( "TaxLot", "validating summary );
-	}
+	if ( taxLot.getUnitCost() == null )
+	throw new ValidationException( "TaxLot", "validating getUnitCost" );
+}
 
-	/**
-	 * handles assign Position validation for a TaxLot
-	 * 
-	 * @param	command AssignPositionToTaxLotCommand
-	 */	
-	public void validate( AssignPositionToTaxLotCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "TaxLot", "validating AssignPositionToTaxLotCommand" );
+/**
+ * handles fetchOne validation for a TaxLot
+ */
+public void validate( TaxLotFetchOneSummary summary ) throws ValidationException {
+	if ( summary == null )
+		throw new ValidationException( "TaxLot", "validating summary );
+}
 
-		if ( command.getTaxLotId() == null )
-			throw new ValidationException( "TaxLot", "validating identifier" );
+/**
+ * handles assign Position validation for a TaxLot
+ *
+ * @param	command AssignPositionToTaxLotCommand
+ */
+public void validate( AssignPositionToTaxLotCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "TaxLot", "validating AssignPositionToTaxLotCommand" );
 
-		if ( command.getAssignment() == null )
-			throw new ValidationException( "TaxLot", "validating assignment" );
+	if ( command.getTaxLotId() == null )
+	throw new ValidationException( "TaxLot", "validating identifier" );
 
-	}
-
-	/**
-	 * handles unassign Position validation for a TaxLot
-	 * 
-	 * @param	command UnAssignPositionFromTaxLotCommand
-	 */	
-	public void validate( UnAssignPositionFromTaxLotCommand command ) throws ValidationException {
-		if ( command == null )
-			throw new ValidationException( "TaxLot", "validating UnAssignPositionFromTaxLotCommand" );
-
-		if ( command.getTaxLotId() == null ) }
-			throw new ValidationException( "TaxLot", "validating identity on UnAssignPositionFromTaxLotCommand" );
-	}
-
+	if ( command.getAssignment() == null )
+		throw new ValidationException( "TaxLot", "validating assignment" );
 
 }
+
+/**
+ * handles unassign Position validation for a TaxLot
+ *
+ * @param	command UnAssignPositionFromTaxLotCommand
+ */
+public void validate( UnAssignPositionFromTaxLotCommand command ) throws ValidationException {
+	if ( command == null )
+		throw new ValidationException( "TaxLot", "validating UnAssignPositionFromTaxLotCommand" );
+
+	if ( command.getTaxLotId() == null ) }
+			throw new ValidationException( "TaxLot", "validating identity on UnAssignPositionFromTaxLotCommand" );
+	}
+			
+		
+		}

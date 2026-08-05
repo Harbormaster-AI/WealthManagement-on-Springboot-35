@@ -108,83 +108,83 @@ public class PerformanceReportValidator {
 		throw new ValidationException( "PerformanceReport", "validating method getNetReturn" );
 		if ( performanceReport.getGrossReturn() == null )
 		throw new ValidationException( "PerformanceReport", "validating method getGrossReturn" );
-}
+	}
 
 /**
  * handles delete validation for a PerformanceReport
  */
-public void validate( DeletePerformanceReportCommand performanceReport ) throws ValidationException {
-	if ( performanceReport == null )
-	throw new ValidationException( "PerformanceReport", "validating DeletePerformanceReportCommand" );
+	public void validate( DeletePerformanceReportCommand performanceReport ) throws ValidationException {
+		if ( performanceReport == null )
+			throw new ValidationException( "PerformanceReport", "validating DeletePerformanceReportCommand" );
 
-	if ( performanceReport.getGrossReturn() == null )
-	throw new ValidationException( "PerformanceReport", "validating getGrossReturn" );
-}
+		if ( performanceReport.getGrossReturn() == null )
+		throw new ValidationException( "PerformanceReport", "validating getGrossReturn" );
+	}
 
 /**
  * handles fetchOne validation for a PerformanceReport
  */
-public void validate( PerformanceReportFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "PerformanceReport", "validating summary" );
-}
+	public void validate( PerformanceReportFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "PerformanceReport", "validating summary" );
+	}
 
-/**
- * handles assign Portfolio validation for a PerformanceReport
- *
- * @param	command AssignPortfolioToPerformanceReportCommand
- */
-public void validate( AssignPortfolioToPerformanceReportCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "PerformanceReport", "validating AssignPortfolioToPerformanceReportCommand" );
+	/**
+	 * handles assign Portfolio validation for a PerformanceReport
+	 *
+	 * @param	command AssignPortfolioToPerformanceReportCommand
+	 */
+	public void validate( AssignPortfolioToPerformanceReportCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "PerformanceReport", "validating AssignPortfolioToPerformanceReportCommand" );
 
-	if ( command.getPerformanceReportId() == null )
-	throw new ValidationException( "PerformanceReport", "validating identifier on AssignPortfolioToPerformanceReportCommand" );
+		if ( command.getPerformanceReportId() == null )
+		throw new ValidationException( "PerformanceReport", "validating identifier on AssignPortfolioToPerformanceReportCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "PerformanceReport", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "PerformanceReport", "validating assignment" );
+	}
 
-/**
- * handles unassign Portfolio validation for a PerformanceReport
- *
- * @param	command UnAssignPortfolioFromPerformanceReportCommand
- */
-public void validate( UnAssignPortfolioFromPerformanceReportCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "PerformanceReport", "validating UnAssignPortfolioFromPerformanceReportCommand" );
+	/**
+	 * handles unassign Portfolio validation for a PerformanceReport
+	 *
+	 * @param	command UnAssignPortfolioFromPerformanceReportCommand
+	 */
+	public void validate( UnAssignPortfolioFromPerformanceReportCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "PerformanceReport", "validating UnAssignPortfolioFromPerformanceReportCommand" );
 
-	if ( command.getPerformanceReportId() == null )
-	throw new ValidationException( "PerformanceReport", "validating identity on UnAssignPortfolioFromPerformanceReportCommand" );
-}
-/**
- * handles assign Benchmark validation for a PerformanceReport
- *
- * @param	command AssignBenchmarkToPerformanceReportCommand
- */
-public void validate( AssignBenchmarkToPerformanceReportCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "PerformanceReport", "validating AssignBenchmarkToPerformanceReportCommand" );
+		if ( command.getPerformanceReportId() == null )
+		throw new ValidationException( "PerformanceReport", "validating identity on UnAssignPortfolioFromPerformanceReportCommand" );
+	}
+	/**
+	 * handles assign Benchmark validation for a PerformanceReport
+	 *
+	 * @param	command AssignBenchmarkToPerformanceReportCommand
+	 */
+	public void validate( AssignBenchmarkToPerformanceReportCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "PerformanceReport", "validating AssignBenchmarkToPerformanceReportCommand" );
 
-	if ( command.getPerformanceReportId() == null )
-	throw new ValidationException( "PerformanceReport", "validating identifier on AssignBenchmarkToPerformanceReportCommand" );
+		if ( command.getPerformanceReportId() == null )
+		throw new ValidationException( "PerformanceReport", "validating identifier on AssignBenchmarkToPerformanceReportCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "PerformanceReport", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "PerformanceReport", "validating assignment" );
+	}
 
-/**
- * handles unassign Benchmark validation for a PerformanceReport
- *
- * @param	command UnAssignBenchmarkFromPerformanceReportCommand
- */
-public void validate( UnAssignBenchmarkFromPerformanceReportCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "PerformanceReport", "validating UnAssignBenchmarkFromPerformanceReportCommand" );
+	/**
+	 * handles unassign Benchmark validation for a PerformanceReport
+	 *
+	 * @param	command UnAssignBenchmarkFromPerformanceReportCommand
+	 */
+	public void validate( UnAssignBenchmarkFromPerformanceReportCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "PerformanceReport", "validating UnAssignBenchmarkFromPerformanceReportCommand" );
 
-	if ( command.getPerformanceReportId() == null )
-	throw new ValidationException( "PerformanceReport", "validating identity on UnAssignBenchmarkFromPerformanceReportCommand" );
-}
+		if ( command.getPerformanceReportId() == null )
+		throw new ValidationException( "PerformanceReport", "validating identity on UnAssignBenchmarkFromPerformanceReportCommand" );
+	}
 
-		
+
 }

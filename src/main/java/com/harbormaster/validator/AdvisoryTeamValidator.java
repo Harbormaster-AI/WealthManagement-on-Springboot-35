@@ -104,99 +104,99 @@ public class AdvisoryTeamValidator {
 		throw new ValidationException( "AdvisoryTeam", "validating method getName" );
 		if ( advisoryTeam.getSpecialization() == null )
 		throw new ValidationException( "AdvisoryTeam", "validating method getSpecialization" );
-}
+	}
 
 /**
  * handles delete validation for a AdvisoryTeam
  */
-public void validate( DeleteAdvisoryTeamCommand advisoryTeam ) throws ValidationException {
-	if ( advisoryTeam == null )
-	throw new ValidationException( "AdvisoryTeam", "validating DeleteAdvisoryTeamCommand" );
+	public void validate( DeleteAdvisoryTeamCommand advisoryTeam ) throws ValidationException {
+		if ( advisoryTeam == null )
+			throw new ValidationException( "AdvisoryTeam", "validating DeleteAdvisoryTeamCommand" );
 
-	if ( advisoryTeam.getSpecialization() == null )
-	throw new ValidationException( "AdvisoryTeam", "validating getSpecialization" );
-}
+		if ( advisoryTeam.getSpecialization() == null )
+		throw new ValidationException( "AdvisoryTeam", "validating getSpecialization" );
+	}
 
 /**
  * handles fetchOne validation for a AdvisoryTeam
  */
-public void validate( AdvisoryTeamFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "AdvisoryTeam", "validating summary" );
-}
+	public void validate( AdvisoryTeamFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "AdvisoryTeam", "validating summary" );
+	}
 
 
-		/**
- * handles add to Advisors validation for a AdvisoryTeam
- *
- * @param	command AssignAdvisorsToAdvisoryTeamCommand
- */
-public void validate( AssignAdvisorsToAdvisoryTeamCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "AdvisoryTeam", "validating AssignAdvisorsToAdvisoryTeamCommand" );
+	/**
+	 * handles add to Advisors validation for a AdvisoryTeam
+	 *
+	 * @param	command AssignAdvisorsToAdvisoryTeamCommand
+	 */
+	public void validate( AssignAdvisorsToAdvisoryTeamCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AdvisoryTeam", "validating AssignAdvisorsToAdvisoryTeamCommand" );
 
-	if ( command.getAdvisoryTeamId() == null )
-	throw new ValidationException( "AdvisoryTeam", "validating identity on AssignAdvisorsToAdvisoryTeamCommand" );
+		if ( command.getAdvisoryTeamId() == null )
+		throw new ValidationException( "AdvisoryTeam", "validating identity on AssignAdvisorsToAdvisoryTeamCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "AdvisoryTeam", "validating addTo attribute on AssignAdvisorsToAdvisoryTeamCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "AdvisoryTeam", "validating addTo attribute on AssignAdvisorsToAdvisoryTeamCommand" );
 
-}
+	}
 
-/**
- * handles remove from Advisors validation for a AdvisoryTeam
- *
- * @param	command RemoveAdvisorsFromAdvisoryTeamCommand
- */
-public void validate( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("AdvisoryTeam", "validating RemoveAdvisorsFromAdvisoryTeamCommand" );
+	/**
+	 * handles remove from Advisors validation for a AdvisoryTeam
+	 *
+	 * @param	command RemoveAdvisorsFromAdvisoryTeamCommand
+	 */
+	public void validate( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("AdvisoryTeam", "validating RemoveAdvisorsFromAdvisoryTeamCommand" );
 
-	if( command.getAdvisoryTeamId() == null )
-	throw new ValidationException("AdvisoryTeam", "validating id on RemoveAdvisorsFromAdvisoryTeamCommand" );
+		if( command.getAdvisoryTeamId() == null )
+			throw new ValidationException("AdvisoryTeam", "validating id on RemoveAdvisorsFromAdvisoryTeamCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("AdvisoryTeam", "validating remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("AdvisoryTeam", "validating remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
 
-	if( command.getRemoveFrom().getAdvisorId() == null )
-	throw new ValidationException("AdvisoryTeam", "validating id on remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
-}
+		if( command.getRemoveFrom().getAdvisorId() == null )
+			throw new ValidationException("AdvisoryTeam", "validating id on remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
+	}
 
-/**
- * handles add to Households validation for a AdvisoryTeam
- *
- * @param	command AssignHouseholdsToAdvisoryTeamCommand
- */
-public void validate( AssignHouseholdsToAdvisoryTeamCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "AdvisoryTeam", "validating AssignHouseholdsToAdvisoryTeamCommand" );
+	/**
+	 * handles add to Households validation for a AdvisoryTeam
+	 *
+	 * @param	command AssignHouseholdsToAdvisoryTeamCommand
+	 */
+	public void validate( AssignHouseholdsToAdvisoryTeamCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AdvisoryTeam", "validating AssignHouseholdsToAdvisoryTeamCommand" );
 
-	if ( command.getAdvisoryTeamId() == null )
-	throw new ValidationException( "AdvisoryTeam", "validating identity on AssignHouseholdsToAdvisoryTeamCommand" );
+		if ( command.getAdvisoryTeamId() == null )
+		throw new ValidationException( "AdvisoryTeam", "validating identity on AssignHouseholdsToAdvisoryTeamCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "AdvisoryTeam", "validating addTo attribute on AssignHouseholdsToAdvisoryTeamCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "AdvisoryTeam", "validating addTo attribute on AssignHouseholdsToAdvisoryTeamCommand" );
 
-}
+	}
 
-/**
- * handles remove from Households validation for a AdvisoryTeam
- *
- * @param	command RemoveHouseholdsFromAdvisoryTeamCommand
- */
-public void validate( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("AdvisoryTeam", "validating RemoveHouseholdsFromAdvisoryTeamCommand" );
+	/**
+	 * handles remove from Households validation for a AdvisoryTeam
+	 *
+	 * @param	command RemoveHouseholdsFromAdvisoryTeamCommand
+	 */
+	public void validate( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("AdvisoryTeam", "validating RemoveHouseholdsFromAdvisoryTeamCommand" );
 
-	if( command.getAdvisoryTeamId() == null )
-	throw new ValidationException("AdvisoryTeam", "validating id on RemoveHouseholdsFromAdvisoryTeamCommand" );
+		if( command.getAdvisoryTeamId() == null )
+			throw new ValidationException("AdvisoryTeam", "validating id on RemoveHouseholdsFromAdvisoryTeamCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("AdvisoryTeam", "validating remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("AdvisoryTeam", "validating remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
 
-	if( command.getRemoveFrom().getHouseholdId() == null )
-	throw new ValidationException("AdvisoryTeam", "validating id on remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
-}
+		if( command.getRemoveFrom().getHouseholdId() == null )
+			throw new ValidationException("AdvisoryTeam", "validating id on remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
+	}
 
 
 }

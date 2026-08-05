@@ -106,111 +106,111 @@ public class DocumentValidator {
 		throw new ValidationException( "Document", "validating method getFileName" );
 		if ( document.getReceivedDate() == null )
 		throw new ValidationException( "Document", "validating method getReceivedDate" );
-}
+	}
 
 /**
  * handles delete validation for a Document
  */
-public void validate( DeleteDocumentCommand document ) throws ValidationException {
-	if ( document == null )
-	throw new ValidationException( "Document", "validating DeleteDocumentCommand" );
+	public void validate( DeleteDocumentCommand document ) throws ValidationException {
+		if ( document == null )
+			throw new ValidationException( "Document", "validating DeleteDocumentCommand" );
 
-	if ( document.getReceivedDate() == null )
-	throw new ValidationException( "Document", "validating getReceivedDate" );
-}
+		if ( document.getReceivedDate() == null )
+		throw new ValidationException( "Document", "validating getReceivedDate" );
+	}
 
 /**
  * handles fetchOne validation for a Document
  */
-public void validate( DocumentFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "Document", "validating summary" );
-}
+	public void validate( DocumentFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Document", "validating summary" );
+	}
 
-/**
- * handles assign Client validation for a Document
- *
- * @param	command AssignClientToDocumentCommand
- */
-public void validate( AssignClientToDocumentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Document", "validating AssignClientToDocumentCommand" );
+	/**
+	 * handles assign Client validation for a Document
+	 *
+	 * @param	command AssignClientToDocumentCommand
+	 */
+	public void validate( AssignClientToDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating AssignClientToDocumentCommand" );
 
-	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier on AssignClientToDocumentCommand" );
+		if ( command.getDocumentId() == null )
+		throw new ValidationException( "Document", "validating identifier on AssignClientToDocumentCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Document", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Document", "validating assignment" );
+	}
 
-/**
- * handles unassign Client validation for a Document
- *
- * @param	command UnAssignClientFromDocumentCommand
- */
-public void validate( UnAssignClientFromDocumentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Document", "validating UnAssignClientFromDocumentCommand" );
+	/**
+	 * handles unassign Client validation for a Document
+	 *
+	 * @param	command UnAssignClientFromDocumentCommand
+	 */
+	public void validate( UnAssignClientFromDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating UnAssignClientFromDocumentCommand" );
 
-	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identity on UnAssignClientFromDocumentCommand" );
-}
-/**
- * handles assign KycRecord validation for a Document
- *
- * @param	command AssignKycRecordToDocumentCommand
- */
-public void validate( AssignKycRecordToDocumentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Document", "validating AssignKycRecordToDocumentCommand" );
+		if ( command.getDocumentId() == null )
+		throw new ValidationException( "Document", "validating identity on UnAssignClientFromDocumentCommand" );
+	}
+	/**
+	 * handles assign KycRecord validation for a Document
+	 *
+	 * @param	command AssignKycRecordToDocumentCommand
+	 */
+	public void validate( AssignKycRecordToDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating AssignKycRecordToDocumentCommand" );
 
-	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier on AssignKycRecordToDocumentCommand" );
+		if ( command.getDocumentId() == null )
+		throw new ValidationException( "Document", "validating identifier on AssignKycRecordToDocumentCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Document", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Document", "validating assignment" );
+	}
 
-/**
- * handles unassign KycRecord validation for a Document
- *
- * @param	command UnAssignKycRecordFromDocumentCommand
- */
-public void validate( UnAssignKycRecordFromDocumentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Document", "validating UnAssignKycRecordFromDocumentCommand" );
+	/**
+	 * handles unassign KycRecord validation for a Document
+	 *
+	 * @param	command UnAssignKycRecordFromDocumentCommand
+	 */
+	public void validate( UnAssignKycRecordFromDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating UnAssignKycRecordFromDocumentCommand" );
 
-	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identity on UnAssignKycRecordFromDocumentCommand" );
-}
-/**
- * handles assign Agreement validation for a Document
- *
- * @param	command AssignAgreementToDocumentCommand
- */
-public void validate( AssignAgreementToDocumentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Document", "validating AssignAgreementToDocumentCommand" );
+		if ( command.getDocumentId() == null )
+		throw new ValidationException( "Document", "validating identity on UnAssignKycRecordFromDocumentCommand" );
+	}
+	/**
+	 * handles assign Agreement validation for a Document
+	 *
+	 * @param	command AssignAgreementToDocumentCommand
+	 */
+	public void validate( AssignAgreementToDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating AssignAgreementToDocumentCommand" );
 
-	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier on AssignAgreementToDocumentCommand" );
+		if ( command.getDocumentId() == null )
+		throw new ValidationException( "Document", "validating identifier on AssignAgreementToDocumentCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Document", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Document", "validating assignment" );
+	}
 
-/**
- * handles unassign Agreement validation for a Document
- *
- * @param	command UnAssignAgreementFromDocumentCommand
- */
-public void validate( UnAssignAgreementFromDocumentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Document", "validating UnAssignAgreementFromDocumentCommand" );
+	/**
+	 * handles unassign Agreement validation for a Document
+	 *
+	 * @param	command UnAssignAgreementFromDocumentCommand
+	 */
+	public void validate( UnAssignAgreementFromDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating UnAssignAgreementFromDocumentCommand" );
 
-	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identity on UnAssignAgreementFromDocumentCommand" );
-}
+		if ( command.getDocumentId() == null )
+		throw new ValidationException( "Document", "validating identity on UnAssignAgreementFromDocumentCommand" );
+	}
 
-		
+
 }

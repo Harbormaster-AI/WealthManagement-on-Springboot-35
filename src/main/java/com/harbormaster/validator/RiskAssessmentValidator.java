@@ -104,83 +104,83 @@ public class RiskAssessmentValidator {
 		throw new ValidationException( "RiskAssessment", "validating method getCapacityScore" );
 		if ( riskAssessment.getHorizonYears() == null )
 		throw new ValidationException( "RiskAssessment", "validating method getHorizonYears" );
-}
+	}
 
 /**
  * handles delete validation for a RiskAssessment
  */
-public void validate( DeleteRiskAssessmentCommand riskAssessment ) throws ValidationException {
-	if ( riskAssessment == null )
-	throw new ValidationException( "RiskAssessment", "validating DeleteRiskAssessmentCommand" );
+	public void validate( DeleteRiskAssessmentCommand riskAssessment ) throws ValidationException {
+		if ( riskAssessment == null )
+			throw new ValidationException( "RiskAssessment", "validating DeleteRiskAssessmentCommand" );
 
-	if ( riskAssessment.getHorizonYears() == null )
-	throw new ValidationException( "RiskAssessment", "validating getHorizonYears" );
-}
+		if ( riskAssessment.getHorizonYears() == null )
+		throw new ValidationException( "RiskAssessment", "validating getHorizonYears" );
+	}
 
 /**
  * handles fetchOne validation for a RiskAssessment
  */
-public void validate( RiskAssessmentFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "RiskAssessment", "validating summary" );
-}
+	public void validate( RiskAssessmentFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "RiskAssessment", "validating summary" );
+	}
 
-/**
- * handles assign Household validation for a RiskAssessment
- *
- * @param	command AssignHouseholdToRiskAssessmentCommand
- */
-public void validate( AssignHouseholdToRiskAssessmentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "RiskAssessment", "validating AssignHouseholdToRiskAssessmentCommand" );
+	/**
+	 * handles assign Household validation for a RiskAssessment
+	 *
+	 * @param	command AssignHouseholdToRiskAssessmentCommand
+	 */
+	public void validate( AssignHouseholdToRiskAssessmentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RiskAssessment", "validating AssignHouseholdToRiskAssessmentCommand" );
 
-	if ( command.getRiskAssessmentId() == null )
-	throw new ValidationException( "RiskAssessment", "validating identifier on AssignHouseholdToRiskAssessmentCommand" );
+		if ( command.getRiskAssessmentId() == null )
+		throw new ValidationException( "RiskAssessment", "validating identifier on AssignHouseholdToRiskAssessmentCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "RiskAssessment", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "RiskAssessment", "validating assignment" );
+	}
 
-/**
- * handles unassign Household validation for a RiskAssessment
- *
- * @param	command UnAssignHouseholdFromRiskAssessmentCommand
- */
-public void validate( UnAssignHouseholdFromRiskAssessmentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "RiskAssessment", "validating UnAssignHouseholdFromRiskAssessmentCommand" );
+	/**
+	 * handles unassign Household validation for a RiskAssessment
+	 *
+	 * @param	command UnAssignHouseholdFromRiskAssessmentCommand
+	 */
+	public void validate( UnAssignHouseholdFromRiskAssessmentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RiskAssessment", "validating UnAssignHouseholdFromRiskAssessmentCommand" );
 
-	if ( command.getRiskAssessmentId() == null )
-	throw new ValidationException( "RiskAssessment", "validating identity on UnAssignHouseholdFromRiskAssessmentCommand" );
-}
-/**
- * handles assign Advisor validation for a RiskAssessment
- *
- * @param	command AssignAdvisorToRiskAssessmentCommand
- */
-public void validate( AssignAdvisorToRiskAssessmentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "RiskAssessment", "validating AssignAdvisorToRiskAssessmentCommand" );
+		if ( command.getRiskAssessmentId() == null )
+		throw new ValidationException( "RiskAssessment", "validating identity on UnAssignHouseholdFromRiskAssessmentCommand" );
+	}
+	/**
+	 * handles assign Advisor validation for a RiskAssessment
+	 *
+	 * @param	command AssignAdvisorToRiskAssessmentCommand
+	 */
+	public void validate( AssignAdvisorToRiskAssessmentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RiskAssessment", "validating AssignAdvisorToRiskAssessmentCommand" );
 
-	if ( command.getRiskAssessmentId() == null )
-	throw new ValidationException( "RiskAssessment", "validating identifier on AssignAdvisorToRiskAssessmentCommand" );
+		if ( command.getRiskAssessmentId() == null )
+		throw new ValidationException( "RiskAssessment", "validating identifier on AssignAdvisorToRiskAssessmentCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "RiskAssessment", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "RiskAssessment", "validating assignment" );
+	}
 
-/**
- * handles unassign Advisor validation for a RiskAssessment
- *
- * @param	command UnAssignAdvisorFromRiskAssessmentCommand
- */
-public void validate( UnAssignAdvisorFromRiskAssessmentCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "RiskAssessment", "validating UnAssignAdvisorFromRiskAssessmentCommand" );
+	/**
+	 * handles unassign Advisor validation for a RiskAssessment
+	 *
+	 * @param	command UnAssignAdvisorFromRiskAssessmentCommand
+	 */
+	public void validate( UnAssignAdvisorFromRiskAssessmentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RiskAssessment", "validating UnAssignAdvisorFromRiskAssessmentCommand" );
 
-	if ( command.getRiskAssessmentId() == null )
-	throw new ValidationException( "RiskAssessment", "validating identity on UnAssignAdvisorFromRiskAssessmentCommand" );
-}
+		if ( command.getRiskAssessmentId() == null )
+		throw new ValidationException( "RiskAssessment", "validating identity on UnAssignAdvisorFromRiskAssessmentCommand" );
+	}
 
-		
+
 }

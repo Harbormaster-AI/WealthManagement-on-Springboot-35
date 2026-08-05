@@ -104,139 +104,139 @@ public class ComplianceAlertValidator {
 		throw new ValidationException( "ComplianceAlert", "validating method getAlertDate" );
 		if ( complianceAlert.getMessage() == null )
 		throw new ValidationException( "ComplianceAlert", "validating method getMessage" );
-}
+	}
 
 /**
  * handles delete validation for a ComplianceAlert
  */
-public void validate( DeleteComplianceAlertCommand complianceAlert ) throws ValidationException {
-	if ( complianceAlert == null )
-	throw new ValidationException( "ComplianceAlert", "validating DeleteComplianceAlertCommand" );
+	public void validate( DeleteComplianceAlertCommand complianceAlert ) throws ValidationException {
+		if ( complianceAlert == null )
+			throw new ValidationException( "ComplianceAlert", "validating DeleteComplianceAlertCommand" );
 
-	if ( complianceAlert.getMessage() == null )
-	throw new ValidationException( "ComplianceAlert", "validating getMessage" );
-}
+		if ( complianceAlert.getMessage() == null )
+		throw new ValidationException( "ComplianceAlert", "validating getMessage" );
+	}
 
 /**
  * handles fetchOne validation for a ComplianceAlert
  */
-public void validate( ComplianceAlertFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "ComplianceAlert", "validating summary" );
-}
+	public void validate( ComplianceAlertFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "ComplianceAlert", "validating summary" );
+	}
 
-/**
- * handles assign Rule validation for a ComplianceAlert
- *
- * @param	command AssignRuleToComplianceAlertCommand
- */
-public void validate( AssignRuleToComplianceAlertCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ComplianceAlert", "validating AssignRuleToComplianceAlertCommand" );
+	/**
+	 * handles assign Rule validation for a ComplianceAlert
+	 *
+	 * @param	command AssignRuleToComplianceAlertCommand
+	 */
+	public void validate( AssignRuleToComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating AssignRuleToComplianceAlertCommand" );
 
-	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identifier on AssignRuleToComplianceAlertCommand" );
+		if ( command.getComplianceAlertId() == null )
+		throw new ValidationException( "ComplianceAlert", "validating identifier on AssignRuleToComplianceAlertCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "ComplianceAlert", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ComplianceAlert", "validating assignment" );
+	}
 
-/**
- * handles unassign Rule validation for a ComplianceAlert
- *
- * @param	command UnAssignRuleFromComplianceAlertCommand
- */
-public void validate( UnAssignRuleFromComplianceAlertCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ComplianceAlert", "validating UnAssignRuleFromComplianceAlertCommand" );
+	/**
+	 * handles unassign Rule validation for a ComplianceAlert
+	 *
+	 * @param	command UnAssignRuleFromComplianceAlertCommand
+	 */
+	public void validate( UnAssignRuleFromComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating UnAssignRuleFromComplianceAlertCommand" );
 
-	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignRuleFromComplianceAlertCommand" );
-}
-/**
- * handles assign Account validation for a ComplianceAlert
- *
- * @param	command AssignAccountToComplianceAlertCommand
- */
-public void validate( AssignAccountToComplianceAlertCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ComplianceAlert", "validating AssignAccountToComplianceAlertCommand" );
+		if ( command.getComplianceAlertId() == null )
+		throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignRuleFromComplianceAlertCommand" );
+	}
+	/**
+	 * handles assign Account validation for a ComplianceAlert
+	 *
+	 * @param	command AssignAccountToComplianceAlertCommand
+	 */
+	public void validate( AssignAccountToComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating AssignAccountToComplianceAlertCommand" );
 
-	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identifier on AssignAccountToComplianceAlertCommand" );
+		if ( command.getComplianceAlertId() == null )
+		throw new ValidationException( "ComplianceAlert", "validating identifier on AssignAccountToComplianceAlertCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "ComplianceAlert", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ComplianceAlert", "validating assignment" );
+	}
 
-/**
- * handles unassign Account validation for a ComplianceAlert
- *
- * @param	command UnAssignAccountFromComplianceAlertCommand
- */
-public void validate( UnAssignAccountFromComplianceAlertCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ComplianceAlert", "validating UnAssignAccountFromComplianceAlertCommand" );
+	/**
+	 * handles unassign Account validation for a ComplianceAlert
+	 *
+	 * @param	command UnAssignAccountFromComplianceAlertCommand
+	 */
+	public void validate( UnAssignAccountFromComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating UnAssignAccountFromComplianceAlertCommand" );
 
-	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAccountFromComplianceAlertCommand" );
-}
-/**
- * handles assign Order validation for a ComplianceAlert
- *
- * @param	command AssignOrderToComplianceAlertCommand
- */
-public void validate( AssignOrderToComplianceAlertCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ComplianceAlert", "validating AssignOrderToComplianceAlertCommand" );
+		if ( command.getComplianceAlertId() == null )
+		throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAccountFromComplianceAlertCommand" );
+	}
+	/**
+	 * handles assign Order validation for a ComplianceAlert
+	 *
+	 * @param	command AssignOrderToComplianceAlertCommand
+	 */
+	public void validate( AssignOrderToComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating AssignOrderToComplianceAlertCommand" );
 
-	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identifier on AssignOrderToComplianceAlertCommand" );
+		if ( command.getComplianceAlertId() == null )
+		throw new ValidationException( "ComplianceAlert", "validating identifier on AssignOrderToComplianceAlertCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "ComplianceAlert", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ComplianceAlert", "validating assignment" );
+	}
 
-/**
- * handles unassign Order validation for a ComplianceAlert
- *
- * @param	command UnAssignOrderFromComplianceAlertCommand
- */
-public void validate( UnAssignOrderFromComplianceAlertCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ComplianceAlert", "validating UnAssignOrderFromComplianceAlertCommand" );
+	/**
+	 * handles unassign Order validation for a ComplianceAlert
+	 *
+	 * @param	command UnAssignOrderFromComplianceAlertCommand
+	 */
+	public void validate( UnAssignOrderFromComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating UnAssignOrderFromComplianceAlertCommand" );
 
-	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignOrderFromComplianceAlertCommand" );
-}
-/**
- * handles assign Advisor validation for a ComplianceAlert
- *
- * @param	command AssignAdvisorToComplianceAlertCommand
- */
-public void validate( AssignAdvisorToComplianceAlertCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ComplianceAlert", "validating AssignAdvisorToComplianceAlertCommand" );
+		if ( command.getComplianceAlertId() == null )
+		throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignOrderFromComplianceAlertCommand" );
+	}
+	/**
+	 * handles assign Advisor validation for a ComplianceAlert
+	 *
+	 * @param	command AssignAdvisorToComplianceAlertCommand
+	 */
+	public void validate( AssignAdvisorToComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating AssignAdvisorToComplianceAlertCommand" );
 
-	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identifier on AssignAdvisorToComplianceAlertCommand" );
+		if ( command.getComplianceAlertId() == null )
+		throw new ValidationException( "ComplianceAlert", "validating identifier on AssignAdvisorToComplianceAlertCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "ComplianceAlert", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ComplianceAlert", "validating assignment" );
+	}
 
-/**
- * handles unassign Advisor validation for a ComplianceAlert
- *
- * @param	command UnAssignAdvisorFromComplianceAlertCommand
- */
-public void validate( UnAssignAdvisorFromComplianceAlertCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ComplianceAlert", "validating UnAssignAdvisorFromComplianceAlertCommand" );
+	/**
+	 * handles unassign Advisor validation for a ComplianceAlert
+	 *
+	 * @param	command UnAssignAdvisorFromComplianceAlertCommand
+	 */
+	public void validate( UnAssignAdvisorFromComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating UnAssignAdvisorFromComplianceAlertCommand" );
 
-	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAdvisorFromComplianceAlertCommand" );
-}
+		if ( command.getComplianceAlertId() == null )
+		throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAdvisorFromComplianceAlertCommand" );
+	}
 
-		
+
 }

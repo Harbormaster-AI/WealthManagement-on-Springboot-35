@@ -100,83 +100,83 @@ public class StandingInstructionValidator {
 		throw new ValidationException( "StandingInstruction", "validating method getNextExecutionDate" );
 		if ( standingInstruction.getAmount() == null )
 		throw new ValidationException( "StandingInstruction", "validating method getAmount" );
-}
+	}
 
 /**
  * handles delete validation for a StandingInstruction
  */
-public void validate( DeleteStandingInstructionCommand standingInstruction ) throws ValidationException {
-	if ( standingInstruction == null )
-	throw new ValidationException( "StandingInstruction", "validating DeleteStandingInstructionCommand" );
+	public void validate( DeleteStandingInstructionCommand standingInstruction ) throws ValidationException {
+		if ( standingInstruction == null )
+			throw new ValidationException( "StandingInstruction", "validating DeleteStandingInstructionCommand" );
 
-	if ( standingInstruction.getAmount() == null )
-	throw new ValidationException( "StandingInstruction", "validating getAmount" );
-}
+		if ( standingInstruction.getAmount() == null )
+		throw new ValidationException( "StandingInstruction", "validating getAmount" );
+	}
 
 /**
  * handles fetchOne validation for a StandingInstruction
  */
-public void validate( StandingInstructionFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "StandingInstruction", "validating summary" );
-}
+	public void validate( StandingInstructionFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "StandingInstruction", "validating summary" );
+	}
 
-/**
- * handles assign Account validation for a StandingInstruction
- *
- * @param	command AssignAccountToStandingInstructionCommand
- */
-public void validate( AssignAccountToStandingInstructionCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "StandingInstruction", "validating AssignAccountToStandingInstructionCommand" );
+	/**
+	 * handles assign Account validation for a StandingInstruction
+	 *
+	 * @param	command AssignAccountToStandingInstructionCommand
+	 */
+	public void validate( AssignAccountToStandingInstructionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "StandingInstruction", "validating AssignAccountToStandingInstructionCommand" );
 
-	if ( command.getStandingInstructionId() == null )
-	throw new ValidationException( "StandingInstruction", "validating identifier on AssignAccountToStandingInstructionCommand" );
+		if ( command.getStandingInstructionId() == null )
+		throw new ValidationException( "StandingInstruction", "validating identifier on AssignAccountToStandingInstructionCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "StandingInstruction", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "StandingInstruction", "validating assignment" );
+	}
 
-/**
- * handles unassign Account validation for a StandingInstruction
- *
- * @param	command UnAssignAccountFromStandingInstructionCommand
- */
-public void validate( UnAssignAccountFromStandingInstructionCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "StandingInstruction", "validating UnAssignAccountFromStandingInstructionCommand" );
+	/**
+	 * handles unassign Account validation for a StandingInstruction
+	 *
+	 * @param	command UnAssignAccountFromStandingInstructionCommand
+	 */
+	public void validate( UnAssignAccountFromStandingInstructionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "StandingInstruction", "validating UnAssignAccountFromStandingInstructionCommand" );
 
-	if ( command.getStandingInstructionId() == null )
-	throw new ValidationException( "StandingInstruction", "validating identity on UnAssignAccountFromStandingInstructionCommand" );
-}
-/**
- * handles assign DestinationAccount validation for a StandingInstruction
- *
- * @param	command AssignDestinationAccountToStandingInstructionCommand
- */
-public void validate( AssignDestinationAccountToStandingInstructionCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "StandingInstruction", "validating AssignDestinationAccountToStandingInstructionCommand" );
+		if ( command.getStandingInstructionId() == null )
+		throw new ValidationException( "StandingInstruction", "validating identity on UnAssignAccountFromStandingInstructionCommand" );
+	}
+	/**
+	 * handles assign DestinationAccount validation for a StandingInstruction
+	 *
+	 * @param	command AssignDestinationAccountToStandingInstructionCommand
+	 */
+	public void validate( AssignDestinationAccountToStandingInstructionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "StandingInstruction", "validating AssignDestinationAccountToStandingInstructionCommand" );
 
-	if ( command.getStandingInstructionId() == null )
-	throw new ValidationException( "StandingInstruction", "validating identifier on AssignDestinationAccountToStandingInstructionCommand" );
+		if ( command.getStandingInstructionId() == null )
+		throw new ValidationException( "StandingInstruction", "validating identifier on AssignDestinationAccountToStandingInstructionCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "StandingInstruction", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "StandingInstruction", "validating assignment" );
+	}
 
-/**
- * handles unassign DestinationAccount validation for a StandingInstruction
- *
- * @param	command UnAssignDestinationAccountFromStandingInstructionCommand
- */
-public void validate( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "StandingInstruction", "validating UnAssignDestinationAccountFromStandingInstructionCommand" );
+	/**
+	 * handles unassign DestinationAccount validation for a StandingInstruction
+	 *
+	 * @param	command UnAssignDestinationAccountFromStandingInstructionCommand
+	 */
+	public void validate( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "StandingInstruction", "validating UnAssignDestinationAccountFromStandingInstructionCommand" );
 
-	if ( command.getStandingInstructionId() == null )
-	throw new ValidationException( "StandingInstruction", "validating identity on UnAssignDestinationAccountFromStandingInstructionCommand" );
-}
+		if ( command.getStandingInstructionId() == null )
+		throw new ValidationException( "StandingInstruction", "validating identity on UnAssignDestinationAccountFromStandingInstructionCommand" );
+	}
 
-		
+
 }

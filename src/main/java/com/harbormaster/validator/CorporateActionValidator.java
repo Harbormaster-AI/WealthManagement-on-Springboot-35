@@ -106,91 +106,91 @@ public class CorporateActionValidator {
 		throw new ValidationException( "CorporateAction", "validating method getPayableDate" );
 		if ( corporateAction.getDetails() == null )
 		throw new ValidationException( "CorporateAction", "validating method getDetails" );
-}
+	}
 
 /**
  * handles delete validation for a CorporateAction
  */
-public void validate( DeleteCorporateActionCommand corporateAction ) throws ValidationException {
-	if ( corporateAction == null )
-	throw new ValidationException( "CorporateAction", "validating DeleteCorporateActionCommand" );
+	public void validate( DeleteCorporateActionCommand corporateAction ) throws ValidationException {
+		if ( corporateAction == null )
+			throw new ValidationException( "CorporateAction", "validating DeleteCorporateActionCommand" );
 
-	if ( corporateAction.getDetails() == null )
-	throw new ValidationException( "CorporateAction", "validating getDetails" );
-}
+		if ( corporateAction.getDetails() == null )
+		throw new ValidationException( "CorporateAction", "validating getDetails" );
+	}
 
 /**
  * handles fetchOne validation for a CorporateAction
  */
-public void validate( CorporateActionFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "CorporateAction", "validating summary" );
-}
+	public void validate( CorporateActionFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "CorporateAction", "validating summary" );
+	}
 
-/**
- * handles assign Security validation for a CorporateAction
- *
- * @param	command AssignSecurityToCorporateActionCommand
- */
-public void validate( AssignSecurityToCorporateActionCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CorporateAction", "validating AssignSecurityToCorporateActionCommand" );
+	/**
+	 * handles assign Security validation for a CorporateAction
+	 *
+	 * @param	command AssignSecurityToCorporateActionCommand
+	 */
+	public void validate( AssignSecurityToCorporateActionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CorporateAction", "validating AssignSecurityToCorporateActionCommand" );
 
-	if ( command.getCorporateActionId() == null )
-	throw new ValidationException( "CorporateAction", "validating identifier on AssignSecurityToCorporateActionCommand" );
+		if ( command.getCorporateActionId() == null )
+		throw new ValidationException( "CorporateAction", "validating identifier on AssignSecurityToCorporateActionCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "CorporateAction", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "CorporateAction", "validating assignment" );
+	}
 
-/**
- * handles unassign Security validation for a CorporateAction
- *
- * @param	command UnAssignSecurityFromCorporateActionCommand
- */
-public void validate( UnAssignSecurityFromCorporateActionCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CorporateAction", "validating UnAssignSecurityFromCorporateActionCommand" );
+	/**
+	 * handles unassign Security validation for a CorporateAction
+	 *
+	 * @param	command UnAssignSecurityFromCorporateActionCommand
+	 */
+	public void validate( UnAssignSecurityFromCorporateActionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CorporateAction", "validating UnAssignSecurityFromCorporateActionCommand" );
 
-	if ( command.getCorporateActionId() == null )
-	throw new ValidationException( "CorporateAction", "validating identity on UnAssignSecurityFromCorporateActionCommand" );
-}
+		if ( command.getCorporateActionId() == null )
+		throw new ValidationException( "CorporateAction", "validating identity on UnAssignSecurityFromCorporateActionCommand" );
+	}
 
-		/**
- * handles add to Dividends validation for a CorporateAction
- *
- * @param	command AssignDividendsToCorporateActionCommand
- */
-public void validate( AssignDividendsToCorporateActionCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CorporateAction", "validating AssignDividendsToCorporateActionCommand" );
+	/**
+	 * handles add to Dividends validation for a CorporateAction
+	 *
+	 * @param	command AssignDividendsToCorporateActionCommand
+	 */
+	public void validate( AssignDividendsToCorporateActionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CorporateAction", "validating AssignDividendsToCorporateActionCommand" );
 
-	if ( command.getCorporateActionId() == null )
-	throw new ValidationException( "CorporateAction", "validating identity on AssignDividendsToCorporateActionCommand" );
+		if ( command.getCorporateActionId() == null )
+		throw new ValidationException( "CorporateAction", "validating identity on AssignDividendsToCorporateActionCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "CorporateAction", "validating addTo attribute on AssignDividendsToCorporateActionCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "CorporateAction", "validating addTo attribute on AssignDividendsToCorporateActionCommand" );
 
-}
+	}
 
-/**
- * handles remove from Dividends validation for a CorporateAction
- *
- * @param	command RemoveDividendsFromCorporateActionCommand
- */
-public void validate( RemoveDividendsFromCorporateActionCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("CorporateAction", "validating RemoveDividendsFromCorporateActionCommand" );
+	/**
+	 * handles remove from Dividends validation for a CorporateAction
+	 *
+	 * @param	command RemoveDividendsFromCorporateActionCommand
+	 */
+	public void validate( RemoveDividendsFromCorporateActionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("CorporateAction", "validating RemoveDividendsFromCorporateActionCommand" );
 
-	if( command.getCorporateActionId() == null )
-	throw new ValidationException("CorporateAction", "validating id on RemoveDividendsFromCorporateActionCommand" );
+		if( command.getCorporateActionId() == null )
+			throw new ValidationException("CorporateAction", "validating id on RemoveDividendsFromCorporateActionCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("CorporateAction", "validating remove from RemoveDividendsFromCorporateActionCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("CorporateAction", "validating remove from RemoveDividendsFromCorporateActionCommand" );
 
-	if( command.getRemoveFrom().getDividendId() == null )
-	throw new ValidationException("CorporateAction", "validating id on remove from RemoveDividendsFromCorporateActionCommand" );
-}
+		if( command.getRemoveFrom().getDividendId() == null )
+			throw new ValidationException("CorporateAction", "validating id on remove from RemoveDividendsFromCorporateActionCommand" );
+	}
 
 
 }

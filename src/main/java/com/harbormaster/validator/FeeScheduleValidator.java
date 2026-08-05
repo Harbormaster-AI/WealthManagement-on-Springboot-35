@@ -108,99 +108,99 @@ public class FeeScheduleValidator {
 		throw new ValidationException( "FeeSchedule", "validating method getRate" );
 		if ( feeSchedule.getMinimumFee() == null )
 		throw new ValidationException( "FeeSchedule", "validating method getMinimumFee" );
-}
+	}
 
 /**
  * handles delete validation for a FeeSchedule
  */
-public void validate( DeleteFeeScheduleCommand feeSchedule ) throws ValidationException {
-	if ( feeSchedule == null )
-	throw new ValidationException( "FeeSchedule", "validating DeleteFeeScheduleCommand" );
+	public void validate( DeleteFeeScheduleCommand feeSchedule ) throws ValidationException {
+		if ( feeSchedule == null )
+			throw new ValidationException( "FeeSchedule", "validating DeleteFeeScheduleCommand" );
 
-	if ( feeSchedule.getMinimumFee() == null )
-	throw new ValidationException( "FeeSchedule", "validating getMinimumFee" );
-}
+		if ( feeSchedule.getMinimumFee() == null )
+		throw new ValidationException( "FeeSchedule", "validating getMinimumFee" );
+	}
 
 /**
  * handles fetchOne validation for a FeeSchedule
  */
-public void validate( FeeScheduleFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "FeeSchedule", "validating summary" );
-}
+	public void validate( FeeScheduleFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "FeeSchedule", "validating summary" );
+	}
 
 
-		/**
- * handles add to Accounts validation for a FeeSchedule
- *
- * @param	command AssignAccountsToFeeScheduleCommand
- */
-public void validate( AssignAccountsToFeeScheduleCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "FeeSchedule", "validating AssignAccountsToFeeScheduleCommand" );
+	/**
+	 * handles add to Accounts validation for a FeeSchedule
+	 *
+	 * @param	command AssignAccountsToFeeScheduleCommand
+	 */
+	public void validate( AssignAccountsToFeeScheduleCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "FeeSchedule", "validating AssignAccountsToFeeScheduleCommand" );
 
-	if ( command.getFeeScheduleId() == null )
-	throw new ValidationException( "FeeSchedule", "validating identity on AssignAccountsToFeeScheduleCommand" );
+		if ( command.getFeeScheduleId() == null )
+		throw new ValidationException( "FeeSchedule", "validating identity on AssignAccountsToFeeScheduleCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "FeeSchedule", "validating addTo attribute on AssignAccountsToFeeScheduleCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "FeeSchedule", "validating addTo attribute on AssignAccountsToFeeScheduleCommand" );
 
-}
+	}
 
-/**
- * handles remove from Accounts validation for a FeeSchedule
- *
- * @param	command RemoveAccountsFromFeeScheduleCommand
- */
-public void validate( RemoveAccountsFromFeeScheduleCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("FeeSchedule", "validating RemoveAccountsFromFeeScheduleCommand" );
+	/**
+	 * handles remove from Accounts validation for a FeeSchedule
+	 *
+	 * @param	command RemoveAccountsFromFeeScheduleCommand
+	 */
+	public void validate( RemoveAccountsFromFeeScheduleCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("FeeSchedule", "validating RemoveAccountsFromFeeScheduleCommand" );
 
-	if( command.getFeeScheduleId() == null )
-	throw new ValidationException("FeeSchedule", "validating id on RemoveAccountsFromFeeScheduleCommand" );
+		if( command.getFeeScheduleId() == null )
+			throw new ValidationException("FeeSchedule", "validating id on RemoveAccountsFromFeeScheduleCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("FeeSchedule", "validating remove from RemoveAccountsFromFeeScheduleCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("FeeSchedule", "validating remove from RemoveAccountsFromFeeScheduleCommand" );
 
-	if( command.getRemoveFrom().getAccountId() == null )
-	throw new ValidationException("FeeSchedule", "validating id on remove from RemoveAccountsFromFeeScheduleCommand" );
-}
+		if( command.getRemoveFrom().getAccountId() == null )
+			throw new ValidationException("FeeSchedule", "validating id on remove from RemoveAccountsFromFeeScheduleCommand" );
+	}
 
-/**
- * handles add to BillingRuns validation for a FeeSchedule
- *
- * @param	command AssignBillingRunsToFeeScheduleCommand
- */
-public void validate( AssignBillingRunsToFeeScheduleCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "FeeSchedule", "validating AssignBillingRunsToFeeScheduleCommand" );
+	/**
+	 * handles add to BillingRuns validation for a FeeSchedule
+	 *
+	 * @param	command AssignBillingRunsToFeeScheduleCommand
+	 */
+	public void validate( AssignBillingRunsToFeeScheduleCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "FeeSchedule", "validating AssignBillingRunsToFeeScheduleCommand" );
 
-	if ( command.getFeeScheduleId() == null )
-	throw new ValidationException( "FeeSchedule", "validating identity on AssignBillingRunsToFeeScheduleCommand" );
+		if ( command.getFeeScheduleId() == null )
+		throw new ValidationException( "FeeSchedule", "validating identity on AssignBillingRunsToFeeScheduleCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "FeeSchedule", "validating addTo attribute on AssignBillingRunsToFeeScheduleCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "FeeSchedule", "validating addTo attribute on AssignBillingRunsToFeeScheduleCommand" );
 
-}
+	}
 
-/**
- * handles remove from BillingRuns validation for a FeeSchedule
- *
- * @param	command RemoveBillingRunsFromFeeScheduleCommand
- */
-public void validate( RemoveBillingRunsFromFeeScheduleCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("FeeSchedule", "validating RemoveBillingRunsFromFeeScheduleCommand" );
+	/**
+	 * handles remove from BillingRuns validation for a FeeSchedule
+	 *
+	 * @param	command RemoveBillingRunsFromFeeScheduleCommand
+	 */
+	public void validate( RemoveBillingRunsFromFeeScheduleCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("FeeSchedule", "validating RemoveBillingRunsFromFeeScheduleCommand" );
 
-	if( command.getFeeScheduleId() == null )
-	throw new ValidationException("FeeSchedule", "validating id on RemoveBillingRunsFromFeeScheduleCommand" );
+		if( command.getFeeScheduleId() == null )
+			throw new ValidationException("FeeSchedule", "validating id on RemoveBillingRunsFromFeeScheduleCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("FeeSchedule", "validating remove from RemoveBillingRunsFromFeeScheduleCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("FeeSchedule", "validating remove from RemoveBillingRunsFromFeeScheduleCommand" );
 
-	if( command.getRemoveFrom().getBillingRunId() == null )
-	throw new ValidationException("FeeSchedule", "validating id on remove from RemoveBillingRunsFromFeeScheduleCommand" );
-}
+		if( command.getRemoveFrom().getBillingRunId() == null )
+			throw new ValidationException("FeeSchedule", "validating id on remove from RemoveBillingRunsFromFeeScheduleCommand" );
+	}
 
 
 }

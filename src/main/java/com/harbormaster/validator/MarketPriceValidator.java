@@ -98,55 +98,55 @@ public class MarketPriceValidator {
 		throw new ValidationException( "MarketPrice", "validating method getPrice" );
 		if ( marketPrice.getPriceDate() == null )
 		throw new ValidationException( "MarketPrice", "validating method getPriceDate" );
-}
+	}
 
 /**
  * handles delete validation for a MarketPrice
  */
-public void validate( DeleteMarketPriceCommand marketPrice ) throws ValidationException {
-	if ( marketPrice == null )
-	throw new ValidationException( "MarketPrice", "validating DeleteMarketPriceCommand" );
+	public void validate( DeleteMarketPriceCommand marketPrice ) throws ValidationException {
+		if ( marketPrice == null )
+			throw new ValidationException( "MarketPrice", "validating DeleteMarketPriceCommand" );
 
-	if ( marketPrice.getPriceDate() == null )
-	throw new ValidationException( "MarketPrice", "validating getPriceDate" );
-}
+		if ( marketPrice.getPriceDate() == null )
+		throw new ValidationException( "MarketPrice", "validating getPriceDate" );
+	}
 
 /**
  * handles fetchOne validation for a MarketPrice
  */
-public void validate( MarketPriceFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "MarketPrice", "validating summary" );
-}
+	public void validate( MarketPriceFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "MarketPrice", "validating summary" );
+	}
 
-/**
- * handles assign Security validation for a MarketPrice
- *
- * @param	command AssignSecurityToMarketPriceCommand
- */
-public void validate( AssignSecurityToMarketPriceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "MarketPrice", "validating AssignSecurityToMarketPriceCommand" );
+	/**
+	 * handles assign Security validation for a MarketPrice
+	 *
+	 * @param	command AssignSecurityToMarketPriceCommand
+	 */
+	public void validate( AssignSecurityToMarketPriceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "MarketPrice", "validating AssignSecurityToMarketPriceCommand" );
 
-	if ( command.getMarketPriceId() == null )
-	throw new ValidationException( "MarketPrice", "validating identifier on AssignSecurityToMarketPriceCommand" );
+		if ( command.getMarketPriceId() == null )
+		throw new ValidationException( "MarketPrice", "validating identifier on AssignSecurityToMarketPriceCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "MarketPrice", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "MarketPrice", "validating assignment" );
+	}
 
-/**
- * handles unassign Security validation for a MarketPrice
- *
- * @param	command UnAssignSecurityFromMarketPriceCommand
- */
-public void validate( UnAssignSecurityFromMarketPriceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "MarketPrice", "validating UnAssignSecurityFromMarketPriceCommand" );
+	/**
+	 * handles unassign Security validation for a MarketPrice
+	 *
+	 * @param	command UnAssignSecurityFromMarketPriceCommand
+	 */
+	public void validate( UnAssignSecurityFromMarketPriceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "MarketPrice", "validating UnAssignSecurityFromMarketPriceCommand" );
 
-	if ( command.getMarketPriceId() == null )
-	throw new ValidationException( "MarketPrice", "validating identity on UnAssignSecurityFromMarketPriceCommand" );
-}
+		if ( command.getMarketPriceId() == null )
+		throw new ValidationException( "MarketPrice", "validating identity on UnAssignSecurityFromMarketPriceCommand" );
+	}
 
-		
+
 }

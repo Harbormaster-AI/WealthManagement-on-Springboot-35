@@ -110,91 +110,91 @@ public class BeneficiaryValidator {
 		throw new ValidationException( "Beneficiary", "validating method getRelationship" );
 		if ( beneficiary.getAllocationPercent() == null )
 		throw new ValidationException( "Beneficiary", "validating method getAllocationPercent" );
-}
+	}
 
 /**
  * handles delete validation for a Beneficiary
  */
-public void validate( DeleteBeneficiaryCommand beneficiary ) throws ValidationException {
-	if ( beneficiary == null )
-	throw new ValidationException( "Beneficiary", "validating DeleteBeneficiaryCommand" );
+	public void validate( DeleteBeneficiaryCommand beneficiary ) throws ValidationException {
+		if ( beneficiary == null )
+			throw new ValidationException( "Beneficiary", "validating DeleteBeneficiaryCommand" );
 
-	if ( beneficiary.getAllocationPercent() == null )
-	throw new ValidationException( "Beneficiary", "validating getAllocationPercent" );
-}
+		if ( beneficiary.getAllocationPercent() == null )
+		throw new ValidationException( "Beneficiary", "validating getAllocationPercent" );
+	}
 
 /**
  * handles fetchOne validation for a Beneficiary
  */
-public void validate( BeneficiaryFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "Beneficiary", "validating summary" );
-}
+	public void validate( BeneficiaryFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Beneficiary", "validating summary" );
+	}
 
-/**
- * handles assign Client validation for a Beneficiary
- *
- * @param	command AssignClientToBeneficiaryCommand
- */
-public void validate( AssignClientToBeneficiaryCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Beneficiary", "validating AssignClientToBeneficiaryCommand" );
+	/**
+	 * handles assign Client validation for a Beneficiary
+	 *
+	 * @param	command AssignClientToBeneficiaryCommand
+	 */
+	public void validate( AssignClientToBeneficiaryCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Beneficiary", "validating AssignClientToBeneficiaryCommand" );
 
-	if ( command.getBeneficiaryId() == null )
-	throw new ValidationException( "Beneficiary", "validating identifier on AssignClientToBeneficiaryCommand" );
+		if ( command.getBeneficiaryId() == null )
+		throw new ValidationException( "Beneficiary", "validating identifier on AssignClientToBeneficiaryCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Beneficiary", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Beneficiary", "validating assignment" );
+	}
 
-/**
- * handles unassign Client validation for a Beneficiary
- *
- * @param	command UnAssignClientFromBeneficiaryCommand
- */
-public void validate( UnAssignClientFromBeneficiaryCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Beneficiary", "validating UnAssignClientFromBeneficiaryCommand" );
+	/**
+	 * handles unassign Client validation for a Beneficiary
+	 *
+	 * @param	command UnAssignClientFromBeneficiaryCommand
+	 */
+	public void validate( UnAssignClientFromBeneficiaryCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Beneficiary", "validating UnAssignClientFromBeneficiaryCommand" );
 
-	if ( command.getBeneficiaryId() == null )
-	throw new ValidationException( "Beneficiary", "validating identity on UnAssignClientFromBeneficiaryCommand" );
-}
+		if ( command.getBeneficiaryId() == null )
+		throw new ValidationException( "Beneficiary", "validating identity on UnAssignClientFromBeneficiaryCommand" );
+	}
 
-		/**
- * handles add to Accounts validation for a Beneficiary
- *
- * @param	command AssignAccountsToBeneficiaryCommand
- */
-public void validate( AssignAccountsToBeneficiaryCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Beneficiary", "validating AssignAccountsToBeneficiaryCommand" );
+	/**
+	 * handles add to Accounts validation for a Beneficiary
+	 *
+	 * @param	command AssignAccountsToBeneficiaryCommand
+	 */
+	public void validate( AssignAccountsToBeneficiaryCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Beneficiary", "validating AssignAccountsToBeneficiaryCommand" );
 
-	if ( command.getBeneficiaryId() == null )
-	throw new ValidationException( "Beneficiary", "validating identity on AssignAccountsToBeneficiaryCommand" );
+		if ( command.getBeneficiaryId() == null )
+		throw new ValidationException( "Beneficiary", "validating identity on AssignAccountsToBeneficiaryCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "Beneficiary", "validating addTo attribute on AssignAccountsToBeneficiaryCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "Beneficiary", "validating addTo attribute on AssignAccountsToBeneficiaryCommand" );
 
-}
+	}
 
-/**
- * handles remove from Accounts validation for a Beneficiary
- *
- * @param	command RemoveAccountsFromBeneficiaryCommand
- */
-public void validate( RemoveAccountsFromBeneficiaryCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("Beneficiary", "validating RemoveAccountsFromBeneficiaryCommand" );
+	/**
+	 * handles remove from Accounts validation for a Beneficiary
+	 *
+	 * @param	command RemoveAccountsFromBeneficiaryCommand
+	 */
+	public void validate( RemoveAccountsFromBeneficiaryCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Beneficiary", "validating RemoveAccountsFromBeneficiaryCommand" );
 
-	if( command.getBeneficiaryId() == null )
-	throw new ValidationException("Beneficiary", "validating id on RemoveAccountsFromBeneficiaryCommand" );
+		if( command.getBeneficiaryId() == null )
+			throw new ValidationException("Beneficiary", "validating id on RemoveAccountsFromBeneficiaryCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("Beneficiary", "validating remove from RemoveAccountsFromBeneficiaryCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("Beneficiary", "validating remove from RemoveAccountsFromBeneficiaryCommand" );
 
-	if( command.getRemoveFrom().getAccountId() == null )
-	throw new ValidationException("Beneficiary", "validating id on remove from RemoveAccountsFromBeneficiaryCommand" );
-}
+		if( command.getRemoveFrom().getAccountId() == null )
+			throw new ValidationException("Beneficiary", "validating id on remove from RemoveAccountsFromBeneficiaryCommand" );
+	}
 
 
 }

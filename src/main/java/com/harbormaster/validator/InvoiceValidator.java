@@ -112,119 +112,119 @@ public class InvoiceValidator {
 		throw new ValidationException( "Invoice", "validating method getDueDate" );
 		if ( invoice.getTotalDue() == null )
 		throw new ValidationException( "Invoice", "validating method getTotalDue" );
-}
+	}
 
 /**
  * handles delete validation for a Invoice
  */
-public void validate( DeleteInvoiceCommand invoice ) throws ValidationException {
-	if ( invoice == null )
-	throw new ValidationException( "Invoice", "validating DeleteInvoiceCommand" );
+	public void validate( DeleteInvoiceCommand invoice ) throws ValidationException {
+		if ( invoice == null )
+			throw new ValidationException( "Invoice", "validating DeleteInvoiceCommand" );
 
-	if ( invoice.getTotalDue() == null )
-	throw new ValidationException( "Invoice", "validating getTotalDue" );
-}
+		if ( invoice.getTotalDue() == null )
+		throw new ValidationException( "Invoice", "validating getTotalDue" );
+	}
 
 /**
  * handles fetchOne validation for a Invoice
  */
-public void validate( InvoiceFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "Invoice", "validating summary" );
-}
+	public void validate( InvoiceFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Invoice", "validating summary" );
+	}
 
-/**
- * handles assign Account validation for a Invoice
- *
- * @param	command AssignAccountToInvoiceCommand
- */
-public void validate( AssignAccountToInvoiceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Invoice", "validating AssignAccountToInvoiceCommand" );
+	/**
+	 * handles assign Account validation for a Invoice
+	 *
+	 * @param	command AssignAccountToInvoiceCommand
+	 */
+	public void validate( AssignAccountToInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating AssignAccountToInvoiceCommand" );
 
-	if ( command.getInvoiceId() == null )
-	throw new ValidationException( "Invoice", "validating identifier on AssignAccountToInvoiceCommand" );
+		if ( command.getInvoiceId() == null )
+		throw new ValidationException( "Invoice", "validating identifier on AssignAccountToInvoiceCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Invoice", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Invoice", "validating assignment" );
+	}
 
-/**
- * handles unassign Account validation for a Invoice
- *
- * @param	command UnAssignAccountFromInvoiceCommand
- */
-public void validate( UnAssignAccountFromInvoiceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Invoice", "validating UnAssignAccountFromInvoiceCommand" );
+	/**
+	 * handles unassign Account validation for a Invoice
+	 *
+	 * @param	command UnAssignAccountFromInvoiceCommand
+	 */
+	public void validate( UnAssignAccountFromInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating UnAssignAccountFromInvoiceCommand" );
 
-	if ( command.getInvoiceId() == null )
-	throw new ValidationException( "Invoice", "validating identity on UnAssignAccountFromInvoiceCommand" );
-}
-/**
- * handles assign BillingRun validation for a Invoice
- *
- * @param	command AssignBillingRunToInvoiceCommand
- */
-public void validate( AssignBillingRunToInvoiceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Invoice", "validating AssignBillingRunToInvoiceCommand" );
+		if ( command.getInvoiceId() == null )
+		throw new ValidationException( "Invoice", "validating identity on UnAssignAccountFromInvoiceCommand" );
+	}
+	/**
+	 * handles assign BillingRun validation for a Invoice
+	 *
+	 * @param	command AssignBillingRunToInvoiceCommand
+	 */
+	public void validate( AssignBillingRunToInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating AssignBillingRunToInvoiceCommand" );
 
-	if ( command.getInvoiceId() == null )
-	throw new ValidationException( "Invoice", "validating identifier on AssignBillingRunToInvoiceCommand" );
+		if ( command.getInvoiceId() == null )
+		throw new ValidationException( "Invoice", "validating identifier on AssignBillingRunToInvoiceCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Invoice", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Invoice", "validating assignment" );
+	}
 
-/**
- * handles unassign BillingRun validation for a Invoice
- *
- * @param	command UnAssignBillingRunFromInvoiceCommand
- */
-public void validate( UnAssignBillingRunFromInvoiceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Invoice", "validating UnAssignBillingRunFromInvoiceCommand" );
+	/**
+	 * handles unassign BillingRun validation for a Invoice
+	 *
+	 * @param	command UnAssignBillingRunFromInvoiceCommand
+	 */
+	public void validate( UnAssignBillingRunFromInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating UnAssignBillingRunFromInvoiceCommand" );
 
-	if ( command.getInvoiceId() == null )
-	throw new ValidationException( "Invoice", "validating identity on UnAssignBillingRunFromInvoiceCommand" );
-}
+		if ( command.getInvoiceId() == null )
+		throw new ValidationException( "Invoice", "validating identity on UnAssignBillingRunFromInvoiceCommand" );
+	}
 
-		/**
- * handles add to Fees validation for a Invoice
- *
- * @param	command AssignFeesToInvoiceCommand
- */
-public void validate( AssignFeesToInvoiceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Invoice", "validating AssignFeesToInvoiceCommand" );
+	/**
+	 * handles add to Fees validation for a Invoice
+	 *
+	 * @param	command AssignFeesToInvoiceCommand
+	 */
+	public void validate( AssignFeesToInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating AssignFeesToInvoiceCommand" );
 
-	if ( command.getInvoiceId() == null )
-	throw new ValidationException( "Invoice", "validating identity on AssignFeesToInvoiceCommand" );
+		if ( command.getInvoiceId() == null )
+		throw new ValidationException( "Invoice", "validating identity on AssignFeesToInvoiceCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "Invoice", "validating addTo attribute on AssignFeesToInvoiceCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "Invoice", "validating addTo attribute on AssignFeesToInvoiceCommand" );
 
-}
+	}
 
-/**
- * handles remove from Fees validation for a Invoice
- *
- * @param	command RemoveFeesFromInvoiceCommand
- */
-public void validate( RemoveFeesFromInvoiceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("Invoice", "validating RemoveFeesFromInvoiceCommand" );
+	/**
+	 * handles remove from Fees validation for a Invoice
+	 *
+	 * @param	command RemoveFeesFromInvoiceCommand
+	 */
+	public void validate( RemoveFeesFromInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Invoice", "validating RemoveFeesFromInvoiceCommand" );
 
-	if( command.getInvoiceId() == null )
-	throw new ValidationException("Invoice", "validating id on RemoveFeesFromInvoiceCommand" );
+		if( command.getInvoiceId() == null )
+			throw new ValidationException("Invoice", "validating id on RemoveFeesFromInvoiceCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("Invoice", "validating remove from RemoveFeesFromInvoiceCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("Invoice", "validating remove from RemoveFeesFromInvoiceCommand" );
 
-	if( command.getRemoveFrom().getFeeId() == null )
-	throw new ValidationException("Invoice", "validating id on remove from RemoveFeesFromInvoiceCommand" );
-}
+		if( command.getRemoveFrom().getFeeId() == null )
+			throw new ValidationException("Invoice", "validating id on remove from RemoveFeesFromInvoiceCommand" );
+	}
 
 
 }

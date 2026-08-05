@@ -94,55 +94,55 @@ public class AssetAllocationSliceValidator {
 		throw new ValidationException( "AssetAllocationSlice", "validating UpdateAssetAllocationSliceCommand" );
 		if ( assetAllocationSlice.getTargetWeight() == null )
 		throw new ValidationException( "AssetAllocationSlice", "validating method getTargetWeight" );
-}
+	}
 
 /**
  * handles delete validation for a AssetAllocationSlice
  */
-public void validate( DeleteAssetAllocationSliceCommand assetAllocationSlice ) throws ValidationException {
-	if ( assetAllocationSlice == null )
-	throw new ValidationException( "AssetAllocationSlice", "validating DeleteAssetAllocationSliceCommand" );
+	public void validate( DeleteAssetAllocationSliceCommand assetAllocationSlice ) throws ValidationException {
+		if ( assetAllocationSlice == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating DeleteAssetAllocationSliceCommand" );
 
-	if ( assetAllocationSlice.getTargetWeight() == null )
-	throw new ValidationException( "AssetAllocationSlice", "validating getTargetWeight" );
-}
+		if ( assetAllocationSlice.getTargetWeight() == null )
+		throw new ValidationException( "AssetAllocationSlice", "validating getTargetWeight" );
+	}
 
 /**
  * handles fetchOne validation for a AssetAllocationSlice
  */
-public void validate( AssetAllocationSliceFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "AssetAllocationSlice", "validating summary" );
-}
+	public void validate( AssetAllocationSliceFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating summary" );
+	}
 
-/**
- * handles assign ModelPortfolio validation for a AssetAllocationSlice
- *
- * @param	command AssignModelPortfolioToAssetAllocationSliceCommand
- */
-public void validate( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "AssetAllocationSlice", "validating AssignModelPortfolioToAssetAllocationSliceCommand" );
+	/**
+	 * handles assign ModelPortfolio validation for a AssetAllocationSlice
+	 *
+	 * @param	command AssignModelPortfolioToAssetAllocationSliceCommand
+	 */
+	public void validate( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating AssignModelPortfolioToAssetAllocationSliceCommand" );
 
-	if ( command.getAssetAllocationSliceId() == null )
-	throw new ValidationException( "AssetAllocationSlice", "validating identifier on AssignModelPortfolioToAssetAllocationSliceCommand" );
+		if ( command.getAssetAllocationSliceId() == null )
+		throw new ValidationException( "AssetAllocationSlice", "validating identifier on AssignModelPortfolioToAssetAllocationSliceCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "AssetAllocationSlice", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating assignment" );
+	}
 
-/**
- * handles unassign ModelPortfolio validation for a AssetAllocationSlice
- *
- * @param	command UnAssignModelPortfolioFromAssetAllocationSliceCommand
- */
-public void validate( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "AssetAllocationSlice", "validating UnAssignModelPortfolioFromAssetAllocationSliceCommand" );
+	/**
+	 * handles unassign ModelPortfolio validation for a AssetAllocationSlice
+	 *
+	 * @param	command UnAssignModelPortfolioFromAssetAllocationSliceCommand
+	 */
+	public void validate( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating UnAssignModelPortfolioFromAssetAllocationSliceCommand" );
 
-	if ( command.getAssetAllocationSliceId() == null )
-	throw new ValidationException( "AssetAllocationSlice", "validating identity on UnAssignModelPortfolioFromAssetAllocationSliceCommand" );
-}
+		if ( command.getAssetAllocationSliceId() == null )
+		throw new ValidationException( "AssetAllocationSlice", "validating identity on UnAssignModelPortfolioFromAssetAllocationSliceCommand" );
+	}
 
-		
+
 }

@@ -116,139 +116,139 @@ public class TradeValidator {
 		throw new ValidationException( "Trade", "validating method getTradeDate" );
 		if ( trade.getVenue() == null )
 		throw new ValidationException( "Trade", "validating method getVenue" );
-}
+	}
 
 /**
  * handles delete validation for a Trade
  */
-public void validate( DeleteTradeCommand trade ) throws ValidationException {
-	if ( trade == null )
-	throw new ValidationException( "Trade", "validating DeleteTradeCommand" );
+	public void validate( DeleteTradeCommand trade ) throws ValidationException {
+		if ( trade == null )
+			throw new ValidationException( "Trade", "validating DeleteTradeCommand" );
 
-	if ( trade.getVenue() == null )
-	throw new ValidationException( "Trade", "validating getVenue" );
-}
+		if ( trade.getVenue() == null )
+		throw new ValidationException( "Trade", "validating getVenue" );
+	}
 
 /**
  * handles fetchOne validation for a Trade
  */
-public void validate( TradeFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "Trade", "validating summary" );
-}
+	public void validate( TradeFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Trade", "validating summary" );
+	}
 
-/**
- * handles assign Order validation for a Trade
- *
- * @param	command AssignOrderToTradeCommand
- */
-public void validate( AssignOrderToTradeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Trade", "validating AssignOrderToTradeCommand" );
+	/**
+	 * handles assign Order validation for a Trade
+	 *
+	 * @param	command AssignOrderToTradeCommand
+	 */
+	public void validate( AssignOrderToTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating AssignOrderToTradeCommand" );
 
-	if ( command.getTradeId() == null )
-	throw new ValidationException( "Trade", "validating identifier on AssignOrderToTradeCommand" );
+		if ( command.getTradeId() == null )
+		throw new ValidationException( "Trade", "validating identifier on AssignOrderToTradeCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Trade", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Trade", "validating assignment" );
+	}
 
-/**
- * handles unassign Order validation for a Trade
- *
- * @param	command UnAssignOrderFromTradeCommand
- */
-public void validate( UnAssignOrderFromTradeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Trade", "validating UnAssignOrderFromTradeCommand" );
+	/**
+	 * handles unassign Order validation for a Trade
+	 *
+	 * @param	command UnAssignOrderFromTradeCommand
+	 */
+	public void validate( UnAssignOrderFromTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating UnAssignOrderFromTradeCommand" );
 
-	if ( command.getTradeId() == null )
-	throw new ValidationException( "Trade", "validating identity on UnAssignOrderFromTradeCommand" );
-}
-/**
- * handles assign Account validation for a Trade
- *
- * @param	command AssignAccountToTradeCommand
- */
-public void validate( AssignAccountToTradeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Trade", "validating AssignAccountToTradeCommand" );
+		if ( command.getTradeId() == null )
+		throw new ValidationException( "Trade", "validating identity on UnAssignOrderFromTradeCommand" );
+	}
+	/**
+	 * handles assign Account validation for a Trade
+	 *
+	 * @param	command AssignAccountToTradeCommand
+	 */
+	public void validate( AssignAccountToTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating AssignAccountToTradeCommand" );
 
-	if ( command.getTradeId() == null )
-	throw new ValidationException( "Trade", "validating identifier on AssignAccountToTradeCommand" );
+		if ( command.getTradeId() == null )
+		throw new ValidationException( "Trade", "validating identifier on AssignAccountToTradeCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Trade", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Trade", "validating assignment" );
+	}
 
-/**
- * handles unassign Account validation for a Trade
- *
- * @param	command UnAssignAccountFromTradeCommand
- */
-public void validate( UnAssignAccountFromTradeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Trade", "validating UnAssignAccountFromTradeCommand" );
+	/**
+	 * handles unassign Account validation for a Trade
+	 *
+	 * @param	command UnAssignAccountFromTradeCommand
+	 */
+	public void validate( UnAssignAccountFromTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating UnAssignAccountFromTradeCommand" );
 
-	if ( command.getTradeId() == null )
-	throw new ValidationException( "Trade", "validating identity on UnAssignAccountFromTradeCommand" );
-}
-/**
- * handles assign Security validation for a Trade
- *
- * @param	command AssignSecurityToTradeCommand
- */
-public void validate( AssignSecurityToTradeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Trade", "validating AssignSecurityToTradeCommand" );
+		if ( command.getTradeId() == null )
+		throw new ValidationException( "Trade", "validating identity on UnAssignAccountFromTradeCommand" );
+	}
+	/**
+	 * handles assign Security validation for a Trade
+	 *
+	 * @param	command AssignSecurityToTradeCommand
+	 */
+	public void validate( AssignSecurityToTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating AssignSecurityToTradeCommand" );
 
-	if ( command.getTradeId() == null )
-	throw new ValidationException( "Trade", "validating identifier on AssignSecurityToTradeCommand" );
+		if ( command.getTradeId() == null )
+		throw new ValidationException( "Trade", "validating identifier on AssignSecurityToTradeCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Trade", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Trade", "validating assignment" );
+	}
 
-/**
- * handles unassign Security validation for a Trade
- *
- * @param	command UnAssignSecurityFromTradeCommand
- */
-public void validate( UnAssignSecurityFromTradeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Trade", "validating UnAssignSecurityFromTradeCommand" );
+	/**
+	 * handles unassign Security validation for a Trade
+	 *
+	 * @param	command UnAssignSecurityFromTradeCommand
+	 */
+	public void validate( UnAssignSecurityFromTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating UnAssignSecurityFromTradeCommand" );
 
-	if ( command.getTradeId() == null )
-	throw new ValidationException( "Trade", "validating identity on UnAssignSecurityFromTradeCommand" );
-}
-/**
- * handles assign Transaction validation for a Trade
- *
- * @param	command AssignTransactionToTradeCommand
- */
-public void validate( AssignTransactionToTradeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Trade", "validating AssignTransactionToTradeCommand" );
+		if ( command.getTradeId() == null )
+		throw new ValidationException( "Trade", "validating identity on UnAssignSecurityFromTradeCommand" );
+	}
+	/**
+	 * handles assign Transaction validation for a Trade
+	 *
+	 * @param	command AssignTransactionToTradeCommand
+	 */
+	public void validate( AssignTransactionToTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating AssignTransactionToTradeCommand" );
 
-	if ( command.getTradeId() == null )
-	throw new ValidationException( "Trade", "validating identifier on AssignTransactionToTradeCommand" );
+		if ( command.getTradeId() == null )
+		throw new ValidationException( "Trade", "validating identifier on AssignTransactionToTradeCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Trade", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Trade", "validating assignment" );
+	}
 
-/**
- * handles unassign Transaction validation for a Trade
- *
- * @param	command UnAssignTransactionFromTradeCommand
- */
-public void validate( UnAssignTransactionFromTradeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Trade", "validating UnAssignTransactionFromTradeCommand" );
+	/**
+	 * handles unassign Transaction validation for a Trade
+	 *
+	 * @param	command UnAssignTransactionFromTradeCommand
+	 */
+	public void validate( UnAssignTransactionFromTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating UnAssignTransactionFromTradeCommand" );
 
-	if ( command.getTradeId() == null )
-	throw new ValidationException( "Trade", "validating identity on UnAssignTransactionFromTradeCommand" );
-}
+		if ( command.getTradeId() == null )
+		throw new ValidationException( "Trade", "validating identity on UnAssignTransactionFromTradeCommand" );
+	}
 
-		
+
 }

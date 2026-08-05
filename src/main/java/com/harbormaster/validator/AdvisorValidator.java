@@ -110,147 +110,147 @@ public class AdvisorValidator {
 		throw new ValidationException( "Advisor", "validating method getLastName" );
 		if ( advisor.getLicenseNumber() == null )
 		throw new ValidationException( "Advisor", "validating method getLicenseNumber" );
-}
+	}
 
 /**
  * handles delete validation for a Advisor
  */
-public void validate( DeleteAdvisorCommand advisor ) throws ValidationException {
-	if ( advisor == null )
-	throw new ValidationException( "Advisor", "validating DeleteAdvisorCommand" );
+	public void validate( DeleteAdvisorCommand advisor ) throws ValidationException {
+		if ( advisor == null )
+			throw new ValidationException( "Advisor", "validating DeleteAdvisorCommand" );
 
-	if ( advisor.getLicenseNumber() == null )
-	throw new ValidationException( "Advisor", "validating getLicenseNumber" );
-}
+		if ( advisor.getLicenseNumber() == null )
+		throw new ValidationException( "Advisor", "validating getLicenseNumber" );
+	}
 
 /**
  * handles fetchOne validation for a Advisor
  */
-public void validate( AdvisorFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "Advisor", "validating summary" );
-}
+	public void validate( AdvisorFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Advisor", "validating summary" );
+	}
 
-/**
- * handles assign Firm validation for a Advisor
- *
- * @param	command AssignFirmToAdvisorCommand
- */
-public void validate( AssignFirmToAdvisorCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Advisor", "validating AssignFirmToAdvisorCommand" );
+	/**
+	 * handles assign Firm validation for a Advisor
+	 *
+	 * @param	command AssignFirmToAdvisorCommand
+	 */
+	public void validate( AssignFirmToAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating AssignFirmToAdvisorCommand" );
 
-	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identifier on AssignFirmToAdvisorCommand" );
+		if ( command.getAdvisorId() == null )
+		throw new ValidationException( "Advisor", "validating identifier on AssignFirmToAdvisorCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Advisor", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Advisor", "validating assignment" );
+	}
 
-/**
- * handles unassign Firm validation for a Advisor
- *
- * @param	command UnAssignFirmFromAdvisorCommand
- */
-public void validate( UnAssignFirmFromAdvisorCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Advisor", "validating UnAssignFirmFromAdvisorCommand" );
+	/**
+	 * handles unassign Firm validation for a Advisor
+	 *
+	 * @param	command UnAssignFirmFromAdvisorCommand
+	 */
+	public void validate( UnAssignFirmFromAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating UnAssignFirmFromAdvisorCommand" );
 
-	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identity on UnAssignFirmFromAdvisorCommand" );
-}
-/**
- * handles assign Office validation for a Advisor
- *
- * @param	command AssignOfficeToAdvisorCommand
- */
-public void validate( AssignOfficeToAdvisorCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Advisor", "validating AssignOfficeToAdvisorCommand" );
+		if ( command.getAdvisorId() == null )
+		throw new ValidationException( "Advisor", "validating identity on UnAssignFirmFromAdvisorCommand" );
+	}
+	/**
+	 * handles assign Office validation for a Advisor
+	 *
+	 * @param	command AssignOfficeToAdvisorCommand
+	 */
+	public void validate( AssignOfficeToAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating AssignOfficeToAdvisorCommand" );
 
-	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identifier on AssignOfficeToAdvisorCommand" );
+		if ( command.getAdvisorId() == null )
+		throw new ValidationException( "Advisor", "validating identifier on AssignOfficeToAdvisorCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Advisor", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Advisor", "validating assignment" );
+	}
 
-/**
- * handles unassign Office validation for a Advisor
- *
- * @param	command UnAssignOfficeFromAdvisorCommand
- */
-public void validate( UnAssignOfficeFromAdvisorCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Advisor", "validating UnAssignOfficeFromAdvisorCommand" );
+	/**
+	 * handles unassign Office validation for a Advisor
+	 *
+	 * @param	command UnAssignOfficeFromAdvisorCommand
+	 */
+	public void validate( UnAssignOfficeFromAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating UnAssignOfficeFromAdvisorCommand" );
 
-	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identity on UnAssignOfficeFromAdvisorCommand" );
-}
-/**
- * handles assign AdvisoryTeam validation for a Advisor
- *
- * @param	command AssignAdvisoryTeamToAdvisorCommand
- */
-public void validate( AssignAdvisoryTeamToAdvisorCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Advisor", "validating AssignAdvisoryTeamToAdvisorCommand" );
+		if ( command.getAdvisorId() == null )
+		throw new ValidationException( "Advisor", "validating identity on UnAssignOfficeFromAdvisorCommand" );
+	}
+	/**
+	 * handles assign AdvisoryTeam validation for a Advisor
+	 *
+	 * @param	command AssignAdvisoryTeamToAdvisorCommand
+	 */
+	public void validate( AssignAdvisoryTeamToAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating AssignAdvisoryTeamToAdvisorCommand" );
 
-	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identifier on AssignAdvisoryTeamToAdvisorCommand" );
+		if ( command.getAdvisorId() == null )
+		throw new ValidationException( "Advisor", "validating identifier on AssignAdvisoryTeamToAdvisorCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Advisor", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Advisor", "validating assignment" );
+	}
 
-/**
- * handles unassign AdvisoryTeam validation for a Advisor
- *
- * @param	command UnAssignAdvisoryTeamFromAdvisorCommand
- */
-public void validate( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Advisor", "validating UnAssignAdvisoryTeamFromAdvisorCommand" );
+	/**
+	 * handles unassign AdvisoryTeam validation for a Advisor
+	 *
+	 * @param	command UnAssignAdvisoryTeamFromAdvisorCommand
+	 */
+	public void validate( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating UnAssignAdvisoryTeamFromAdvisorCommand" );
 
-	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identity on UnAssignAdvisoryTeamFromAdvisorCommand" );
-}
+		if ( command.getAdvisorId() == null )
+		throw new ValidationException( "Advisor", "validating identity on UnAssignAdvisoryTeamFromAdvisorCommand" );
+	}
 
-		/**
- * handles add to Clients validation for a Advisor
- *
- * @param	command AssignClientsToAdvisorCommand
- */
-public void validate( AssignClientsToAdvisorCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Advisor", "validating AssignClientsToAdvisorCommand" );
+	/**
+	 * handles add to Clients validation for a Advisor
+	 *
+	 * @param	command AssignClientsToAdvisorCommand
+	 */
+	public void validate( AssignClientsToAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating AssignClientsToAdvisorCommand" );
 
-	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identity on AssignClientsToAdvisorCommand" );
+		if ( command.getAdvisorId() == null )
+		throw new ValidationException( "Advisor", "validating identity on AssignClientsToAdvisorCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "Advisor", "validating addTo attribute on AssignClientsToAdvisorCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "Advisor", "validating addTo attribute on AssignClientsToAdvisorCommand" );
 
-}
+	}
 
-/**
- * handles remove from Clients validation for a Advisor
- *
- * @param	command RemoveClientsFromAdvisorCommand
- */
-public void validate( RemoveClientsFromAdvisorCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("Advisor", "validating RemoveClientsFromAdvisorCommand" );
+	/**
+	 * handles remove from Clients validation for a Advisor
+	 *
+	 * @param	command RemoveClientsFromAdvisorCommand
+	 */
+	public void validate( RemoveClientsFromAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Advisor", "validating RemoveClientsFromAdvisorCommand" );
 
-	if( command.getAdvisorId() == null )
-	throw new ValidationException("Advisor", "validating id on RemoveClientsFromAdvisorCommand" );
+		if( command.getAdvisorId() == null )
+			throw new ValidationException("Advisor", "validating id on RemoveClientsFromAdvisorCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("Advisor", "validating remove from RemoveClientsFromAdvisorCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("Advisor", "validating remove from RemoveClientsFromAdvisorCommand" );
 
-	if( command.getRemoveFrom().getClientId() == null )
-	throw new ValidationException("Advisor", "validating id on remove from RemoveClientsFromAdvisorCommand" );
-}
+		if( command.getRemoveFrom().getClientId() == null )
+			throw new ValidationException("Advisor", "validating id on remove from RemoveClientsFromAdvisorCommand" );
+	}
 
 
 }

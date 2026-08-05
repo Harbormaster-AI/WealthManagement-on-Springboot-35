@@ -106,111 +106,111 @@ public class CashMovementValidator {
 		throw new ValidationException( "CashMovement", "validating method getValueDate" );
 		if ( cashMovement.getDescription() == null )
 		throw new ValidationException( "CashMovement", "validating method getDescription" );
-}
+	}
 
 /**
  * handles delete validation for a CashMovement
  */
-public void validate( DeleteCashMovementCommand cashMovement ) throws ValidationException {
-	if ( cashMovement == null )
-	throw new ValidationException( "CashMovement", "validating DeleteCashMovementCommand" );
+	public void validate( DeleteCashMovementCommand cashMovement ) throws ValidationException {
+		if ( cashMovement == null )
+			throw new ValidationException( "CashMovement", "validating DeleteCashMovementCommand" );
 
-	if ( cashMovement.getDescription() == null )
-	throw new ValidationException( "CashMovement", "validating getDescription" );
-}
+		if ( cashMovement.getDescription() == null )
+		throw new ValidationException( "CashMovement", "validating getDescription" );
+	}
 
 /**
  * handles fetchOne validation for a CashMovement
  */
-public void validate( CashMovementFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "CashMovement", "validating summary" );
-}
+	public void validate( CashMovementFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "CashMovement", "validating summary" );
+	}
 
-/**
- * handles assign Account validation for a CashMovement
- *
- * @param	command AssignAccountToCashMovementCommand
- */
-public void validate( AssignAccountToCashMovementCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CashMovement", "validating AssignAccountToCashMovementCommand" );
+	/**
+	 * handles assign Account validation for a CashMovement
+	 *
+	 * @param	command AssignAccountToCashMovementCommand
+	 */
+	public void validate( AssignAccountToCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating AssignAccountToCashMovementCommand" );
 
-	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier on AssignAccountToCashMovementCommand" );
+		if ( command.getCashMovementId() == null )
+		throw new ValidationException( "CashMovement", "validating identifier on AssignAccountToCashMovementCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "CashMovement", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "CashMovement", "validating assignment" );
+	}
 
-/**
- * handles unassign Account validation for a CashMovement
- *
- * @param	command UnAssignAccountFromCashMovementCommand
- */
-public void validate( UnAssignAccountFromCashMovementCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CashMovement", "validating UnAssignAccountFromCashMovementCommand" );
+	/**
+	 * handles unassign Account validation for a CashMovement
+	 *
+	 * @param	command UnAssignAccountFromCashMovementCommand
+	 */
+	public void validate( UnAssignAccountFromCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating UnAssignAccountFromCashMovementCommand" );
 
-	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identity on UnAssignAccountFromCashMovementCommand" );
-}
-/**
- * handles assign RelatedInstruction validation for a CashMovement
- *
- * @param	command AssignRelatedInstructionToCashMovementCommand
- */
-public void validate( AssignRelatedInstructionToCashMovementCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CashMovement", "validating AssignRelatedInstructionToCashMovementCommand" );
+		if ( command.getCashMovementId() == null )
+		throw new ValidationException( "CashMovement", "validating identity on UnAssignAccountFromCashMovementCommand" );
+	}
+	/**
+	 * handles assign RelatedInstruction validation for a CashMovement
+	 *
+	 * @param	command AssignRelatedInstructionToCashMovementCommand
+	 */
+	public void validate( AssignRelatedInstructionToCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating AssignRelatedInstructionToCashMovementCommand" );
 
-	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier on AssignRelatedInstructionToCashMovementCommand" );
+		if ( command.getCashMovementId() == null )
+		throw new ValidationException( "CashMovement", "validating identifier on AssignRelatedInstructionToCashMovementCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "CashMovement", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "CashMovement", "validating assignment" );
+	}
 
-/**
- * handles unassign RelatedInstruction validation for a CashMovement
- *
- * @param	command UnAssignRelatedInstructionFromCashMovementCommand
- */
-public void validate( UnAssignRelatedInstructionFromCashMovementCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CashMovement", "validating UnAssignRelatedInstructionFromCashMovementCommand" );
+	/**
+	 * handles unassign RelatedInstruction validation for a CashMovement
+	 *
+	 * @param	command UnAssignRelatedInstructionFromCashMovementCommand
+	 */
+	public void validate( UnAssignRelatedInstructionFromCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating UnAssignRelatedInstructionFromCashMovementCommand" );
 
-	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedInstructionFromCashMovementCommand" );
-}
-/**
- * handles assign RelatedTransaction validation for a CashMovement
- *
- * @param	command AssignRelatedTransactionToCashMovementCommand
- */
-public void validate( AssignRelatedTransactionToCashMovementCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CashMovement", "validating AssignRelatedTransactionToCashMovementCommand" );
+		if ( command.getCashMovementId() == null )
+		throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedInstructionFromCashMovementCommand" );
+	}
+	/**
+	 * handles assign RelatedTransaction validation for a CashMovement
+	 *
+	 * @param	command AssignRelatedTransactionToCashMovementCommand
+	 */
+	public void validate( AssignRelatedTransactionToCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating AssignRelatedTransactionToCashMovementCommand" );
 
-	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier on AssignRelatedTransactionToCashMovementCommand" );
+		if ( command.getCashMovementId() == null )
+		throw new ValidationException( "CashMovement", "validating identifier on AssignRelatedTransactionToCashMovementCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "CashMovement", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "CashMovement", "validating assignment" );
+	}
 
-/**
- * handles unassign RelatedTransaction validation for a CashMovement
- *
- * @param	command UnAssignRelatedTransactionFromCashMovementCommand
- */
-public void validate( UnAssignRelatedTransactionFromCashMovementCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "CashMovement", "validating UnAssignRelatedTransactionFromCashMovementCommand" );
+	/**
+	 * handles unassign RelatedTransaction validation for a CashMovement
+	 *
+	 * @param	command UnAssignRelatedTransactionFromCashMovementCommand
+	 */
+	public void validate( UnAssignRelatedTransactionFromCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating UnAssignRelatedTransactionFromCashMovementCommand" );
 
-	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedTransactionFromCashMovementCommand" );
-}
+		if ( command.getCashMovementId() == null )
+		throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedTransactionFromCashMovementCommand" );
+	}
 
-		
+
 }

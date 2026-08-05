@@ -106,91 +106,91 @@ public class BillingRunValidator {
 		throw new ValidationException( "BillingRun", "validating method getPeriodStart" );
 		if ( billingRun.getPeriodEnd() == null )
 		throw new ValidationException( "BillingRun", "validating method getPeriodEnd" );
-}
+	}
 
 /**
  * handles delete validation for a BillingRun
  */
-public void validate( DeleteBillingRunCommand billingRun ) throws ValidationException {
-	if ( billingRun == null )
-	throw new ValidationException( "BillingRun", "validating DeleteBillingRunCommand" );
+	public void validate( DeleteBillingRunCommand billingRun ) throws ValidationException {
+		if ( billingRun == null )
+			throw new ValidationException( "BillingRun", "validating DeleteBillingRunCommand" );
 
-	if ( billingRun.getPeriodEnd() == null )
-	throw new ValidationException( "BillingRun", "validating getPeriodEnd" );
-}
+		if ( billingRun.getPeriodEnd() == null )
+		throw new ValidationException( "BillingRun", "validating getPeriodEnd" );
+	}
 
 /**
  * handles fetchOne validation for a BillingRun
  */
-public void validate( BillingRunFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "BillingRun", "validating summary" );
-}
+	public void validate( BillingRunFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "BillingRun", "validating summary" );
+	}
 
-/**
- * handles assign FeeSchedule validation for a BillingRun
- *
- * @param	command AssignFeeScheduleToBillingRunCommand
- */
-public void validate( AssignFeeScheduleToBillingRunCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "BillingRun", "validating AssignFeeScheduleToBillingRunCommand" );
+	/**
+	 * handles assign FeeSchedule validation for a BillingRun
+	 *
+	 * @param	command AssignFeeScheduleToBillingRunCommand
+	 */
+	public void validate( AssignFeeScheduleToBillingRunCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "BillingRun", "validating AssignFeeScheduleToBillingRunCommand" );
 
-	if ( command.getBillingRunId() == null )
-	throw new ValidationException( "BillingRun", "validating identifier on AssignFeeScheduleToBillingRunCommand" );
+		if ( command.getBillingRunId() == null )
+		throw new ValidationException( "BillingRun", "validating identifier on AssignFeeScheduleToBillingRunCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "BillingRun", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "BillingRun", "validating assignment" );
+	}
 
-/**
- * handles unassign FeeSchedule validation for a BillingRun
- *
- * @param	command UnAssignFeeScheduleFromBillingRunCommand
- */
-public void validate( UnAssignFeeScheduleFromBillingRunCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "BillingRun", "validating UnAssignFeeScheduleFromBillingRunCommand" );
+	/**
+	 * handles unassign FeeSchedule validation for a BillingRun
+	 *
+	 * @param	command UnAssignFeeScheduleFromBillingRunCommand
+	 */
+	public void validate( UnAssignFeeScheduleFromBillingRunCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "BillingRun", "validating UnAssignFeeScheduleFromBillingRunCommand" );
 
-	if ( command.getBillingRunId() == null )
-	throw new ValidationException( "BillingRun", "validating identity on UnAssignFeeScheduleFromBillingRunCommand" );
-}
+		if ( command.getBillingRunId() == null )
+		throw new ValidationException( "BillingRun", "validating identity on UnAssignFeeScheduleFromBillingRunCommand" );
+	}
 
-		/**
- * handles add to Invoices validation for a BillingRun
- *
- * @param	command AssignInvoicesToBillingRunCommand
- */
-public void validate( AssignInvoicesToBillingRunCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "BillingRun", "validating AssignInvoicesToBillingRunCommand" );
+	/**
+	 * handles add to Invoices validation for a BillingRun
+	 *
+	 * @param	command AssignInvoicesToBillingRunCommand
+	 */
+	public void validate( AssignInvoicesToBillingRunCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "BillingRun", "validating AssignInvoicesToBillingRunCommand" );
 
-	if ( command.getBillingRunId() == null )
-	throw new ValidationException( "BillingRun", "validating identity on AssignInvoicesToBillingRunCommand" );
+		if ( command.getBillingRunId() == null )
+		throw new ValidationException( "BillingRun", "validating identity on AssignInvoicesToBillingRunCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "BillingRun", "validating addTo attribute on AssignInvoicesToBillingRunCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "BillingRun", "validating addTo attribute on AssignInvoicesToBillingRunCommand" );
 
-}
+	}
 
-/**
- * handles remove from Invoices validation for a BillingRun
- *
- * @param	command RemoveInvoicesFromBillingRunCommand
- */
-public void validate( RemoveInvoicesFromBillingRunCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("BillingRun", "validating RemoveInvoicesFromBillingRunCommand" );
+	/**
+	 * handles remove from Invoices validation for a BillingRun
+	 *
+	 * @param	command RemoveInvoicesFromBillingRunCommand
+	 */
+	public void validate( RemoveInvoicesFromBillingRunCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("BillingRun", "validating RemoveInvoicesFromBillingRunCommand" );
 
-	if( command.getBillingRunId() == null )
-	throw new ValidationException("BillingRun", "validating id on RemoveInvoicesFromBillingRunCommand" );
+		if( command.getBillingRunId() == null )
+			throw new ValidationException("BillingRun", "validating id on RemoveInvoicesFromBillingRunCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("BillingRun", "validating remove from RemoveInvoicesFromBillingRunCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("BillingRun", "validating remove from RemoveInvoicesFromBillingRunCommand" );
 
-	if( command.getRemoveFrom().getInvoiceId() == null )
-	throw new ValidationException("BillingRun", "validating id on remove from RemoveInvoicesFromBillingRunCommand" );
-}
+		if( command.getRemoveFrom().getInvoiceId() == null )
+			throw new ValidationException("BillingRun", "validating id on remove from RemoveInvoicesFromBillingRunCommand" );
+	}
 
 
 }

@@ -104,99 +104,99 @@ public class ModelPortfolioValidator {
 		throw new ValidationException( "ModelPortfolio", "validating method getName" );
 		if ( modelPortfolio.getObjective() == null )
 		throw new ValidationException( "ModelPortfolio", "validating method getObjective" );
-}
+	}
 
 /**
  * handles delete validation for a ModelPortfolio
  */
-public void validate( DeleteModelPortfolioCommand modelPortfolio ) throws ValidationException {
-	if ( modelPortfolio == null )
-	throw new ValidationException( "ModelPortfolio", "validating DeleteModelPortfolioCommand" );
+	public void validate( DeleteModelPortfolioCommand modelPortfolio ) throws ValidationException {
+		if ( modelPortfolio == null )
+			throw new ValidationException( "ModelPortfolio", "validating DeleteModelPortfolioCommand" );
 
-	if ( modelPortfolio.getObjective() == null )
-	throw new ValidationException( "ModelPortfolio", "validating getObjective" );
-}
+		if ( modelPortfolio.getObjective() == null )
+		throw new ValidationException( "ModelPortfolio", "validating getObjective" );
+	}
 
 /**
  * handles fetchOne validation for a ModelPortfolio
  */
-public void validate( ModelPortfolioFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "ModelPortfolio", "validating summary" );
-}
+	public void validate( ModelPortfolioFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "ModelPortfolio", "validating summary" );
+	}
 
 
-		/**
- * handles add to Allocations validation for a ModelPortfolio
- *
- * @param	command AssignAllocationsToModelPortfolioCommand
- */
-public void validate( AssignAllocationsToModelPortfolioCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ModelPortfolio", "validating AssignAllocationsToModelPortfolioCommand" );
+	/**
+	 * handles add to Allocations validation for a ModelPortfolio
+	 *
+	 * @param	command AssignAllocationsToModelPortfolioCommand
+	 */
+	public void validate( AssignAllocationsToModelPortfolioCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ModelPortfolio", "validating AssignAllocationsToModelPortfolioCommand" );
 
-	if ( command.getModelPortfolioId() == null )
-	throw new ValidationException( "ModelPortfolio", "validating identity on AssignAllocationsToModelPortfolioCommand" );
+		if ( command.getModelPortfolioId() == null )
+		throw new ValidationException( "ModelPortfolio", "validating identity on AssignAllocationsToModelPortfolioCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "ModelPortfolio", "validating addTo attribute on AssignAllocationsToModelPortfolioCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "ModelPortfolio", "validating addTo attribute on AssignAllocationsToModelPortfolioCommand" );
 
-}
+	}
 
-/**
- * handles remove from Allocations validation for a ModelPortfolio
- *
- * @param	command RemoveAllocationsFromModelPortfolioCommand
- */
-public void validate( RemoveAllocationsFromModelPortfolioCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("ModelPortfolio", "validating RemoveAllocationsFromModelPortfolioCommand" );
+	/**
+	 * handles remove from Allocations validation for a ModelPortfolio
+	 *
+	 * @param	command RemoveAllocationsFromModelPortfolioCommand
+	 */
+	public void validate( RemoveAllocationsFromModelPortfolioCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("ModelPortfolio", "validating RemoveAllocationsFromModelPortfolioCommand" );
 
-	if( command.getModelPortfolioId() == null )
-	throw new ValidationException("ModelPortfolio", "validating id on RemoveAllocationsFromModelPortfolioCommand" );
+		if( command.getModelPortfolioId() == null )
+			throw new ValidationException("ModelPortfolio", "validating id on RemoveAllocationsFromModelPortfolioCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("ModelPortfolio", "validating remove from RemoveAllocationsFromModelPortfolioCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("ModelPortfolio", "validating remove from RemoveAllocationsFromModelPortfolioCommand" );
 
-	if( command.getRemoveFrom().getAssetAllocationSliceId() == null )
-	throw new ValidationException("ModelPortfolio", "validating id on remove from RemoveAllocationsFromModelPortfolioCommand" );
-}
+		if( command.getRemoveFrom().getAssetAllocationSliceId() == null )
+			throw new ValidationException("ModelPortfolio", "validating id on remove from RemoveAllocationsFromModelPortfolioCommand" );
+	}
 
-/**
- * handles add to Portfolios validation for a ModelPortfolio
- *
- * @param	command AssignPortfoliosToModelPortfolioCommand
- */
-public void validate( AssignPortfoliosToModelPortfolioCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "ModelPortfolio", "validating AssignPortfoliosToModelPortfolioCommand" );
+	/**
+	 * handles add to Portfolios validation for a ModelPortfolio
+	 *
+	 * @param	command AssignPortfoliosToModelPortfolioCommand
+	 */
+	public void validate( AssignPortfoliosToModelPortfolioCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ModelPortfolio", "validating AssignPortfoliosToModelPortfolioCommand" );
 
-	if ( command.getModelPortfolioId() == null )
-	throw new ValidationException( "ModelPortfolio", "validating identity on AssignPortfoliosToModelPortfolioCommand" );
+		if ( command.getModelPortfolioId() == null )
+		throw new ValidationException( "ModelPortfolio", "validating identity on AssignPortfoliosToModelPortfolioCommand" );
 
-	if ( command.command.getAddTo() == null )
-		throw new ValidationException( "ModelPortfolio", "validating addTo attribute on AssignPortfoliosToModelPortfolioCommand" );
+		if ( command.getAddTo() == null )
+			throw new ValidationException( "ModelPortfolio", "validating addTo attribute on AssignPortfoliosToModelPortfolioCommand" );
 
-}
+	}
 
-/**
- * handles remove from Portfolios validation for a ModelPortfolio
- *
- * @param	command RemovePortfoliosFromModelPortfolioCommand
- */
-public void validate( RemovePortfoliosFromModelPortfolioCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException("ModelPortfolio", "validating RemovePortfoliosFromModelPortfolioCommand" );
+	/**
+	 * handles remove from Portfolios validation for a ModelPortfolio
+	 *
+	 * @param	command RemovePortfoliosFromModelPortfolioCommand
+	 */
+	public void validate( RemovePortfoliosFromModelPortfolioCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("ModelPortfolio", "validating RemovePortfoliosFromModelPortfolioCommand" );
 
-	if( command.getModelPortfolioId() == null )
-	throw new ValidationException("ModelPortfolio", "validating id on RemovePortfoliosFromModelPortfolioCommand" );
+		if( command.getModelPortfolioId() == null )
+			throw new ValidationException("ModelPortfolio", "validating id on RemovePortfoliosFromModelPortfolioCommand" );
 
-	if( command.getRemoveFrom() == null )
-		throw new ValidationException("ModelPortfolio", "validating remove from RemovePortfoliosFromModelPortfolioCommand" );
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException("ModelPortfolio", "validating remove from RemovePortfoliosFromModelPortfolioCommand" );
 
-	if( command.getRemoveFrom().getPortfolioId() == null )
-	throw new ValidationException("ModelPortfolio", "validating id on remove from RemovePortfoliosFromModelPortfolioCommand" );
-}
+		if( command.getRemoveFrom().getPortfolioId() == null )
+			throw new ValidationException("ModelPortfolio", "validating id on remove from RemovePortfoliosFromModelPortfolioCommand" );
+	}
 
 
 }

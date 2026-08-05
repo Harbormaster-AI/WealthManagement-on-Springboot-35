@@ -102,55 +102,55 @@ public class TaxLotValidator {
 		throw new ValidationException( "TaxLot", "validating method getQuantity" );
 		if ( taxLot.getUnitCost() == null )
 		throw new ValidationException( "TaxLot", "validating method getUnitCost" );
-}
+	}
 
 /**
  * handles delete validation for a TaxLot
  */
-public void validate( DeleteTaxLotCommand taxLot ) throws ValidationException {
-	if ( taxLot == null )
-	throw new ValidationException( "TaxLot", "validating DeleteTaxLotCommand" );
+	public void validate( DeleteTaxLotCommand taxLot ) throws ValidationException {
+		if ( taxLot == null )
+			throw new ValidationException( "TaxLot", "validating DeleteTaxLotCommand" );
 
-	if ( taxLot.getUnitCost() == null )
-	throw new ValidationException( "TaxLot", "validating getUnitCost" );
-}
+		if ( taxLot.getUnitCost() == null )
+		throw new ValidationException( "TaxLot", "validating getUnitCost" );
+	}
 
 /**
  * handles fetchOne validation for a TaxLot
  */
-public void validate( TaxLotFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "TaxLot", "validating summary" );
-}
+	public void validate( TaxLotFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "TaxLot", "validating summary" );
+	}
 
-/**
- * handles assign Position validation for a TaxLot
- *
- * @param	command AssignPositionToTaxLotCommand
- */
-public void validate( AssignPositionToTaxLotCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "TaxLot", "validating AssignPositionToTaxLotCommand" );
+	/**
+	 * handles assign Position validation for a TaxLot
+	 *
+	 * @param	command AssignPositionToTaxLotCommand
+	 */
+	public void validate( AssignPositionToTaxLotCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "TaxLot", "validating AssignPositionToTaxLotCommand" );
 
-	if ( command.getTaxLotId() == null )
-	throw new ValidationException( "TaxLot", "validating identifier on AssignPositionToTaxLotCommand" );
+		if ( command.getTaxLotId() == null )
+		throw new ValidationException( "TaxLot", "validating identifier on AssignPositionToTaxLotCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "TaxLot", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "TaxLot", "validating assignment" );
+	}
 
-/**
- * handles unassign Position validation for a TaxLot
- *
- * @param	command UnAssignPositionFromTaxLotCommand
- */
-public void validate( UnAssignPositionFromTaxLotCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "TaxLot", "validating UnAssignPositionFromTaxLotCommand" );
+	/**
+	 * handles unassign Position validation for a TaxLot
+	 *
+	 * @param	command UnAssignPositionFromTaxLotCommand
+	 */
+	public void validate( UnAssignPositionFromTaxLotCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "TaxLot", "validating UnAssignPositionFromTaxLotCommand" );
 
-	if ( command.getTaxLotId() == null )
-	throw new ValidationException( "TaxLot", "validating identity on UnAssignPositionFromTaxLotCommand" );
-}
+		if ( command.getTaxLotId() == null )
+		throw new ValidationException( "TaxLot", "validating identity on UnAssignPositionFromTaxLotCommand" );
+	}
 
-		
+
 }

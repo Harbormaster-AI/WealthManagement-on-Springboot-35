@@ -104,83 +104,83 @@ public class FeeValidator {
 		throw new ValidationException( "Fee", "validating method getAmount" );
 		if ( fee.getDescription() == null )
 		throw new ValidationException( "Fee", "validating method getDescription" );
-}
+	}
 
 /**
  * handles delete validation for a Fee
  */
-public void validate( DeleteFeeCommand fee ) throws ValidationException {
-	if ( fee == null )
-	throw new ValidationException( "Fee", "validating DeleteFeeCommand" );
+	public void validate( DeleteFeeCommand fee ) throws ValidationException {
+		if ( fee == null )
+			throw new ValidationException( "Fee", "validating DeleteFeeCommand" );
 
-	if ( fee.getDescription() == null )
-	throw new ValidationException( "Fee", "validating getDescription" );
-}
+		if ( fee.getDescription() == null )
+		throw new ValidationException( "Fee", "validating getDescription" );
+	}
 
 /**
  * handles fetchOne validation for a Fee
  */
-public void validate( FeeFetchOneSummary summary ) throws ValidationException {
-	if ( summary == null )
-		throw new ValidationException( "Fee", "validating summary" );
-}
+	public void validate( FeeFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Fee", "validating summary" );
+	}
 
-/**
- * handles assign Account validation for a Fee
- *
- * @param	command AssignAccountToFeeCommand
- */
-public void validate( AssignAccountToFeeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Fee", "validating AssignAccountToFeeCommand" );
+	/**
+	 * handles assign Account validation for a Fee
+	 *
+	 * @param	command AssignAccountToFeeCommand
+	 */
+	public void validate( AssignAccountToFeeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Fee", "validating AssignAccountToFeeCommand" );
 
-	if ( command.getFeeId() == null )
-	throw new ValidationException( "Fee", "validating identifier on AssignAccountToFeeCommand" );
+		if ( command.getFeeId() == null )
+		throw new ValidationException( "Fee", "validating identifier on AssignAccountToFeeCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Fee", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Fee", "validating assignment" );
+	}
 
-/**
- * handles unassign Account validation for a Fee
- *
- * @param	command UnAssignAccountFromFeeCommand
- */
-public void validate( UnAssignAccountFromFeeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Fee", "validating UnAssignAccountFromFeeCommand" );
+	/**
+	 * handles unassign Account validation for a Fee
+	 *
+	 * @param	command UnAssignAccountFromFeeCommand
+	 */
+	public void validate( UnAssignAccountFromFeeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Fee", "validating UnAssignAccountFromFeeCommand" );
 
-	if ( command.getFeeId() == null )
-	throw new ValidationException( "Fee", "validating identity on UnAssignAccountFromFeeCommand" );
-}
-/**
- * handles assign Invoice validation for a Fee
- *
- * @param	command AssignInvoiceToFeeCommand
- */
-public void validate( AssignInvoiceToFeeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Fee", "validating AssignInvoiceToFeeCommand" );
+		if ( command.getFeeId() == null )
+		throw new ValidationException( "Fee", "validating identity on UnAssignAccountFromFeeCommand" );
+	}
+	/**
+	 * handles assign Invoice validation for a Fee
+	 *
+	 * @param	command AssignInvoiceToFeeCommand
+	 */
+	public void validate( AssignInvoiceToFeeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Fee", "validating AssignInvoiceToFeeCommand" );
 
-	if ( command.getFeeId() == null )
-	throw new ValidationException( "Fee", "validating identifier on AssignInvoiceToFeeCommand" );
+		if ( command.getFeeId() == null )
+		throw new ValidationException( "Fee", "validating identifier on AssignInvoiceToFeeCommand" );
 
-	if ( command.getAssignment() == null )
-		throw new ValidationException( "Fee", "validating assignment" );
-}
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Fee", "validating assignment" );
+	}
 
-/**
- * handles unassign Invoice validation for a Fee
- *
- * @param	command UnAssignInvoiceFromFeeCommand
- */
-public void validate( UnAssignInvoiceFromFeeCommand command ) throws ValidationException {
-	if ( command == null )
-		throw new ValidationException( "Fee", "validating UnAssignInvoiceFromFeeCommand" );
+	/**
+	 * handles unassign Invoice validation for a Fee
+	 *
+	 * @param	command UnAssignInvoiceFromFeeCommand
+	 */
+	public void validate( UnAssignInvoiceFromFeeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Fee", "validating UnAssignInvoiceFromFeeCommand" );
 
-	if ( command.getFeeId() == null )
-	throw new ValidationException( "Fee", "validating identity on UnAssignInvoiceFromFeeCommand" );
-}
+		if ( command.getFeeId() == null )
+		throw new ValidationException( "Fee", "validating identity on UnAssignInvoiceFromFeeCommand" );
+	}
 
-		
+
 }

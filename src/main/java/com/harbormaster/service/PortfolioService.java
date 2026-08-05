@@ -211,29 +211,20 @@ public class PortfolioService
 	public Portfolio getPortfolio( PortfolioFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "PortfolioFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "PortfolioFetchOneSummary arg cannot be null" );
 
 		Portfolio entity = null;
 		UUID id = summary.getPortfolioId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Portfolio using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Portfolio with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Portfolio using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

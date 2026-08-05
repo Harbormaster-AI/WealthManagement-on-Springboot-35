@@ -208,29 +208,20 @@ public class TransactionService
 	public Transaction getTransaction( TransactionFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "TransactionFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "TransactionFetchOneSummary arg cannot be null" );
 
 		Transaction entity = null;
 		UUID id = summary.getTransactionId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Transaction using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Transaction with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Transaction using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

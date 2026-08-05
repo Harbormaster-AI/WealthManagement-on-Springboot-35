@@ -205,29 +205,20 @@ public class CashMovementService
 	public CashMovement getCashMovement( CashMovementFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "CashMovementFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "CashMovementFetchOneSummary arg cannot be null" );
 
 		CashMovement entity = null;
 		UUID id = summary.getCashMovementId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a CashMovement using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate CashMovement with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a CashMovement using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

@@ -207,29 +207,20 @@ public class InvoiceService
 	public Invoice getInvoice( InvoiceFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "InvoiceFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "InvoiceFetchOneSummary arg cannot be null" );
 
 		Invoice entity = null;
 		UUID id = summary.getInvoiceId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Invoice using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Invoice with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Invoice using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

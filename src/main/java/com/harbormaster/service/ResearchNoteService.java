@@ -206,29 +206,20 @@ public class ResearchNoteService
 	public ResearchNote getResearchNote( ResearchNoteFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "ResearchNoteFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "ResearchNoteFetchOneSummary arg cannot be null" );
 
 		ResearchNote entity = null;
 		UUID id = summary.getResearchNoteId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a ResearchNote using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate ResearchNote with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a ResearchNote using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

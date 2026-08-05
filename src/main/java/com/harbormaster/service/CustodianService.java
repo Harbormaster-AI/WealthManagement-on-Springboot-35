@@ -202,29 +202,20 @@ public class CustodianService
 	public Custodian getCustodian( CustodianFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "CustodianFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "CustodianFetchOneSummary arg cannot be null" );
 
 		Custodian entity = null;
 		UUID id = summary.getCustodianId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Custodian using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Custodian with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Custodian using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

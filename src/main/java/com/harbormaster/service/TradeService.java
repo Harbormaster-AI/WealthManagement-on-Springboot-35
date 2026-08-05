@@ -210,29 +210,20 @@ public class TradeService
 	public Trade getTrade( TradeFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "TradeFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "TradeFetchOneSummary arg cannot be null" );
 
 		Trade entity = null;
 		UUID id = summary.getTradeId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Trade using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Trade with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Trade using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

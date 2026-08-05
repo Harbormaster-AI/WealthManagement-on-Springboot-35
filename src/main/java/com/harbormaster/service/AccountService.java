@@ -218,29 +218,20 @@ public class AccountService
 	public Account getAccount( AccountFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "AccountFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "AccountFetchOneSummary arg cannot be null" );
 
 		Account entity = null;
 		UUID id = summary.getAccountId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Account using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Account with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Account using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

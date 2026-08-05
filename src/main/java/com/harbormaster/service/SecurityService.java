@@ -213,29 +213,20 @@ public class SecurityService
 	public Security getSecurity( SecurityFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "SecurityFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "SecurityFetchOneSummary arg cannot be null" );
 
 		Security entity = null;
 		UUID id = summary.getSecurityId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Security using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Security with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Security using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

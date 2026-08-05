@@ -203,29 +203,20 @@ public class ComplianceRuleService
 	public ComplianceRule getComplianceRule( ComplianceRuleFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "ComplianceRuleFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "ComplianceRuleFetchOneSummary arg cannot be null" );
 
 		ComplianceRule entity = null;
 		UUID id = summary.getComplianceRuleId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a ComplianceRule using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate ComplianceRule with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a ComplianceRule using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

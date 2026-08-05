@@ -206,29 +206,20 @@ public class AdvisorService
 	public Advisor getAdvisor( AdvisorFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "AdvisorFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "AdvisorFetchOneSummary arg cannot be null" );
 
 		Advisor entity = null;
 		UUID id = summary.getAdvisorId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Advisor using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Advisor with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Advisor using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

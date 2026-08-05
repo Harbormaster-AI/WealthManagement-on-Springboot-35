@@ -207,29 +207,20 @@ public class WealthGoalService
 	public WealthGoal getWealthGoal( WealthGoalFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "WealthGoalFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "WealthGoalFetchOneSummary arg cannot be null" );
 
 		WealthGoal entity = null;
 		UUID id = summary.getWealthGoalId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a WealthGoal using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate WealthGoal with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a WealthGoal using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

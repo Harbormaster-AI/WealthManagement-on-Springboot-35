@@ -200,29 +200,20 @@ public class AdvisoryTeamService
 	public AdvisoryTeam getAdvisoryTeam( AdvisoryTeamFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "AdvisoryTeamFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "AdvisoryTeamFetchOneSummary arg cannot be null" );
 
 		AdvisoryTeam entity = null;
 		UUID id = summary.getAdvisoryTeamId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a AdvisoryTeam using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate AdvisoryTeam with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a AdvisoryTeam using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

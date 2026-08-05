@@ -204,29 +204,20 @@ public class KycRecordService
 	public KycRecord getKycRecord( KycRecordFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "KycRecordFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "KycRecordFetchOneSummary arg cannot be null" );
 
 		KycRecord entity = null;
 		UUID id = summary.getKycRecordId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a KycRecord using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate KycRecord with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a KycRecord using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

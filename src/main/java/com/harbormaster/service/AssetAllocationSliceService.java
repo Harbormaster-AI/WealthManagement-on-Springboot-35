@@ -199,29 +199,20 @@ public class AssetAllocationSliceService
 	public AssetAllocationSlice getAssetAllocationSlice( AssetAllocationSliceFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "AssetAllocationSliceFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "AssetAllocationSliceFetchOneSummary arg cannot be null" );
 
 		AssetAllocationSlice entity = null;
 		UUID id = summary.getAssetAllocationSliceId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a AssetAllocationSlice using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate AssetAllocationSlice with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a AssetAllocationSlice using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

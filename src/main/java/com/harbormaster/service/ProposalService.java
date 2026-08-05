@@ -208,29 +208,20 @@ public class ProposalService
 	public Proposal getProposal( ProposalFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "ProposalFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "ProposalFetchOneSummary arg cannot be null" );
 
 		Proposal entity = null;
 		UUID id = summary.getProposalId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Proposal using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Proposal with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Proposal using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

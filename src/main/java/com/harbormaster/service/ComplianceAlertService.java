@@ -206,29 +206,20 @@ public class ComplianceAlertService
 	public ComplianceAlert getComplianceAlert( ComplianceAlertFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "ComplianceAlertFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "ComplianceAlertFetchOneSummary arg cannot be null" );
 
 		ComplianceAlert entity = null;
 		UUID id = summary.getComplianceAlertId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a ComplianceAlert using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate ComplianceAlert with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a ComplianceAlert using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

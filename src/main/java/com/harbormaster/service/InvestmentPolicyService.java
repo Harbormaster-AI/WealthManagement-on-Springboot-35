@@ -203,29 +203,20 @@ public class InvestmentPolicyService
 	public InvestmentPolicy getInvestmentPolicy( InvestmentPolicyFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "InvestmentPolicyFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "InvestmentPolicyFetchOneSummary arg cannot be null" );
 
 		InvestmentPolicy entity = null;
 		UUID id = summary.getInvestmentPolicyId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a InvestmentPolicy using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate InvestmentPolicy with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a InvestmentPolicy using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

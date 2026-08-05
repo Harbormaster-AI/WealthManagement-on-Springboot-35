@@ -201,29 +201,20 @@ public class MarketPriceService
 	public MarketPrice getMarketPrice( MarketPriceFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "MarketPriceFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "MarketPriceFetchOneSummary arg cannot be null" );
 
 		MarketPrice entity = null;
 		UUID id = summary.getMarketPriceId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a MarketPrice using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate MarketPrice with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a MarketPrice using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

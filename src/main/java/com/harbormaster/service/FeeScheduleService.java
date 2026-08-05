@@ -206,29 +206,20 @@ public class FeeScheduleService
 	public FeeSchedule getFeeSchedule( FeeScheduleFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "FeeScheduleFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "FeeScheduleFetchOneSummary arg cannot be null" );
 
 		FeeSchedule entity = null;
 		UUID id = summary.getFeeScheduleId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a FeeSchedule using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate FeeSchedule with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a FeeSchedule using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

@@ -202,29 +202,20 @@ public class ModelPortfolioService
 	public ModelPortfolio getModelPortfolio( ModelPortfolioFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "ModelPortfolioFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "ModelPortfolioFetchOneSummary arg cannot be null" );
 
 		ModelPortfolio entity = null;
 		UUID id = summary.getModelPortfolioId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a ModelPortfolio using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate ModelPortfolio with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a ModelPortfolio using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

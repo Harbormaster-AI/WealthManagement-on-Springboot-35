@@ -210,29 +210,20 @@ public class ClientService
 	public Client getClient( ClientFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "ClientFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "ClientFetchOneSummary arg cannot be null" );
 
 		Client entity = null;
 		UUID id = summary.getClientId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Client using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Client with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Client using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

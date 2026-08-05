@@ -204,29 +204,20 @@ public class BillingRunService
 	public BillingRun getBillingRun( BillingRunFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "BillingRunFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "BillingRunFetchOneSummary arg cannot be null" );
 
 		BillingRun entity = null;
 		UUID id = summary.getBillingRunId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a BillingRun using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate BillingRun with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a BillingRun using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

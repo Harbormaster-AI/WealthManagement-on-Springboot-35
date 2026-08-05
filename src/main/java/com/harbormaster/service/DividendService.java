@@ -199,29 +199,20 @@ public class DividendService
 	public Dividend getDividend( DividendFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "DividendFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "DividendFetchOneSummary arg cannot be null" );
 
 		Dividend entity = null;
 		UUID id = summary.getDividendId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Dividend using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Dividend with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Dividend using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

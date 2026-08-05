@@ -201,29 +201,20 @@ public class TaxLotService
 	public TaxLot getTaxLot( TaxLotFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "TaxLotFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "TaxLotFetchOneSummary arg cannot be null" );
 
 		TaxLot entity = null;
 		UUID id = summary.getTaxLotId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a TaxLot using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate TaxLot with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a TaxLot using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

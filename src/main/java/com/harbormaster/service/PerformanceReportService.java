@@ -206,29 +206,20 @@ public class PerformanceReportService
 	public PerformanceReport getPerformanceReport( PerformanceReportFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "PerformanceReportFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "PerformanceReportFetchOneSummary arg cannot be null" );
 
 		PerformanceReport entity = null;
 		UUID id = summary.getPerformanceReportId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a PerformanceReport using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate PerformanceReport with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a PerformanceReport using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

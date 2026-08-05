@@ -204,29 +204,20 @@ public class RiskAssessmentService
 	public RiskAssessment getRiskAssessment( RiskAssessmentFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "RiskAssessmentFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "RiskAssessmentFetchOneSummary arg cannot be null" );
 
 		RiskAssessment entity = null;
 		UUID id = summary.getRiskAssessmentId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a RiskAssessment using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate RiskAssessment with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a RiskAssessment using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

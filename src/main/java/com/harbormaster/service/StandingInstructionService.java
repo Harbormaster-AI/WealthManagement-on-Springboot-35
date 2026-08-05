@@ -206,29 +206,20 @@ public class StandingInstructionService
 	public StandingInstruction getStandingInstruction( StandingInstructionFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "StandingInstructionFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "StandingInstructionFetchOneSummary arg cannot be null" );
 
 		StandingInstruction entity = null;
 		UUID id = summary.getStandingInstructionId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a StandingInstruction using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate StandingInstruction with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a StandingInstruction using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

@@ -205,29 +205,20 @@ public class DocumentService
 	public Document getDocument( DocumentFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "DocumentFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "DocumentFetchOneSummary arg cannot be null" );
 
 		Document entity = null;
 		UUID id = summary.getDocumentId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Document using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Document with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Document using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

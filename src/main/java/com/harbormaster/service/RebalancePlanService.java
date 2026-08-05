@@ -203,29 +203,20 @@ public class RebalancePlanService
 	public RebalancePlan getRebalancePlan( RebalancePlanFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "RebalancePlanFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "RebalancePlanFetchOneSummary arg cannot be null" );
 
 		RebalancePlan entity = null;
 		UUID id = summary.getRebalancePlanId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a RebalancePlan using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate RebalancePlan with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a RebalancePlan using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

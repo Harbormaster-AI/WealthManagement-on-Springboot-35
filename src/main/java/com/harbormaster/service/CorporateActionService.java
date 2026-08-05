@@ -204,29 +204,20 @@ public class CorporateActionService
 	public CorporateAction getCorporateAction( CorporateActionFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "CorporateActionFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "CorporateActionFetchOneSummary arg cannot be null" );
 
 		CorporateAction entity = null;
 		UUID id = summary.getCorporateActionId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a CorporateAction using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate CorporateAction with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a CorporateAction using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

@@ -199,29 +199,20 @@ public class OrderAllocationService
 	public OrderAllocation getOrderAllocation( OrderAllocationFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "OrderAllocationFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "OrderAllocationFetchOneSummary arg cannot be null" );
 
 		OrderAllocation entity = null;
 		UUID id = summary.getOrderAllocationId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a OrderAllocation using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate OrderAllocation with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a OrderAllocation using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

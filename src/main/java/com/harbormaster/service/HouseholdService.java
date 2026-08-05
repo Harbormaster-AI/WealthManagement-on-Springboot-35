@@ -201,29 +201,20 @@ public class HouseholdService
 	public Household getHousehold( HouseholdFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "HouseholdFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "HouseholdFetchOneSummary arg cannot be null" );
 
 		Household entity = null;
 		UUID id = summary.getHouseholdId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Household using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Household with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Household using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

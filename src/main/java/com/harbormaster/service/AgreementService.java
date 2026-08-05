@@ -203,29 +203,20 @@ public class AgreementService
 	public Agreement getAgreement( AgreementFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "AgreementFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "AgreementFetchOneSummary arg cannot be null" );
 
 		Agreement entity = null;
 		UUID id = summary.getAgreementId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Agreement using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Agreement with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Agreement using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

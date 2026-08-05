@@ -200,29 +200,20 @@ public class BenchmarkService
 	public Benchmark getBenchmark( BenchmarkFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "BenchmarkFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "BenchmarkFetchOneSummary arg cannot be null" );
 
 		Benchmark entity = null;
 		UUID id = summary.getBenchmarkId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Benchmark using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Benchmark with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Benchmark using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

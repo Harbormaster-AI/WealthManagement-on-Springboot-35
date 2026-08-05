@@ -215,29 +215,20 @@ public class OrderService
 	public Order getOrder( OrderFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "OrderFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "OrderFetchOneSummary arg cannot be null" );
 
 		Order entity = null;
 		UUID id = summary.getOrderId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Order using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Order with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Order using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

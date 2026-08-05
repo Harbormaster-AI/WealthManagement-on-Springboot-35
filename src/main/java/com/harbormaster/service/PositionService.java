@@ -206,29 +206,20 @@ public class PositionService
 	public Position getPosition( PositionFetchOneSummary summary ) {
 
 		if( summary == null )
-			throw new IllegalArgumentException( "PositionFetchOneSummary arg cannot be null" );
+			throw new IllegalStateException( "PositionFetchOneSummary arg cannot be null" );
 
 		Position entity = null;
 		UUID id = summary.getPositionId();
 
-		try {
-			// --------------------------------------
-			// validate the fetch one summary
-			// --------------------------------------
-			validator.validate( summary );
+		// --------------------------------------
+		// validate the fetch one summary
+		// --------------------------------------
+		validator.validate( summary );
 
-			// --------------------------------------
-			// find a Position using the provided id
-			// --------------------------------------
-			entity = projector.find( id );
-		}
-		catch( Exception exc ) {
-			final String errMsg = "Unable to locate Position with id " + id;
-			LOGGER.warn( errMsg, exc );
-			throw new BusinessException( errMsg, exc );
-		}
-		finally {
-		}
+		// --------------------------------------
+		// find a Position using the provided id
+		// --------------------------------------
+		entity = projector.find( id );
 
 		return entity;
 	}

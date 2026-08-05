@@ -834,7 +834,7 @@ public class AccountService
 //************************************************************************
 	@Autowired
     private final AccountEntityProjector projector;
-	private final {className}Validator validator;
+	private final AccountValidator validator;
 	private Account account 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountService.class);

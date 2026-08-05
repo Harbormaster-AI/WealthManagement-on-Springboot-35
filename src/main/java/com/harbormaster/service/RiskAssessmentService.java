@@ -406,7 +406,7 @@ public class RiskAssessmentService
 //************************************************************************
 	@Autowired
     private final RiskAssessmentEntityProjector projector;
-	private final {className}Validator validator;
+	private final RiskAssessmentValidator validator;
 	private RiskAssessment riskAssessment 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(RiskAssessmentService.class);

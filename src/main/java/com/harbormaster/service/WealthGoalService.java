@@ -460,7 +460,7 @@ public class WealthGoalService
 //************************************************************************
 	@Autowired
     private final WealthGoalEntityProjector projector;
-	private final {className}Validator validator;
+	private final WealthGoalValidator validator;
 	private WealthGoal wealthGoal 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthGoalService.class);

@@ -406,7 +406,7 @@ public class InvestmentProgramService
 //************************************************************************
 	@Autowired
     private final InvestmentProgramEntityProjector projector;
-	private final {className}Validator validator;
+	private final InvestmentProgramValidator validator;
 	private InvestmentProgram investmentProgram 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentProgramService.class);

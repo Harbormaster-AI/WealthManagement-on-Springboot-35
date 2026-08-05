@@ -406,7 +406,7 @@ public class ModelPortfolioService
 //************************************************************************
 	@Autowired
     private final ModelPortfolioEntityProjector projector;
-	private final {className}Validator validator;
+	private final ModelPortfolioValidator validator;
 	private ModelPortfolio modelPortfolio 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ModelPortfolioService.class);

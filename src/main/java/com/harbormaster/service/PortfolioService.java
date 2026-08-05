@@ -671,7 +671,7 @@ public class PortfolioService
 //************************************************************************
 	@Autowired
     private final PortfolioEntityProjector projector;
-	private final {className}Validator validator;
+	private final PortfolioValidator validator;
 	private Portfolio portfolio 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PortfolioService.class);

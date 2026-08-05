@@ -620,7 +620,7 @@ public class ClientService
 //************************************************************************
 	@Autowired
     private final ClientEntityProjector projector;
-	private final {className}Validator validator;
+	private final ClientValidator validator;
 	private Client client 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ClientService.class);

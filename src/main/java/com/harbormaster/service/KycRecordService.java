@@ -407,7 +407,7 @@ public class KycRecordService
 //************************************************************************
 	@Autowired
     private final KycRecordEntityProjector projector;
-	private final {className}Validator validator;
+	private final KycRecordValidator validator;
 	private KycRecord kycRecord 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(KycRecordService.class);

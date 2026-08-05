@@ -514,7 +514,7 @@ public class TradeService
 //************************************************************************
 	@Autowired
     private final TradeEntityProjector projector;
-	private final {className}Validator validator;
+	private final TradeValidator validator;
 	private Trade trade 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(TradeService.class);

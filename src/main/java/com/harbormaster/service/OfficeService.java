@@ -403,7 +403,7 @@ public class OfficeService
 //************************************************************************
 	@Autowired
     private final OfficeEntityProjector projector;
-	private final {className}Validator validator;
+	private final OfficeValidator validator;
 	private Office office 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OfficeService.class);

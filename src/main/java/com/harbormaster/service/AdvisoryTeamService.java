@@ -404,7 +404,7 @@ public class AdvisoryTeamService
 //************************************************************************
 	@Autowired
     private final AdvisoryTeamEntityProjector projector;
-	private final {className}Validator validator;
+	private final AdvisoryTeamValidator validator;
 	private AdvisoryTeam advisoryTeam 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisoryTeamService.class);

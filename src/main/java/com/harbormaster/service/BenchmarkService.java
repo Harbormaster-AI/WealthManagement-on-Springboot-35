@@ -404,7 +404,7 @@ public class BenchmarkService
 //************************************************************************
 	@Autowired
     private final BenchmarkEntityProjector projector;
-	private final {className}Validator validator;
+	private final BenchmarkValidator validator;
 	private Benchmark benchmark 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BenchmarkService.class);

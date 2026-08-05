@@ -572,7 +572,7 @@ public class OrderService
 //************************************************************************
 	@Autowired
     private final OrderEntityProjector projector;
-	private final {className}Validator validator;
+	private final OrderValidator validator;
 	private Order order 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderService.class);

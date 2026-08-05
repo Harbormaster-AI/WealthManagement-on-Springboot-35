@@ -512,7 +512,7 @@ public class PositionService
 //************************************************************************
 	@Autowired
     private final PositionEntityProjector projector;
-	private final {className}Validator validator;
+	private final PositionValidator validator;
 	private Position position 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PositionService.class);

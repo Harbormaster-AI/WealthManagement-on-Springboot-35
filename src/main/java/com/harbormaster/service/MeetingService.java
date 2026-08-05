@@ -459,7 +459,7 @@ public class MeetingService
 //************************************************************************
 	@Autowired
     private final MeetingEntityProjector projector;
-	private final {className}Validator validator;
+	private final MeetingValidator validator;
 	private Meeting meeting 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(MeetingService.class);

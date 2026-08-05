@@ -458,7 +458,7 @@ public class DocumentService
 //************************************************************************
 	@Autowired
     private final DocumentEntityProjector projector;
-	private final {className}Validator validator;
+	private final DocumentValidator validator;
 	private Document document 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(DocumentService.class);

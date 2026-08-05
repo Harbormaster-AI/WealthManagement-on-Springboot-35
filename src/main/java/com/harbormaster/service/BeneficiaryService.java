@@ -407,7 +407,7 @@ public class BeneficiaryService
 //************************************************************************
 	@Autowired
     private final BeneficiaryEntityProjector projector;
-	private final {className}Validator validator;
+	private final BeneficiaryValidator validator;
 	private Beneficiary beneficiary 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BeneficiaryService.class);

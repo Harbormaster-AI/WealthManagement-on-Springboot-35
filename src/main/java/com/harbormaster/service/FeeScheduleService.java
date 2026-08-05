@@ -410,7 +410,7 @@ public class FeeScheduleService
 //************************************************************************
 	@Autowired
     private final FeeScheduleEntityProjector projector;
-	private final {className}Validator validator;
+	private final FeeScheduleValidator validator;
 	private FeeSchedule feeSchedule 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeScheduleService.class);

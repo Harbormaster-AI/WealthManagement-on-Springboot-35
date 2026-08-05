@@ -452,7 +452,7 @@ public class OrderAllocationService
 //************************************************************************
 	@Autowired
     private final OrderAllocationEntityProjector projector;
-	private final {className}Validator validator;
+	private final OrderAllocationValidator validator;
 	private OrderAllocation orderAllocation 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderAllocationService.class);

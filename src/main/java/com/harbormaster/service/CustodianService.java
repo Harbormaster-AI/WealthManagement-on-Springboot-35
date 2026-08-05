@@ -406,7 +406,7 @@ public class CustodianService
 //************************************************************************
 	@Autowired
     private final CustodianEntityProjector projector;
-	private final {className}Validator validator;
+	private final CustodianValidator validator;
 	private Custodian custodian 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustodianService.class);

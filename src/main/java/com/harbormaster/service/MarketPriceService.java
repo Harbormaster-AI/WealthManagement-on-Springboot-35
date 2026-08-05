@@ -352,7 +352,7 @@ public class MarketPriceService
 //************************************************************************
 	@Autowired
     private final MarketPriceEntityProjector projector;
-	private final {className}Validator validator;
+	private final MarketPriceValidator validator;
 	private MarketPrice marketPrice 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(MarketPriceService.class);

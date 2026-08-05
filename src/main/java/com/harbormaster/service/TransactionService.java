@@ -512,7 +512,7 @@ public class TransactionService
 //************************************************************************
 	@Autowired
     private final TransactionEntityProjector projector;
-	private final {className}Validator validator;
+	private final TransactionValidator validator;
 	private Transaction transaction 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(TransactionService.class);

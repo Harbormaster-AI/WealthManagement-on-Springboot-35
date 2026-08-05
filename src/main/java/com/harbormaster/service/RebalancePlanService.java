@@ -457,7 +457,7 @@ public class RebalancePlanService
 //************************************************************************
 	@Autowired
     private final RebalancePlanEntityProjector projector;
-	private final {className}Validator validator;
+	private final RebalancePlanValidator validator;
 	private RebalancePlan rebalancePlan 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(RebalancePlanService.class);

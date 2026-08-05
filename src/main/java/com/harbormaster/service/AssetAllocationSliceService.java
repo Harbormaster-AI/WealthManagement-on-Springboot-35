@@ -350,7 +350,7 @@ public class AssetAllocationSliceService
 //************************************************************************
 	@Autowired
     private final AssetAllocationSliceEntityProjector projector;
-	private final {className}Validator validator;
+	private final AssetAllocationSliceValidator validator;
 	private AssetAllocationSlice assetAllocationSlice 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AssetAllocationSliceService.class);

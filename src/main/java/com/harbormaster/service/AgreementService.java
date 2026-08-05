@@ -457,7 +457,7 @@ public class AgreementService
 //************************************************************************
 	@Autowired
     private final AgreementEntityProjector projector;
-	private final {className}Validator validator;
+	private final AgreementValidator validator;
 	private Agreement agreement 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AgreementService.class);

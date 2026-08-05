@@ -350,7 +350,7 @@ public class DividendService
 //************************************************************************
 	@Autowired
     private final DividendEntityProjector projector;
-	private final {className}Validator validator;
+	private final DividendValidator validator;
 	private Dividend dividend 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(DividendService.class);

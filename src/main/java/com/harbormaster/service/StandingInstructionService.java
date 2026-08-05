@@ -408,7 +408,7 @@ public class StandingInstructionService
 //************************************************************************
 	@Autowired
     private final StandingInstructionEntityProjector projector;
-	private final {className}Validator validator;
+	private final StandingInstructionValidator validator;
 	private StandingInstruction standingInstruction 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(StandingInstructionService.class);

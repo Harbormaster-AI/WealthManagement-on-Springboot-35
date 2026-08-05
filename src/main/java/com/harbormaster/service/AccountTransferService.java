@@ -458,7 +458,7 @@ public class AccountTransferService
 //************************************************************************
 	@Autowired
     private final AccountTransferEntityProjector projector;
-	private final {className}Validator validator;
+	private final AccountTransferValidator validator;
 	private AccountTransfer accountTransfer 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountTransferService.class);

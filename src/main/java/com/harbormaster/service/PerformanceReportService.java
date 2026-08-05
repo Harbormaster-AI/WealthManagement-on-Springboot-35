@@ -408,7 +408,7 @@ public class PerformanceReportService
 //************************************************************************
 	@Autowired
     private final PerformanceReportEntityProjector projector;
-	private final {className}Validator validator;
+	private final PerformanceReportValidator validator;
 	private PerformanceReport performanceReport 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PerformanceReportService.class);

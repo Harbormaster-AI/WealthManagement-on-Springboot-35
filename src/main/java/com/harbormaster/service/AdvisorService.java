@@ -511,7 +511,7 @@ public class AdvisorService
 //************************************************************************
 	@Autowired
     private final AdvisorEntityProjector projector;
-	private final {className}Validator validator;
+	private final AdvisorValidator validator;
 	private Advisor advisor 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisorService.class);

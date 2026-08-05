@@ -458,7 +458,7 @@ public class CashMovementService
 //************************************************************************
 	@Autowired
     private final CashMovementEntityProjector projector;
-	private final {className}Validator validator;
+	private final CashMovementValidator validator;
 	private CashMovement cashMovement 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CashMovementService.class);

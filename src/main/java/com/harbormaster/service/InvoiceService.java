@@ -461,7 +461,7 @@ public class InvoiceService
 //************************************************************************
 	@Autowired
     private final InvoiceEntityProjector projector;
-	private final {className}Validator validator;
+	private final InvoiceValidator validator;
 	private Invoice invoice 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvoiceService.class);

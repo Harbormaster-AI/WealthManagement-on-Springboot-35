@@ -408,7 +408,7 @@ public class ResearchNoteService
 //************************************************************************
 	@Autowired
     private final ResearchNoteEntityProjector projector;
-	private final {className}Validator validator;
+	private final ResearchNoteValidator validator;
 	private ResearchNote researchNote 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ResearchNoteService.class);

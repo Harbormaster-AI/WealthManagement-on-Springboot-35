@@ -560,7 +560,7 @@ public class HouseholdService
 //************************************************************************
 	@Autowired
     private final HouseholdEntityProjector projector;
-	private final {className}Validator validator;
+	private final HouseholdValidator validator;
 	private Household household 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(HouseholdService.class);

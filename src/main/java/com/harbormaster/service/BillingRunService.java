@@ -407,7 +407,7 @@ public class BillingRunService
 //************************************************************************
 	@Autowired
     private final BillingRunEntityProjector projector;
-	private final {className}Validator validator;
+	private final BillingRunValidator validator;
 	private BillingRun billingRun 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BillingRunService.class);

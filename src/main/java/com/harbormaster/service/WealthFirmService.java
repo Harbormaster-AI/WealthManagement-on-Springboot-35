@@ -514,7 +514,7 @@ public class WealthFirmService
 //************************************************************************
 	@Autowired
     private final WealthFirmEntityProjector projector;
-	private final {className}Validator validator;
+	private final WealthFirmValidator validator;
 	private WealthFirm wealthFirm 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthFirmService.class);

@@ -457,7 +457,7 @@ public class InvestmentPolicyService
 //************************************************************************
 	@Autowired
     private final InvestmentPolicyEntityProjector projector;
-	private final {className}Validator validator;
+	private final InvestmentPolicyValidator validator;
 	private InvestmentPolicy investmentPolicy 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentPolicyService.class);

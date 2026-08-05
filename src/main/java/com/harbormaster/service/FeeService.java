@@ -406,7 +406,7 @@ public class FeeService
 //************************************************************************
 	@Autowired
     private final FeeEntityProjector projector;
-	private final {className}Validator validator;
+	private final FeeValidator validator;
 	private Fee fee 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeService.class);

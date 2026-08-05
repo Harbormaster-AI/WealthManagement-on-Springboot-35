@@ -407,7 +407,7 @@ public class CorporateActionService
 //************************************************************************
 	@Autowired
     private final CorporateActionEntityProjector projector;
-	private final {className}Validator validator;
+	private final CorporateActionValidator validator;
 	private CorporateAction corporateAction 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CorporateActionService.class);

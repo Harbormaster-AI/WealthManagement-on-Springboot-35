@@ -512,7 +512,7 @@ public class ProposalService
 //************************************************************************
 	@Autowired
     private final ProposalEntityProjector projector;
-	private final {className}Validator validator;
+	private final ProposalValidator validator;
 	private Proposal proposal 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ProposalService.class);

@@ -469,7 +469,7 @@ public class SecurityService
 //************************************************************************
 	@Autowired
     private final SecurityEntityProjector projector;
-	private final {className}Validator validator;
+	private final SecurityValidator validator;
 	private Security security 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(SecurityService.class);

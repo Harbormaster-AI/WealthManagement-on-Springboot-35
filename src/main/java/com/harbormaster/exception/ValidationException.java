@@ -1,4 +1,4 @@
-package com.harbormaster.exception
+package com.harbormaster.exception;
 
 public class ValidationException extends BusinessException {
 

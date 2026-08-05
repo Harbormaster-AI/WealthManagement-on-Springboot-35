@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class WealthFirmService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		WealthFirm
 		 */
 			public WealthFirm createWealthFirm( CreateWealthFirmCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			WealthFirm entity = new WealthFirm();
 
@@ -146,7 +146,7 @@ public class WealthFirmService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create WealthFirm - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class WealthFirmService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateWealthFirmCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		WealthFirm
 		 */
 		public WealthFirm updateWealthFirm( UpdateWealthFirmCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			WealthFirm entity = new WealthFirm();
 
@@ -193,7 +192,7 @@ public class WealthFirmService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save WealthFirm - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -202,10 +201,10 @@ public class WealthFirmService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteWealthFirmCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteWealthFirmCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -227,7 +226,7 @@ public class WealthFirmService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete WealthFirm using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -237,11 +236,10 @@ public class WealthFirmService
 		 * Method to retrieve the WealthFirm via WealthFirmFetchOneSummary
 		 * @param 	summary WealthFirmFetchOneSummary
 		 * @return 	WealthFirmFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public WealthFirm getWealthFirm( WealthFirmFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "WealthFirmFetchOneSummary arg cannot be null" );
@@ -263,7 +261,7 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate WealthFirm with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -276,10 +274,10 @@ public class WealthFirmService
 		 * Method to retrieve a collection of all WealthFirms
 		 *
 		 * @return 	List<WealthFirm>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<WealthFirm> getAllWealthFirm() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<WealthFirm> list = null;
 
 			try {
@@ -288,7 +286,7 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all WealthFirm";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -300,9 +298,9 @@ public class WealthFirmService
 		/**
 		 * add Advisor to Advisors
 		 * @param		command AssignAdvisorsToWealthFirmCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAdvisors( AssignAdvisorsToWealthFirmCommand command ) throws ProcessingException {
+		public void addToAdvisors( AssignAdvisorsToWealthFirmCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -317,7 +315,7 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Advisor as Advisors to WealthFirm" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -325,9 +323,9 @@ public class WealthFirmService
 		/**
 		 * remove Advisor from Advisors
 		 * @param		command RemoveAdvisorsFromWealthFirmCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAdvisors( RemoveAdvisorsFromWealthFirmCommand command ) throws ProcessingException {
+		public void removeFromAdvisors( RemoveAdvisorsFromWealthFirmCommand command ) throws BusinessException {
 
 			try {
 
@@ -345,16 +343,16 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getWealthFirmId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Office to Offices
 		 * @param		command AssignOfficesToWealthFirmCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToOffices( AssignOfficesToWealthFirmCommand command ) throws ProcessingException {
+		public void addToOffices( AssignOfficesToWealthFirmCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -369,7 +367,7 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Office as Offices to WealthFirm" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -377,9 +375,9 @@ public class WealthFirmService
 		/**
 		 * remove Office from Offices
 		 * @param		command RemoveOfficesFromWealthFirmCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromOffices( RemoveOfficesFromWealthFirmCommand command ) throws ProcessingException {
+		public void removeFromOffices( RemoveOfficesFromWealthFirmCommand command ) throws BusinessException {
 
 			try {
 
@@ -397,16 +395,16 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getWealthFirmId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Custodian to Custodians
 		 * @param		command AssignCustodiansToWealthFirmCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToCustodians( AssignCustodiansToWealthFirmCommand command ) throws ProcessingException {
+		public void addToCustodians( AssignCustodiansToWealthFirmCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -421,7 +419,7 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Custodian as Custodians to WealthFirm" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -429,9 +427,9 @@ public class WealthFirmService
 		/**
 		 * remove Custodian from Custodians
 		 * @param		command RemoveCustodiansFromWealthFirmCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromCustodians( RemoveCustodiansFromWealthFirmCommand command ) throws ProcessingException {
+		public void removeFromCustodians( RemoveCustodiansFromWealthFirmCommand command ) throws BusinessException {
 
 			try {
 
@@ -449,16 +447,16 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getWealthFirmId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add InvestmentProgram to InvestmentPrograms
 		 * @param		command AssignInvestmentProgramsToWealthFirmCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToInvestmentPrograms( AssignInvestmentProgramsToWealthFirmCommand command ) throws ProcessingException {
+		public void addToInvestmentPrograms( AssignInvestmentProgramsToWealthFirmCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -473,7 +471,7 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a InvestmentProgram as InvestmentPrograms to WealthFirm" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -481,9 +479,9 @@ public class WealthFirmService
 		/**
 		 * remove InvestmentProgram from InvestmentPrograms
 		 * @param		command RemoveInvestmentProgramsFromWealthFirmCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromInvestmentPrograms( RemoveInvestmentProgramsFromWealthFirmCommand command ) throws ProcessingException {
+		public void removeFromInvestmentPrograms( RemoveInvestmentProgramsFromWealthFirmCommand command ) throws BusinessException {
 
 			try {
 
@@ -501,7 +499,7 @@ public class WealthFirmService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getWealthFirmId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class TransactionService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Transaction
 		 */
 			public Transaction createTransaction( CreateTransactionCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Transaction entity = new Transaction();
 
@@ -147,7 +147,7 @@ public class TransactionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Transaction - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -158,12 +158,11 @@ public class TransactionService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateTransactionCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Transaction
 		 */
 		public Transaction updateTransaction( UpdateTransactionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Transaction entity = new Transaction();
 
@@ -195,7 +194,7 @@ public class TransactionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Transaction - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -204,10 +203,10 @@ public class TransactionService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteTransactionCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteTransactionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -229,7 +228,7 @@ public class TransactionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Transaction using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -239,11 +238,10 @@ public class TransactionService
 		 * Method to retrieve the Transaction via TransactionFetchOneSummary
 		 * @param 	summary TransactionFetchOneSummary
 		 * @return 	TransactionFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Transaction getTransaction( TransactionFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "TransactionFetchOneSummary arg cannot be null" );
@@ -265,7 +263,7 @@ public class TransactionService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Transaction with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -278,10 +276,10 @@ public class TransactionService
 		 * Method to retrieve a collection of all Transactions
 		 *
 		 * @return 	List<Transaction>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Transaction> getAllTransaction() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Transaction> list = null;
 
 			try {
@@ -290,7 +288,7 @@ public class TransactionService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Transaction";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -301,9 +299,9 @@ public class TransactionService
 		/**
 		 * assign Account on Transaction
 		 * @param		command AssignAccountToTransactionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToTransactionCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToTransactionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -320,16 +318,16 @@ public class TransactionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getTransactionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on Transaction
 		 * @param		command UnAssignAccountFromTransactionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromTransactionCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromTransactionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -345,16 +343,16 @@ public class TransactionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on Transaction";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Security on Transaction
 		 * @param		command AssignSecurityToTransactionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignSecurity( AssignSecurityToTransactionCommand command ) throws ProcessingException {
+		public void assignSecurity( AssignSecurityToTransactionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -371,16 +369,16 @@ public class TransactionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Security using id " + command.getTransactionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Security on Transaction
 		 * @param		command UnAssignSecurityFromTransactionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignSecurity( UnAssignSecurityFromTransactionCommand command ) throws ProcessingException {
+		public void unAssignSecurity( UnAssignSecurityFromTransactionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -396,16 +394,16 @@ public class TransactionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Security on Transaction";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Order on Transaction
 		 * @param		command AssignOrderToTransactionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignOrder( AssignOrderToTransactionCommand command ) throws ProcessingException {
+		public void assignOrder( AssignOrderToTransactionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -422,16 +420,16 @@ public class TransactionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Order using id " + command.getTransactionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Order on Transaction
 		 * @param		command UnAssignOrderFromTransactionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignOrder( UnAssignOrderFromTransactionCommand command ) throws ProcessingException {
+		public void unAssignOrder( UnAssignOrderFromTransactionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -447,16 +445,16 @@ public class TransactionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Order on Transaction";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Position on Transaction
 		 * @param		command AssignPositionToTransactionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPosition( AssignPositionToTransactionCommand command ) throws ProcessingException {
+		public void assignPosition( AssignPositionToTransactionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -473,16 +471,16 @@ public class TransactionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Position using id " + command.getTransactionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Position on Transaction
 		 * @param		command UnAssignPositionFromTransactionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPosition( UnAssignPositionFromTransactionCommand command ) throws ProcessingException {
+		public void unAssignPosition( UnAssignPositionFromTransactionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -498,7 +496,7 @@ public class TransactionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Position on Transaction";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class RebalancePlanService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		RebalancePlan
 		 */
 			public RebalancePlan createRebalancePlan( CreateRebalancePlanCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			RebalancePlan entity = new RebalancePlan();
 
@@ -145,7 +145,7 @@ public class RebalancePlanService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create RebalancePlan - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -156,12 +156,11 @@ public class RebalancePlanService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateRebalancePlanCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		RebalancePlan
 		 */
 		public RebalancePlan updateRebalancePlan( UpdateRebalancePlanCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			RebalancePlan entity = new RebalancePlan();
 
@@ -190,7 +189,7 @@ public class RebalancePlanService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save RebalancePlan - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -199,10 +198,10 @@ public class RebalancePlanService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteRebalancePlanCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteRebalancePlanCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -224,7 +223,7 @@ public class RebalancePlanService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete RebalancePlan using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -234,11 +233,10 @@ public class RebalancePlanService
 		 * Method to retrieve the RebalancePlan via RebalancePlanFetchOneSummary
 		 * @param 	summary RebalancePlanFetchOneSummary
 		 * @return 	RebalancePlanFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public RebalancePlan getRebalancePlan( RebalancePlanFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "RebalancePlanFetchOneSummary arg cannot be null" );
@@ -260,7 +258,7 @@ public class RebalancePlanService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate RebalancePlan with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -273,10 +271,10 @@ public class RebalancePlanService
 		 * Method to retrieve a collection of all RebalancePlans
 		 *
 		 * @return 	List<RebalancePlan>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<RebalancePlan> getAllRebalancePlan() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<RebalancePlan> list = null;
 
 			try {
@@ -285,7 +283,7 @@ public class RebalancePlanService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all RebalancePlan";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -296,9 +294,9 @@ public class RebalancePlanService
 		/**
 		 * assign Portfolio on RebalancePlan
 		 * @param		command AssignPortfolioToRebalancePlanCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPortfolio( AssignPortfolioToRebalancePlanCommand command ) throws ProcessingException {
+		public void assignPortfolio( AssignPortfolioToRebalancePlanCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -315,16 +313,16 @@ public class RebalancePlanService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Portfolio using id " + command.getRebalancePlanId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Portfolio on RebalancePlan
 		 * @param		command UnAssignPortfolioFromRebalancePlanCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromRebalancePlanCommand command ) throws ProcessingException {
+		public void unAssignPortfolio( UnAssignPortfolioFromRebalancePlanCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -340,16 +338,16 @@ public class RebalancePlanService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Portfolio on RebalancePlan";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Advisor on RebalancePlan
 		 * @param		command AssignAdvisorToRebalancePlanCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAdvisor( AssignAdvisorToRebalancePlanCommand command ) throws ProcessingException {
+		public void assignAdvisor( AssignAdvisorToRebalancePlanCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -366,16 +364,16 @@ public class RebalancePlanService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Advisor using id " + command.getRebalancePlanId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Advisor on RebalancePlan
 		 * @param		command UnAssignAdvisorFromRebalancePlanCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromRebalancePlanCommand command ) throws ProcessingException {
+		public void unAssignAdvisor( UnAssignAdvisorFromRebalancePlanCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -391,7 +389,7 @@ public class RebalancePlanService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Advisor on RebalancePlan";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -399,9 +397,9 @@ public class RebalancePlanService
 		/**
 		 * add Order to ProposedOrders
 		 * @param		command AssignProposedOrdersToRebalancePlanCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) throws ProcessingException {
+		public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -416,7 +414,7 @@ public class RebalancePlanService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Order as ProposedOrders to RebalancePlan" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -424,9 +422,9 @@ public class RebalancePlanService
 		/**
 		 * remove Order from ProposedOrders
 		 * @param		command RemoveProposedOrdersFromRebalancePlanCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command ) throws ProcessingException {
+		public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command ) throws BusinessException {
 
 			try {
 
@@ -444,7 +442,7 @@ public class RebalancePlanService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getRebalancePlanId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

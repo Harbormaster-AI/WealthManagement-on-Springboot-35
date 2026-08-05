@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class PerformanceReportService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		PerformanceReport
 		 */
 			public PerformanceReport createPerformanceReport( CreatePerformanceReportCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			PerformanceReport entity = new PerformanceReport();
 
@@ -147,7 +147,7 @@ public class PerformanceReportService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create PerformanceReport - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -158,12 +158,11 @@ public class PerformanceReportService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdatePerformanceReportCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		PerformanceReport
 		 */
 		public PerformanceReport updatePerformanceReport( UpdatePerformanceReportCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			PerformanceReport entity = new PerformanceReport();
 
@@ -193,7 +192,7 @@ public class PerformanceReportService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save PerformanceReport - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -202,10 +201,10 @@ public class PerformanceReportService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeletePerformanceReportCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeletePerformanceReportCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -227,7 +226,7 @@ public class PerformanceReportService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete PerformanceReport using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -237,11 +236,10 @@ public class PerformanceReportService
 		 * Method to retrieve the PerformanceReport via PerformanceReportFetchOneSummary
 		 * @param 	summary PerformanceReportFetchOneSummary
 		 * @return 	PerformanceReportFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public PerformanceReport getPerformanceReport( PerformanceReportFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "PerformanceReportFetchOneSummary arg cannot be null" );
@@ -263,7 +261,7 @@ public class PerformanceReportService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate PerformanceReport with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -276,10 +274,10 @@ public class PerformanceReportService
 		 * Method to retrieve a collection of all PerformanceReports
 		 *
 		 * @return 	List<PerformanceReport>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<PerformanceReport> getAllPerformanceReport() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<PerformanceReport> list = null;
 
 			try {
@@ -288,7 +286,7 @@ public class PerformanceReportService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all PerformanceReport";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -299,9 +297,9 @@ public class PerformanceReportService
 		/**
 		 * assign Portfolio on PerformanceReport
 		 * @param		command AssignPortfolioToPerformanceReportCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPortfolio( AssignPortfolioToPerformanceReportCommand command ) throws ProcessingException {
+		public void assignPortfolio( AssignPortfolioToPerformanceReportCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -318,16 +316,16 @@ public class PerformanceReportService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Portfolio using id " + command.getPerformanceReportId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Portfolio on PerformanceReport
 		 * @param		command UnAssignPortfolioFromPerformanceReportCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromPerformanceReportCommand command ) throws ProcessingException {
+		public void unAssignPortfolio( UnAssignPortfolioFromPerformanceReportCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -343,16 +341,16 @@ public class PerformanceReportService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Portfolio on PerformanceReport";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Benchmark on PerformanceReport
 		 * @param		command AssignBenchmarkToPerformanceReportCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignBenchmark( AssignBenchmarkToPerformanceReportCommand command ) throws ProcessingException {
+		public void assignBenchmark( AssignBenchmarkToPerformanceReportCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -369,16 +367,16 @@ public class PerformanceReportService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Benchmark using id " + command.getPerformanceReportId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Benchmark on PerformanceReport
 		 * @param		command UnAssignBenchmarkFromPerformanceReportCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignBenchmark( UnAssignBenchmarkFromPerformanceReportCommand command ) throws ProcessingException {
+		public void unAssignBenchmark( UnAssignBenchmarkFromPerformanceReportCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -394,7 +392,7 @@ public class PerformanceReportService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Benchmark on PerformanceReport";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

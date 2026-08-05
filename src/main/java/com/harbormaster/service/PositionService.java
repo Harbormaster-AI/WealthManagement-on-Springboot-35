@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class PositionService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Position
 		 */
 			public Position createPosition( CreatePositionCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Position entity = new Position();
 
@@ -146,7 +146,7 @@ public class PositionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Position - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class PositionService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdatePositionCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Position
 		 */
 		public Position updatePosition( UpdatePositionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Position entity = new Position();
 
@@ -193,7 +192,7 @@ public class PositionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Position - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -202,10 +201,10 @@ public class PositionService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeletePositionCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeletePositionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -227,7 +226,7 @@ public class PositionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Position using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -237,11 +236,10 @@ public class PositionService
 		 * Method to retrieve the Position via PositionFetchOneSummary
 		 * @param 	summary PositionFetchOneSummary
 		 * @return 	PositionFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Position getPosition( PositionFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "PositionFetchOneSummary arg cannot be null" );
@@ -263,7 +261,7 @@ public class PositionService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Position with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -276,10 +274,10 @@ public class PositionService
 		 * Method to retrieve a collection of all Positions
 		 *
 		 * @return 	List<Position>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Position> getAllPosition() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Position> list = null;
 
 			try {
@@ -288,7 +286,7 @@ public class PositionService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Position";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -299,9 +297,9 @@ public class PositionService
 		/**
 		 * assign Portfolio on Position
 		 * @param		command AssignPortfolioToPositionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPortfolio( AssignPortfolioToPositionCommand command ) throws ProcessingException {
+		public void assignPortfolio( AssignPortfolioToPositionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -318,16 +316,16 @@ public class PositionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Portfolio using id " + command.getPositionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Portfolio on Position
 		 * @param		command UnAssignPortfolioFromPositionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromPositionCommand command ) throws ProcessingException {
+		public void unAssignPortfolio( UnAssignPortfolioFromPositionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -343,16 +341,16 @@ public class PositionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Portfolio on Position";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Security on Position
 		 * @param		command AssignSecurityToPositionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignSecurity( AssignSecurityToPositionCommand command ) throws ProcessingException {
+		public void assignSecurity( AssignSecurityToPositionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -369,16 +367,16 @@ public class PositionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Security using id " + command.getPositionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Security on Position
 		 * @param		command UnAssignSecurityFromPositionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignSecurity( UnAssignSecurityFromPositionCommand command ) throws ProcessingException {
+		public void unAssignSecurity( UnAssignSecurityFromPositionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -394,7 +392,7 @@ public class PositionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Security on Position";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -402,9 +400,9 @@ public class PositionService
 		/**
 		 * add TaxLot to TaxLots
 		 * @param		command AssignTaxLotsToPositionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToTaxLots( AssignTaxLotsToPositionCommand command ) throws ProcessingException {
+		public void addToTaxLots( AssignTaxLotsToPositionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -419,7 +417,7 @@ public class PositionService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a TaxLot as TaxLots to Position" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -427,9 +425,9 @@ public class PositionService
 		/**
 		 * remove TaxLot from TaxLots
 		 * @param		command RemoveTaxLotsFromPositionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromTaxLots( RemoveTaxLotsFromPositionCommand command ) throws ProcessingException {
+		public void removeFromTaxLots( RemoveTaxLotsFromPositionCommand command ) throws BusinessException {
 
 			try {
 
@@ -447,16 +445,16 @@ public class PositionService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getPositionId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Transaction to Transactions
 		 * @param		command AssignTransactionsToPositionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToTransactions( AssignTransactionsToPositionCommand command ) throws ProcessingException {
+		public void addToTransactions( AssignTransactionsToPositionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -471,7 +469,7 @@ public class PositionService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Transaction as Transactions to Position" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -479,9 +477,9 @@ public class PositionService
 		/**
 		 * remove Transaction from Transactions
 		 * @param		command RemoveTransactionsFromPositionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromTransactions( RemoveTransactionsFromPositionCommand command ) throws ProcessingException {
+		public void removeFromTransactions( RemoveTransactionsFromPositionCommand command ) throws BusinessException {
 
 			try {
 
@@ -499,7 +497,7 @@ public class PositionService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getPositionId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

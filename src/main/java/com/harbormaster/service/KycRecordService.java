@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class KycRecordService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		KycRecord
 		 */
 			public KycRecord createKycRecord( CreateKycRecordCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			KycRecord entity = new KycRecord();
 
@@ -146,7 +146,7 @@ public class KycRecordService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create KycRecord - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class KycRecordService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateKycRecordCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		KycRecord
 		 */
 		public KycRecord updateKycRecord( UpdateKycRecordCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			KycRecord entity = new KycRecord();
 
@@ -191,7 +190,7 @@ public class KycRecordService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save KycRecord - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -200,10 +199,10 @@ public class KycRecordService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteKycRecordCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteKycRecordCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -225,7 +224,7 @@ public class KycRecordService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete KycRecord using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -235,11 +234,10 @@ public class KycRecordService
 		 * Method to retrieve the KycRecord via KycRecordFetchOneSummary
 		 * @param 	summary KycRecordFetchOneSummary
 		 * @return 	KycRecordFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public KycRecord getKycRecord( KycRecordFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "KycRecordFetchOneSummary arg cannot be null" );
@@ -261,7 +259,7 @@ public class KycRecordService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate KycRecord with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -274,10 +272,10 @@ public class KycRecordService
 		 * Method to retrieve a collection of all KycRecords
 		 *
 		 * @return 	List<KycRecord>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<KycRecord> getAllKycRecord() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<KycRecord> list = null;
 
 			try {
@@ -286,7 +284,7 @@ public class KycRecordService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all KycRecord";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -297,9 +295,9 @@ public class KycRecordService
 		/**
 		 * assign Client on KycRecord
 		 * @param		command AssignClientToKycRecordCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignClient( AssignClientToKycRecordCommand command ) throws ProcessingException {
+		public void assignClient( AssignClientToKycRecordCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -316,16 +314,16 @@ public class KycRecordService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Client using id " + command.getKycRecordId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Client on KycRecord
 		 * @param		command UnAssignClientFromKycRecordCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignClient( UnAssignClientFromKycRecordCommand command ) throws ProcessingException {
+		public void unAssignClient( UnAssignClientFromKycRecordCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -341,7 +339,7 @@ public class KycRecordService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Client on KycRecord";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -349,9 +347,9 @@ public class KycRecordService
 		/**
 		 * add Document to Documents
 		 * @param		command AssignDocumentsToKycRecordCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToDocuments( AssignDocumentsToKycRecordCommand command ) throws ProcessingException {
+		public void addToDocuments( AssignDocumentsToKycRecordCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -366,7 +364,7 @@ public class KycRecordService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Document as Documents to KycRecord" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -374,9 +372,9 @@ public class KycRecordService
 		/**
 		 * remove Document from Documents
 		 * @param		command RemoveDocumentsFromKycRecordCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromDocuments( RemoveDocumentsFromKycRecordCommand command ) throws ProcessingException {
+		public void removeFromDocuments( RemoveDocumentsFromKycRecordCommand command ) throws BusinessException {
 
 			try {
 
@@ -394,7 +392,7 @@ public class KycRecordService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getKycRecordId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

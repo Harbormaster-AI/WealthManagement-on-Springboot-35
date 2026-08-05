@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class AccountService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Account
 		 */
 			public Account createAccount( CreateAccountCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Account entity = new Account();
 
@@ -149,7 +149,7 @@ public class AccountService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Account - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -160,12 +160,11 @@ public class AccountService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateAccountCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Account
 		 */
 		public Account updateAccount( UpdateAccountCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Account entity = new Account();
 
@@ -205,7 +204,7 @@ public class AccountService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Account - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -214,10 +213,10 @@ public class AccountService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteAccountCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteAccountCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -239,7 +238,7 @@ public class AccountService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Account using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -249,11 +248,10 @@ public class AccountService
 		 * Method to retrieve the Account via AccountFetchOneSummary
 		 * @param 	summary AccountFetchOneSummary
 		 * @return 	AccountFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Account getAccount( AccountFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "AccountFetchOneSummary arg cannot be null" );
@@ -275,7 +273,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Account with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -288,10 +286,10 @@ public class AccountService
 		 * Method to retrieve a collection of all Accounts
 		 *
 		 * @return 	List<Account>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Account> getAllAccount() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Account> list = null;
 
 			try {
@@ -300,7 +298,7 @@ public class AccountService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Account";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -311,9 +309,9 @@ public class AccountService
 		/**
 		 * assign Household on Account
 		 * @param		command AssignHouseholdToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignHousehold( AssignHouseholdToAccountCommand command ) throws ProcessingException {
+		public void assignHousehold( AssignHouseholdToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -330,16 +328,16 @@ public class AccountService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Household using id " + command.getAccountId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Household on Account
 		 * @param		command UnAssignHouseholdFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignHousehold( UnAssignHouseholdFromAccountCommand command ) throws ProcessingException {
+		public void unAssignHousehold( UnAssignHouseholdFromAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -355,16 +353,16 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Household on Account";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Advisor on Account
 		 * @param		command AssignAdvisorToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAdvisor( AssignAdvisorToAccountCommand command ) throws ProcessingException {
+		public void assignAdvisor( AssignAdvisorToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -381,16 +379,16 @@ public class AccountService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Advisor using id " + command.getAccountId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Advisor on Account
 		 * @param		command UnAssignAdvisorFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromAccountCommand command ) throws ProcessingException {
+		public void unAssignAdvisor( UnAssignAdvisorFromAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -406,16 +404,16 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Advisor on Account";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Custodian on Account
 		 * @param		command AssignCustodianToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignCustodian( AssignCustodianToAccountCommand command ) throws ProcessingException {
+		public void assignCustodian( AssignCustodianToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -432,16 +430,16 @@ public class AccountService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Custodian using id " + command.getAccountId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Custodian on Account
 		 * @param		command UnAssignCustodianFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignCustodian( UnAssignCustodianFromAccountCommand command ) throws ProcessingException {
+		public void unAssignCustodian( UnAssignCustodianFromAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -457,16 +455,16 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Custodian on Account";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Portfolio on Account
 		 * @param		command AssignPortfolioToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPortfolio( AssignPortfolioToAccountCommand command ) throws ProcessingException {
+		public void assignPortfolio( AssignPortfolioToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -483,16 +481,16 @@ public class AccountService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Portfolio using id " + command.getAccountId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Portfolio on Account
 		 * @param		command UnAssignPortfolioFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromAccountCommand command ) throws ProcessingException {
+		public void unAssignPortfolio( UnAssignPortfolioFromAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -508,7 +506,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Portfolio on Account";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -516,9 +514,9 @@ public class AccountService
 		/**
 		 * add Beneficiary to Beneficiaries
 		 * @param		command AssignBeneficiariesToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToBeneficiaries( AssignBeneficiariesToAccountCommand command ) throws ProcessingException {
+		public void addToBeneficiaries( AssignBeneficiariesToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -533,7 +531,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Beneficiary as Beneficiaries to Account" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -541,9 +539,9 @@ public class AccountService
 		/**
 		 * remove Beneficiary from Beneficiaries
 		 * @param		command RemoveBeneficiariesFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromBeneficiaries( RemoveBeneficiariesFromAccountCommand command ) throws ProcessingException {
+		public void removeFromBeneficiaries( RemoveBeneficiariesFromAccountCommand command ) throws BusinessException {
 
 			try {
 
@@ -561,16 +559,16 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAccountId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Position to Positions
 		 * @param		command AssignPositionsToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToPositions( AssignPositionsToAccountCommand command ) throws ProcessingException {
+		public void addToPositions( AssignPositionsToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -585,7 +583,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Position as Positions to Account" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -593,9 +591,9 @@ public class AccountService
 		/**
 		 * remove Position from Positions
 		 * @param		command RemovePositionsFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromPositions( RemovePositionsFromAccountCommand command ) throws ProcessingException {
+		public void removeFromPositions( RemovePositionsFromAccountCommand command ) throws BusinessException {
 
 			try {
 
@@ -613,16 +611,16 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAccountId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Transaction to Transactions
 		 * @param		command AssignTransactionsToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToTransactions( AssignTransactionsToAccountCommand command ) throws ProcessingException {
+		public void addToTransactions( AssignTransactionsToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -637,7 +635,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Transaction as Transactions to Account" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -645,9 +643,9 @@ public class AccountService
 		/**
 		 * remove Transaction from Transactions
 		 * @param		command RemoveTransactionsFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromTransactions( RemoveTransactionsFromAccountCommand command ) throws ProcessingException {
+		public void removeFromTransactions( RemoveTransactionsFromAccountCommand command ) throws BusinessException {
 
 			try {
 
@@ -665,16 +663,16 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAccountId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Fee to Fees
 		 * @param		command AssignFeesToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToFees( AssignFeesToAccountCommand command ) throws ProcessingException {
+		public void addToFees( AssignFeesToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -689,7 +687,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Fee as Fees to Account" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -697,9 +695,9 @@ public class AccountService
 		/**
 		 * remove Fee from Fees
 		 * @param		command RemoveFeesFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromFees( RemoveFeesFromAccountCommand command ) throws ProcessingException {
+		public void removeFromFees( RemoveFeesFromAccountCommand command ) throws BusinessException {
 
 			try {
 
@@ -717,16 +715,16 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAccountId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add StandingInstruction to StandingInstructions
 		 * @param		command AssignStandingInstructionsToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToStandingInstructions( AssignStandingInstructionsToAccountCommand command ) throws ProcessingException {
+		public void addToStandingInstructions( AssignStandingInstructionsToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -741,7 +739,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a StandingInstruction as StandingInstructions to Account" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -749,9 +747,9 @@ public class AccountService
 		/**
 		 * remove StandingInstruction from StandingInstructions
 		 * @param		command RemoveStandingInstructionsFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromStandingInstructions( RemoveStandingInstructionsFromAccountCommand command ) throws ProcessingException {
+		public void removeFromStandingInstructions( RemoveStandingInstructionsFromAccountCommand command ) throws BusinessException {
 
 			try {
 
@@ -769,16 +767,16 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAccountId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Invoice to Invoices
 		 * @param		command AssignInvoicesToAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToInvoices( AssignInvoicesToAccountCommand command ) throws ProcessingException {
+		public void addToInvoices( AssignInvoicesToAccountCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -793,7 +791,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Invoice as Invoices to Account" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -801,9 +799,9 @@ public class AccountService
 		/**
 		 * remove Invoice from Invoices
 		 * @param		command RemoveInvoicesFromAccountCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromInvoices( RemoveInvoicesFromAccountCommand command ) throws ProcessingException {
+		public void removeFromInvoices( RemoveInvoicesFromAccountCommand command ) throws BusinessException {
 
 			try {
 
@@ -821,7 +819,7 @@ public class AccountService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAccountId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

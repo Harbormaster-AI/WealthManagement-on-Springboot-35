@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class ResearchNoteService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		ResearchNote
 		 */
 			public ResearchNote createResearchNote( CreateResearchNoteCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			ResearchNote entity = new ResearchNote();
 
@@ -147,7 +147,7 @@ public class ResearchNoteService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create ResearchNote - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -158,12 +158,11 @@ public class ResearchNoteService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateResearchNoteCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		ResearchNote
 		 */
 		public ResearchNote updateResearchNote( UpdateResearchNoteCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			ResearchNote entity = new ResearchNote();
 
@@ -193,7 +192,7 @@ public class ResearchNoteService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save ResearchNote - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -202,10 +201,10 @@ public class ResearchNoteService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteResearchNoteCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteResearchNoteCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -227,7 +226,7 @@ public class ResearchNoteService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete ResearchNote using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -237,11 +236,10 @@ public class ResearchNoteService
 		 * Method to retrieve the ResearchNote via ResearchNoteFetchOneSummary
 		 * @param 	summary ResearchNoteFetchOneSummary
 		 * @return 	ResearchNoteFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public ResearchNote getResearchNote( ResearchNoteFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "ResearchNoteFetchOneSummary arg cannot be null" );
@@ -263,7 +261,7 @@ public class ResearchNoteService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate ResearchNote with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -276,10 +274,10 @@ public class ResearchNoteService
 		 * Method to retrieve a collection of all ResearchNotes
 		 *
 		 * @return 	List<ResearchNote>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<ResearchNote> getAllResearchNote() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<ResearchNote> list = null;
 
 			try {
@@ -288,7 +286,7 @@ public class ResearchNoteService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all ResearchNote";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -299,9 +297,9 @@ public class ResearchNoteService
 		/**
 		 * assign Security on ResearchNote
 		 * @param		command AssignSecurityToResearchNoteCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignSecurity( AssignSecurityToResearchNoteCommand command ) throws ProcessingException {
+		public void assignSecurity( AssignSecurityToResearchNoteCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -318,16 +316,16 @@ public class ResearchNoteService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Security using id " + command.getResearchNoteId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Security on ResearchNote
 		 * @param		command UnAssignSecurityFromResearchNoteCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignSecurity( UnAssignSecurityFromResearchNoteCommand command ) throws ProcessingException {
+		public void unAssignSecurity( UnAssignSecurityFromResearchNoteCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -343,16 +341,16 @@ public class ResearchNoteService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Security on ResearchNote";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Advisor on ResearchNote
 		 * @param		command AssignAdvisorToResearchNoteCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAdvisor( AssignAdvisorToResearchNoteCommand command ) throws ProcessingException {
+		public void assignAdvisor( AssignAdvisorToResearchNoteCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -369,16 +367,16 @@ public class ResearchNoteService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Advisor using id " + command.getResearchNoteId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Advisor on ResearchNote
 		 * @param		command UnAssignAdvisorFromResearchNoteCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromResearchNoteCommand command ) throws ProcessingException {
+		public void unAssignAdvisor( UnAssignAdvisorFromResearchNoteCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -394,7 +392,7 @@ public class ResearchNoteService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Advisor on ResearchNote";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

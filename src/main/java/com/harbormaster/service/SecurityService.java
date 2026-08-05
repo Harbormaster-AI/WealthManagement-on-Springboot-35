@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class SecurityService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Security
 		 */
 			public Security createSecurity( CreateSecurityCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Security entity = new Security();
 
@@ -150,7 +150,7 @@ public class SecurityService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Security - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -161,12 +161,11 @@ public class SecurityService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateSecurityCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Security
 		 */
 		public Security updateSecurity( UpdateSecurityCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Security entity = new Security();
 
@@ -200,7 +199,7 @@ public class SecurityService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Security - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -209,10 +208,10 @@ public class SecurityService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteSecurityCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteSecurityCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -234,7 +233,7 @@ public class SecurityService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Security using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -244,11 +243,10 @@ public class SecurityService
 		 * Method to retrieve the Security via SecurityFetchOneSummary
 		 * @param 	summary SecurityFetchOneSummary
 		 * @return 	SecurityFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Security getSecurity( SecurityFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "SecurityFetchOneSummary arg cannot be null" );
@@ -270,7 +268,7 @@ public class SecurityService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Security with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -283,10 +281,10 @@ public class SecurityService
 		 * Method to retrieve a collection of all Securitys
 		 *
 		 * @return 	List<Security>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Security> getAllSecurity() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Security> list = null;
 
 			try {
@@ -295,7 +293,7 @@ public class SecurityService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Security";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -307,9 +305,9 @@ public class SecurityService
 		/**
 		 * add CorporateAction to CorporateActions
 		 * @param		command AssignCorporateActionsToSecurityCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToCorporateActions( AssignCorporateActionsToSecurityCommand command ) throws ProcessingException {
+		public void addToCorporateActions( AssignCorporateActionsToSecurityCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -324,7 +322,7 @@ public class SecurityService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a CorporateAction as CorporateActions to Security" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -332,9 +330,9 @@ public class SecurityService
 		/**
 		 * remove CorporateAction from CorporateActions
 		 * @param		command RemoveCorporateActionsFromSecurityCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromCorporateActions( RemoveCorporateActionsFromSecurityCommand command ) throws ProcessingException {
+		public void removeFromCorporateActions( RemoveCorporateActionsFromSecurityCommand command ) throws BusinessException {
 
 			try {
 
@@ -352,16 +350,16 @@ public class SecurityService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getSecurityId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add MarketPrice to Prices
 		 * @param		command AssignPricesToSecurityCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToPrices( AssignPricesToSecurityCommand command ) throws ProcessingException {
+		public void addToPrices( AssignPricesToSecurityCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -376,7 +374,7 @@ public class SecurityService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a MarketPrice as Prices to Security" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -384,9 +382,9 @@ public class SecurityService
 		/**
 		 * remove MarketPrice from Prices
 		 * @param		command RemovePricesFromSecurityCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromPrices( RemovePricesFromSecurityCommand command ) throws ProcessingException {
+		public void removeFromPrices( RemovePricesFromSecurityCommand command ) throws BusinessException {
 
 			try {
 
@@ -404,16 +402,16 @@ public class SecurityService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getSecurityId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Benchmark to Benchmarks
 		 * @param		command AssignBenchmarksToSecurityCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToBenchmarks( AssignBenchmarksToSecurityCommand command ) throws ProcessingException {
+		public void addToBenchmarks( AssignBenchmarksToSecurityCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -428,7 +426,7 @@ public class SecurityService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Benchmark as Benchmarks to Security" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -436,9 +434,9 @@ public class SecurityService
 		/**
 		 * remove Benchmark from Benchmarks
 		 * @param		command RemoveBenchmarksFromSecurityCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromBenchmarks( RemoveBenchmarksFromSecurityCommand command ) throws ProcessingException {
+		public void removeFromBenchmarks( RemoveBenchmarksFromSecurityCommand command ) throws BusinessException {
 
 			try {
 
@@ -456,7 +454,7 @@ public class SecurityService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getSecurityId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

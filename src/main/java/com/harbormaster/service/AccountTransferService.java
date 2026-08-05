@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class AccountTransferService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		AccountTransfer
 		 */
 			public AccountTransfer createAccountTransfer( CreateAccountTransferCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			AccountTransfer entity = new AccountTransfer();
 
@@ -146,7 +146,7 @@ public class AccountTransferService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create AccountTransfer - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class AccountTransferService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateAccountTransferCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		AccountTransfer
 		 */
 		public AccountTransfer updateAccountTransfer( UpdateAccountTransferCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			AccountTransfer entity = new AccountTransfer();
 
@@ -192,7 +191,7 @@ public class AccountTransferService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save AccountTransfer - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -201,10 +200,10 @@ public class AccountTransferService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteAccountTransferCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteAccountTransferCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -226,7 +225,7 @@ public class AccountTransferService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete AccountTransfer using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -236,11 +235,10 @@ public class AccountTransferService
 		 * Method to retrieve the AccountTransfer via AccountTransferFetchOneSummary
 		 * @param 	summary AccountTransferFetchOneSummary
 		 * @return 	AccountTransferFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public AccountTransfer getAccountTransfer( AccountTransferFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "AccountTransferFetchOneSummary arg cannot be null" );
@@ -262,7 +260,7 @@ public class AccountTransferService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate AccountTransfer with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -275,10 +273,10 @@ public class AccountTransferService
 		 * Method to retrieve a collection of all AccountTransfers
 		 *
 		 * @return 	List<AccountTransfer>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<AccountTransfer> getAllAccountTransfer() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<AccountTransfer> list = null;
 
 			try {
@@ -287,7 +285,7 @@ public class AccountTransferService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all AccountTransfer";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -298,9 +296,9 @@ public class AccountTransferService
 		/**
 		 * assign FromCustodian on AccountTransfer
 		 * @param		command AssignFromCustodianToAccountTransferCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignFromCustodian( AssignFromCustodianToAccountTransferCommand command ) throws ProcessingException {
+		public void assignFromCustodian( AssignFromCustodianToAccountTransferCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -317,16 +315,16 @@ public class AccountTransferService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Custodian using id " + command.getAccountTransferId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign FromCustodian on AccountTransfer
 		 * @param		command UnAssignFromCustodianFromAccountTransferCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignFromCustodian( UnAssignFromCustodianFromAccountTransferCommand command ) throws ProcessingException {
+		public void unAssignFromCustodian( UnAssignFromCustodianFromAccountTransferCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -342,16 +340,16 @@ public class AccountTransferService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign FromCustodian on AccountTransfer";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign ToCustodian on AccountTransfer
 		 * @param		command AssignToCustodianToAccountTransferCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignToCustodian( AssignToCustodianToAccountTransferCommand command ) throws ProcessingException {
+		public void assignToCustodian( AssignToCustodianToAccountTransferCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -368,16 +366,16 @@ public class AccountTransferService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Custodian using id " + command.getAccountTransferId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign ToCustodian on AccountTransfer
 		 * @param		command UnAssignToCustodianFromAccountTransferCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignToCustodian( UnAssignToCustodianFromAccountTransferCommand command ) throws ProcessingException {
+		public void unAssignToCustodian( UnAssignToCustodianFromAccountTransferCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -393,16 +391,16 @@ public class AccountTransferService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign ToCustodian on AccountTransfer";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Account on AccountTransfer
 		 * @param		command AssignAccountToAccountTransferCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToAccountTransferCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToAccountTransferCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -419,16 +417,16 @@ public class AccountTransferService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getAccountTransferId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on AccountTransfer
 		 * @param		command UnAssignAccountFromAccountTransferCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromAccountTransferCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromAccountTransferCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -444,7 +442,7 @@ public class AccountTransferService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on AccountTransfer";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class InvoiceService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Invoice
 		 */
 			public Invoice createInvoice( CreateInvoiceCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Invoice entity = new Invoice();
 
@@ -147,7 +147,7 @@ public class InvoiceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Invoice - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -158,12 +158,11 @@ public class InvoiceService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateInvoiceCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Invoice
 		 */
 		public Invoice updateInvoice( UpdateInvoiceCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Invoice entity = new Invoice();
 
@@ -194,7 +193,7 @@ public class InvoiceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Invoice - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -203,10 +202,10 @@ public class InvoiceService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteInvoiceCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteInvoiceCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -228,7 +227,7 @@ public class InvoiceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Invoice using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -238,11 +237,10 @@ public class InvoiceService
 		 * Method to retrieve the Invoice via InvoiceFetchOneSummary
 		 * @param 	summary InvoiceFetchOneSummary
 		 * @return 	InvoiceFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Invoice getInvoice( InvoiceFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "InvoiceFetchOneSummary arg cannot be null" );
@@ -264,7 +262,7 @@ public class InvoiceService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Invoice with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -277,10 +275,10 @@ public class InvoiceService
 		 * Method to retrieve a collection of all Invoices
 		 *
 		 * @return 	List<Invoice>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Invoice> getAllInvoice() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Invoice> list = null;
 
 			try {
@@ -289,7 +287,7 @@ public class InvoiceService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Invoice";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -300,9 +298,9 @@ public class InvoiceService
 		/**
 		 * assign Account on Invoice
 		 * @param		command AssignAccountToInvoiceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToInvoiceCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToInvoiceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -319,16 +317,16 @@ public class InvoiceService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getInvoiceId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on Invoice
 		 * @param		command UnAssignAccountFromInvoiceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromInvoiceCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromInvoiceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -344,16 +342,16 @@ public class InvoiceService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on Invoice";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign BillingRun on Invoice
 		 * @param		command AssignBillingRunToInvoiceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignBillingRun( AssignBillingRunToInvoiceCommand command ) throws ProcessingException {
+		public void assignBillingRun( AssignBillingRunToInvoiceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -370,16 +368,16 @@ public class InvoiceService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get BillingRun using id " + command.getInvoiceId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign BillingRun on Invoice
 		 * @param		command UnAssignBillingRunFromInvoiceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignBillingRun( UnAssignBillingRunFromInvoiceCommand command ) throws ProcessingException {
+		public void unAssignBillingRun( UnAssignBillingRunFromInvoiceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -395,7 +393,7 @@ public class InvoiceService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign BillingRun on Invoice";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -403,9 +401,9 @@ public class InvoiceService
 		/**
 		 * add Fee to Fees
 		 * @param		command AssignFeesToInvoiceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToFees( AssignFeesToInvoiceCommand command ) throws ProcessingException {
+		public void addToFees( AssignFeesToInvoiceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -420,7 +418,7 @@ public class InvoiceService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Fee as Fees to Invoice" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -428,9 +426,9 @@ public class InvoiceService
 		/**
 		 * remove Fee from Fees
 		 * @param		command RemoveFeesFromInvoiceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromFees( RemoveFeesFromInvoiceCommand command ) throws ProcessingException {
+		public void removeFromFees( RemoveFeesFromInvoiceCommand command ) throws BusinessException {
 
 			try {
 
@@ -448,7 +446,7 @@ public class InvoiceService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getInvoiceId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

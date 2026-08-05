@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class CashMovementService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		CashMovement
 		 */
 			public CashMovement createCashMovement( CreateCashMovementCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			CashMovement entity = new CashMovement();
 
@@ -146,7 +146,7 @@ public class CashMovementService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create CashMovement - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class CashMovementService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateCashMovementCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		CashMovement
 		 */
 		public CashMovement updateCashMovement( UpdateCashMovementCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			CashMovement entity = new CashMovement();
 
@@ -192,7 +191,7 @@ public class CashMovementService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save CashMovement - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -201,10 +200,10 @@ public class CashMovementService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteCashMovementCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteCashMovementCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -226,7 +225,7 @@ public class CashMovementService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete CashMovement using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -236,11 +235,10 @@ public class CashMovementService
 		 * Method to retrieve the CashMovement via CashMovementFetchOneSummary
 		 * @param 	summary CashMovementFetchOneSummary
 		 * @return 	CashMovementFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public CashMovement getCashMovement( CashMovementFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "CashMovementFetchOneSummary arg cannot be null" );
@@ -262,7 +260,7 @@ public class CashMovementService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate CashMovement with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -275,10 +273,10 @@ public class CashMovementService
 		 * Method to retrieve a collection of all CashMovements
 		 *
 		 * @return 	List<CashMovement>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<CashMovement> getAllCashMovement() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<CashMovement> list = null;
 
 			try {
@@ -287,7 +285,7 @@ public class CashMovementService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all CashMovement";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -298,9 +296,9 @@ public class CashMovementService
 		/**
 		 * assign Account on CashMovement
 		 * @param		command AssignAccountToCashMovementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToCashMovementCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToCashMovementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -317,16 +315,16 @@ public class CashMovementService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getCashMovementId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on CashMovement
 		 * @param		command UnAssignAccountFromCashMovementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromCashMovementCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromCashMovementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -342,16 +340,16 @@ public class CashMovementService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on CashMovement";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign RelatedInstruction on CashMovement
 		 * @param		command AssignRelatedInstructionToCashMovementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignRelatedInstruction( AssignRelatedInstructionToCashMovementCommand command ) throws ProcessingException {
+		public void assignRelatedInstruction( AssignRelatedInstructionToCashMovementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -368,16 +366,16 @@ public class CashMovementService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get StandingInstruction using id " + command.getCashMovementId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign RelatedInstruction on CashMovement
 		 * @param		command UnAssignRelatedInstructionFromCashMovementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignRelatedInstruction( UnAssignRelatedInstructionFromCashMovementCommand command ) throws ProcessingException {
+		public void unAssignRelatedInstruction( UnAssignRelatedInstructionFromCashMovementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -393,16 +391,16 @@ public class CashMovementService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign RelatedInstruction on CashMovement";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign RelatedTransaction on CashMovement
 		 * @param		command AssignRelatedTransactionToCashMovementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignRelatedTransaction( AssignRelatedTransactionToCashMovementCommand command ) throws ProcessingException {
+		public void assignRelatedTransaction( AssignRelatedTransactionToCashMovementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -419,16 +417,16 @@ public class CashMovementService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Transaction using id " + command.getCashMovementId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign RelatedTransaction on CashMovement
 		 * @param		command UnAssignRelatedTransactionFromCashMovementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignRelatedTransaction( UnAssignRelatedTransactionFromCashMovementCommand command ) throws ProcessingException {
+		public void unAssignRelatedTransaction( UnAssignRelatedTransactionFromCashMovementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -444,7 +442,7 @@ public class CashMovementService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign RelatedTransaction on CashMovement";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

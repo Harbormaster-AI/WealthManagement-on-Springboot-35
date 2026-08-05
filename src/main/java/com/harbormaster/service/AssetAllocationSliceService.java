@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class AssetAllocationSliceService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		AssetAllocationSlice
 		 */
 			public AssetAllocationSlice createAssetAllocationSlice( CreateAssetAllocationSliceCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			AssetAllocationSlice entity = new AssetAllocationSlice();
 
@@ -144,7 +144,7 @@ public class AssetAllocationSliceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create AssetAllocationSlice - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -155,12 +155,11 @@ public class AssetAllocationSliceService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateAssetAllocationSliceCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		AssetAllocationSlice
 		 */
 		public AssetAllocationSlice updateAssetAllocationSlice( UpdateAssetAllocationSliceCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			AssetAllocationSlice entity = new AssetAllocationSlice();
 
@@ -186,7 +185,7 @@ public class AssetAllocationSliceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save AssetAllocationSlice - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -195,10 +194,10 @@ public class AssetAllocationSliceService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteAssetAllocationSliceCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteAssetAllocationSliceCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -220,7 +219,7 @@ public class AssetAllocationSliceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete AssetAllocationSlice using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -230,11 +229,10 @@ public class AssetAllocationSliceService
 		 * Method to retrieve the AssetAllocationSlice via AssetAllocationSliceFetchOneSummary
 		 * @param 	summary AssetAllocationSliceFetchOneSummary
 		 * @return 	AssetAllocationSliceFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public AssetAllocationSlice getAssetAllocationSlice( AssetAllocationSliceFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "AssetAllocationSliceFetchOneSummary arg cannot be null" );
@@ -256,7 +254,7 @@ public class AssetAllocationSliceService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate AssetAllocationSlice with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -269,10 +267,10 @@ public class AssetAllocationSliceService
 		 * Method to retrieve a collection of all AssetAllocationSlices
 		 *
 		 * @return 	List<AssetAllocationSlice>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<AssetAllocationSlice> getAllAssetAllocationSlice() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<AssetAllocationSlice> list = null;
 
 			try {
@@ -281,7 +279,7 @@ public class AssetAllocationSliceService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all AssetAllocationSlice";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -292,9 +290,9 @@ public class AssetAllocationSliceService
 		/**
 		 * assign ModelPortfolio on AssetAllocationSlice
 		 * @param		command AssignModelPortfolioToAssetAllocationSliceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignModelPortfolio( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws ProcessingException {
+		public void assignModelPortfolio( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -311,16 +309,16 @@ public class AssetAllocationSliceService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get ModelPortfolio using id " + command.getAssetAllocationSliceId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign ModelPortfolio on AssetAllocationSlice
 		 * @param		command UnAssignModelPortfolioFromAssetAllocationSliceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignModelPortfolio( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws ProcessingException {
+		public void unAssignModelPortfolio( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -336,7 +334,7 @@ public class AssetAllocationSliceService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign ModelPortfolio on AssetAllocationSlice";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

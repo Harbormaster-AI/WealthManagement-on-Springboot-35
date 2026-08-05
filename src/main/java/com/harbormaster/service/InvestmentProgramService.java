@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class InvestmentProgramService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		InvestmentProgram
 		 */
 			public InvestmentProgram createInvestmentProgram( CreateInvestmentProgramCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			InvestmentProgram entity = new InvestmentProgram();
 
@@ -145,7 +145,7 @@ public class InvestmentProgramService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create InvestmentProgram - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -156,12 +156,11 @@ public class InvestmentProgramService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateInvestmentProgramCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		InvestmentProgram
 		 */
 		public InvestmentProgram updateInvestmentProgram( UpdateInvestmentProgramCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			InvestmentProgram entity = new InvestmentProgram();
 
@@ -189,7 +188,7 @@ public class InvestmentProgramService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save InvestmentProgram - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -198,10 +197,10 @@ public class InvestmentProgramService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteInvestmentProgramCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteInvestmentProgramCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -223,7 +222,7 @@ public class InvestmentProgramService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete InvestmentProgram using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -233,11 +232,10 @@ public class InvestmentProgramService
 		 * Method to retrieve the InvestmentProgram via InvestmentProgramFetchOneSummary
 		 * @param 	summary InvestmentProgramFetchOneSummary
 		 * @return 	InvestmentProgramFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public InvestmentProgram getInvestmentProgram( InvestmentProgramFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "InvestmentProgramFetchOneSummary arg cannot be null" );
@@ -259,7 +257,7 @@ public class InvestmentProgramService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate InvestmentProgram with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -272,10 +270,10 @@ public class InvestmentProgramService
 		 * Method to retrieve a collection of all InvestmentPrograms
 		 *
 		 * @return 	List<InvestmentProgram>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<InvestmentProgram> getAllInvestmentProgram() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<InvestmentProgram> list = null;
 
 			try {
@@ -284,7 +282,7 @@ public class InvestmentProgramService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all InvestmentProgram";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -296,9 +294,9 @@ public class InvestmentProgramService
 		/**
 		 * add ModelPortfolio to ModelPortfolios
 		 * @param		command AssignModelPortfoliosToInvestmentProgramCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToModelPortfolios( AssignModelPortfoliosToInvestmentProgramCommand command ) throws ProcessingException {
+		public void addToModelPortfolios( AssignModelPortfoliosToInvestmentProgramCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -313,7 +311,7 @@ public class InvestmentProgramService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a ModelPortfolio as ModelPortfolios to InvestmentProgram" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -321,9 +319,9 @@ public class InvestmentProgramService
 		/**
 		 * remove ModelPortfolio from ModelPortfolios
 		 * @param		command RemoveModelPortfoliosFromInvestmentProgramCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromModelPortfolios( RemoveModelPortfoliosFromInvestmentProgramCommand command ) throws ProcessingException {
+		public void removeFromModelPortfolios( RemoveModelPortfoliosFromInvestmentProgramCommand command ) throws BusinessException {
 
 			try {
 
@@ -341,16 +339,16 @@ public class InvestmentProgramService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getInvestmentProgramId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add FeeSchedule to FeeSchedules
 		 * @param		command AssignFeeSchedulesToInvestmentProgramCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToFeeSchedules( AssignFeeSchedulesToInvestmentProgramCommand command ) throws ProcessingException {
+		public void addToFeeSchedules( AssignFeeSchedulesToInvestmentProgramCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -365,7 +363,7 @@ public class InvestmentProgramService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a FeeSchedule as FeeSchedules to InvestmentProgram" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -373,9 +371,9 @@ public class InvestmentProgramService
 		/**
 		 * remove FeeSchedule from FeeSchedules
 		 * @param		command RemoveFeeSchedulesFromInvestmentProgramCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromFeeSchedules( RemoveFeeSchedulesFromInvestmentProgramCommand command ) throws ProcessingException {
+		public void removeFromFeeSchedules( RemoveFeeSchedulesFromInvestmentProgramCommand command ) throws BusinessException {
 
 			try {
 
@@ -393,7 +391,7 @@ public class InvestmentProgramService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getInvestmentProgramId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

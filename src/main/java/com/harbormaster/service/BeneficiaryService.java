@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class BeneficiaryService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Beneficiary
 		 */
 			public Beneficiary createBeneficiary( CreateBeneficiaryCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Beneficiary entity = new Beneficiary();
 
@@ -146,7 +146,7 @@ public class BeneficiaryService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Beneficiary - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class BeneficiaryService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateBeneficiaryCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Beneficiary
 		 */
 		public Beneficiary updateBeneficiary( UpdateBeneficiaryCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Beneficiary entity = new Beneficiary();
 
@@ -191,7 +190,7 @@ public class BeneficiaryService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Beneficiary - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -200,10 +199,10 @@ public class BeneficiaryService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteBeneficiaryCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteBeneficiaryCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -225,7 +224,7 @@ public class BeneficiaryService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Beneficiary using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -235,11 +234,10 @@ public class BeneficiaryService
 		 * Method to retrieve the Beneficiary via BeneficiaryFetchOneSummary
 		 * @param 	summary BeneficiaryFetchOneSummary
 		 * @return 	BeneficiaryFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Beneficiary getBeneficiary( BeneficiaryFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "BeneficiaryFetchOneSummary arg cannot be null" );
@@ -261,7 +259,7 @@ public class BeneficiaryService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Beneficiary with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -274,10 +272,10 @@ public class BeneficiaryService
 		 * Method to retrieve a collection of all Beneficiarys
 		 *
 		 * @return 	List<Beneficiary>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Beneficiary> getAllBeneficiary() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Beneficiary> list = null;
 
 			try {
@@ -286,7 +284,7 @@ public class BeneficiaryService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Beneficiary";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -297,9 +295,9 @@ public class BeneficiaryService
 		/**
 		 * assign Client on Beneficiary
 		 * @param		command AssignClientToBeneficiaryCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignClient( AssignClientToBeneficiaryCommand command ) throws ProcessingException {
+		public void assignClient( AssignClientToBeneficiaryCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -316,16 +314,16 @@ public class BeneficiaryService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Client using id " + command.getBeneficiaryId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Client on Beneficiary
 		 * @param		command UnAssignClientFromBeneficiaryCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignClient( UnAssignClientFromBeneficiaryCommand command ) throws ProcessingException {
+		public void unAssignClient( UnAssignClientFromBeneficiaryCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -341,7 +339,7 @@ public class BeneficiaryService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Client on Beneficiary";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -349,9 +347,9 @@ public class BeneficiaryService
 		/**
 		 * add Account to Accounts
 		 * @param		command AssignAccountsToBeneficiaryCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAccounts( AssignAccountsToBeneficiaryCommand command ) throws ProcessingException {
+		public void addToAccounts( AssignAccountsToBeneficiaryCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -366,7 +364,7 @@ public class BeneficiaryService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Account as Accounts to Beneficiary" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -374,9 +372,9 @@ public class BeneficiaryService
 		/**
 		 * remove Account from Accounts
 		 * @param		command RemoveAccountsFromBeneficiaryCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAccounts( RemoveAccountsFromBeneficiaryCommand command ) throws ProcessingException {
+		public void removeFromAccounts( RemoveAccountsFromBeneficiaryCommand command ) throws BusinessException {
 
 			try {
 
@@ -394,7 +392,7 @@ public class BeneficiaryService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getBeneficiaryId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

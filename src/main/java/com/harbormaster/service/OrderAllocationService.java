@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class OrderAllocationService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		OrderAllocation
 		 */
 			public OrderAllocation createOrderAllocation( CreateOrderAllocationCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			OrderAllocation entity = new OrderAllocation();
 
@@ -143,7 +143,7 @@ public class OrderAllocationService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create OrderAllocation - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -154,12 +154,11 @@ public class OrderAllocationService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateOrderAllocationCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		OrderAllocation
 		 */
 		public OrderAllocation updateOrderAllocation( UpdateOrderAllocationCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			OrderAllocation entity = new OrderAllocation();
 
@@ -186,7 +185,7 @@ public class OrderAllocationService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save OrderAllocation - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -195,10 +194,10 @@ public class OrderAllocationService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteOrderAllocationCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteOrderAllocationCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -220,7 +219,7 @@ public class OrderAllocationService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete OrderAllocation using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -230,11 +229,10 @@ public class OrderAllocationService
 		 * Method to retrieve the OrderAllocation via OrderAllocationFetchOneSummary
 		 * @param 	summary OrderAllocationFetchOneSummary
 		 * @return 	OrderAllocationFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public OrderAllocation getOrderAllocation( OrderAllocationFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "OrderAllocationFetchOneSummary arg cannot be null" );
@@ -256,7 +254,7 @@ public class OrderAllocationService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate OrderAllocation with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -269,10 +267,10 @@ public class OrderAllocationService
 		 * Method to retrieve a collection of all OrderAllocations
 		 *
 		 * @return 	List<OrderAllocation>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<OrderAllocation> getAllOrderAllocation() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<OrderAllocation> list = null;
 
 			try {
@@ -281,7 +279,7 @@ public class OrderAllocationService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all OrderAllocation";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -292,9 +290,9 @@ public class OrderAllocationService
 		/**
 		 * assign Order on OrderAllocation
 		 * @param		command AssignOrderToOrderAllocationCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignOrder( AssignOrderToOrderAllocationCommand command ) throws ProcessingException {
+		public void assignOrder( AssignOrderToOrderAllocationCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -311,16 +309,16 @@ public class OrderAllocationService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Order using id " + command.getOrderAllocationId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Order on OrderAllocation
 		 * @param		command UnAssignOrderFromOrderAllocationCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignOrder( UnAssignOrderFromOrderAllocationCommand command ) throws ProcessingException {
+		public void unAssignOrder( UnAssignOrderFromOrderAllocationCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -336,16 +334,16 @@ public class OrderAllocationService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Order on OrderAllocation";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Account on OrderAllocation
 		 * @param		command AssignAccountToOrderAllocationCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToOrderAllocationCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToOrderAllocationCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -362,16 +360,16 @@ public class OrderAllocationService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getOrderAllocationId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on OrderAllocation
 		 * @param		command UnAssignAccountFromOrderAllocationCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromOrderAllocationCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromOrderAllocationCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -387,16 +385,16 @@ public class OrderAllocationService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on OrderAllocation";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Portfolio on OrderAllocation
 		 * @param		command AssignPortfolioToOrderAllocationCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPortfolio( AssignPortfolioToOrderAllocationCommand command ) throws ProcessingException {
+		public void assignPortfolio( AssignPortfolioToOrderAllocationCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -413,16 +411,16 @@ public class OrderAllocationService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Portfolio using id " + command.getOrderAllocationId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Portfolio on OrderAllocation
 		 * @param		command UnAssignPortfolioFromOrderAllocationCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromOrderAllocationCommand command ) throws ProcessingException {
+		public void unAssignPortfolio( UnAssignPortfolioFromOrderAllocationCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -438,7 +436,7 @@ public class OrderAllocationService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Portfolio on OrderAllocation";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

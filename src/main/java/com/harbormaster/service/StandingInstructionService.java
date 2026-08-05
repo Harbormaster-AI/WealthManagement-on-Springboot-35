@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class StandingInstructionService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		StandingInstruction
 		 */
 			public StandingInstruction createStandingInstruction( CreateStandingInstructionCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			StandingInstruction entity = new StandingInstruction();
 
@@ -147,7 +147,7 @@ public class StandingInstructionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create StandingInstruction - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -158,12 +158,11 @@ public class StandingInstructionService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateStandingInstructionCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		StandingInstruction
 		 */
 		public StandingInstruction updateStandingInstruction( UpdateStandingInstructionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			StandingInstruction entity = new StandingInstruction();
 
@@ -193,7 +192,7 @@ public class StandingInstructionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save StandingInstruction - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -202,10 +201,10 @@ public class StandingInstructionService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteStandingInstructionCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteStandingInstructionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -227,7 +226,7 @@ public class StandingInstructionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete StandingInstruction using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -237,11 +236,10 @@ public class StandingInstructionService
 		 * Method to retrieve the StandingInstruction via StandingInstructionFetchOneSummary
 		 * @param 	summary StandingInstructionFetchOneSummary
 		 * @return 	StandingInstructionFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public StandingInstruction getStandingInstruction( StandingInstructionFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "StandingInstructionFetchOneSummary arg cannot be null" );
@@ -263,7 +261,7 @@ public class StandingInstructionService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate StandingInstruction with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -276,10 +274,10 @@ public class StandingInstructionService
 		 * Method to retrieve a collection of all StandingInstructions
 		 *
 		 * @return 	List<StandingInstruction>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<StandingInstruction> getAllStandingInstruction() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<StandingInstruction> list = null;
 
 			try {
@@ -288,7 +286,7 @@ public class StandingInstructionService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all StandingInstruction";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -299,9 +297,9 @@ public class StandingInstructionService
 		/**
 		 * assign Account on StandingInstruction
 		 * @param		command AssignAccountToStandingInstructionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToStandingInstructionCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToStandingInstructionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -318,16 +316,16 @@ public class StandingInstructionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getStandingInstructionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on StandingInstruction
 		 * @param		command UnAssignAccountFromStandingInstructionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromStandingInstructionCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromStandingInstructionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -343,16 +341,16 @@ public class StandingInstructionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on StandingInstruction";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign DestinationAccount on StandingInstruction
 		 * @param		command AssignDestinationAccountToStandingInstructionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignDestinationAccount( AssignDestinationAccountToStandingInstructionCommand command ) throws ProcessingException {
+		public void assignDestinationAccount( AssignDestinationAccountToStandingInstructionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -369,16 +367,16 @@ public class StandingInstructionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getStandingInstructionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign DestinationAccount on StandingInstruction
 		 * @param		command UnAssignDestinationAccountFromStandingInstructionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignDestinationAccount( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws ProcessingException {
+		public void unAssignDestinationAccount( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -394,7 +392,7 @@ public class StandingInstructionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign DestinationAccount on StandingInstruction";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

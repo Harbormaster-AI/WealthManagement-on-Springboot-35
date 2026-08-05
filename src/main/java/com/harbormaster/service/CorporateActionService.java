@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class CorporateActionService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		CorporateAction
 		 */
 			public CorporateAction createCorporateAction( CreateCorporateActionCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			CorporateAction entity = new CorporateAction();
 
@@ -146,7 +146,7 @@ public class CorporateActionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create CorporateAction - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class CorporateActionService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateCorporateActionCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		CorporateAction
 		 */
 		public CorporateAction updateCorporateAction( UpdateCorporateActionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			CorporateAction entity = new CorporateAction();
 
@@ -191,7 +190,7 @@ public class CorporateActionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save CorporateAction - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -200,10 +199,10 @@ public class CorporateActionService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteCorporateActionCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteCorporateActionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -225,7 +224,7 @@ public class CorporateActionService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete CorporateAction using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -235,11 +234,10 @@ public class CorporateActionService
 		 * Method to retrieve the CorporateAction via CorporateActionFetchOneSummary
 		 * @param 	summary CorporateActionFetchOneSummary
 		 * @return 	CorporateActionFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public CorporateAction getCorporateAction( CorporateActionFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "CorporateActionFetchOneSummary arg cannot be null" );
@@ -261,7 +259,7 @@ public class CorporateActionService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate CorporateAction with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -274,10 +272,10 @@ public class CorporateActionService
 		 * Method to retrieve a collection of all CorporateActions
 		 *
 		 * @return 	List<CorporateAction>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<CorporateAction> getAllCorporateAction() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<CorporateAction> list = null;
 
 			try {
@@ -286,7 +284,7 @@ public class CorporateActionService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all CorporateAction";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -297,9 +295,9 @@ public class CorporateActionService
 		/**
 		 * assign Security on CorporateAction
 		 * @param		command AssignSecurityToCorporateActionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignSecurity( AssignSecurityToCorporateActionCommand command ) throws ProcessingException {
+		public void assignSecurity( AssignSecurityToCorporateActionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -316,16 +314,16 @@ public class CorporateActionService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Security using id " + command.getCorporateActionId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Security on CorporateAction
 		 * @param		command UnAssignSecurityFromCorporateActionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignSecurity( UnAssignSecurityFromCorporateActionCommand command ) throws ProcessingException {
+		public void unAssignSecurity( UnAssignSecurityFromCorporateActionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -341,7 +339,7 @@ public class CorporateActionService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Security on CorporateAction";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -349,9 +347,9 @@ public class CorporateActionService
 		/**
 		 * add Dividend to Dividends
 		 * @param		command AssignDividendsToCorporateActionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToDividends( AssignDividendsToCorporateActionCommand command ) throws ProcessingException {
+		public void addToDividends( AssignDividendsToCorporateActionCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -366,7 +364,7 @@ public class CorporateActionService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Dividend as Dividends to CorporateAction" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -374,9 +372,9 @@ public class CorporateActionService
 		/**
 		 * remove Dividend from Dividends
 		 * @param		command RemoveDividendsFromCorporateActionCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromDividends( RemoveDividendsFromCorporateActionCommand command ) throws ProcessingException {
+		public void removeFromDividends( RemoveDividendsFromCorporateActionCommand command ) throws BusinessException {
 
 			try {
 
@@ -394,7 +392,7 @@ public class CorporateActionService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getCorporateActionId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

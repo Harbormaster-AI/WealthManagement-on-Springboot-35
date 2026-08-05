@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class DividendService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Dividend
 		 */
 			public Dividend createDividend( CreateDividendCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Dividend entity = new Dividend();
 
@@ -144,7 +144,7 @@ public class DividendService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Dividend - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -155,12 +155,11 @@ public class DividendService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateDividendCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Dividend
 		 */
 		public Dividend updateDividend( UpdateDividendCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Dividend entity = new Dividend();
 
@@ -186,7 +185,7 @@ public class DividendService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Dividend - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -195,10 +194,10 @@ public class DividendService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteDividendCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteDividendCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -220,7 +219,7 @@ public class DividendService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Dividend using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -230,11 +229,10 @@ public class DividendService
 		 * Method to retrieve the Dividend via DividendFetchOneSummary
 		 * @param 	summary DividendFetchOneSummary
 		 * @return 	DividendFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Dividend getDividend( DividendFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "DividendFetchOneSummary arg cannot be null" );
@@ -256,7 +254,7 @@ public class DividendService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Dividend with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -269,10 +267,10 @@ public class DividendService
 		 * Method to retrieve a collection of all Dividends
 		 *
 		 * @return 	List<Dividend>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Dividend> getAllDividend() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Dividend> list = null;
 
 			try {
@@ -281,7 +279,7 @@ public class DividendService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Dividend";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -292,9 +290,9 @@ public class DividendService
 		/**
 		 * assign CorporateAction on Dividend
 		 * @param		command AssignCorporateActionToDividendCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignCorporateAction( AssignCorporateActionToDividendCommand command ) throws ProcessingException {
+		public void assignCorporateAction( AssignCorporateActionToDividendCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -311,16 +309,16 @@ public class DividendService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get CorporateAction using id " + command.getDividendId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign CorporateAction on Dividend
 		 * @param		command UnAssignCorporateActionFromDividendCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignCorporateAction( UnAssignCorporateActionFromDividendCommand command ) throws ProcessingException {
+		public void unAssignCorporateAction( UnAssignCorporateActionFromDividendCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -336,7 +334,7 @@ public class DividendService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign CorporateAction on Dividend";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class MarketPriceService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		MarketPrice
 		 */
 			public MarketPrice createMarketPrice( CreateMarketPriceCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			MarketPrice entity = new MarketPrice();
 
@@ -145,7 +145,7 @@ public class MarketPriceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create MarketPrice - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -156,12 +156,11 @@ public class MarketPriceService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateMarketPriceCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		MarketPrice
 		 */
 		public MarketPrice updateMarketPrice( UpdateMarketPriceCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			MarketPrice entity = new MarketPrice();
 
@@ -188,7 +187,7 @@ public class MarketPriceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save MarketPrice - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -197,10 +196,10 @@ public class MarketPriceService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteMarketPriceCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteMarketPriceCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -222,7 +221,7 @@ public class MarketPriceService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete MarketPrice using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -232,11 +231,10 @@ public class MarketPriceService
 		 * Method to retrieve the MarketPrice via MarketPriceFetchOneSummary
 		 * @param 	summary MarketPriceFetchOneSummary
 		 * @return 	MarketPriceFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public MarketPrice getMarketPrice( MarketPriceFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "MarketPriceFetchOneSummary arg cannot be null" );
@@ -258,7 +256,7 @@ public class MarketPriceService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate MarketPrice with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -271,10 +269,10 @@ public class MarketPriceService
 		 * Method to retrieve a collection of all MarketPrices
 		 *
 		 * @return 	List<MarketPrice>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<MarketPrice> getAllMarketPrice() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<MarketPrice> list = null;
 
 			try {
@@ -283,7 +281,7 @@ public class MarketPriceService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all MarketPrice";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -294,9 +292,9 @@ public class MarketPriceService
 		/**
 		 * assign Security on MarketPrice
 		 * @param		command AssignSecurityToMarketPriceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignSecurity( AssignSecurityToMarketPriceCommand command ) throws ProcessingException {
+		public void assignSecurity( AssignSecurityToMarketPriceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -313,16 +311,16 @@ public class MarketPriceService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Security using id " + command.getMarketPriceId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Security on MarketPrice
 		 * @param		command UnAssignSecurityFromMarketPriceCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignSecurity( UnAssignSecurityFromMarketPriceCommand command ) throws ProcessingException {
+		public void unAssignSecurity( UnAssignSecurityFromMarketPriceCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -338,7 +336,7 @@ public class MarketPriceService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Security on MarketPrice";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

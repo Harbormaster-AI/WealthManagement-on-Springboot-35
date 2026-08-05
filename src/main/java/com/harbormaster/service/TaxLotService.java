@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class TaxLotService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		TaxLot
 		 */
 			public TaxLot createTaxLot( CreateTaxLotCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			TaxLot entity = new TaxLot();
 
@@ -145,7 +145,7 @@ public class TaxLotService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create TaxLot - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -156,12 +156,11 @@ public class TaxLotService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateTaxLotCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		TaxLot
 		 */
 		public TaxLot updateTaxLot( UpdateTaxLotCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			TaxLot entity = new TaxLot();
 
@@ -188,7 +187,7 @@ public class TaxLotService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save TaxLot - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -197,10 +196,10 @@ public class TaxLotService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteTaxLotCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteTaxLotCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -222,7 +221,7 @@ public class TaxLotService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete TaxLot using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -232,11 +231,10 @@ public class TaxLotService
 		 * Method to retrieve the TaxLot via TaxLotFetchOneSummary
 		 * @param 	summary TaxLotFetchOneSummary
 		 * @return 	TaxLotFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public TaxLot getTaxLot( TaxLotFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "TaxLotFetchOneSummary arg cannot be null" );
@@ -258,7 +256,7 @@ public class TaxLotService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate TaxLot with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -271,10 +269,10 @@ public class TaxLotService
 		 * Method to retrieve a collection of all TaxLots
 		 *
 		 * @return 	List<TaxLot>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<TaxLot> getAllTaxLot() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<TaxLot> list = null;
 
 			try {
@@ -283,7 +281,7 @@ public class TaxLotService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all TaxLot";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -294,9 +292,9 @@ public class TaxLotService
 		/**
 		 * assign Position on TaxLot
 		 * @param		command AssignPositionToTaxLotCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPosition( AssignPositionToTaxLotCommand command ) throws ProcessingException {
+		public void assignPosition( AssignPositionToTaxLotCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -313,16 +311,16 @@ public class TaxLotService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Position using id " + command.getTaxLotId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Position on TaxLot
 		 * @param		command UnAssignPositionFromTaxLotCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPosition( UnAssignPositionFromTaxLotCommand command ) throws ProcessingException {
+		public void unAssignPosition( UnAssignPositionFromTaxLotCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -338,7 +336,7 @@ public class TaxLotService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Position on TaxLot";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class PortfolioService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Portfolio
 		 */
 			public Portfolio createPortfolio( CreatePortfolioCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Portfolio entity = new Portfolio();
 
@@ -147,7 +147,7 @@ public class PortfolioService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Portfolio - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -158,12 +158,11 @@ public class PortfolioService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdatePortfolioCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Portfolio
 		 */
 		public Portfolio updatePortfolio( UpdatePortfolioCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Portfolio entity = new Portfolio();
 
@@ -198,7 +197,7 @@ public class PortfolioService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Portfolio - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -207,10 +206,10 @@ public class PortfolioService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeletePortfolioCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeletePortfolioCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -232,7 +231,7 @@ public class PortfolioService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Portfolio using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -242,11 +241,10 @@ public class PortfolioService
 		 * Method to retrieve the Portfolio via PortfolioFetchOneSummary
 		 * @param 	summary PortfolioFetchOneSummary
 		 * @return 	PortfolioFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Portfolio getPortfolio( PortfolioFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "PortfolioFetchOneSummary arg cannot be null" );
@@ -268,7 +266,7 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Portfolio with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -281,10 +279,10 @@ public class PortfolioService
 		 * Method to retrieve a collection of all Portfolios
 		 *
 		 * @return 	List<Portfolio>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Portfolio> getAllPortfolio() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Portfolio> list = null;
 
 			try {
@@ -293,7 +291,7 @@ public class PortfolioService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Portfolio";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -304,9 +302,9 @@ public class PortfolioService
 		/**
 		 * assign Account on Portfolio
 		 * @param		command AssignAccountToPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToPortfolioCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -323,16 +321,16 @@ public class PortfolioService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getPortfolioId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on Portfolio
 		 * @param		command UnAssignAccountFromPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromPortfolioCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -348,16 +346,16 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on Portfolio";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign ModelPortfolio on Portfolio
 		 * @param		command AssignModelPortfolioToPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignModelPortfolio( AssignModelPortfolioToPortfolioCommand command ) throws ProcessingException {
+		public void assignModelPortfolio( AssignModelPortfolioToPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -374,16 +372,16 @@ public class PortfolioService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get ModelPortfolio using id " + command.getPortfolioId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign ModelPortfolio on Portfolio
 		 * @param		command UnAssignModelPortfolioFromPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignModelPortfolio( UnAssignModelPortfolioFromPortfolioCommand command ) throws ProcessingException {
+		public void unAssignModelPortfolio( UnAssignModelPortfolioFromPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -399,16 +397,16 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign ModelPortfolio on Portfolio";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Benchmark on Portfolio
 		 * @param		command AssignBenchmarkToPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignBenchmark( AssignBenchmarkToPortfolioCommand command ) throws ProcessingException {
+		public void assignBenchmark( AssignBenchmarkToPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -425,16 +423,16 @@ public class PortfolioService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Benchmark using id " + command.getPortfolioId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Benchmark on Portfolio
 		 * @param		command UnAssignBenchmarkFromPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignBenchmark( UnAssignBenchmarkFromPortfolioCommand command ) throws ProcessingException {
+		public void unAssignBenchmark( UnAssignBenchmarkFromPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -450,16 +448,16 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Benchmark on Portfolio";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign InvestmentPolicy on Portfolio
 		 * @param		command AssignInvestmentPolicyToPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignInvestmentPolicy( AssignInvestmentPolicyToPortfolioCommand command ) throws ProcessingException {
+		public void assignInvestmentPolicy( AssignInvestmentPolicyToPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -476,16 +474,16 @@ public class PortfolioService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get InvestmentPolicy using id " + command.getPortfolioId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign InvestmentPolicy on Portfolio
 		 * @param		command UnAssignInvestmentPolicyFromPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws ProcessingException {
+		public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -501,7 +499,7 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign InvestmentPolicy on Portfolio";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -509,9 +507,9 @@ public class PortfolioService
 		/**
 		 * add Position to Positions
 		 * @param		command AssignPositionsToPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToPositions( AssignPositionsToPortfolioCommand command ) throws ProcessingException {
+		public void addToPositions( AssignPositionsToPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -526,7 +524,7 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Position as Positions to Portfolio" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -534,9 +532,9 @@ public class PortfolioService
 		/**
 		 * remove Position from Positions
 		 * @param		command RemovePositionsFromPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromPositions( RemovePositionsFromPortfolioCommand command ) throws ProcessingException {
+		public void removeFromPositions( RemovePositionsFromPortfolioCommand command ) throws BusinessException {
 
 			try {
 
@@ -554,16 +552,16 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add PerformanceReport to PerformanceReports
 		 * @param		command AssignPerformanceReportsToPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToPerformanceReports( AssignPerformanceReportsToPortfolioCommand command ) throws ProcessingException {
+		public void addToPerformanceReports( AssignPerformanceReportsToPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -578,7 +576,7 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a PerformanceReport as PerformanceReports to Portfolio" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -586,9 +584,9 @@ public class PortfolioService
 		/**
 		 * remove PerformanceReport from PerformanceReports
 		 * @param		command RemovePerformanceReportsFromPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromPerformanceReports( RemovePerformanceReportsFromPortfolioCommand command ) throws ProcessingException {
+		public void removeFromPerformanceReports( RemovePerformanceReportsFromPortfolioCommand command ) throws BusinessException {
 
 			try {
 
@@ -606,16 +604,16 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add RebalancePlan to RebalancePlans
 		 * @param		command AssignRebalancePlansToPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToRebalancePlans( AssignRebalancePlansToPortfolioCommand command ) throws ProcessingException {
+		public void addToRebalancePlans( AssignRebalancePlansToPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -630,7 +628,7 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a RebalancePlan as RebalancePlans to Portfolio" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -638,9 +636,9 @@ public class PortfolioService
 		/**
 		 * remove RebalancePlan from RebalancePlans
 		 * @param		command RemoveRebalancePlansFromPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromRebalancePlans( RemoveRebalancePlansFromPortfolioCommand command ) throws ProcessingException {
+		public void removeFromRebalancePlans( RemoveRebalancePlansFromPortfolioCommand command ) throws BusinessException {
 
 			try {
 
@@ -658,7 +656,7 @@ public class PortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class AgreementService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Agreement
 		 */
 			public Agreement createAgreement( CreateAgreementCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Agreement entity = new Agreement();
 
@@ -145,7 +145,7 @@ public class AgreementService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Agreement - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -156,12 +156,11 @@ public class AgreementService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateAgreementCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Agreement
 		 */
 		public Agreement updateAgreement( UpdateAgreementCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Agreement entity = new Agreement();
 
@@ -190,7 +189,7 @@ public class AgreementService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Agreement - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -199,10 +198,10 @@ public class AgreementService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteAgreementCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteAgreementCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -224,7 +223,7 @@ public class AgreementService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Agreement using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -234,11 +233,10 @@ public class AgreementService
 		 * Method to retrieve the Agreement via AgreementFetchOneSummary
 		 * @param 	summary AgreementFetchOneSummary
 		 * @return 	AgreementFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Agreement getAgreement( AgreementFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "AgreementFetchOneSummary arg cannot be null" );
@@ -260,7 +258,7 @@ public class AgreementService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Agreement with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -273,10 +271,10 @@ public class AgreementService
 		 * Method to retrieve a collection of all Agreements
 		 *
 		 * @return 	List<Agreement>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Agreement> getAllAgreement() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Agreement> list = null;
 
 			try {
@@ -285,7 +283,7 @@ public class AgreementService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Agreement";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -296,9 +294,9 @@ public class AgreementService
 		/**
 		 * assign Client on Agreement
 		 * @param		command AssignClientToAgreementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignClient( AssignClientToAgreementCommand command ) throws ProcessingException {
+		public void assignClient( AssignClientToAgreementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -315,16 +313,16 @@ public class AgreementService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Client using id " + command.getAgreementId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Client on Agreement
 		 * @param		command UnAssignClientFromAgreementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignClient( UnAssignClientFromAgreementCommand command ) throws ProcessingException {
+		public void unAssignClient( UnAssignClientFromAgreementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -340,16 +338,16 @@ public class AgreementService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Client on Agreement";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Account on Agreement
 		 * @param		command AssignAccountToAgreementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToAgreementCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToAgreementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -366,16 +364,16 @@ public class AgreementService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getAgreementId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on Agreement
 		 * @param		command UnAssignAccountFromAgreementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromAgreementCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromAgreementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -391,7 +389,7 @@ public class AgreementService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on Agreement";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -399,9 +397,9 @@ public class AgreementService
 		/**
 		 * add Document to Documents
 		 * @param		command AssignDocumentsToAgreementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToDocuments( AssignDocumentsToAgreementCommand command ) throws ProcessingException {
+		public void addToDocuments( AssignDocumentsToAgreementCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -416,7 +414,7 @@ public class AgreementService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Document as Documents to Agreement" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -424,9 +422,9 @@ public class AgreementService
 		/**
 		 * remove Document from Documents
 		 * @param		command RemoveDocumentsFromAgreementCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromDocuments( RemoveDocumentsFromAgreementCommand command ) throws ProcessingException {
+		public void removeFromDocuments( RemoveDocumentsFromAgreementCommand command ) throws BusinessException {
 
 			try {
 
@@ -444,7 +442,7 @@ public class AgreementService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAgreementId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

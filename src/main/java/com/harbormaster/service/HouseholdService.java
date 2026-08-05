@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class HouseholdService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Household
 		 */
 			public Household createHousehold( CreateHouseholdCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Household entity = new Household();
 
@@ -143,7 +143,7 @@ public class HouseholdService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Household - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -154,12 +154,11 @@ public class HouseholdService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateHouseholdCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Household
 		 */
 		public Household updateHousehold( UpdateHouseholdCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Household entity = new Household();
 
@@ -188,7 +187,7 @@ public class HouseholdService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Household - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -197,10 +196,10 @@ public class HouseholdService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteHouseholdCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteHouseholdCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -222,7 +221,7 @@ public class HouseholdService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Household using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -232,11 +231,10 @@ public class HouseholdService
 		 * Method to retrieve the Household via HouseholdFetchOneSummary
 		 * @param 	summary HouseholdFetchOneSummary
 		 * @return 	HouseholdFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Household getHousehold( HouseholdFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "HouseholdFetchOneSummary arg cannot be null" );
@@ -258,7 +256,7 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Household with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -271,10 +269,10 @@ public class HouseholdService
 		 * Method to retrieve a collection of all Households
 		 *
 		 * @return 	List<Household>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Household> getAllHousehold() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Household> list = null;
 
 			try {
@@ -283,7 +281,7 @@ public class HouseholdService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Household";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -294,9 +292,9 @@ public class HouseholdService
 		/**
 		 * assign PrimaryAdvisor on Household
 		 * @param		command AssignPrimaryAdvisorToHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPrimaryAdvisor( AssignPrimaryAdvisorToHouseholdCommand command ) throws ProcessingException {
+		public void assignPrimaryAdvisor( AssignPrimaryAdvisorToHouseholdCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -313,16 +311,16 @@ public class HouseholdService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Advisor using id " + command.getHouseholdId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign PrimaryAdvisor on Household
 		 * @param		command UnAssignPrimaryAdvisorFromHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPrimaryAdvisor( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws ProcessingException {
+		public void unAssignPrimaryAdvisor( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -338,7 +336,7 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign PrimaryAdvisor on Household";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -346,9 +344,9 @@ public class HouseholdService
 		/**
 		 * add Client to Clients
 		 * @param		command AssignClientsToHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToClients( AssignClientsToHouseholdCommand command ) throws ProcessingException {
+		public void addToClients( AssignClientsToHouseholdCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -363,7 +361,7 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Client as Clients to Household" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -371,9 +369,9 @@ public class HouseholdService
 		/**
 		 * remove Client from Clients
 		 * @param		command RemoveClientsFromHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromClients( RemoveClientsFromHouseholdCommand command ) throws ProcessingException {
+		public void removeFromClients( RemoveClientsFromHouseholdCommand command ) throws BusinessException {
 
 			try {
 
@@ -391,16 +389,16 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Portfolio to Portfolios
 		 * @param		command AssignPortfoliosToHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToPortfolios( AssignPortfoliosToHouseholdCommand command ) throws ProcessingException {
+		public void addToPortfolios( AssignPortfoliosToHouseholdCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -415,7 +413,7 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Portfolio as Portfolios to Household" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -423,9 +421,9 @@ public class HouseholdService
 		/**
 		 * remove Portfolio from Portfolios
 		 * @param		command RemovePortfoliosFromHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromPortfolios( RemovePortfoliosFromHouseholdCommand command ) throws ProcessingException {
+		public void removeFromPortfolios( RemovePortfoliosFromHouseholdCommand command ) throws BusinessException {
 
 			try {
 
@@ -443,16 +441,16 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add WealthGoal to Goals
 		 * @param		command AssignGoalsToHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToGoals( AssignGoalsToHouseholdCommand command ) throws ProcessingException {
+		public void addToGoals( AssignGoalsToHouseholdCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -467,7 +465,7 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a WealthGoal as Goals to Household" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -475,9 +473,9 @@ public class HouseholdService
 		/**
 		 * remove WealthGoal from Goals
 		 * @param		command RemoveGoalsFromHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromGoals( RemoveGoalsFromHouseholdCommand command ) throws ProcessingException {
+		public void removeFromGoals( RemoveGoalsFromHouseholdCommand command ) throws BusinessException {
 
 			try {
 
@@ -495,16 +493,16 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add RiskAssessment to RiskAssessments
 		 * @param		command AssignRiskAssessmentsToHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToRiskAssessments( AssignRiskAssessmentsToHouseholdCommand command ) throws ProcessingException {
+		public void addToRiskAssessments( AssignRiskAssessmentsToHouseholdCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -519,7 +517,7 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a RiskAssessment as RiskAssessments to Household" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -527,9 +525,9 @@ public class HouseholdService
 		/**
 		 * remove RiskAssessment from RiskAssessments
 		 * @param		command RemoveRiskAssessmentsFromHouseholdCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromRiskAssessments( RemoveRiskAssessmentsFromHouseholdCommand command ) throws ProcessingException {
+		public void removeFromRiskAssessments( RemoveRiskAssessmentsFromHouseholdCommand command ) throws BusinessException {
 
 			try {
 
@@ -547,7 +545,7 @@ public class HouseholdService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

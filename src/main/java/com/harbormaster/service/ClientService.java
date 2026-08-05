@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class ClientService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Client
 		 */
 			public Client createClient( CreateClientCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Client entity = new Client();
 
@@ -147,7 +147,7 @@ public class ClientService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Client - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -158,12 +158,11 @@ public class ClientService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateClientCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Client
 		 */
 		public Client updateClient( UpdateClientCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Client entity = new Client();
 
@@ -197,7 +196,7 @@ public class ClientService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Client - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -206,10 +205,10 @@ public class ClientService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteClientCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteClientCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -231,7 +230,7 @@ public class ClientService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Client using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -241,11 +240,10 @@ public class ClientService
 		 * Method to retrieve the Client via ClientFetchOneSummary
 		 * @param 	summary ClientFetchOneSummary
 		 * @return 	ClientFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Client getClient( ClientFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "ClientFetchOneSummary arg cannot be null" );
@@ -267,7 +265,7 @@ public class ClientService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Client with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -280,10 +278,10 @@ public class ClientService
 		 * Method to retrieve a collection of all Clients
 		 *
 		 * @return 	List<Client>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Client> getAllClient() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Client> list = null;
 
 			try {
@@ -292,7 +290,7 @@ public class ClientService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Client";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -303,9 +301,9 @@ public class ClientService
 		/**
 		 * assign Household on Client
 		 * @param		command AssignHouseholdToClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignHousehold( AssignHouseholdToClientCommand command ) throws ProcessingException {
+		public void assignHousehold( AssignHouseholdToClientCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -322,16 +320,16 @@ public class ClientService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Household using id " + command.getClientId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Household on Client
 		 * @param		command UnAssignHouseholdFromClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignHousehold( UnAssignHouseholdFromClientCommand command ) throws ProcessingException {
+		public void unAssignHousehold( UnAssignHouseholdFromClientCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -347,16 +345,16 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Household on Client";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign KycRecord on Client
 		 * @param		command AssignKycRecordToClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignKycRecord( AssignKycRecordToClientCommand command ) throws ProcessingException {
+		public void assignKycRecord( AssignKycRecordToClientCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -373,16 +371,16 @@ public class ClientService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get KycRecord using id " + command.getClientId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign KycRecord on Client
 		 * @param		command UnAssignKycRecordFromClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignKycRecord( UnAssignKycRecordFromClientCommand command ) throws ProcessingException {
+		public void unAssignKycRecord( UnAssignKycRecordFromClientCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -398,7 +396,7 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign KycRecord on Client";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -406,9 +404,9 @@ public class ClientService
 		/**
 		 * add Account to Accounts
 		 * @param		command AssignAccountsToClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAccounts( AssignAccountsToClientCommand command ) throws ProcessingException {
+		public void addToAccounts( AssignAccountsToClientCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -423,7 +421,7 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Account as Accounts to Client" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -431,9 +429,9 @@ public class ClientService
 		/**
 		 * remove Account from Accounts
 		 * @param		command RemoveAccountsFromClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAccounts( RemoveAccountsFromClientCommand command ) throws ProcessingException {
+		public void removeFromAccounts( RemoveAccountsFromClientCommand command ) throws BusinessException {
 
 			try {
 
@@ -451,16 +449,16 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getClientId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Document to Documents
 		 * @param		command AssignDocumentsToClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToDocuments( AssignDocumentsToClientCommand command ) throws ProcessingException {
+		public void addToDocuments( AssignDocumentsToClientCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -475,7 +473,7 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Document as Documents to Client" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -483,9 +481,9 @@ public class ClientService
 		/**
 		 * remove Document from Documents
 		 * @param		command RemoveDocumentsFromClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromDocuments( RemoveDocumentsFromClientCommand command ) throws ProcessingException {
+		public void removeFromDocuments( RemoveDocumentsFromClientCommand command ) throws BusinessException {
 
 			try {
 
@@ -503,16 +501,16 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getClientId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Beneficiary to Beneficiaries
 		 * @param		command AssignBeneficiariesToClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToBeneficiaries( AssignBeneficiariesToClientCommand command ) throws ProcessingException {
+		public void addToBeneficiaries( AssignBeneficiariesToClientCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -527,7 +525,7 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Beneficiary as Beneficiaries to Client" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -535,9 +533,9 @@ public class ClientService
 		/**
 		 * remove Beneficiary from Beneficiaries
 		 * @param		command RemoveBeneficiariesFromClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromBeneficiaries( RemoveBeneficiariesFromClientCommand command ) throws ProcessingException {
+		public void removeFromBeneficiaries( RemoveBeneficiariesFromClientCommand command ) throws BusinessException {
 
 			try {
 
@@ -555,16 +553,16 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getClientId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Agreement to Agreements
 		 * @param		command AssignAgreementsToClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAgreements( AssignAgreementsToClientCommand command ) throws ProcessingException {
+		public void addToAgreements( AssignAgreementsToClientCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -579,7 +577,7 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Agreement as Agreements to Client" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -587,9 +585,9 @@ public class ClientService
 		/**
 		 * remove Agreement from Agreements
 		 * @param		command RemoveAgreementsFromClientCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAgreements( RemoveAgreementsFromClientCommand command ) throws ProcessingException {
+		public void removeFromAgreements( RemoveAgreementsFromClientCommand command ) throws BusinessException {
 
 			try {
 
@@ -607,7 +605,7 @@ public class ClientService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getClientId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

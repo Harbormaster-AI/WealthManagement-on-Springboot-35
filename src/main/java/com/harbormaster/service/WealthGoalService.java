@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class WealthGoalService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		WealthGoal
 		 */
 			public WealthGoal createWealthGoal( CreateWealthGoalCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			WealthGoal entity = new WealthGoal();
 
@@ -147,7 +147,7 @@ public class WealthGoalService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create WealthGoal - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -158,12 +158,11 @@ public class WealthGoalService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateWealthGoalCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		WealthGoal
 		 */
 		public WealthGoal updateWealthGoal( UpdateWealthGoalCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			WealthGoal entity = new WealthGoal();
 
@@ -194,7 +193,7 @@ public class WealthGoalService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save WealthGoal - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -203,10 +202,10 @@ public class WealthGoalService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteWealthGoalCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteWealthGoalCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -228,7 +227,7 @@ public class WealthGoalService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete WealthGoal using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -238,11 +237,10 @@ public class WealthGoalService
 		 * Method to retrieve the WealthGoal via WealthGoalFetchOneSummary
 		 * @param 	summary WealthGoalFetchOneSummary
 		 * @return 	WealthGoalFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public WealthGoal getWealthGoal( WealthGoalFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "WealthGoalFetchOneSummary arg cannot be null" );
@@ -264,7 +262,7 @@ public class WealthGoalService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate WealthGoal with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -277,10 +275,10 @@ public class WealthGoalService
 		 * Method to retrieve a collection of all WealthGoals
 		 *
 		 * @return 	List<WealthGoal>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<WealthGoal> getAllWealthGoal() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<WealthGoal> list = null;
 
 			try {
@@ -289,7 +287,7 @@ public class WealthGoalService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all WealthGoal";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -300,9 +298,9 @@ public class WealthGoalService
 		/**
 		 * assign Household on WealthGoal
 		 * @param		command AssignHouseholdToWealthGoalCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignHousehold( AssignHouseholdToWealthGoalCommand command ) throws ProcessingException {
+		public void assignHousehold( AssignHouseholdToWealthGoalCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -319,16 +317,16 @@ public class WealthGoalService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Household using id " + command.getWealthGoalId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Household on WealthGoal
 		 * @param		command UnAssignHouseholdFromWealthGoalCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignHousehold( UnAssignHouseholdFromWealthGoalCommand command ) throws ProcessingException {
+		public void unAssignHousehold( UnAssignHouseholdFromWealthGoalCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -344,16 +342,16 @@ public class WealthGoalService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Household on WealthGoal";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Portfolio on WealthGoal
 		 * @param		command AssignPortfolioToWealthGoalCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPortfolio( AssignPortfolioToWealthGoalCommand command ) throws ProcessingException {
+		public void assignPortfolio( AssignPortfolioToWealthGoalCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -370,16 +368,16 @@ public class WealthGoalService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Portfolio using id " + command.getWealthGoalId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Portfolio on WealthGoal
 		 * @param		command UnAssignPortfolioFromWealthGoalCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromWealthGoalCommand command ) throws ProcessingException {
+		public void unAssignPortfolio( UnAssignPortfolioFromWealthGoalCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -395,16 +393,16 @@ public class WealthGoalService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Portfolio on WealthGoal";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign InvestmentPolicy on WealthGoal
 		 * @param		command AssignInvestmentPolicyToWealthGoalCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignInvestmentPolicy( AssignInvestmentPolicyToWealthGoalCommand command ) throws ProcessingException {
+		public void assignInvestmentPolicy( AssignInvestmentPolicyToWealthGoalCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -421,16 +419,16 @@ public class WealthGoalService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get InvestmentPolicy using id " + command.getWealthGoalId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign InvestmentPolicy on WealthGoal
 		 * @param		command UnAssignInvestmentPolicyFromWealthGoalCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws ProcessingException {
+		public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -446,7 +444,7 @@ public class WealthGoalService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign InvestmentPolicy on WealthGoal";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

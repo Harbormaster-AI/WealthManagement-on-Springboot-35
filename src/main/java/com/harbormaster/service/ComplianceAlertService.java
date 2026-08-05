@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class ComplianceAlertService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		ComplianceAlert
 		 */
 			public ComplianceAlert createComplianceAlert( CreateComplianceAlertCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			ComplianceAlert entity = new ComplianceAlert();
 
@@ -146,7 +146,7 @@ public class ComplianceAlertService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create ComplianceAlert - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class ComplianceAlertService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateComplianceAlertCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		ComplianceAlert
 		 */
 		public ComplianceAlert updateComplianceAlert( UpdateComplianceAlertCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			ComplianceAlert entity = new ComplianceAlert();
 
@@ -193,7 +192,7 @@ public class ComplianceAlertService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save ComplianceAlert - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -202,10 +201,10 @@ public class ComplianceAlertService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteComplianceAlertCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteComplianceAlertCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -227,7 +226,7 @@ public class ComplianceAlertService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete ComplianceAlert using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -237,11 +236,10 @@ public class ComplianceAlertService
 		 * Method to retrieve the ComplianceAlert via ComplianceAlertFetchOneSummary
 		 * @param 	summary ComplianceAlertFetchOneSummary
 		 * @return 	ComplianceAlertFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public ComplianceAlert getComplianceAlert( ComplianceAlertFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "ComplianceAlertFetchOneSummary arg cannot be null" );
@@ -263,7 +261,7 @@ public class ComplianceAlertService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate ComplianceAlert with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -276,10 +274,10 @@ public class ComplianceAlertService
 		 * Method to retrieve a collection of all ComplianceAlerts
 		 *
 		 * @return 	List<ComplianceAlert>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<ComplianceAlert> getAllComplianceAlert() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<ComplianceAlert> list = null;
 
 			try {
@@ -288,7 +286,7 @@ public class ComplianceAlertService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all ComplianceAlert";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -299,9 +297,9 @@ public class ComplianceAlertService
 		/**
 		 * assign Rule on ComplianceAlert
 		 * @param		command AssignRuleToComplianceAlertCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignRule( AssignRuleToComplianceAlertCommand command ) throws ProcessingException {
+		public void assignRule( AssignRuleToComplianceAlertCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -318,16 +316,16 @@ public class ComplianceAlertService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get ComplianceRule using id " + command.getComplianceAlertId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Rule on ComplianceAlert
 		 * @param		command UnAssignRuleFromComplianceAlertCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignRule( UnAssignRuleFromComplianceAlertCommand command ) throws ProcessingException {
+		public void unAssignRule( UnAssignRuleFromComplianceAlertCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -343,16 +341,16 @@ public class ComplianceAlertService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Rule on ComplianceAlert";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Account on ComplianceAlert
 		 * @param		command AssignAccountToComplianceAlertCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToComplianceAlertCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToComplianceAlertCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -369,16 +367,16 @@ public class ComplianceAlertService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getComplianceAlertId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on ComplianceAlert
 		 * @param		command UnAssignAccountFromComplianceAlertCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromComplianceAlertCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromComplianceAlertCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -394,16 +392,16 @@ public class ComplianceAlertService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on ComplianceAlert";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Order on ComplianceAlert
 		 * @param		command AssignOrderToComplianceAlertCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignOrder( AssignOrderToComplianceAlertCommand command ) throws ProcessingException {
+		public void assignOrder( AssignOrderToComplianceAlertCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -420,16 +418,16 @@ public class ComplianceAlertService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Order using id " + command.getComplianceAlertId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Order on ComplianceAlert
 		 * @param		command UnAssignOrderFromComplianceAlertCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignOrder( UnAssignOrderFromComplianceAlertCommand command ) throws ProcessingException {
+		public void unAssignOrder( UnAssignOrderFromComplianceAlertCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -445,16 +443,16 @@ public class ComplianceAlertService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Order on ComplianceAlert";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Advisor on ComplianceAlert
 		 * @param		command AssignAdvisorToComplianceAlertCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAdvisor( AssignAdvisorToComplianceAlertCommand command ) throws ProcessingException {
+		public void assignAdvisor( AssignAdvisorToComplianceAlertCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -471,16 +469,16 @@ public class ComplianceAlertService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Advisor using id " + command.getComplianceAlertId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Advisor on ComplianceAlert
 		 * @param		command UnAssignAdvisorFromComplianceAlertCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromComplianceAlertCommand command ) throws ProcessingException {
+		public void unAssignAdvisor( UnAssignAdvisorFromComplianceAlertCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -496,7 +494,7 @@ public class ComplianceAlertService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Advisor on ComplianceAlert";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

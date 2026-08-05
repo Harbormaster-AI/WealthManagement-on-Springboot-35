@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class FeeService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Fee
 		 */
 			public Fee createFee( CreateFeeCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Fee entity = new Fee();
 
@@ -146,7 +146,7 @@ public class FeeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Fee - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class FeeService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateFeeCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Fee
 		 */
 		public Fee updateFee( UpdateFeeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Fee entity = new Fee();
 
@@ -191,7 +190,7 @@ public class FeeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Fee - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -200,10 +199,10 @@ public class FeeService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteFeeCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteFeeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -225,7 +224,7 @@ public class FeeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Fee using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -235,11 +234,10 @@ public class FeeService
 		 * Method to retrieve the Fee via FeeFetchOneSummary
 		 * @param 	summary FeeFetchOneSummary
 		 * @return 	FeeFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Fee getFee( FeeFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "FeeFetchOneSummary arg cannot be null" );
@@ -261,7 +259,7 @@ public class FeeService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Fee with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -274,10 +272,10 @@ public class FeeService
 		 * Method to retrieve a collection of all Fees
 		 *
 		 * @return 	List<Fee>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Fee> getAllFee() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Fee> list = null;
 
 			try {
@@ -286,7 +284,7 @@ public class FeeService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Fee";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -297,9 +295,9 @@ public class FeeService
 		/**
 		 * assign Account on Fee
 		 * @param		command AssignAccountToFeeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToFeeCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToFeeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -316,16 +314,16 @@ public class FeeService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getFeeId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on Fee
 		 * @param		command UnAssignAccountFromFeeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromFeeCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromFeeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -341,16 +339,16 @@ public class FeeService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on Fee";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Invoice on Fee
 		 * @param		command AssignInvoiceToFeeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignInvoice( AssignInvoiceToFeeCommand command ) throws ProcessingException {
+		public void assignInvoice( AssignInvoiceToFeeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -367,16 +365,16 @@ public class FeeService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Invoice using id " + command.getFeeId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Invoice on Fee
 		 * @param		command UnAssignInvoiceFromFeeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignInvoice( UnAssignInvoiceFromFeeCommand command ) throws ProcessingException {
+		public void unAssignInvoice( UnAssignInvoiceFromFeeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -392,7 +390,7 @@ public class FeeService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Invoice on Fee";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

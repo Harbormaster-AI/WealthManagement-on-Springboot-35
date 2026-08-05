@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class AdvisorService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Advisor
 		 */
 			public Advisor createAdvisor( CreateAdvisorCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Advisor entity = new Advisor();
 
@@ -146,7 +146,7 @@ public class AdvisorService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Advisor - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class AdvisorService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateAdvisorCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Advisor
 		 */
 		public Advisor updateAdvisor( UpdateAdvisorCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Advisor entity = new Advisor();
 
@@ -193,7 +192,7 @@ public class AdvisorService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Advisor - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -202,10 +201,10 @@ public class AdvisorService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteAdvisorCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteAdvisorCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -227,7 +226,7 @@ public class AdvisorService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Advisor using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -237,11 +236,10 @@ public class AdvisorService
 		 * Method to retrieve the Advisor via AdvisorFetchOneSummary
 		 * @param 	summary AdvisorFetchOneSummary
 		 * @return 	AdvisorFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Advisor getAdvisor( AdvisorFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "AdvisorFetchOneSummary arg cannot be null" );
@@ -263,7 +261,7 @@ public class AdvisorService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Advisor with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -276,10 +274,10 @@ public class AdvisorService
 		 * Method to retrieve a collection of all Advisors
 		 *
 		 * @return 	List<Advisor>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Advisor> getAllAdvisor() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Advisor> list = null;
 
 			try {
@@ -288,7 +286,7 @@ public class AdvisorService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Advisor";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -299,9 +297,9 @@ public class AdvisorService
 		/**
 		 * assign Firm on Advisor
 		 * @param		command AssignFirmToAdvisorCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignFirm( AssignFirmToAdvisorCommand command ) throws ProcessingException {
+		public void assignFirm( AssignFirmToAdvisorCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -318,16 +316,16 @@ public class AdvisorService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get WealthFirm using id " + command.getAdvisorId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Firm on Advisor
 		 * @param		command UnAssignFirmFromAdvisorCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignFirm( UnAssignFirmFromAdvisorCommand command ) throws ProcessingException {
+		public void unAssignFirm( UnAssignFirmFromAdvisorCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -343,16 +341,16 @@ public class AdvisorService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Firm on Advisor";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Office on Advisor
 		 * @param		command AssignOfficeToAdvisorCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignOffice( AssignOfficeToAdvisorCommand command ) throws ProcessingException {
+		public void assignOffice( AssignOfficeToAdvisorCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -369,16 +367,16 @@ public class AdvisorService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Office using id " + command.getAdvisorId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Office on Advisor
 		 * @param		command UnAssignOfficeFromAdvisorCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignOffice( UnAssignOfficeFromAdvisorCommand command ) throws ProcessingException {
+		public void unAssignOffice( UnAssignOfficeFromAdvisorCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -394,16 +392,16 @@ public class AdvisorService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Office on Advisor";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign AdvisoryTeam on Advisor
 		 * @param		command AssignAdvisoryTeamToAdvisorCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAdvisoryTeam( AssignAdvisoryTeamToAdvisorCommand command ) throws ProcessingException {
+		public void assignAdvisoryTeam( AssignAdvisoryTeamToAdvisorCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -420,16 +418,16 @@ public class AdvisorService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get AdvisoryTeam using id " + command.getAdvisorId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign AdvisoryTeam on Advisor
 		 * @param		command UnAssignAdvisoryTeamFromAdvisorCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAdvisoryTeam( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws ProcessingException {
+		public void unAssignAdvisoryTeam( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -445,7 +443,7 @@ public class AdvisorService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign AdvisoryTeam on Advisor";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -453,9 +451,9 @@ public class AdvisorService
 		/**
 		 * add Client to Clients
 		 * @param		command AssignClientsToAdvisorCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToClients( AssignClientsToAdvisorCommand command ) throws ProcessingException {
+		public void addToClients( AssignClientsToAdvisorCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -470,7 +468,7 @@ public class AdvisorService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Client as Clients to Advisor" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -478,9 +476,9 @@ public class AdvisorService
 		/**
 		 * remove Client from Clients
 		 * @param		command RemoveClientsFromAdvisorCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromClients( RemoveClientsFromAdvisorCommand command ) throws ProcessingException {
+		public void removeFromClients( RemoveClientsFromAdvisorCommand command ) throws BusinessException {
 
 			try {
 
@@ -498,7 +496,7 @@ public class AdvisorService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAdvisorId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

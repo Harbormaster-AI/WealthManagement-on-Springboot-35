@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class CustodianService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Custodian
 		 */
 			public Custodian createCustodian( CreateCustodianCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Custodian entity = new Custodian();
 
@@ -145,7 +145,7 @@ public class CustodianService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Custodian - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -156,12 +156,11 @@ public class CustodianService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateCustodianCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Custodian
 		 */
 		public Custodian updateCustodian( UpdateCustodianCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Custodian entity = new Custodian();
 
@@ -189,7 +188,7 @@ public class CustodianService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Custodian - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -198,10 +197,10 @@ public class CustodianService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteCustodianCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteCustodianCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -223,7 +222,7 @@ public class CustodianService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Custodian using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -233,11 +232,10 @@ public class CustodianService
 		 * Method to retrieve the Custodian via CustodianFetchOneSummary
 		 * @param 	summary CustodianFetchOneSummary
 		 * @return 	CustodianFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Custodian getCustodian( CustodianFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "CustodianFetchOneSummary arg cannot be null" );
@@ -259,7 +257,7 @@ public class CustodianService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Custodian with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -272,10 +270,10 @@ public class CustodianService
 		 * Method to retrieve a collection of all Custodians
 		 *
 		 * @return 	List<Custodian>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Custodian> getAllCustodian() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Custodian> list = null;
 
 			try {
@@ -284,7 +282,7 @@ public class CustodianService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Custodian";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -296,9 +294,9 @@ public class CustodianService
 		/**
 		 * add Account to Accounts
 		 * @param		command AssignAccountsToCustodianCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAccounts( AssignAccountsToCustodianCommand command ) throws ProcessingException {
+		public void addToAccounts( AssignAccountsToCustodianCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -313,7 +311,7 @@ public class CustodianService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Account as Accounts to Custodian" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -321,9 +319,9 @@ public class CustodianService
 		/**
 		 * remove Account from Accounts
 		 * @param		command RemoveAccountsFromCustodianCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAccounts( RemoveAccountsFromCustodianCommand command ) throws ProcessingException {
+		public void removeFromAccounts( RemoveAccountsFromCustodianCommand command ) throws BusinessException {
 
 			try {
 
@@ -341,16 +339,16 @@ public class CustodianService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getCustodianId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add AccountTransfer to Transfers
 		 * @param		command AssignTransfersToCustodianCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToTransfers( AssignTransfersToCustodianCommand command ) throws ProcessingException {
+		public void addToTransfers( AssignTransfersToCustodianCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -365,7 +363,7 @@ public class CustodianService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a AccountTransfer as Transfers to Custodian" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -373,9 +371,9 @@ public class CustodianService
 		/**
 		 * remove AccountTransfer from Transfers
 		 * @param		command RemoveTransfersFromCustodianCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromTransfers( RemoveTransfersFromCustodianCommand command ) throws ProcessingException {
+		public void removeFromTransfers( RemoveTransfersFromCustodianCommand command ) throws BusinessException {
 
 			try {
 
@@ -393,7 +391,7 @@ public class CustodianService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getCustodianId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

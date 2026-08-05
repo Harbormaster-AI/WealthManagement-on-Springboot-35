@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class BillingRunService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		BillingRun
 		 */
 			public BillingRun createBillingRun( CreateBillingRunCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			BillingRun entity = new BillingRun();
 
@@ -146,7 +146,7 @@ public class BillingRunService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create BillingRun - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class BillingRunService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateBillingRunCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		BillingRun
 		 */
 		public BillingRun updateBillingRun( UpdateBillingRunCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			BillingRun entity = new BillingRun();
 
@@ -191,7 +190,7 @@ public class BillingRunService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save BillingRun - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -200,10 +199,10 @@ public class BillingRunService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteBillingRunCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteBillingRunCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -225,7 +224,7 @@ public class BillingRunService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete BillingRun using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -235,11 +234,10 @@ public class BillingRunService
 		 * Method to retrieve the BillingRun via BillingRunFetchOneSummary
 		 * @param 	summary BillingRunFetchOneSummary
 		 * @return 	BillingRunFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public BillingRun getBillingRun( BillingRunFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "BillingRunFetchOneSummary arg cannot be null" );
@@ -261,7 +259,7 @@ public class BillingRunService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate BillingRun with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -274,10 +272,10 @@ public class BillingRunService
 		 * Method to retrieve a collection of all BillingRuns
 		 *
 		 * @return 	List<BillingRun>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<BillingRun> getAllBillingRun() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<BillingRun> list = null;
 
 			try {
@@ -286,7 +284,7 @@ public class BillingRunService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all BillingRun";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -297,9 +295,9 @@ public class BillingRunService
 		/**
 		 * assign FeeSchedule on BillingRun
 		 * @param		command AssignFeeScheduleToBillingRunCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignFeeSchedule( AssignFeeScheduleToBillingRunCommand command ) throws ProcessingException {
+		public void assignFeeSchedule( AssignFeeScheduleToBillingRunCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -316,16 +314,16 @@ public class BillingRunService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get FeeSchedule using id " + command.getBillingRunId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign FeeSchedule on BillingRun
 		 * @param		command UnAssignFeeScheduleFromBillingRunCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignFeeSchedule( UnAssignFeeScheduleFromBillingRunCommand command ) throws ProcessingException {
+		public void unAssignFeeSchedule( UnAssignFeeScheduleFromBillingRunCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -341,7 +339,7 @@ public class BillingRunService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign FeeSchedule on BillingRun";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -349,9 +347,9 @@ public class BillingRunService
 		/**
 		 * add Invoice to Invoices
 		 * @param		command AssignInvoicesToBillingRunCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToInvoices( AssignInvoicesToBillingRunCommand command ) throws ProcessingException {
+		public void addToInvoices( AssignInvoicesToBillingRunCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -366,7 +364,7 @@ public class BillingRunService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Invoice as Invoices to BillingRun" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -374,9 +372,9 @@ public class BillingRunService
 		/**
 		 * remove Invoice from Invoices
 		 * @param		command RemoveInvoicesFromBillingRunCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromInvoices( RemoveInvoicesFromBillingRunCommand command ) throws ProcessingException {
+		public void removeFromInvoices( RemoveInvoicesFromBillingRunCommand command ) throws BusinessException {
 
 			try {
 
@@ -394,7 +392,7 @@ public class BillingRunService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getBillingRunId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

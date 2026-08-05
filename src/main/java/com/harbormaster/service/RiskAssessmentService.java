@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class RiskAssessmentService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		RiskAssessment
 		 */
 			public RiskAssessment createRiskAssessment( CreateRiskAssessmentCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			RiskAssessment entity = new RiskAssessment();
 
@@ -146,7 +146,7 @@ public class RiskAssessmentService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create RiskAssessment - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class RiskAssessmentService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateRiskAssessmentCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		RiskAssessment
 		 */
 		public RiskAssessment updateRiskAssessment( UpdateRiskAssessmentCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			RiskAssessment entity = new RiskAssessment();
 
@@ -191,7 +190,7 @@ public class RiskAssessmentService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save RiskAssessment - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -200,10 +199,10 @@ public class RiskAssessmentService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteRiskAssessmentCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteRiskAssessmentCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -225,7 +224,7 @@ public class RiskAssessmentService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete RiskAssessment using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -235,11 +234,10 @@ public class RiskAssessmentService
 		 * Method to retrieve the RiskAssessment via RiskAssessmentFetchOneSummary
 		 * @param 	summary RiskAssessmentFetchOneSummary
 		 * @return 	RiskAssessmentFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public RiskAssessment getRiskAssessment( RiskAssessmentFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "RiskAssessmentFetchOneSummary arg cannot be null" );
@@ -261,7 +259,7 @@ public class RiskAssessmentService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate RiskAssessment with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -274,10 +272,10 @@ public class RiskAssessmentService
 		 * Method to retrieve a collection of all RiskAssessments
 		 *
 		 * @return 	List<RiskAssessment>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<RiskAssessment> getAllRiskAssessment() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<RiskAssessment> list = null;
 
 			try {
@@ -286,7 +284,7 @@ public class RiskAssessmentService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all RiskAssessment";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -297,9 +295,9 @@ public class RiskAssessmentService
 		/**
 		 * assign Household on RiskAssessment
 		 * @param		command AssignHouseholdToRiskAssessmentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignHousehold( AssignHouseholdToRiskAssessmentCommand command ) throws ProcessingException {
+		public void assignHousehold( AssignHouseholdToRiskAssessmentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -316,16 +314,16 @@ public class RiskAssessmentService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Household using id " + command.getRiskAssessmentId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Household on RiskAssessment
 		 * @param		command UnAssignHouseholdFromRiskAssessmentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignHousehold( UnAssignHouseholdFromRiskAssessmentCommand command ) throws ProcessingException {
+		public void unAssignHousehold( UnAssignHouseholdFromRiskAssessmentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -341,16 +339,16 @@ public class RiskAssessmentService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Household on RiskAssessment";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Advisor on RiskAssessment
 		 * @param		command AssignAdvisorToRiskAssessmentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAdvisor( AssignAdvisorToRiskAssessmentCommand command ) throws ProcessingException {
+		public void assignAdvisor( AssignAdvisorToRiskAssessmentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -367,16 +365,16 @@ public class RiskAssessmentService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Advisor using id " + command.getRiskAssessmentId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Advisor on RiskAssessment
 		 * @param		command UnAssignAdvisorFromRiskAssessmentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromRiskAssessmentCommand command ) throws ProcessingException {
+		public void unAssignAdvisor( UnAssignAdvisorFromRiskAssessmentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -392,7 +390,7 @@ public class RiskAssessmentService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Advisor on RiskAssessment";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

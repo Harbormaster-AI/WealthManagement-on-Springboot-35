@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class TradeService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Trade
 		 */
 			public Trade createTrade( CreateTradeCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Trade entity = new Trade();
 
@@ -148,7 +148,7 @@ public class TradeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Trade - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -159,12 +159,11 @@ public class TradeService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateTradeCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Trade
 		 */
 		public Trade updateTrade( UpdateTradeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Trade entity = new Trade();
 
@@ -197,7 +196,7 @@ public class TradeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Trade - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -206,10 +205,10 @@ public class TradeService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteTradeCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteTradeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -231,7 +230,7 @@ public class TradeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Trade using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -241,11 +240,10 @@ public class TradeService
 		 * Method to retrieve the Trade via TradeFetchOneSummary
 		 * @param 	summary TradeFetchOneSummary
 		 * @return 	TradeFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Trade getTrade( TradeFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "TradeFetchOneSummary arg cannot be null" );
@@ -267,7 +265,7 @@ public class TradeService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Trade with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -280,10 +278,10 @@ public class TradeService
 		 * Method to retrieve a collection of all Trades
 		 *
 		 * @return 	List<Trade>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Trade> getAllTrade() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Trade> list = null;
 
 			try {
@@ -292,7 +290,7 @@ public class TradeService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Trade";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -303,9 +301,9 @@ public class TradeService
 		/**
 		 * assign Order on Trade
 		 * @param		command AssignOrderToTradeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignOrder( AssignOrderToTradeCommand command ) throws ProcessingException {
+		public void assignOrder( AssignOrderToTradeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -322,16 +320,16 @@ public class TradeService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Order using id " + command.getTradeId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Order on Trade
 		 * @param		command UnAssignOrderFromTradeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignOrder( UnAssignOrderFromTradeCommand command ) throws ProcessingException {
+		public void unAssignOrder( UnAssignOrderFromTradeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -347,16 +345,16 @@ public class TradeService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Order on Trade";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Account on Trade
 		 * @param		command AssignAccountToTradeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToTradeCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToTradeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -373,16 +371,16 @@ public class TradeService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getTradeId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on Trade
 		 * @param		command UnAssignAccountFromTradeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromTradeCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromTradeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -398,16 +396,16 @@ public class TradeService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on Trade";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Security on Trade
 		 * @param		command AssignSecurityToTradeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignSecurity( AssignSecurityToTradeCommand command ) throws ProcessingException {
+		public void assignSecurity( AssignSecurityToTradeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -424,16 +422,16 @@ public class TradeService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Security using id " + command.getTradeId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Security on Trade
 		 * @param		command UnAssignSecurityFromTradeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignSecurity( UnAssignSecurityFromTradeCommand command ) throws ProcessingException {
+		public void unAssignSecurity( UnAssignSecurityFromTradeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -449,16 +447,16 @@ public class TradeService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Security on Trade";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Transaction on Trade
 		 * @param		command AssignTransactionToTradeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignTransaction( AssignTransactionToTradeCommand command ) throws ProcessingException {
+		public void assignTransaction( AssignTransactionToTradeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -475,16 +473,16 @@ public class TradeService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Transaction using id " + command.getTradeId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Transaction on Trade
 		 * @param		command UnAssignTransactionFromTradeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignTransaction( UnAssignTransactionFromTradeCommand command ) throws ProcessingException {
+		public void unAssignTransaction( UnAssignTransactionFromTradeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -500,7 +498,7 @@ public class TradeService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Transaction on Trade";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

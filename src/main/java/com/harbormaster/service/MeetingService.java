@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class MeetingService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Meeting
 		 */
 			public Meeting createMeeting( CreateMeetingCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Meeting entity = new Meeting();
 
@@ -146,7 +146,7 @@ public class MeetingService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Meeting - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class MeetingService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateMeetingCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Meeting
 		 */
 		public Meeting updateMeeting( UpdateMeetingCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Meeting entity = new Meeting();
 
@@ -192,7 +191,7 @@ public class MeetingService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Meeting - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -201,10 +200,10 @@ public class MeetingService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteMeetingCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteMeetingCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -226,7 +225,7 @@ public class MeetingService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Meeting using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -236,11 +235,10 @@ public class MeetingService
 		 * Method to retrieve the Meeting via MeetingFetchOneSummary
 		 * @param 	summary MeetingFetchOneSummary
 		 * @return 	MeetingFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Meeting getMeeting( MeetingFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "MeetingFetchOneSummary arg cannot be null" );
@@ -262,7 +260,7 @@ public class MeetingService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Meeting with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -275,10 +273,10 @@ public class MeetingService
 		 * Method to retrieve a collection of all Meetings
 		 *
 		 * @return 	List<Meeting>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Meeting> getAllMeeting() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Meeting> list = null;
 
 			try {
@@ -287,7 +285,7 @@ public class MeetingService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Meeting";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -298,9 +296,9 @@ public class MeetingService
 		/**
 		 * assign Household on Meeting
 		 * @param		command AssignHouseholdToMeetingCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignHousehold( AssignHouseholdToMeetingCommand command ) throws ProcessingException {
+		public void assignHousehold( AssignHouseholdToMeetingCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -317,16 +315,16 @@ public class MeetingService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Household using id " + command.getMeetingId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Household on Meeting
 		 * @param		command UnAssignHouseholdFromMeetingCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignHousehold( UnAssignHouseholdFromMeetingCommand command ) throws ProcessingException {
+		public void unAssignHousehold( UnAssignHouseholdFromMeetingCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -342,16 +340,16 @@ public class MeetingService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Household on Meeting";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Advisor on Meeting
 		 * @param		command AssignAdvisorToMeetingCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAdvisor( AssignAdvisorToMeetingCommand command ) throws ProcessingException {
+		public void assignAdvisor( AssignAdvisorToMeetingCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -368,16 +366,16 @@ public class MeetingService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Advisor using id " + command.getMeetingId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Advisor on Meeting
 		 * @param		command UnAssignAdvisorFromMeetingCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromMeetingCommand command ) throws ProcessingException {
+		public void unAssignAdvisor( UnAssignAdvisorFromMeetingCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -393,7 +391,7 @@ public class MeetingService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Advisor on Meeting";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -401,9 +399,9 @@ public class MeetingService
 		/**
 		 * add Document to Documents
 		 * @param		command AssignDocumentsToMeetingCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToDocuments( AssignDocumentsToMeetingCommand command ) throws ProcessingException {
+		public void addToDocuments( AssignDocumentsToMeetingCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -418,7 +416,7 @@ public class MeetingService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Document as Documents to Meeting" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -426,9 +424,9 @@ public class MeetingService
 		/**
 		 * remove Document from Documents
 		 * @param		command RemoveDocumentsFromMeetingCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromDocuments( RemoveDocumentsFromMeetingCommand command ) throws ProcessingException {
+		public void removeFromDocuments( RemoveDocumentsFromMeetingCommand command ) throws BusinessException {
 
 			try {
 
@@ -446,7 +444,7 @@ public class MeetingService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getMeetingId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

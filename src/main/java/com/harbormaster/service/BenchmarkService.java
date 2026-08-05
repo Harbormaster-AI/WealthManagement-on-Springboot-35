@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class BenchmarkService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Benchmark
 		 */
 			public Benchmark createBenchmark( CreateBenchmarkCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Benchmark entity = new Benchmark();
 
@@ -144,7 +144,7 @@ public class BenchmarkService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Benchmark - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -155,12 +155,11 @@ public class BenchmarkService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateBenchmarkCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Benchmark
 		 */
 		public Benchmark updateBenchmark( UpdateBenchmarkCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Benchmark entity = new Benchmark();
 
@@ -187,7 +186,7 @@ public class BenchmarkService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Benchmark - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -196,10 +195,10 @@ public class BenchmarkService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteBenchmarkCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteBenchmarkCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -221,7 +220,7 @@ public class BenchmarkService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Benchmark using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -231,11 +230,10 @@ public class BenchmarkService
 		 * Method to retrieve the Benchmark via BenchmarkFetchOneSummary
 		 * @param 	summary BenchmarkFetchOneSummary
 		 * @return 	BenchmarkFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Benchmark getBenchmark( BenchmarkFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "BenchmarkFetchOneSummary arg cannot be null" );
@@ -257,7 +255,7 @@ public class BenchmarkService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Benchmark with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -270,10 +268,10 @@ public class BenchmarkService
 		 * Method to retrieve a collection of all Benchmarks
 		 *
 		 * @return 	List<Benchmark>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Benchmark> getAllBenchmark() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Benchmark> list = null;
 
 			try {
@@ -282,7 +280,7 @@ public class BenchmarkService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Benchmark";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -294,9 +292,9 @@ public class BenchmarkService
 		/**
 		 * add PerformanceReport to PerformanceReports
 		 * @param		command AssignPerformanceReportsToBenchmarkCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToPerformanceReports( AssignPerformanceReportsToBenchmarkCommand command ) throws ProcessingException {
+		public void addToPerformanceReports( AssignPerformanceReportsToBenchmarkCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -311,7 +309,7 @@ public class BenchmarkService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a PerformanceReport as PerformanceReports to Benchmark" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -319,9 +317,9 @@ public class BenchmarkService
 		/**
 		 * remove PerformanceReport from PerformanceReports
 		 * @param		command RemovePerformanceReportsFromBenchmarkCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromPerformanceReports( RemovePerformanceReportsFromBenchmarkCommand command ) throws ProcessingException {
+		public void removeFromPerformanceReports( RemovePerformanceReportsFromBenchmarkCommand command ) throws BusinessException {
 
 			try {
 
@@ -339,16 +337,16 @@ public class BenchmarkService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getBenchmarkId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Security to Constituents
 		 * @param		command AssignConstituentsToBenchmarkCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToConstituents( AssignConstituentsToBenchmarkCommand command ) throws ProcessingException {
+		public void addToConstituents( AssignConstituentsToBenchmarkCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -363,7 +361,7 @@ public class BenchmarkService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Security as Constituents to Benchmark" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -371,9 +369,9 @@ public class BenchmarkService
 		/**
 		 * remove Security from Constituents
 		 * @param		command RemoveConstituentsFromBenchmarkCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromConstituents( RemoveConstituentsFromBenchmarkCommand command ) throws ProcessingException {
+		public void removeFromConstituents( RemoveConstituentsFromBenchmarkCommand command ) throws BusinessException {
 
 			try {
 
@@ -391,7 +389,7 @@ public class BenchmarkService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getBenchmarkId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

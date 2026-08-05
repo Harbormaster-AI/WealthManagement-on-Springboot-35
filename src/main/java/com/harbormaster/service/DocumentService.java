@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class DocumentService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Document
 		 */
 			public Document createDocument( CreateDocumentCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Document entity = new Document();
 
@@ -146,7 +146,7 @@ public class DocumentService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Document - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class DocumentService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateDocumentCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Document
 		 */
 		public Document updateDocument( UpdateDocumentCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Document entity = new Document();
 
@@ -192,7 +191,7 @@ public class DocumentService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Document - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -201,10 +200,10 @@ public class DocumentService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteDocumentCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteDocumentCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -226,7 +225,7 @@ public class DocumentService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Document using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -236,11 +235,10 @@ public class DocumentService
 		 * Method to retrieve the Document via DocumentFetchOneSummary
 		 * @param 	summary DocumentFetchOneSummary
 		 * @return 	DocumentFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Document getDocument( DocumentFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "DocumentFetchOneSummary arg cannot be null" );
@@ -262,7 +260,7 @@ public class DocumentService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Document with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -275,10 +273,10 @@ public class DocumentService
 		 * Method to retrieve a collection of all Documents
 		 *
 		 * @return 	List<Document>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Document> getAllDocument() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Document> list = null;
 
 			try {
@@ -287,7 +285,7 @@ public class DocumentService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Document";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -298,9 +296,9 @@ public class DocumentService
 		/**
 		 * assign Client on Document
 		 * @param		command AssignClientToDocumentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignClient( AssignClientToDocumentCommand command ) throws ProcessingException {
+		public void assignClient( AssignClientToDocumentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -317,16 +315,16 @@ public class DocumentService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Client using id " + command.getDocumentId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Client on Document
 		 * @param		command UnAssignClientFromDocumentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignClient( UnAssignClientFromDocumentCommand command ) throws ProcessingException {
+		public void unAssignClient( UnAssignClientFromDocumentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -342,16 +340,16 @@ public class DocumentService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Client on Document";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign KycRecord on Document
 		 * @param		command AssignKycRecordToDocumentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignKycRecord( AssignKycRecordToDocumentCommand command ) throws ProcessingException {
+		public void assignKycRecord( AssignKycRecordToDocumentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -368,16 +366,16 @@ public class DocumentService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get KycRecord using id " + command.getDocumentId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign KycRecord on Document
 		 * @param		command UnAssignKycRecordFromDocumentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignKycRecord( UnAssignKycRecordFromDocumentCommand command ) throws ProcessingException {
+		public void unAssignKycRecord( UnAssignKycRecordFromDocumentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -393,16 +391,16 @@ public class DocumentService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign KycRecord on Document";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Agreement on Document
 		 * @param		command AssignAgreementToDocumentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAgreement( AssignAgreementToDocumentCommand command ) throws ProcessingException {
+		public void assignAgreement( AssignAgreementToDocumentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -419,16 +417,16 @@ public class DocumentService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Agreement using id " + command.getDocumentId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Agreement on Document
 		 * @param		command UnAssignAgreementFromDocumentCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAgreement( UnAssignAgreementFromDocumentCommand command ) throws ProcessingException {
+		public void unAssignAgreement( UnAssignAgreementFromDocumentCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -444,7 +442,7 @@ public class DocumentService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Agreement on Document";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	

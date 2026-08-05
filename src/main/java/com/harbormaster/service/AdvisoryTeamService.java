@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class AdvisoryTeamService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		AdvisoryTeam
 		 */
 			public AdvisoryTeam createAdvisoryTeam( CreateAdvisoryTeamCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			AdvisoryTeam entity = new AdvisoryTeam();
 
@@ -144,7 +144,7 @@ public class AdvisoryTeamService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create AdvisoryTeam - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -155,12 +155,11 @@ public class AdvisoryTeamService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateAdvisoryTeamCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		AdvisoryTeam
 		 */
 		public AdvisoryTeam updateAdvisoryTeam( UpdateAdvisoryTeamCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			AdvisoryTeam entity = new AdvisoryTeam();
 
@@ -187,7 +186,7 @@ public class AdvisoryTeamService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save AdvisoryTeam - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -196,10 +195,10 @@ public class AdvisoryTeamService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteAdvisoryTeamCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteAdvisoryTeamCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -221,7 +220,7 @@ public class AdvisoryTeamService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete AdvisoryTeam using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -231,11 +230,10 @@ public class AdvisoryTeamService
 		 * Method to retrieve the AdvisoryTeam via AdvisoryTeamFetchOneSummary
 		 * @param 	summary AdvisoryTeamFetchOneSummary
 		 * @return 	AdvisoryTeamFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public AdvisoryTeam getAdvisoryTeam( AdvisoryTeamFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "AdvisoryTeamFetchOneSummary arg cannot be null" );
@@ -257,7 +255,7 @@ public class AdvisoryTeamService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate AdvisoryTeam with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -270,10 +268,10 @@ public class AdvisoryTeamService
 		 * Method to retrieve a collection of all AdvisoryTeams
 		 *
 		 * @return 	List<AdvisoryTeam>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<AdvisoryTeam> getAllAdvisoryTeam() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<AdvisoryTeam> list = null;
 
 			try {
@@ -282,7 +280,7 @@ public class AdvisoryTeamService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all AdvisoryTeam";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -294,9 +292,9 @@ public class AdvisoryTeamService
 		/**
 		 * add Advisor to Advisors
 		 * @param		command AssignAdvisorsToAdvisoryTeamCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAdvisors( AssignAdvisorsToAdvisoryTeamCommand command ) throws ProcessingException {
+		public void addToAdvisors( AssignAdvisorsToAdvisoryTeamCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -311,7 +309,7 @@ public class AdvisoryTeamService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Advisor as Advisors to AdvisoryTeam" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -319,9 +317,9 @@ public class AdvisoryTeamService
 		/**
 		 * remove Advisor from Advisors
 		 * @param		command RemoveAdvisorsFromAdvisoryTeamCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAdvisors( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws ProcessingException {
+		public void removeFromAdvisors( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws BusinessException {
 
 			try {
 
@@ -339,16 +337,16 @@ public class AdvisoryTeamService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAdvisoryTeamId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Household to Households
 		 * @param		command AssignHouseholdsToAdvisoryTeamCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToHouseholds( AssignHouseholdsToAdvisoryTeamCommand command ) throws ProcessingException {
+		public void addToHouseholds( AssignHouseholdsToAdvisoryTeamCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -363,7 +361,7 @@ public class AdvisoryTeamService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Household as Households to AdvisoryTeam" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -371,9 +369,9 @@ public class AdvisoryTeamService
 		/**
 		 * remove Household from Households
 		 * @param		command RemoveHouseholdsFromAdvisoryTeamCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromHouseholds( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws ProcessingException {
+		public void removeFromHouseholds( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws BusinessException {
 
 			try {
 
@@ -391,7 +389,7 @@ public class AdvisoryTeamService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getAdvisoryTeamId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

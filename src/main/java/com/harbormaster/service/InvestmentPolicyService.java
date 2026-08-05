@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class InvestmentPolicyService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		InvestmentPolicy
 		 */
 			public InvestmentPolicy createInvestmentPolicy( CreateInvestmentPolicyCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			InvestmentPolicy entity = new InvestmentPolicy();
 
@@ -145,7 +145,7 @@ public class InvestmentPolicyService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create InvestmentPolicy - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -156,12 +156,11 @@ public class InvestmentPolicyService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateInvestmentPolicyCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		InvestmentPolicy
 		 */
 		public InvestmentPolicy updateInvestmentPolicy( UpdateInvestmentPolicyCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			InvestmentPolicy entity = new InvestmentPolicy();
 
@@ -190,7 +189,7 @@ public class InvestmentPolicyService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save InvestmentPolicy - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -199,10 +198,10 @@ public class InvestmentPolicyService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteInvestmentPolicyCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteInvestmentPolicyCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -224,7 +223,7 @@ public class InvestmentPolicyService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete InvestmentPolicy using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -234,11 +233,10 @@ public class InvestmentPolicyService
 		 * Method to retrieve the InvestmentPolicy via InvestmentPolicyFetchOneSummary
 		 * @param 	summary InvestmentPolicyFetchOneSummary
 		 * @return 	InvestmentPolicyFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public InvestmentPolicy getInvestmentPolicy( InvestmentPolicyFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "InvestmentPolicyFetchOneSummary arg cannot be null" );
@@ -260,7 +258,7 @@ public class InvestmentPolicyService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate InvestmentPolicy with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -273,10 +271,10 @@ public class InvestmentPolicyService
 		 * Method to retrieve a collection of all InvestmentPolicys
 		 *
 		 * @return 	List<InvestmentPolicy>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<InvestmentPolicy> getAllInvestmentPolicy() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<InvestmentPolicy> list = null;
 
 			try {
@@ -285,7 +283,7 @@ public class InvestmentPolicyService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all InvestmentPolicy";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -296,9 +294,9 @@ public class InvestmentPolicyService
 		/**
 		 * assign Portfolio on InvestmentPolicy
 		 * @param		command AssignPortfolioToInvestmentPolicyCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignPortfolio( AssignPortfolioToInvestmentPolicyCommand command ) throws ProcessingException {
+		public void assignPortfolio( AssignPortfolioToInvestmentPolicyCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -315,16 +313,16 @@ public class InvestmentPolicyService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Portfolio using id " + command.getInvestmentPolicyId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Portfolio on InvestmentPolicy
 		 * @param		command UnAssignPortfolioFromInvestmentPolicyCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws ProcessingException {
+		public void unAssignPortfolio( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -340,16 +338,16 @@ public class InvestmentPolicyService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Portfolio on InvestmentPolicy";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign RiskAssessment on InvestmentPolicy
 		 * @param		command AssignRiskAssessmentToInvestmentPolicyCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignRiskAssessment( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws ProcessingException {
+		public void assignRiskAssessment( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -366,16 +364,16 @@ public class InvestmentPolicyService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get RiskAssessment using id " + command.getInvestmentPolicyId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign RiskAssessment on InvestmentPolicy
 		 * @param		command UnAssignRiskAssessmentFromInvestmentPolicyCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignRiskAssessment( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws ProcessingException {
+		public void unAssignRiskAssessment( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -391,7 +389,7 @@ public class InvestmentPolicyService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign RiskAssessment on InvestmentPolicy";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -399,9 +397,9 @@ public class InvestmentPolicyService
 		/**
 		 * add WealthGoal to Goals
 		 * @param		command AssignGoalsToInvestmentPolicyCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToGoals( AssignGoalsToInvestmentPolicyCommand command ) throws ProcessingException {
+		public void addToGoals( AssignGoalsToInvestmentPolicyCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -416,7 +414,7 @@ public class InvestmentPolicyService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a WealthGoal as Goals to InvestmentPolicy" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -424,9 +422,9 @@ public class InvestmentPolicyService
 		/**
 		 * remove WealthGoal from Goals
 		 * @param		command RemoveGoalsFromInvestmentPolicyCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromGoals( RemoveGoalsFromInvestmentPolicyCommand command ) throws ProcessingException {
+		public void removeFromGoals( RemoveGoalsFromInvestmentPolicyCommand command ) throws BusinessException {
 
 			try {
 
@@ -444,7 +442,7 @@ public class InvestmentPolicyService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getInvestmentPolicyId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

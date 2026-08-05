@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class ModelPortfolioService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		ModelPortfolio
 		 */
 			public ModelPortfolio createModelPortfolio( CreateModelPortfolioCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			ModelPortfolio entity = new ModelPortfolio();
 
@@ -145,7 +145,7 @@ public class ModelPortfolioService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create ModelPortfolio - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -156,12 +156,11 @@ public class ModelPortfolioService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateModelPortfolioCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		ModelPortfolio
 		 */
 		public ModelPortfolio updateModelPortfolio( UpdateModelPortfolioCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			ModelPortfolio entity = new ModelPortfolio();
 
@@ -189,7 +188,7 @@ public class ModelPortfolioService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save ModelPortfolio - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -198,10 +197,10 @@ public class ModelPortfolioService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteModelPortfolioCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteModelPortfolioCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -223,7 +222,7 @@ public class ModelPortfolioService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete ModelPortfolio using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -233,11 +232,10 @@ public class ModelPortfolioService
 		 * Method to retrieve the ModelPortfolio via ModelPortfolioFetchOneSummary
 		 * @param 	summary ModelPortfolioFetchOneSummary
 		 * @return 	ModelPortfolioFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public ModelPortfolio getModelPortfolio( ModelPortfolioFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "ModelPortfolioFetchOneSummary arg cannot be null" );
@@ -259,7 +257,7 @@ public class ModelPortfolioService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate ModelPortfolio with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -272,10 +270,10 @@ public class ModelPortfolioService
 		 * Method to retrieve a collection of all ModelPortfolios
 		 *
 		 * @return 	List<ModelPortfolio>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<ModelPortfolio> getAllModelPortfolio() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<ModelPortfolio> list = null;
 
 			try {
@@ -284,7 +282,7 @@ public class ModelPortfolioService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all ModelPortfolio";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -296,9 +294,9 @@ public class ModelPortfolioService
 		/**
 		 * add AssetAllocationSlice to Allocations
 		 * @param		command AssignAllocationsToModelPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAllocations( AssignAllocationsToModelPortfolioCommand command ) throws ProcessingException {
+		public void addToAllocations( AssignAllocationsToModelPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -313,7 +311,7 @@ public class ModelPortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a AssetAllocationSlice as Allocations to ModelPortfolio" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -321,9 +319,9 @@ public class ModelPortfolioService
 		/**
 		 * remove AssetAllocationSlice from Allocations
 		 * @param		command RemoveAllocationsFromModelPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAllocations( RemoveAllocationsFromModelPortfolioCommand command ) throws ProcessingException {
+		public void removeFromAllocations( RemoveAllocationsFromModelPortfolioCommand command ) throws BusinessException {
 
 			try {
 
@@ -341,16 +339,16 @@ public class ModelPortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getModelPortfolioId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Portfolio to Portfolios
 		 * @param		command AssignPortfoliosToModelPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToPortfolios( AssignPortfoliosToModelPortfolioCommand command ) throws ProcessingException {
+		public void addToPortfolios( AssignPortfoliosToModelPortfolioCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -365,7 +363,7 @@ public class ModelPortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Portfolio as Portfolios to ModelPortfolio" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -373,9 +371,9 @@ public class ModelPortfolioService
 		/**
 		 * remove Portfolio from Portfolios
 		 * @param		command RemovePortfoliosFromModelPortfolioCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromPortfolios( RemovePortfoliosFromModelPortfolioCommand command ) throws ProcessingException {
+		public void removeFromPortfolios( RemovePortfoliosFromModelPortfolioCommand command ) throws BusinessException {
 
 			try {
 
@@ -393,7 +391,7 @@ public class ModelPortfolioService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getModelPortfolioId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class OrderService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Order
 		 */
 			public Order createOrder( CreateOrderCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Order entity = new Order();
 
@@ -150,7 +150,7 @@ public class OrderService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Order - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -161,12 +161,11 @@ public class OrderService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateOrderCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Order
 		 */
 		public Order updateOrder( UpdateOrderCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Order entity = new Order();
 
@@ -202,7 +201,7 @@ public class OrderService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Order - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -211,10 +210,10 @@ public class OrderService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteOrderCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteOrderCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -236,7 +235,7 @@ public class OrderService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Order using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -246,11 +245,10 @@ public class OrderService
 		 * Method to retrieve the Order via OrderFetchOneSummary
 		 * @param 	summary OrderFetchOneSummary
 		 * @return 	OrderFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Order getOrder( OrderFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "OrderFetchOneSummary arg cannot be null" );
@@ -272,7 +270,7 @@ public class OrderService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Order with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -285,10 +283,10 @@ public class OrderService
 		 * Method to retrieve a collection of all Orders
 		 *
 		 * @return 	List<Order>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Order> getAllOrder() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Order> list = null;
 
 			try {
@@ -297,7 +295,7 @@ public class OrderService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Order";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -308,9 +306,9 @@ public class OrderService
 		/**
 		 * assign Account on Order
 		 * @param		command AssignAccountToOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAccount( AssignAccountToOrderCommand command ) throws ProcessingException {
+		public void assignAccount( AssignAccountToOrderCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -327,16 +325,16 @@ public class OrderService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Account using id " + command.getOrderId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Account on Order
 		 * @param		command UnAssignAccountFromOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAccount( UnAssignAccountFromOrderCommand command ) throws ProcessingException {
+		public void unAssignAccount( UnAssignAccountFromOrderCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -352,16 +350,16 @@ public class OrderService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Account on Order";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Security on Order
 		 * @param		command AssignSecurityToOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignSecurity( AssignSecurityToOrderCommand command ) throws ProcessingException {
+		public void assignSecurity( AssignSecurityToOrderCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -378,16 +376,16 @@ public class OrderService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Security using id " + command.getOrderId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Security on Order
 		 * @param		command UnAssignSecurityFromOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignSecurity( UnAssignSecurityFromOrderCommand command ) throws ProcessingException {
+		public void unAssignSecurity( UnAssignSecurityFromOrderCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -403,16 +401,16 @@ public class OrderService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Security on Order";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
 		/**
 		 * assign Advisor on Order
 		 * @param		command AssignAdvisorToOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignAdvisor( AssignAdvisorToOrderCommand command ) throws ProcessingException {
+		public void assignAdvisor( AssignAdvisorToOrderCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -429,16 +427,16 @@ public class OrderService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get Advisor using id " + command.getOrderId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Advisor on Order
 		 * @param		command UnAssignAdvisorFromOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromOrderCommand command ) throws ProcessingException {
+		public void unAssignAdvisor( UnAssignAdvisorFromOrderCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -454,7 +452,7 @@ public class OrderService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Advisor on Order";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -462,9 +460,9 @@ public class OrderService
 		/**
 		 * add OrderAllocation to Allocations
 		 * @param		command AssignAllocationsToOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAllocations( AssignAllocationsToOrderCommand command ) throws ProcessingException {
+		public void addToAllocations( AssignAllocationsToOrderCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -479,7 +477,7 @@ public class OrderService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a OrderAllocation as Allocations to Order" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -487,9 +485,9 @@ public class OrderService
 		/**
 		 * remove OrderAllocation from Allocations
 		 * @param		command RemoveAllocationsFromOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAllocations( RemoveAllocationsFromOrderCommand command ) throws ProcessingException {
+		public void removeFromAllocations( RemoveAllocationsFromOrderCommand command ) throws BusinessException {
 
 			try {
 
@@ -507,16 +505,16 @@ public class OrderService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getOrderId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * add Trade to Trades
 		 * @param		command AssignTradesToOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToTrades( AssignTradesToOrderCommand command ) throws ProcessingException {
+		public void addToTrades( AssignTradesToOrderCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -531,7 +529,7 @@ public class OrderService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Trade as Trades to Order" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -539,9 +537,9 @@ public class OrderService
 		/**
 		 * remove Trade from Trades
 		 * @param		command RemoveTradesFromOrderCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromTrades( RemoveTradesFromOrderCommand command ) throws ProcessingException {
+		public void removeFromTrades( RemoveTradesFromOrderCommand command ) throws BusinessException {
 
 			try {
 
@@ -559,7 +557,7 @@ public class OrderService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getOrderId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

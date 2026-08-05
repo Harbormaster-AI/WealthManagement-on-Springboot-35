@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class ComplianceRuleService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		ComplianceRule
 		 */
 			public ComplianceRule createComplianceRule( CreateComplianceRuleCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			ComplianceRule entity = new ComplianceRule();
 
@@ -146,7 +146,7 @@ public class ComplianceRuleService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create ComplianceRule - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -157,12 +157,11 @@ public class ComplianceRuleService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateComplianceRuleCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		ComplianceRule
 		 */
 		public ComplianceRule updateComplianceRule( UpdateComplianceRuleCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			ComplianceRule entity = new ComplianceRule();
 
@@ -190,7 +189,7 @@ public class ComplianceRuleService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save ComplianceRule - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -199,10 +198,10 @@ public class ComplianceRuleService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteComplianceRuleCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteComplianceRuleCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -224,7 +223,7 @@ public class ComplianceRuleService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete ComplianceRule using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -234,11 +233,10 @@ public class ComplianceRuleService
 		 * Method to retrieve the ComplianceRule via ComplianceRuleFetchOneSummary
 		 * @param 	summary ComplianceRuleFetchOneSummary
 		 * @return 	ComplianceRuleFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public ComplianceRule getComplianceRule( ComplianceRuleFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "ComplianceRuleFetchOneSummary arg cannot be null" );
@@ -260,7 +258,7 @@ public class ComplianceRuleService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate ComplianceRule with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -273,10 +271,10 @@ public class ComplianceRuleService
 		 * Method to retrieve a collection of all ComplianceRules
 		 *
 		 * @return 	List<ComplianceRule>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<ComplianceRule> getAllComplianceRule() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<ComplianceRule> list = null;
 
 			try {
@@ -285,7 +283,7 @@ public class ComplianceRuleService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all ComplianceRule";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -297,9 +295,9 @@ public class ComplianceRuleService
 		/**
 		 * add ComplianceAlert to Alerts
 		 * @param		command AssignAlertsToComplianceRuleCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAlerts( AssignAlertsToComplianceRuleCommand command ) throws ProcessingException {
+		public void addToAlerts( AssignAlertsToComplianceRuleCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -314,7 +312,7 @@ public class ComplianceRuleService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a ComplianceAlert as Alerts to ComplianceRule" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -322,9 +320,9 @@ public class ComplianceRuleService
 		/**
 		 * remove ComplianceAlert from Alerts
 		 * @param		command RemoveAlertsFromComplianceRuleCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAlerts( RemoveAlertsFromComplianceRuleCommand command ) throws ProcessingException {
+		public void removeFromAlerts( RemoveAlertsFromComplianceRuleCommand command ) throws BusinessException {
 
 			try {
 
@@ -342,7 +340,7 @@ public class ComplianceRuleService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getComplianceRuleId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

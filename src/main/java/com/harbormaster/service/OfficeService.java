@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-		package com.harbormaster.service;
+package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,12 +114,12 @@ public class OfficeService
 		 * Creates the provided command.
 		 *
 		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    ProcessingException
+		 * @exception    BusinessException
 		 * @exception	IllegalArgumentException
 		 * @return		Office
 		 */
 			public Office createOffice( CreateOfficeCommand command )
-    		throws ProcessingException, IllegalArgumentException {
+    		throws BusinessException, IllegalArgumentException {
 
 			Office entity = new Office();
 
@@ -144,7 +144,7 @@ public class OfficeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to create Office - " + exc;
 				LOGGER.warn(  errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -155,12 +155,11 @@ public class OfficeService
 		/**
 		 * Update the provided command.
 		 * @param		command UpdateOfficeCommand
-		 * @exception    ProcessingException
-		 * @exception  	IllegalArgumentException
+		 * @exception    BusinessException
 		 * @return		Office
 		 */
 		public Office updateOffice( UpdateOfficeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+  	  	throws BusinessException {
 
 			Office entity = new Office();
 
@@ -187,7 +186,7 @@ public class OfficeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to save Office - " + exc;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 
 			return entity;
@@ -196,10 +195,10 @@ public class OfficeService
 		/**
 		 * Deletes the associatied value object
 		 * @param		command DeleteOfficeCommand
-		 * @exception 	ProcessingException
+		 * @exception 	BusinessException
 		 */
 		public void delete( DeleteOfficeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+    	throws BusinessException {
 			UUID id = null;
 
 			try {
@@ -221,7 +220,7 @@ public class OfficeService
 			catch (Exception exc) {
 				final String errMsg = "Unable to delete Office using Id = "  + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -231,11 +230,10 @@ public class OfficeService
 		 * Method to retrieve the Office via OfficeFetchOneSummary
 		 * @param 	summary OfficeFetchOneSummary
 		 * @return 	OfficeFetchOneResponse
-		 * @exception ProcessingException - Thrown if processing any related problems
-		 * @exception IllegalArgumentException
+		 * @exception BusinessException - Thrown if processing any related problems
 		 */
     public Office getOffice( OfficeFetchOneSummary summary ) 
-    throws ProcessingException, IllegalArgumentException {
+    throws BusinessException {
 
 			if( summary == null )
 				throw new IllegalArgumentException( "OfficeFetchOneSummary arg cannot be null" );
@@ -257,7 +255,7 @@ public class OfficeService
 			catch( Exception exc ) {
 				final String errMsg = "Unable to locate Office with id " + id;
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -270,10 +268,10 @@ public class OfficeService
 		 * Method to retrieve a collection of all Offices
 		 *
 		 * @return 	List<Office>
-		 * @exception ProcessingException Thrown if any problems
+		 * @exception BusinessException Thrown if any problems
 		 */
     public List<Office> getAllOffice() 
-    throws ProcessingException {
+    throws BusinessException {
 			List<Office> list = null;
 
 			try {
@@ -282,7 +280,7 @@ public class OfficeService
 			catch( Exception exc ) {
 				String errMsg = "Failed to get all Office";
 				LOGGER.warn( errMsg, exc );
-				throw new ProcessingException( errMsg, exc );
+				throw new BusinessException( errMsg, exc );
 			}
 			finally {
 			}
@@ -293,9 +291,9 @@ public class OfficeService
 		/**
 		 * assign Firm on Office
 		 * @param		command AssignFirmToOfficeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void assignFirm( AssignFirmToOfficeCommand command ) throws ProcessingException {
+		public void assignFirm( AssignFirmToOfficeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -312,16 +310,16 @@ public class OfficeService
 			catch( Throwable exc ) {
 				final String msg = "Failed to get WealthFirm using id " + command.getOfficeId();
 				LOGGER.warn( msg );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 
 		/**
 		 * unAssign Firm on Office
 		 * @param		command UnAssignFirmFromOfficeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void unAssignFirm( UnAssignFirmFromOfficeCommand command ) throws ProcessingException {
+		public void unAssignFirm( UnAssignFirmFromOfficeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -337,7 +335,7 @@ public class OfficeService
 			catch( Exception exc ) {
 				final String msg = "Failed to unassign Firm on Office";
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 	
@@ -345,9 +343,9 @@ public class OfficeService
 		/**
 		 * add Advisor to Advisors
 		 * @param		command AssignAdvisorsToOfficeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void addToAdvisors( AssignAdvisorsToOfficeCommand command ) throws ProcessingException {
+		public void addToAdvisors( AssignAdvisorsToOfficeCommand command ) throws BusinessException {
 
 			try {
 				// --------------------------------------
@@ -362,7 +360,7 @@ public class OfficeService
 			catch( Exception exc ) {
 				final String msg = "Failed to add a Advisor as Advisors to Office" ;
 				LOGGER.warn( msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 
 		}
@@ -370,9 +368,9 @@ public class OfficeService
 		/**
 		 * remove Advisor from Advisors
 		 * @param		command RemoveAdvisorsFromOfficeCommand
-		 * @exception	ProcessingException
+		 * @exception	BusinessException
 		 */
-		public void removeFromAdvisors( RemoveAdvisorsFromOfficeCommand command ) throws ProcessingException {
+		public void removeFromAdvisors( RemoveAdvisorsFromOfficeCommand command ) throws BusinessException {
 
 			try {
 
@@ -390,7 +388,7 @@ public class OfficeService
 			catch( Exception exc ) {
 				final String msg = "Failed to remove child using Id " + command.getOfficeId();
 				LOGGER.warn(  msg, exc );
-				throw new ProcessingException( msg, exc );
+				throw new BusinessException( msg, exc );
 			}
 		}
 

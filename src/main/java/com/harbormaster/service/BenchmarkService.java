@@ -409,6 +409,3 @@ public class BenchmarkService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BenchmarkService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

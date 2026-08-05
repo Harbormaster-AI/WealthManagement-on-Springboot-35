@@ -360,6 +360,3 @@ public class ComplianceRuleService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceRuleService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

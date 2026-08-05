@@ -355,6 +355,3 @@ public class DividendService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(DividendService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

@@ -466,6 +466,3 @@ public class InvoiceService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvoiceService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

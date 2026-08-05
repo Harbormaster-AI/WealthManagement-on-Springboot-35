@@ -463,6 +463,3 @@ public class AccountTransferService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountTransferService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

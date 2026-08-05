@@ -415,6 +415,3 @@ public class FeeScheduleService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeScheduleService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

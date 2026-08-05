@@ -357,6 +357,3 @@ public class MarketPriceService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(MarketPriceService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

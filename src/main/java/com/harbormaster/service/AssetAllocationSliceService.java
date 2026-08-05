@@ -355,6 +355,3 @@ public class AssetAllocationSliceService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AssetAllocationSliceService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

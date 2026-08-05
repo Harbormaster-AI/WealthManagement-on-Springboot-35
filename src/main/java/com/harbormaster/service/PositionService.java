@@ -517,6 +517,3 @@ public class PositionService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PositionService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

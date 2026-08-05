@@ -408,6 +408,3 @@ public class OfficeService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OfficeService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

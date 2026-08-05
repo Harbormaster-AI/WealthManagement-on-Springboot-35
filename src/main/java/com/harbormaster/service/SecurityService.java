@@ -474,6 +474,3 @@ public class SecurityService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(SecurityService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

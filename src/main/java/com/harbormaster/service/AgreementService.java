@@ -462,6 +462,3 @@ public class AgreementService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AgreementService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

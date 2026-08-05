@@ -516,6 +516,3 @@ public class AdvisorService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisorService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

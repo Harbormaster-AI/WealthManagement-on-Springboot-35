@@ -412,6 +412,3 @@ public class BeneficiaryService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BeneficiaryService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

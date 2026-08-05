@@ -519,6 +519,3 @@ public class TradeService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(TradeService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

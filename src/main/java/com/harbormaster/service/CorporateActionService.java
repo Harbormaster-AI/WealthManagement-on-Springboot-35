@@ -412,6 +412,3 @@ public class CorporateActionService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CorporateActionService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

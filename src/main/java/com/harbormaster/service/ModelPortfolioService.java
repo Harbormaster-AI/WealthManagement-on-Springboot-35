@@ -411,6 +411,3 @@ public class ModelPortfolioService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ModelPortfolioService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

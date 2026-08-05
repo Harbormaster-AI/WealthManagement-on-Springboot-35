@@ -462,6 +462,3 @@ public class InvestmentPolicyService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentPolicyService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

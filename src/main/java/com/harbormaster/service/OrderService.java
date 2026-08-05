@@ -577,6 +577,3 @@ public class OrderService
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderService.class);
 }
-
-private <__TMP__> __TMP__ validator() {
-}

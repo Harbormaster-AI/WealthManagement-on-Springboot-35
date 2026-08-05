@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public InvestmentProgramService(CurrentIdentity identity)  {
+    public InvestmentProgramService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new InvestmentProgramEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(InvestmentProgramRepository.class) );
 	}

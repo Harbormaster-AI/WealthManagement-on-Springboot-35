@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public RiskAssessmentService(CurrentIdentity identity)  {
+    public RiskAssessmentService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new RiskAssessmentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(RiskAssessmentRepository.class) );
 	}

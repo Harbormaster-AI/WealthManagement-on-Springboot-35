@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public PortfolioService(CurrentIdentity identity)  {
+    public PortfolioService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new PortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(PortfolioRepository.class) );
 	}

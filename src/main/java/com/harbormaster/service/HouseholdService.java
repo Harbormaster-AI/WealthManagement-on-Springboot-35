@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public HouseholdService(CurrentIdentity identity)  {
+    public HouseholdService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new HouseholdEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(HouseholdRepository.class) );
 	}

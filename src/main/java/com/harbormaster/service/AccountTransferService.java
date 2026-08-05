@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public AccountTransferService(CurrentIdentity identity)  {
+    public AccountTransferService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new AccountTransferEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(AccountTransferRepository.class) );
 	}

@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public FeeService(CurrentIdentity identity)  {
+    public FeeService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new FeeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(FeeRepository.class) );
 	}

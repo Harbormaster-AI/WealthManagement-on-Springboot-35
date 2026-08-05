@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public PerformanceReportService(CurrentIdentity identity)  {
+    public PerformanceReportService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new PerformanceReportEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(PerformanceReportRepository.class) );
 	}

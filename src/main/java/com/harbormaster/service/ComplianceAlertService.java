@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public ComplianceAlertService(CurrentIdentity identity)  {
+    public ComplianceAlertService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new ComplianceAlertEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(ComplianceAlertRepository.class) );
 	}

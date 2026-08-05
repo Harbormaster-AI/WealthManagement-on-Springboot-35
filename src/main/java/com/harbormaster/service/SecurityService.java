@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public SecurityService(CurrentIdentity identity)  {
+    public SecurityService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new SecurityEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(SecurityRepository.class) );
 	}

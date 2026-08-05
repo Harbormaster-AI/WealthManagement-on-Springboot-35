@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public ClientService(CurrentIdentity identity)  {
+    public ClientService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new ClientEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(ClientRepository.class) );
 	}

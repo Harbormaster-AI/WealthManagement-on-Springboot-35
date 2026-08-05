@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public CorporateActionService(CurrentIdentity identity)  {
+    public CorporateActionService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new CorporateActionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(CorporateActionRepository.class) );
 	}

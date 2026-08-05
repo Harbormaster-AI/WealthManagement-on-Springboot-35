@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public AssetAllocationSliceService(CurrentIdentity identity)  {
+    public AssetAllocationSliceService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new AssetAllocationSliceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(AssetAllocationSliceRepository.class) );
 	}

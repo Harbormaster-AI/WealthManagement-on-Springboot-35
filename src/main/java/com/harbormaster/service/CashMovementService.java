@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public CashMovementService(CurrentIdentity identity)  {
+    public CashMovementService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new CashMovementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(CashMovementRepository.class) );
 	}

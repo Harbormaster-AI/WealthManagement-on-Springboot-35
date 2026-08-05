@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public TaxLotService(CurrentIdentity identity)  {
+    public TaxLotService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new TaxLotEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(TaxLotRepository.class) );
 	}

@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public WealthGoalService(CurrentIdentity identity)  {
+    public WealthGoalService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new WealthGoalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(WealthGoalRepository.class) );
 	}

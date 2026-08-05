@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public RebalancePlanService(CurrentIdentity identity)  {
+    public RebalancePlanService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new RebalancePlanEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(RebalancePlanRepository.class) );
 	}

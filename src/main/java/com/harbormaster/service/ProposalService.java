@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public ProposalService(CurrentIdentity identity)  {
+    public ProposalService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new ProposalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(ProposalRepository.class) );
 	}

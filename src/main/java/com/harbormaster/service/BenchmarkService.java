@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public BenchmarkService(CurrentIdentity identity)  {
+    public BenchmarkService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new BenchmarkEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(BenchmarkRepository.class) );
 	}

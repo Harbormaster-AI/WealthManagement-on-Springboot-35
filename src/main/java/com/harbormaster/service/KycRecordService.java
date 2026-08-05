@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public KycRecordService(CurrentIdentity identity)  {
+    public KycRecordService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new KycRecordEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(KycRecordRepository.class) );
 	}

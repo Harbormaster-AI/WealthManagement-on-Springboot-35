@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public ComplianceRuleService(CurrentIdentity identity)  {
+    public ComplianceRuleService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new ComplianceRuleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(ComplianceRuleRepository.class) );
 	}

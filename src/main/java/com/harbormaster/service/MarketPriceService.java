@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public MarketPriceService(CurrentIdentity identity)  {
+    public MarketPriceService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new MarketPriceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(MarketPriceRepository.class) );
 	}

@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public AdvisoryTeamService(CurrentIdentity identity)  {
+    public AdvisoryTeamService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new AdvisoryTeamEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(AdvisoryTeamRepository.class) );
 	}

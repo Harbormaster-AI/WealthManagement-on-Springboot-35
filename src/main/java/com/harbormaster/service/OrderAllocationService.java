@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public OrderAllocationService(CurrentIdentity identity)  {
+    public OrderAllocationService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new OrderAllocationEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(OrderAllocationRepository.class) );
 	}

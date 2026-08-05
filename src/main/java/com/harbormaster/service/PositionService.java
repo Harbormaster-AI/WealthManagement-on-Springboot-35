@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public PositionService(CurrentIdentity identity)  {
+    public PositionService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new PositionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(PositionRepository.class) );
 	}

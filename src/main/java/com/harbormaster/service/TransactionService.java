@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public TransactionService(CurrentIdentity identity)  {
+    public TransactionService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new TransactionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(TransactionRepository.class) );
 	}

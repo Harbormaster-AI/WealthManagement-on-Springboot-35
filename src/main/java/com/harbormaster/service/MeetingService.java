@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public MeetingService(CurrentIdentity identity)  {
+    public MeetingService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new MeetingEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(MeetingRepository.class) );
 	}

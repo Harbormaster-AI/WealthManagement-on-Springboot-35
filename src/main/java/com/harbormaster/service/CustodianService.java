@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public CustodianService(CurrentIdentity identity)  {
+    public CustodianService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new CustodianEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(CustodianRepository.class) );
 	}

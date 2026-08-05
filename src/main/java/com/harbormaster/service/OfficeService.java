@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public OfficeService(CurrentIdentity identity)  {
+    public OfficeService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new OfficeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(OfficeRepository.class) );
 	}

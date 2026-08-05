@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public BillingRunService(CurrentIdentity identity)  {
+    public BillingRunService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new BillingRunEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(BillingRunRepository.class) );
 	}

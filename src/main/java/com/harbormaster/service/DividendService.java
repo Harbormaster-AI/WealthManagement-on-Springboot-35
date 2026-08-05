@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public DividendService(CurrentIdentity identity)  {
+    public DividendService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new DividendEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(DividendRepository.class) );
 	}

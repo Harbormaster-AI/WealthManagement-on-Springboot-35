@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public ResearchNoteService(CurrentIdentity identity)  {
+    public ResearchNoteService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new ResearchNoteEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(ResearchNoteRepository.class) );
 	}

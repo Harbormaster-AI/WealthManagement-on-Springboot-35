@@ -100,9 +100,11 @@ extends BaseService {
     /** 
      * Default Constructor 
      */
-    public AgreementService(CurrentIdentity identity)  {
+    public AgreementService(CurrentIdentity identity,
+				ApplicationContext applicationContext)  {
 
 		this.identity	= identity;
+
     	projector 		= new AgreementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 							applicationContext.getBean(AgreementRepository.class) );
 	}

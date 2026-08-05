@@ -1,6 +1,6 @@
 package com.harbormaster.exception;
 
-public IllegalStateException extends BusinessException {
+public class IllegalStateException extends BusinessException {
 
     public IllegalStateException(String entity, String operation ) {
         super(  "ILLEGAL_STATE",

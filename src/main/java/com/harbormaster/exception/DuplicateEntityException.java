@@ -1,6 +1,6 @@
 package com.harbormaster.exception;
 
-public DuplicateEntityException extends BusinessException {
+public class DuplicateEntityException extends BusinessException {
 
     public DuplicateEntityException(String entity, operation ) {
         super(  "DUPLICATE_ENTRY",

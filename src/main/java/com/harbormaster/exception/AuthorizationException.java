@@ -1,6 +1,6 @@
 package com.harbormaster.exception;
 
-public AuthorizationException extends BusinessException {
+public class AuthorizationException extends BusinessException {
 
     public AuthorizationException(String entity, String operation ) {
         super(  "AUTH_FAILED",

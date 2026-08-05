@@ -1,6 +1,6 @@
 package com.harbormaster.exception;
 
-public ExternalServiceException extends BusinessException {
+public class ExternalServiceException extends BusinessException {
 
     public ExternalServiceException(String entity, String  operation ) {
         super(  "EXTERNAL_SERVICE",

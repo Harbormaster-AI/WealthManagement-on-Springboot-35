@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,307 +93,305 @@ import com.harbormaster.security.*;
  */
 @Service
 public class OfficeService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public OfficeService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new OfficeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(OfficeRepository.class) );
+		}
 
-    	projector 		= new OfficeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(OfficeRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Office
+		 */
+			public Office createOffice( CreateOfficeCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Office
-    */
-	public Office createOffice( CreateOfficeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Office entity = new Office();
 
-		Office entity = new Office();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	OfficeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OfficeValidator.getInstance().validate( command );
 
             entity.setOfficeId( command.getOfficeId() );
             entity.setName( command.getName() );
             entity.setAddress( command.getAddress() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Office {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Office - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateOfficeCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Office
-    */
-    public Office updateOffice( UpdateOfficeCommand command ) 
+				LOGGER.info( "done creating of Office {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Office - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateOfficeCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Office
+		 */
+		public Office updateOffice( UpdateOfficeCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Office entity = new Office();
+			Office entity = new Office();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	OfficeValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				OfficeValidator.getInstance().validate( command );
 
             entity.setOfficeId( command.getOfficeId() );
             entity.setName( command.getName() );
             entity.setAddress( command.getAddress() );
             entity.setFirm( command.getFirm() );
             entity.setAdvisors( command.getAdvisors() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Office {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Office - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteOfficeCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteOfficeCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	OfficeValidator.getInstance().validate( command );    
-        
-        	id = command.getOfficeId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Office {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Office using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Office {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Office - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Office via OfficeFetchOneSummary
-     * @param 	summary OfficeFetchOneSummary 
-     * @return 	OfficeFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteOfficeCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteOfficeCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OfficeValidator.getInstance().validate( command );
+
+				id = command.getOfficeId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Office {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Office using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Office via OfficeFetchOneSummary
+		 * @param 	summary OfficeFetchOneSummary
+		 * @return 	OfficeFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Office getOffice( OfficeFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "OfficeFetchOneSummary arg cannot be null" );
-    	
-    	Office entity = null;
-    	UUID id = summary.getOfficeId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	OfficeValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Office using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Office with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "OfficeFetchOneSummary arg cannot be null" );
+
+			Office entity = null;
+			UUID id = summary.getOfficeId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				OfficeValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Office using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Office with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Offices
-     *
-     * @return 	List<Office> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Offices
+		 *
+		 * @return 	List<Office>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Office> getAllOffice() 
     throws ProcessingException {
-        List<Office> list = null;
+			List<Office> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllOfficeQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Office";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllOfficeQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Office";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Firm on Office
-     * @param		command AssignFirmToOfficeCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignFirm( AssignFirmToOfficeCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	OfficeValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignFirm(command.getOfficeId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get WealthFirm using id " + command.getOfficeId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Firm on Office
-     * @param		command UnAssignFirmFromOfficeCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignFirm( UnAssignFirmFromOfficeCommand command ) throws ProcessingException {
+		/**
+		 * assign Firm on Office
+		 * @param		command AssignFirmToOfficeCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignFirm( AssignFirmToOfficeCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OfficeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				OfficeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignFirm(command.getOfficeId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get WealthFirm using id " + command.getOfficeId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Firm on Office
+		 * @param		command UnAssignFirmFromOfficeCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignFirm( UnAssignFirmFromOfficeCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OfficeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignFirm(command.getOfficeId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Firm on Office";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignFirm(command.getOfficeId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Firm on Office";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
 
-    /**
-     * add Advisor to Advisors 
-     * @param		command AssignAdvisorsToOfficeCommand
-     * @exception	ProcessingException
-     */     
-	public void addToAdvisors( AssignAdvisorsToOfficeCommand command ) throws ProcessingException {
+		/**
+		 * add Advisor to Advisors
+		 * @param		command AssignAdvisorsToOfficeCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToAdvisors( AssignAdvisorsToOfficeCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OfficeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OfficeValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToAdvisors(command.getOfficeId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Advisor as Advisors to Office" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Advisor from Advisors
-     * @param		command RemoveAdvisorsFromOfficeCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromAdvisors( RemoveAdvisorsFromOfficeCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OfficeValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromAdvisors(command.getOfficeId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToAdvisors(command.getOfficeId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Advisor as Advisors to Office" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getOfficeId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Advisor from Advisors
+		 * @param		command RemoveAdvisorsFromOfficeCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromAdvisors( RemoveAdvisorsFromOfficeCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OfficeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromAdvisors(command.getOfficeId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getOfficeId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -406,5 +404,5 @@ extends BaseService {
     private final OfficeEntityProjector projector;
 	private Office office 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(OfficeService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OfficeService.class);
 }

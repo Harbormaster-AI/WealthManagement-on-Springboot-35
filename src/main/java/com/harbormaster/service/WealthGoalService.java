@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class WealthGoalService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public WealthGoalService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new WealthGoalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(WealthGoalRepository.class) );
+		}
 
-    	projector 		= new WealthGoalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(WealthGoalRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		WealthGoal
+		 */
+			public WealthGoal createWealthGoal( CreateWealthGoalCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		WealthGoal
-    */
-	public WealthGoal createWealthGoal( CreateWealthGoalCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			WealthGoal entity = new WealthGoal();
 
-		WealthGoal entity = new WealthGoal();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	WealthGoalValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
 
             entity.setWealthGoalId( command.getWealthGoalId() );
             entity.setName( command.getName() );
@@ -136,44 +134,44 @@ extends BaseService {
             entity.setTargetDate( command.getTargetDate() );
             entity.setPriority( command.getPriority() );
             entity.setGoalType( command.getGoalType() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of WealthGoal {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create WealthGoal - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateWealthGoalCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		WealthGoal
-    */
-    public WealthGoal updateWealthGoal( UpdateWealthGoalCommand command ) 
+				LOGGER.info( "done creating of WealthGoal {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create WealthGoal - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateWealthGoalCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		WealthGoal
+		 */
+		public WealthGoal updateWealthGoal( UpdateWealthGoalCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    WealthGoal entity = new WealthGoal();
+			WealthGoal entity = new WealthGoal();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	WealthGoalValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
 
             entity.setWealthGoalId( command.getWealthGoalId() );
             entity.setName( command.getName() );
@@ -184,272 +182,272 @@ extends BaseService {
             entity.setPortfolio( command.getPortfolio() );
             entity.setInvestmentPolicy( command.getInvestmentPolicy() );
             entity.setGoalType( command.getGoalType() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of WealthGoal {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save WealthGoal - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteWealthGoalCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteWealthGoalCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	WealthGoalValidator.getInstance().validate( command );    
-        
-        	id = command.getWealthGoalId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of WealthGoal {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete WealthGoal using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of WealthGoal {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save WealthGoal - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the WealthGoal via WealthGoalFetchOneSummary
-     * @param 	summary WealthGoalFetchOneSummary 
-     * @return 	WealthGoalFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteWealthGoalCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteWealthGoalCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
+
+				id = command.getWealthGoalId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of WealthGoal {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete WealthGoal using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the WealthGoal via WealthGoalFetchOneSummary
+		 * @param 	summary WealthGoalFetchOneSummary
+		 * @return 	WealthGoalFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public WealthGoal getWealthGoal( WealthGoalFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "WealthGoalFetchOneSummary arg cannot be null" );
-    	
-    	WealthGoal entity = null;
-    	UUID id = summary.getWealthGoalId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	WealthGoalValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a WealthGoal using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate WealthGoal with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "WealthGoalFetchOneSummary arg cannot be null" );
+
+			WealthGoal entity = null;
+			UUID id = summary.getWealthGoalId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a WealthGoal using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate WealthGoal with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all WealthGoals
-     *
-     * @return 	List<WealthGoal> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all WealthGoals
+		 *
+		 * @return 	List<WealthGoal>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<WealthGoal> getAllWealthGoal() 
     throws ProcessingException {
-        List<WealthGoal> list = null;
+			List<WealthGoal> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllWealthGoalQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all WealthGoal";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllWealthGoalQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all WealthGoal";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Household on WealthGoal
-     * @param		command AssignHouseholdToWealthGoalCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignHousehold( AssignHouseholdToWealthGoalCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	WealthGoalValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignHousehold(command.getWealthGoalId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Household using id " + command.getWealthGoalId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Household on WealthGoal
-     * @param		command UnAssignHouseholdFromWealthGoalCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignHousehold( UnAssignHouseholdFromWealthGoalCommand command ) throws ProcessingException {
+		/**
+		 * assign Household on WealthGoal
+		 * @param		command AssignHouseholdToWealthGoalCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignHousehold( AssignHouseholdToWealthGoalCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	WealthGoalValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignHousehold(command.getWealthGoalId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Household using id " + command.getWealthGoalId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Household on WealthGoal
+		 * @param		command UnAssignHouseholdFromWealthGoalCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignHousehold( UnAssignHouseholdFromWealthGoalCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignHousehold(command.getWealthGoalId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Household on WealthGoal";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignHousehold(command.getWealthGoalId());
+		/**
+		 * assign Portfolio on WealthGoal
+		 * @param		command AssignPortfolioToWealthGoalCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPortfolio( AssignPortfolioToWealthGoalCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPortfolio(command.getWealthGoalId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Portfolio using id " + command.getWealthGoalId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Household on WealthGoal";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Portfolio on WealthGoal
+		 * @param		command UnAssignPortfolioFromWealthGoalCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPortfolio( UnAssignPortfolioFromWealthGoalCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPortfolio(command.getWealthGoalId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Portfolio on WealthGoal";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign Portfolio on WealthGoal
-     * @param		command AssignPortfolioToWealthGoalCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPortfolio( AssignPortfolioToWealthGoalCommand command ) throws ProcessingException {
+		/**
+		 * assign InvestmentPolicy on WealthGoal
+		 * @param		command AssignInvestmentPolicyToWealthGoalCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignInvestmentPolicy( AssignInvestmentPolicyToWealthGoalCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	WealthGoalValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPortfolio(command.getWealthGoalId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignInvestmentPolicy(command.getWealthGoalId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get InvestmentPolicy using id " + command.getWealthGoalId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Portfolio using id " + command.getWealthGoalId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Portfolio on WealthGoal
-     * @param		command UnAssignPortfolioFromWealthGoalCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPortfolio( UnAssignPortfolioFromWealthGoalCommand command ) throws ProcessingException {
+		/**
+		 * unAssign InvestmentPolicy on WealthGoal
+		 * @param		command UnAssignInvestmentPolicyFromWealthGoalCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	WealthGoalValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPortfolio(command.getWealthGoalId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				WealthGoalValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignInvestmentPolicy(command.getWealthGoalId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign InvestmentPolicy on WealthGoal";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Portfolio on WealthGoal";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign InvestmentPolicy on WealthGoal
-     * @param		command AssignInvestmentPolicyToWealthGoalCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignInvestmentPolicy( AssignInvestmentPolicyToWealthGoalCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	WealthGoalValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignInvestmentPolicy(command.getWealthGoalId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get InvestmentPolicy using id " + command.getWealthGoalId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign InvestmentPolicy on WealthGoal
-     * @param		command UnAssignInvestmentPolicyFromWealthGoalCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	WealthGoalValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignInvestmentPolicy(command.getWealthGoalId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign InvestmentPolicy on WealthGoal";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -463,5 +461,5 @@ extends BaseService {
     private final WealthGoalEntityProjector projector;
 	private WealthGoal wealthGoal 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthGoalService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthGoalService.class);
 }

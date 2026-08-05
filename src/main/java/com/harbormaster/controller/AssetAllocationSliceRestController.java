@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
 	@PostMapping("/create")
     public AssetAllocationSlice create( @RequestBody(required=true) CreateAssetAllocationSliceCommand command ) {
     	AssetAllocationSlice entity = null;
-		try {       
-        	
-			entity = service.createAssetAllocationSlice( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createAssetAllocationSlice( command );
+		LOGGER.info( "Successfully created AssetAllocationSlice with Id " + entity.getAssetAllocationSliceId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
 	@PutMapping("/update")
     public AssetAllocationSlice update( @RequestBody(required=true) UpdateAssetAllocationSliceCommand command ) {
 		AssetAllocationSlice entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateAssetAllocationSliceCommand
-			// -----------------------------------------------
-			entity = service.updateAssetAllocationSlice(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "AssetAllocationSliceController:update() - successfully update AssetAllocationSlice - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateAssetAllocationSlice(command);
+		LOGGER.info( "Successfully updated AssetAllocationSlice with Id " + command.getAssetAllocationSliceId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAssetAllocationSliceCommand command ) {                
-    	try {
-        	AssetAllocationSliceService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted AssetAllocationSlice with key " + command.getAssetAllocationSliceId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted AssetAllocationSlice with Id " + command.getAssetAllocationSliceId()  );
+	}
 	
     /**
      * Handles loading a AssetAllocationSlice using a UUID
@@ -150,16 +133,10 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
      * @return		AssetAllocationSlice
      */    
     @GetMapping("/load")
-    public AssetAllocationSlice load( @RequestParam(required=true) UUID uuid ) {    	
-    	AssetAllocationSlice entity = null;
+    public AssetAllocationSlice load( @RequestParam(required=true) UUID uuid ) {
+    	AssetAllocationSlice entity = service.getAssetAllocationSlice( new AssetAllocationSliceFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getAssetAllocationSlice( new AssetAllocationSliceFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load AssetAllocationSlice using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded AssetAllocationSlice with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
     @GetMapping("/")
     public List<AssetAllocationSlice> loadAll() {                
     	List<AssetAllocationSlice> assetAllocationSliceList = null;
-        
-    	try {
-            // load the AssetAllocationSlice
-            assetAllocationSliceList = service.getAllAssetAllocationSlice();
-            
-            if ( assetAllocationSliceList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all AssetAllocationSlices" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all AssetAllocationSlices ", exc );
-        	return null;
-        }
+
+		assetAllocationSliceList = service.getAllAssetAllocationSlice();
+		LOGGER.log( Level.INFO,  "successfully loaded all AssetAllocationSlices" );
 
         return assetAllocationSliceList;
                             
@@ -194,12 +162,8 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
      */     
 	@PutMapping("/assignModelPortfolio")
 	public void assignModelPortfolio( @RequestBody AssignModelPortfolioToAssetAllocationSliceCommand command ) {
-		try {
-			service.assignModelPortfolio( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign ModelPortfolio", exc );
-        }
+		service.assignModelPortfolio( command );
+		LOGGER.info( "Successfully assigned ModelPortfolio with Id " + command.getAssetAllocationSliceId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
      */     
 	@PutMapping("/unAssignModelPortfolio")
 	public void unAssignModelPortfolio( @RequestBody(required=true)  UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) {
-		try {
-			service.unAssignModelPortfolio( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign ModelPortfolio", exc );
-		}
+		service.unAssignModelPortfolio( command );
+		LOGGER.info( "Successfully unassigned ModelPortfolio with Id " + command.getAssetAllocationSliceId()  );
 	}
 	
 
@@ -225,6 +185,6 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
 //************************************************************************
     protected AssetAllocationSlice assetAllocationSlice = null;
 	protected AssetAllocationSliceService service = null;
-    private static final Logger LOGGER = Logger.getLogger(AssetAllocationSliceRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssetAllocationSliceRestController.class.getName());
     
 }

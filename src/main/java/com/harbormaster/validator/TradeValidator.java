@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>TradeValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class TradeValidator {
 		
 	/**
@@ -77,54 +80,63 @@ public class TradeValidator {
 	 */
 	protected TradeValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public TradeValidator getInstance() {
-		return new TradeValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Trade
 	 */
-	public void validate( CreateTradeCommand trade )throws Exception {
-		Assert.notNull( trade, "CreateTradeCommand should not be null" );
+	public void validate( CreateTradeCommand trade )throws ValidationException {
+		if ( trade == null )
+			throw new ValidationException( "Trade", "validating CreateTradeCommand" );
+
 //		Assert.isNull( trade.getTradeId(), "CreateTradeCommand identifier should be null" );
-		Assert.notNull( trade.getExecutionId(), "Field CreateTradeCommand.executionId should not be null" );
-		Assert.notNull( trade.getExecutionPrice(), "Field CreateTradeCommand.executionPrice should not be null" );
-		Assert.notNull( trade.getExecutedQuantity(), "Field CreateTradeCommand.executedQuantity should not be null" );
-		Assert.notNull( trade.getTradeDate(), "Field CreateTradeCommand.tradeDate should not be null" );
-		Assert.notNull( trade.getVenue(), "Field CreateTradeCommand.venue should not be null" );
+		if ( trade.getExecutionId() == null )
+			throw new ValidationException( "Trade", "validating access on getExecutionId" );
+		if ( trade.getExecutionPrice() == null )
+			throw new ValidationException( "Trade", "validating access on getExecutionPrice" );
+		if ( trade.getExecutedQuantity() == null )
+			throw new ValidationException( "Trade", "validating access on getExecutedQuantity" );
+		if ( trade.getTradeDate() == null )
+			throw new ValidationException( "Trade", "validating access on getTradeDate" );
+		if ( trade.getVenue() == null )
+			throw new ValidationException( "Trade", "validating access on getVenue" );
 	}
 
 	/**
 	 * handles update validation for a Trade
 	 */
-	public void validate( UpdateTradeCommand trade ) throws Exception {
-		Assert.notNull( trade, "UpdateTradeCommand should not be null" );
-		Assert.notNull( trade.getTradeId(), "UpdateTradeCommand identifier should not be null" );
-		Assert.notNull( trade.getExecutionId(), "Field UpdateTradeCommand.executionId should not be null" );
-		Assert.notNull( trade.getExecutionPrice(), "Field UpdateTradeCommand.executionPrice should not be null" );
-		Assert.notNull( trade.getExecutedQuantity(), "Field UpdateTradeCommand.executedQuantity should not be null" );
-		Assert.notNull( trade.getTradeDate(), "Field UpdateTradeCommand.tradeDate should not be null" );
-		Assert.notNull( trade.getVenue(), "Field UpdateTradeCommand.venue should not be null" );
+	public void validate( UpdateTradeCommand trade ) throws ValidationException {
+		if ( trade == null )
+			throw new ValidationException( "Trade", "validating UpdateTradeCommand" );
+		if ( trade.getExecutionId() == null )
+			throw new ValidationException( "Trade", "validating method getExecutionId" );
+		if ( trade.getExecutionPrice() == null )
+			throw new ValidationException( "Trade", "validating method getExecutionPrice" );
+		if ( trade.getExecutedQuantity() == null )
+			throw new ValidationException( "Trade", "validating method getExecutedQuantity" );
+		if ( trade.getTradeDate() == null )
+			throw new ValidationException( "Trade", "validating method getTradeDate" );
+		if ( trade.getVenue() == null )
+			throw new ValidationException( "Trade", "validating method getVenue" );
     }
 
 	/**
 	 * handles delete validation for a Trade
 	 */
-    public void validate( DeleteTradeCommand trade ) throws Exception {
-		Assert.notNull( trade, "{commandAlias} should not be null" );
-		Assert.notNull( trade.getTradeId(), "DeleteTradeCommand identifier should not be null" );
+    public void validate( DeleteTradeCommand trade ) throws ValidationException {
+		if ( trade == null )
+			throw new ValidationException( "Trade", "validating DeleteTradeCommand" );
+
+		if ( trade.getVenue() == null )
+			throw new ValidationException( "Trade", "validating getVenue" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Trade
 	 */
-	public void validate( TradeFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "TradeFetchOneSummary should not be null" );
-		Assert.notNull( summary.getTradeId(), "TradeFetchOneSummary identifier should not be null" );
+	public void validate( TradeFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Trade", "validating summary );
 	}
 
 	/**
@@ -132,10 +144,16 @@ public class TradeValidator {
 	 * 
 	 * @param	command AssignOrderToTradeCommand
 	 */	
-	public void validate( AssignOrderToTradeCommand command ) throws Exception {
-		Assert.notNull( command, "AssignOrderToTradeCommand should not be null" );
-		Assert.notNull( command.getTradeId(), "AssignOrderToTradeCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignOrderToTradeCommand assignment should not be null" );
+	public void validate( AssignOrderToTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating AssignOrderToTradeCommand" );
+
+		if ( command.getTradeId() == null )
+			throw new ValidationException( "Trade", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Trade", "validating assignment" );
+
 	}
 
 	/**
@@ -143,19 +161,28 @@ public class TradeValidator {
 	 * 
 	 * @param	command UnAssignOrderFromTradeCommand
 	 */	
-	public void validate( UnAssignOrderFromTradeCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignOrderFromTradeCommand should not be null" );
-		Assert.notNull( command.getTradeId(), "UnAssignOrderFromTradeCommand identifier should not be null" );
+	public void validate( UnAssignOrderFromTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating UnAssignOrderFromTradeCommand" );
+
+		if ( command.getTradeId() == null ) }
+			throw new ValidationException( "Trade", "validating identity on UnAssignOrderFromTradeCommand" );
 	}
 	/**
 	 * handles assign Account validation for a Trade
 	 * 
 	 * @param	command AssignAccountToTradeCommand
 	 */	
-	public void validate( AssignAccountToTradeCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToTradeCommand should not be null" );
-		Assert.notNull( command.getTradeId(), "AssignAccountToTradeCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToTradeCommand assignment should not be null" );
+	public void validate( AssignAccountToTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating AssignAccountToTradeCommand" );
+
+		if ( command.getTradeId() == null )
+			throw new ValidationException( "Trade", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Trade", "validating assignment" );
+
 	}
 
 	/**
@@ -163,19 +190,28 @@ public class TradeValidator {
 	 * 
 	 * @param	command UnAssignAccountFromTradeCommand
 	 */	
-	public void validate( UnAssignAccountFromTradeCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromTradeCommand should not be null" );
-		Assert.notNull( command.getTradeId(), "UnAssignAccountFromTradeCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating UnAssignAccountFromTradeCommand" );
+
+		if ( command.getTradeId() == null ) }
+			throw new ValidationException( "Trade", "validating identity on UnAssignAccountFromTradeCommand" );
 	}
 	/**
 	 * handles assign Security validation for a Trade
 	 * 
 	 * @param	command AssignSecurityToTradeCommand
 	 */	
-	public void validate( AssignSecurityToTradeCommand command ) throws Exception {
-		Assert.notNull( command, "AssignSecurityToTradeCommand should not be null" );
-		Assert.notNull( command.getTradeId(), "AssignSecurityToTradeCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignSecurityToTradeCommand assignment should not be null" );
+	public void validate( AssignSecurityToTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating AssignSecurityToTradeCommand" );
+
+		if ( command.getTradeId() == null )
+			throw new ValidationException( "Trade", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Trade", "validating assignment" );
+
 	}
 
 	/**
@@ -183,19 +219,28 @@ public class TradeValidator {
 	 * 
 	 * @param	command UnAssignSecurityFromTradeCommand
 	 */	
-	public void validate( UnAssignSecurityFromTradeCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignSecurityFromTradeCommand should not be null" );
-		Assert.notNull( command.getTradeId(), "UnAssignSecurityFromTradeCommand identifier should not be null" );
+	public void validate( UnAssignSecurityFromTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating UnAssignSecurityFromTradeCommand" );
+
+		if ( command.getTradeId() == null ) }
+			throw new ValidationException( "Trade", "validating identity on UnAssignSecurityFromTradeCommand" );
 	}
 	/**
 	 * handles assign Transaction validation for a Trade
 	 * 
 	 * @param	command AssignTransactionToTradeCommand
 	 */	
-	public void validate( AssignTransactionToTradeCommand command ) throws Exception {
-		Assert.notNull( command, "AssignTransactionToTradeCommand should not be null" );
-		Assert.notNull( command.getTradeId(), "AssignTransactionToTradeCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignTransactionToTradeCommand assignment should not be null" );
+	public void validate( AssignTransactionToTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating AssignTransactionToTradeCommand" );
+
+		if ( command.getTradeId() == null )
+			throw new ValidationException( "Trade", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Trade", "validating assignment" );
+
 	}
 
 	/**
@@ -203,9 +248,12 @@ public class TradeValidator {
 	 * 
 	 * @param	command UnAssignTransactionFromTradeCommand
 	 */	
-	public void validate( UnAssignTransactionFromTradeCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignTransactionFromTradeCommand should not be null" );
-		Assert.notNull( command.getTradeId(), "UnAssignTransactionFromTradeCommand identifier should not be null" );
+	public void validate( UnAssignTransactionFromTradeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Trade", "validating UnAssignTransactionFromTradeCommand" );
+
+		if ( command.getTradeId() == null ) }
+			throw new ValidationException( "Trade", "validating identity on UnAssignTransactionFromTradeCommand" );
 	}
 
 

@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>FeeScheduleValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class FeeScheduleValidator {
 		
 	/**
@@ -77,50 +80,55 @@ public class FeeScheduleValidator {
 	 */
 	protected FeeScheduleValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public FeeScheduleValidator getInstance() {
-		return new FeeScheduleValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a FeeSchedule
 	 */
-	public void validate( CreateFeeScheduleCommand feeSchedule )throws Exception {
-		Assert.notNull( feeSchedule, "CreateFeeScheduleCommand should not be null" );
+	public void validate( CreateFeeScheduleCommand feeSchedule )throws ValidationException {
+		if ( feeSchedule == null )
+			throw new ValidationException( "FeeSchedule", "validating CreateFeeScheduleCommand" );
+
 //		Assert.isNull( feeSchedule.getFeeScheduleId(), "CreateFeeScheduleCommand identifier should be null" );
-		Assert.notNull( feeSchedule.getName(), "Field CreateFeeScheduleCommand.name should not be null" );
-		Assert.notNull( feeSchedule.getRate(), "Field CreateFeeScheduleCommand.rate should not be null" );
-		Assert.notNull( feeSchedule.getMinimumFee(), "Field CreateFeeScheduleCommand.minimumFee should not be null" );
+		if ( feeSchedule.getName() == null )
+			throw new ValidationException( "FeeSchedule", "validating access on getName" );
+		if ( feeSchedule.getRate() == null )
+			throw new ValidationException( "FeeSchedule", "validating access on getRate" );
+		if ( feeSchedule.getMinimumFee() == null )
+			throw new ValidationException( "FeeSchedule", "validating access on getMinimumFee" );
 	}
 
 	/**
 	 * handles update validation for a FeeSchedule
 	 */
-	public void validate( UpdateFeeScheduleCommand feeSchedule ) throws Exception {
-		Assert.notNull( feeSchedule, "UpdateFeeScheduleCommand should not be null" );
-		Assert.notNull( feeSchedule.getFeeScheduleId(), "UpdateFeeScheduleCommand identifier should not be null" );
-		Assert.notNull( feeSchedule.getName(), "Field UpdateFeeScheduleCommand.name should not be null" );
-		Assert.notNull( feeSchedule.getRate(), "Field UpdateFeeScheduleCommand.rate should not be null" );
-		Assert.notNull( feeSchedule.getMinimumFee(), "Field UpdateFeeScheduleCommand.minimumFee should not be null" );
+	public void validate( UpdateFeeScheduleCommand feeSchedule ) throws ValidationException {
+		if ( feeSchedule == null )
+			throw new ValidationException( "FeeSchedule", "validating UpdateFeeScheduleCommand" );
+		if ( feeSchedule.getName() == null )
+			throw new ValidationException( "FeeSchedule", "validating method getName" );
+		if ( feeSchedule.getRate() == null )
+			throw new ValidationException( "FeeSchedule", "validating method getRate" );
+		if ( feeSchedule.getMinimumFee() == null )
+			throw new ValidationException( "FeeSchedule", "validating method getMinimumFee" );
     }
 
 	/**
 	 * handles delete validation for a FeeSchedule
 	 */
-    public void validate( DeleteFeeScheduleCommand feeSchedule ) throws Exception {
-		Assert.notNull( feeSchedule, "{commandAlias} should not be null" );
-		Assert.notNull( feeSchedule.getFeeScheduleId(), "DeleteFeeScheduleCommand identifier should not be null" );
+    public void validate( DeleteFeeScheduleCommand feeSchedule ) throws ValidationException {
+		if ( feeSchedule == null )
+			throw new ValidationException( "FeeSchedule", "validating DeleteFeeScheduleCommand" );
+
+		if ( feeSchedule.getMinimumFee() == null )
+			throw new ValidationException( "FeeSchedule", "validating getMinimumFee" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a FeeSchedule
 	 */
-	public void validate( FeeScheduleFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "FeeScheduleFetchOneSummary should not be null" );
-		Assert.notNull( summary.getFeeScheduleId(), "FeeScheduleFetchOneSummary identifier should not be null" );
+	public void validate( FeeScheduleFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "FeeSchedule", "validating summary );
 	}
 
 
@@ -129,10 +137,16 @@ public class FeeScheduleValidator {
 	 * 
 	 * @param	command AssignAccountsToFeeScheduleCommand
 	 */	
-	public void validate( AssignAccountsToFeeScheduleCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountsToFeeScheduleCommand should not be null" );
-		Assert.notNull( command.getFeeScheduleId(), "AssignAccountsToFeeScheduleCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAccountsToFeeScheduleCommand addTo attribute should not be null" );
+	public void validate( AssignAccountsToFeeScheduleCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "FeeSchedule", "validating AssignAccountsToFeeScheduleCommand" );
+
+		if ( command.getFeeScheduleId() == null ) }
+			throw new ValidationException( "FeeSchedule", "validating identity on AssignAccountsToFeeScheduleCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "FeeSchedule", "validating addTo attribute on AssignAccountsToFeeScheduleCommand" );
+
 	}
 
 	/**
@@ -140,11 +154,18 @@ public class FeeScheduleValidator {
 	 * 
 	 * @param	command RemoveAccountsFromFeeScheduleCommand
 	 */	
-	public void validate( RemoveAccountsFromFeeScheduleCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAccountsFromFeeScheduleCommand should not be null" );
-		Assert.notNull( command.getFeeScheduleId(), "RemoveAccountsFromFeeScheduleCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAccountsFromFeeScheduleCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAccountId(), "RemoveAccountsFromFeeScheduleCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAccountsFromFeeScheduleCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("FeeSchedule", "validating RemoveAccountsFromFeeScheduleCommand");
+
+		if( command.getFeeScheduleId() == null )
+			throw new ValidationException"FeeSchedule", "validating id on RemoveAccountsFromFeeScheduleCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"FeeSchedule", "validating remove from";
+
+		if( command.getRemoveFrom().getAccountId() == null )
+			throw new ValidationException"FeeSchedule", "validating id on remove from}";
 	}
 	
 	/**
@@ -152,10 +173,16 @@ public class FeeScheduleValidator {
 	 * 
 	 * @param	command AssignBillingRunsToFeeScheduleCommand
 	 */	
-	public void validate( AssignBillingRunsToFeeScheduleCommand command ) throws Exception {
-		Assert.notNull( command, "AssignBillingRunsToFeeScheduleCommand should not be null" );
-		Assert.notNull( command.getFeeScheduleId(), "AssignBillingRunsToFeeScheduleCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignBillingRunsToFeeScheduleCommand addTo attribute should not be null" );
+	public void validate( AssignBillingRunsToFeeScheduleCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "FeeSchedule", "validating AssignBillingRunsToFeeScheduleCommand" );
+
+		if ( command.getFeeScheduleId() == null ) }
+			throw new ValidationException( "FeeSchedule", "validating identity on AssignBillingRunsToFeeScheduleCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "FeeSchedule", "validating addTo attribute on AssignBillingRunsToFeeScheduleCommand" );
+
 	}
 
 	/**
@@ -163,11 +190,18 @@ public class FeeScheduleValidator {
 	 * 
 	 * @param	command RemoveBillingRunsFromFeeScheduleCommand
 	 */	
-	public void validate( RemoveBillingRunsFromFeeScheduleCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveBillingRunsFromFeeScheduleCommand should not be null" );
-		Assert.notNull( command.getFeeScheduleId(), "RemoveBillingRunsFromFeeScheduleCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveBillingRunsFromFeeScheduleCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getBillingRunId(), "RemoveBillingRunsFromFeeScheduleCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveBillingRunsFromFeeScheduleCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("FeeSchedule", "validating RemoveBillingRunsFromFeeScheduleCommand");
+
+		if( command.getFeeScheduleId() == null )
+			throw new ValidationException"FeeSchedule", "validating id on RemoveBillingRunsFromFeeScheduleCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"FeeSchedule", "validating remove from";
+
+		if( command.getRemoveFrom().getBillingRunId() == null )
+			throw new ValidationException"FeeSchedule", "validating id on remove from}";
 	}
 	
 

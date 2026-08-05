@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,255 +93,253 @@ import com.harbormaster.security.*;
  */
 @Service
 public class MarketPriceService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public MarketPriceService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new MarketPriceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(MarketPriceRepository.class) );
+		}
 
-    	projector 		= new MarketPriceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(MarketPriceRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		MarketPrice
+		 */
+			public MarketPrice createMarketPrice( CreateMarketPriceCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		MarketPrice
-    */
-	public MarketPrice createMarketPrice( CreateMarketPriceCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			MarketPrice entity = new MarketPrice();
 
-		MarketPrice entity = new MarketPrice();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	MarketPriceValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MarketPriceValidator.getInstance().validate( command );
 
             entity.setMarketPriceId( command.getMarketPriceId() );
             entity.setPrice( command.getPrice() );
             entity.setPriceDate( command.getPriceDate() );
             entity.setSource( command.getSource() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of MarketPrice {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create MarketPrice - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateMarketPriceCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		MarketPrice
-    */
-    public MarketPrice updateMarketPrice( UpdateMarketPriceCommand command ) 
+				LOGGER.info( "done creating of MarketPrice {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create MarketPrice - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateMarketPriceCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		MarketPrice
+		 */
+		public MarketPrice updateMarketPrice( UpdateMarketPriceCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    MarketPrice entity = new MarketPrice();
+			MarketPrice entity = new MarketPrice();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	MarketPriceValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				MarketPriceValidator.getInstance().validate( command );
 
             entity.setMarketPriceId( command.getMarketPriceId() );
             entity.setPrice( command.getPrice() );
             entity.setPriceDate( command.getPriceDate() );
             entity.setSecurity( command.getSecurity() );
             entity.setSource( command.getSource() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of MarketPrice {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save MarketPrice - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteMarketPriceCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteMarketPriceCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	MarketPriceValidator.getInstance().validate( command );    
-        
-        	id = command.getMarketPriceId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of MarketPrice {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete MarketPrice using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of MarketPrice {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save MarketPrice - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the MarketPrice via MarketPriceFetchOneSummary
-     * @param 	summary MarketPriceFetchOneSummary 
-     * @return 	MarketPriceFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteMarketPriceCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteMarketPriceCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MarketPriceValidator.getInstance().validate( command );
+
+				id = command.getMarketPriceId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of MarketPrice {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete MarketPrice using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the MarketPrice via MarketPriceFetchOneSummary
+		 * @param 	summary MarketPriceFetchOneSummary
+		 * @return 	MarketPriceFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public MarketPrice getMarketPrice( MarketPriceFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "MarketPriceFetchOneSummary arg cannot be null" );
-    	
-    	MarketPrice entity = null;
-    	UUID id = summary.getMarketPriceId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	MarketPriceValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a MarketPrice using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate MarketPrice with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "MarketPriceFetchOneSummary arg cannot be null" );
+
+			MarketPrice entity = null;
+			UUID id = summary.getMarketPriceId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				MarketPriceValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a MarketPrice using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate MarketPrice with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all MarketPrices
-     *
-     * @return 	List<MarketPrice> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all MarketPrices
+		 *
+		 * @return 	List<MarketPrice>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<MarketPrice> getAllMarketPrice() 
     throws ProcessingException {
-        List<MarketPrice> list = null;
+			List<MarketPrice> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllMarketPriceQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all MarketPrice";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllMarketPriceQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all MarketPrice";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Security on MarketPrice
-     * @param		command AssignSecurityToMarketPriceCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignSecurity( AssignSecurityToMarketPriceCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	MarketPriceValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignSecurity(command.getMarketPriceId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Security using id " + command.getMarketPriceId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Security on MarketPrice
-     * @param		command UnAssignSecurityFromMarketPriceCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignSecurity( UnAssignSecurityFromMarketPriceCommand command ) throws ProcessingException {
+		/**
+		 * assign Security on MarketPrice
+		 * @param		command AssignSecurityToMarketPriceCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignSecurity( AssignSecurityToMarketPriceCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	MarketPriceValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignSecurity(command.getMarketPriceId());
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				MarketPriceValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignSecurity(command.getMarketPriceId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Security using id " + command.getMarketPriceId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Security on MarketPrice";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Security on MarketPrice
+		 * @param		command UnAssignSecurityFromMarketPriceCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignSecurity( UnAssignSecurityFromMarketPriceCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MarketPriceValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignSecurity(command.getMarketPriceId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Security on MarketPrice";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
 
 
@@ -355,5 +353,5 @@ extends BaseService {
     private final MarketPriceEntityProjector projector;
 	private MarketPrice marketPrice 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(MarketPriceService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(MarketPriceService.class);
 }

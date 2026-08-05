@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class AdvisorService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public AdvisorService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new AdvisorEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(AdvisorRepository.class) );
+		}
 
-    	projector 		= new AdvisorEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(AdvisorRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Advisor
+		 */
+			public Advisor createAdvisor( CreateAdvisorCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Advisor
-    */
-	public Advisor createAdvisor( CreateAdvisorCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Advisor entity = new Advisor();
 
-		Advisor entity = new Advisor();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	AdvisorValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
 
             entity.setAdvisorId( command.getAdvisorId() );
             entity.setFirstName( command.getFirstName() );
             entity.setLastName( command.getLastName() );
             entity.setLicenseNumber( command.getLicenseNumber() );
             entity.setRole( command.getRole() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Advisor {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Advisor - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateAdvisorCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Advisor
-    */
-    public Advisor updateAdvisor( UpdateAdvisorCommand command ) 
+				LOGGER.info( "done creating of Advisor {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Advisor - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateAdvisorCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Advisor
+		 */
+		public Advisor updateAdvisor( UpdateAdvisorCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Advisor entity = new Advisor();
+			Advisor entity = new Advisor();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	AdvisorValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
 
             entity.setAdvisorId( command.getAdvisorId() );
             entity.setFirstName( command.getFirstName() );
@@ -183,325 +181,325 @@ extends BaseService {
             entity.setClients( command.getClients() );
             entity.setAdvisoryTeam( command.getAdvisoryTeam() );
             entity.setRole( command.getRole() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Advisor {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Advisor - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteAdvisorCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteAdvisorCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	AdvisorValidator.getInstance().validate( command );    
-        
-        	id = command.getAdvisorId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Advisor {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Advisor using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Advisor {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Advisor - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Advisor via AdvisorFetchOneSummary
-     * @param 	summary AdvisorFetchOneSummary 
-     * @return 	AdvisorFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteAdvisorCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteAdvisorCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
+
+				id = command.getAdvisorId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Advisor {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Advisor using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Advisor via AdvisorFetchOneSummary
+		 * @param 	summary AdvisorFetchOneSummary
+		 * @return 	AdvisorFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Advisor getAdvisor( AdvisorFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "AdvisorFetchOneSummary arg cannot be null" );
-    	
-    	Advisor entity = null;
-    	UUID id = summary.getAdvisorId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	AdvisorValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Advisor using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Advisor with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "AdvisorFetchOneSummary arg cannot be null" );
+
+			Advisor entity = null;
+			UUID id = summary.getAdvisorId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Advisor using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Advisor with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Advisors
-     *
-     * @return 	List<Advisor> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Advisors
+		 *
+		 * @return 	List<Advisor>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Advisor> getAllAdvisor() 
     throws ProcessingException {
-        List<Advisor> list = null;
+			List<Advisor> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllAdvisorQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Advisor";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllAdvisorQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Advisor";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Firm on Advisor
-     * @param		command AssignFirmToAdvisorCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignFirm( AssignFirmToAdvisorCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	AdvisorValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignFirm(command.getAdvisorId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get WealthFirm using id " + command.getAdvisorId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Firm on Advisor
-     * @param		command UnAssignFirmFromAdvisorCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignFirm( UnAssignFirmFromAdvisorCommand command ) throws ProcessingException {
+		/**
+		 * assign Firm on Advisor
+		 * @param		command AssignFirmToAdvisorCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignFirm( AssignFirmToAdvisorCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisorValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignFirm(command.getAdvisorId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get WealthFirm using id " + command.getAdvisorId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Firm on Advisor
+		 * @param		command UnAssignFirmFromAdvisorCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignFirm( UnAssignFirmFromAdvisorCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignFirm(command.getAdvisorId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Firm on Advisor";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignFirm(command.getAdvisorId());
+		/**
+		 * assign Office on Advisor
+		 * @param		command AssignOfficeToAdvisorCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignOffice( AssignOfficeToAdvisorCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignOffice(command.getAdvisorId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Office using id " + command.getAdvisorId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Firm on Advisor";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Office on Advisor
+		 * @param		command UnAssignOfficeFromAdvisorCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignOffice( UnAssignOfficeFromAdvisorCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignOffice(command.getAdvisorId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Office on Advisor";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign Office on Advisor
-     * @param		command AssignOfficeToAdvisorCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignOffice( AssignOfficeToAdvisorCommand command ) throws ProcessingException {
+		/**
+		 * assign AdvisoryTeam on Advisor
+		 * @param		command AssignAdvisoryTeamToAdvisorCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAdvisoryTeam( AssignAdvisoryTeamToAdvisorCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	AdvisorValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignOffice(command.getAdvisorId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAdvisoryTeam(command.getAdvisorId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get AdvisoryTeam using id " + command.getAdvisorId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Office using id " + command.getAdvisorId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Office on Advisor
-     * @param		command UnAssignOfficeFromAdvisorCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignOffice( UnAssignOfficeFromAdvisorCommand command ) throws ProcessingException {
+		/**
+		 * unAssign AdvisoryTeam on Advisor
+		 * @param		command UnAssignAdvisoryTeamFromAdvisorCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAdvisoryTeam( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisorValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignOffice(command.getAdvisorId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAdvisoryTeam(command.getAdvisorId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign AdvisoryTeam on Advisor";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Office on Advisor";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign AdvisoryTeam on Advisor
-     * @param		command AssignAdvisoryTeamToAdvisorCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAdvisoryTeam( AssignAdvisoryTeamToAdvisorCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	AdvisorValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAdvisoryTeam(command.getAdvisorId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get AdvisoryTeam using id " + command.getAdvisorId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign AdvisoryTeam on Advisor
-     * @param		command UnAssignAdvisoryTeamFromAdvisorCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAdvisoryTeam( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisorValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAdvisoryTeam(command.getAdvisorId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign AdvisoryTeam on Advisor";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add Client to Clients 
-     * @param		command AssignClientsToAdvisorCommand
-     * @exception	ProcessingException
-     */     
-	public void addToClients( AssignClientsToAdvisorCommand command ) throws ProcessingException {
+		/**
+		 * add Client to Clients
+		 * @param		command AssignClientsToAdvisorCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToClients( AssignClientsToAdvisorCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisorValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToClients(command.getAdvisorId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Client as Clients to Advisor" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Client from Clients
-     * @param		command RemoveClientsFromAdvisorCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromClients( RemoveClientsFromAdvisorCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisorValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromClients(command.getAdvisorId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToClients(command.getAdvisorId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Client as Clients to Advisor" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAdvisorId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Client from Clients
+		 * @param		command RemoveClientsFromAdvisorCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromClients( RemoveClientsFromAdvisorCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisorValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromClients(command.getAdvisorId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAdvisorId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -514,5 +512,5 @@ extends BaseService {
     private final AdvisorEntityProjector projector;
 	private Advisor advisor 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisorService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisorService.class);
 }

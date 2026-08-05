@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>DocumentValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class DocumentValidator {
 		
 	/**
@@ -75,50 +78,55 @@ public class DocumentValidator {
 	 */
 	protected DocumentValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public DocumentValidator getInstance() {
-		return new DocumentValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Document
 	 */
-	public void validate( CreateDocumentCommand document )throws Exception {
-		Assert.notNull( document, "CreateDocumentCommand should not be null" );
+	public void validate( CreateDocumentCommand document )throws ValidationException {
+		if ( document == null )
+			throw new ValidationException( "Document", "validating CreateDocumentCommand" );
+
 //		Assert.isNull( document.getDocumentId(), "CreateDocumentCommand identifier should be null" );
-		Assert.notNull( document.getTitle(), "Field CreateDocumentCommand.title should not be null" );
-		Assert.notNull( document.getFileName(), "Field CreateDocumentCommand.fileName should not be null" );
-		Assert.notNull( document.getReceivedDate(), "Field CreateDocumentCommand.receivedDate should not be null" );
+		if ( document.getTitle() == null )
+			throw new ValidationException( "Document", "validating access on getTitle" );
+		if ( document.getFileName() == null )
+			throw new ValidationException( "Document", "validating access on getFileName" );
+		if ( document.getReceivedDate() == null )
+			throw new ValidationException( "Document", "validating access on getReceivedDate" );
 	}
 
 	/**
 	 * handles update validation for a Document
 	 */
-	public void validate( UpdateDocumentCommand document ) throws Exception {
-		Assert.notNull( document, "UpdateDocumentCommand should not be null" );
-		Assert.notNull( document.getDocumentId(), "UpdateDocumentCommand identifier should not be null" );
-		Assert.notNull( document.getTitle(), "Field UpdateDocumentCommand.title should not be null" );
-		Assert.notNull( document.getFileName(), "Field UpdateDocumentCommand.fileName should not be null" );
-		Assert.notNull( document.getReceivedDate(), "Field UpdateDocumentCommand.receivedDate should not be null" );
+	public void validate( UpdateDocumentCommand document ) throws ValidationException {
+		if ( document == null )
+			throw new ValidationException( "Document", "validating UpdateDocumentCommand" );
+		if ( document.getTitle() == null )
+			throw new ValidationException( "Document", "validating method getTitle" );
+		if ( document.getFileName() == null )
+			throw new ValidationException( "Document", "validating method getFileName" );
+		if ( document.getReceivedDate() == null )
+			throw new ValidationException( "Document", "validating method getReceivedDate" );
     }
 
 	/**
 	 * handles delete validation for a Document
 	 */
-    public void validate( DeleteDocumentCommand document ) throws Exception {
-		Assert.notNull( document, "{commandAlias} should not be null" );
-		Assert.notNull( document.getDocumentId(), "DeleteDocumentCommand identifier should not be null" );
+    public void validate( DeleteDocumentCommand document ) throws ValidationException {
+		if ( document == null )
+			throw new ValidationException( "Document", "validating DeleteDocumentCommand" );
+
+		if ( document.getReceivedDate() == null )
+			throw new ValidationException( "Document", "validating getReceivedDate" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Document
 	 */
-	public void validate( DocumentFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "DocumentFetchOneSummary should not be null" );
-		Assert.notNull( summary.getDocumentId(), "DocumentFetchOneSummary identifier should not be null" );
+	public void validate( DocumentFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Document", "validating summary );
 	}
 
 	/**
@@ -126,10 +134,16 @@ public class DocumentValidator {
 	 * 
 	 * @param	command AssignClientToDocumentCommand
 	 */	
-	public void validate( AssignClientToDocumentCommand command ) throws Exception {
-		Assert.notNull( command, "AssignClientToDocumentCommand should not be null" );
-		Assert.notNull( command.getDocumentId(), "AssignClientToDocumentCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignClientToDocumentCommand assignment should not be null" );
+	public void validate( AssignClientToDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating AssignClientToDocumentCommand" );
+
+		if ( command.getDocumentId() == null )
+			throw new ValidationException( "Document", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Document", "validating assignment" );
+
 	}
 
 	/**
@@ -137,19 +151,28 @@ public class DocumentValidator {
 	 * 
 	 * @param	command UnAssignClientFromDocumentCommand
 	 */	
-	public void validate( UnAssignClientFromDocumentCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignClientFromDocumentCommand should not be null" );
-		Assert.notNull( command.getDocumentId(), "UnAssignClientFromDocumentCommand identifier should not be null" );
+	public void validate( UnAssignClientFromDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating UnAssignClientFromDocumentCommand" );
+
+		if ( command.getDocumentId() == null ) }
+			throw new ValidationException( "Document", "validating identity on UnAssignClientFromDocumentCommand" );
 	}
 	/**
 	 * handles assign KycRecord validation for a Document
 	 * 
 	 * @param	command AssignKycRecordToDocumentCommand
 	 */	
-	public void validate( AssignKycRecordToDocumentCommand command ) throws Exception {
-		Assert.notNull( command, "AssignKycRecordToDocumentCommand should not be null" );
-		Assert.notNull( command.getDocumentId(), "AssignKycRecordToDocumentCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignKycRecordToDocumentCommand assignment should not be null" );
+	public void validate( AssignKycRecordToDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating AssignKycRecordToDocumentCommand" );
+
+		if ( command.getDocumentId() == null )
+			throw new ValidationException( "Document", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Document", "validating assignment" );
+
 	}
 
 	/**
@@ -157,19 +180,28 @@ public class DocumentValidator {
 	 * 
 	 * @param	command UnAssignKycRecordFromDocumentCommand
 	 */	
-	public void validate( UnAssignKycRecordFromDocumentCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignKycRecordFromDocumentCommand should not be null" );
-		Assert.notNull( command.getDocumentId(), "UnAssignKycRecordFromDocumentCommand identifier should not be null" );
+	public void validate( UnAssignKycRecordFromDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating UnAssignKycRecordFromDocumentCommand" );
+
+		if ( command.getDocumentId() == null ) }
+			throw new ValidationException( "Document", "validating identity on UnAssignKycRecordFromDocumentCommand" );
 	}
 	/**
 	 * handles assign Agreement validation for a Document
 	 * 
 	 * @param	command AssignAgreementToDocumentCommand
 	 */	
-	public void validate( AssignAgreementToDocumentCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAgreementToDocumentCommand should not be null" );
-		Assert.notNull( command.getDocumentId(), "AssignAgreementToDocumentCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAgreementToDocumentCommand assignment should not be null" );
+	public void validate( AssignAgreementToDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating AssignAgreementToDocumentCommand" );
+
+		if ( command.getDocumentId() == null )
+			throw new ValidationException( "Document", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Document", "validating assignment" );
+
 	}
 
 	/**
@@ -177,9 +209,12 @@ public class DocumentValidator {
 	 * 
 	 * @param	command UnAssignAgreementFromDocumentCommand
 	 */	
-	public void validate( UnAssignAgreementFromDocumentCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAgreementFromDocumentCommand should not be null" );
-		Assert.notNull( command.getDocumentId(), "UnAssignAgreementFromDocumentCommand identifier should not be null" );
+	public void validate( UnAssignAgreementFromDocumentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Document", "validating UnAssignAgreementFromDocumentCommand" );
+
+		if ( command.getDocumentId() == null ) }
+			throw new ValidationException( "Document", "validating identity on UnAssignAgreementFromDocumentCommand" );
 	}
 
 

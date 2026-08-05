@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class PositionService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public PositionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new PositionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(PositionRepository.class) );
+		}
 
-    	projector 		= new PositionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(PositionRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Position
+		 */
+			public Position createPosition( CreatePositionCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Position
-    */
-	public Position createPosition( CreatePositionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Position entity = new Position();
 
-		Position entity = new Position();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	PositionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
 
             entity.setPositionId( command.getPositionId() );
             entity.setQuantity( command.getQuantity() );
             entity.setCostBasis( command.getCostBasis() );
             entity.setPositionType( command.getPositionType() );
             entity.setLotMethod( command.getLotMethod() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Position {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Position - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdatePositionCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Position
-    */
-    public Position updatePosition( UpdatePositionCommand command ) 
+				LOGGER.info( "done creating of Position {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Position - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdatePositionCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Position
+		 */
+		public Position updatePosition( UpdatePositionCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Position entity = new Position();
+			Position entity = new Position();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	PositionValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
 
             entity.setPositionId( command.getPositionId() );
             entity.setQuantity( command.getQuantity() );
@@ -183,326 +181,326 @@ extends BaseService {
             entity.setTransactions( command.getTransactions() );
             entity.setPositionType( command.getPositionType() );
             entity.setLotMethod( command.getLotMethod() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Position {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Position - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeletePositionCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeletePositionCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	PositionValidator.getInstance().validate( command );    
-        
-        	id = command.getPositionId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Position {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Position using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Position {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Position - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Position via PositionFetchOneSummary
-     * @param 	summary PositionFetchOneSummary 
-     * @return 	PositionFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeletePositionCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeletePositionCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
+
+				id = command.getPositionId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Position {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Position using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Position via PositionFetchOneSummary
+		 * @param 	summary PositionFetchOneSummary
+		 * @return 	PositionFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Position getPosition( PositionFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "PositionFetchOneSummary arg cannot be null" );
-    	
-    	Position entity = null;
-    	UUID id = summary.getPositionId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	PositionValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Position using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Position with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "PositionFetchOneSummary arg cannot be null" );
+
+			Position entity = null;
+			UUID id = summary.getPositionId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				PositionValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Position using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Position with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Positions
-     *
-     * @return 	List<Position> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Positions
+		 *
+		 * @return 	List<Position>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Position> getAllPosition() 
     throws ProcessingException {
-        List<Position> list = null;
+			List<Position> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllPositionQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Position";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllPositionQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Position";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Portfolio on Position
-     * @param		command AssignPortfolioToPositionCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPortfolio( AssignPortfolioToPositionCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	PositionValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPortfolio(command.getPositionId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Portfolio using id " + command.getPositionId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Portfolio on Position
-     * @param		command UnAssignPortfolioFromPositionCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPortfolio( UnAssignPortfolioFromPositionCommand command ) throws ProcessingException {
+		/**
+		 * assign Portfolio on Position
+		 * @param		command AssignPortfolioToPositionCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPortfolio( AssignPortfolioToPositionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PositionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPortfolio(command.getPositionId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Portfolio using id " + command.getPositionId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Portfolio on Position
+		 * @param		command UnAssignPortfolioFromPositionCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPortfolio( UnAssignPortfolioFromPositionCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPortfolio(command.getPositionId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Portfolio on Position";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPortfolio(command.getPositionId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Portfolio on Position";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Security on Position
-     * @param		command AssignSecurityToPositionCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignSecurity( AssignSecurityToPositionCommand command ) throws ProcessingException {
+		/**
+		 * assign Security on Position
+		 * @param		command AssignSecurityToPositionCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignSecurity( AssignSecurityToPositionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	PositionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignSecurity(command.getPositionId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Security using id " + command.getPositionId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignSecurity(command.getPositionId(), command.getAssignment());
 
-    /**
-     * unAssign Security on Position
-     * @param		command UnAssignSecurityFromPositionCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignSecurity( UnAssignSecurityFromPositionCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Security using id " + command.getPositionId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PositionValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignSecurity(command.getPositionId());
+		/**
+		 * unAssign Security on Position
+		 * @param		command UnAssignSecurityFromPositionCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignSecurity( UnAssignSecurityFromPositionCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignSecurity(command.getPositionId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Security on Position";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Security on Position";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add TaxLot to TaxLots 
-     * @param		command AssignTaxLotsToPositionCommand
-     * @exception	ProcessingException
-     */     
-	public void addToTaxLots( AssignTaxLotsToPositionCommand command ) throws ProcessingException {
+		/**
+		 * add TaxLot to TaxLots
+		 * @param		command AssignTaxLotsToPositionCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToTaxLots( AssignTaxLotsToPositionCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PositionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToTaxLots(command.getPositionId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a TaxLot as TaxLots to Position" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove TaxLot from TaxLots
-     * @param		command RemoveTaxLotsFromPositionCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromTaxLots( RemoveTaxLotsFromPositionCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PositionValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromTaxLots(command.getPositionId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToTaxLots(command.getPositionId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a TaxLot as TaxLots to Position" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getPositionId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Transaction to Transactions 
-     * @param		command AssignTransactionsToPositionCommand
-     * @exception	ProcessingException
-     */     
-	public void addToTransactions( AssignTransactionsToPositionCommand command ) throws ProcessingException {
+		/**
+		 * remove TaxLot from TaxLots
+		 * @param		command RemoveTaxLotsFromPositionCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromTaxLots( RemoveTaxLotsFromPositionCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PositionValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToTransactions(command.getPositionId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Transaction as Transactions to Position" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromTaxLots(command.getPositionId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getPositionId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add Transaction to Transactions
+		 * @param		command AssignTransactionsToPositionCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToTransactions( AssignTransactionsToPositionCommand command ) throws ProcessingException {
 
-    /**
-     * remove Transaction from Transactions
-     * @param		command RemoveTransactionsFromPositionCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromTransactions( RemoveTransactionsFromPositionCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PositionValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromTransactions(command.getPositionId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToTransactions(command.getPositionId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Transaction as Transactions to Position" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getPositionId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Transaction from Transactions
+		 * @param		command RemoveTransactionsFromPositionCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromTransactions( RemoveTransactionsFromPositionCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PositionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromTransactions(command.getPositionId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getPositionId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -515,5 +513,5 @@ extends BaseService {
     private final PositionEntityProjector projector;
 	private Position position 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(PositionService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PositionService.class);
 }

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class PortfolioService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public PortfolioService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new PortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(PortfolioRepository.class) );
+		}
 
-    	projector 		= new PortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(PortfolioRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Portfolio
+		 */
+			public Portfolio createPortfolio( CreatePortfolioCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Portfolio
-    */
-	public Portfolio createPortfolio( CreatePortfolioCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Portfolio entity = new Portfolio();
 
-		Portfolio entity = new Portfolio();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	PortfolioValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
 
             entity.setPortfolioId( command.getPortfolioId() );
             entity.setName( command.getName() );
@@ -136,44 +134,44 @@ extends BaseService {
             entity.setInceptionDate( command.getInceptionDate() );
             entity.setPortfolioType( command.getPortfolioType() );
             entity.setRebalanceFrequency( command.getRebalanceFrequency() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Portfolio {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Portfolio - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdatePortfolioCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Portfolio
-    */
-    public Portfolio updatePortfolio( UpdatePortfolioCommand command ) 
+				LOGGER.info( "done creating of Portfolio {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Portfolio - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdatePortfolioCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Portfolio
+		 */
+		public Portfolio updatePortfolio( UpdatePortfolioCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Portfolio entity = new Portfolio();
+			Portfolio entity = new Portfolio();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	PortfolioValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
 
             entity.setPortfolioId( command.getPortfolioId() );
             entity.setName( command.getName() );
@@ -188,480 +186,480 @@ extends BaseService {
             entity.setRebalancePlans( command.getRebalancePlans() );
             entity.setPortfolioType( command.getPortfolioType() );
             entity.setRebalanceFrequency( command.getRebalanceFrequency() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Portfolio {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Portfolio - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeletePortfolioCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeletePortfolioCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	PortfolioValidator.getInstance().validate( command );    
-        
-        	id = command.getPortfolioId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Portfolio {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Portfolio using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Portfolio {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Portfolio - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Portfolio via PortfolioFetchOneSummary
-     * @param 	summary PortfolioFetchOneSummary 
-     * @return 	PortfolioFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeletePortfolioCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeletePortfolioCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				id = command.getPortfolioId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Portfolio {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Portfolio using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Portfolio via PortfolioFetchOneSummary
+		 * @param 	summary PortfolioFetchOneSummary
+		 * @return 	PortfolioFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Portfolio getPortfolio( PortfolioFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "PortfolioFetchOneSummary arg cannot be null" );
-    	
-    	Portfolio entity = null;
-    	UUID id = summary.getPortfolioId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	PortfolioValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Portfolio using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Portfolio with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "PortfolioFetchOneSummary arg cannot be null" );
+
+			Portfolio entity = null;
+			UUID id = summary.getPortfolioId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Portfolio using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Portfolio with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Portfolios
-     *
-     * @return 	List<Portfolio> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Portfolios
+		 *
+		 * @return 	List<Portfolio>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Portfolio> getAllPortfolio() 
     throws ProcessingException {
-        List<Portfolio> list = null;
+			List<Portfolio> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllPortfolioQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Portfolio";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllPortfolioQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Portfolio";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Account on Portfolio
-     * @param		command AssignAccountToPortfolioCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToPortfolioCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getPortfolioId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getPortfolioId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on Portfolio
-     * @param		command UnAssignAccountFromPortfolioCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromPortfolioCommand command ) throws ProcessingException {
+		/**
+		 * assign Account on Portfolio
+		 * @param		command AssignAccountToPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToPortfolioCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getPortfolioId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getPortfolioId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Account on Portfolio
+		 * @param		command UnAssignAccountFromPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromPortfolioCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getPortfolioId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on Portfolio";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getPortfolioId());
+		/**
+		 * assign ModelPortfolio on Portfolio
+		 * @param		command AssignModelPortfolioToPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignModelPortfolio( AssignModelPortfolioToPortfolioCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignModelPortfolio(command.getPortfolioId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get ModelPortfolio using id " + command.getPortfolioId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on Portfolio";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign ModelPortfolio on Portfolio
+		 * @param		command UnAssignModelPortfolioFromPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignModelPortfolio( UnAssignModelPortfolioFromPortfolioCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignModelPortfolio(command.getPortfolioId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign ModelPortfolio on Portfolio";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign ModelPortfolio on Portfolio
-     * @param		command AssignModelPortfolioToPortfolioCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignModelPortfolio( AssignModelPortfolioToPortfolioCommand command ) throws ProcessingException {
+		/**
+		 * assign Benchmark on Portfolio
+		 * @param		command AssignBenchmarkToPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignBenchmark( AssignBenchmarkToPortfolioCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignModelPortfolio(command.getPortfolioId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignBenchmark(command.getPortfolioId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Benchmark using id " + command.getPortfolioId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get ModelPortfolio using id " + command.getPortfolioId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign ModelPortfolio on Portfolio
-     * @param		command UnAssignModelPortfolioFromPortfolioCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignModelPortfolio( UnAssignModelPortfolioFromPortfolioCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Benchmark on Portfolio
+		 * @param		command UnAssignBenchmarkFromPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignBenchmark( UnAssignBenchmarkFromPortfolioCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignBenchmark(command.getPortfolioId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Benchmark on Portfolio";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignModelPortfolio(command.getPortfolioId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign ModelPortfolio on Portfolio";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Benchmark on Portfolio
-     * @param		command AssignBenchmarkToPortfolioCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignBenchmark( AssignBenchmarkToPortfolioCommand command ) throws ProcessingException {
+		/**
+		 * assign InvestmentPolicy on Portfolio
+		 * @param		command AssignInvestmentPolicyToPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignInvestmentPolicy( AssignInvestmentPolicyToPortfolioCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignBenchmark(command.getPortfolioId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignInvestmentPolicy(command.getPortfolioId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get InvestmentPolicy using id " + command.getPortfolioId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Benchmark using id " + command.getPortfolioId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Benchmark on Portfolio
-     * @param		command UnAssignBenchmarkFromPortfolioCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignBenchmark( UnAssignBenchmarkFromPortfolioCommand command ) throws ProcessingException {
+		/**
+		 * unAssign InvestmentPolicy on Portfolio
+		 * @param		command UnAssignInvestmentPolicyFromPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignBenchmark(command.getPortfolioId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignInvestmentPolicy(command.getPortfolioId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign InvestmentPolicy on Portfolio";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Benchmark on Portfolio";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign InvestmentPolicy on Portfolio
-     * @param		command AssignInvestmentPolicyToPortfolioCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignInvestmentPolicy( AssignInvestmentPolicyToPortfolioCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignInvestmentPolicy(command.getPortfolioId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get InvestmentPolicy using id " + command.getPortfolioId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign InvestmentPolicy on Portfolio
-     * @param		command UnAssignInvestmentPolicyFromPortfolioCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignInvestmentPolicy(command.getPortfolioId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign InvestmentPolicy on Portfolio";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add Position to Positions 
-     * @param		command AssignPositionsToPortfolioCommand
-     * @exception	ProcessingException
-     */     
-	public void addToPositions( AssignPositionsToPortfolioCommand command ) throws ProcessingException {
+		/**
+		 * add Position to Positions
+		 * @param		command AssignPositionsToPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToPositions( AssignPositionsToPortfolioCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToPositions(command.getPortfolioId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Position as Positions to Portfolio" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Position from Positions
-     * @param		command RemovePositionsFromPortfolioCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromPositions( RemovePositionsFromPortfolioCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromPositions(command.getPortfolioId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToPositions(command.getPortfolioId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Position as Positions to Portfolio" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getPortfolioId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add PerformanceReport to PerformanceReports 
-     * @param		command AssignPerformanceReportsToPortfolioCommand
-     * @exception	ProcessingException
-     */     
-	public void addToPerformanceReports( AssignPerformanceReportsToPortfolioCommand command ) throws ProcessingException {
+		/**
+		 * remove Position from Positions
+		 * @param		command RemovePositionsFromPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromPositions( RemovePositionsFromPortfolioCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToPerformanceReports(command.getPortfolioId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a PerformanceReport as PerformanceReports to Portfolio" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromPositions(command.getPortfolioId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add PerformanceReport to PerformanceReports
+		 * @param		command AssignPerformanceReportsToPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToPerformanceReports( AssignPerformanceReportsToPortfolioCommand command ) throws ProcessingException {
 
-    /**
-     * remove PerformanceReport from PerformanceReports
-     * @param		command RemovePerformanceReportsFromPortfolioCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromPerformanceReports( RemovePerformanceReportsFromPortfolioCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromPerformanceReports(command.getPortfolioId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getPortfolioId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add RebalancePlan to RebalancePlans 
-     * @param		command AssignRebalancePlansToPortfolioCommand
-     * @exception	ProcessingException
-     */     
-	public void addToRebalancePlans( AssignRebalancePlansToPortfolioCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToRebalancePlans(command.getPortfolioId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a RebalancePlan as RebalancePlans to Portfolio" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove RebalancePlan from RebalancePlans
-     * @param		command RemoveRebalancePlansFromPortfolioCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromRebalancePlans( RemoveRebalancePlansFromPortfolioCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PortfolioValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromRebalancePlans(command.getPortfolioId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToPerformanceReports(command.getPortfolioId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a PerformanceReport as PerformanceReports to Portfolio" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getPortfolioId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove PerformanceReport from PerformanceReports
+		 * @param		command RemovePerformanceReportsFromPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromPerformanceReports( RemovePerformanceReportsFromPortfolioCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromPerformanceReports(command.getPortfolioId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
+
+		/**
+		 * add RebalancePlan to RebalancePlans
+		 * @param		command AssignRebalancePlansToPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToRebalancePlans( AssignRebalancePlansToPortfolioCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToRebalancePlans(command.getPortfolioId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a RebalancePlan as RebalancePlans to Portfolio" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove RebalancePlan from RebalancePlans
+		 * @param		command RemoveRebalancePlansFromPortfolioCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromRebalancePlans( RemoveRebalancePlansFromPortfolioCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PortfolioValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromRebalancePlans(command.getPortfolioId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
 
 
@@ -674,5 +672,5 @@ extends BaseService {
     private final PortfolioEntityProjector projector;
 	private Portfolio portfolio 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(PortfolioService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PortfolioService.class);
 }

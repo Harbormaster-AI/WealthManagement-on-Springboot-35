@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class TransactionService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public TransactionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new TransactionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(TransactionRepository.class) );
+		}
 
-    	projector 		= new TransactionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(TransactionRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Transaction
+		 */
+			public Transaction createTransaction( CreateTransactionCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Transaction
-    */
-	public Transaction createTransaction( CreateTransactionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Transaction entity = new Transaction();
 
-		Transaction entity = new Transaction();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	TransactionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
 
             entity.setTransactionId( command.getTransactionId() );
             entity.setTradeDate( command.getTradeDate() );
@@ -136,44 +134,44 @@ extends BaseService {
             entity.setAmount( command.getAmount() );
             entity.setQuantity( command.getQuantity() );
             entity.setTransactionType( command.getTransactionType() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Transaction {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Transaction - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateTransactionCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Transaction
-    */
-    public Transaction updateTransaction( UpdateTransactionCommand command ) 
+				LOGGER.info( "done creating of Transaction {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Transaction - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateTransactionCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Transaction
+		 */
+		public Transaction updateTransaction( UpdateTransactionCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Transaction entity = new Transaction();
+			Transaction entity = new Transaction();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	TransactionValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
 
             entity.setTransactionId( command.getTransactionId() );
             entity.setTradeDate( command.getTradeDate() );
@@ -185,323 +183,323 @@ extends BaseService {
             entity.setOrder( command.getOrder() );
             entity.setPosition( command.getPosition() );
             entity.setTransactionType( command.getTransactionType() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Transaction {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Transaction - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteTransactionCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteTransactionCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	TransactionValidator.getInstance().validate( command );    
-        
-        	id = command.getTransactionId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Transaction {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Transaction using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Transaction {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Transaction - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Transaction via TransactionFetchOneSummary
-     * @param 	summary TransactionFetchOneSummary 
-     * @return 	TransactionFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteTransactionCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteTransactionCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
+
+				id = command.getTransactionId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Transaction {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Transaction using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Transaction via TransactionFetchOneSummary
+		 * @param 	summary TransactionFetchOneSummary
+		 * @return 	TransactionFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Transaction getTransaction( TransactionFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "TransactionFetchOneSummary arg cannot be null" );
-    	
-    	Transaction entity = null;
-    	UUID id = summary.getTransactionId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	TransactionValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Transaction using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Transaction with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "TransactionFetchOneSummary arg cannot be null" );
+
+			Transaction entity = null;
+			UUID id = summary.getTransactionId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Transaction using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Transaction with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Transactions
-     *
-     * @return 	List<Transaction> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Transactions
+		 *
+		 * @return 	List<Transaction>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Transaction> getAllTransaction() 
     throws ProcessingException {
-        List<Transaction> list = null;
+			List<Transaction> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllTransactionQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Transaction";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllTransactionQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Transaction";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Account on Transaction
-     * @param		command AssignAccountToTransactionCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToTransactionCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	TransactionValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getTransactionId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getTransactionId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on Transaction
-     * @param		command UnAssignAccountFromTransactionCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromTransactionCommand command ) throws ProcessingException {
+		/**
+		 * assign Account on Transaction
+		 * @param		command AssignAccountToTransactionCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToTransactionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	TransactionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getTransactionId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getTransactionId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Account on Transaction
+		 * @param		command UnAssignAccountFromTransactionCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromTransactionCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getTransactionId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on Transaction";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getTransactionId());
+		/**
+		 * assign Security on Transaction
+		 * @param		command AssignSecurityToTransactionCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignSecurity( AssignSecurityToTransactionCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignSecurity(command.getTransactionId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Security using id " + command.getTransactionId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on Transaction";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Security on Transaction
+		 * @param		command UnAssignSecurityFromTransactionCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignSecurity( UnAssignSecurityFromTransactionCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignSecurity(command.getTransactionId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Security on Transaction";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign Security on Transaction
-     * @param		command AssignSecurityToTransactionCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignSecurity( AssignSecurityToTransactionCommand command ) throws ProcessingException {
+		/**
+		 * assign Order on Transaction
+		 * @param		command AssignOrderToTransactionCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignOrder( AssignOrderToTransactionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	TransactionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignSecurity(command.getTransactionId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignOrder(command.getTransactionId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Order using id " + command.getTransactionId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Security using id " + command.getTransactionId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Security on Transaction
-     * @param		command UnAssignSecurityFromTransactionCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignSecurity( UnAssignSecurityFromTransactionCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Order on Transaction
+		 * @param		command UnAssignOrderFromTransactionCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignOrder( UnAssignOrderFromTransactionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	TransactionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignOrder(command.getTransactionId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Order on Transaction";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignSecurity(command.getTransactionId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Security on Transaction";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Order on Transaction
-     * @param		command AssignOrderToTransactionCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignOrder( AssignOrderToTransactionCommand command ) throws ProcessingException {
+		/**
+		 * assign Position on Transaction
+		 * @param		command AssignPositionToTransactionCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPosition( AssignPositionToTransactionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	TransactionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignOrder(command.getTransactionId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPosition(command.getTransactionId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Position using id " + command.getTransactionId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Order using id " + command.getTransactionId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Order on Transaction
-     * @param		command UnAssignOrderFromTransactionCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignOrder( UnAssignOrderFromTransactionCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Position on Transaction
+		 * @param		command UnAssignPositionFromTransactionCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPosition( UnAssignPositionFromTransactionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	TransactionValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignOrder(command.getTransactionId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TransactionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPosition(command.getTransactionId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Position on Transaction";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Order on Transaction";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Position on Transaction
-     * @param		command AssignPositionToTransactionCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPosition( AssignPositionToTransactionCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	TransactionValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPosition(command.getTransactionId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Position using id " + command.getTransactionId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign Position on Transaction
-     * @param		command UnAssignPositionFromTransactionCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPosition( UnAssignPositionFromTransactionCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	TransactionValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPosition(command.getTransactionId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Position on Transaction";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -515,5 +513,5 @@ extends BaseService {
     private final TransactionEntityProjector projector;
 	private Transaction transaction 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(TransactionService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(TransactionService.class);
 }

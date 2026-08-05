@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class BenchmarkRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Benchmark create( @RequestBody(required=true) CreateBenchmarkCommand command ) {
     	Benchmark entity = null;
-		try {       
-        	
-			entity = service.createBenchmark( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createBenchmark( command );
+		LOGGER.info( "Successfully created Benchmark with Id " + entity.getBenchmarkId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class BenchmarkRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Benchmark update( @RequestBody(required=true) UpdateBenchmarkCommand command ) {
 		Benchmark entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateBenchmarkCommand
-			// -----------------------------------------------
-			entity = service.updateBenchmark(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "BenchmarkController:update() - successfully update Benchmark - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateBenchmark(command);
+		LOGGER.info( "Successfully updated Benchmark with Id " + command.getBenchmarkId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class BenchmarkRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteBenchmarkCommand command ) {                
-    	try {
-        	BenchmarkService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Benchmark with key " + command.getBenchmarkId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Benchmark with Id " + command.getBenchmarkId()  );
+	}
 	
     /**
      * Handles loading a Benchmark using a UUID
@@ -150,16 +133,10 @@ public class BenchmarkRestController extends BaseSpringRestController {
      * @return		Benchmark
      */    
     @GetMapping("/load")
-    public Benchmark load( @RequestParam(required=true) UUID uuid ) {    	
-    	Benchmark entity = null;
+    public Benchmark load( @RequestParam(required=true) UUID uuid ) {
+    	Benchmark entity = service.getBenchmark( new BenchmarkFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getBenchmark( new BenchmarkFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Benchmark using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Benchmark with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class BenchmarkRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Benchmark> loadAll() {                
     	List<Benchmark> benchmarkList = null;
-        
-    	try {
-            // load the Benchmark
-            benchmarkList = service.getAllBenchmark();
-            
-            if ( benchmarkList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Benchmarks" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Benchmarks ", exc );
-        	return null;
-        }
+
+		benchmarkList = service.getAllBenchmark();
+		LOGGER.log( Level.INFO,  "successfully loaded all Benchmarks" );
 
         return benchmarkList;
                             
@@ -195,12 +163,8 @@ public class BenchmarkRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToPerformanceReports")
 	public void addToPerformanceReports( @RequestBody(required=true) AssignPerformanceReportsToBenchmarkCommand command ) {
-		try {
-			service.addToPerformanceReports( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set PerformanceReports", exc );
-		}
+		service.addToPerformanceReports( command );
+		LOGGER.info( "Successfully added PerformanceReports with Id " + command.getBenchmarkId()  );
 	}
 
     /**
@@ -210,12 +174,8 @@ public class BenchmarkRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromPerformanceReports")
 	public void removeFromPerformanceReports( 	@RequestBody(required=true) RemovePerformanceReportsFromBenchmarkCommand command )
 	{		
-		try {
-			service.removeFromPerformanceReports( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set PerformanceReports", exc );
-		}
+		service.removeFromPerformanceReports( command );
+		LOGGER.info( "Successfully removed PerformanceReports with Id " + command.getBenchmarkId()  );
 	}
 
     /**
@@ -224,12 +184,8 @@ public class BenchmarkRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToConstituents")
 	public void addToConstituents( @RequestBody(required=true) AssignConstituentsToBenchmarkCommand command ) {
-		try {
-			service.addToConstituents( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Constituents", exc );
-		}
+		service.addToConstituents( command );
+		LOGGER.info( "Successfully added Constituents with Id " + command.getBenchmarkId()  );
 	}
 
     /**
@@ -239,12 +195,8 @@ public class BenchmarkRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromConstituents")
 	public void removeFromConstituents( 	@RequestBody(required=true) RemoveConstituentsFromBenchmarkCommand command )
 	{		
-		try {
-			service.removeFromConstituents( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Constituents", exc );
-		}
+		service.removeFromConstituents( command );
+		LOGGER.info( "Successfully removed Constituents with Id " + command.getBenchmarkId()  );
 	}
 
 
@@ -255,6 +207,6 @@ public class BenchmarkRestController extends BaseSpringRestController {
 //************************************************************************
     protected Benchmark benchmark = null;
 	protected BenchmarkService service = null;
-    private static final Logger LOGGER = Logger.getLogger(BenchmarkRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(BenchmarkRestController.class.getName());
     
 }

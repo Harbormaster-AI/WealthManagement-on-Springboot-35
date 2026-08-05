@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public WealthFirm create( @RequestBody(required=true) CreateWealthFirmCommand command ) {
     	WealthFirm entity = null;
-		try {       
-        	
-			entity = service.createWealthFirm( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createWealthFirm( command );
+		LOGGER.info( "Successfully created WealthFirm with Id " + entity.getWealthFirmId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public WealthFirm update( @RequestBody(required=true) UpdateWealthFirmCommand command ) {
 		WealthFirm entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateWealthFirmCommand
-			// -----------------------------------------------
-			entity = service.updateWealthFirm(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "WealthFirmController:update() - successfully update WealthFirm - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateWealthFirm(command);
+		LOGGER.info( "Successfully updated WealthFirm with Id " + command.getWealthFirmId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class WealthFirmRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteWealthFirmCommand command ) {                
-    	try {
-        	WealthFirmService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted WealthFirm with key " + command.getWealthFirmId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted WealthFirm with Id " + command.getWealthFirmId()  );
+	}
 	
     /**
      * Handles loading a WealthFirm using a UUID
@@ -150,16 +133,10 @@ public class WealthFirmRestController extends BaseSpringRestController {
      * @return		WealthFirm
      */    
     @GetMapping("/load")
-    public WealthFirm load( @RequestParam(required=true) UUID uuid ) {    	
-    	WealthFirm entity = null;
+    public WealthFirm load( @RequestParam(required=true) UUID uuid ) {
+    	WealthFirm entity = service.getWealthFirm( new WealthFirmFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getWealthFirm( new WealthFirmFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load WealthFirm using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded WealthFirm with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class WealthFirmRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<WealthFirm> loadAll() {                
     	List<WealthFirm> wealthFirmList = null;
-        
-    	try {
-            // load the WealthFirm
-            wealthFirmList = service.getAllWealthFirm();
-            
-            if ( wealthFirmList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all WealthFirms" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all WealthFirms ", exc );
-        	return null;
-        }
+
+		wealthFirmList = service.getAllWealthFirm();
+		LOGGER.log( Level.INFO,  "successfully loaded all WealthFirms" );
 
         return wealthFirmList;
                             
@@ -195,12 +163,8 @@ public class WealthFirmRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAdvisors")
 	public void addToAdvisors( @RequestBody(required=true) AssignAdvisorsToWealthFirmCommand command ) {
-		try {
-			service.addToAdvisors( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Advisors", exc );
-		}
+		service.addToAdvisors( command );
+		LOGGER.info( "Successfully added Advisors with Id " + command.getWealthFirmId()  );
 	}
 
     /**
@@ -210,12 +174,8 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAdvisors")
 	public void removeFromAdvisors( 	@RequestBody(required=true) RemoveAdvisorsFromWealthFirmCommand command )
 	{		
-		try {
-			service.removeFromAdvisors( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Advisors", exc );
-		}
+		service.removeFromAdvisors( command );
+		LOGGER.info( "Successfully removed Advisors with Id " + command.getWealthFirmId()  );
 	}
 
     /**
@@ -224,12 +184,8 @@ public class WealthFirmRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToOffices")
 	public void addToOffices( @RequestBody(required=true) AssignOfficesToWealthFirmCommand command ) {
-		try {
-			service.addToOffices( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Offices", exc );
-		}
+		service.addToOffices( command );
+		LOGGER.info( "Successfully added Offices with Id " + command.getWealthFirmId()  );
 	}
 
     /**
@@ -239,12 +195,8 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromOffices")
 	public void removeFromOffices( 	@RequestBody(required=true) RemoveOfficesFromWealthFirmCommand command )
 	{		
-		try {
-			service.removeFromOffices( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Offices", exc );
-		}
+		service.removeFromOffices( command );
+		LOGGER.info( "Successfully removed Offices with Id " + command.getWealthFirmId()  );
 	}
 
     /**
@@ -253,12 +205,8 @@ public class WealthFirmRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToCustodians")
 	public void addToCustodians( @RequestBody(required=true) AssignCustodiansToWealthFirmCommand command ) {
-		try {
-			service.addToCustodians( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Custodians", exc );
-		}
+		service.addToCustodians( command );
+		LOGGER.info( "Successfully added Custodians with Id " + command.getWealthFirmId()  );
 	}
 
     /**
@@ -268,12 +216,8 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromCustodians")
 	public void removeFromCustodians( 	@RequestBody(required=true) RemoveCustodiansFromWealthFirmCommand command )
 	{		
-		try {
-			service.removeFromCustodians( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Custodians", exc );
-		}
+		service.removeFromCustodians( command );
+		LOGGER.info( "Successfully removed Custodians with Id " + command.getWealthFirmId()  );
 	}
 
     /**
@@ -282,12 +226,8 @@ public class WealthFirmRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToInvestmentPrograms")
 	public void addToInvestmentPrograms( @RequestBody(required=true) AssignInvestmentProgramsToWealthFirmCommand command ) {
-		try {
-			service.addToInvestmentPrograms( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set InvestmentPrograms", exc );
-		}
+		service.addToInvestmentPrograms( command );
+		LOGGER.info( "Successfully added InvestmentPrograms with Id " + command.getWealthFirmId()  );
 	}
 
     /**
@@ -297,12 +237,8 @@ public class WealthFirmRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromInvestmentPrograms")
 	public void removeFromInvestmentPrograms( 	@RequestBody(required=true) RemoveInvestmentProgramsFromWealthFirmCommand command )
 	{		
-		try {
-			service.removeFromInvestmentPrograms( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set InvestmentPrograms", exc );
-		}
+		service.removeFromInvestmentPrograms( command );
+		LOGGER.info( "Successfully removed InvestmentPrograms with Id " + command.getWealthFirmId()  );
 	}
 
 
@@ -313,6 +249,6 @@ public class WealthFirmRestController extends BaseSpringRestController {
 //************************************************************************
     protected WealthFirm wealthFirm = null;
 	protected WealthFirmService service = null;
-    private static final Logger LOGGER = Logger.getLogger(WealthFirmRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(WealthFirmRestController.class.getName());
     
 }

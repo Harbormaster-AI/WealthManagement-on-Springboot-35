@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>AccountValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,6 +96,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class AccountValidator {
 		
 	/**
@@ -101,52 +104,59 @@ public class AccountValidator {
 	 */
 	protected AccountValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public AccountValidator getInstance() {
-		return new AccountValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Account
 	 */
-	public void validate( CreateAccountCommand account )throws Exception {
-		Assert.notNull( account, "CreateAccountCommand should not be null" );
+	public void validate( CreateAccountCommand account )throws ValidationException {
+		if ( account == null )
+			throw new ValidationException( "Account", "validating CreateAccountCommand" );
+
 //		Assert.isNull( account.getAccountId(), "CreateAccountCommand identifier should be null" );
-		Assert.notNull( account.getName(), "Field CreateAccountCommand.name should not be null" );
-		Assert.notNull( account.getAccountNumber(), "Field CreateAccountCommand.accountNumber should not be null" );
-		Assert.notNull( account.getBaseCurrency(), "Field CreateAccountCommand.baseCurrency should not be null" );
-		Assert.notNull( account.getOpenedDate(), "Field CreateAccountCommand.openedDate should not be null" );
+		if ( account.getName() == null )
+			throw new ValidationException( "Account", "validating access on getName" );
+		if ( account.getAccountNumber() == null )
+			throw new ValidationException( "Account", "validating access on getAccountNumber" );
+		if ( account.getBaseCurrency() == null )
+			throw new ValidationException( "Account", "validating access on getBaseCurrency" );
+		if ( account.getOpenedDate() == null )
+			throw new ValidationException( "Account", "validating access on getOpenedDate" );
 	}
 
 	/**
 	 * handles update validation for a Account
 	 */
-	public void validate( UpdateAccountCommand account ) throws Exception {
-		Assert.notNull( account, "UpdateAccountCommand should not be null" );
-		Assert.notNull( account.getAccountId(), "UpdateAccountCommand identifier should not be null" );
-		Assert.notNull( account.getName(), "Field UpdateAccountCommand.name should not be null" );
-		Assert.notNull( account.getAccountNumber(), "Field UpdateAccountCommand.accountNumber should not be null" );
-		Assert.notNull( account.getBaseCurrency(), "Field UpdateAccountCommand.baseCurrency should not be null" );
-		Assert.notNull( account.getOpenedDate(), "Field UpdateAccountCommand.openedDate should not be null" );
+	public void validate( UpdateAccountCommand account ) throws ValidationException {
+		if ( account == null )
+			throw new ValidationException( "Account", "validating UpdateAccountCommand" );
+		if ( account.getName() == null )
+			throw new ValidationException( "Account", "validating method getName" );
+		if ( account.getAccountNumber() == null )
+			throw new ValidationException( "Account", "validating method getAccountNumber" );
+		if ( account.getBaseCurrency() == null )
+			throw new ValidationException( "Account", "validating method getBaseCurrency" );
+		if ( account.getOpenedDate() == null )
+			throw new ValidationException( "Account", "validating method getOpenedDate" );
     }
 
 	/**
 	 * handles delete validation for a Account
 	 */
-    public void validate( DeleteAccountCommand account ) throws Exception {
-		Assert.notNull( account, "{commandAlias} should not be null" );
-		Assert.notNull( account.getAccountId(), "DeleteAccountCommand identifier should not be null" );
+    public void validate( DeleteAccountCommand account ) throws ValidationException {
+		if ( account == null )
+			throw new ValidationException( "Account", "validating DeleteAccountCommand" );
+
+		if ( account.getOpenedDate() == null )
+			throw new ValidationException( "Account", "validating getOpenedDate" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Account
 	 */
-	public void validate( AccountFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "AccountFetchOneSummary should not be null" );
-		Assert.notNull( summary.getAccountId(), "AccountFetchOneSummary identifier should not be null" );
+	public void validate( AccountFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Account", "validating summary );
 	}
 
 	/**
@@ -154,10 +164,16 @@ public class AccountValidator {
 	 * 
 	 * @param	command AssignHouseholdToAccountCommand
 	 */	
-	public void validate( AssignHouseholdToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignHouseholdToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignHouseholdToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignHouseholdToAccountCommand assignment should not be null" );
+	public void validate( AssignHouseholdToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignHouseholdToAccountCommand" );
+
+		if ( command.getAccountId() == null )
+			throw new ValidationException( "Account", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Account", "validating assignment" );
+
 	}
 
 	/**
@@ -165,19 +181,28 @@ public class AccountValidator {
 	 * 
 	 * @param	command UnAssignHouseholdFromAccountCommand
 	 */	
-	public void validate( UnAssignHouseholdFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignHouseholdFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "UnAssignHouseholdFromAccountCommand identifier should not be null" );
+	public void validate( UnAssignHouseholdFromAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating UnAssignHouseholdFromAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on UnAssignHouseholdFromAccountCommand" );
 	}
 	/**
 	 * handles assign Advisor validation for a Account
 	 * 
 	 * @param	command AssignAdvisorToAccountCommand
 	 */	
-	public void validate( AssignAdvisorToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignAdvisorToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisorToAccountCommand assignment should not be null" );
+	public void validate( AssignAdvisorToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignAdvisorToAccountCommand" );
+
+		if ( command.getAccountId() == null )
+			throw new ValidationException( "Account", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Account", "validating assignment" );
+
 	}
 
 	/**
@@ -185,19 +210,28 @@ public class AccountValidator {
 	 * 
 	 * @param	command UnAssignAdvisorFromAccountCommand
 	 */	
-	public void validate( UnAssignAdvisorFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisorFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "UnAssignAdvisorFromAccountCommand identifier should not be null" );
+	public void validate( UnAssignAdvisorFromAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating UnAssignAdvisorFromAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on UnAssignAdvisorFromAccountCommand" );
 	}
 	/**
 	 * handles assign Custodian validation for a Account
 	 * 
 	 * @param	command AssignCustodianToAccountCommand
 	 */	
-	public void validate( AssignCustodianToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignCustodianToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignCustodianToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignCustodianToAccountCommand assignment should not be null" );
+	public void validate( AssignCustodianToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignCustodianToAccountCommand" );
+
+		if ( command.getAccountId() == null )
+			throw new ValidationException( "Account", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Account", "validating assignment" );
+
 	}
 
 	/**
@@ -205,19 +239,28 @@ public class AccountValidator {
 	 * 
 	 * @param	command UnAssignCustodianFromAccountCommand
 	 */	
-	public void validate( UnAssignCustodianFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignCustodianFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "UnAssignCustodianFromAccountCommand identifier should not be null" );
+	public void validate( UnAssignCustodianFromAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating UnAssignCustodianFromAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on UnAssignCustodianFromAccountCommand" );
 	}
 	/**
 	 * handles assign Portfolio validation for a Account
 	 * 
 	 * @param	command AssignPortfolioToAccountCommand
 	 */	
-	public void validate( AssignPortfolioToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfolioToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignPortfolioToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPortfolioToAccountCommand assignment should not be null" );
+	public void validate( AssignPortfolioToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignPortfolioToAccountCommand" );
+
+		if ( command.getAccountId() == null )
+			throw new ValidationException( "Account", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Account", "validating assignment" );
+
 	}
 
 	/**
@@ -225,9 +268,12 @@ public class AccountValidator {
 	 * 
 	 * @param	command UnAssignPortfolioFromAccountCommand
 	 */	
-	public void validate( UnAssignPortfolioFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPortfolioFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "UnAssignPortfolioFromAccountCommand identifier should not be null" );
+	public void validate( UnAssignPortfolioFromAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating UnAssignPortfolioFromAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on UnAssignPortfolioFromAccountCommand" );
 	}
 
 	/**
@@ -235,10 +281,16 @@ public class AccountValidator {
 	 * 
 	 * @param	command AssignBeneficiariesToAccountCommand
 	 */	
-	public void validate( AssignBeneficiariesToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignBeneficiariesToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignBeneficiariesToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignBeneficiariesToAccountCommand addTo attribute should not be null" );
+	public void validate( AssignBeneficiariesToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignBeneficiariesToAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on AssignBeneficiariesToAccountCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Account", "validating addTo attribute on AssignBeneficiariesToAccountCommand" );
+
 	}
 
 	/**
@@ -246,11 +298,18 @@ public class AccountValidator {
 	 * 
 	 * @param	command RemoveBeneficiariesFromAccountCommand
 	 */	
-	public void validate( RemoveBeneficiariesFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveBeneficiariesFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "RemoveBeneficiariesFromAccountCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveBeneficiariesFromAccountCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getBeneficiaryId(), "RemoveBeneficiariesFromAccountCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveBeneficiariesFromAccountCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Account", "validating RemoveBeneficiariesFromAccountCommand");
+
+		if( command.getAccountId() == null )
+			throw new ValidationException"Account", "validating id on RemoveBeneficiariesFromAccountCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Account", "validating remove from";
+
+		if( command.getRemoveFrom().getBeneficiaryId() == null )
+			throw new ValidationException"Account", "validating id on remove from}";
 	}
 	
 	/**
@@ -258,10 +317,16 @@ public class AccountValidator {
 	 * 
 	 * @param	command AssignPositionsToAccountCommand
 	 */	
-	public void validate( AssignPositionsToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPositionsToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignPositionsToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignPositionsToAccountCommand addTo attribute should not be null" );
+	public void validate( AssignPositionsToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignPositionsToAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on AssignPositionsToAccountCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Account", "validating addTo attribute on AssignPositionsToAccountCommand" );
+
 	}
 
 	/**
@@ -269,11 +334,18 @@ public class AccountValidator {
 	 * 
 	 * @param	command RemovePositionsFromAccountCommand
 	 */	
-	public void validate( RemovePositionsFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "RemovePositionsFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "RemovePositionsFromAccountCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemovePositionsFromAccountCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getPositionId(), "RemovePositionsFromAccountCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemovePositionsFromAccountCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Account", "validating RemovePositionsFromAccountCommand");
+
+		if( command.getAccountId() == null )
+			throw new ValidationException"Account", "validating id on RemovePositionsFromAccountCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Account", "validating remove from";
+
+		if( command.getRemoveFrom().getPositionId() == null )
+			throw new ValidationException"Account", "validating id on remove from}";
 	}
 	
 	/**
@@ -281,10 +353,16 @@ public class AccountValidator {
 	 * 
 	 * @param	command AssignTransactionsToAccountCommand
 	 */	
-	public void validate( AssignTransactionsToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignTransactionsToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignTransactionsToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignTransactionsToAccountCommand addTo attribute should not be null" );
+	public void validate( AssignTransactionsToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignTransactionsToAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on AssignTransactionsToAccountCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Account", "validating addTo attribute on AssignTransactionsToAccountCommand" );
+
 	}
 
 	/**
@@ -292,11 +370,18 @@ public class AccountValidator {
 	 * 
 	 * @param	command RemoveTransactionsFromAccountCommand
 	 */	
-	public void validate( RemoveTransactionsFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveTransactionsFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "RemoveTransactionsFromAccountCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveTransactionsFromAccountCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getTransactionId(), "RemoveTransactionsFromAccountCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveTransactionsFromAccountCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Account", "validating RemoveTransactionsFromAccountCommand");
+
+		if( command.getAccountId() == null )
+			throw new ValidationException"Account", "validating id on RemoveTransactionsFromAccountCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Account", "validating remove from";
+
+		if( command.getRemoveFrom().getTransactionId() == null )
+			throw new ValidationException"Account", "validating id on remove from}";
 	}
 	
 	/**
@@ -304,10 +389,16 @@ public class AccountValidator {
 	 * 
 	 * @param	command AssignFeesToAccountCommand
 	 */	
-	public void validate( AssignFeesToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignFeesToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignFeesToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignFeesToAccountCommand addTo attribute should not be null" );
+	public void validate( AssignFeesToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignFeesToAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on AssignFeesToAccountCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Account", "validating addTo attribute on AssignFeesToAccountCommand" );
+
 	}
 
 	/**
@@ -315,11 +406,18 @@ public class AccountValidator {
 	 * 
 	 * @param	command RemoveFeesFromAccountCommand
 	 */	
-	public void validate( RemoveFeesFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveFeesFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "RemoveFeesFromAccountCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveFeesFromAccountCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getFeeId(), "RemoveFeesFromAccountCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveFeesFromAccountCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Account", "validating RemoveFeesFromAccountCommand");
+
+		if( command.getAccountId() == null )
+			throw new ValidationException"Account", "validating id on RemoveFeesFromAccountCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Account", "validating remove from";
+
+		if( command.getRemoveFrom().getFeeId() == null )
+			throw new ValidationException"Account", "validating id on remove from}";
 	}
 	
 	/**
@@ -327,10 +425,16 @@ public class AccountValidator {
 	 * 
 	 * @param	command AssignStandingInstructionsToAccountCommand
 	 */	
-	public void validate( AssignStandingInstructionsToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignStandingInstructionsToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignStandingInstructionsToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignStandingInstructionsToAccountCommand addTo attribute should not be null" );
+	public void validate( AssignStandingInstructionsToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignStandingInstructionsToAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on AssignStandingInstructionsToAccountCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Account", "validating addTo attribute on AssignStandingInstructionsToAccountCommand" );
+
 	}
 
 	/**
@@ -338,11 +442,18 @@ public class AccountValidator {
 	 * 
 	 * @param	command RemoveStandingInstructionsFromAccountCommand
 	 */	
-	public void validate( RemoveStandingInstructionsFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveStandingInstructionsFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "RemoveStandingInstructionsFromAccountCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveStandingInstructionsFromAccountCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getStandingInstructionId(), "RemoveStandingInstructionsFromAccountCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveStandingInstructionsFromAccountCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Account", "validating RemoveStandingInstructionsFromAccountCommand");
+
+		if( command.getAccountId() == null )
+			throw new ValidationException"Account", "validating id on RemoveStandingInstructionsFromAccountCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Account", "validating remove from";
+
+		if( command.getRemoveFrom().getStandingInstructionId() == null )
+			throw new ValidationException"Account", "validating id on remove from}";
 	}
 	
 	/**
@@ -350,10 +461,16 @@ public class AccountValidator {
 	 * 
 	 * @param	command AssignInvoicesToAccountCommand
 	 */	
-	public void validate( AssignInvoicesToAccountCommand command ) throws Exception {
-		Assert.notNull( command, "AssignInvoicesToAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "AssignInvoicesToAccountCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignInvoicesToAccountCommand addTo attribute should not be null" );
+	public void validate( AssignInvoicesToAccountCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Account", "validating AssignInvoicesToAccountCommand" );
+
+		if ( command.getAccountId() == null ) }
+			throw new ValidationException( "Account", "validating identity on AssignInvoicesToAccountCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Account", "validating addTo attribute on AssignInvoicesToAccountCommand" );
+
 	}
 
 	/**
@@ -361,11 +478,18 @@ public class AccountValidator {
 	 * 
 	 * @param	command RemoveInvoicesFromAccountCommand
 	 */	
-	public void validate( RemoveInvoicesFromAccountCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveInvoicesFromAccountCommand should not be null" );
-		Assert.notNull( command.getAccountId(), "RemoveInvoicesFromAccountCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveInvoicesFromAccountCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getInvoiceId(), "RemoveInvoicesFromAccountCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveInvoicesFromAccountCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Account", "validating RemoveInvoicesFromAccountCommand");
+
+		if( command.getAccountId() == null )
+			throw new ValidationException"Account", "validating id on RemoveInvoicesFromAccountCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Account", "validating remove from";
+
+		if( command.getRemoveFrom().getInvoiceId() == null )
+			throw new ValidationException"Account", "validating id on remove from}";
 	}
 	
 

@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>HouseholdValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -80,6 +82,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class HouseholdValidator {
 		
 	/**
@@ -87,46 +90,47 @@ public class HouseholdValidator {
 	 */
 	protected HouseholdValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public HouseholdValidator getInstance() {
-		return new HouseholdValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Household
 	 */
-	public void validate( CreateHouseholdCommand household )throws Exception {
-		Assert.notNull( household, "CreateHouseholdCommand should not be null" );
+	public void validate( CreateHouseholdCommand household )throws ValidationException {
+		if ( household == null )
+			throw new ValidationException( "Household", "validating CreateHouseholdCommand" );
+
 //		Assert.isNull( household.getHouseholdId(), "CreateHouseholdCommand identifier should be null" );
-		Assert.notNull( household.getName(), "Field CreateHouseholdCommand.name should not be null" );
+		if ( household.getName() == null )
+			throw new ValidationException( "Household", "validating access on getName" );
 	}
 
 	/**
 	 * handles update validation for a Household
 	 */
-	public void validate( UpdateHouseholdCommand household ) throws Exception {
-		Assert.notNull( household, "UpdateHouseholdCommand should not be null" );
-		Assert.notNull( household.getHouseholdId(), "UpdateHouseholdCommand identifier should not be null" );
-		Assert.notNull( household.getName(), "Field UpdateHouseholdCommand.name should not be null" );
+	public void validate( UpdateHouseholdCommand household ) throws ValidationException {
+		if ( household == null )
+			throw new ValidationException( "Household", "validating UpdateHouseholdCommand" );
+		if ( household.getName() == null )
+			throw new ValidationException( "Household", "validating method getName" );
     }
 
 	/**
 	 * handles delete validation for a Household
 	 */
-    public void validate( DeleteHouseholdCommand household ) throws Exception {
-		Assert.notNull( household, "{commandAlias} should not be null" );
-		Assert.notNull( household.getHouseholdId(), "DeleteHouseholdCommand identifier should not be null" );
+    public void validate( DeleteHouseholdCommand household ) throws ValidationException {
+		if ( household == null )
+			throw new ValidationException( "Household", "validating DeleteHouseholdCommand" );
+
+		if ( household.getName() == null )
+			throw new ValidationException( "Household", "validating getName" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Household
 	 */
-	public void validate( HouseholdFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "HouseholdFetchOneSummary should not be null" );
-		Assert.notNull( summary.getHouseholdId(), "HouseholdFetchOneSummary identifier should not be null" );
+	public void validate( HouseholdFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Household", "validating summary );
 	}
 
 	/**
@@ -134,10 +138,16 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command AssignPrimaryAdvisorToHouseholdCommand
 	 */	
-	public void validate( AssignPrimaryAdvisorToHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPrimaryAdvisorToHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "AssignPrimaryAdvisorToHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPrimaryAdvisorToHouseholdCommand assignment should not be null" );
+	public void validate( AssignPrimaryAdvisorToHouseholdCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Household", "validating AssignPrimaryAdvisorToHouseholdCommand" );
+
+		if ( command.getHouseholdId() == null )
+			throw new ValidationException( "Household", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Household", "validating assignment" );
+
 	}
 
 	/**
@@ -145,9 +155,12 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command UnAssignPrimaryAdvisorFromHouseholdCommand
 	 */	
-	public void validate( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPrimaryAdvisorFromHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "UnAssignPrimaryAdvisorFromHouseholdCommand identifier should not be null" );
+	public void validate( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Household", "validating UnAssignPrimaryAdvisorFromHouseholdCommand" );
+
+		if ( command.getHouseholdId() == null ) }
+			throw new ValidationException( "Household", "validating identity on UnAssignPrimaryAdvisorFromHouseholdCommand" );
 	}
 
 	/**
@@ -155,10 +168,16 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command AssignClientsToHouseholdCommand
 	 */	
-	public void validate( AssignClientsToHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "AssignClientsToHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "AssignClientsToHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignClientsToHouseholdCommand addTo attribute should not be null" );
+	public void validate( AssignClientsToHouseholdCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Household", "validating AssignClientsToHouseholdCommand" );
+
+		if ( command.getHouseholdId() == null ) }
+			throw new ValidationException( "Household", "validating identity on AssignClientsToHouseholdCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Household", "validating addTo attribute on AssignClientsToHouseholdCommand" );
+
 	}
 
 	/**
@@ -166,11 +185,18 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command RemoveClientsFromHouseholdCommand
 	 */	
-	public void validate( RemoveClientsFromHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveClientsFromHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "RemoveClientsFromHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveClientsFromHouseholdCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getClientId(), "RemoveClientsFromHouseholdCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveClientsFromHouseholdCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Household", "validating RemoveClientsFromHouseholdCommand");
+
+		if( command.getHouseholdId() == null )
+			throw new ValidationException"Household", "validating id on RemoveClientsFromHouseholdCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Household", "validating remove from";
+
+		if( command.getRemoveFrom().getClientId() == null )
+			throw new ValidationException"Household", "validating id on remove from}";
 	}
 	
 	/**
@@ -178,10 +204,16 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command AssignPortfoliosToHouseholdCommand
 	 */	
-	public void validate( AssignPortfoliosToHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfoliosToHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "AssignPortfoliosToHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignPortfoliosToHouseholdCommand addTo attribute should not be null" );
+	public void validate( AssignPortfoliosToHouseholdCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Household", "validating AssignPortfoliosToHouseholdCommand" );
+
+		if ( command.getHouseholdId() == null ) }
+			throw new ValidationException( "Household", "validating identity on AssignPortfoliosToHouseholdCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Household", "validating addTo attribute on AssignPortfoliosToHouseholdCommand" );
+
 	}
 
 	/**
@@ -189,11 +221,18 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command RemovePortfoliosFromHouseholdCommand
 	 */	
-	public void validate( RemovePortfoliosFromHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "RemovePortfoliosFromHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "RemovePortfoliosFromHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemovePortfoliosFromHouseholdCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getPortfolioId(), "RemovePortfoliosFromHouseholdCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemovePortfoliosFromHouseholdCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Household", "validating RemovePortfoliosFromHouseholdCommand");
+
+		if( command.getHouseholdId() == null )
+			throw new ValidationException"Household", "validating id on RemovePortfoliosFromHouseholdCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Household", "validating remove from";
+
+		if( command.getRemoveFrom().getPortfolioId() == null )
+			throw new ValidationException"Household", "validating id on remove from}";
 	}
 	
 	/**
@@ -201,10 +240,16 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command AssignGoalsToHouseholdCommand
 	 */	
-	public void validate( AssignGoalsToHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "AssignGoalsToHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "AssignGoalsToHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignGoalsToHouseholdCommand addTo attribute should not be null" );
+	public void validate( AssignGoalsToHouseholdCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Household", "validating AssignGoalsToHouseholdCommand" );
+
+		if ( command.getHouseholdId() == null ) }
+			throw new ValidationException( "Household", "validating identity on AssignGoalsToHouseholdCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Household", "validating addTo attribute on AssignGoalsToHouseholdCommand" );
+
 	}
 
 	/**
@@ -212,11 +257,18 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command RemoveGoalsFromHouseholdCommand
 	 */	
-	public void validate( RemoveGoalsFromHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveGoalsFromHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "RemoveGoalsFromHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveGoalsFromHouseholdCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getWealthGoalId(), "RemoveGoalsFromHouseholdCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveGoalsFromHouseholdCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Household", "validating RemoveGoalsFromHouseholdCommand");
+
+		if( command.getHouseholdId() == null )
+			throw new ValidationException"Household", "validating id on RemoveGoalsFromHouseholdCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Household", "validating remove from";
+
+		if( command.getRemoveFrom().getWealthGoalId() == null )
+			throw new ValidationException"Household", "validating id on remove from}";
 	}
 	
 	/**
@@ -224,10 +276,16 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command AssignRiskAssessmentsToHouseholdCommand
 	 */	
-	public void validate( AssignRiskAssessmentsToHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "AssignRiskAssessmentsToHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "AssignRiskAssessmentsToHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignRiskAssessmentsToHouseholdCommand addTo attribute should not be null" );
+	public void validate( AssignRiskAssessmentsToHouseholdCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Household", "validating AssignRiskAssessmentsToHouseholdCommand" );
+
+		if ( command.getHouseholdId() == null ) }
+			throw new ValidationException( "Household", "validating identity on AssignRiskAssessmentsToHouseholdCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Household", "validating addTo attribute on AssignRiskAssessmentsToHouseholdCommand" );
+
 	}
 
 	/**
@@ -235,11 +293,18 @@ public class HouseholdValidator {
 	 * 
 	 * @param	command RemoveRiskAssessmentsFromHouseholdCommand
 	 */	
-	public void validate( RemoveRiskAssessmentsFromHouseholdCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveRiskAssessmentsFromHouseholdCommand should not be null" );
-		Assert.notNull( command.getHouseholdId(), "RemoveRiskAssessmentsFromHouseholdCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveRiskAssessmentsFromHouseholdCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getRiskAssessmentId(), "RemoveRiskAssessmentsFromHouseholdCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveRiskAssessmentsFromHouseholdCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Household", "validating RemoveRiskAssessmentsFromHouseholdCommand");
+
+		if( command.getHouseholdId() == null )
+			throw new ValidationException"Household", "validating id on RemoveRiskAssessmentsFromHouseholdCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Household", "validating remove from";
+
+		if( command.getRemoveFrom().getRiskAssessmentId() == null )
+			throw new ValidationException"Household", "validating id on remove from}";
 	}
 	
 

@@ -49,245 +49,245 @@ public class AccountTest
     public AccountTest(AccountService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Account, through a AccountTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on AccountTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on AccountTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on AccountTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on AccountTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Account.
      *
      * @return    Account
      */
     public Account testCreate() throws Throwable {
-        Account entity = null;
+    Account entity = null;
 
-        LOGGER.info( "AccountTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Account");
+    LOGGER.info( "AccountTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Account");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Account" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Account" );
 
-        try {            
-            entity = service.createAccount( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createAccount( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getAccountId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getAccountId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Account with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Account with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Account.
      *
-     * @return    Account  
+     * @return    Account
      */
     public Account testRead() throws Throwable {
-        LOGGER.info( "AccountTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Account" );
+    LOGGER.info( "AccountTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Account" );
 
-        Account entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Account with primary key" );
-        msg.append( theId );
+    Account entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Account with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getAccount( new AccountFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getAccount( new AccountFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getAccountId();
-            
-            LOGGER.info( "-- Successfully found Account " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getAccountId();
+
+        LOGGER.info( "-- Successfully found Account " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Account.
      *
      * @return    Account
      */
     public Account testUpdate() throws Throwable {
-        LOGGER.info( "AccountTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Account." );
+    LOGGER.info( "AccountTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Account." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Account : " );        
-        Account entity = null;
-    
-        try {            
-        	UpdateAccountCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setAccountId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Account : " );
+    Account entity = null;
 
-            LOGGER.info( "-- Now updating the created Account." );
-            
-            entity = service.updateAccount( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateAccountCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Account - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setAccountId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Account." );
+
+        entity = service.updateAccount( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Account - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Account.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "AccountTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Account." );
-        
-        try {
-        	DeleteAccountCommand deleteCommand = new DeleteAccountCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Account with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Account with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "AccountTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Account." );
 
-    /** 
+    try {
+        DeleteAccountCommand deleteCommand = new DeleteAccountCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Account with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Account with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Accounts.
      *
      * @return    Collection
      */
-    public List<Account> testGetAll() throws Throwable {    
-        LOGGER.info( "AccountTest:testGetAll() - Retrieving Collection of Accounts:" );
+    public List<Account> testGetAll() throws Throwable {
+    LOGGER.info( "AccountTest:testGetAll() - Retrieving Collection of Accounts:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Account : " );        
-        List<Account> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Account : " );
+    List<Account> collection  = null;
 
-        try {
-            // call the static get method on the AccountService
-            collection = service.getAllAccount();
+    try {
+        // call the static get method on the AccountService
+        collection = service.getAllAccount();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Account currEntity  = null;            
-	            Iterator<Account> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getAccountId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Account currEntity  = null;
+            Iterator<Account> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getAccountId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public AccountTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Account
-	 * 
-	 * @return CreateAccountCommand alias
-	 */
+
+    /**
+     * Returns a new populated Account
+     *
+     * @return CreateAccountCommand alias
+     */
 	protected CreateAccountCommand generateNewCommand() {
-        CreateAccountCommand command = new CreateAccountCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new AccountNumber(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  AccountType.values()[0],  RegistrationType.values()[0],  AccountStatus.values()[0] );
-		
-		return( command );
-	}
+    CreateAccountCommand command = new CreateAccountCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new AccountNumber(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  AccountType.values()[0],  RegistrationType.values()[0],  AccountStatus.values()[0] );
 
-		/**
-		 * Returns a new populated Account
-		 * 
-		 * @return UpdateAccountCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Account
+     *
+     * @return UpdateAccountCommand alias
+     */
 	protected UpdateAccountCommand generateUpdateCommand() {
-	        UpdateAccountCommand command = new UpdateAccountCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new AccountNumber(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  null,  null,  null,  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  AccountType.values()[0],  RegistrationType.values()[0],  AccountStatus.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateAccountCommand command = new UpdateAccountCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new AccountNumber(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  null,  null,  null,  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  AccountType.values()[0],  RegistrationType.values()[0],  AccountStatus.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected AccountService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Account.class.getName());
 
 }

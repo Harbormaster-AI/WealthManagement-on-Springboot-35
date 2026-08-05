@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public ComplianceRule create( @RequestBody(required=true) CreateComplianceRuleCommand command ) {
     	ComplianceRule entity = null;
-		try {       
-        	
-			entity = service.createComplianceRule( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createComplianceRule( command );
+		LOGGER.info( "Successfully created ComplianceRule with Id " + entity.getComplianceRuleId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public ComplianceRule update( @RequestBody(required=true) UpdateComplianceRuleCommand command ) {
 		ComplianceRule entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateComplianceRuleCommand
-			// -----------------------------------------------
-			entity = service.updateComplianceRule(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "ComplianceRuleController:update() - successfully update ComplianceRule - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateComplianceRule(command);
+		LOGGER.info( "Successfully updated ComplianceRule with Id " + command.getComplianceRuleId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteComplianceRuleCommand command ) {                
-    	try {
-        	ComplianceRuleService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted ComplianceRule with key " + command.getComplianceRuleId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted ComplianceRule with Id " + command.getComplianceRuleId()  );
+	}
 	
     /**
      * Handles loading a ComplianceRule using a UUID
@@ -150,16 +133,10 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
      * @return		ComplianceRule
      */    
     @GetMapping("/load")
-    public ComplianceRule load( @RequestParam(required=true) UUID uuid ) {    	
-    	ComplianceRule entity = null;
+    public ComplianceRule load( @RequestParam(required=true) UUID uuid ) {
+    	ComplianceRule entity = service.getComplianceRule( new ComplianceRuleFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getComplianceRule( new ComplianceRuleFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load ComplianceRule using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded ComplianceRule with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<ComplianceRule> loadAll() {                
     	List<ComplianceRule> complianceRuleList = null;
-        
-    	try {
-            // load the ComplianceRule
-            complianceRuleList = service.getAllComplianceRule();
-            
-            if ( complianceRuleList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all ComplianceRules" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all ComplianceRules ", exc );
-        	return null;
-        }
+
+		complianceRuleList = service.getAllComplianceRule();
+		LOGGER.log( Level.INFO,  "successfully loaded all ComplianceRules" );
 
         return complianceRuleList;
                             
@@ -195,12 +163,8 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAlerts")
 	public void addToAlerts( @RequestBody(required=true) AssignAlertsToComplianceRuleCommand command ) {
-		try {
-			service.addToAlerts( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Alerts", exc );
-		}
+		service.addToAlerts( command );
+		LOGGER.info( "Successfully added Alerts with Id " + command.getComplianceRuleId()  );
 	}
 
     /**
@@ -210,12 +174,8 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAlerts")
 	public void removeFromAlerts( 	@RequestBody(required=true) RemoveAlertsFromComplianceRuleCommand command )
 	{		
-		try {
-			service.removeFromAlerts( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Alerts", exc );
-		}
+		service.removeFromAlerts( command );
+		LOGGER.info( "Successfully removed Alerts with Id " + command.getComplianceRuleId()  );
 	}
 
 
@@ -226,6 +186,6 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
 //************************************************************************
     protected ComplianceRule complianceRule = null;
 	protected ComplianceRuleService service = null;
-    private static final Logger LOGGER = Logger.getLogger(ComplianceRuleRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComplianceRuleRestController.class.getName());
     
 }

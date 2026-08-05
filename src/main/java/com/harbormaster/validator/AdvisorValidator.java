@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>AdvisorValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -72,6 +74,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class AdvisorValidator {
 		
 	/**
@@ -79,50 +82,55 @@ public class AdvisorValidator {
 	 */
 	protected AdvisorValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public AdvisorValidator getInstance() {
-		return new AdvisorValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Advisor
 	 */
-	public void validate( CreateAdvisorCommand advisor )throws Exception {
-		Assert.notNull( advisor, "CreateAdvisorCommand should not be null" );
+	public void validate( CreateAdvisorCommand advisor )throws ValidationException {
+		if ( advisor == null )
+			throw new ValidationException( "Advisor", "validating CreateAdvisorCommand" );
+
 //		Assert.isNull( advisor.getAdvisorId(), "CreateAdvisorCommand identifier should be null" );
-		Assert.notNull( advisor.getFirstName(), "Field CreateAdvisorCommand.firstName should not be null" );
-		Assert.notNull( advisor.getLastName(), "Field CreateAdvisorCommand.lastName should not be null" );
-		Assert.notNull( advisor.getLicenseNumber(), "Field CreateAdvisorCommand.licenseNumber should not be null" );
+		if ( advisor.getFirstName() == null )
+			throw new ValidationException( "Advisor", "validating access on getFirstName" );
+		if ( advisor.getLastName() == null )
+			throw new ValidationException( "Advisor", "validating access on getLastName" );
+		if ( advisor.getLicenseNumber() == null )
+			throw new ValidationException( "Advisor", "validating access on getLicenseNumber" );
 	}
 
 	/**
 	 * handles update validation for a Advisor
 	 */
-	public void validate( UpdateAdvisorCommand advisor ) throws Exception {
-		Assert.notNull( advisor, "UpdateAdvisorCommand should not be null" );
-		Assert.notNull( advisor.getAdvisorId(), "UpdateAdvisorCommand identifier should not be null" );
-		Assert.notNull( advisor.getFirstName(), "Field UpdateAdvisorCommand.firstName should not be null" );
-		Assert.notNull( advisor.getLastName(), "Field UpdateAdvisorCommand.lastName should not be null" );
-		Assert.notNull( advisor.getLicenseNumber(), "Field UpdateAdvisorCommand.licenseNumber should not be null" );
+	public void validate( UpdateAdvisorCommand advisor ) throws ValidationException {
+		if ( advisor == null )
+			throw new ValidationException( "Advisor", "validating UpdateAdvisorCommand" );
+		if ( advisor.getFirstName() == null )
+			throw new ValidationException( "Advisor", "validating method getFirstName" );
+		if ( advisor.getLastName() == null )
+			throw new ValidationException( "Advisor", "validating method getLastName" );
+		if ( advisor.getLicenseNumber() == null )
+			throw new ValidationException( "Advisor", "validating method getLicenseNumber" );
     }
 
 	/**
 	 * handles delete validation for a Advisor
 	 */
-    public void validate( DeleteAdvisorCommand advisor ) throws Exception {
-		Assert.notNull( advisor, "{commandAlias} should not be null" );
-		Assert.notNull( advisor.getAdvisorId(), "DeleteAdvisorCommand identifier should not be null" );
+    public void validate( DeleteAdvisorCommand advisor ) throws ValidationException {
+		if ( advisor == null )
+			throw new ValidationException( "Advisor", "validating DeleteAdvisorCommand" );
+
+		if ( advisor.getLicenseNumber() == null )
+			throw new ValidationException( "Advisor", "validating getLicenseNumber" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Advisor
 	 */
-	public void validate( AdvisorFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "AdvisorFetchOneSummary should not be null" );
-		Assert.notNull( summary.getAdvisorId(), "AdvisorFetchOneSummary identifier should not be null" );
+	public void validate( AdvisorFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Advisor", "validating summary );
 	}
 
 	/**
@@ -130,10 +138,16 @@ public class AdvisorValidator {
 	 * 
 	 * @param	command AssignFirmToAdvisorCommand
 	 */	
-	public void validate( AssignFirmToAdvisorCommand command ) throws Exception {
-		Assert.notNull( command, "AssignFirmToAdvisorCommand should not be null" );
-		Assert.notNull( command.getAdvisorId(), "AssignFirmToAdvisorCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignFirmToAdvisorCommand assignment should not be null" );
+	public void validate( AssignFirmToAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating AssignFirmToAdvisorCommand" );
+
+		if ( command.getAdvisorId() == null )
+			throw new ValidationException( "Advisor", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Advisor", "validating assignment" );
+
 	}
 
 	/**
@@ -141,19 +155,28 @@ public class AdvisorValidator {
 	 * 
 	 * @param	command UnAssignFirmFromAdvisorCommand
 	 */	
-	public void validate( UnAssignFirmFromAdvisorCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignFirmFromAdvisorCommand should not be null" );
-		Assert.notNull( command.getAdvisorId(), "UnAssignFirmFromAdvisorCommand identifier should not be null" );
+	public void validate( UnAssignFirmFromAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating UnAssignFirmFromAdvisorCommand" );
+
+		if ( command.getAdvisorId() == null ) }
+			throw new ValidationException( "Advisor", "validating identity on UnAssignFirmFromAdvisorCommand" );
 	}
 	/**
 	 * handles assign Office validation for a Advisor
 	 * 
 	 * @param	command AssignOfficeToAdvisorCommand
 	 */	
-	public void validate( AssignOfficeToAdvisorCommand command ) throws Exception {
-		Assert.notNull( command, "AssignOfficeToAdvisorCommand should not be null" );
-		Assert.notNull( command.getAdvisorId(), "AssignOfficeToAdvisorCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignOfficeToAdvisorCommand assignment should not be null" );
+	public void validate( AssignOfficeToAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating AssignOfficeToAdvisorCommand" );
+
+		if ( command.getAdvisorId() == null )
+			throw new ValidationException( "Advisor", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Advisor", "validating assignment" );
+
 	}
 
 	/**
@@ -161,19 +184,28 @@ public class AdvisorValidator {
 	 * 
 	 * @param	command UnAssignOfficeFromAdvisorCommand
 	 */	
-	public void validate( UnAssignOfficeFromAdvisorCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignOfficeFromAdvisorCommand should not be null" );
-		Assert.notNull( command.getAdvisorId(), "UnAssignOfficeFromAdvisorCommand identifier should not be null" );
+	public void validate( UnAssignOfficeFromAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating UnAssignOfficeFromAdvisorCommand" );
+
+		if ( command.getAdvisorId() == null ) }
+			throw new ValidationException( "Advisor", "validating identity on UnAssignOfficeFromAdvisorCommand" );
 	}
 	/**
 	 * handles assign AdvisoryTeam validation for a Advisor
 	 * 
 	 * @param	command AssignAdvisoryTeamToAdvisorCommand
 	 */	
-	public void validate( AssignAdvisoryTeamToAdvisorCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisoryTeamToAdvisorCommand should not be null" );
-		Assert.notNull( command.getAdvisorId(), "AssignAdvisoryTeamToAdvisorCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisoryTeamToAdvisorCommand assignment should not be null" );
+	public void validate( AssignAdvisoryTeamToAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating AssignAdvisoryTeamToAdvisorCommand" );
+
+		if ( command.getAdvisorId() == null )
+			throw new ValidationException( "Advisor", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Advisor", "validating assignment" );
+
 	}
 
 	/**
@@ -181,9 +213,12 @@ public class AdvisorValidator {
 	 * 
 	 * @param	command UnAssignAdvisoryTeamFromAdvisorCommand
 	 */	
-	public void validate( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisoryTeamFromAdvisorCommand should not be null" );
-		Assert.notNull( command.getAdvisorId(), "UnAssignAdvisoryTeamFromAdvisorCommand identifier should not be null" );
+	public void validate( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating UnAssignAdvisoryTeamFromAdvisorCommand" );
+
+		if ( command.getAdvisorId() == null ) }
+			throw new ValidationException( "Advisor", "validating identity on UnAssignAdvisoryTeamFromAdvisorCommand" );
 	}
 
 	/**
@@ -191,10 +226,16 @@ public class AdvisorValidator {
 	 * 
 	 * @param	command AssignClientsToAdvisorCommand
 	 */	
-	public void validate( AssignClientsToAdvisorCommand command ) throws Exception {
-		Assert.notNull( command, "AssignClientsToAdvisorCommand should not be null" );
-		Assert.notNull( command.getAdvisorId(), "AssignClientsToAdvisorCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignClientsToAdvisorCommand addTo attribute should not be null" );
+	public void validate( AssignClientsToAdvisorCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Advisor", "validating AssignClientsToAdvisorCommand" );
+
+		if ( command.getAdvisorId() == null ) }
+			throw new ValidationException( "Advisor", "validating identity on AssignClientsToAdvisorCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Advisor", "validating addTo attribute on AssignClientsToAdvisorCommand" );
+
 	}
 
 	/**
@@ -202,11 +243,18 @@ public class AdvisorValidator {
 	 * 
 	 * @param	command RemoveClientsFromAdvisorCommand
 	 */	
-	public void validate( RemoveClientsFromAdvisorCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveClientsFromAdvisorCommand should not be null" );
-		Assert.notNull( command.getAdvisorId(), "RemoveClientsFromAdvisorCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveClientsFromAdvisorCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getClientId(), "RemoveClientsFromAdvisorCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveClientsFromAdvisorCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Advisor", "validating RemoveClientsFromAdvisorCommand");
+
+		if( command.getAdvisorId() == null )
+			throw new ValidationException"Advisor", "validating id on RemoveClientsFromAdvisorCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Advisor", "validating remove from";
+
+		if( command.getRemoveFrom().getClientId() == null )
+			throw new ValidationException"Advisor", "validating id on remove from}";
 	}
 	
 

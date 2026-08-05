@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>ComplianceRuleValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -66,6 +68,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class ComplianceRuleValidator {
 		
 	/**
@@ -73,50 +76,55 @@ public class ComplianceRuleValidator {
 	 */
 	protected ComplianceRuleValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public ComplianceRuleValidator getInstance() {
-		return new ComplianceRuleValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a ComplianceRule
 	 */
-	public void validate( CreateComplianceRuleCommand complianceRule )throws Exception {
-		Assert.notNull( complianceRule, "CreateComplianceRuleCommand should not be null" );
+	public void validate( CreateComplianceRuleCommand complianceRule )throws ValidationException {
+		if ( complianceRule == null )
+			throw new ValidationException( "ComplianceRule", "validating CreateComplianceRuleCommand" );
+
 //		Assert.isNull( complianceRule.getComplianceRuleId(), "CreateComplianceRuleCommand identifier should be null" );
-		Assert.notNull( complianceRule.getName(), "Field CreateComplianceRuleCommand.name should not be null" );
-		Assert.notNull( complianceRule.getRuleCode(), "Field CreateComplianceRuleCommand.ruleCode should not be null" );
-		Assert.notNull( complianceRule.getDescription(), "Field CreateComplianceRuleCommand.description should not be null" );
+		if ( complianceRule.getName() == null )
+			throw new ValidationException( "ComplianceRule", "validating access on getName" );
+		if ( complianceRule.getRuleCode() == null )
+			throw new ValidationException( "ComplianceRule", "validating access on getRuleCode" );
+		if ( complianceRule.getDescription() == null )
+			throw new ValidationException( "ComplianceRule", "validating access on getDescription" );
 	}
 
 	/**
 	 * handles update validation for a ComplianceRule
 	 */
-	public void validate( UpdateComplianceRuleCommand complianceRule ) throws Exception {
-		Assert.notNull( complianceRule, "UpdateComplianceRuleCommand should not be null" );
-		Assert.notNull( complianceRule.getComplianceRuleId(), "UpdateComplianceRuleCommand identifier should not be null" );
-		Assert.notNull( complianceRule.getName(), "Field UpdateComplianceRuleCommand.name should not be null" );
-		Assert.notNull( complianceRule.getRuleCode(), "Field UpdateComplianceRuleCommand.ruleCode should not be null" );
-		Assert.notNull( complianceRule.getDescription(), "Field UpdateComplianceRuleCommand.description should not be null" );
+	public void validate( UpdateComplianceRuleCommand complianceRule ) throws ValidationException {
+		if ( complianceRule == null )
+			throw new ValidationException( "ComplianceRule", "validating UpdateComplianceRuleCommand" );
+		if ( complianceRule.getName() == null )
+			throw new ValidationException( "ComplianceRule", "validating method getName" );
+		if ( complianceRule.getRuleCode() == null )
+			throw new ValidationException( "ComplianceRule", "validating method getRuleCode" );
+		if ( complianceRule.getDescription() == null )
+			throw new ValidationException( "ComplianceRule", "validating method getDescription" );
     }
 
 	/**
 	 * handles delete validation for a ComplianceRule
 	 */
-    public void validate( DeleteComplianceRuleCommand complianceRule ) throws Exception {
-		Assert.notNull( complianceRule, "{commandAlias} should not be null" );
-		Assert.notNull( complianceRule.getComplianceRuleId(), "DeleteComplianceRuleCommand identifier should not be null" );
+    public void validate( DeleteComplianceRuleCommand complianceRule ) throws ValidationException {
+		if ( complianceRule == null )
+			throw new ValidationException( "ComplianceRule", "validating DeleteComplianceRuleCommand" );
+
+		if ( complianceRule.getDescription() == null )
+			throw new ValidationException( "ComplianceRule", "validating getDescription" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a ComplianceRule
 	 */
-	public void validate( ComplianceRuleFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "ComplianceRuleFetchOneSummary should not be null" );
-		Assert.notNull( summary.getComplianceRuleId(), "ComplianceRuleFetchOneSummary identifier should not be null" );
+	public void validate( ComplianceRuleFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "ComplianceRule", "validating summary );
 	}
 
 
@@ -125,10 +133,16 @@ public class ComplianceRuleValidator {
 	 * 
 	 * @param	command AssignAlertsToComplianceRuleCommand
 	 */	
-	public void validate( AssignAlertsToComplianceRuleCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAlertsToComplianceRuleCommand should not be null" );
-		Assert.notNull( command.getComplianceRuleId(), "AssignAlertsToComplianceRuleCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAlertsToComplianceRuleCommand addTo attribute should not be null" );
+	public void validate( AssignAlertsToComplianceRuleCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceRule", "validating AssignAlertsToComplianceRuleCommand" );
+
+		if ( command.getComplianceRuleId() == null ) }
+			throw new ValidationException( "ComplianceRule", "validating identity on AssignAlertsToComplianceRuleCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "ComplianceRule", "validating addTo attribute on AssignAlertsToComplianceRuleCommand" );
+
 	}
 
 	/**
@@ -136,11 +150,18 @@ public class ComplianceRuleValidator {
 	 * 
 	 * @param	command RemoveAlertsFromComplianceRuleCommand
 	 */	
-	public void validate( RemoveAlertsFromComplianceRuleCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAlertsFromComplianceRuleCommand should not be null" );
-		Assert.notNull( command.getComplianceRuleId(), "RemoveAlertsFromComplianceRuleCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAlertsFromComplianceRuleCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getComplianceAlertId(), "RemoveAlertsFromComplianceRuleCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAlertsFromComplianceRuleCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("ComplianceRule", "validating RemoveAlertsFromComplianceRuleCommand");
+
+		if( command.getComplianceRuleId() == null )
+			throw new ValidationException"ComplianceRule", "validating id on RemoveAlertsFromComplianceRuleCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"ComplianceRule", "validating remove from";
+
+		if( command.getRemoveFrom().getComplianceAlertId() == null )
+			throw new ValidationException"ComplianceRule", "validating id on remove from}";
 	}
 	
 

@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class FeeService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public FeeService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new FeeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(FeeRepository.class) );
+		}
 
-    	projector 		= new FeeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(FeeRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Fee
+		 */
+			public Fee createFee( CreateFeeCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Fee
-    */
-	public Fee createFee( CreateFeeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Fee entity = new Fee();
 
-		Fee entity = new Fee();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	FeeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				FeeValidator.getInstance().validate( command );
 
             entity.setFeeId( command.getFeeId() );
             entity.setFeeDate( command.getFeeDate() );
             entity.setAmount( command.getAmount() );
             entity.setDescription( command.getDescription() );
             entity.setFeeType( command.getFeeType() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Fee {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Fee - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateFeeCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Fee
-    */
-    public Fee updateFee( UpdateFeeCommand command ) 
+				LOGGER.info( "done creating of Fee {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Fee - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateFeeCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Fee
+		 */
+		public Fee updateFee( UpdateFeeCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Fee entity = new Fee();
+			Fee entity = new Fee();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	FeeValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				FeeValidator.getInstance().validate( command );
 
             entity.setFeeId( command.getFeeId() );
             entity.setFeeDate( command.getFeeDate() );
@@ -181,221 +179,221 @@ extends BaseService {
             entity.setAccount( command.getAccount() );
             entity.setInvoice( command.getInvoice() );
             entity.setFeeType( command.getFeeType() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Fee {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Fee - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteFeeCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteFeeCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	FeeValidator.getInstance().validate( command );    
-        
-        	id = command.getFeeId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Fee {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Fee using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Fee {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Fee - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Fee via FeeFetchOneSummary
-     * @param 	summary FeeFetchOneSummary 
-     * @return 	FeeFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteFeeCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteFeeCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				FeeValidator.getInstance().validate( command );
+
+				id = command.getFeeId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Fee {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Fee using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Fee via FeeFetchOneSummary
+		 * @param 	summary FeeFetchOneSummary
+		 * @return 	FeeFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Fee getFee( FeeFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "FeeFetchOneSummary arg cannot be null" );
-    	
-    	Fee entity = null;
-    	UUID id = summary.getFeeId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	FeeValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Fee using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Fee with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "FeeFetchOneSummary arg cannot be null" );
+
+			Fee entity = null;
+			UUID id = summary.getFeeId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				FeeValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Fee using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Fee with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Fees
-     *
-     * @return 	List<Fee> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Fees
+		 *
+		 * @return 	List<Fee>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Fee> getAllFee() 
     throws ProcessingException {
-        List<Fee> list = null;
+			List<Fee> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllFeeQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Fee";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllFeeQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Fee";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Account on Fee
-     * @param		command AssignAccountToFeeCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToFeeCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	FeeValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getFeeId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getFeeId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on Fee
-     * @param		command UnAssignAccountFromFeeCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromFeeCommand command ) throws ProcessingException {
+		/**
+		 * assign Account on Fee
+		 * @param		command AssignAccountToFeeCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToFeeCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	FeeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				FeeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getFeeId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getFeeId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Account on Fee
+		 * @param		command UnAssignAccountFromFeeCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromFeeCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				FeeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getFeeId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on Fee";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getFeeId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on Fee";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Invoice on Fee
-     * @param		command AssignInvoiceToFeeCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignInvoice( AssignInvoiceToFeeCommand command ) throws ProcessingException {
+		/**
+		 * assign Invoice on Fee
+		 * @param		command AssignInvoiceToFeeCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignInvoice( AssignInvoiceToFeeCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	FeeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				FeeValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignInvoice(command.getFeeId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Invoice using id " + command.getFeeId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignInvoice(command.getFeeId(), command.getAssignment());
 
-    /**
-     * unAssign Invoice on Fee
-     * @param		command UnAssignInvoiceFromFeeCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignInvoice( UnAssignInvoiceFromFeeCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Invoice using id " + command.getFeeId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	FeeValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignInvoice(command.getFeeId());
+		/**
+		 * unAssign Invoice on Fee
+		 * @param		command UnAssignInvoiceFromFeeCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignInvoice( UnAssignInvoiceFromFeeCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				FeeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignInvoice(command.getFeeId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Invoice on Fee";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Invoice on Fee";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -409,5 +407,5 @@ extends BaseService {
     private final FeeEntityProjector projector;
 	private Fee fee 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeService.class);
 }

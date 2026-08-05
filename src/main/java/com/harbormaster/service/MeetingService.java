@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class MeetingService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public MeetingService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new MeetingEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(MeetingRepository.class) );
+		}
 
-    	projector 		= new MeetingEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(MeetingRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Meeting
+		 */
+			public Meeting createMeeting( CreateMeetingCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Meeting
-    */
-	public Meeting createMeeting( CreateMeetingCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Meeting entity = new Meeting();
 
-		Meeting entity = new Meeting();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	MeetingValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
 
             entity.setMeetingId( command.getMeetingId() );
             entity.setMeetingDate( command.getMeetingDate() );
             entity.setLocation( command.getLocation() );
             entity.setSubject( command.getSubject() );
             entity.setNotes( command.getNotes() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Meeting {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Meeting - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateMeetingCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Meeting
-    */
-    public Meeting updateMeeting( UpdateMeetingCommand command ) 
+				LOGGER.info( "done creating of Meeting {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Meeting - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateMeetingCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Meeting
+		 */
+		public Meeting updateMeeting( UpdateMeetingCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Meeting entity = new Meeting();
+			Meeting entity = new Meeting();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	MeetingValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
 
             entity.setMeetingId( command.getMeetingId() );
             entity.setMeetingDate( command.getMeetingDate() );
@@ -182,274 +180,274 @@ extends BaseService {
             entity.setHousehold( command.getHousehold() );
             entity.setAdvisor( command.getAdvisor() );
             entity.setDocuments( command.getDocuments() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Meeting {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Meeting - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteMeetingCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteMeetingCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	MeetingValidator.getInstance().validate( command );    
-        
-        	id = command.getMeetingId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Meeting {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Meeting using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Meeting {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Meeting - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Meeting via MeetingFetchOneSummary
-     * @param 	summary MeetingFetchOneSummary 
-     * @return 	MeetingFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteMeetingCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteMeetingCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
+
+				id = command.getMeetingId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Meeting {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Meeting using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Meeting via MeetingFetchOneSummary
+		 * @param 	summary MeetingFetchOneSummary
+		 * @return 	MeetingFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Meeting getMeeting( MeetingFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "MeetingFetchOneSummary arg cannot be null" );
-    	
-    	Meeting entity = null;
-    	UUID id = summary.getMeetingId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	MeetingValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Meeting using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Meeting with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "MeetingFetchOneSummary arg cannot be null" );
+
+			Meeting entity = null;
+			UUID id = summary.getMeetingId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Meeting using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Meeting with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Meetings
-     *
-     * @return 	List<Meeting> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Meetings
+		 *
+		 * @return 	List<Meeting>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Meeting> getAllMeeting() 
     throws ProcessingException {
-        List<Meeting> list = null;
+			List<Meeting> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllMeetingQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Meeting";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllMeetingQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Meeting";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Household on Meeting
-     * @param		command AssignHouseholdToMeetingCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignHousehold( AssignHouseholdToMeetingCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	MeetingValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignHousehold(command.getMeetingId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Household using id " + command.getMeetingId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Household on Meeting
-     * @param		command UnAssignHouseholdFromMeetingCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignHousehold( UnAssignHouseholdFromMeetingCommand command ) throws ProcessingException {
+		/**
+		 * assign Household on Meeting
+		 * @param		command AssignHouseholdToMeetingCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignHousehold( AssignHouseholdToMeetingCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	MeetingValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignHousehold(command.getMeetingId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Household using id " + command.getMeetingId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Household on Meeting
+		 * @param		command UnAssignHouseholdFromMeetingCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignHousehold( UnAssignHouseholdFromMeetingCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignHousehold(command.getMeetingId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Household on Meeting";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignHousehold(command.getMeetingId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Household on Meeting";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Advisor on Meeting
-     * @param		command AssignAdvisorToMeetingCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAdvisor( AssignAdvisorToMeetingCommand command ) throws ProcessingException {
+		/**
+		 * assign Advisor on Meeting
+		 * @param		command AssignAdvisorToMeetingCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAdvisor( AssignAdvisorToMeetingCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	MeetingValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAdvisor(command.getMeetingId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Advisor using id " + command.getMeetingId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAdvisor(command.getMeetingId(), command.getAssignment());
 
-    /**
-     * unAssign Advisor on Meeting
-     * @param		command UnAssignAdvisorFromMeetingCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAdvisor( UnAssignAdvisorFromMeetingCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Advisor using id " + command.getMeetingId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	MeetingValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAdvisor(command.getMeetingId());
+		/**
+		 * unAssign Advisor on Meeting
+		 * @param		command UnAssignAdvisorFromMeetingCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAdvisor( UnAssignAdvisorFromMeetingCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAdvisor(command.getMeetingId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Advisor on Meeting";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Advisor on Meeting";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add Document to Documents 
-     * @param		command AssignDocumentsToMeetingCommand
-     * @exception	ProcessingException
-     */     
-	public void addToDocuments( AssignDocumentsToMeetingCommand command ) throws ProcessingException {
+		/**
+		 * add Document to Documents
+		 * @param		command AssignDocumentsToMeetingCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToDocuments( AssignDocumentsToMeetingCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	MeetingValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToDocuments(command.getMeetingId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Document as Documents to Meeting" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Document from Documents
-     * @param		command RemoveDocumentsFromMeetingCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromDocuments( RemoveDocumentsFromMeetingCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	MeetingValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromDocuments(command.getMeetingId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToDocuments(command.getMeetingId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Document as Documents to Meeting" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getMeetingId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Document from Documents
+		 * @param		command RemoveDocumentsFromMeetingCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromDocuments( RemoveDocumentsFromMeetingCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				MeetingValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromDocuments(command.getMeetingId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getMeetingId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -462,5 +460,5 @@ extends BaseService {
     private final MeetingEntityProjector projector;
 	private Meeting meeting 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(MeetingService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(MeetingService.class);
 }

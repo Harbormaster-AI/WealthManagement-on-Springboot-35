@@ -49,245 +49,245 @@ public class CustodianTest
     public CustodianTest(CustodianService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Custodian, through a CustodianTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on CustodianTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on CustodianTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on CustodianTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on CustodianTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Custodian.
      *
      * @return    Custodian
      */
     public Custodian testCreate() throws Throwable {
-        Custodian entity = null;
+    Custodian entity = null;
 
-        LOGGER.info( "CustodianTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Custodian");
+    LOGGER.info( "CustodianTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Custodian");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Custodian" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Custodian" );
 
-        try {            
-            entity = service.createCustodian( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createCustodian( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getCustodianId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getCustodianId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Custodian with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Custodian with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Custodian.
      *
-     * @return    Custodian  
+     * @return    Custodian
      */
     public Custodian testRead() throws Throwable {
-        LOGGER.info( "CustodianTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Custodian" );
+    LOGGER.info( "CustodianTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Custodian" );
 
-        Custodian entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Custodian with primary key" );
-        msg.append( theId );
+    Custodian entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Custodian with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getCustodian( new CustodianFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getCustodian( new CustodianFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getCustodianId();
-            
-            LOGGER.info( "-- Successfully found Custodian " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getCustodianId();
+
+        LOGGER.info( "-- Successfully found Custodian " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Custodian.
      *
      * @return    Custodian
      */
     public Custodian testUpdate() throws Throwable {
-        LOGGER.info( "CustodianTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Custodian." );
+    LOGGER.info( "CustodianTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Custodian." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Custodian : " );        
-        Custodian entity = null;
-    
-        try {            
-        	UpdateCustodianCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setCustodianId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Custodian : " );
+    Custodian entity = null;
 
-            LOGGER.info( "-- Now updating the created Custodian." );
-            
-            entity = service.updateCustodian( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateCustodianCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Custodian - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setCustodianId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Custodian." );
+
+        entity = service.updateCustodian( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Custodian - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Custodian.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "CustodianTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Custodian." );
-        
-        try {
-        	DeleteCustodianCommand deleteCommand = new DeleteCustodianCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Custodian with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Custodian with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "CustodianTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Custodian." );
 
-    /** 
+    try {
+        DeleteCustodianCommand deleteCommand = new DeleteCustodianCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Custodian with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Custodian with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Custodians.
      *
      * @return    Collection
      */
-    public List<Custodian> testGetAll() throws Throwable {    
-        LOGGER.info( "CustodianTest:testGetAll() - Retrieving Collection of Custodians:" );
+    public List<Custodian> testGetAll() throws Throwable {
+    LOGGER.info( "CustodianTest:testGetAll() - Retrieving Collection of Custodians:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Custodian : " );        
-        List<Custodian> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Custodian : " );
+    List<Custodian> collection  = null;
 
-        try {
-            // call the static get method on the CustodianService
-            collection = service.getAllCustodian();
+    try {
+        // call the static get method on the CustodianService
+        collection = service.getAllCustodian();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Custodian currEntity  = null;            
-	            Iterator<Custodian> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getCustodianId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Custodian currEntity  = null;
+            Iterator<Custodian> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getCustodianId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public CustodianTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Custodian
-	 * 
-	 * @return CreateCustodianCommand alias
-	 */
+
+    /**
+     * Returns a new populated Custodian
+     *
+     * @return CreateCustodianCommand alias
+     */
 	protected CreateCustodianCommand generateNewCommand() {
-        CreateCustodianCommand command = new CreateCustodianCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
-		
-		return( command );
-	}
+    CreateCustodianCommand command = new CreateCustodianCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
-		/**
-		 * Returns a new populated Custodian
-		 * 
-		 * @return UpdateCustodianCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Custodian
+     *
+     * @return UpdateCustodianCommand alias
+     */
 	protected UpdateCustodianCommand generateUpdateCommand() {
-	        UpdateCustodianCommand command = new UpdateCustodianCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>() );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateCustodianCommand command = new UpdateCustodianCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>() );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected CustodianService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Custodian.class.getName());
 
 }

@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>ModelPortfolioValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class ModelPortfolioValidator {
 		
 	/**
@@ -77,48 +80,51 @@ public class ModelPortfolioValidator {
 	 */
 	protected ModelPortfolioValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public ModelPortfolioValidator getInstance() {
-		return new ModelPortfolioValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a ModelPortfolio
 	 */
-	public void validate( CreateModelPortfolioCommand modelPortfolio )throws Exception {
-		Assert.notNull( modelPortfolio, "CreateModelPortfolioCommand should not be null" );
+	public void validate( CreateModelPortfolioCommand modelPortfolio )throws ValidationException {
+		if ( modelPortfolio == null )
+			throw new ValidationException( "ModelPortfolio", "validating CreateModelPortfolioCommand" );
+
 //		Assert.isNull( modelPortfolio.getModelPortfolioId(), "CreateModelPortfolioCommand identifier should be null" );
-		Assert.notNull( modelPortfolio.getName(), "Field CreateModelPortfolioCommand.name should not be null" );
-		Assert.notNull( modelPortfolio.getObjective(), "Field CreateModelPortfolioCommand.objective should not be null" );
+		if ( modelPortfolio.getName() == null )
+			throw new ValidationException( "ModelPortfolio", "validating access on getName" );
+		if ( modelPortfolio.getObjective() == null )
+			throw new ValidationException( "ModelPortfolio", "validating access on getObjective" );
 	}
 
 	/**
 	 * handles update validation for a ModelPortfolio
 	 */
-	public void validate( UpdateModelPortfolioCommand modelPortfolio ) throws Exception {
-		Assert.notNull( modelPortfolio, "UpdateModelPortfolioCommand should not be null" );
-		Assert.notNull( modelPortfolio.getModelPortfolioId(), "UpdateModelPortfolioCommand identifier should not be null" );
-		Assert.notNull( modelPortfolio.getName(), "Field UpdateModelPortfolioCommand.name should not be null" );
-		Assert.notNull( modelPortfolio.getObjective(), "Field UpdateModelPortfolioCommand.objective should not be null" );
+	public void validate( UpdateModelPortfolioCommand modelPortfolio ) throws ValidationException {
+		if ( modelPortfolio == null )
+			throw new ValidationException( "ModelPortfolio", "validating UpdateModelPortfolioCommand" );
+		if ( modelPortfolio.getName() == null )
+			throw new ValidationException( "ModelPortfolio", "validating method getName" );
+		if ( modelPortfolio.getObjective() == null )
+			throw new ValidationException( "ModelPortfolio", "validating method getObjective" );
     }
 
 	/**
 	 * handles delete validation for a ModelPortfolio
 	 */
-    public void validate( DeleteModelPortfolioCommand modelPortfolio ) throws Exception {
-		Assert.notNull( modelPortfolio, "{commandAlias} should not be null" );
-		Assert.notNull( modelPortfolio.getModelPortfolioId(), "DeleteModelPortfolioCommand identifier should not be null" );
+    public void validate( DeleteModelPortfolioCommand modelPortfolio ) throws ValidationException {
+		if ( modelPortfolio == null )
+			throw new ValidationException( "ModelPortfolio", "validating DeleteModelPortfolioCommand" );
+
+		if ( modelPortfolio.getObjective() == null )
+			throw new ValidationException( "ModelPortfolio", "validating getObjective" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a ModelPortfolio
 	 */
-	public void validate( ModelPortfolioFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "ModelPortfolioFetchOneSummary should not be null" );
-		Assert.notNull( summary.getModelPortfolioId(), "ModelPortfolioFetchOneSummary identifier should not be null" );
+	public void validate( ModelPortfolioFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "ModelPortfolio", "validating summary );
 	}
 
 
@@ -127,10 +133,16 @@ public class ModelPortfolioValidator {
 	 * 
 	 * @param	command AssignAllocationsToModelPortfolioCommand
 	 */	
-	public void validate( AssignAllocationsToModelPortfolioCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAllocationsToModelPortfolioCommand should not be null" );
-		Assert.notNull( command.getModelPortfolioId(), "AssignAllocationsToModelPortfolioCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAllocationsToModelPortfolioCommand addTo attribute should not be null" );
+	public void validate( AssignAllocationsToModelPortfolioCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ModelPortfolio", "validating AssignAllocationsToModelPortfolioCommand" );
+
+		if ( command.getModelPortfolioId() == null ) }
+			throw new ValidationException( "ModelPortfolio", "validating identity on AssignAllocationsToModelPortfolioCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "ModelPortfolio", "validating addTo attribute on AssignAllocationsToModelPortfolioCommand" );
+
 	}
 
 	/**
@@ -138,11 +150,18 @@ public class ModelPortfolioValidator {
 	 * 
 	 * @param	command RemoveAllocationsFromModelPortfolioCommand
 	 */	
-	public void validate( RemoveAllocationsFromModelPortfolioCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAllocationsFromModelPortfolioCommand should not be null" );
-		Assert.notNull( command.getModelPortfolioId(), "RemoveAllocationsFromModelPortfolioCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAllocationsFromModelPortfolioCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAssetAllocationSliceId(), "RemoveAllocationsFromModelPortfolioCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAllocationsFromModelPortfolioCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("ModelPortfolio", "validating RemoveAllocationsFromModelPortfolioCommand");
+
+		if( command.getModelPortfolioId() == null )
+			throw new ValidationException"ModelPortfolio", "validating id on RemoveAllocationsFromModelPortfolioCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"ModelPortfolio", "validating remove from";
+
+		if( command.getRemoveFrom().getAssetAllocationSliceId() == null )
+			throw new ValidationException"ModelPortfolio", "validating id on remove from}";
 	}
 	
 	/**
@@ -150,10 +169,16 @@ public class ModelPortfolioValidator {
 	 * 
 	 * @param	command AssignPortfoliosToModelPortfolioCommand
 	 */	
-	public void validate( AssignPortfoliosToModelPortfolioCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfoliosToModelPortfolioCommand should not be null" );
-		Assert.notNull( command.getModelPortfolioId(), "AssignPortfoliosToModelPortfolioCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignPortfoliosToModelPortfolioCommand addTo attribute should not be null" );
+	public void validate( AssignPortfoliosToModelPortfolioCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ModelPortfolio", "validating AssignPortfoliosToModelPortfolioCommand" );
+
+		if ( command.getModelPortfolioId() == null ) }
+			throw new ValidationException( "ModelPortfolio", "validating identity on AssignPortfoliosToModelPortfolioCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "ModelPortfolio", "validating addTo attribute on AssignPortfoliosToModelPortfolioCommand" );
+
 	}
 
 	/**
@@ -161,11 +186,18 @@ public class ModelPortfolioValidator {
 	 * 
 	 * @param	command RemovePortfoliosFromModelPortfolioCommand
 	 */	
-	public void validate( RemovePortfoliosFromModelPortfolioCommand command ) throws Exception {
-		Assert.notNull( command, "RemovePortfoliosFromModelPortfolioCommand should not be null" );
-		Assert.notNull( command.getModelPortfolioId(), "RemovePortfoliosFromModelPortfolioCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemovePortfoliosFromModelPortfolioCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getPortfolioId(), "RemovePortfoliosFromModelPortfolioCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemovePortfoliosFromModelPortfolioCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("ModelPortfolio", "validating RemovePortfoliosFromModelPortfolioCommand");
+
+		if( command.getModelPortfolioId() == null )
+			throw new ValidationException"ModelPortfolio", "validating id on RemovePortfoliosFromModelPortfolioCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"ModelPortfolio", "validating remove from";
+
+		if( command.getRemoveFrom().getPortfolioId() == null )
+			throw new ValidationException"ModelPortfolio", "validating id on remove from}";
 	}
 	
 

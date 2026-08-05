@@ -38,8 +38,21 @@ public class SpringSecurityCurrentIdentity
                 authentication();
 
         if (authentication instanceof JwtAuthenticationToken jwt) {
-
             return jwt.getToken().getSubject();
+        }
+
+        if (authentication instanceof OAuth2AuthenticationToken oauth) {
+            return oauth.getName();
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails user) {
+            return user.getUsername();
+        }
+
+        if (principal instanceof ApiKeyPrincipal apiKey) {
+            return apiKey.getKeyId();
         }
 
         return authentication.getName();
@@ -54,13 +67,56 @@ public class SpringSecurityCurrentIdentity
     @Override
     public String getOrganizationId() {
 
-        Authentication authentication =
-                authentication();
+        Authentication authentication = authentication();
 
+        if (authentication == null) {
+            return null;
+        }
+
+        //
+        // JWT Resource Server
+        //
         if (authentication instanceof JwtAuthenticationToken jwt) {
 
             return jwt.getToken()
                     .getClaimAsString("organization");
+        }
+
+        //
+        // OAuth2 Login
+        //
+        if (authentication instanceof OAuth2AuthenticationToken oauth) {
+
+            // Provider-specific. These are examples.
+            String organization =
+                    oauth.getPrincipal()
+                            .getAttribute("organization");
+
+            if (organization != null) {
+                return organization;
+            }
+
+            // Azure AD tenant id
+            return oauth.getPrincipal()
+                    .getAttribute("tid");
+        }
+
+        //
+        // Form Login
+        //
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof CurrentUser user) {
+
+            return user.getOrganizationId();
+        }
+
+        //
+        // API Key
+        //
+        if (principal instanceof ApiKeyPrincipal apiKey) {
+
+            return apiKey.getOrganizationId();
         }
 
         return null;

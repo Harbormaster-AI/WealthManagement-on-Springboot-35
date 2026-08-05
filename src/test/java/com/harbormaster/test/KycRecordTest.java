@@ -49,245 +49,245 @@ public class KycRecordTest
     public KycRecordTest(KycRecordService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a KycRecord, through a KycRecordTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on KycRecordTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on KycRecordTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on KycRecordTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on KycRecordTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new KycRecord.
      *
      * @return    KycRecord
      */
     public KycRecord testCreate() throws Throwable {
-        KycRecord entity = null;
+    KycRecord entity = null;
 
-        LOGGER.info( "KycRecordTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a KycRecord");
+    LOGGER.info( "KycRecordTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a KycRecord");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a KycRecord" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a KycRecord" );
 
-        try {            
-            entity = service.createKycRecord( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createKycRecord( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getKycRecordId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getKycRecordId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a KycRecord with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a KycRecord with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a KycRecord.
      *
-     * @return    KycRecord  
+     * @return    KycRecord
      */
     public KycRecord testRead() throws Throwable {
-        LOGGER.info( "KycRecordTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created KycRecord" );
+    LOGGER.info( "KycRecordTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created KycRecord" );
 
-        KycRecord entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read KycRecord with primary key" );
-        msg.append( theId );
+    KycRecord entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read KycRecord with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getKycRecord( new KycRecordFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getKycRecord( new KycRecordFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getKycRecordId();
-            
-            LOGGER.info( "-- Successfully found KycRecord " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getKycRecordId();
+
+        LOGGER.info( "-- Successfully found KycRecord " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a KycRecord.
      *
      * @return    KycRecord
      */
     public KycRecord testUpdate() throws Throwable {
-        LOGGER.info( "KycRecordTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a KycRecord." );
+    LOGGER.info( "KycRecordTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a KycRecord." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a KycRecord : " );        
-        KycRecord entity = null;
-    
-        try {            
-        	UpdateKycRecordCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setKycRecordId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a KycRecord : " );
+    KycRecord entity = null;
 
-            LOGGER.info( "-- Now updating the created KycRecord." );
-            
-            entity = service.updateKycRecord( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateKycRecordCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved KycRecord - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setKycRecordId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created KycRecord." );
+
+        entity = service.updateKycRecord( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved KycRecord - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a KycRecord.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "KycRecordTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created KycRecord." );
-        
-        try {
-        	DeleteKycRecordCommand deleteCommand = new DeleteKycRecordCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted KycRecord with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete KycRecord with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "KycRecordTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created KycRecord." );
 
-    /** 
+    try {
+        DeleteKycRecordCommand deleteCommand = new DeleteKycRecordCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted KycRecord with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete KycRecord with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all KycRecords.
      *
      * @return    Collection
      */
-    public List<KycRecord> testGetAll() throws Throwable {    
-        LOGGER.info( "KycRecordTest:testGetAll() - Retrieving Collection of KycRecords:" );
+    public List<KycRecord> testGetAll() throws Throwable {
+    LOGGER.info( "KycRecordTest:testGetAll() - Retrieving Collection of KycRecords:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all KycRecord : " );        
-        List<KycRecord> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all KycRecord : " );
+    List<KycRecord> collection  = null;
 
-        try {
-            // call the static get method on the KycRecordService
-            collection = service.getAllKycRecord();
+    try {
+        // call the static get method on the KycRecordService
+        collection = service.getAllKycRecord();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            KycRecord currEntity  = null;            
-	            Iterator<KycRecord> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getKycRecordId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            KycRecord currEntity  = null;
+            Iterator<KycRecord> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getKycRecordId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public KycRecordTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated KycRecord
-	 * 
-	 * @return CreateKycRecordCommand alias
-	 */
+
+    /**
+     * Returns a new populated KycRecord
+     *
+     * @return CreateKycRecordCommand alias
+     */
 	protected CreateKycRecordCommand generateNewCommand() {
-        CreateKycRecordCommand command = new CreateKycRecordCommand( null,   new Date(),  new Boolean(true),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  KycStatus.values()[0] );
-		
-		return( command );
-	}
+    CreateKycRecordCommand command = new CreateKycRecordCommand( null,   new Date(),  new Boolean(true),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  KycStatus.values()[0] );
 
-		/**
-		 * Returns a new populated KycRecord
-		 * 
-		 * @return UpdateKycRecordCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated KycRecord
+     *
+     * @return UpdateKycRecordCommand alias
+     */
 	protected UpdateKycRecordCommand generateUpdateCommand() {
-	        UpdateKycRecordCommand command = new UpdateKycRecordCommand( null,   new Date(),  new Boolean(true),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  KycStatus.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateKycRecordCommand command = new UpdateKycRecordCommand( null,   new Date(),  new Boolean(true),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  KycStatus.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected KycRecordService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(KycRecord.class.getName());
 
 }

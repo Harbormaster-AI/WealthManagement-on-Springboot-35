@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class BillingRunService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public BillingRunService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new BillingRunEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(BillingRunRepository.class) );
+		}
 
-    	projector 		= new BillingRunEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(BillingRunRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		BillingRun
+		 */
+			public BillingRun createBillingRun( CreateBillingRunCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		BillingRun
-    */
-	public BillingRun createBillingRun( CreateBillingRunCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			BillingRun entity = new BillingRun();
 
-		BillingRun entity = new BillingRun();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	BillingRunValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BillingRunValidator.getInstance().validate( command );
 
             entity.setBillingRunId( command.getBillingRunId() );
             entity.setRunDate( command.getRunDate() );
             entity.setPeriodStart( command.getPeriodStart() );
             entity.setPeriodEnd( command.getPeriodEnd() );
             entity.setStatus( command.getStatus() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of BillingRun {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create BillingRun - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateBillingRunCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		BillingRun
-    */
-    public BillingRun updateBillingRun( UpdateBillingRunCommand command ) 
+				LOGGER.info( "done creating of BillingRun {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create BillingRun - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateBillingRunCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		BillingRun
+		 */
+		public BillingRun updateBillingRun( UpdateBillingRunCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    BillingRun entity = new BillingRun();
+			BillingRun entity = new BillingRun();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	BillingRunValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				BillingRunValidator.getInstance().validate( command );
 
             entity.setBillingRunId( command.getBillingRunId() );
             entity.setRunDate( command.getRunDate() );
@@ -181,223 +179,223 @@ extends BaseService {
             entity.setFeeSchedule( command.getFeeSchedule() );
             entity.setInvoices( command.getInvoices() );
             entity.setStatus( command.getStatus() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of BillingRun {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save BillingRun - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteBillingRunCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteBillingRunCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	BillingRunValidator.getInstance().validate( command );    
-        
-        	id = command.getBillingRunId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of BillingRun {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete BillingRun using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of BillingRun {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save BillingRun - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the BillingRun via BillingRunFetchOneSummary
-     * @param 	summary BillingRunFetchOneSummary 
-     * @return 	BillingRunFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteBillingRunCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteBillingRunCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BillingRunValidator.getInstance().validate( command );
+
+				id = command.getBillingRunId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of BillingRun {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete BillingRun using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the BillingRun via BillingRunFetchOneSummary
+		 * @param 	summary BillingRunFetchOneSummary
+		 * @return 	BillingRunFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public BillingRun getBillingRun( BillingRunFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "BillingRunFetchOneSummary arg cannot be null" );
-    	
-    	BillingRun entity = null;
-    	UUID id = summary.getBillingRunId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	BillingRunValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a BillingRun using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate BillingRun with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "BillingRunFetchOneSummary arg cannot be null" );
+
+			BillingRun entity = null;
+			UUID id = summary.getBillingRunId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				BillingRunValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a BillingRun using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate BillingRun with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all BillingRuns
-     *
-     * @return 	List<BillingRun> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all BillingRuns
+		 *
+		 * @return 	List<BillingRun>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<BillingRun> getAllBillingRun() 
     throws ProcessingException {
-        List<BillingRun> list = null;
+			List<BillingRun> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllBillingRunQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all BillingRun";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllBillingRunQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all BillingRun";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign FeeSchedule on BillingRun
-     * @param		command AssignFeeScheduleToBillingRunCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignFeeSchedule( AssignFeeScheduleToBillingRunCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	BillingRunValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignFeeSchedule(command.getBillingRunId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get FeeSchedule using id " + command.getBillingRunId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign FeeSchedule on BillingRun
-     * @param		command UnAssignFeeScheduleFromBillingRunCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignFeeSchedule( UnAssignFeeScheduleFromBillingRunCommand command ) throws ProcessingException {
+		/**
+		 * assign FeeSchedule on BillingRun
+		 * @param		command AssignFeeScheduleToBillingRunCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignFeeSchedule( AssignFeeScheduleToBillingRunCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	BillingRunValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				BillingRunValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignFeeSchedule(command.getBillingRunId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get FeeSchedule using id " + command.getBillingRunId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign FeeSchedule on BillingRun
+		 * @param		command UnAssignFeeScheduleFromBillingRunCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignFeeSchedule( UnAssignFeeScheduleFromBillingRunCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BillingRunValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignFeeSchedule(command.getBillingRunId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign FeeSchedule on BillingRun";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignFeeSchedule(command.getBillingRunId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign FeeSchedule on BillingRun";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
 
-    /**
-     * add Invoice to Invoices 
-     * @param		command AssignInvoicesToBillingRunCommand
-     * @exception	ProcessingException
-     */     
-	public void addToInvoices( AssignInvoicesToBillingRunCommand command ) throws ProcessingException {
+		/**
+		 * add Invoice to Invoices
+		 * @param		command AssignInvoicesToBillingRunCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToInvoices( AssignInvoicesToBillingRunCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	BillingRunValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BillingRunValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToInvoices(command.getBillingRunId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Invoice as Invoices to BillingRun" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Invoice from Invoices
-     * @param		command RemoveInvoicesFromBillingRunCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromInvoices( RemoveInvoicesFromBillingRunCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	BillingRunValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromInvoices(command.getBillingRunId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToInvoices(command.getBillingRunId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Invoice as Invoices to BillingRun" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getBillingRunId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Invoice from Invoices
+		 * @param		command RemoveInvoicesFromBillingRunCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromInvoices( RemoveInvoicesFromBillingRunCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BillingRunValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromInvoices(command.getBillingRunId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getBillingRunId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -410,5 +408,5 @@ extends BaseService {
     private final BillingRunEntityProjector projector;
 	private BillingRun billingRun 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(BillingRunService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BillingRunService.class);
 }

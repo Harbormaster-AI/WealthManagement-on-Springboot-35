@@ -49,245 +49,245 @@ public class CorporateActionTest
     public CorporateActionTest(CorporateActionService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a CorporateAction, through a CorporateActionTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on CorporateActionTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on CorporateActionTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on CorporateActionTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on CorporateActionTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new CorporateAction.
      *
      * @return    CorporateAction
      */
     public CorporateAction testCreate() throws Throwable {
-        CorporateAction entity = null;
+    CorporateAction entity = null;
 
-        LOGGER.info( "CorporateActionTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a CorporateAction");
+    LOGGER.info( "CorporateActionTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a CorporateAction");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a CorporateAction" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a CorporateAction" );
 
-        try {            
-            entity = service.createCorporateAction( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createCorporateAction( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getCorporateActionId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getCorporateActionId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a CorporateAction with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a CorporateAction with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a CorporateAction.
      *
-     * @return    CorporateAction  
+     * @return    CorporateAction
      */
     public CorporateAction testRead() throws Throwable {
-        LOGGER.info( "CorporateActionTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created CorporateAction" );
+    LOGGER.info( "CorporateActionTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created CorporateAction" );
 
-        CorporateAction entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read CorporateAction with primary key" );
-        msg.append( theId );
+    CorporateAction entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read CorporateAction with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getCorporateAction( new CorporateActionFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getCorporateAction( new CorporateActionFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getCorporateActionId();
-            
-            LOGGER.info( "-- Successfully found CorporateAction " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getCorporateActionId();
+
+        LOGGER.info( "-- Successfully found CorporateAction " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a CorporateAction.
      *
      * @return    CorporateAction
      */
     public CorporateAction testUpdate() throws Throwable {
-        LOGGER.info( "CorporateActionTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a CorporateAction." );
+    LOGGER.info( "CorporateActionTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a CorporateAction." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a CorporateAction : " );        
-        CorporateAction entity = null;
-    
-        try {            
-        	UpdateCorporateActionCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setCorporateActionId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a CorporateAction : " );
+    CorporateAction entity = null;
 
-            LOGGER.info( "-- Now updating the created CorporateAction." );
-            
-            entity = service.updateCorporateAction( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateCorporateActionCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved CorporateAction - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setCorporateActionId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created CorporateAction." );
+
+        entity = service.updateCorporateAction( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved CorporateAction - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a CorporateAction.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "CorporateActionTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created CorporateAction." );
-        
-        try {
-        	DeleteCorporateActionCommand deleteCommand = new DeleteCorporateActionCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted CorporateAction with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete CorporateAction with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "CorporateActionTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created CorporateAction." );
 
-    /** 
+    try {
+        DeleteCorporateActionCommand deleteCommand = new DeleteCorporateActionCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted CorporateAction with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete CorporateAction with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all CorporateActions.
      *
      * @return    Collection
      */
-    public List<CorporateAction> testGetAll() throws Throwable {    
-        LOGGER.info( "CorporateActionTest:testGetAll() - Retrieving Collection of CorporateActions:" );
+    public List<CorporateAction> testGetAll() throws Throwable {
+    LOGGER.info( "CorporateActionTest:testGetAll() - Retrieving Collection of CorporateActions:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all CorporateAction : " );        
-        List<CorporateAction> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all CorporateAction : " );
+    List<CorporateAction> collection  = null;
 
-        try {
-            // call the static get method on the CorporateActionService
-            collection = service.getAllCorporateAction();
+    try {
+        // call the static get method on the CorporateActionService
+        collection = service.getAllCorporateAction();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            CorporateAction currEntity  = null;            
-	            Iterator<CorporateAction> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getCorporateActionId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            CorporateAction currEntity  = null;
+            Iterator<CorporateAction> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getCorporateActionId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public CorporateActionTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated CorporateAction
-	 * 
-	 * @return CreateCorporateActionCommand alias
-	 */
+
+    /**
+     * Returns a new populated CorporateAction
+     *
+     * @return CreateCorporateActionCommand alias
+     */
 	protected CreateCorporateActionCommand generateNewCommand() {
-        CreateCorporateActionCommand command = new CreateCorporateActionCommand( null,   new Date(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  CorporateActionType.values()[0] );
-		
-		return( command );
-	}
+    CreateCorporateActionCommand command = new CreateCorporateActionCommand( null,   new Date(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  CorporateActionType.values()[0] );
 
-		/**
-		 * Returns a new populated CorporateAction
-		 * 
-		 * @return UpdateCorporateActionCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated CorporateAction
+     *
+     * @return UpdateCorporateActionCommand alias
+     */
 	protected UpdateCorporateActionCommand generateUpdateCommand() {
-	        UpdateCorporateActionCommand command = new UpdateCorporateActionCommand( null,   new Date(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  CorporateActionType.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateCorporateActionCommand command = new UpdateCorporateActionCommand( null,   new Date(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  CorporateActionType.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected CorporateActionService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(CorporateAction.class.getName());
 
 }

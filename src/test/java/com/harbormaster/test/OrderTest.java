@@ -49,245 +49,245 @@ public class OrderTest
     public OrderTest(OrderService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Order, through a OrderTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on OrderTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on OrderTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on OrderTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on OrderTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Order.
      *
      * @return    Order
      */
     public Order testCreate() throws Throwable {
-        Order entity = null;
+    Order entity = null;
 
-        LOGGER.info( "OrderTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Order");
+    LOGGER.info( "OrderTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Order");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Order" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Order" );
 
-        try {            
-            entity = service.createOrder( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createOrder( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getOrderId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getOrderId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Order with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Order with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Order.
      *
-     * @return    Order  
+     * @return    Order
      */
     public Order testRead() throws Throwable {
-        LOGGER.info( "OrderTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Order" );
+    LOGGER.info( "OrderTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Order" );
 
-        Order entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Order with primary key" );
-        msg.append( theId );
+    Order entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Order with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getOrder( new OrderFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getOrder( new OrderFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getOrderId();
-            
-            LOGGER.info( "-- Successfully found Order " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getOrderId();
+
+        LOGGER.info( "-- Successfully found Order " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Order.
      *
      * @return    Order
      */
     public Order testUpdate() throws Throwable {
-        LOGGER.info( "OrderTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Order." );
+    LOGGER.info( "OrderTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Order." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Order : " );        
-        Order entity = null;
-    
-        try {            
-        	UpdateOrderCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setOrderId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Order : " );
+    Order entity = null;
 
-            LOGGER.info( "-- Now updating the created Order." );
-            
-            entity = service.updateOrder( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateOrderCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Order - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setOrderId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Order." );
+
+        entity = service.updateOrder( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Order - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Order.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "OrderTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Order." );
-        
-        try {
-        	DeleteOrderCommand deleteCommand = new DeleteOrderCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Order with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Order with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "OrderTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Order." );
 
-    /** 
+    try {
+        DeleteOrderCommand deleteCommand = new DeleteOrderCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Order with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Order with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Orders.
      *
      * @return    Collection
      */
-    public List<Order> testGetAll() throws Throwable {    
-        LOGGER.info( "OrderTest:testGetAll() - Retrieving Collection of Orders:" );
+    public List<Order> testGetAll() throws Throwable {
+    LOGGER.info( "OrderTest:testGetAll() - Retrieving Collection of Orders:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Order : " );        
-        List<Order> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Order : " );
+    List<Order> collection  = null;
 
-        try {
-            // call the static get method on the OrderService
-            collection = service.getAllOrder();
+    try {
+        // call the static get method on the OrderService
+        collection = service.getAllOrder();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Order currEntity  = null;            
-	            Iterator<Order> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getOrderId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Order currEntity  = null;
+            Iterator<Order> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getOrderId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public OrderTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Order
-	 * 
-	 * @return CreateOrderCommand alias
-	 */
+
+    /**
+     * Returns a new populated Order
+     *
+     * @return CreateOrderCommand alias
+     */
 	protected CreateOrderCommand generateNewCommand() {
-        CreateOrderCommand command = new CreateOrderCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO,  OrderType.values()[0],  OrderSide.values()[0],  PriceType.values()[0],  TimeInForce.values()[0],  OrderStatus.values()[0] );
-		
-		return( command );
-	}
+    CreateOrderCommand command = new CreateOrderCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO,  OrderType.values()[0],  OrderSide.values()[0],  PriceType.values()[0],  TimeInForce.values()[0],  OrderStatus.values()[0] );
 
-		/**
-		 * Returns a new populated Order
-		 * 
-		 * @return UpdateOrderCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Order
+     *
+     * @return UpdateOrderCommand alias
+     */
 	protected UpdateOrderCommand generateUpdateCommand() {
-	        UpdateOrderCommand command = new UpdateOrderCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO,  null,  null,  new HashSet<>(),  new HashSet<>(),  null,  OrderType.values()[0],  OrderSide.values()[0],  PriceType.values()[0],  TimeInForce.values()[0],  OrderStatus.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateOrderCommand command = new UpdateOrderCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO,  null,  null,  new HashSet<>(),  new HashSet<>(),  null,  OrderType.values()[0],  OrderSide.values()[0],  PriceType.values()[0],  TimeInForce.values()[0],  OrderStatus.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected OrderService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Order.class.getName());
 
 }

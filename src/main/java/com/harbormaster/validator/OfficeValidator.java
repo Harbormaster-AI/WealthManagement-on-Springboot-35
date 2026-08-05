@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>OfficeValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class OfficeValidator {
 		
 	/**
@@ -75,48 +78,51 @@ public class OfficeValidator {
 	 */
 	protected OfficeValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public OfficeValidator getInstance() {
-		return new OfficeValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Office
 	 */
-	public void validate( CreateOfficeCommand office )throws Exception {
-		Assert.notNull( office, "CreateOfficeCommand should not be null" );
+	public void validate( CreateOfficeCommand office )throws ValidationException {
+		if ( office == null )
+			throw new ValidationException( "Office", "validating CreateOfficeCommand" );
+
 //		Assert.isNull( office.getOfficeId(), "CreateOfficeCommand identifier should be null" );
-		Assert.notNull( office.getName(), "Field CreateOfficeCommand.name should not be null" );
-		Assert.notNull( office.getAddress(), "Field CreateOfficeCommand.address should not be null" );
+		if ( office.getName() == null )
+			throw new ValidationException( "Office", "validating access on getName" );
+		if ( office.getAddress() == null )
+			throw new ValidationException( "Office", "validating access on getAddress" );
 	}
 
 	/**
 	 * handles update validation for a Office
 	 */
-	public void validate( UpdateOfficeCommand office ) throws Exception {
-		Assert.notNull( office, "UpdateOfficeCommand should not be null" );
-		Assert.notNull( office.getOfficeId(), "UpdateOfficeCommand identifier should not be null" );
-		Assert.notNull( office.getName(), "Field UpdateOfficeCommand.name should not be null" );
-		Assert.notNull( office.getAddress(), "Field UpdateOfficeCommand.address should not be null" );
+	public void validate( UpdateOfficeCommand office ) throws ValidationException {
+		if ( office == null )
+			throw new ValidationException( "Office", "validating UpdateOfficeCommand" );
+		if ( office.getName() == null )
+			throw new ValidationException( "Office", "validating method getName" );
+		if ( office.getAddress() == null )
+			throw new ValidationException( "Office", "validating method getAddress" );
     }
 
 	/**
 	 * handles delete validation for a Office
 	 */
-    public void validate( DeleteOfficeCommand office ) throws Exception {
-		Assert.notNull( office, "{commandAlias} should not be null" );
-		Assert.notNull( office.getOfficeId(), "DeleteOfficeCommand identifier should not be null" );
+    public void validate( DeleteOfficeCommand office ) throws ValidationException {
+		if ( office == null )
+			throw new ValidationException( "Office", "validating DeleteOfficeCommand" );
+
+		if ( office.getAddress() == null )
+			throw new ValidationException( "Office", "validating getAddress" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Office
 	 */
-	public void validate( OfficeFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "OfficeFetchOneSummary should not be null" );
-		Assert.notNull( summary.getOfficeId(), "OfficeFetchOneSummary identifier should not be null" );
+	public void validate( OfficeFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Office", "validating summary );
 	}
 
 	/**
@@ -124,10 +130,16 @@ public class OfficeValidator {
 	 * 
 	 * @param	command AssignFirmToOfficeCommand
 	 */	
-	public void validate( AssignFirmToOfficeCommand command ) throws Exception {
-		Assert.notNull( command, "AssignFirmToOfficeCommand should not be null" );
-		Assert.notNull( command.getOfficeId(), "AssignFirmToOfficeCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignFirmToOfficeCommand assignment should not be null" );
+	public void validate( AssignFirmToOfficeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Office", "validating AssignFirmToOfficeCommand" );
+
+		if ( command.getOfficeId() == null )
+			throw new ValidationException( "Office", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Office", "validating assignment" );
+
 	}
 
 	/**
@@ -135,9 +147,12 @@ public class OfficeValidator {
 	 * 
 	 * @param	command UnAssignFirmFromOfficeCommand
 	 */	
-	public void validate( UnAssignFirmFromOfficeCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignFirmFromOfficeCommand should not be null" );
-		Assert.notNull( command.getOfficeId(), "UnAssignFirmFromOfficeCommand identifier should not be null" );
+	public void validate( UnAssignFirmFromOfficeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Office", "validating UnAssignFirmFromOfficeCommand" );
+
+		if ( command.getOfficeId() == null ) }
+			throw new ValidationException( "Office", "validating identity on UnAssignFirmFromOfficeCommand" );
 	}
 
 	/**
@@ -145,10 +160,16 @@ public class OfficeValidator {
 	 * 
 	 * @param	command AssignAdvisorsToOfficeCommand
 	 */	
-	public void validate( AssignAdvisorsToOfficeCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorsToOfficeCommand should not be null" );
-		Assert.notNull( command.getOfficeId(), "AssignAdvisorsToOfficeCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAdvisorsToOfficeCommand addTo attribute should not be null" );
+	public void validate( AssignAdvisorsToOfficeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Office", "validating AssignAdvisorsToOfficeCommand" );
+
+		if ( command.getOfficeId() == null ) }
+			throw new ValidationException( "Office", "validating identity on AssignAdvisorsToOfficeCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Office", "validating addTo attribute on AssignAdvisorsToOfficeCommand" );
+
 	}
 
 	/**
@@ -156,11 +177,18 @@ public class OfficeValidator {
 	 * 
 	 * @param	command RemoveAdvisorsFromOfficeCommand
 	 */	
-	public void validate( RemoveAdvisorsFromOfficeCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAdvisorsFromOfficeCommand should not be null" );
-		Assert.notNull( command.getOfficeId(), "RemoveAdvisorsFromOfficeCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAdvisorsFromOfficeCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAdvisorId(), "RemoveAdvisorsFromOfficeCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAdvisorsFromOfficeCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Office", "validating RemoveAdvisorsFromOfficeCommand");
+
+		if( command.getOfficeId() == null )
+			throw new ValidationException"Office", "validating id on RemoveAdvisorsFromOfficeCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Office", "validating remove from";
+
+		if( command.getRemoveFrom().getAdvisorId() == null )
+			throw new ValidationException"Office", "validating id on remove from}";
 	}
 	
 

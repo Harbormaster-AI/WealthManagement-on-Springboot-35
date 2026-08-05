@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class OrderAllocationRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public OrderAllocation create( @RequestBody(required=true) CreateOrderAllocationCommand command ) {
     	OrderAllocation entity = null;
-		try {       
-        	
-			entity = service.createOrderAllocation( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createOrderAllocation( command );
+		LOGGER.info( "Successfully created OrderAllocation with Id " + entity.getOrderAllocationId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class OrderAllocationRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public OrderAllocation update( @RequestBody(required=true) UpdateOrderAllocationCommand command ) {
 		OrderAllocation entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateOrderAllocationCommand
-			// -----------------------------------------------
-			entity = service.updateOrderAllocation(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "OrderAllocationController:update() - successfully update OrderAllocation - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateOrderAllocation(command);
+		LOGGER.info( "Successfully updated OrderAllocation with Id " + command.getOrderAllocationId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class OrderAllocationRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteOrderAllocationCommand command ) {                
-    	try {
-        	OrderAllocationService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted OrderAllocation with key " + command.getOrderAllocationId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted OrderAllocation with Id " + command.getOrderAllocationId()  );
+	}
 	
     /**
      * Handles loading a OrderAllocation using a UUID
@@ -150,16 +133,10 @@ public class OrderAllocationRestController extends BaseSpringRestController {
      * @return		OrderAllocation
      */    
     @GetMapping("/load")
-    public OrderAllocation load( @RequestParam(required=true) UUID uuid ) {    	
-    	OrderAllocation entity = null;
+    public OrderAllocation load( @RequestParam(required=true) UUID uuid ) {
+    	OrderAllocation entity = service.getOrderAllocation( new OrderAllocationFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getOrderAllocation( new OrderAllocationFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load OrderAllocation using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded OrderAllocation with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class OrderAllocationRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<OrderAllocation> loadAll() {                
     	List<OrderAllocation> orderAllocationList = null;
-        
-    	try {
-            // load the OrderAllocation
-            orderAllocationList = service.getAllOrderAllocation();
-            
-            if ( orderAllocationList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all OrderAllocations" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all OrderAllocations ", exc );
-        	return null;
-        }
+
+		orderAllocationList = service.getAllOrderAllocation();
+		LOGGER.log( Level.INFO,  "successfully loaded all OrderAllocations" );
 
         return orderAllocationList;
                             
@@ -194,12 +162,8 @@ public class OrderAllocationRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignOrder")
 	public void assignOrder( @RequestBody AssignOrderToOrderAllocationCommand command ) {
-		try {
-			service.assignOrder( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Order", exc );
-        }
+		service.assignOrder( command );
+		LOGGER.info( "Successfully assigned Order with Id " + command.getOrderAllocationId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class OrderAllocationRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignOrder")
 	public void unAssignOrder( @RequestBody(required=true)  UnAssignOrderFromOrderAllocationCommand command ) {
-		try {
-			service.unAssignOrder( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Order", exc );
-		}
+		service.unAssignOrder( command );
+		LOGGER.info( "Successfully unassigned Order with Id " + command.getOrderAllocationId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class OrderAllocationRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToOrderAllocationCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getOrderAllocationId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class OrderAllocationRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromOrderAllocationCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getOrderAllocationId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class OrderAllocationRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToOrderAllocationCommand command ) {
-		try {
-			service.assignPortfolio( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
-        }
+		service.assignPortfolio( command );
+		LOGGER.info( "Successfully assigned Portfolio with Id " + command.getOrderAllocationId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class OrderAllocationRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromOrderAllocationCommand command ) {
-		try {
-			service.unAssignPortfolio( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
-		}
+		service.unAssignPortfolio( command );
+		LOGGER.info( "Successfully unassigned Portfolio with Id " + command.getOrderAllocationId()  );
 	}
 	
 
@@ -281,6 +225,6 @@ public class OrderAllocationRestController extends BaseSpringRestController {
 //************************************************************************
     protected OrderAllocation orderAllocation = null;
 	protected OrderAllocationService service = null;
-    private static final Logger LOGGER = Logger.getLogger(OrderAllocationRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderAllocationRestController.class.getName());
     
 }

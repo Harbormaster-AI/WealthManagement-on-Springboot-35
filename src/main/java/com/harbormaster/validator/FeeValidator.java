@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>FeeValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -66,6 +68,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class FeeValidator {
 		
 	/**
@@ -73,50 +76,55 @@ public class FeeValidator {
 	 */
 	protected FeeValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public FeeValidator getInstance() {
-		return new FeeValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Fee
 	 */
-	public void validate( CreateFeeCommand fee )throws Exception {
-		Assert.notNull( fee, "CreateFeeCommand should not be null" );
+	public void validate( CreateFeeCommand fee )throws ValidationException {
+		if ( fee == null )
+			throw new ValidationException( "Fee", "validating CreateFeeCommand" );
+
 //		Assert.isNull( fee.getFeeId(), "CreateFeeCommand identifier should be null" );
-		Assert.notNull( fee.getFeeDate(), "Field CreateFeeCommand.feeDate should not be null" );
-		Assert.notNull( fee.getAmount(), "Field CreateFeeCommand.amount should not be null" );
-		Assert.notNull( fee.getDescription(), "Field CreateFeeCommand.description should not be null" );
+		if ( fee.getFeeDate() == null )
+			throw new ValidationException( "Fee", "validating access on getFeeDate" );
+		if ( fee.getAmount() == null )
+			throw new ValidationException( "Fee", "validating access on getAmount" );
+		if ( fee.getDescription() == null )
+			throw new ValidationException( "Fee", "validating access on getDescription" );
 	}
 
 	/**
 	 * handles update validation for a Fee
 	 */
-	public void validate( UpdateFeeCommand fee ) throws Exception {
-		Assert.notNull( fee, "UpdateFeeCommand should not be null" );
-		Assert.notNull( fee.getFeeId(), "UpdateFeeCommand identifier should not be null" );
-		Assert.notNull( fee.getFeeDate(), "Field UpdateFeeCommand.feeDate should not be null" );
-		Assert.notNull( fee.getAmount(), "Field UpdateFeeCommand.amount should not be null" );
-		Assert.notNull( fee.getDescription(), "Field UpdateFeeCommand.description should not be null" );
+	public void validate( UpdateFeeCommand fee ) throws ValidationException {
+		if ( fee == null )
+			throw new ValidationException( "Fee", "validating UpdateFeeCommand" );
+		if ( fee.getFeeDate() == null )
+			throw new ValidationException( "Fee", "validating method getFeeDate" );
+		if ( fee.getAmount() == null )
+			throw new ValidationException( "Fee", "validating method getAmount" );
+		if ( fee.getDescription() == null )
+			throw new ValidationException( "Fee", "validating method getDescription" );
     }
 
 	/**
 	 * handles delete validation for a Fee
 	 */
-    public void validate( DeleteFeeCommand fee ) throws Exception {
-		Assert.notNull( fee, "{commandAlias} should not be null" );
-		Assert.notNull( fee.getFeeId(), "DeleteFeeCommand identifier should not be null" );
+    public void validate( DeleteFeeCommand fee ) throws ValidationException {
+		if ( fee == null )
+			throw new ValidationException( "Fee", "validating DeleteFeeCommand" );
+
+		if ( fee.getDescription() == null )
+			throw new ValidationException( "Fee", "validating getDescription" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Fee
 	 */
-	public void validate( FeeFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "FeeFetchOneSummary should not be null" );
-		Assert.notNull( summary.getFeeId(), "FeeFetchOneSummary identifier should not be null" );
+	public void validate( FeeFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Fee", "validating summary );
 	}
 
 	/**
@@ -124,10 +132,16 @@ public class FeeValidator {
 	 * 
 	 * @param	command AssignAccountToFeeCommand
 	 */	
-	public void validate( AssignAccountToFeeCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToFeeCommand should not be null" );
-		Assert.notNull( command.getFeeId(), "AssignAccountToFeeCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToFeeCommand assignment should not be null" );
+	public void validate( AssignAccountToFeeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Fee", "validating AssignAccountToFeeCommand" );
+
+		if ( command.getFeeId() == null )
+			throw new ValidationException( "Fee", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Fee", "validating assignment" );
+
 	}
 
 	/**
@@ -135,19 +149,28 @@ public class FeeValidator {
 	 * 
 	 * @param	command UnAssignAccountFromFeeCommand
 	 */	
-	public void validate( UnAssignAccountFromFeeCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromFeeCommand should not be null" );
-		Assert.notNull( command.getFeeId(), "UnAssignAccountFromFeeCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromFeeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Fee", "validating UnAssignAccountFromFeeCommand" );
+
+		if ( command.getFeeId() == null ) }
+			throw new ValidationException( "Fee", "validating identity on UnAssignAccountFromFeeCommand" );
 	}
 	/**
 	 * handles assign Invoice validation for a Fee
 	 * 
 	 * @param	command AssignInvoiceToFeeCommand
 	 */	
-	public void validate( AssignInvoiceToFeeCommand command ) throws Exception {
-		Assert.notNull( command, "AssignInvoiceToFeeCommand should not be null" );
-		Assert.notNull( command.getFeeId(), "AssignInvoiceToFeeCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignInvoiceToFeeCommand assignment should not be null" );
+	public void validate( AssignInvoiceToFeeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Fee", "validating AssignInvoiceToFeeCommand" );
+
+		if ( command.getFeeId() == null )
+			throw new ValidationException( "Fee", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Fee", "validating assignment" );
+
 	}
 
 	/**
@@ -155,9 +178,12 @@ public class FeeValidator {
 	 * 
 	 * @param	command UnAssignInvoiceFromFeeCommand
 	 */	
-	public void validate( UnAssignInvoiceFromFeeCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignInvoiceFromFeeCommand should not be null" );
-		Assert.notNull( command.getFeeId(), "UnAssignInvoiceFromFeeCommand identifier should not be null" );
+	public void validate( UnAssignInvoiceFromFeeCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Fee", "validating UnAssignInvoiceFromFeeCommand" );
+
+		if ( command.getFeeId() == null ) }
+			throw new ValidationException( "Fee", "validating identity on UnAssignInvoiceFromFeeCommand" );
 	}
 
 

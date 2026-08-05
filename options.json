@@ -43,6 +43,36 @@
         "required": "false",
         "description": "active Spring profiles",
         "type": "input"
+      },
+      {
+        "name": "logging-type",
+        "value": "logstash",
+        "required": "false",
+        "description": "logging type",
+        "type": "select",
+        "selections": "ecs, logstash, gelf"
+      },
+      {
+        "name": "authentication-mode",
+        "value": "",
+        "required": "false",
+        "description": "mode of authenticatino",
+        "type": "select",
+        "selections": "form-login, jwt, oauth2, ldap, saml2"
+      },
+      {
+        "name": "enable-entity-auditing",
+        "value": "true",
+        "required": "false",
+        "description": "enable entity auditing",
+        "type": "checkbox"
+      },
+      {
+        "name": "enable-service-level-monitoring",
+        "value": "true",
+        "required": "false",
+        "description": "enable service level monitoring",
+        "type": "checkbox"
       }
     ]
 

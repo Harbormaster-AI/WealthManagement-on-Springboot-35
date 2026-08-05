@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class AgreementRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Agreement create( @RequestBody(required=true) CreateAgreementCommand command ) {
     	Agreement entity = null;
-		try {       
-        	
-			entity = service.createAgreement( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createAgreement( command );
+		LOGGER.info( "Successfully created Agreement with Id " + entity.getAgreementId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class AgreementRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Agreement update( @RequestBody(required=true) UpdateAgreementCommand command ) {
 		Agreement entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateAgreementCommand
-			// -----------------------------------------------
-			entity = service.updateAgreement(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "AgreementController:update() - successfully update Agreement - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateAgreement(command);
+		LOGGER.info( "Successfully updated Agreement with Id " + command.getAgreementId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class AgreementRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAgreementCommand command ) {                
-    	try {
-        	AgreementService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Agreement with key " + command.getAgreementId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Agreement with Id " + command.getAgreementId()  );
+	}
 	
     /**
      * Handles loading a Agreement using a UUID
@@ -150,16 +133,10 @@ public class AgreementRestController extends BaseSpringRestController {
      * @return		Agreement
      */    
     @GetMapping("/load")
-    public Agreement load( @RequestParam(required=true) UUID uuid ) {    	
-    	Agreement entity = null;
+    public Agreement load( @RequestParam(required=true) UUID uuid ) {
+    	Agreement entity = service.getAgreement( new AgreementFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getAgreement( new AgreementFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Agreement using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Agreement with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class AgreementRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Agreement> loadAll() {                
     	List<Agreement> agreementList = null;
-        
-    	try {
-            // load the Agreement
-            agreementList = service.getAllAgreement();
-            
-            if ( agreementList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Agreements" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Agreements ", exc );
-        	return null;
-        }
+
+		agreementList = service.getAllAgreement();
+		LOGGER.log( Level.INFO,  "successfully loaded all Agreements" );
 
         return agreementList;
                             
@@ -194,12 +162,8 @@ public class AgreementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignClient")
 	public void assignClient( @RequestBody AssignClientToAgreementCommand command ) {
-		try {
-			service.assignClient( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Client", exc );
-        }
+		service.assignClient( command );
+		LOGGER.info( "Successfully assigned Client with Id " + command.getAgreementId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class AgreementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignClient")
 	public void unAssignClient( @RequestBody(required=true)  UnAssignClientFromAgreementCommand command ) {
-		try {
-			service.unAssignClient( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Client", exc );
-		}
+		service.unAssignClient( command );
+		LOGGER.info( "Successfully unassigned Client with Id " + command.getAgreementId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class AgreementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToAgreementCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getAgreementId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class AgreementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromAgreementCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getAgreementId()  );
 	}
 	
 
@@ -251,12 +203,8 @@ public class AgreementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToDocuments")
 	public void addToDocuments( @RequestBody(required=true) AssignDocumentsToAgreementCommand command ) {
-		try {
-			service.addToDocuments( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Documents", exc );
-		}
+		service.addToDocuments( command );
+		LOGGER.info( "Successfully added Documents with Id " + command.getAgreementId()  );
 	}
 
     /**
@@ -266,12 +214,8 @@ public class AgreementRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromDocuments")
 	public void removeFromDocuments( 	@RequestBody(required=true) RemoveDocumentsFromAgreementCommand command )
 	{		
-		try {
-			service.removeFromDocuments( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Documents", exc );
-		}
+		service.removeFromDocuments( command );
+		LOGGER.info( "Successfully removed Documents with Id " + command.getAgreementId()  );
 	}
 
 
@@ -282,6 +226,6 @@ public class AgreementRestController extends BaseSpringRestController {
 //************************************************************************
     protected Agreement agreement = null;
 	protected AgreementService service = null;
-    private static final Logger LOGGER = Logger.getLogger(AgreementRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AgreementRestController.class.getName());
     
 }

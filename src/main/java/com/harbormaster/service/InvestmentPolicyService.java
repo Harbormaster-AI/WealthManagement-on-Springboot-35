@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,85 +93,83 @@ import com.harbormaster.security.*;
  */
 @Service
 public class InvestmentPolicyService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public InvestmentPolicyService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new InvestmentPolicyEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(InvestmentPolicyRepository.class) );
+		}
 
-    	projector 		= new InvestmentPolicyEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(InvestmentPolicyRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		InvestmentPolicy
+		 */
+			public InvestmentPolicy createInvestmentPolicy( CreateInvestmentPolicyCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		InvestmentPolicy
-    */
-	public InvestmentPolicy createInvestmentPolicy( CreateInvestmentPolicyCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			InvestmentPolicy entity = new InvestmentPolicy();
 
-		InvestmentPolicy entity = new InvestmentPolicy();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	InvestmentPolicyValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
 
             entity.setInvestmentPolicyId( command.getInvestmentPolicyId() );
             entity.setPolicyNumber( command.getPolicyNumber() );
             entity.setConstraints( command.getConstraints() );
             entity.setSuitabilityStatus( command.getSuitabilityStatus() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of InvestmentPolicy {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create InvestmentPolicy - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateInvestmentPolicyCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		InvestmentPolicy
-    */
-    public InvestmentPolicy updateInvestmentPolicy( UpdateInvestmentPolicyCommand command ) 
+				LOGGER.info( "done creating of InvestmentPolicy {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create InvestmentPolicy - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateInvestmentPolicyCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		InvestmentPolicy
+		 */
+		public InvestmentPolicy updateInvestmentPolicy( UpdateInvestmentPolicyCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    InvestmentPolicy entity = new InvestmentPolicy();
+			InvestmentPolicy entity = new InvestmentPolicy();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	InvestmentPolicyValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
 
             entity.setInvestmentPolicyId( command.getInvestmentPolicyId() );
             entity.setPolicyNumber( command.getPolicyNumber() );
@@ -180,274 +178,274 @@ extends BaseService {
             entity.setRiskAssessment( command.getRiskAssessment() );
             entity.setGoals( command.getGoals() );
             entity.setSuitabilityStatus( command.getSuitabilityStatus() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of InvestmentPolicy {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save InvestmentPolicy - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteInvestmentPolicyCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteInvestmentPolicyCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	InvestmentPolicyValidator.getInstance().validate( command );    
-        
-        	id = command.getInvestmentPolicyId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of InvestmentPolicy {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete InvestmentPolicy using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of InvestmentPolicy {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save InvestmentPolicy - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the InvestmentPolicy via InvestmentPolicyFetchOneSummary
-     * @param 	summary InvestmentPolicyFetchOneSummary 
-     * @return 	InvestmentPolicyFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteInvestmentPolicyCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteInvestmentPolicyCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
+
+				id = command.getInvestmentPolicyId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of InvestmentPolicy {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete InvestmentPolicy using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the InvestmentPolicy via InvestmentPolicyFetchOneSummary
+		 * @param 	summary InvestmentPolicyFetchOneSummary
+		 * @return 	InvestmentPolicyFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public InvestmentPolicy getInvestmentPolicy( InvestmentPolicyFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "InvestmentPolicyFetchOneSummary arg cannot be null" );
-    	
-    	InvestmentPolicy entity = null;
-    	UUID id = summary.getInvestmentPolicyId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	InvestmentPolicyValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a InvestmentPolicy using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate InvestmentPolicy with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "InvestmentPolicyFetchOneSummary arg cannot be null" );
+
+			InvestmentPolicy entity = null;
+			UUID id = summary.getInvestmentPolicyId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a InvestmentPolicy using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate InvestmentPolicy with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all InvestmentPolicys
-     *
-     * @return 	List<InvestmentPolicy> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all InvestmentPolicys
+		 *
+		 * @return 	List<InvestmentPolicy>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<InvestmentPolicy> getAllInvestmentPolicy() 
     throws ProcessingException {
-        List<InvestmentPolicy> list = null;
+			List<InvestmentPolicy> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllInvestmentPolicyQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all InvestmentPolicy";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllInvestmentPolicyQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all InvestmentPolicy";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Portfolio on InvestmentPolicy
-     * @param		command AssignPortfolioToInvestmentPolicyCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPortfolio( AssignPortfolioToInvestmentPolicyCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	InvestmentPolicyValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPortfolio(command.getInvestmentPolicyId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Portfolio using id " + command.getInvestmentPolicyId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Portfolio on InvestmentPolicy
-     * @param		command UnAssignPortfolioFromInvestmentPolicyCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPortfolio( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws ProcessingException {
+		/**
+		 * assign Portfolio on InvestmentPolicy
+		 * @param		command AssignPortfolioToInvestmentPolicyCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPortfolio( AssignPortfolioToInvestmentPolicyCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvestmentPolicyValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPortfolio(command.getInvestmentPolicyId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Portfolio using id " + command.getInvestmentPolicyId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Portfolio on InvestmentPolicy
+		 * @param		command UnAssignPortfolioFromInvestmentPolicyCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPortfolio( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPortfolio(command.getInvestmentPolicyId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Portfolio on InvestmentPolicy";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPortfolio(command.getInvestmentPolicyId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Portfolio on InvestmentPolicy";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign RiskAssessment on InvestmentPolicy
-     * @param		command AssignRiskAssessmentToInvestmentPolicyCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignRiskAssessment( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws ProcessingException {
+		/**
+		 * assign RiskAssessment on InvestmentPolicy
+		 * @param		command AssignRiskAssessmentToInvestmentPolicyCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignRiskAssessment( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	InvestmentPolicyValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignRiskAssessment(command.getInvestmentPolicyId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get RiskAssessment using id " + command.getInvestmentPolicyId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignRiskAssessment(command.getInvestmentPolicyId(), command.getAssignment());
 
-    /**
-     * unAssign RiskAssessment on InvestmentPolicy
-     * @param		command UnAssignRiskAssessmentFromInvestmentPolicyCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignRiskAssessment( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get RiskAssessment using id " + command.getInvestmentPolicyId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvestmentPolicyValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignRiskAssessment(command.getInvestmentPolicyId());
+		/**
+		 * unAssign RiskAssessment on InvestmentPolicy
+		 * @param		command UnAssignRiskAssessmentFromInvestmentPolicyCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignRiskAssessment( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignRiskAssessment(command.getInvestmentPolicyId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign RiskAssessment on InvestmentPolicy";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign RiskAssessment on InvestmentPolicy";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add WealthGoal to Goals 
-     * @param		command AssignGoalsToInvestmentPolicyCommand
-     * @exception	ProcessingException
-     */     
-	public void addToGoals( AssignGoalsToInvestmentPolicyCommand command ) throws ProcessingException {
+		/**
+		 * add WealthGoal to Goals
+		 * @param		command AssignGoalsToInvestmentPolicyCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToGoals( AssignGoalsToInvestmentPolicyCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvestmentPolicyValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToGoals(command.getInvestmentPolicyId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a WealthGoal as Goals to InvestmentPolicy" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove WealthGoal from Goals
-     * @param		command RemoveGoalsFromInvestmentPolicyCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromGoals( RemoveGoalsFromInvestmentPolicyCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvestmentPolicyValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromGoals(command.getInvestmentPolicyId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToGoals(command.getInvestmentPolicyId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a WealthGoal as Goals to InvestmentPolicy" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getInvestmentPolicyId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove WealthGoal from Goals
+		 * @param		command RemoveGoalsFromInvestmentPolicyCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromGoals( RemoveGoalsFromInvestmentPolicyCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentPolicyValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromGoals(command.getInvestmentPolicyId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getInvestmentPolicyId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -460,5 +458,5 @@ extends BaseService {
     private final InvestmentPolicyEntityProjector projector;
 	private InvestmentPolicy investmentPolicy 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentPolicyService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentPolicyService.class);
 }

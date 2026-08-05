@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,308 +93,306 @@ import com.harbormaster.security.*;
  */
 @Service
 public class AdvisoryTeamService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public AdvisoryTeamService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new AdvisoryTeamEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(AdvisoryTeamRepository.class) );
+		}
 
-    	projector 		= new AdvisoryTeamEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(AdvisoryTeamRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		AdvisoryTeam
+		 */
+			public AdvisoryTeam createAdvisoryTeam( CreateAdvisoryTeamCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		AdvisoryTeam
-    */
-	public AdvisoryTeam createAdvisoryTeam( CreateAdvisoryTeamCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			AdvisoryTeam entity = new AdvisoryTeam();
 
-		AdvisoryTeam entity = new AdvisoryTeam();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	AdvisoryTeamValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisoryTeamValidator.getInstance().validate( command );
 
             entity.setAdvisoryTeamId( command.getAdvisoryTeamId() );
             entity.setName( command.getName() );
             entity.setSpecialization( command.getSpecialization() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of AdvisoryTeam {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create AdvisoryTeam - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateAdvisoryTeamCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		AdvisoryTeam
-    */
-    public AdvisoryTeam updateAdvisoryTeam( UpdateAdvisoryTeamCommand command ) 
+				LOGGER.info( "done creating of AdvisoryTeam {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create AdvisoryTeam - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateAdvisoryTeamCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		AdvisoryTeam
+		 */
+		public AdvisoryTeam updateAdvisoryTeam( UpdateAdvisoryTeamCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    AdvisoryTeam entity = new AdvisoryTeam();
+			AdvisoryTeam entity = new AdvisoryTeam();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	AdvisoryTeamValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				AdvisoryTeamValidator.getInstance().validate( command );
 
             entity.setAdvisoryTeamId( command.getAdvisoryTeamId() );
             entity.setName( command.getName() );
             entity.setSpecialization( command.getSpecialization() );
             entity.setAdvisors( command.getAdvisors() );
             entity.setHouseholds( command.getHouseholds() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of AdvisoryTeam {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save AdvisoryTeam - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteAdvisoryTeamCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteAdvisoryTeamCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	AdvisoryTeamValidator.getInstance().validate( command );    
-        
-        	id = command.getAdvisoryTeamId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of AdvisoryTeam {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete AdvisoryTeam using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of AdvisoryTeam {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save AdvisoryTeam - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the AdvisoryTeam via AdvisoryTeamFetchOneSummary
-     * @param 	summary AdvisoryTeamFetchOneSummary 
-     * @return 	AdvisoryTeamFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteAdvisoryTeamCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteAdvisoryTeamCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisoryTeamValidator.getInstance().validate( command );
+
+				id = command.getAdvisoryTeamId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of AdvisoryTeam {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete AdvisoryTeam using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the AdvisoryTeam via AdvisoryTeamFetchOneSummary
+		 * @param 	summary AdvisoryTeamFetchOneSummary
+		 * @return 	AdvisoryTeamFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public AdvisoryTeam getAdvisoryTeam( AdvisoryTeamFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "AdvisoryTeamFetchOneSummary arg cannot be null" );
-    	
-    	AdvisoryTeam entity = null;
-    	UUID id = summary.getAdvisoryTeamId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	AdvisoryTeamValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a AdvisoryTeam using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate AdvisoryTeam with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "AdvisoryTeamFetchOneSummary arg cannot be null" );
+
+			AdvisoryTeam entity = null;
+			UUID id = summary.getAdvisoryTeamId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				AdvisoryTeamValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a AdvisoryTeam using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate AdvisoryTeam with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all AdvisoryTeams
-     *
-     * @return 	List<AdvisoryTeam> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all AdvisoryTeams
+		 *
+		 * @return 	List<AdvisoryTeam>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<AdvisoryTeam> getAllAdvisoryTeam() 
     throws ProcessingException {
-        List<AdvisoryTeam> list = null;
+			List<AdvisoryTeam> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllAdvisoryTeamQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all AdvisoryTeam";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllAdvisoryTeamQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all AdvisoryTeam";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-
-    /**
-     * add Advisor to Advisors 
-     * @param		command AssignAdvisorsToAdvisoryTeamCommand
-     * @exception	ProcessingException
-     */     
-	public void addToAdvisors( AssignAdvisorsToAdvisoryTeamCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisoryTeamValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToAdvisors(command.getAdvisoryTeamId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Advisor as Advisors to AdvisoryTeam" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+			return list;
 		}
 
-	}
 
-    /**
-     * remove Advisor from Advisors
-     * @param		command RemoveAdvisorsFromAdvisoryTeamCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromAdvisors( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws ProcessingException {		
+		/**
+		 * add Advisor to Advisors
+		 * @param		command AssignAdvisorsToAdvisoryTeamCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToAdvisors( AssignAdvisorsToAdvisoryTeamCommand command ) throws ProcessingException {
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisoryTeamValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisoryTeamValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromAdvisors(command.getAdvisoryTeamId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAdvisoryTeamId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add Household to Households 
-     * @param		command AssignHouseholdsToAdvisoryTeamCommand
-     * @exception	ProcessingException
-     */     
-	public void addToHouseholds( AssignHouseholdsToAdvisoryTeamCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisoryTeamValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToHouseholds(command.getAdvisoryTeamId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Household as Households to AdvisoryTeam" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Household from Households
-     * @param		command RemoveHouseholdsFromAdvisoryTeamCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromHouseholds( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AdvisoryTeamValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromHouseholds(command.getAdvisoryTeamId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToAdvisors(command.getAdvisoryTeamId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Advisor as Advisors to AdvisoryTeam" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAdvisoryTeamId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Advisor from Advisors
+		 * @param		command RemoveAdvisorsFromAdvisoryTeamCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromAdvisors( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisoryTeamValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromAdvisors(command.getAdvisoryTeamId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAdvisoryTeamId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
+
+		/**
+		 * add Household to Households
+		 * @param		command AssignHouseholdsToAdvisoryTeamCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToHouseholds( AssignHouseholdsToAdvisoryTeamCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisoryTeamValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToHouseholds(command.getAdvisoryTeamId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Household as Households to AdvisoryTeam" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove Household from Households
+		 * @param		command RemoveHouseholdsFromAdvisoryTeamCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromHouseholds( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AdvisoryTeamValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromHouseholds(command.getAdvisoryTeamId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAdvisoryTeamId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
 
 
@@ -407,5 +405,5 @@ extends BaseService {
     private final AdvisoryTeamEntityProjector projector;
 	private AdvisoryTeam advisoryTeam 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisoryTeamService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisoryTeamService.class);
 }

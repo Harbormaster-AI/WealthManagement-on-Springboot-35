@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>OrderValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -76,6 +78,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class OrderValidator {
 		
 	/**
@@ -83,50 +86,55 @@ public class OrderValidator {
 	 */
 	protected OrderValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public OrderValidator getInstance() {
-		return new OrderValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Order
 	 */
-	public void validate( CreateOrderCommand order )throws Exception {
-		Assert.notNull( order, "CreateOrderCommand should not be null" );
+	public void validate( CreateOrderCommand order )throws ValidationException {
+		if ( order == null )
+			throw new ValidationException( "Order", "validating CreateOrderCommand" );
+
 //		Assert.isNull( order.getOrderId(), "CreateOrderCommand identifier should be null" );
-		Assert.notNull( order.getOrderNumber(), "Field CreateOrderCommand.orderNumber should not be null" );
-		Assert.notNull( order.getQuantity(), "Field CreateOrderCommand.quantity should not be null" );
-		Assert.notNull( order.getLimitPrice(), "Field CreateOrderCommand.limitPrice should not be null" );
+		if ( order.getOrderNumber() == null )
+			throw new ValidationException( "Order", "validating access on getOrderNumber" );
+		if ( order.getQuantity() == null )
+			throw new ValidationException( "Order", "validating access on getQuantity" );
+		if ( order.getLimitPrice() == null )
+			throw new ValidationException( "Order", "validating access on getLimitPrice" );
 	}
 
 	/**
 	 * handles update validation for a Order
 	 */
-	public void validate( UpdateOrderCommand order ) throws Exception {
-		Assert.notNull( order, "UpdateOrderCommand should not be null" );
-		Assert.notNull( order.getOrderId(), "UpdateOrderCommand identifier should not be null" );
-		Assert.notNull( order.getOrderNumber(), "Field UpdateOrderCommand.orderNumber should not be null" );
-		Assert.notNull( order.getQuantity(), "Field UpdateOrderCommand.quantity should not be null" );
-		Assert.notNull( order.getLimitPrice(), "Field UpdateOrderCommand.limitPrice should not be null" );
+	public void validate( UpdateOrderCommand order ) throws ValidationException {
+		if ( order == null )
+			throw new ValidationException( "Order", "validating UpdateOrderCommand" );
+		if ( order.getOrderNumber() == null )
+			throw new ValidationException( "Order", "validating method getOrderNumber" );
+		if ( order.getQuantity() == null )
+			throw new ValidationException( "Order", "validating method getQuantity" );
+		if ( order.getLimitPrice() == null )
+			throw new ValidationException( "Order", "validating method getLimitPrice" );
     }
 
 	/**
 	 * handles delete validation for a Order
 	 */
-    public void validate( DeleteOrderCommand order ) throws Exception {
-		Assert.notNull( order, "{commandAlias} should not be null" );
-		Assert.notNull( order.getOrderId(), "DeleteOrderCommand identifier should not be null" );
+    public void validate( DeleteOrderCommand order ) throws ValidationException {
+		if ( order == null )
+			throw new ValidationException( "Order", "validating DeleteOrderCommand" );
+
+		if ( order.getLimitPrice() == null )
+			throw new ValidationException( "Order", "validating getLimitPrice" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Order
 	 */
-	public void validate( OrderFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "OrderFetchOneSummary should not be null" );
-		Assert.notNull( summary.getOrderId(), "OrderFetchOneSummary identifier should not be null" );
+	public void validate( OrderFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Order", "validating summary );
 	}
 
 	/**
@@ -134,10 +142,16 @@ public class OrderValidator {
 	 * 
 	 * @param	command AssignAccountToOrderCommand
 	 */	
-	public void validate( AssignAccountToOrderCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "AssignAccountToOrderCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToOrderCommand assignment should not be null" );
+	public void validate( AssignAccountToOrderCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Order", "validating AssignAccountToOrderCommand" );
+
+		if ( command.getOrderId() == null )
+			throw new ValidationException( "Order", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Order", "validating assignment" );
+
 	}
 
 	/**
@@ -145,19 +159,28 @@ public class OrderValidator {
 	 * 
 	 * @param	command UnAssignAccountFromOrderCommand
 	 */	
-	public void validate( UnAssignAccountFromOrderCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "UnAssignAccountFromOrderCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromOrderCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Order", "validating UnAssignAccountFromOrderCommand" );
+
+		if ( command.getOrderId() == null ) }
+			throw new ValidationException( "Order", "validating identity on UnAssignAccountFromOrderCommand" );
 	}
 	/**
 	 * handles assign Security validation for a Order
 	 * 
 	 * @param	command AssignSecurityToOrderCommand
 	 */	
-	public void validate( AssignSecurityToOrderCommand command ) throws Exception {
-		Assert.notNull( command, "AssignSecurityToOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "AssignSecurityToOrderCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignSecurityToOrderCommand assignment should not be null" );
+	public void validate( AssignSecurityToOrderCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Order", "validating AssignSecurityToOrderCommand" );
+
+		if ( command.getOrderId() == null )
+			throw new ValidationException( "Order", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Order", "validating assignment" );
+
 	}
 
 	/**
@@ -165,19 +188,28 @@ public class OrderValidator {
 	 * 
 	 * @param	command UnAssignSecurityFromOrderCommand
 	 */	
-	public void validate( UnAssignSecurityFromOrderCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignSecurityFromOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "UnAssignSecurityFromOrderCommand identifier should not be null" );
+	public void validate( UnAssignSecurityFromOrderCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Order", "validating UnAssignSecurityFromOrderCommand" );
+
+		if ( command.getOrderId() == null ) }
+			throw new ValidationException( "Order", "validating identity on UnAssignSecurityFromOrderCommand" );
 	}
 	/**
 	 * handles assign Advisor validation for a Order
 	 * 
 	 * @param	command AssignAdvisorToOrderCommand
 	 */	
-	public void validate( AssignAdvisorToOrderCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorToOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "AssignAdvisorToOrderCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisorToOrderCommand assignment should not be null" );
+	public void validate( AssignAdvisorToOrderCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Order", "validating AssignAdvisorToOrderCommand" );
+
+		if ( command.getOrderId() == null )
+			throw new ValidationException( "Order", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Order", "validating assignment" );
+
 	}
 
 	/**
@@ -185,9 +217,12 @@ public class OrderValidator {
 	 * 
 	 * @param	command UnAssignAdvisorFromOrderCommand
 	 */	
-	public void validate( UnAssignAdvisorFromOrderCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisorFromOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "UnAssignAdvisorFromOrderCommand identifier should not be null" );
+	public void validate( UnAssignAdvisorFromOrderCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Order", "validating UnAssignAdvisorFromOrderCommand" );
+
+		if ( command.getOrderId() == null ) }
+			throw new ValidationException( "Order", "validating identity on UnAssignAdvisorFromOrderCommand" );
 	}
 
 	/**
@@ -195,10 +230,16 @@ public class OrderValidator {
 	 * 
 	 * @param	command AssignAllocationsToOrderCommand
 	 */	
-	public void validate( AssignAllocationsToOrderCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAllocationsToOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "AssignAllocationsToOrderCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAllocationsToOrderCommand addTo attribute should not be null" );
+	public void validate( AssignAllocationsToOrderCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Order", "validating AssignAllocationsToOrderCommand" );
+
+		if ( command.getOrderId() == null ) }
+			throw new ValidationException( "Order", "validating identity on AssignAllocationsToOrderCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Order", "validating addTo attribute on AssignAllocationsToOrderCommand" );
+
 	}
 
 	/**
@@ -206,11 +247,18 @@ public class OrderValidator {
 	 * 
 	 * @param	command RemoveAllocationsFromOrderCommand
 	 */	
-	public void validate( RemoveAllocationsFromOrderCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAllocationsFromOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "RemoveAllocationsFromOrderCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAllocationsFromOrderCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getOrderAllocationId(), "RemoveAllocationsFromOrderCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAllocationsFromOrderCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Order", "validating RemoveAllocationsFromOrderCommand");
+
+		if( command.getOrderId() == null )
+			throw new ValidationException"Order", "validating id on RemoveAllocationsFromOrderCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Order", "validating remove from";
+
+		if( command.getRemoveFrom().getOrderAllocationId() == null )
+			throw new ValidationException"Order", "validating id on remove from}";
 	}
 	
 	/**
@@ -218,10 +266,16 @@ public class OrderValidator {
 	 * 
 	 * @param	command AssignTradesToOrderCommand
 	 */	
-	public void validate( AssignTradesToOrderCommand command ) throws Exception {
-		Assert.notNull( command, "AssignTradesToOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "AssignTradesToOrderCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignTradesToOrderCommand addTo attribute should not be null" );
+	public void validate( AssignTradesToOrderCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Order", "validating AssignTradesToOrderCommand" );
+
+		if ( command.getOrderId() == null ) }
+			throw new ValidationException( "Order", "validating identity on AssignTradesToOrderCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Order", "validating addTo attribute on AssignTradesToOrderCommand" );
+
 	}
 
 	/**
@@ -229,11 +283,18 @@ public class OrderValidator {
 	 * 
 	 * @param	command RemoveTradesFromOrderCommand
 	 */	
-	public void validate( RemoveTradesFromOrderCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveTradesFromOrderCommand should not be null" );
-		Assert.notNull( command.getOrderId(), "RemoveTradesFromOrderCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveTradesFromOrderCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getTradeId(), "RemoveTradesFromOrderCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveTradesFromOrderCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Order", "validating RemoveTradesFromOrderCommand");
+
+		if( command.getOrderId() == null )
+			throw new ValidationException"Order", "validating id on RemoveTradesFromOrderCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Order", "validating remove from";
+
+		if( command.getRemoveFrom().getTradeId() == null )
+			throw new ValidationException"Order", "validating id on remove from}";
 	}
 	
 

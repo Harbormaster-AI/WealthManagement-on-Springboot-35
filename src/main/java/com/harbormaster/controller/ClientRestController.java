@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class ClientRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Client create( @RequestBody(required=true) CreateClientCommand command ) {
     	Client entity = null;
-		try {       
-        	
-			entity = service.createClient( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createClient( command );
+		LOGGER.info( "Successfully created Client with Id " + entity.getClientId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class ClientRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Client update( @RequestBody(required=true) UpdateClientCommand command ) {
 		Client entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateClientCommand
-			// -----------------------------------------------
-			entity = service.updateClient(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "ClientController:update() - successfully update Client - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateClient(command);
+		LOGGER.info( "Successfully updated Client with Id " + command.getClientId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class ClientRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteClientCommand command ) {                
-    	try {
-        	ClientService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Client with key " + command.getClientId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Client with Id " + command.getClientId()  );
+	}
 	
     /**
      * Handles loading a Client using a UUID
@@ -150,16 +133,10 @@ public class ClientRestController extends BaseSpringRestController {
      * @return		Client
      */    
     @GetMapping("/load")
-    public Client load( @RequestParam(required=true) UUID uuid ) {    	
-    	Client entity = null;
+    public Client load( @RequestParam(required=true) UUID uuid ) {
+    	Client entity = service.getClient( new ClientFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getClient( new ClientFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Client using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Client with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class ClientRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Client> loadAll() {                
     	List<Client> clientList = null;
-        
-    	try {
-            // load the Client
-            clientList = service.getAllClient();
-            
-            if ( clientList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Clients" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Clients ", exc );
-        	return null;
-        }
+
+		clientList = service.getAllClient();
+		LOGGER.log( Level.INFO,  "successfully loaded all Clients" );
 
         return clientList;
                             
@@ -194,12 +162,8 @@ public class ClientRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToClientCommand command ) {
-		try {
-			service.assignHousehold( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
-        }
+		service.assignHousehold( command );
+		LOGGER.info( "Successfully assigned Household with Id " + command.getClientId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class ClientRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromClientCommand command ) {
-		try {
-			service.unAssignHousehold( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
-		}
+		service.unAssignHousehold( command );
+		LOGGER.info( "Successfully unassigned Household with Id " + command.getClientId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class ClientRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignKycRecord")
 	public void assignKycRecord( @RequestBody AssignKycRecordToClientCommand command ) {
-		try {
-			service.assignKycRecord( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign KycRecord", exc );
-        }
+		service.assignKycRecord( command );
+		LOGGER.info( "Successfully assigned KycRecord with Id " + command.getClientId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class ClientRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignKycRecord")
 	public void unAssignKycRecord( @RequestBody(required=true)  UnAssignKycRecordFromClientCommand command ) {
-		try {
-			service.unAssignKycRecord( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign KycRecord", exc );
-		}
+		service.unAssignKycRecord( command );
+		LOGGER.info( "Successfully unassigned KycRecord with Id " + command.getClientId()  );
 	}
 	
 
@@ -251,12 +203,8 @@ public class ClientRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAccounts")
 	public void addToAccounts( @RequestBody(required=true) AssignAccountsToClientCommand command ) {
-		try {
-			service.addToAccounts( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Accounts", exc );
-		}
+		service.addToAccounts( command );
+		LOGGER.info( "Successfully added Accounts with Id " + command.getClientId()  );
 	}
 
     /**
@@ -266,12 +214,8 @@ public class ClientRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAccounts")
 	public void removeFromAccounts( 	@RequestBody(required=true) RemoveAccountsFromClientCommand command )
 	{		
-		try {
-			service.removeFromAccounts( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Accounts", exc );
-		}
+		service.removeFromAccounts( command );
+		LOGGER.info( "Successfully removed Accounts with Id " + command.getClientId()  );
 	}
 
     /**
@@ -280,12 +224,8 @@ public class ClientRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToDocuments")
 	public void addToDocuments( @RequestBody(required=true) AssignDocumentsToClientCommand command ) {
-		try {
-			service.addToDocuments( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Documents", exc );
-		}
+		service.addToDocuments( command );
+		LOGGER.info( "Successfully added Documents with Id " + command.getClientId()  );
 	}
 
     /**
@@ -295,12 +235,8 @@ public class ClientRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromDocuments")
 	public void removeFromDocuments( 	@RequestBody(required=true) RemoveDocumentsFromClientCommand command )
 	{		
-		try {
-			service.removeFromDocuments( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Documents", exc );
-		}
+		service.removeFromDocuments( command );
+		LOGGER.info( "Successfully removed Documents with Id " + command.getClientId()  );
 	}
 
     /**
@@ -309,12 +245,8 @@ public class ClientRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToBeneficiaries")
 	public void addToBeneficiaries( @RequestBody(required=true) AssignBeneficiariesToClientCommand command ) {
-		try {
-			service.addToBeneficiaries( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Beneficiaries", exc );
-		}
+		service.addToBeneficiaries( command );
+		LOGGER.info( "Successfully added Beneficiaries with Id " + command.getClientId()  );
 	}
 
     /**
@@ -324,12 +256,8 @@ public class ClientRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromBeneficiaries")
 	public void removeFromBeneficiaries( 	@RequestBody(required=true) RemoveBeneficiariesFromClientCommand command )
 	{		
-		try {
-			service.removeFromBeneficiaries( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Beneficiaries", exc );
-		}
+		service.removeFromBeneficiaries( command );
+		LOGGER.info( "Successfully removed Beneficiaries with Id " + command.getClientId()  );
 	}
 
     /**
@@ -338,12 +266,8 @@ public class ClientRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAgreements")
 	public void addToAgreements( @RequestBody(required=true) AssignAgreementsToClientCommand command ) {
-		try {
-			service.addToAgreements( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Agreements", exc );
-		}
+		service.addToAgreements( command );
+		LOGGER.info( "Successfully added Agreements with Id " + command.getClientId()  );
 	}
 
     /**
@@ -353,12 +277,8 @@ public class ClientRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAgreements")
 	public void removeFromAgreements( 	@RequestBody(required=true) RemoveAgreementsFromClientCommand command )
 	{		
-		try {
-			service.removeFromAgreements( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Agreements", exc );
-		}
+		service.removeFromAgreements( command );
+		LOGGER.info( "Successfully removed Agreements with Id " + command.getClientId()  );
 	}
 
 
@@ -369,6 +289,6 @@ public class ClientRestController extends BaseSpringRestController {
 //************************************************************************
     protected Client client = null;
 	protected ClientService service = null;
-    private static final Logger LOGGER = Logger.getLogger(ClientRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientRestController.class.getName());
     
 }

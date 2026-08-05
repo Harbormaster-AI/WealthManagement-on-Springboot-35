@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>WealthGoalValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class WealthGoalValidator {
 		
 	/**
@@ -75,52 +78,59 @@ public class WealthGoalValidator {
 	 */
 	protected WealthGoalValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public WealthGoalValidator getInstance() {
-		return new WealthGoalValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a WealthGoal
 	 */
-	public void validate( CreateWealthGoalCommand wealthGoal )throws Exception {
-		Assert.notNull( wealthGoal, "CreateWealthGoalCommand should not be null" );
+	public void validate( CreateWealthGoalCommand wealthGoal )throws ValidationException {
+		if ( wealthGoal == null )
+			throw new ValidationException( "WealthGoal", "validating CreateWealthGoalCommand" );
+
 //		Assert.isNull( wealthGoal.getWealthGoalId(), "CreateWealthGoalCommand identifier should be null" );
-		Assert.notNull( wealthGoal.getName(), "Field CreateWealthGoalCommand.name should not be null" );
-		Assert.notNull( wealthGoal.getTargetAmount(), "Field CreateWealthGoalCommand.targetAmount should not be null" );
-		Assert.notNull( wealthGoal.getTargetDate(), "Field CreateWealthGoalCommand.targetDate should not be null" );
-		Assert.notNull( wealthGoal.getPriority(), "Field CreateWealthGoalCommand.priority should not be null" );
+		if ( wealthGoal.getName() == null )
+			throw new ValidationException( "WealthGoal", "validating access on getName" );
+		if ( wealthGoal.getTargetAmount() == null )
+			throw new ValidationException( "WealthGoal", "validating access on getTargetAmount" );
+		if ( wealthGoal.getTargetDate() == null )
+			throw new ValidationException( "WealthGoal", "validating access on getTargetDate" );
+		if ( wealthGoal.getPriority() == null )
+			throw new ValidationException( "WealthGoal", "validating access on getPriority" );
 	}
 
 	/**
 	 * handles update validation for a WealthGoal
 	 */
-	public void validate( UpdateWealthGoalCommand wealthGoal ) throws Exception {
-		Assert.notNull( wealthGoal, "UpdateWealthGoalCommand should not be null" );
-		Assert.notNull( wealthGoal.getWealthGoalId(), "UpdateWealthGoalCommand identifier should not be null" );
-		Assert.notNull( wealthGoal.getName(), "Field UpdateWealthGoalCommand.name should not be null" );
-		Assert.notNull( wealthGoal.getTargetAmount(), "Field UpdateWealthGoalCommand.targetAmount should not be null" );
-		Assert.notNull( wealthGoal.getTargetDate(), "Field UpdateWealthGoalCommand.targetDate should not be null" );
-		Assert.notNull( wealthGoal.getPriority(), "Field UpdateWealthGoalCommand.priority should not be null" );
+	public void validate( UpdateWealthGoalCommand wealthGoal ) throws ValidationException {
+		if ( wealthGoal == null )
+			throw new ValidationException( "WealthGoal", "validating UpdateWealthGoalCommand" );
+		if ( wealthGoal.getName() == null )
+			throw new ValidationException( "WealthGoal", "validating method getName" );
+		if ( wealthGoal.getTargetAmount() == null )
+			throw new ValidationException( "WealthGoal", "validating method getTargetAmount" );
+		if ( wealthGoal.getTargetDate() == null )
+			throw new ValidationException( "WealthGoal", "validating method getTargetDate" );
+		if ( wealthGoal.getPriority() == null )
+			throw new ValidationException( "WealthGoal", "validating method getPriority" );
     }
 
 	/**
 	 * handles delete validation for a WealthGoal
 	 */
-    public void validate( DeleteWealthGoalCommand wealthGoal ) throws Exception {
-		Assert.notNull( wealthGoal, "{commandAlias} should not be null" );
-		Assert.notNull( wealthGoal.getWealthGoalId(), "DeleteWealthGoalCommand identifier should not be null" );
+    public void validate( DeleteWealthGoalCommand wealthGoal ) throws ValidationException {
+		if ( wealthGoal == null )
+			throw new ValidationException( "WealthGoal", "validating DeleteWealthGoalCommand" );
+
+		if ( wealthGoal.getPriority() == null )
+			throw new ValidationException( "WealthGoal", "validating getPriority" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a WealthGoal
 	 */
-	public void validate( WealthGoalFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "WealthGoalFetchOneSummary should not be null" );
-		Assert.notNull( summary.getWealthGoalId(), "WealthGoalFetchOneSummary identifier should not be null" );
+	public void validate( WealthGoalFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "WealthGoal", "validating summary );
 	}
 
 	/**
@@ -128,10 +138,16 @@ public class WealthGoalValidator {
 	 * 
 	 * @param	command AssignHouseholdToWealthGoalCommand
 	 */	
-	public void validate( AssignHouseholdToWealthGoalCommand command ) throws Exception {
-		Assert.notNull( command, "AssignHouseholdToWealthGoalCommand should not be null" );
-		Assert.notNull( command.getWealthGoalId(), "AssignHouseholdToWealthGoalCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignHouseholdToWealthGoalCommand assignment should not be null" );
+	public void validate( AssignHouseholdToWealthGoalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthGoal", "validating AssignHouseholdToWealthGoalCommand" );
+
+		if ( command.getWealthGoalId() == null )
+			throw new ValidationException( "WealthGoal", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "WealthGoal", "validating assignment" );
+
 	}
 
 	/**
@@ -139,19 +155,28 @@ public class WealthGoalValidator {
 	 * 
 	 * @param	command UnAssignHouseholdFromWealthGoalCommand
 	 */	
-	public void validate( UnAssignHouseholdFromWealthGoalCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignHouseholdFromWealthGoalCommand should not be null" );
-		Assert.notNull( command.getWealthGoalId(), "UnAssignHouseholdFromWealthGoalCommand identifier should not be null" );
+	public void validate( UnAssignHouseholdFromWealthGoalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthGoal", "validating UnAssignHouseholdFromWealthGoalCommand" );
+
+		if ( command.getWealthGoalId() == null ) }
+			throw new ValidationException( "WealthGoal", "validating identity on UnAssignHouseholdFromWealthGoalCommand" );
 	}
 	/**
 	 * handles assign Portfolio validation for a WealthGoal
 	 * 
 	 * @param	command AssignPortfolioToWealthGoalCommand
 	 */	
-	public void validate( AssignPortfolioToWealthGoalCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfolioToWealthGoalCommand should not be null" );
-		Assert.notNull( command.getWealthGoalId(), "AssignPortfolioToWealthGoalCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPortfolioToWealthGoalCommand assignment should not be null" );
+	public void validate( AssignPortfolioToWealthGoalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthGoal", "validating AssignPortfolioToWealthGoalCommand" );
+
+		if ( command.getWealthGoalId() == null )
+			throw new ValidationException( "WealthGoal", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "WealthGoal", "validating assignment" );
+
 	}
 
 	/**
@@ -159,19 +184,28 @@ public class WealthGoalValidator {
 	 * 
 	 * @param	command UnAssignPortfolioFromWealthGoalCommand
 	 */	
-	public void validate( UnAssignPortfolioFromWealthGoalCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPortfolioFromWealthGoalCommand should not be null" );
-		Assert.notNull( command.getWealthGoalId(), "UnAssignPortfolioFromWealthGoalCommand identifier should not be null" );
+	public void validate( UnAssignPortfolioFromWealthGoalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthGoal", "validating UnAssignPortfolioFromWealthGoalCommand" );
+
+		if ( command.getWealthGoalId() == null ) }
+			throw new ValidationException( "WealthGoal", "validating identity on UnAssignPortfolioFromWealthGoalCommand" );
 	}
 	/**
 	 * handles assign InvestmentPolicy validation for a WealthGoal
 	 * 
 	 * @param	command AssignInvestmentPolicyToWealthGoalCommand
 	 */	
-	public void validate( AssignInvestmentPolicyToWealthGoalCommand command ) throws Exception {
-		Assert.notNull( command, "AssignInvestmentPolicyToWealthGoalCommand should not be null" );
-		Assert.notNull( command.getWealthGoalId(), "AssignInvestmentPolicyToWealthGoalCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignInvestmentPolicyToWealthGoalCommand assignment should not be null" );
+	public void validate( AssignInvestmentPolicyToWealthGoalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthGoal", "validating AssignInvestmentPolicyToWealthGoalCommand" );
+
+		if ( command.getWealthGoalId() == null )
+			throw new ValidationException( "WealthGoal", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "WealthGoal", "validating assignment" );
+
 	}
 
 	/**
@@ -179,9 +213,12 @@ public class WealthGoalValidator {
 	 * 
 	 * @param	command UnAssignInvestmentPolicyFromWealthGoalCommand
 	 */	
-	public void validate( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignInvestmentPolicyFromWealthGoalCommand should not be null" );
-		Assert.notNull( command.getWealthGoalId(), "UnAssignInvestmentPolicyFromWealthGoalCommand identifier should not be null" );
+	public void validate( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthGoal", "validating UnAssignInvestmentPolicyFromWealthGoalCommand" );
+
+		if ( command.getWealthGoalId() == null ) }
+			throw new ValidationException( "WealthGoal", "validating identity on UnAssignInvestmentPolicyFromWealthGoalCommand" );
 	}
 
 

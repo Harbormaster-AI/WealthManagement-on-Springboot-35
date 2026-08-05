@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class SecurityService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public SecurityService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new SecurityEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(SecurityRepository.class) );
+		}
 
-    	projector 		= new SecurityEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(SecurityRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Security
+		 */
+			public Security createSecurity( CreateSecurityCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Security
-    */
-	public Security createSecurity( CreateSecurityCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Security entity = new Security();
 
-		Security entity = new Security();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	SecurityValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
 
             entity.setSecurityId( command.getSecurityId() );
             entity.setTicker( command.getTicker() );
@@ -139,44 +137,44 @@ extends BaseService {
             entity.setExpenseRatio( command.getExpenseRatio() );
             entity.setSecurityType( command.getSecurityType() );
             entity.setAssetClass( command.getAssetClass() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Security {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Security - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateSecurityCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Security
-    */
-    public Security updateSecurity( UpdateSecurityCommand command ) 
+				LOGGER.info( "done creating of Security {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Security - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateSecurityCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Security
+		 */
+		public Security updateSecurity( UpdateSecurityCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Security entity = new Security();
+			Security entity = new Security();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	SecurityValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
 
             entity.setSecurityId( command.getSecurityId() );
             entity.setTicker( command.getTicker() );
@@ -190,276 +188,276 @@ extends BaseService {
             entity.setBenchmarks( command.getBenchmarks() );
             entity.setSecurityType( command.getSecurityType() );
             entity.setAssetClass( command.getAssetClass() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Security {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Security - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteSecurityCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteSecurityCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	SecurityValidator.getInstance().validate( command );    
-        
-        	id = command.getSecurityId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Security {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Security using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Security {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Security - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Security via SecurityFetchOneSummary
-     * @param 	summary SecurityFetchOneSummary 
-     * @return 	SecurityFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteSecurityCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteSecurityCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
+
+				id = command.getSecurityId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Security {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Security using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Security via SecurityFetchOneSummary
+		 * @param 	summary SecurityFetchOneSummary
+		 * @return 	SecurityFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Security getSecurity( SecurityFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "SecurityFetchOneSummary arg cannot be null" );
-    	
-    	Security entity = null;
-    	UUID id = summary.getSecurityId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	SecurityValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Security using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Security with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "SecurityFetchOneSummary arg cannot be null" );
+
+			Security entity = null;
+			UUID id = summary.getSecurityId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Security using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Security with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Securitys
-     *
-     * @return 	List<Security> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Securitys
+		 *
+		 * @return 	List<Security>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Security> getAllSecurity() 
     throws ProcessingException {
-        List<Security> list = null;
+			List<Security> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllSecurityQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Security";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllSecurityQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Security";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-
-    /**
-     * add CorporateAction to CorporateActions 
-     * @param		command AssignCorporateActionsToSecurityCommand
-     * @exception	ProcessingException
-     */     
-	public void addToCorporateActions( AssignCorporateActionsToSecurityCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	SecurityValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToCorporateActions(command.getSecurityId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a CorporateAction as CorporateActions to Security" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+			return list;
 		}
 
-	}
 
-    /**
-     * remove CorporateAction from CorporateActions
-     * @param		command RemoveCorporateActionsFromSecurityCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromCorporateActions( RemoveCorporateActionsFromSecurityCommand command ) throws ProcessingException {		
+		/**
+		 * add CorporateAction to CorporateActions
+		 * @param		command AssignCorporateActionsToSecurityCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToCorporateActions( AssignCorporateActionsToSecurityCommand command ) throws ProcessingException {
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	SecurityValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromCorporateActions(command.getSecurityId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getSecurityId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add MarketPrice to Prices 
-     * @param		command AssignPricesToSecurityCommand
-     * @exception	ProcessingException
-     */     
-	public void addToPrices( AssignPricesToSecurityCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	SecurityValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToPrices(command.getSecurityId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a MarketPrice as Prices to Security" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove MarketPrice from Prices
-     * @param		command RemovePricesFromSecurityCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromPrices( RemovePricesFromSecurityCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	SecurityValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromPrices(command.getSecurityId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToCorporateActions(command.getSecurityId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a CorporateAction as CorporateActions to Security" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getSecurityId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Benchmark to Benchmarks 
-     * @param		command AssignBenchmarksToSecurityCommand
-     * @exception	ProcessingException
-     */     
-	public void addToBenchmarks( AssignBenchmarksToSecurityCommand command ) throws ProcessingException {
+		/**
+		 * remove CorporateAction from CorporateActions
+		 * @param		command RemoveCorporateActionsFromSecurityCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromCorporateActions( RemoveCorporateActionsFromSecurityCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	SecurityValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToBenchmarks(command.getSecurityId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Benchmark as Benchmarks to Security" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromCorporateActions(command.getSecurityId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getSecurityId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add MarketPrice to Prices
+		 * @param		command AssignPricesToSecurityCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToPrices( AssignPricesToSecurityCommand command ) throws ProcessingException {
 
-    /**
-     * remove Benchmark from Benchmarks
-     * @param		command RemoveBenchmarksFromSecurityCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromBenchmarks( RemoveBenchmarksFromSecurityCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	SecurityValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromBenchmarks(command.getSecurityId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToPrices(command.getSecurityId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a MarketPrice as Prices to Security" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getSecurityId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove MarketPrice from Prices
+		 * @param		command RemovePricesFromSecurityCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromPrices( RemovePricesFromSecurityCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromPrices(command.getSecurityId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getSecurityId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
+
+		/**
+		 * add Benchmark to Benchmarks
+		 * @param		command AssignBenchmarksToSecurityCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToBenchmarks( AssignBenchmarksToSecurityCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToBenchmarks(command.getSecurityId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Benchmark as Benchmarks to Security" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove Benchmark from Benchmarks
+		 * @param		command RemoveBenchmarksFromSecurityCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromBenchmarks( RemoveBenchmarksFromSecurityCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				SecurityValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromBenchmarks(command.getSecurityId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getSecurityId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
 
 
@@ -472,5 +470,5 @@ extends BaseService {
     private final SecurityEntityProjector projector;
 	private Security security 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(SecurityService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(SecurityService.class);
 }

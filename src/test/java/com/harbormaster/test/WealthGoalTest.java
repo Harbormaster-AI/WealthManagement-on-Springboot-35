@@ -49,245 +49,245 @@ public class WealthGoalTest
     public WealthGoalTest(WealthGoalService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a WealthGoal, through a WealthGoalTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on WealthGoalTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on WealthGoalTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on WealthGoalTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on WealthGoalTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new WealthGoal.
      *
      * @return    WealthGoal
      */
     public WealthGoal testCreate() throws Throwable {
-        WealthGoal entity = null;
+    WealthGoal entity = null;
 
-        LOGGER.info( "WealthGoalTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a WealthGoal");
+    LOGGER.info( "WealthGoalTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a WealthGoal");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a WealthGoal" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a WealthGoal" );
 
-        try {            
-            entity = service.createWealthGoal( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createWealthGoal( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getWealthGoalId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getWealthGoalId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a WealthGoal with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a WealthGoal with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a WealthGoal.
      *
-     * @return    WealthGoal  
+     * @return    WealthGoal
      */
     public WealthGoal testRead() throws Throwable {
-        LOGGER.info( "WealthGoalTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created WealthGoal" );
+    LOGGER.info( "WealthGoalTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created WealthGoal" );
 
-        WealthGoal entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read WealthGoal with primary key" );
-        msg.append( theId );
+    WealthGoal entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read WealthGoal with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getWealthGoal( new WealthGoalFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getWealthGoal( new WealthGoalFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getWealthGoalId();
-            
-            LOGGER.info( "-- Successfully found WealthGoal " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getWealthGoalId();
+
+        LOGGER.info( "-- Successfully found WealthGoal " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a WealthGoal.
      *
      * @return    WealthGoal
      */
     public WealthGoal testUpdate() throws Throwable {
-        LOGGER.info( "WealthGoalTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a WealthGoal." );
+    LOGGER.info( "WealthGoalTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a WealthGoal." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a WealthGoal : " );        
-        WealthGoal entity = null;
-    
-        try {            
-        	UpdateWealthGoalCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setWealthGoalId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a WealthGoal : " );
+    WealthGoal entity = null;
 
-            LOGGER.info( "-- Now updating the created WealthGoal." );
-            
-            entity = service.updateWealthGoal( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateWealthGoalCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved WealthGoal - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setWealthGoalId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created WealthGoal." );
+
+        entity = service.updateWealthGoal( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved WealthGoal - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a WealthGoal.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "WealthGoalTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created WealthGoal." );
-        
-        try {
-        	DeleteWealthGoalCommand deleteCommand = new DeleteWealthGoalCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted WealthGoal with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete WealthGoal with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "WealthGoalTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created WealthGoal." );
 
-    /** 
+    try {
+        DeleteWealthGoalCommand deleteCommand = new DeleteWealthGoalCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted WealthGoal with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete WealthGoal with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all WealthGoals.
      *
      * @return    Collection
      */
-    public List<WealthGoal> testGetAll() throws Throwable {    
-        LOGGER.info( "WealthGoalTest:testGetAll() - Retrieving Collection of WealthGoals:" );
+    public List<WealthGoal> testGetAll() throws Throwable {
+    LOGGER.info( "WealthGoalTest:testGetAll() - Retrieving Collection of WealthGoals:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all WealthGoal : " );        
-        List<WealthGoal> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all WealthGoal : " );
+    List<WealthGoal> collection  = null;
 
-        try {
-            // call the static get method on the WealthGoalService
-            collection = service.getAllWealthGoal();
+    try {
+        // call the static get method on the WealthGoalService
+        collection = service.getAllWealthGoal();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            WealthGoal currEntity  = null;            
-	            Iterator<WealthGoal> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getWealthGoalId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            WealthGoal currEntity  = null;
+            Iterator<WealthGoal> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getWealthGoalId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public WealthGoalTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated WealthGoal
-	 * 
-	 * @return CreateWealthGoalCommand alias
-	 */
+
+    /**
+     * Returns a new populated WealthGoal
+     *
+     * @return CreateWealthGoalCommand alias
+     */
 	protected CreateWealthGoalCommand generateNewCommand() {
-        CreateWealthGoalCommand command = new CreateWealthGoalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),   new Date(),  0,  GoalType.values()[0] );
-		
-		return( command );
-	}
+    CreateWealthGoalCommand command = new CreateWealthGoalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),   new Date(),  0,  GoalType.values()[0] );
 
-		/**
-		 * Returns a new populated WealthGoal
-		 * 
-		 * @return UpdateWealthGoalCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated WealthGoal
+     *
+     * @return UpdateWealthGoalCommand alias
+     */
 	protected UpdateWealthGoalCommand generateUpdateCommand() {
-	        UpdateWealthGoalCommand command = new UpdateWealthGoalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),   new Date(),  0,  null,  null,  null,  GoalType.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateWealthGoalCommand command = new UpdateWealthGoalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),   new Date(),  0,  null,  null,  null,  GoalType.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected WealthGoalService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(WealthGoal.class.getName());
 
 }

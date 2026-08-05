@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>AgreementValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class AgreementValidator {
 		
 	/**
@@ -77,46 +80,47 @@ public class AgreementValidator {
 	 */
 	protected AgreementValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public AgreementValidator getInstance() {
-		return new AgreementValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Agreement
 	 */
-	public void validate( CreateAgreementCommand agreement )throws Exception {
-		Assert.notNull( agreement, "CreateAgreementCommand should not be null" );
+	public void validate( CreateAgreementCommand agreement )throws ValidationException {
+		if ( agreement == null )
+			throw new ValidationException( "Agreement", "validating CreateAgreementCommand" );
+
 //		Assert.isNull( agreement.getAgreementId(), "CreateAgreementCommand identifier should be null" );
-		Assert.notNull( agreement.getEffectiveDate(), "Field CreateAgreementCommand.effectiveDate should not be null" );
+		if ( agreement.getEffectiveDate() == null )
+			throw new ValidationException( "Agreement", "validating access on getEffectiveDate" );
 	}
 
 	/**
 	 * handles update validation for a Agreement
 	 */
-	public void validate( UpdateAgreementCommand agreement ) throws Exception {
-		Assert.notNull( agreement, "UpdateAgreementCommand should not be null" );
-		Assert.notNull( agreement.getAgreementId(), "UpdateAgreementCommand identifier should not be null" );
-		Assert.notNull( agreement.getEffectiveDate(), "Field UpdateAgreementCommand.effectiveDate should not be null" );
+	public void validate( UpdateAgreementCommand agreement ) throws ValidationException {
+		if ( agreement == null )
+			throw new ValidationException( "Agreement", "validating UpdateAgreementCommand" );
+		if ( agreement.getEffectiveDate() == null )
+			throw new ValidationException( "Agreement", "validating method getEffectiveDate" );
     }
 
 	/**
 	 * handles delete validation for a Agreement
 	 */
-    public void validate( DeleteAgreementCommand agreement ) throws Exception {
-		Assert.notNull( agreement, "{commandAlias} should not be null" );
-		Assert.notNull( agreement.getAgreementId(), "DeleteAgreementCommand identifier should not be null" );
+    public void validate( DeleteAgreementCommand agreement ) throws ValidationException {
+		if ( agreement == null )
+			throw new ValidationException( "Agreement", "validating DeleteAgreementCommand" );
+
+		if ( agreement.getEffectiveDate() == null )
+			throw new ValidationException( "Agreement", "validating getEffectiveDate" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Agreement
 	 */
-	public void validate( AgreementFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "AgreementFetchOneSummary should not be null" );
-		Assert.notNull( summary.getAgreementId(), "AgreementFetchOneSummary identifier should not be null" );
+	public void validate( AgreementFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Agreement", "validating summary );
 	}
 
 	/**
@@ -124,10 +128,16 @@ public class AgreementValidator {
 	 * 
 	 * @param	command AssignClientToAgreementCommand
 	 */	
-	public void validate( AssignClientToAgreementCommand command ) throws Exception {
-		Assert.notNull( command, "AssignClientToAgreementCommand should not be null" );
-		Assert.notNull( command.getAgreementId(), "AssignClientToAgreementCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignClientToAgreementCommand assignment should not be null" );
+	public void validate( AssignClientToAgreementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Agreement", "validating AssignClientToAgreementCommand" );
+
+		if ( command.getAgreementId() == null )
+			throw new ValidationException( "Agreement", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Agreement", "validating assignment" );
+
 	}
 
 	/**
@@ -135,19 +145,28 @@ public class AgreementValidator {
 	 * 
 	 * @param	command UnAssignClientFromAgreementCommand
 	 */	
-	public void validate( UnAssignClientFromAgreementCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignClientFromAgreementCommand should not be null" );
-		Assert.notNull( command.getAgreementId(), "UnAssignClientFromAgreementCommand identifier should not be null" );
+	public void validate( UnAssignClientFromAgreementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Agreement", "validating UnAssignClientFromAgreementCommand" );
+
+		if ( command.getAgreementId() == null ) }
+			throw new ValidationException( "Agreement", "validating identity on UnAssignClientFromAgreementCommand" );
 	}
 	/**
 	 * handles assign Account validation for a Agreement
 	 * 
 	 * @param	command AssignAccountToAgreementCommand
 	 */	
-	public void validate( AssignAccountToAgreementCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToAgreementCommand should not be null" );
-		Assert.notNull( command.getAgreementId(), "AssignAccountToAgreementCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToAgreementCommand assignment should not be null" );
+	public void validate( AssignAccountToAgreementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Agreement", "validating AssignAccountToAgreementCommand" );
+
+		if ( command.getAgreementId() == null )
+			throw new ValidationException( "Agreement", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Agreement", "validating assignment" );
+
 	}
 
 	/**
@@ -155,9 +174,12 @@ public class AgreementValidator {
 	 * 
 	 * @param	command UnAssignAccountFromAgreementCommand
 	 */	
-	public void validate( UnAssignAccountFromAgreementCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromAgreementCommand should not be null" );
-		Assert.notNull( command.getAgreementId(), "UnAssignAccountFromAgreementCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromAgreementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Agreement", "validating UnAssignAccountFromAgreementCommand" );
+
+		if ( command.getAgreementId() == null ) }
+			throw new ValidationException( "Agreement", "validating identity on UnAssignAccountFromAgreementCommand" );
 	}
 
 	/**
@@ -165,10 +187,16 @@ public class AgreementValidator {
 	 * 
 	 * @param	command AssignDocumentsToAgreementCommand
 	 */	
-	public void validate( AssignDocumentsToAgreementCommand command ) throws Exception {
-		Assert.notNull( command, "AssignDocumentsToAgreementCommand should not be null" );
-		Assert.notNull( command.getAgreementId(), "AssignDocumentsToAgreementCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignDocumentsToAgreementCommand addTo attribute should not be null" );
+	public void validate( AssignDocumentsToAgreementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Agreement", "validating AssignDocumentsToAgreementCommand" );
+
+		if ( command.getAgreementId() == null ) }
+			throw new ValidationException( "Agreement", "validating identity on AssignDocumentsToAgreementCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Agreement", "validating addTo attribute on AssignDocumentsToAgreementCommand" );
+
 	}
 
 	/**
@@ -176,11 +204,18 @@ public class AgreementValidator {
 	 * 
 	 * @param	command RemoveDocumentsFromAgreementCommand
 	 */	
-	public void validate( RemoveDocumentsFromAgreementCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveDocumentsFromAgreementCommand should not be null" );
-		Assert.notNull( command.getAgreementId(), "RemoveDocumentsFromAgreementCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveDocumentsFromAgreementCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getDocumentId(), "RemoveDocumentsFromAgreementCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveDocumentsFromAgreementCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Agreement", "validating RemoveDocumentsFromAgreementCommand");
+
+		if( command.getAgreementId() == null )
+			throw new ValidationException"Agreement", "validating id on RemoveDocumentsFromAgreementCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Agreement", "validating remove from";
+
+		if( command.getRemoveFrom().getDocumentId() == null )
+			throw new ValidationException"Agreement", "validating id on remove from}";
 	}
 	
 

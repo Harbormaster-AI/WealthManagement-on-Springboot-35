@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>StandingInstructionValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -66,6 +68,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class StandingInstructionValidator {
 		
 	/**
@@ -73,48 +76,51 @@ public class StandingInstructionValidator {
 	 */
 	protected StandingInstructionValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public StandingInstructionValidator getInstance() {
-		return new StandingInstructionValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a StandingInstruction
 	 */
-	public void validate( CreateStandingInstructionCommand standingInstruction )throws Exception {
-		Assert.notNull( standingInstruction, "CreateStandingInstructionCommand should not be null" );
+	public void validate( CreateStandingInstructionCommand standingInstruction )throws ValidationException {
+		if ( standingInstruction == null )
+			throw new ValidationException( "StandingInstruction", "validating CreateStandingInstructionCommand" );
+
 //		Assert.isNull( standingInstruction.getStandingInstructionId(), "CreateStandingInstructionCommand identifier should be null" );
-		Assert.notNull( standingInstruction.getNextExecutionDate(), "Field CreateStandingInstructionCommand.nextExecutionDate should not be null" );
-		Assert.notNull( standingInstruction.getAmount(), "Field CreateStandingInstructionCommand.amount should not be null" );
+		if ( standingInstruction.getNextExecutionDate() == null )
+			throw new ValidationException( "StandingInstruction", "validating access on getNextExecutionDate" );
+		if ( standingInstruction.getAmount() == null )
+			throw new ValidationException( "StandingInstruction", "validating access on getAmount" );
 	}
 
 	/**
 	 * handles update validation for a StandingInstruction
 	 */
-	public void validate( UpdateStandingInstructionCommand standingInstruction ) throws Exception {
-		Assert.notNull( standingInstruction, "UpdateStandingInstructionCommand should not be null" );
-		Assert.notNull( standingInstruction.getStandingInstructionId(), "UpdateStandingInstructionCommand identifier should not be null" );
-		Assert.notNull( standingInstruction.getNextExecutionDate(), "Field UpdateStandingInstructionCommand.nextExecutionDate should not be null" );
-		Assert.notNull( standingInstruction.getAmount(), "Field UpdateStandingInstructionCommand.amount should not be null" );
+	public void validate( UpdateStandingInstructionCommand standingInstruction ) throws ValidationException {
+		if ( standingInstruction == null )
+			throw new ValidationException( "StandingInstruction", "validating UpdateStandingInstructionCommand" );
+		if ( standingInstruction.getNextExecutionDate() == null )
+			throw new ValidationException( "StandingInstruction", "validating method getNextExecutionDate" );
+		if ( standingInstruction.getAmount() == null )
+			throw new ValidationException( "StandingInstruction", "validating method getAmount" );
     }
 
 	/**
 	 * handles delete validation for a StandingInstruction
 	 */
-    public void validate( DeleteStandingInstructionCommand standingInstruction ) throws Exception {
-		Assert.notNull( standingInstruction, "{commandAlias} should not be null" );
-		Assert.notNull( standingInstruction.getStandingInstructionId(), "DeleteStandingInstructionCommand identifier should not be null" );
+    public void validate( DeleteStandingInstructionCommand standingInstruction ) throws ValidationException {
+		if ( standingInstruction == null )
+			throw new ValidationException( "StandingInstruction", "validating DeleteStandingInstructionCommand" );
+
+		if ( standingInstruction.getAmount() == null )
+			throw new ValidationException( "StandingInstruction", "validating getAmount" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a StandingInstruction
 	 */
-	public void validate( StandingInstructionFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "StandingInstructionFetchOneSummary should not be null" );
-		Assert.notNull( summary.getStandingInstructionId(), "StandingInstructionFetchOneSummary identifier should not be null" );
+	public void validate( StandingInstructionFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "StandingInstruction", "validating summary );
 	}
 
 	/**
@@ -122,10 +128,16 @@ public class StandingInstructionValidator {
 	 * 
 	 * @param	command AssignAccountToStandingInstructionCommand
 	 */	
-	public void validate( AssignAccountToStandingInstructionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToStandingInstructionCommand should not be null" );
-		Assert.notNull( command.getStandingInstructionId(), "AssignAccountToStandingInstructionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToStandingInstructionCommand assignment should not be null" );
+	public void validate( AssignAccountToStandingInstructionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "StandingInstruction", "validating AssignAccountToStandingInstructionCommand" );
+
+		if ( command.getStandingInstructionId() == null )
+			throw new ValidationException( "StandingInstruction", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "StandingInstruction", "validating assignment" );
+
 	}
 
 	/**
@@ -133,19 +145,28 @@ public class StandingInstructionValidator {
 	 * 
 	 * @param	command UnAssignAccountFromStandingInstructionCommand
 	 */	
-	public void validate( UnAssignAccountFromStandingInstructionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromStandingInstructionCommand should not be null" );
-		Assert.notNull( command.getStandingInstructionId(), "UnAssignAccountFromStandingInstructionCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromStandingInstructionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "StandingInstruction", "validating UnAssignAccountFromStandingInstructionCommand" );
+
+		if ( command.getStandingInstructionId() == null ) }
+			throw new ValidationException( "StandingInstruction", "validating identity on UnAssignAccountFromStandingInstructionCommand" );
 	}
 	/**
 	 * handles assign DestinationAccount validation for a StandingInstruction
 	 * 
 	 * @param	command AssignDestinationAccountToStandingInstructionCommand
 	 */	
-	public void validate( AssignDestinationAccountToStandingInstructionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignDestinationAccountToStandingInstructionCommand should not be null" );
-		Assert.notNull( command.getStandingInstructionId(), "AssignDestinationAccountToStandingInstructionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignDestinationAccountToStandingInstructionCommand assignment should not be null" );
+	public void validate( AssignDestinationAccountToStandingInstructionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "StandingInstruction", "validating AssignDestinationAccountToStandingInstructionCommand" );
+
+		if ( command.getStandingInstructionId() == null )
+			throw new ValidationException( "StandingInstruction", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "StandingInstruction", "validating assignment" );
+
 	}
 
 	/**
@@ -153,9 +174,12 @@ public class StandingInstructionValidator {
 	 * 
 	 * @param	command UnAssignDestinationAccountFromStandingInstructionCommand
 	 */	
-	public void validate( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignDestinationAccountFromStandingInstructionCommand should not be null" );
-		Assert.notNull( command.getStandingInstructionId(), "UnAssignDestinationAccountFromStandingInstructionCommand identifier should not be null" );
+	public void validate( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "StandingInstruction", "validating UnAssignDestinationAccountFromStandingInstructionCommand" );
+
+		if ( command.getStandingInstructionId() == null ) }
+			throw new ValidationException( "StandingInstruction", "validating identity on UnAssignDestinationAccountFromStandingInstructionCommand" );
 	}
 
 

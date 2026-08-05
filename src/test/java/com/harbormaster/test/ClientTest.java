@@ -49,245 +49,245 @@ public class ClientTest
     public ClientTest(ClientService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Client, through a ClientTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on ClientTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on ClientTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on ClientTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on ClientTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Client.
      *
      * @return    Client
      */
     public Client testCreate() throws Throwable {
-        Client entity = null;
+    Client entity = null;
 
-        LOGGER.info( "ClientTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Client");
+    LOGGER.info( "ClientTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Client");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Client" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Client" );
 
-        try {            
-            entity = service.createClient( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createClient( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getClientId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getClientId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Client with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Client with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Client.
      *
-     * @return    Client  
+     * @return    Client
      */
     public Client testRead() throws Throwable {
-        LOGGER.info( "ClientTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Client" );
+    LOGGER.info( "ClientTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Client" );
 
-        Client entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Client with primary key" );
-        msg.append( theId );
+    Client entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Client with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getClient( new ClientFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getClient( new ClientFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getClientId();
-            
-            LOGGER.info( "-- Successfully found Client " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getClientId();
+
+        LOGGER.info( "-- Successfully found Client " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Client.
      *
      * @return    Client
      */
     public Client testUpdate() throws Throwable {
-        LOGGER.info( "ClientTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Client." );
+    LOGGER.info( "ClientTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Client." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Client : " );        
-        Client entity = null;
-    
-        try {            
-        	UpdateClientCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setClientId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Client : " );
+    Client entity = null;
 
-            LOGGER.info( "-- Now updating the created Client." );
-            
-            entity = service.updateClient( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateClientCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Client - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setClientId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Client." );
+
+        entity = service.updateClient( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Client - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Client.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "ClientTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Client." );
-        
-        try {
-        	DeleteClientCommand deleteCommand = new DeleteClientCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Client with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Client with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "ClientTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Client." );
 
-    /** 
+    try {
+        DeleteClientCommand deleteCommand = new DeleteClientCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Client with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Client with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Clients.
      *
      * @return    Collection
      */
-    public List<Client> testGetAll() throws Throwable {    
-        LOGGER.info( "ClientTest:testGetAll() - Retrieving Collection of Clients:" );
+    public List<Client> testGetAll() throws Throwable {
+    LOGGER.info( "ClientTest:testGetAll() - Retrieving Collection of Clients:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Client : " );        
-        List<Client> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Client : " );
+    List<Client> collection  = null;
 
-        try {
-            // call the static get method on the ClientService
-            collection = service.getAllClient();
+    try {
+        // call the static get method on the ClientService
+        collection = service.getAllClient();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Client currEntity  = null;            
-	            Iterator<Client> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getClientId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Client currEntity  = null;
+            Iterator<Client> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getClientId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public ClientTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Client
-	 * 
-	 * @return CreateClientCommand alias
-	 */
+
+    /**
+     * Returns a new populated Client
+     *
+     * @return CreateClientCommand alias
+     */
 	protected CreateClientCommand generateNewCommand() {
-        CreateClientCommand command = new CreateClientCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
-		
-		return( command );
-	}
+    CreateClientCommand command = new CreateClientCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
-		/**
-		 * Returns a new populated Client
-		 * 
-		 * @return UpdateClientCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Client
+     *
+     * @return UpdateClientCommand alias
+     */
 	protected UpdateClientCommand generateUpdateCommand() {
-	        UpdateClientCommand command = new UpdateClientCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  null,  new HashSet<>() );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateClientCommand command = new UpdateClientCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  null,  new HashSet<>() );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected ClientService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Client.class.getName());
 
 }

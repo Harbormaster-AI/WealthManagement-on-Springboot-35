@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>RebalancePlanValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class RebalancePlanValidator {
 		
 	/**
@@ -77,46 +80,47 @@ public class RebalancePlanValidator {
 	 */
 	protected RebalancePlanValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public RebalancePlanValidator getInstance() {
-		return new RebalancePlanValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a RebalancePlan
 	 */
-	public void validate( CreateRebalancePlanCommand rebalancePlan )throws Exception {
-		Assert.notNull( rebalancePlan, "CreateRebalancePlanCommand should not be null" );
+	public void validate( CreateRebalancePlanCommand rebalancePlan )throws ValidationException {
+		if ( rebalancePlan == null )
+			throw new ValidationException( "RebalancePlan", "validating CreateRebalancePlanCommand" );
+
 //		Assert.isNull( rebalancePlan.getRebalancePlanId(), "CreateRebalancePlanCommand identifier should be null" );
-		Assert.notNull( rebalancePlan.getPlanDate(), "Field CreateRebalancePlanCommand.planDate should not be null" );
+		if ( rebalancePlan.getPlanDate() == null )
+			throw new ValidationException( "RebalancePlan", "validating access on getPlanDate" );
 	}
 
 	/**
 	 * handles update validation for a RebalancePlan
 	 */
-	public void validate( UpdateRebalancePlanCommand rebalancePlan ) throws Exception {
-		Assert.notNull( rebalancePlan, "UpdateRebalancePlanCommand should not be null" );
-		Assert.notNull( rebalancePlan.getRebalancePlanId(), "UpdateRebalancePlanCommand identifier should not be null" );
-		Assert.notNull( rebalancePlan.getPlanDate(), "Field UpdateRebalancePlanCommand.planDate should not be null" );
+	public void validate( UpdateRebalancePlanCommand rebalancePlan ) throws ValidationException {
+		if ( rebalancePlan == null )
+			throw new ValidationException( "RebalancePlan", "validating UpdateRebalancePlanCommand" );
+		if ( rebalancePlan.getPlanDate() == null )
+			throw new ValidationException( "RebalancePlan", "validating method getPlanDate" );
     }
 
 	/**
 	 * handles delete validation for a RebalancePlan
 	 */
-    public void validate( DeleteRebalancePlanCommand rebalancePlan ) throws Exception {
-		Assert.notNull( rebalancePlan, "{commandAlias} should not be null" );
-		Assert.notNull( rebalancePlan.getRebalancePlanId(), "DeleteRebalancePlanCommand identifier should not be null" );
+    public void validate( DeleteRebalancePlanCommand rebalancePlan ) throws ValidationException {
+		if ( rebalancePlan == null )
+			throw new ValidationException( "RebalancePlan", "validating DeleteRebalancePlanCommand" );
+
+		if ( rebalancePlan.getPlanDate() == null )
+			throw new ValidationException( "RebalancePlan", "validating getPlanDate" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a RebalancePlan
 	 */
-	public void validate( RebalancePlanFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "RebalancePlanFetchOneSummary should not be null" );
-		Assert.notNull( summary.getRebalancePlanId(), "RebalancePlanFetchOneSummary identifier should not be null" );
+	public void validate( RebalancePlanFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "RebalancePlan", "validating summary );
 	}
 
 	/**
@@ -124,10 +128,16 @@ public class RebalancePlanValidator {
 	 * 
 	 * @param	command AssignPortfolioToRebalancePlanCommand
 	 */	
-	public void validate( AssignPortfolioToRebalancePlanCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfolioToRebalancePlanCommand should not be null" );
-		Assert.notNull( command.getRebalancePlanId(), "AssignPortfolioToRebalancePlanCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPortfolioToRebalancePlanCommand assignment should not be null" );
+	public void validate( AssignPortfolioToRebalancePlanCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RebalancePlan", "validating AssignPortfolioToRebalancePlanCommand" );
+
+		if ( command.getRebalancePlanId() == null )
+			throw new ValidationException( "RebalancePlan", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "RebalancePlan", "validating assignment" );
+
 	}
 
 	/**
@@ -135,19 +145,28 @@ public class RebalancePlanValidator {
 	 * 
 	 * @param	command UnAssignPortfolioFromRebalancePlanCommand
 	 */	
-	public void validate( UnAssignPortfolioFromRebalancePlanCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPortfolioFromRebalancePlanCommand should not be null" );
-		Assert.notNull( command.getRebalancePlanId(), "UnAssignPortfolioFromRebalancePlanCommand identifier should not be null" );
+	public void validate( UnAssignPortfolioFromRebalancePlanCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RebalancePlan", "validating UnAssignPortfolioFromRebalancePlanCommand" );
+
+		if ( command.getRebalancePlanId() == null ) }
+			throw new ValidationException( "RebalancePlan", "validating identity on UnAssignPortfolioFromRebalancePlanCommand" );
 	}
 	/**
 	 * handles assign Advisor validation for a RebalancePlan
 	 * 
 	 * @param	command AssignAdvisorToRebalancePlanCommand
 	 */	
-	public void validate( AssignAdvisorToRebalancePlanCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorToRebalancePlanCommand should not be null" );
-		Assert.notNull( command.getRebalancePlanId(), "AssignAdvisorToRebalancePlanCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisorToRebalancePlanCommand assignment should not be null" );
+	public void validate( AssignAdvisorToRebalancePlanCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RebalancePlan", "validating AssignAdvisorToRebalancePlanCommand" );
+
+		if ( command.getRebalancePlanId() == null )
+			throw new ValidationException( "RebalancePlan", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "RebalancePlan", "validating assignment" );
+
 	}
 
 	/**
@@ -155,9 +174,12 @@ public class RebalancePlanValidator {
 	 * 
 	 * @param	command UnAssignAdvisorFromRebalancePlanCommand
 	 */	
-	public void validate( UnAssignAdvisorFromRebalancePlanCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisorFromRebalancePlanCommand should not be null" );
-		Assert.notNull( command.getRebalancePlanId(), "UnAssignAdvisorFromRebalancePlanCommand identifier should not be null" );
+	public void validate( UnAssignAdvisorFromRebalancePlanCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RebalancePlan", "validating UnAssignAdvisorFromRebalancePlanCommand" );
+
+		if ( command.getRebalancePlanId() == null ) }
+			throw new ValidationException( "RebalancePlan", "validating identity on UnAssignAdvisorFromRebalancePlanCommand" );
 	}
 
 	/**
@@ -165,10 +187,16 @@ public class RebalancePlanValidator {
 	 * 
 	 * @param	command AssignProposedOrdersToRebalancePlanCommand
 	 */	
-	public void validate( AssignProposedOrdersToRebalancePlanCommand command ) throws Exception {
-		Assert.notNull( command, "AssignProposedOrdersToRebalancePlanCommand should not be null" );
-		Assert.notNull( command.getRebalancePlanId(), "AssignProposedOrdersToRebalancePlanCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignProposedOrdersToRebalancePlanCommand addTo attribute should not be null" );
+	public void validate( AssignProposedOrdersToRebalancePlanCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RebalancePlan", "validating AssignProposedOrdersToRebalancePlanCommand" );
+
+		if ( command.getRebalancePlanId() == null ) }
+			throw new ValidationException( "RebalancePlan", "validating identity on AssignProposedOrdersToRebalancePlanCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "RebalancePlan", "validating addTo attribute on AssignProposedOrdersToRebalancePlanCommand" );
+
 	}
 
 	/**
@@ -176,11 +204,18 @@ public class RebalancePlanValidator {
 	 * 
 	 * @param	command RemoveProposedOrdersFromRebalancePlanCommand
 	 */	
-	public void validate( RemoveProposedOrdersFromRebalancePlanCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveProposedOrdersFromRebalancePlanCommand should not be null" );
-		Assert.notNull( command.getRebalancePlanId(), "RemoveProposedOrdersFromRebalancePlanCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveProposedOrdersFromRebalancePlanCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getOrderId(), "RemoveProposedOrdersFromRebalancePlanCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveProposedOrdersFromRebalancePlanCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("RebalancePlan", "validating RemoveProposedOrdersFromRebalancePlanCommand");
+
+		if( command.getRebalancePlanId() == null )
+			throw new ValidationException"RebalancePlan", "validating id on RemoveProposedOrdersFromRebalancePlanCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"RebalancePlan", "validating remove from";
+
+		if( command.getRemoveFrom().getOrderId() == null )
+			throw new ValidationException"RebalancePlan", "validating id on remove from}";
 	}
 	
 

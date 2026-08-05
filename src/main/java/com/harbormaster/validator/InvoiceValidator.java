@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>InvoiceValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class InvoiceValidator {
 		
 	/**
@@ -77,52 +80,59 @@ public class InvoiceValidator {
 	 */
 	protected InvoiceValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public InvoiceValidator getInstance() {
-		return new InvoiceValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Invoice
 	 */
-	public void validate( CreateInvoiceCommand invoice )throws Exception {
-		Assert.notNull( invoice, "CreateInvoiceCommand should not be null" );
+	public void validate( CreateInvoiceCommand invoice )throws ValidationException {
+		if ( invoice == null )
+			throw new ValidationException( "Invoice", "validating CreateInvoiceCommand" );
+
 //		Assert.isNull( invoice.getInvoiceId(), "CreateInvoiceCommand identifier should be null" );
-		Assert.notNull( invoice.getInvoiceNumber(), "Field CreateInvoiceCommand.invoiceNumber should not be null" );
-		Assert.notNull( invoice.getIssueDate(), "Field CreateInvoiceCommand.issueDate should not be null" );
-		Assert.notNull( invoice.getDueDate(), "Field CreateInvoiceCommand.dueDate should not be null" );
-		Assert.notNull( invoice.getTotalDue(), "Field CreateInvoiceCommand.totalDue should not be null" );
+		if ( invoice.getInvoiceNumber() == null )
+			throw new ValidationException( "Invoice", "validating access on getInvoiceNumber" );
+		if ( invoice.getIssueDate() == null )
+			throw new ValidationException( "Invoice", "validating access on getIssueDate" );
+		if ( invoice.getDueDate() == null )
+			throw new ValidationException( "Invoice", "validating access on getDueDate" );
+		if ( invoice.getTotalDue() == null )
+			throw new ValidationException( "Invoice", "validating access on getTotalDue" );
 	}
 
 	/**
 	 * handles update validation for a Invoice
 	 */
-	public void validate( UpdateInvoiceCommand invoice ) throws Exception {
-		Assert.notNull( invoice, "UpdateInvoiceCommand should not be null" );
-		Assert.notNull( invoice.getInvoiceId(), "UpdateInvoiceCommand identifier should not be null" );
-		Assert.notNull( invoice.getInvoiceNumber(), "Field UpdateInvoiceCommand.invoiceNumber should not be null" );
-		Assert.notNull( invoice.getIssueDate(), "Field UpdateInvoiceCommand.issueDate should not be null" );
-		Assert.notNull( invoice.getDueDate(), "Field UpdateInvoiceCommand.dueDate should not be null" );
-		Assert.notNull( invoice.getTotalDue(), "Field UpdateInvoiceCommand.totalDue should not be null" );
+	public void validate( UpdateInvoiceCommand invoice ) throws ValidationException {
+		if ( invoice == null )
+			throw new ValidationException( "Invoice", "validating UpdateInvoiceCommand" );
+		if ( invoice.getInvoiceNumber() == null )
+			throw new ValidationException( "Invoice", "validating method getInvoiceNumber" );
+		if ( invoice.getIssueDate() == null )
+			throw new ValidationException( "Invoice", "validating method getIssueDate" );
+		if ( invoice.getDueDate() == null )
+			throw new ValidationException( "Invoice", "validating method getDueDate" );
+		if ( invoice.getTotalDue() == null )
+			throw new ValidationException( "Invoice", "validating method getTotalDue" );
     }
 
 	/**
 	 * handles delete validation for a Invoice
 	 */
-    public void validate( DeleteInvoiceCommand invoice ) throws Exception {
-		Assert.notNull( invoice, "{commandAlias} should not be null" );
-		Assert.notNull( invoice.getInvoiceId(), "DeleteInvoiceCommand identifier should not be null" );
+    public void validate( DeleteInvoiceCommand invoice ) throws ValidationException {
+		if ( invoice == null )
+			throw new ValidationException( "Invoice", "validating DeleteInvoiceCommand" );
+
+		if ( invoice.getTotalDue() == null )
+			throw new ValidationException( "Invoice", "validating getTotalDue" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Invoice
 	 */
-	public void validate( InvoiceFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "InvoiceFetchOneSummary should not be null" );
-		Assert.notNull( summary.getInvoiceId(), "InvoiceFetchOneSummary identifier should not be null" );
+	public void validate( InvoiceFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Invoice", "validating summary );
 	}
 
 	/**
@@ -130,10 +140,16 @@ public class InvoiceValidator {
 	 * 
 	 * @param	command AssignAccountToInvoiceCommand
 	 */	
-	public void validate( AssignAccountToInvoiceCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToInvoiceCommand should not be null" );
-		Assert.notNull( command.getInvoiceId(), "AssignAccountToInvoiceCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToInvoiceCommand assignment should not be null" );
+	public void validate( AssignAccountToInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating AssignAccountToInvoiceCommand" );
+
+		if ( command.getInvoiceId() == null )
+			throw new ValidationException( "Invoice", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Invoice", "validating assignment" );
+
 	}
 
 	/**
@@ -141,19 +157,28 @@ public class InvoiceValidator {
 	 * 
 	 * @param	command UnAssignAccountFromInvoiceCommand
 	 */	
-	public void validate( UnAssignAccountFromInvoiceCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromInvoiceCommand should not be null" );
-		Assert.notNull( command.getInvoiceId(), "UnAssignAccountFromInvoiceCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating UnAssignAccountFromInvoiceCommand" );
+
+		if ( command.getInvoiceId() == null ) }
+			throw new ValidationException( "Invoice", "validating identity on UnAssignAccountFromInvoiceCommand" );
 	}
 	/**
 	 * handles assign BillingRun validation for a Invoice
 	 * 
 	 * @param	command AssignBillingRunToInvoiceCommand
 	 */	
-	public void validate( AssignBillingRunToInvoiceCommand command ) throws Exception {
-		Assert.notNull( command, "AssignBillingRunToInvoiceCommand should not be null" );
-		Assert.notNull( command.getInvoiceId(), "AssignBillingRunToInvoiceCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignBillingRunToInvoiceCommand assignment should not be null" );
+	public void validate( AssignBillingRunToInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating AssignBillingRunToInvoiceCommand" );
+
+		if ( command.getInvoiceId() == null )
+			throw new ValidationException( "Invoice", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Invoice", "validating assignment" );
+
 	}
 
 	/**
@@ -161,9 +186,12 @@ public class InvoiceValidator {
 	 * 
 	 * @param	command UnAssignBillingRunFromInvoiceCommand
 	 */	
-	public void validate( UnAssignBillingRunFromInvoiceCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignBillingRunFromInvoiceCommand should not be null" );
-		Assert.notNull( command.getInvoiceId(), "UnAssignBillingRunFromInvoiceCommand identifier should not be null" );
+	public void validate( UnAssignBillingRunFromInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating UnAssignBillingRunFromInvoiceCommand" );
+
+		if ( command.getInvoiceId() == null ) }
+			throw new ValidationException( "Invoice", "validating identity on UnAssignBillingRunFromInvoiceCommand" );
 	}
 
 	/**
@@ -171,10 +199,16 @@ public class InvoiceValidator {
 	 * 
 	 * @param	command AssignFeesToInvoiceCommand
 	 */	
-	public void validate( AssignFeesToInvoiceCommand command ) throws Exception {
-		Assert.notNull( command, "AssignFeesToInvoiceCommand should not be null" );
-		Assert.notNull( command.getInvoiceId(), "AssignFeesToInvoiceCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignFeesToInvoiceCommand addTo attribute should not be null" );
+	public void validate( AssignFeesToInvoiceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Invoice", "validating AssignFeesToInvoiceCommand" );
+
+		if ( command.getInvoiceId() == null ) }
+			throw new ValidationException( "Invoice", "validating identity on AssignFeesToInvoiceCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Invoice", "validating addTo attribute on AssignFeesToInvoiceCommand" );
+
 	}
 
 	/**
@@ -182,11 +216,18 @@ public class InvoiceValidator {
 	 * 
 	 * @param	command RemoveFeesFromInvoiceCommand
 	 */	
-	public void validate( RemoveFeesFromInvoiceCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveFeesFromInvoiceCommand should not be null" );
-		Assert.notNull( command.getInvoiceId(), "RemoveFeesFromInvoiceCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveFeesFromInvoiceCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getFeeId(), "RemoveFeesFromInvoiceCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveFeesFromInvoiceCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Invoice", "validating RemoveFeesFromInvoiceCommand");
+
+		if( command.getInvoiceId() == null )
+			throw new ValidationException"Invoice", "validating id on RemoveFeesFromInvoiceCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Invoice", "validating remove from";
+
+		if( command.getRemoveFrom().getFeeId() == null )
+			throw new ValidationException"Invoice", "validating id on remove from}";
 	}
 	
 

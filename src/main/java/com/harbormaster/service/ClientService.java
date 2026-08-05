@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class ClientService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public ClientService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new ClientEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(ClientRepository.class) );
+		}
 
-    	projector 		= new ClientEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(ClientRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Client
+		 */
+			public Client createClient( CreateClientCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Client
-    */
-	public Client createClient( CreateClientCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Client entity = new Client();
 
-		Client entity = new Client();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	ClientValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
 
             entity.setClientId( command.getClientId() );
             entity.setFirstName( command.getFirstName() );
@@ -136,44 +134,44 @@ extends BaseService {
             entity.setTaxResidency( command.getTaxResidency() );
             entity.setDateOfBirth( command.getDateOfBirth() );
             entity.setEmail( command.getEmail() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Client {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Client - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateClientCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Client
-    */
-    public Client updateClient( UpdateClientCommand command ) 
+				LOGGER.info( "done creating of Client {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Client - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateClientCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Client
+		 */
+		public Client updateClient( UpdateClientCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Client entity = new Client();
+			Client entity = new Client();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	ClientValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
 
             entity.setClientId( command.getClientId() );
             entity.setFirstName( command.getFirstName() );
@@ -187,430 +185,430 @@ extends BaseService {
             entity.setBeneficiaries( command.getBeneficiaries() );
             entity.setKycRecord( command.getKycRecord() );
             entity.setAgreements( command.getAgreements() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Client {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Client - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteClientCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteClientCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	ClientValidator.getInstance().validate( command );    
-        
-        	id = command.getClientId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Client {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Client using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Client {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Client - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Client via ClientFetchOneSummary
-     * @param 	summary ClientFetchOneSummary 
-     * @return 	ClientFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteClientCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteClientCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				id = command.getClientId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Client {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Client using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Client via ClientFetchOneSummary
+		 * @param 	summary ClientFetchOneSummary
+		 * @return 	ClientFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Client getClient( ClientFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "ClientFetchOneSummary arg cannot be null" );
-    	
-    	Client entity = null;
-    	UUID id = summary.getClientId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	ClientValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Client using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Client with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "ClientFetchOneSummary arg cannot be null" );
+
+			Client entity = null;
+			UUID id = summary.getClientId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				ClientValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Client using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Client with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Clients
-     *
-     * @return 	List<Client> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Clients
+		 *
+		 * @return 	List<Client>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Client> getAllClient() 
     throws ProcessingException {
-        List<Client> list = null;
+			List<Client> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllClientQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Client";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllClientQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Client";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Household on Client
-     * @param		command AssignHouseholdToClientCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignHousehold( AssignHouseholdToClientCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignHousehold(command.getClientId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Household using id " + command.getClientId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Household on Client
-     * @param		command UnAssignHouseholdFromClientCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignHousehold( UnAssignHouseholdFromClientCommand command ) throws ProcessingException {
+		/**
+		 * assign Household on Client
+		 * @param		command AssignHouseholdToClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignHousehold( AssignHouseholdToClientCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignHousehold(command.getClientId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Household using id " + command.getClientId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Household on Client
+		 * @param		command UnAssignHouseholdFromClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignHousehold( UnAssignHouseholdFromClientCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignHousehold(command.getClientId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Household on Client";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignHousehold(command.getClientId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Household on Client";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign KycRecord on Client
-     * @param		command AssignKycRecordToClientCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignKycRecord( AssignKycRecordToClientCommand command ) throws ProcessingException {
+		/**
+		 * assign KycRecord on Client
+		 * @param		command AssignKycRecordToClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignKycRecord( AssignKycRecordToClientCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignKycRecord(command.getClientId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get KycRecord using id " + command.getClientId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignKycRecord(command.getClientId(), command.getAssignment());
 
-    /**
-     * unAssign KycRecord on Client
-     * @param		command UnAssignKycRecordFromClientCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignKycRecord( UnAssignKycRecordFromClientCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get KycRecord using id " + command.getClientId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignKycRecord(command.getClientId());
+		/**
+		 * unAssign KycRecord on Client
+		 * @param		command UnAssignKycRecordFromClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignKycRecord( UnAssignKycRecordFromClientCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignKycRecord(command.getClientId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign KycRecord on Client";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign KycRecord on Client";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add Account to Accounts 
-     * @param		command AssignAccountsToClientCommand
-     * @exception	ProcessingException
-     */     
-	public void addToAccounts( AssignAccountsToClientCommand command ) throws ProcessingException {
+		/**
+		 * add Account to Accounts
+		 * @param		command AssignAccountsToClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToAccounts( AssignAccountsToClientCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToAccounts(command.getClientId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Account as Accounts to Client" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Account from Accounts
-     * @param		command RemoveAccountsFromClientCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromAccounts( RemoveAccountsFromClientCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromAccounts(command.getClientId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToAccounts(command.getClientId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Account as Accounts to Client" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getClientId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Document to Documents 
-     * @param		command AssignDocumentsToClientCommand
-     * @exception	ProcessingException
-     */     
-	public void addToDocuments( AssignDocumentsToClientCommand command ) throws ProcessingException {
+		/**
+		 * remove Account from Accounts
+		 * @param		command RemoveAccountsFromClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromAccounts( RemoveAccountsFromClientCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToDocuments(command.getClientId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Document as Documents to Client" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromAccounts(command.getClientId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getClientId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add Document to Documents
+		 * @param		command AssignDocumentsToClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToDocuments( AssignDocumentsToClientCommand command ) throws ProcessingException {
 
-    /**
-     * remove Document from Documents
-     * @param		command RemoveDocumentsFromClientCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromDocuments( RemoveDocumentsFromClientCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromDocuments(command.getClientId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getClientId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add Beneficiary to Beneficiaries 
-     * @param		command AssignBeneficiariesToClientCommand
-     * @exception	ProcessingException
-     */     
-	public void addToBeneficiaries( AssignBeneficiariesToClientCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToBeneficiaries(command.getClientId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Beneficiary as Beneficiaries to Client" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Beneficiary from Beneficiaries
-     * @param		command RemoveBeneficiariesFromClientCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromBeneficiaries( RemoveBeneficiariesFromClientCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromBeneficiaries(command.getClientId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToDocuments(command.getClientId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Document as Documents to Client" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getClientId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Agreement to Agreements 
-     * @param		command AssignAgreementsToClientCommand
-     * @exception	ProcessingException
-     */     
-	public void addToAgreements( AssignAgreementsToClientCommand command ) throws ProcessingException {
+		/**
+		 * remove Document from Documents
+		 * @param		command RemoveDocumentsFromClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromDocuments( RemoveDocumentsFromClientCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToAgreements(command.getClientId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Agreement as Agreements to Client" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromDocuments(command.getClientId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getClientId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add Beneficiary to Beneficiaries
+		 * @param		command AssignBeneficiariesToClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToBeneficiaries( AssignBeneficiariesToClientCommand command ) throws ProcessingException {
 
-    /**
-     * remove Agreement from Agreements
-     * @param		command RemoveAgreementsFromClientCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromAgreements( RemoveAgreementsFromClientCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ClientValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromAgreements(command.getClientId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToBeneficiaries(command.getClientId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Beneficiary as Beneficiaries to Client" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getClientId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Beneficiary from Beneficiaries
+		 * @param		command RemoveBeneficiariesFromClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromBeneficiaries( RemoveBeneficiariesFromClientCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromBeneficiaries(command.getClientId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getClientId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
+
+		/**
+		 * add Agreement to Agreements
+		 * @param		command AssignAgreementsToClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToAgreements( AssignAgreementsToClientCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToAgreements(command.getClientId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Agreement as Agreements to Client" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove Agreement from Agreements
+		 * @param		command RemoveAgreementsFromClientCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromAgreements( RemoveAgreementsFromClientCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ClientValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromAgreements(command.getClientId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getClientId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
 
 
@@ -623,5 +621,5 @@ extends BaseService {
     private final ClientEntityProjector projector;
 	private Client client 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ClientService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ClientService.class);
 }

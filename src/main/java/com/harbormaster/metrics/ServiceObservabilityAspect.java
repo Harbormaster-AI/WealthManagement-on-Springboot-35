@@ -43,7 +43,6 @@ public class ServiceObservabilityAspect {
                 pjp.getSignature().getName();
 
         try {
-
             //
             // Populate the logging context
             //

@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>MarketPriceValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -64,6 +66,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class MarketPriceValidator {
 		
 	/**
@@ -71,48 +74,51 @@ public class MarketPriceValidator {
 	 */
 	protected MarketPriceValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public MarketPriceValidator getInstance() {
-		return new MarketPriceValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a MarketPrice
 	 */
-	public void validate( CreateMarketPriceCommand marketPrice )throws Exception {
-		Assert.notNull( marketPrice, "CreateMarketPriceCommand should not be null" );
+	public void validate( CreateMarketPriceCommand marketPrice )throws ValidationException {
+		if ( marketPrice == null )
+			throw new ValidationException( "MarketPrice", "validating CreateMarketPriceCommand" );
+
 //		Assert.isNull( marketPrice.getMarketPriceId(), "CreateMarketPriceCommand identifier should be null" );
-		Assert.notNull( marketPrice.getPrice(), "Field CreateMarketPriceCommand.price should not be null" );
-		Assert.notNull( marketPrice.getPriceDate(), "Field CreateMarketPriceCommand.priceDate should not be null" );
+		if ( marketPrice.getPrice() == null )
+			throw new ValidationException( "MarketPrice", "validating access on getPrice" );
+		if ( marketPrice.getPriceDate() == null )
+			throw new ValidationException( "MarketPrice", "validating access on getPriceDate" );
 	}
 
 	/**
 	 * handles update validation for a MarketPrice
 	 */
-	public void validate( UpdateMarketPriceCommand marketPrice ) throws Exception {
-		Assert.notNull( marketPrice, "UpdateMarketPriceCommand should not be null" );
-		Assert.notNull( marketPrice.getMarketPriceId(), "UpdateMarketPriceCommand identifier should not be null" );
-		Assert.notNull( marketPrice.getPrice(), "Field UpdateMarketPriceCommand.price should not be null" );
-		Assert.notNull( marketPrice.getPriceDate(), "Field UpdateMarketPriceCommand.priceDate should not be null" );
+	public void validate( UpdateMarketPriceCommand marketPrice ) throws ValidationException {
+		if ( marketPrice == null )
+			throw new ValidationException( "MarketPrice", "validating UpdateMarketPriceCommand" );
+		if ( marketPrice.getPrice() == null )
+			throw new ValidationException( "MarketPrice", "validating method getPrice" );
+		if ( marketPrice.getPriceDate() == null )
+			throw new ValidationException( "MarketPrice", "validating method getPriceDate" );
     }
 
 	/**
 	 * handles delete validation for a MarketPrice
 	 */
-    public void validate( DeleteMarketPriceCommand marketPrice ) throws Exception {
-		Assert.notNull( marketPrice, "{commandAlias} should not be null" );
-		Assert.notNull( marketPrice.getMarketPriceId(), "DeleteMarketPriceCommand identifier should not be null" );
+    public void validate( DeleteMarketPriceCommand marketPrice ) throws ValidationException {
+		if ( marketPrice == null )
+			throw new ValidationException( "MarketPrice", "validating DeleteMarketPriceCommand" );
+
+		if ( marketPrice.getPriceDate() == null )
+			throw new ValidationException( "MarketPrice", "validating getPriceDate" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a MarketPrice
 	 */
-	public void validate( MarketPriceFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "MarketPriceFetchOneSummary should not be null" );
-		Assert.notNull( summary.getMarketPriceId(), "MarketPriceFetchOneSummary identifier should not be null" );
+	public void validate( MarketPriceFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "MarketPrice", "validating summary );
 	}
 
 	/**
@@ -120,10 +126,16 @@ public class MarketPriceValidator {
 	 * 
 	 * @param	command AssignSecurityToMarketPriceCommand
 	 */	
-	public void validate( AssignSecurityToMarketPriceCommand command ) throws Exception {
-		Assert.notNull( command, "AssignSecurityToMarketPriceCommand should not be null" );
-		Assert.notNull( command.getMarketPriceId(), "AssignSecurityToMarketPriceCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignSecurityToMarketPriceCommand assignment should not be null" );
+	public void validate( AssignSecurityToMarketPriceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "MarketPrice", "validating AssignSecurityToMarketPriceCommand" );
+
+		if ( command.getMarketPriceId() == null )
+			throw new ValidationException( "MarketPrice", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "MarketPrice", "validating assignment" );
+
 	}
 
 	/**
@@ -131,9 +143,12 @@ public class MarketPriceValidator {
 	 * 
 	 * @param	command UnAssignSecurityFromMarketPriceCommand
 	 */	
-	public void validate( UnAssignSecurityFromMarketPriceCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignSecurityFromMarketPriceCommand should not be null" );
-		Assert.notNull( command.getMarketPriceId(), "UnAssignSecurityFromMarketPriceCommand identifier should not be null" );
+	public void validate( UnAssignSecurityFromMarketPriceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "MarketPrice", "validating UnAssignSecurityFromMarketPriceCommand" );
+
+		if ( command.getMarketPriceId() == null ) }
+			throw new ValidationException( "MarketPrice", "validating identity on UnAssignSecurityFromMarketPriceCommand" );
 	}
 
 

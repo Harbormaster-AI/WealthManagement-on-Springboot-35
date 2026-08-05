@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class BeneficiaryService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public BeneficiaryService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new BeneficiaryEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(BeneficiaryRepository.class) );
+		}
 
-    	projector 		= new BeneficiaryEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(BeneficiaryRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Beneficiary
+		 */
+			public Beneficiary createBeneficiary( CreateBeneficiaryCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Beneficiary
-    */
-	public Beneficiary createBeneficiary( CreateBeneficiaryCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Beneficiary entity = new Beneficiary();
 
-		Beneficiary entity = new Beneficiary();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	BeneficiaryValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BeneficiaryValidator.getInstance().validate( command );
 
             entity.setBeneficiaryId( command.getBeneficiaryId() );
             entity.setFirstName( command.getFirstName() );
             entity.setLastName( command.getLastName() );
             entity.setRelationship( command.getRelationship() );
             entity.setAllocationPercent( command.getAllocationPercent() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Beneficiary {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Beneficiary - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateBeneficiaryCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Beneficiary
-    */
-    public Beneficiary updateBeneficiary( UpdateBeneficiaryCommand command ) 
+				LOGGER.info( "done creating of Beneficiary {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Beneficiary - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateBeneficiaryCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Beneficiary
+		 */
+		public Beneficiary updateBeneficiary( UpdateBeneficiaryCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Beneficiary entity = new Beneficiary();
+			Beneficiary entity = new Beneficiary();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	BeneficiaryValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				BeneficiaryValidator.getInstance().validate( command );
 
             entity.setBeneficiaryId( command.getBeneficiaryId() );
             entity.setFirstName( command.getFirstName() );
@@ -181,223 +179,223 @@ extends BaseService {
             entity.setAllocationPercent( command.getAllocationPercent() );
             entity.setClient( command.getClient() );
             entity.setAccounts( command.getAccounts() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Beneficiary {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Beneficiary - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteBeneficiaryCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteBeneficiaryCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	BeneficiaryValidator.getInstance().validate( command );    
-        
-        	id = command.getBeneficiaryId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Beneficiary {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Beneficiary using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Beneficiary {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Beneficiary - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Beneficiary via BeneficiaryFetchOneSummary
-     * @param 	summary BeneficiaryFetchOneSummary 
-     * @return 	BeneficiaryFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteBeneficiaryCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteBeneficiaryCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BeneficiaryValidator.getInstance().validate( command );
+
+				id = command.getBeneficiaryId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Beneficiary {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Beneficiary using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Beneficiary via BeneficiaryFetchOneSummary
+		 * @param 	summary BeneficiaryFetchOneSummary
+		 * @return 	BeneficiaryFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Beneficiary getBeneficiary( BeneficiaryFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "BeneficiaryFetchOneSummary arg cannot be null" );
-    	
-    	Beneficiary entity = null;
-    	UUID id = summary.getBeneficiaryId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	BeneficiaryValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Beneficiary using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Beneficiary with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "BeneficiaryFetchOneSummary arg cannot be null" );
+
+			Beneficiary entity = null;
+			UUID id = summary.getBeneficiaryId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				BeneficiaryValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Beneficiary using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Beneficiary with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Beneficiarys
-     *
-     * @return 	List<Beneficiary> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Beneficiarys
+		 *
+		 * @return 	List<Beneficiary>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Beneficiary> getAllBeneficiary() 
     throws ProcessingException {
-        List<Beneficiary> list = null;
+			List<Beneficiary> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllBeneficiaryQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Beneficiary";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllBeneficiaryQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Beneficiary";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Client on Beneficiary
-     * @param		command AssignClientToBeneficiaryCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignClient( AssignClientToBeneficiaryCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	BeneficiaryValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignClient(command.getBeneficiaryId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Client using id " + command.getBeneficiaryId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Client on Beneficiary
-     * @param		command UnAssignClientFromBeneficiaryCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignClient( UnAssignClientFromBeneficiaryCommand command ) throws ProcessingException {
+		/**
+		 * assign Client on Beneficiary
+		 * @param		command AssignClientToBeneficiaryCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignClient( AssignClientToBeneficiaryCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	BeneficiaryValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				BeneficiaryValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignClient(command.getBeneficiaryId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Client using id " + command.getBeneficiaryId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Client on Beneficiary
+		 * @param		command UnAssignClientFromBeneficiaryCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignClient( UnAssignClientFromBeneficiaryCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BeneficiaryValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignClient(command.getBeneficiaryId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Client on Beneficiary";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignClient(command.getBeneficiaryId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Client on Beneficiary";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
 
-    /**
-     * add Account to Accounts 
-     * @param		command AssignAccountsToBeneficiaryCommand
-     * @exception	ProcessingException
-     */     
-	public void addToAccounts( AssignAccountsToBeneficiaryCommand command ) throws ProcessingException {
+		/**
+		 * add Account to Accounts
+		 * @param		command AssignAccountsToBeneficiaryCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToAccounts( AssignAccountsToBeneficiaryCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	BeneficiaryValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BeneficiaryValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToAccounts(command.getBeneficiaryId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Account as Accounts to Beneficiary" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Account from Accounts
-     * @param		command RemoveAccountsFromBeneficiaryCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromAccounts( RemoveAccountsFromBeneficiaryCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	BeneficiaryValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromAccounts(command.getBeneficiaryId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToAccounts(command.getBeneficiaryId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Account as Accounts to Beneficiary" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getBeneficiaryId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Account from Accounts
+		 * @param		command RemoveAccountsFromBeneficiaryCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromAccounts( RemoveAccountsFromBeneficiaryCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				BeneficiaryValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromAccounts(command.getBeneficiaryId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getBeneficiaryId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -410,5 +408,5 @@ extends BaseService {
     private final BeneficiaryEntityProjector projector;
 	private Beneficiary beneficiary 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(BeneficiaryService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BeneficiaryService.class);
 }

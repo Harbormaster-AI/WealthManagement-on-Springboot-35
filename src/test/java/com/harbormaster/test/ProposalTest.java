@@ -49,245 +49,245 @@ public class ProposalTest
     public ProposalTest(ProposalService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Proposal, through a ProposalTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on ProposalTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on ProposalTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on ProposalTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on ProposalTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Proposal.
      *
      * @return    Proposal
      */
     public Proposal testCreate() throws Throwable {
-        Proposal entity = null;
+    Proposal entity = null;
 
-        LOGGER.info( "ProposalTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Proposal");
+    LOGGER.info( "ProposalTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Proposal");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Proposal" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Proposal" );
 
-        try {            
-            entity = service.createProposal( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createProposal( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getProposalId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getProposalId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Proposal with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Proposal with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Proposal.
      *
-     * @return    Proposal  
+     * @return    Proposal
      */
     public Proposal testRead() throws Throwable {
-        LOGGER.info( "ProposalTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Proposal" );
+    LOGGER.info( "ProposalTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Proposal" );
 
-        Proposal entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Proposal with primary key" );
-        msg.append( theId );
+    Proposal entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Proposal with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getProposal( new ProposalFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getProposal( new ProposalFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getProposalId();
-            
-            LOGGER.info( "-- Successfully found Proposal " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getProposalId();
+
+        LOGGER.info( "-- Successfully found Proposal " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Proposal.
      *
      * @return    Proposal
      */
     public Proposal testUpdate() throws Throwable {
-        LOGGER.info( "ProposalTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Proposal." );
+    LOGGER.info( "ProposalTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Proposal." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Proposal : " );        
-        Proposal entity = null;
-    
-        try {            
-        	UpdateProposalCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setProposalId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Proposal : " );
+    Proposal entity = null;
 
-            LOGGER.info( "-- Now updating the created Proposal." );
-            
-            entity = service.updateProposal( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateProposalCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Proposal - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setProposalId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Proposal." );
+
+        entity = service.updateProposal( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Proposal - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Proposal.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "ProposalTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Proposal." );
-        
-        try {
-        	DeleteProposalCommand deleteCommand = new DeleteProposalCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Proposal with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Proposal with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "ProposalTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Proposal." );
 
-    /** 
+    try {
+        DeleteProposalCommand deleteCommand = new DeleteProposalCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Proposal with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Proposal with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Proposals.
      *
      * @return    Collection
      */
-    public List<Proposal> testGetAll() throws Throwable {    
-        LOGGER.info( "ProposalTest:testGetAll() - Retrieving Collection of Proposals:" );
+    public List<Proposal> testGetAll() throws Throwable {
+    LOGGER.info( "ProposalTest:testGetAll() - Retrieving Collection of Proposals:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Proposal : " );        
-        List<Proposal> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Proposal : " );
+    List<Proposal> collection  = null;
 
-        try {
-            // call the static get method on the ProposalService
-            collection = service.getAllProposal();
+    try {
+        // call the static get method on the ProposalService
+        collection = service.getAllProposal();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Proposal currEntity  = null;            
-	            Iterator<Proposal> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getProposalId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Proposal currEntity  = null;
+            Iterator<Proposal> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getProposalId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public ProposalTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Proposal
-	 * 
-	 * @return CreateProposalCommand alias
-	 */
+
+    /**
+     * Returns a new populated Proposal
+     *
+     * @return CreateProposalCommand alias
+     */
 	protected CreateProposalCommand generateNewCommand() {
-        CreateProposalCommand command = new CreateProposalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  ProposalStatus.values()[0],  RiskToleranceLevel.values()[0] );
-		
-		return( command );
-	}
+    CreateProposalCommand command = new CreateProposalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  ProposalStatus.values()[0],  RiskToleranceLevel.values()[0] );
 
-		/**
-		 * Returns a new populated Proposal
-		 * 
-		 * @return UpdateProposalCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Proposal
+     *
+     * @return UpdateProposalCommand alias
+     */
 	protected UpdateProposalCommand generateUpdateCommand() {
-	        UpdateProposalCommand command = new UpdateProposalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  null,  ProposalStatus.values()[0],  RiskToleranceLevel.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateProposalCommand command = new UpdateProposalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  null,  ProposalStatus.values()[0],  RiskToleranceLevel.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected ProposalService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Proposal.class.getName());
 
 }

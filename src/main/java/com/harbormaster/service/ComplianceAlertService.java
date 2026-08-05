@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class ComplianceAlertService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public ComplianceAlertService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new ComplianceAlertEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(ComplianceAlertRepository.class) );
+		}
 
-    	projector 		= new ComplianceAlertEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(ComplianceAlertRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		ComplianceAlert
+		 */
+			public ComplianceAlert createComplianceAlert( CreateComplianceAlertCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		ComplianceAlert
-    */
-	public ComplianceAlert createComplianceAlert( CreateComplianceAlertCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			ComplianceAlert entity = new ComplianceAlert();
 
-		ComplianceAlert entity = new ComplianceAlert();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	ComplianceAlertValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
 
             entity.setComplianceAlertId( command.getComplianceAlertId() );
             entity.setAlertDate( command.getAlertDate() );
             entity.setMessage( command.getMessage() );
             entity.setStatus( command.getStatus() );
             entity.setSeverity( command.getSeverity() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of ComplianceAlert {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create ComplianceAlert - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateComplianceAlertCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		ComplianceAlert
-    */
-    public ComplianceAlert updateComplianceAlert( UpdateComplianceAlertCommand command ) 
+				LOGGER.info( "done creating of ComplianceAlert {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create ComplianceAlert - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateComplianceAlertCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		ComplianceAlert
+		 */
+		public ComplianceAlert updateComplianceAlert( UpdateComplianceAlertCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    ComplianceAlert entity = new ComplianceAlert();
+			ComplianceAlert entity = new ComplianceAlert();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	ComplianceAlertValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
 
             entity.setComplianceAlertId( command.getComplianceAlertId() );
             entity.setAlertDate( command.getAlertDate() );
@@ -183,323 +181,323 @@ extends BaseService {
             entity.setAdvisor( command.getAdvisor() );
             entity.setStatus( command.getStatus() );
             entity.setSeverity( command.getSeverity() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of ComplianceAlert {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save ComplianceAlert - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteComplianceAlertCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteComplianceAlertCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	ComplianceAlertValidator.getInstance().validate( command );    
-        
-        	id = command.getComplianceAlertId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of ComplianceAlert {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete ComplianceAlert using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of ComplianceAlert {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save ComplianceAlert - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the ComplianceAlert via ComplianceAlertFetchOneSummary
-     * @param 	summary ComplianceAlertFetchOneSummary 
-     * @return 	ComplianceAlertFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteComplianceAlertCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteComplianceAlertCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
+
+				id = command.getComplianceAlertId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of ComplianceAlert {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete ComplianceAlert using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the ComplianceAlert via ComplianceAlertFetchOneSummary
+		 * @param 	summary ComplianceAlertFetchOneSummary
+		 * @return 	ComplianceAlertFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public ComplianceAlert getComplianceAlert( ComplianceAlertFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "ComplianceAlertFetchOneSummary arg cannot be null" );
-    	
-    	ComplianceAlert entity = null;
-    	UUID id = summary.getComplianceAlertId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	ComplianceAlertValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a ComplianceAlert using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate ComplianceAlert with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "ComplianceAlertFetchOneSummary arg cannot be null" );
+
+			ComplianceAlert entity = null;
+			UUID id = summary.getComplianceAlertId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a ComplianceAlert using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate ComplianceAlert with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all ComplianceAlerts
-     *
-     * @return 	List<ComplianceAlert> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all ComplianceAlerts
+		 *
+		 * @return 	List<ComplianceAlert>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<ComplianceAlert> getAllComplianceAlert() 
     throws ProcessingException {
-        List<ComplianceAlert> list = null;
+			List<ComplianceAlert> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllComplianceAlertQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all ComplianceAlert";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllComplianceAlertQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all ComplianceAlert";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Rule on ComplianceAlert
-     * @param		command AssignRuleToComplianceAlertCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignRule( AssignRuleToComplianceAlertCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	ComplianceAlertValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignRule(command.getComplianceAlertId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get ComplianceRule using id " + command.getComplianceAlertId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Rule on ComplianceAlert
-     * @param		command UnAssignRuleFromComplianceAlertCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignRule( UnAssignRuleFromComplianceAlertCommand command ) throws ProcessingException {
+		/**
+		 * assign Rule on ComplianceAlert
+		 * @param		command AssignRuleToComplianceAlertCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignRule( AssignRuleToComplianceAlertCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ComplianceAlertValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignRule(command.getComplianceAlertId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get ComplianceRule using id " + command.getComplianceAlertId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Rule on ComplianceAlert
+		 * @param		command UnAssignRuleFromComplianceAlertCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignRule( UnAssignRuleFromComplianceAlertCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignRule(command.getComplianceAlertId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Rule on ComplianceAlert";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignRule(command.getComplianceAlertId());
+		/**
+		 * assign Account on ComplianceAlert
+		 * @param		command AssignAccountToComplianceAlertCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToComplianceAlertCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getComplianceAlertId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getComplianceAlertId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Rule on ComplianceAlert";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Account on ComplianceAlert
+		 * @param		command UnAssignAccountFromComplianceAlertCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromComplianceAlertCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getComplianceAlertId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on ComplianceAlert";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign Account on ComplianceAlert
-     * @param		command AssignAccountToComplianceAlertCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToComplianceAlertCommand command ) throws ProcessingException {
+		/**
+		 * assign Order on ComplianceAlert
+		 * @param		command AssignOrderToComplianceAlertCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignOrder( AssignOrderToComplianceAlertCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	ComplianceAlertValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getComplianceAlertId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignOrder(command.getComplianceAlertId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Order using id " + command.getComplianceAlertId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getComplianceAlertId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on ComplianceAlert
-     * @param		command UnAssignAccountFromComplianceAlertCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromComplianceAlertCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Order on ComplianceAlert
+		 * @param		command UnAssignOrderFromComplianceAlertCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignOrder( UnAssignOrderFromComplianceAlertCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ComplianceAlertValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignOrder(command.getComplianceAlertId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Order on ComplianceAlert";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getComplianceAlertId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on ComplianceAlert";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Order on ComplianceAlert
-     * @param		command AssignOrderToComplianceAlertCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignOrder( AssignOrderToComplianceAlertCommand command ) throws ProcessingException {
+		/**
+		 * assign Advisor on ComplianceAlert
+		 * @param		command AssignAdvisorToComplianceAlertCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAdvisor( AssignAdvisorToComplianceAlertCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	ComplianceAlertValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignOrder(command.getComplianceAlertId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAdvisor(command.getComplianceAlertId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Advisor using id " + command.getComplianceAlertId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Order using id " + command.getComplianceAlertId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Order on ComplianceAlert
-     * @param		command UnAssignOrderFromComplianceAlertCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignOrder( UnAssignOrderFromComplianceAlertCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Advisor on ComplianceAlert
+		 * @param		command UnAssignAdvisorFromComplianceAlertCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAdvisor( UnAssignAdvisorFromComplianceAlertCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ComplianceAlertValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignOrder(command.getComplianceAlertId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceAlertValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAdvisor(command.getComplianceAlertId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Advisor on ComplianceAlert";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Order on ComplianceAlert";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Advisor on ComplianceAlert
-     * @param		command AssignAdvisorToComplianceAlertCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAdvisor( AssignAdvisorToComplianceAlertCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	ComplianceAlertValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAdvisor(command.getComplianceAlertId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Advisor using id " + command.getComplianceAlertId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign Advisor on ComplianceAlert
-     * @param		command UnAssignAdvisorFromComplianceAlertCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAdvisor( UnAssignAdvisorFromComplianceAlertCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ComplianceAlertValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAdvisor(command.getComplianceAlertId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Advisor on ComplianceAlert";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -513,5 +511,5 @@ extends BaseService {
     private final ComplianceAlertEntityProjector projector;
 	private ComplianceAlert complianceAlert 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceAlertService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceAlertService.class);
 }

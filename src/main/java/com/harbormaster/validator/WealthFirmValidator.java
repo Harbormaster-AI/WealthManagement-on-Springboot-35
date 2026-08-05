@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>WealthFirmValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -78,6 +80,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class WealthFirmValidator {
 		
 	/**
@@ -85,52 +88,59 @@ public class WealthFirmValidator {
 	 */
 	protected WealthFirmValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public WealthFirmValidator getInstance() {
-		return new WealthFirmValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a WealthFirm
 	 */
-	public void validate( CreateWealthFirmCommand wealthFirm )throws Exception {
-		Assert.notNull( wealthFirm, "CreateWealthFirmCommand should not be null" );
+	public void validate( CreateWealthFirmCommand wealthFirm )throws ValidationException {
+		if ( wealthFirm == null )
+			throw new ValidationException( "WealthFirm", "validating CreateWealthFirmCommand" );
+
 //		Assert.isNull( wealthFirm.getWealthFirmId(), "CreateWealthFirmCommand identifier should be null" );
-		Assert.notNull( wealthFirm.getName(), "Field CreateWealthFirmCommand.name should not be null" );
-		Assert.notNull( wealthFirm.getLegalName(), "Field CreateWealthFirmCommand.legalName should not be null" );
-		Assert.notNull( wealthFirm.getDomicileCountry(), "Field CreateWealthFirmCommand.domicileCountry should not be null" );
-		Assert.notNull( wealthFirm.getWebsite(), "Field CreateWealthFirmCommand.website should not be null" );
+		if ( wealthFirm.getName() == null )
+			throw new ValidationException( "WealthFirm", "validating access on getName" );
+		if ( wealthFirm.getLegalName() == null )
+			throw new ValidationException( "WealthFirm", "validating access on getLegalName" );
+		if ( wealthFirm.getDomicileCountry() == null )
+			throw new ValidationException( "WealthFirm", "validating access on getDomicileCountry" );
+		if ( wealthFirm.getWebsite() == null )
+			throw new ValidationException( "WealthFirm", "validating access on getWebsite" );
 	}
 
 	/**
 	 * handles update validation for a WealthFirm
 	 */
-	public void validate( UpdateWealthFirmCommand wealthFirm ) throws Exception {
-		Assert.notNull( wealthFirm, "UpdateWealthFirmCommand should not be null" );
-		Assert.notNull( wealthFirm.getWealthFirmId(), "UpdateWealthFirmCommand identifier should not be null" );
-		Assert.notNull( wealthFirm.getName(), "Field UpdateWealthFirmCommand.name should not be null" );
-		Assert.notNull( wealthFirm.getLegalName(), "Field UpdateWealthFirmCommand.legalName should not be null" );
-		Assert.notNull( wealthFirm.getDomicileCountry(), "Field UpdateWealthFirmCommand.domicileCountry should not be null" );
-		Assert.notNull( wealthFirm.getWebsite(), "Field UpdateWealthFirmCommand.website should not be null" );
+	public void validate( UpdateWealthFirmCommand wealthFirm ) throws ValidationException {
+		if ( wealthFirm == null )
+			throw new ValidationException( "WealthFirm", "validating UpdateWealthFirmCommand" );
+		if ( wealthFirm.getName() == null )
+			throw new ValidationException( "WealthFirm", "validating method getName" );
+		if ( wealthFirm.getLegalName() == null )
+			throw new ValidationException( "WealthFirm", "validating method getLegalName" );
+		if ( wealthFirm.getDomicileCountry() == null )
+			throw new ValidationException( "WealthFirm", "validating method getDomicileCountry" );
+		if ( wealthFirm.getWebsite() == null )
+			throw new ValidationException( "WealthFirm", "validating method getWebsite" );
     }
 
 	/**
 	 * handles delete validation for a WealthFirm
 	 */
-    public void validate( DeleteWealthFirmCommand wealthFirm ) throws Exception {
-		Assert.notNull( wealthFirm, "{commandAlias} should not be null" );
-		Assert.notNull( wealthFirm.getWealthFirmId(), "DeleteWealthFirmCommand identifier should not be null" );
+    public void validate( DeleteWealthFirmCommand wealthFirm ) throws ValidationException {
+		if ( wealthFirm == null )
+			throw new ValidationException( "WealthFirm", "validating DeleteWealthFirmCommand" );
+
+		if ( wealthFirm.getWebsite() == null )
+			throw new ValidationException( "WealthFirm", "validating getWebsite" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a WealthFirm
 	 */
-	public void validate( WealthFirmFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "WealthFirmFetchOneSummary should not be null" );
-		Assert.notNull( summary.getWealthFirmId(), "WealthFirmFetchOneSummary identifier should not be null" );
+	public void validate( WealthFirmFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "WealthFirm", "validating summary );
 	}
 
 
@@ -139,10 +149,16 @@ public class WealthFirmValidator {
 	 * 
 	 * @param	command AssignAdvisorsToWealthFirmCommand
 	 */	
-	public void validate( AssignAdvisorsToWealthFirmCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorsToWealthFirmCommand should not be null" );
-		Assert.notNull( command.getWealthFirmId(), "AssignAdvisorsToWealthFirmCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAdvisorsToWealthFirmCommand addTo attribute should not be null" );
+	public void validate( AssignAdvisorsToWealthFirmCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthFirm", "validating AssignAdvisorsToWealthFirmCommand" );
+
+		if ( command.getWealthFirmId() == null ) }
+			throw new ValidationException( "WealthFirm", "validating identity on AssignAdvisorsToWealthFirmCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "WealthFirm", "validating addTo attribute on AssignAdvisorsToWealthFirmCommand" );
+
 	}
 
 	/**
@@ -150,11 +166,18 @@ public class WealthFirmValidator {
 	 * 
 	 * @param	command RemoveAdvisorsFromWealthFirmCommand
 	 */	
-	public void validate( RemoveAdvisorsFromWealthFirmCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAdvisorsFromWealthFirmCommand should not be null" );
-		Assert.notNull( command.getWealthFirmId(), "RemoveAdvisorsFromWealthFirmCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAdvisorsFromWealthFirmCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAdvisorId(), "RemoveAdvisorsFromWealthFirmCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAdvisorsFromWealthFirmCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("WealthFirm", "validating RemoveAdvisorsFromWealthFirmCommand");
+
+		if( command.getWealthFirmId() == null )
+			throw new ValidationException"WealthFirm", "validating id on RemoveAdvisorsFromWealthFirmCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"WealthFirm", "validating remove from";
+
+		if( command.getRemoveFrom().getAdvisorId() == null )
+			throw new ValidationException"WealthFirm", "validating id on remove from}";
 	}
 	
 	/**
@@ -162,10 +185,16 @@ public class WealthFirmValidator {
 	 * 
 	 * @param	command AssignOfficesToWealthFirmCommand
 	 */	
-	public void validate( AssignOfficesToWealthFirmCommand command ) throws Exception {
-		Assert.notNull( command, "AssignOfficesToWealthFirmCommand should not be null" );
-		Assert.notNull( command.getWealthFirmId(), "AssignOfficesToWealthFirmCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignOfficesToWealthFirmCommand addTo attribute should not be null" );
+	public void validate( AssignOfficesToWealthFirmCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthFirm", "validating AssignOfficesToWealthFirmCommand" );
+
+		if ( command.getWealthFirmId() == null ) }
+			throw new ValidationException( "WealthFirm", "validating identity on AssignOfficesToWealthFirmCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "WealthFirm", "validating addTo attribute on AssignOfficesToWealthFirmCommand" );
+
 	}
 
 	/**
@@ -173,11 +202,18 @@ public class WealthFirmValidator {
 	 * 
 	 * @param	command RemoveOfficesFromWealthFirmCommand
 	 */	
-	public void validate( RemoveOfficesFromWealthFirmCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveOfficesFromWealthFirmCommand should not be null" );
-		Assert.notNull( command.getWealthFirmId(), "RemoveOfficesFromWealthFirmCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveOfficesFromWealthFirmCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getOfficeId(), "RemoveOfficesFromWealthFirmCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveOfficesFromWealthFirmCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("WealthFirm", "validating RemoveOfficesFromWealthFirmCommand");
+
+		if( command.getWealthFirmId() == null )
+			throw new ValidationException"WealthFirm", "validating id on RemoveOfficesFromWealthFirmCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"WealthFirm", "validating remove from";
+
+		if( command.getRemoveFrom().getOfficeId() == null )
+			throw new ValidationException"WealthFirm", "validating id on remove from}";
 	}
 	
 	/**
@@ -185,10 +221,16 @@ public class WealthFirmValidator {
 	 * 
 	 * @param	command AssignCustodiansToWealthFirmCommand
 	 */	
-	public void validate( AssignCustodiansToWealthFirmCommand command ) throws Exception {
-		Assert.notNull( command, "AssignCustodiansToWealthFirmCommand should not be null" );
-		Assert.notNull( command.getWealthFirmId(), "AssignCustodiansToWealthFirmCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignCustodiansToWealthFirmCommand addTo attribute should not be null" );
+	public void validate( AssignCustodiansToWealthFirmCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthFirm", "validating AssignCustodiansToWealthFirmCommand" );
+
+		if ( command.getWealthFirmId() == null ) }
+			throw new ValidationException( "WealthFirm", "validating identity on AssignCustodiansToWealthFirmCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "WealthFirm", "validating addTo attribute on AssignCustodiansToWealthFirmCommand" );
+
 	}
 
 	/**
@@ -196,11 +238,18 @@ public class WealthFirmValidator {
 	 * 
 	 * @param	command RemoveCustodiansFromWealthFirmCommand
 	 */	
-	public void validate( RemoveCustodiansFromWealthFirmCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveCustodiansFromWealthFirmCommand should not be null" );
-		Assert.notNull( command.getWealthFirmId(), "RemoveCustodiansFromWealthFirmCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveCustodiansFromWealthFirmCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getCustodianId(), "RemoveCustodiansFromWealthFirmCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveCustodiansFromWealthFirmCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("WealthFirm", "validating RemoveCustodiansFromWealthFirmCommand");
+
+		if( command.getWealthFirmId() == null )
+			throw new ValidationException"WealthFirm", "validating id on RemoveCustodiansFromWealthFirmCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"WealthFirm", "validating remove from";
+
+		if( command.getRemoveFrom().getCustodianId() == null )
+			throw new ValidationException"WealthFirm", "validating id on remove from}";
 	}
 	
 	/**
@@ -208,10 +257,16 @@ public class WealthFirmValidator {
 	 * 
 	 * @param	command AssignInvestmentProgramsToWealthFirmCommand
 	 */	
-	public void validate( AssignInvestmentProgramsToWealthFirmCommand command ) throws Exception {
-		Assert.notNull( command, "AssignInvestmentProgramsToWealthFirmCommand should not be null" );
-		Assert.notNull( command.getWealthFirmId(), "AssignInvestmentProgramsToWealthFirmCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignInvestmentProgramsToWealthFirmCommand addTo attribute should not be null" );
+	public void validate( AssignInvestmentProgramsToWealthFirmCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "WealthFirm", "validating AssignInvestmentProgramsToWealthFirmCommand" );
+
+		if ( command.getWealthFirmId() == null ) }
+			throw new ValidationException( "WealthFirm", "validating identity on AssignInvestmentProgramsToWealthFirmCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "WealthFirm", "validating addTo attribute on AssignInvestmentProgramsToWealthFirmCommand" );
+
 	}
 
 	/**
@@ -219,11 +274,18 @@ public class WealthFirmValidator {
 	 * 
 	 * @param	command RemoveInvestmentProgramsFromWealthFirmCommand
 	 */	
-	public void validate( RemoveInvestmentProgramsFromWealthFirmCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveInvestmentProgramsFromWealthFirmCommand should not be null" );
-		Assert.notNull( command.getWealthFirmId(), "RemoveInvestmentProgramsFromWealthFirmCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveInvestmentProgramsFromWealthFirmCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getInvestmentProgramId(), "RemoveInvestmentProgramsFromWealthFirmCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveInvestmentProgramsFromWealthFirmCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("WealthFirm", "validating RemoveInvestmentProgramsFromWealthFirmCommand");
+
+		if( command.getWealthFirmId() == null )
+			throw new ValidationException"WealthFirm", "validating id on RemoveInvestmentProgramsFromWealthFirmCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"WealthFirm", "validating remove from";
+
+		if( command.getRemoveFrom().getInvestmentProgramId() == null )
+			throw new ValidationException"WealthFirm", "validating id on remove from}";
 	}
 	
 

@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>InvestmentProgramValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class InvestmentProgramValidator {
 		
 	/**
@@ -77,50 +80,55 @@ public class InvestmentProgramValidator {
 	 */
 	protected InvestmentProgramValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public InvestmentProgramValidator getInstance() {
-		return new InvestmentProgramValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a InvestmentProgram
 	 */
-	public void validate( CreateInvestmentProgramCommand investmentProgram )throws Exception {
-		Assert.notNull( investmentProgram, "CreateInvestmentProgramCommand should not be null" );
+	public void validate( CreateInvestmentProgramCommand investmentProgram )throws ValidationException {
+		if ( investmentProgram == null )
+			throw new ValidationException( "InvestmentProgram", "validating CreateInvestmentProgramCommand" );
+
 //		Assert.isNull( investmentProgram.getInvestmentProgramId(), "CreateInvestmentProgramCommand identifier should be null" );
-		Assert.notNull( investmentProgram.getName(), "Field CreateInvestmentProgramCommand.name should not be null" );
-		Assert.notNull( investmentProgram.getDescription(), "Field CreateInvestmentProgramCommand.description should not be null" );
-		Assert.notNull( investmentProgram.getProgramType(), "Field CreateInvestmentProgramCommand.programType should not be null" );
+		if ( investmentProgram.getName() == null )
+			throw new ValidationException( "InvestmentProgram", "validating access on getName" );
+		if ( investmentProgram.getDescription() == null )
+			throw new ValidationException( "InvestmentProgram", "validating access on getDescription" );
+		if ( investmentProgram.getProgramType() == null )
+			throw new ValidationException( "InvestmentProgram", "validating access on getProgramType" );
 	}
 
 	/**
 	 * handles update validation for a InvestmentProgram
 	 */
-	public void validate( UpdateInvestmentProgramCommand investmentProgram ) throws Exception {
-		Assert.notNull( investmentProgram, "UpdateInvestmentProgramCommand should not be null" );
-		Assert.notNull( investmentProgram.getInvestmentProgramId(), "UpdateInvestmentProgramCommand identifier should not be null" );
-		Assert.notNull( investmentProgram.getName(), "Field UpdateInvestmentProgramCommand.name should not be null" );
-		Assert.notNull( investmentProgram.getDescription(), "Field UpdateInvestmentProgramCommand.description should not be null" );
-		Assert.notNull( investmentProgram.getProgramType(), "Field UpdateInvestmentProgramCommand.programType should not be null" );
+	public void validate( UpdateInvestmentProgramCommand investmentProgram ) throws ValidationException {
+		if ( investmentProgram == null )
+			throw new ValidationException( "InvestmentProgram", "validating UpdateInvestmentProgramCommand" );
+		if ( investmentProgram.getName() == null )
+			throw new ValidationException( "InvestmentProgram", "validating method getName" );
+		if ( investmentProgram.getDescription() == null )
+			throw new ValidationException( "InvestmentProgram", "validating method getDescription" );
+		if ( investmentProgram.getProgramType() == null )
+			throw new ValidationException( "InvestmentProgram", "validating method getProgramType" );
     }
 
 	/**
 	 * handles delete validation for a InvestmentProgram
 	 */
-    public void validate( DeleteInvestmentProgramCommand investmentProgram ) throws Exception {
-		Assert.notNull( investmentProgram, "{commandAlias} should not be null" );
-		Assert.notNull( investmentProgram.getInvestmentProgramId(), "DeleteInvestmentProgramCommand identifier should not be null" );
+    public void validate( DeleteInvestmentProgramCommand investmentProgram ) throws ValidationException {
+		if ( investmentProgram == null )
+			throw new ValidationException( "InvestmentProgram", "validating DeleteInvestmentProgramCommand" );
+
+		if ( investmentProgram.getProgramType() == null )
+			throw new ValidationException( "InvestmentProgram", "validating getProgramType" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a InvestmentProgram
 	 */
-	public void validate( InvestmentProgramFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "InvestmentProgramFetchOneSummary should not be null" );
-		Assert.notNull( summary.getInvestmentProgramId(), "InvestmentProgramFetchOneSummary identifier should not be null" );
+	public void validate( InvestmentProgramFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "InvestmentProgram", "validating summary );
 	}
 
 
@@ -129,10 +137,16 @@ public class InvestmentProgramValidator {
 	 * 
 	 * @param	command AssignModelPortfoliosToInvestmentProgramCommand
 	 */	
-	public void validate( AssignModelPortfoliosToInvestmentProgramCommand command ) throws Exception {
-		Assert.notNull( command, "AssignModelPortfoliosToInvestmentProgramCommand should not be null" );
-		Assert.notNull( command.getInvestmentProgramId(), "AssignModelPortfoliosToInvestmentProgramCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignModelPortfoliosToInvestmentProgramCommand addTo attribute should not be null" );
+	public void validate( AssignModelPortfoliosToInvestmentProgramCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "InvestmentProgram", "validating AssignModelPortfoliosToInvestmentProgramCommand" );
+
+		if ( command.getInvestmentProgramId() == null ) }
+			throw new ValidationException( "InvestmentProgram", "validating identity on AssignModelPortfoliosToInvestmentProgramCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "InvestmentProgram", "validating addTo attribute on AssignModelPortfoliosToInvestmentProgramCommand" );
+
 	}
 
 	/**
@@ -140,11 +154,18 @@ public class InvestmentProgramValidator {
 	 * 
 	 * @param	command RemoveModelPortfoliosFromInvestmentProgramCommand
 	 */	
-	public void validate( RemoveModelPortfoliosFromInvestmentProgramCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveModelPortfoliosFromInvestmentProgramCommand should not be null" );
-		Assert.notNull( command.getInvestmentProgramId(), "RemoveModelPortfoliosFromInvestmentProgramCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveModelPortfoliosFromInvestmentProgramCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getModelPortfolioId(), "RemoveModelPortfoliosFromInvestmentProgramCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveModelPortfoliosFromInvestmentProgramCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("InvestmentProgram", "validating RemoveModelPortfoliosFromInvestmentProgramCommand");
+
+		if( command.getInvestmentProgramId() == null )
+			throw new ValidationException"InvestmentProgram", "validating id on RemoveModelPortfoliosFromInvestmentProgramCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"InvestmentProgram", "validating remove from";
+
+		if( command.getRemoveFrom().getModelPortfolioId() == null )
+			throw new ValidationException"InvestmentProgram", "validating id on remove from}";
 	}
 	
 	/**
@@ -152,10 +173,16 @@ public class InvestmentProgramValidator {
 	 * 
 	 * @param	command AssignFeeSchedulesToInvestmentProgramCommand
 	 */	
-	public void validate( AssignFeeSchedulesToInvestmentProgramCommand command ) throws Exception {
-		Assert.notNull( command, "AssignFeeSchedulesToInvestmentProgramCommand should not be null" );
-		Assert.notNull( command.getInvestmentProgramId(), "AssignFeeSchedulesToInvestmentProgramCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignFeeSchedulesToInvestmentProgramCommand addTo attribute should not be null" );
+	public void validate( AssignFeeSchedulesToInvestmentProgramCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "InvestmentProgram", "validating AssignFeeSchedulesToInvestmentProgramCommand" );
+
+		if ( command.getInvestmentProgramId() == null ) }
+			throw new ValidationException( "InvestmentProgram", "validating identity on AssignFeeSchedulesToInvestmentProgramCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "InvestmentProgram", "validating addTo attribute on AssignFeeSchedulesToInvestmentProgramCommand" );
+
 	}
 
 	/**
@@ -163,11 +190,18 @@ public class InvestmentProgramValidator {
 	 * 
 	 * @param	command RemoveFeeSchedulesFromInvestmentProgramCommand
 	 */	
-	public void validate( RemoveFeeSchedulesFromInvestmentProgramCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveFeeSchedulesFromInvestmentProgramCommand should not be null" );
-		Assert.notNull( command.getInvestmentProgramId(), "RemoveFeeSchedulesFromInvestmentProgramCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveFeeSchedulesFromInvestmentProgramCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getFeeScheduleId(), "RemoveFeeSchedulesFromInvestmentProgramCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveFeeSchedulesFromInvestmentProgramCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("InvestmentProgram", "validating RemoveFeeSchedulesFromInvestmentProgramCommand");
+
+		if( command.getInvestmentProgramId() == null )
+			throw new ValidationException"InvestmentProgram", "validating id on RemoveFeeSchedulesFromInvestmentProgramCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"InvestmentProgram", "validating remove from";
+
+		if( command.getRemoveFrom().getFeeScheduleId() == null )
+			throw new ValidationException"InvestmentProgram", "validating id on remove from}";
 	}
 	
 

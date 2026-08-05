@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class AccountService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public AccountService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new AccountEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(AccountRepository.class) );
+		}
 
-    	projector 		= new AccountEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(AccountRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Account
+		 */
+			public Account createAccount( CreateAccountCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Account
-    */
-	public Account createAccount( CreateAccountCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Account entity = new Account();
 
-		Account entity = new Account();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	AccountValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
 
             entity.setAccountId( command.getAccountId() );
             entity.setName( command.getName() );
@@ -138,44 +136,44 @@ extends BaseService {
             entity.setAccountType( command.getAccountType() );
             entity.setRegistrationType( command.getRegistrationType() );
             entity.setStatus( command.getStatus() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Account {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Account - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateAccountCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Account
-    */
-    public Account updateAccount( UpdateAccountCommand command ) 
+				LOGGER.info( "done creating of Account {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Account - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateAccountCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Account
+		 */
+		public Account updateAccount( UpdateAccountCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Account entity = new Account();
+			Account entity = new Account();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	AccountValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
 
             entity.setAccountId( command.getAccountId() );
             entity.setName( command.getName() );
@@ -195,636 +193,636 @@ extends BaseService {
             entity.setAccountType( command.getAccountType() );
             entity.setRegistrationType( command.getRegistrationType() );
             entity.setStatus( command.getStatus() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Account {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Account - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteAccountCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteAccountCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	AccountValidator.getInstance().validate( command );    
-        
-        	id = command.getAccountId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Account {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Account using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Account {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Account - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Account via AccountFetchOneSummary
-     * @param 	summary AccountFetchOneSummary 
-     * @return 	AccountFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteAccountCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteAccountCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				id = command.getAccountId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Account {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Account using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Account via AccountFetchOneSummary
+		 * @param 	summary AccountFetchOneSummary
+		 * @return 	AccountFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Account getAccount( AccountFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "AccountFetchOneSummary arg cannot be null" );
-    	
-    	Account entity = null;
-    	UUID id = summary.getAccountId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	AccountValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Account using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Account with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "AccountFetchOneSummary arg cannot be null" );
+
+			Account entity = null;
+			UUID id = summary.getAccountId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				AccountValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Account using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Account with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Accounts
-     *
-     * @return 	List<Account> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Accounts
+		 *
+		 * @return 	List<Account>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Account> getAllAccount() 
     throws ProcessingException {
-        List<Account> list = null;
+			List<Account> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllAccountQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Account";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllAccountQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Account";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Household on Account
-     * @param		command AssignHouseholdToAccountCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignHousehold( AssignHouseholdToAccountCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignHousehold(command.getAccountId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Household using id " + command.getAccountId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Household on Account
-     * @param		command UnAssignHouseholdFromAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignHousehold( UnAssignHouseholdFromAccountCommand command ) throws ProcessingException {
+		/**
+		 * assign Household on Account
+		 * @param		command AssignHouseholdToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignHousehold( AssignHouseholdToAccountCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignHousehold(command.getAccountId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Household using id " + command.getAccountId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Household on Account
+		 * @param		command UnAssignHouseholdFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignHousehold( UnAssignHouseholdFromAccountCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignHousehold(command.getAccountId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Household on Account";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignHousehold(command.getAccountId());
+		/**
+		 * assign Advisor on Account
+		 * @param		command AssignAdvisorToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAdvisor( AssignAdvisorToAccountCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAdvisor(command.getAccountId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Advisor using id " + command.getAccountId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Household on Account";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Advisor on Account
+		 * @param		command UnAssignAdvisorFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAdvisor( UnAssignAdvisorFromAccountCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAdvisor(command.getAccountId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Advisor on Account";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign Advisor on Account
-     * @param		command AssignAdvisorToAccountCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAdvisor( AssignAdvisorToAccountCommand command ) throws ProcessingException {
+		/**
+		 * assign Custodian on Account
+		 * @param		command AssignCustodianToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignCustodian( AssignCustodianToAccountCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAdvisor(command.getAccountId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignCustodian(command.getAccountId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Custodian using id " + command.getAccountId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Advisor using id " + command.getAccountId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Advisor on Account
-     * @param		command UnAssignAdvisorFromAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAdvisor( UnAssignAdvisorFromAccountCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Custodian on Account
+		 * @param		command UnAssignCustodianFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignCustodian( UnAssignCustodianFromAccountCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignCustodian(command.getAccountId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Custodian on Account";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAdvisor(command.getAccountId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Advisor on Account";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Custodian on Account
-     * @param		command AssignCustodianToAccountCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignCustodian( AssignCustodianToAccountCommand command ) throws ProcessingException {
+		/**
+		 * assign Portfolio on Account
+		 * @param		command AssignPortfolioToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPortfolio( AssignPortfolioToAccountCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignCustodian(command.getAccountId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPortfolio(command.getAccountId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Portfolio using id " + command.getAccountId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Custodian using id " + command.getAccountId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Custodian on Account
-     * @param		command UnAssignCustodianFromAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignCustodian( UnAssignCustodianFromAccountCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Portfolio on Account
+		 * @param		command UnAssignPortfolioFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPortfolio( UnAssignPortfolioFromAccountCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignCustodian(command.getAccountId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPortfolio(command.getAccountId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Portfolio on Account";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Custodian on Account";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Portfolio on Account
-     * @param		command AssignPortfolioToAccountCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPortfolio( AssignPortfolioToAccountCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPortfolio(command.getAccountId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Portfolio using id " + command.getAccountId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign Portfolio on Account
-     * @param		command UnAssignPortfolioFromAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPortfolio( UnAssignPortfolioFromAccountCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPortfolio(command.getAccountId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Portfolio on Account";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add Beneficiary to Beneficiaries 
-     * @param		command AssignBeneficiariesToAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void addToBeneficiaries( AssignBeneficiariesToAccountCommand command ) throws ProcessingException {
+		/**
+		 * add Beneficiary to Beneficiaries
+		 * @param		command AssignBeneficiariesToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToBeneficiaries( AssignBeneficiariesToAccountCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToBeneficiaries(command.getAccountId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Beneficiary as Beneficiaries to Account" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Beneficiary from Beneficiaries
-     * @param		command RemoveBeneficiariesFromAccountCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromBeneficiaries( RemoveBeneficiariesFromAccountCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromBeneficiaries(command.getAccountId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToBeneficiaries(command.getAccountId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Beneficiary as Beneficiaries to Account" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAccountId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Position to Positions 
-     * @param		command AssignPositionsToAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void addToPositions( AssignPositionsToAccountCommand command ) throws ProcessingException {
+		/**
+		 * remove Beneficiary from Beneficiaries
+		 * @param		command RemoveBeneficiariesFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromBeneficiaries( RemoveBeneficiariesFromAccountCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToPositions(command.getAccountId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Position as Positions to Account" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromBeneficiaries(command.getAccountId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAccountId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add Position to Positions
+		 * @param		command AssignPositionsToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToPositions( AssignPositionsToAccountCommand command ) throws ProcessingException {
 
-    /**
-     * remove Position from Positions
-     * @param		command RemovePositionsFromAccountCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromPositions( RemovePositionsFromAccountCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromPositions(command.getAccountId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAccountId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add Transaction to Transactions 
-     * @param		command AssignTransactionsToAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void addToTransactions( AssignTransactionsToAccountCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToTransactions(command.getAccountId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Transaction as Transactions to Account" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Transaction from Transactions
-     * @param		command RemoveTransactionsFromAccountCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromTransactions( RemoveTransactionsFromAccountCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromTransactions(command.getAccountId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToPositions(command.getAccountId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Position as Positions to Account" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAccountId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Fee to Fees 
-     * @param		command AssignFeesToAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void addToFees( AssignFeesToAccountCommand command ) throws ProcessingException {
+		/**
+		 * remove Position from Positions
+		 * @param		command RemovePositionsFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromPositions( RemovePositionsFromAccountCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToFees(command.getAccountId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Fee as Fees to Account" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromPositions(command.getAccountId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAccountId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add Transaction to Transactions
+		 * @param		command AssignTransactionsToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToTransactions( AssignTransactionsToAccountCommand command ) throws ProcessingException {
 
-    /**
-     * remove Fee from Fees
-     * @param		command RemoveFeesFromAccountCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromFees( RemoveFeesFromAccountCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromFees(command.getAccountId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAccountId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add StandingInstruction to StandingInstructions 
-     * @param		command AssignStandingInstructionsToAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void addToStandingInstructions( AssignStandingInstructionsToAccountCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToStandingInstructions(command.getAccountId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a StandingInstruction as StandingInstructions to Account" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove StandingInstruction from StandingInstructions
-     * @param		command RemoveStandingInstructionsFromAccountCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromStandingInstructions( RemoveStandingInstructionsFromAccountCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromStandingInstructions(command.getAccountId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToTransactions(command.getAccountId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Transaction as Transactions to Account" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAccountId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Invoice to Invoices 
-     * @param		command AssignInvoicesToAccountCommand
-     * @exception	ProcessingException
-     */     
-	public void addToInvoices( AssignInvoicesToAccountCommand command ) throws ProcessingException {
+		/**
+		 * remove Transaction from Transactions
+		 * @param		command RemoveTransactionsFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromTransactions( RemoveTransactionsFromAccountCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToInvoices(command.getAccountId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Invoice as Invoices to Account" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromTransactions(command.getAccountId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAccountId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add Fee to Fees
+		 * @param		command AssignFeesToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToFees( AssignFeesToAccountCommand command ) throws ProcessingException {
 
-    /**
-     * remove Invoice from Invoices
-     * @param		command RemoveInvoicesFromAccountCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromInvoices( RemoveInvoicesFromAccountCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	AccountValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromInvoices(command.getAccountId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToFees(command.getAccountId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Fee as Fees to Account" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getAccountId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Fee from Fees
+		 * @param		command RemoveFeesFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromFees( RemoveFeesFromAccountCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromFees(command.getAccountId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAccountId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
+
+		/**
+		 * add StandingInstruction to StandingInstructions
+		 * @param		command AssignStandingInstructionsToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToStandingInstructions( AssignStandingInstructionsToAccountCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToStandingInstructions(command.getAccountId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a StandingInstruction as StandingInstructions to Account" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove StandingInstruction from StandingInstructions
+		 * @param		command RemoveStandingInstructionsFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromStandingInstructions( RemoveStandingInstructionsFromAccountCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromStandingInstructions(command.getAccountId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAccountId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * add Invoice to Invoices
+		 * @param		command AssignInvoicesToAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToInvoices( AssignInvoicesToAccountCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToInvoices(command.getAccountId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Invoice as Invoices to Account" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove Invoice from Invoices
+		 * @param		command RemoveInvoicesFromAccountCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromInvoices( RemoveInvoicesFromAccountCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				AccountValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromInvoices(command.getAccountId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getAccountId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
 
 
@@ -837,5 +835,5 @@ extends BaseService {
     private final AccountEntityProjector projector;
 	private Account account 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountService.class);
 }

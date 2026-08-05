@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>InvestmentPolicyValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class InvestmentPolicyValidator {
 		
 	/**
@@ -77,48 +80,51 @@ public class InvestmentPolicyValidator {
 	 */
 	protected InvestmentPolicyValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public InvestmentPolicyValidator getInstance() {
-		return new InvestmentPolicyValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a InvestmentPolicy
 	 */
-	public void validate( CreateInvestmentPolicyCommand investmentPolicy )throws Exception {
-		Assert.notNull( investmentPolicy, "CreateInvestmentPolicyCommand should not be null" );
+	public void validate( CreateInvestmentPolicyCommand investmentPolicy )throws ValidationException {
+		if ( investmentPolicy == null )
+			throw new ValidationException( "InvestmentPolicy", "validating CreateInvestmentPolicyCommand" );
+
 //		Assert.isNull( investmentPolicy.getInvestmentPolicyId(), "CreateInvestmentPolicyCommand identifier should be null" );
-		Assert.notNull( investmentPolicy.getPolicyNumber(), "Field CreateInvestmentPolicyCommand.policyNumber should not be null" );
-		Assert.notNull( investmentPolicy.getConstraints(), "Field CreateInvestmentPolicyCommand.constraints should not be null" );
+		if ( investmentPolicy.getPolicyNumber() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating access on getPolicyNumber" );
+		if ( investmentPolicy.getConstraints() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating access on getConstraints" );
 	}
 
 	/**
 	 * handles update validation for a InvestmentPolicy
 	 */
-	public void validate( UpdateInvestmentPolicyCommand investmentPolicy ) throws Exception {
-		Assert.notNull( investmentPolicy, "UpdateInvestmentPolicyCommand should not be null" );
-		Assert.notNull( investmentPolicy.getInvestmentPolicyId(), "UpdateInvestmentPolicyCommand identifier should not be null" );
-		Assert.notNull( investmentPolicy.getPolicyNumber(), "Field UpdateInvestmentPolicyCommand.policyNumber should not be null" );
-		Assert.notNull( investmentPolicy.getConstraints(), "Field UpdateInvestmentPolicyCommand.constraints should not be null" );
+	public void validate( UpdateInvestmentPolicyCommand investmentPolicy ) throws ValidationException {
+		if ( investmentPolicy == null )
+			throw new ValidationException( "InvestmentPolicy", "validating UpdateInvestmentPolicyCommand" );
+		if ( investmentPolicy.getPolicyNumber() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating method getPolicyNumber" );
+		if ( investmentPolicy.getConstraints() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating method getConstraints" );
     }
 
 	/**
 	 * handles delete validation for a InvestmentPolicy
 	 */
-    public void validate( DeleteInvestmentPolicyCommand investmentPolicy ) throws Exception {
-		Assert.notNull( investmentPolicy, "{commandAlias} should not be null" );
-		Assert.notNull( investmentPolicy.getInvestmentPolicyId(), "DeleteInvestmentPolicyCommand identifier should not be null" );
+    public void validate( DeleteInvestmentPolicyCommand investmentPolicy ) throws ValidationException {
+		if ( investmentPolicy == null )
+			throw new ValidationException( "InvestmentPolicy", "validating DeleteInvestmentPolicyCommand" );
+
+		if ( investmentPolicy.getConstraints() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating getConstraints" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a InvestmentPolicy
 	 */
-	public void validate( InvestmentPolicyFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "InvestmentPolicyFetchOneSummary should not be null" );
-		Assert.notNull( summary.getInvestmentPolicyId(), "InvestmentPolicyFetchOneSummary identifier should not be null" );
+	public void validate( InvestmentPolicyFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "InvestmentPolicy", "validating summary );
 	}
 
 	/**
@@ -126,10 +132,16 @@ public class InvestmentPolicyValidator {
 	 * 
 	 * @param	command AssignPortfolioToInvestmentPolicyCommand
 	 */	
-	public void validate( AssignPortfolioToInvestmentPolicyCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfolioToInvestmentPolicyCommand should not be null" );
-		Assert.notNull( command.getInvestmentPolicyId(), "AssignPortfolioToInvestmentPolicyCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPortfolioToInvestmentPolicyCommand assignment should not be null" );
+	public void validate( AssignPortfolioToInvestmentPolicyCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "InvestmentPolicy", "validating AssignPortfolioToInvestmentPolicyCommand" );
+
+		if ( command.getInvestmentPolicyId() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating assignment" );
+
 	}
 
 	/**
@@ -137,19 +149,28 @@ public class InvestmentPolicyValidator {
 	 * 
 	 * @param	command UnAssignPortfolioFromInvestmentPolicyCommand
 	 */	
-	public void validate( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPortfolioFromInvestmentPolicyCommand should not be null" );
-		Assert.notNull( command.getInvestmentPolicyId(), "UnAssignPortfolioFromInvestmentPolicyCommand identifier should not be null" );
+	public void validate( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "InvestmentPolicy", "validating UnAssignPortfolioFromInvestmentPolicyCommand" );
+
+		if ( command.getInvestmentPolicyId() == null ) }
+			throw new ValidationException( "InvestmentPolicy", "validating identity on UnAssignPortfolioFromInvestmentPolicyCommand" );
 	}
 	/**
 	 * handles assign RiskAssessment validation for a InvestmentPolicy
 	 * 
 	 * @param	command AssignRiskAssessmentToInvestmentPolicyCommand
 	 */	
-	public void validate( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws Exception {
-		Assert.notNull( command, "AssignRiskAssessmentToInvestmentPolicyCommand should not be null" );
-		Assert.notNull( command.getInvestmentPolicyId(), "AssignRiskAssessmentToInvestmentPolicyCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignRiskAssessmentToInvestmentPolicyCommand assignment should not be null" );
+	public void validate( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "InvestmentPolicy", "validating AssignRiskAssessmentToInvestmentPolicyCommand" );
+
+		if ( command.getInvestmentPolicyId() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "InvestmentPolicy", "validating assignment" );
+
 	}
 
 	/**
@@ -157,9 +178,12 @@ public class InvestmentPolicyValidator {
 	 * 
 	 * @param	command UnAssignRiskAssessmentFromInvestmentPolicyCommand
 	 */	
-	public void validate( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignRiskAssessmentFromInvestmentPolicyCommand should not be null" );
-		Assert.notNull( command.getInvestmentPolicyId(), "UnAssignRiskAssessmentFromInvestmentPolicyCommand identifier should not be null" );
+	public void validate( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "InvestmentPolicy", "validating UnAssignRiskAssessmentFromInvestmentPolicyCommand" );
+
+		if ( command.getInvestmentPolicyId() == null ) }
+			throw new ValidationException( "InvestmentPolicy", "validating identity on UnAssignRiskAssessmentFromInvestmentPolicyCommand" );
 	}
 
 	/**
@@ -167,10 +191,16 @@ public class InvestmentPolicyValidator {
 	 * 
 	 * @param	command AssignGoalsToInvestmentPolicyCommand
 	 */	
-	public void validate( AssignGoalsToInvestmentPolicyCommand command ) throws Exception {
-		Assert.notNull( command, "AssignGoalsToInvestmentPolicyCommand should not be null" );
-		Assert.notNull( command.getInvestmentPolicyId(), "AssignGoalsToInvestmentPolicyCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignGoalsToInvestmentPolicyCommand addTo attribute should not be null" );
+	public void validate( AssignGoalsToInvestmentPolicyCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "InvestmentPolicy", "validating AssignGoalsToInvestmentPolicyCommand" );
+
+		if ( command.getInvestmentPolicyId() == null ) }
+			throw new ValidationException( "InvestmentPolicy", "validating identity on AssignGoalsToInvestmentPolicyCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "InvestmentPolicy", "validating addTo attribute on AssignGoalsToInvestmentPolicyCommand" );
+
 	}
 
 	/**
@@ -178,11 +208,18 @@ public class InvestmentPolicyValidator {
 	 * 
 	 * @param	command RemoveGoalsFromInvestmentPolicyCommand
 	 */	
-	public void validate( RemoveGoalsFromInvestmentPolicyCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveGoalsFromInvestmentPolicyCommand should not be null" );
-		Assert.notNull( command.getInvestmentPolicyId(), "RemoveGoalsFromInvestmentPolicyCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveGoalsFromInvestmentPolicyCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getWealthGoalId(), "RemoveGoalsFromInvestmentPolicyCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveGoalsFromInvestmentPolicyCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("InvestmentPolicy", "validating RemoveGoalsFromInvestmentPolicyCommand");
+
+		if( command.getInvestmentPolicyId() == null )
+			throw new ValidationException"InvestmentPolicy", "validating id on RemoveGoalsFromInvestmentPolicyCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"InvestmentPolicy", "validating remove from";
+
+		if( command.getRemoveFrom().getWealthGoalId() == null )
+			throw new ValidationException"InvestmentPolicy", "validating id on remove from}";
 	}
 	
 

@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>CashMovementValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class CashMovementValidator {
 		
 	/**
@@ -75,50 +78,55 @@ public class CashMovementValidator {
 	 */
 	protected CashMovementValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public CashMovementValidator getInstance() {
-		return new CashMovementValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a CashMovement
 	 */
-	public void validate( CreateCashMovementCommand cashMovement )throws Exception {
-		Assert.notNull( cashMovement, "CreateCashMovementCommand should not be null" );
+	public void validate( CreateCashMovementCommand cashMovement )throws ValidationException {
+		if ( cashMovement == null )
+			throw new ValidationException( "CashMovement", "validating CreateCashMovementCommand" );
+
 //		Assert.isNull( cashMovement.getCashMovementId(), "CreateCashMovementCommand identifier should be null" );
-		Assert.notNull( cashMovement.getAmount(), "Field CreateCashMovementCommand.amount should not be null" );
-		Assert.notNull( cashMovement.getValueDate(), "Field CreateCashMovementCommand.valueDate should not be null" );
-		Assert.notNull( cashMovement.getDescription(), "Field CreateCashMovementCommand.description should not be null" );
+		if ( cashMovement.getAmount() == null )
+			throw new ValidationException( "CashMovement", "validating access on getAmount" );
+		if ( cashMovement.getValueDate() == null )
+			throw new ValidationException( "CashMovement", "validating access on getValueDate" );
+		if ( cashMovement.getDescription() == null )
+			throw new ValidationException( "CashMovement", "validating access on getDescription" );
 	}
 
 	/**
 	 * handles update validation for a CashMovement
 	 */
-	public void validate( UpdateCashMovementCommand cashMovement ) throws Exception {
-		Assert.notNull( cashMovement, "UpdateCashMovementCommand should not be null" );
-		Assert.notNull( cashMovement.getCashMovementId(), "UpdateCashMovementCommand identifier should not be null" );
-		Assert.notNull( cashMovement.getAmount(), "Field UpdateCashMovementCommand.amount should not be null" );
-		Assert.notNull( cashMovement.getValueDate(), "Field UpdateCashMovementCommand.valueDate should not be null" );
-		Assert.notNull( cashMovement.getDescription(), "Field UpdateCashMovementCommand.description should not be null" );
+	public void validate( UpdateCashMovementCommand cashMovement ) throws ValidationException {
+		if ( cashMovement == null )
+			throw new ValidationException( "CashMovement", "validating UpdateCashMovementCommand" );
+		if ( cashMovement.getAmount() == null )
+			throw new ValidationException( "CashMovement", "validating method getAmount" );
+		if ( cashMovement.getValueDate() == null )
+			throw new ValidationException( "CashMovement", "validating method getValueDate" );
+		if ( cashMovement.getDescription() == null )
+			throw new ValidationException( "CashMovement", "validating method getDescription" );
     }
 
 	/**
 	 * handles delete validation for a CashMovement
 	 */
-    public void validate( DeleteCashMovementCommand cashMovement ) throws Exception {
-		Assert.notNull( cashMovement, "{commandAlias} should not be null" );
-		Assert.notNull( cashMovement.getCashMovementId(), "DeleteCashMovementCommand identifier should not be null" );
+    public void validate( DeleteCashMovementCommand cashMovement ) throws ValidationException {
+		if ( cashMovement == null )
+			throw new ValidationException( "CashMovement", "validating DeleteCashMovementCommand" );
+
+		if ( cashMovement.getDescription() == null )
+			throw new ValidationException( "CashMovement", "validating getDescription" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a CashMovement
 	 */
-	public void validate( CashMovementFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "CashMovementFetchOneSummary should not be null" );
-		Assert.notNull( summary.getCashMovementId(), "CashMovementFetchOneSummary identifier should not be null" );
+	public void validate( CashMovementFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "CashMovement", "validating summary );
 	}
 
 	/**
@@ -126,10 +134,16 @@ public class CashMovementValidator {
 	 * 
 	 * @param	command AssignAccountToCashMovementCommand
 	 */	
-	public void validate( AssignAccountToCashMovementCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToCashMovementCommand should not be null" );
-		Assert.notNull( command.getCashMovementId(), "AssignAccountToCashMovementCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToCashMovementCommand assignment should not be null" );
+	public void validate( AssignAccountToCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating AssignAccountToCashMovementCommand" );
+
+		if ( command.getCashMovementId() == null )
+			throw new ValidationException( "CashMovement", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "CashMovement", "validating assignment" );
+
 	}
 
 	/**
@@ -137,19 +151,28 @@ public class CashMovementValidator {
 	 * 
 	 * @param	command UnAssignAccountFromCashMovementCommand
 	 */	
-	public void validate( UnAssignAccountFromCashMovementCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromCashMovementCommand should not be null" );
-		Assert.notNull( command.getCashMovementId(), "UnAssignAccountFromCashMovementCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating UnAssignAccountFromCashMovementCommand" );
+
+		if ( command.getCashMovementId() == null ) }
+			throw new ValidationException( "CashMovement", "validating identity on UnAssignAccountFromCashMovementCommand" );
 	}
 	/**
 	 * handles assign RelatedInstruction validation for a CashMovement
 	 * 
 	 * @param	command AssignRelatedInstructionToCashMovementCommand
 	 */	
-	public void validate( AssignRelatedInstructionToCashMovementCommand command ) throws Exception {
-		Assert.notNull( command, "AssignRelatedInstructionToCashMovementCommand should not be null" );
-		Assert.notNull( command.getCashMovementId(), "AssignRelatedInstructionToCashMovementCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignRelatedInstructionToCashMovementCommand assignment should not be null" );
+	public void validate( AssignRelatedInstructionToCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating AssignRelatedInstructionToCashMovementCommand" );
+
+		if ( command.getCashMovementId() == null )
+			throw new ValidationException( "CashMovement", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "CashMovement", "validating assignment" );
+
 	}
 
 	/**
@@ -157,19 +180,28 @@ public class CashMovementValidator {
 	 * 
 	 * @param	command UnAssignRelatedInstructionFromCashMovementCommand
 	 */	
-	public void validate( UnAssignRelatedInstructionFromCashMovementCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignRelatedInstructionFromCashMovementCommand should not be null" );
-		Assert.notNull( command.getCashMovementId(), "UnAssignRelatedInstructionFromCashMovementCommand identifier should not be null" );
+	public void validate( UnAssignRelatedInstructionFromCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating UnAssignRelatedInstructionFromCashMovementCommand" );
+
+		if ( command.getCashMovementId() == null ) }
+			throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedInstructionFromCashMovementCommand" );
 	}
 	/**
 	 * handles assign RelatedTransaction validation for a CashMovement
 	 * 
 	 * @param	command AssignRelatedTransactionToCashMovementCommand
 	 */	
-	public void validate( AssignRelatedTransactionToCashMovementCommand command ) throws Exception {
-		Assert.notNull( command, "AssignRelatedTransactionToCashMovementCommand should not be null" );
-		Assert.notNull( command.getCashMovementId(), "AssignRelatedTransactionToCashMovementCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignRelatedTransactionToCashMovementCommand assignment should not be null" );
+	public void validate( AssignRelatedTransactionToCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating AssignRelatedTransactionToCashMovementCommand" );
+
+		if ( command.getCashMovementId() == null )
+			throw new ValidationException( "CashMovement", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "CashMovement", "validating assignment" );
+
 	}
 
 	/**
@@ -177,9 +209,12 @@ public class CashMovementValidator {
 	 * 
 	 * @param	command UnAssignRelatedTransactionFromCashMovementCommand
 	 */	
-	public void validate( UnAssignRelatedTransactionFromCashMovementCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignRelatedTransactionFromCashMovementCommand should not be null" );
-		Assert.notNull( command.getCashMovementId(), "UnAssignRelatedTransactionFromCashMovementCommand identifier should not be null" );
+	public void validate( UnAssignRelatedTransactionFromCashMovementCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CashMovement", "validating UnAssignRelatedTransactionFromCashMovementCommand" );
+
+		if ( command.getCashMovementId() == null ) }
+			throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedTransactionFromCashMovementCommand" );
 	}
 
 

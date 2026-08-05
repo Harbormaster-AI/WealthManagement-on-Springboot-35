@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>PositionValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -74,6 +76,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class PositionValidator {
 		
 	/**
@@ -81,48 +84,51 @@ public class PositionValidator {
 	 */
 	protected PositionValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public PositionValidator getInstance() {
-		return new PositionValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Position
 	 */
-	public void validate( CreatePositionCommand position )throws Exception {
-		Assert.notNull( position, "CreatePositionCommand should not be null" );
+	public void validate( CreatePositionCommand position )throws ValidationException {
+		if ( position == null )
+			throw new ValidationException( "Position", "validating CreatePositionCommand" );
+
 //		Assert.isNull( position.getPositionId(), "CreatePositionCommand identifier should be null" );
-		Assert.notNull( position.getQuantity(), "Field CreatePositionCommand.quantity should not be null" );
-		Assert.notNull( position.getCostBasis(), "Field CreatePositionCommand.costBasis should not be null" );
+		if ( position.getQuantity() == null )
+			throw new ValidationException( "Position", "validating access on getQuantity" );
+		if ( position.getCostBasis() == null )
+			throw new ValidationException( "Position", "validating access on getCostBasis" );
 	}
 
 	/**
 	 * handles update validation for a Position
 	 */
-	public void validate( UpdatePositionCommand position ) throws Exception {
-		Assert.notNull( position, "UpdatePositionCommand should not be null" );
-		Assert.notNull( position.getPositionId(), "UpdatePositionCommand identifier should not be null" );
-		Assert.notNull( position.getQuantity(), "Field UpdatePositionCommand.quantity should not be null" );
-		Assert.notNull( position.getCostBasis(), "Field UpdatePositionCommand.costBasis should not be null" );
+	public void validate( UpdatePositionCommand position ) throws ValidationException {
+		if ( position == null )
+			throw new ValidationException( "Position", "validating UpdatePositionCommand" );
+		if ( position.getQuantity() == null )
+			throw new ValidationException( "Position", "validating method getQuantity" );
+		if ( position.getCostBasis() == null )
+			throw new ValidationException( "Position", "validating method getCostBasis" );
     }
 
 	/**
 	 * handles delete validation for a Position
 	 */
-    public void validate( DeletePositionCommand position ) throws Exception {
-		Assert.notNull( position, "{commandAlias} should not be null" );
-		Assert.notNull( position.getPositionId(), "DeletePositionCommand identifier should not be null" );
+    public void validate( DeletePositionCommand position ) throws ValidationException {
+		if ( position == null )
+			throw new ValidationException( "Position", "validating DeletePositionCommand" );
+
+		if ( position.getCostBasis() == null )
+			throw new ValidationException( "Position", "validating getCostBasis" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Position
 	 */
-	public void validate( PositionFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "PositionFetchOneSummary should not be null" );
-		Assert.notNull( summary.getPositionId(), "PositionFetchOneSummary identifier should not be null" );
+	public void validate( PositionFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Position", "validating summary );
 	}
 
 	/**
@@ -130,10 +136,16 @@ public class PositionValidator {
 	 * 
 	 * @param	command AssignPortfolioToPositionCommand
 	 */	
-	public void validate( AssignPortfolioToPositionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfolioToPositionCommand should not be null" );
-		Assert.notNull( command.getPositionId(), "AssignPortfolioToPositionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPortfolioToPositionCommand assignment should not be null" );
+	public void validate( AssignPortfolioToPositionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Position", "validating AssignPortfolioToPositionCommand" );
+
+		if ( command.getPositionId() == null )
+			throw new ValidationException( "Position", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Position", "validating assignment" );
+
 	}
 
 	/**
@@ -141,19 +153,28 @@ public class PositionValidator {
 	 * 
 	 * @param	command UnAssignPortfolioFromPositionCommand
 	 */	
-	public void validate( UnAssignPortfolioFromPositionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPortfolioFromPositionCommand should not be null" );
-		Assert.notNull( command.getPositionId(), "UnAssignPortfolioFromPositionCommand identifier should not be null" );
+	public void validate( UnAssignPortfolioFromPositionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Position", "validating UnAssignPortfolioFromPositionCommand" );
+
+		if ( command.getPositionId() == null ) }
+			throw new ValidationException( "Position", "validating identity on UnAssignPortfolioFromPositionCommand" );
 	}
 	/**
 	 * handles assign Security validation for a Position
 	 * 
 	 * @param	command AssignSecurityToPositionCommand
 	 */	
-	public void validate( AssignSecurityToPositionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignSecurityToPositionCommand should not be null" );
-		Assert.notNull( command.getPositionId(), "AssignSecurityToPositionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignSecurityToPositionCommand assignment should not be null" );
+	public void validate( AssignSecurityToPositionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Position", "validating AssignSecurityToPositionCommand" );
+
+		if ( command.getPositionId() == null )
+			throw new ValidationException( "Position", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Position", "validating assignment" );
+
 	}
 
 	/**
@@ -161,9 +182,12 @@ public class PositionValidator {
 	 * 
 	 * @param	command UnAssignSecurityFromPositionCommand
 	 */	
-	public void validate( UnAssignSecurityFromPositionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignSecurityFromPositionCommand should not be null" );
-		Assert.notNull( command.getPositionId(), "UnAssignSecurityFromPositionCommand identifier should not be null" );
+	public void validate( UnAssignSecurityFromPositionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Position", "validating UnAssignSecurityFromPositionCommand" );
+
+		if ( command.getPositionId() == null ) }
+			throw new ValidationException( "Position", "validating identity on UnAssignSecurityFromPositionCommand" );
 	}
 
 	/**
@@ -171,10 +195,16 @@ public class PositionValidator {
 	 * 
 	 * @param	command AssignTaxLotsToPositionCommand
 	 */	
-	public void validate( AssignTaxLotsToPositionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignTaxLotsToPositionCommand should not be null" );
-		Assert.notNull( command.getPositionId(), "AssignTaxLotsToPositionCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignTaxLotsToPositionCommand addTo attribute should not be null" );
+	public void validate( AssignTaxLotsToPositionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Position", "validating AssignTaxLotsToPositionCommand" );
+
+		if ( command.getPositionId() == null ) }
+			throw new ValidationException( "Position", "validating identity on AssignTaxLotsToPositionCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Position", "validating addTo attribute on AssignTaxLotsToPositionCommand" );
+
 	}
 
 	/**
@@ -182,11 +212,18 @@ public class PositionValidator {
 	 * 
 	 * @param	command RemoveTaxLotsFromPositionCommand
 	 */	
-	public void validate( RemoveTaxLotsFromPositionCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveTaxLotsFromPositionCommand should not be null" );
-		Assert.notNull( command.getPositionId(), "RemoveTaxLotsFromPositionCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveTaxLotsFromPositionCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getTaxLotId(), "RemoveTaxLotsFromPositionCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveTaxLotsFromPositionCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Position", "validating RemoveTaxLotsFromPositionCommand");
+
+		if( command.getPositionId() == null )
+			throw new ValidationException"Position", "validating id on RemoveTaxLotsFromPositionCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Position", "validating remove from";
+
+		if( command.getRemoveFrom().getTaxLotId() == null )
+			throw new ValidationException"Position", "validating id on remove from}";
 	}
 	
 	/**
@@ -194,10 +231,16 @@ public class PositionValidator {
 	 * 
 	 * @param	command AssignTransactionsToPositionCommand
 	 */	
-	public void validate( AssignTransactionsToPositionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignTransactionsToPositionCommand should not be null" );
-		Assert.notNull( command.getPositionId(), "AssignTransactionsToPositionCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignTransactionsToPositionCommand addTo attribute should not be null" );
+	public void validate( AssignTransactionsToPositionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Position", "validating AssignTransactionsToPositionCommand" );
+
+		if ( command.getPositionId() == null ) }
+			throw new ValidationException( "Position", "validating identity on AssignTransactionsToPositionCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Position", "validating addTo attribute on AssignTransactionsToPositionCommand" );
+
 	}
 
 	/**
@@ -205,11 +248,18 @@ public class PositionValidator {
 	 * 
 	 * @param	command RemoveTransactionsFromPositionCommand
 	 */	
-	public void validate( RemoveTransactionsFromPositionCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveTransactionsFromPositionCommand should not be null" );
-		Assert.notNull( command.getPositionId(), "RemoveTransactionsFromPositionCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveTransactionsFromPositionCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getTransactionId(), "RemoveTransactionsFromPositionCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveTransactionsFromPositionCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Position", "validating RemoveTransactionsFromPositionCommand");
+
+		if( command.getPositionId() == null )
+			throw new ValidationException"Position", "validating id on RemoveTransactionsFromPositionCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Position", "validating remove from";
+
+		if( command.getRemoveFrom().getTransactionId() == null )
+			throw new ValidationException"Position", "validating id on remove from}";
 	}
 	
 

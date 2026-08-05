@@ -37,7 +37,7 @@ enum class AdvisorRole {
 // enum AccountType
 // --------------------------------------------
 enum class AccountType {
-    Taxable, TraditionalIRA, RothIRA, SEPIRA, Trust, FourOOnek, FiveTwentyNine, HSA
+    Taxable, TraditionalIRA, RothIRA, SEPIRA, Trust, Four_O_One_k, Five_Twenty_Nine, HSA
 }
 
 // --------------------------------------------

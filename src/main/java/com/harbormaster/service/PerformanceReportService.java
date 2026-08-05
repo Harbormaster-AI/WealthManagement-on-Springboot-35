@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class PerformanceReportService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public PerformanceReportService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new PerformanceReportEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(PerformanceReportRepository.class) );
+		}
 
-    	projector 		= new PerformanceReportEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(PerformanceReportRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		PerformanceReport
+		 */
+			public PerformanceReport createPerformanceReport( CreatePerformanceReportCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		PerformanceReport
-    */
-	public PerformanceReport createPerformanceReport( CreatePerformanceReportCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			PerformanceReport entity = new PerformanceReport();
 
-		PerformanceReport entity = new PerformanceReport();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	PerformanceReportValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PerformanceReportValidator.getInstance().validate( command );
 
             entity.setPerformanceReportId( command.getPerformanceReportId() );
             entity.setPeriodStart( command.getPeriodStart() );
@@ -136,44 +134,44 @@ extends BaseService {
             entity.setNetReturn( command.getNetReturn() );
             entity.setGrossReturn( command.getGrossReturn() );
             entity.setFrequency( command.getFrequency() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of PerformanceReport {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create PerformanceReport - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdatePerformanceReportCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		PerformanceReport
-    */
-    public PerformanceReport updatePerformanceReport( UpdatePerformanceReportCommand command ) 
+				LOGGER.info( "done creating of PerformanceReport {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create PerformanceReport - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdatePerformanceReportCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		PerformanceReport
+		 */
+		public PerformanceReport updatePerformanceReport( UpdatePerformanceReportCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    PerformanceReport entity = new PerformanceReport();
+			PerformanceReport entity = new PerformanceReport();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	PerformanceReportValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				PerformanceReportValidator.getInstance().validate( command );
 
             entity.setPerformanceReportId( command.getPerformanceReportId() );
             entity.setPeriodStart( command.getPeriodStart() );
@@ -183,221 +181,221 @@ extends BaseService {
             entity.setPortfolio( command.getPortfolio() );
             entity.setBenchmark( command.getBenchmark() );
             entity.setFrequency( command.getFrequency() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of PerformanceReport {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save PerformanceReport - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeletePerformanceReportCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeletePerformanceReportCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	PerformanceReportValidator.getInstance().validate( command );    
-        
-        	id = command.getPerformanceReportId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of PerformanceReport {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete PerformanceReport using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of PerformanceReport {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save PerformanceReport - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the PerformanceReport via PerformanceReportFetchOneSummary
-     * @param 	summary PerformanceReportFetchOneSummary 
-     * @return 	PerformanceReportFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeletePerformanceReportCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeletePerformanceReportCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PerformanceReportValidator.getInstance().validate( command );
+
+				id = command.getPerformanceReportId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of PerformanceReport {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete PerformanceReport using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the PerformanceReport via PerformanceReportFetchOneSummary
+		 * @param 	summary PerformanceReportFetchOneSummary
+		 * @return 	PerformanceReportFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public PerformanceReport getPerformanceReport( PerformanceReportFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "PerformanceReportFetchOneSummary arg cannot be null" );
-    	
-    	PerformanceReport entity = null;
-    	UUID id = summary.getPerformanceReportId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	PerformanceReportValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a PerformanceReport using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate PerformanceReport with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "PerformanceReportFetchOneSummary arg cannot be null" );
+
+			PerformanceReport entity = null;
+			UUID id = summary.getPerformanceReportId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				PerformanceReportValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a PerformanceReport using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate PerformanceReport with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all PerformanceReports
-     *
-     * @return 	List<PerformanceReport> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all PerformanceReports
+		 *
+		 * @return 	List<PerformanceReport>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<PerformanceReport> getAllPerformanceReport() 
     throws ProcessingException {
-        List<PerformanceReport> list = null;
+			List<PerformanceReport> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllPerformanceReportQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all PerformanceReport";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllPerformanceReportQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all PerformanceReport";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Portfolio on PerformanceReport
-     * @param		command AssignPortfolioToPerformanceReportCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPortfolio( AssignPortfolioToPerformanceReportCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	PerformanceReportValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPortfolio(command.getPerformanceReportId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Portfolio using id " + command.getPerformanceReportId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Portfolio on PerformanceReport
-     * @param		command UnAssignPortfolioFromPerformanceReportCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPortfolio( UnAssignPortfolioFromPerformanceReportCommand command ) throws ProcessingException {
+		/**
+		 * assign Portfolio on PerformanceReport
+		 * @param		command AssignPortfolioToPerformanceReportCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPortfolio( AssignPortfolioToPerformanceReportCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PerformanceReportValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				PerformanceReportValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPortfolio(command.getPerformanceReportId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Portfolio using id " + command.getPerformanceReportId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Portfolio on PerformanceReport
+		 * @param		command UnAssignPortfolioFromPerformanceReportCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPortfolio( UnAssignPortfolioFromPerformanceReportCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PerformanceReportValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPortfolio(command.getPerformanceReportId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Portfolio on PerformanceReport";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPortfolio(command.getPerformanceReportId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Portfolio on PerformanceReport";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Benchmark on PerformanceReport
-     * @param		command AssignBenchmarkToPerformanceReportCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignBenchmark( AssignBenchmarkToPerformanceReportCommand command ) throws ProcessingException {
+		/**
+		 * assign Benchmark on PerformanceReport
+		 * @param		command AssignBenchmarkToPerformanceReportCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignBenchmark( AssignBenchmarkToPerformanceReportCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	PerformanceReportValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				PerformanceReportValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignBenchmark(command.getPerformanceReportId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Benchmark using id " + command.getPerformanceReportId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignBenchmark(command.getPerformanceReportId(), command.getAssignment());
 
-    /**
-     * unAssign Benchmark on PerformanceReport
-     * @param		command UnAssignBenchmarkFromPerformanceReportCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignBenchmark( UnAssignBenchmarkFromPerformanceReportCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Benchmark using id " + command.getPerformanceReportId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	PerformanceReportValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignBenchmark(command.getPerformanceReportId());
+		/**
+		 * unAssign Benchmark on PerformanceReport
+		 * @param		command UnAssignBenchmarkFromPerformanceReportCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignBenchmark( UnAssignBenchmarkFromPerformanceReportCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				PerformanceReportValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignBenchmark(command.getPerformanceReportId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Benchmark on PerformanceReport";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Benchmark on PerformanceReport";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -411,5 +409,5 @@ extends BaseService {
     private final PerformanceReportEntityProjector projector;
 	private PerformanceReport performanceReport 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(PerformanceReportService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PerformanceReportService.class);
 }

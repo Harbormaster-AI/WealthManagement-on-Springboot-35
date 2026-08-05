@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class InvoiceRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Invoice create( @RequestBody(required=true) CreateInvoiceCommand command ) {
     	Invoice entity = null;
-		try {       
-        	
-			entity = service.createInvoice( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createInvoice( command );
+		LOGGER.info( "Successfully created Invoice with Id " + entity.getInvoiceId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class InvoiceRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Invoice update( @RequestBody(required=true) UpdateInvoiceCommand command ) {
 		Invoice entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateInvoiceCommand
-			// -----------------------------------------------
-			entity = service.updateInvoice(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "InvoiceController:update() - successfully update Invoice - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateInvoice(command);
+		LOGGER.info( "Successfully updated Invoice with Id " + command.getInvoiceId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class InvoiceRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteInvoiceCommand command ) {                
-    	try {
-        	InvoiceService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Invoice with key " + command.getInvoiceId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Invoice with Id " + command.getInvoiceId()  );
+	}
 	
     /**
      * Handles loading a Invoice using a UUID
@@ -150,16 +133,10 @@ public class InvoiceRestController extends BaseSpringRestController {
      * @return		Invoice
      */    
     @GetMapping("/load")
-    public Invoice load( @RequestParam(required=true) UUID uuid ) {    	
-    	Invoice entity = null;
+    public Invoice load( @RequestParam(required=true) UUID uuid ) {
+    	Invoice entity = service.getInvoice( new InvoiceFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getInvoice( new InvoiceFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Invoice using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Invoice with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class InvoiceRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Invoice> loadAll() {                
     	List<Invoice> invoiceList = null;
-        
-    	try {
-            // load the Invoice
-            invoiceList = service.getAllInvoice();
-            
-            if ( invoiceList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Invoices" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Invoices ", exc );
-        	return null;
-        }
+
+		invoiceList = service.getAllInvoice();
+		LOGGER.log( Level.INFO,  "successfully loaded all Invoices" );
 
         return invoiceList;
                             
@@ -194,12 +162,8 @@ public class InvoiceRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToInvoiceCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getInvoiceId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class InvoiceRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromInvoiceCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getInvoiceId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class InvoiceRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignBillingRun")
 	public void assignBillingRun( @RequestBody AssignBillingRunToInvoiceCommand command ) {
-		try {
-			service.assignBillingRun( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign BillingRun", exc );
-        }
+		service.assignBillingRun( command );
+		LOGGER.info( "Successfully assigned BillingRun with Id " + command.getInvoiceId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class InvoiceRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignBillingRun")
 	public void unAssignBillingRun( @RequestBody(required=true)  UnAssignBillingRunFromInvoiceCommand command ) {
-		try {
-			service.unAssignBillingRun( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign BillingRun", exc );
-		}
+		service.unAssignBillingRun( command );
+		LOGGER.info( "Successfully unassigned BillingRun with Id " + command.getInvoiceId()  );
 	}
 	
 
@@ -251,12 +203,8 @@ public class InvoiceRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToFees")
 	public void addToFees( @RequestBody(required=true) AssignFeesToInvoiceCommand command ) {
-		try {
-			service.addToFees( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Fees", exc );
-		}
+		service.addToFees( command );
+		LOGGER.info( "Successfully added Fees with Id " + command.getInvoiceId()  );
 	}
 
     /**
@@ -266,12 +214,8 @@ public class InvoiceRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromFees")
 	public void removeFromFees( 	@RequestBody(required=true) RemoveFeesFromInvoiceCommand command )
 	{		
-		try {
-			service.removeFromFees( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Fees", exc );
-		}
+		service.removeFromFees( command );
+		LOGGER.info( "Successfully removed Fees with Id " + command.getInvoiceId()  );
 	}
 
 
@@ -282,6 +226,6 @@ public class InvoiceRestController extends BaseSpringRestController {
 //************************************************************************
     protected Invoice invoice = null;
 	protected InvoiceService service = null;
-    private static final Logger LOGGER = Logger.getLogger(InvoiceRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(InvoiceRestController.class.getName());
     
 }

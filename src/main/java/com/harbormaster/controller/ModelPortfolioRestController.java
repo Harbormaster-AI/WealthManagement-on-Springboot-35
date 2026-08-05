@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public ModelPortfolio create( @RequestBody(required=true) CreateModelPortfolioCommand command ) {
     	ModelPortfolio entity = null;
-		try {       
-        	
-			entity = service.createModelPortfolio( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createModelPortfolio( command );
+		LOGGER.info( "Successfully created ModelPortfolio with Id " + entity.getModelPortfolioId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public ModelPortfolio update( @RequestBody(required=true) UpdateModelPortfolioCommand command ) {
 		ModelPortfolio entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateModelPortfolioCommand
-			// -----------------------------------------------
-			entity = service.updateModelPortfolio(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "ModelPortfolioController:update() - successfully update ModelPortfolio - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateModelPortfolio(command);
+		LOGGER.info( "Successfully updated ModelPortfolio with Id " + command.getModelPortfolioId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteModelPortfolioCommand command ) {                
-    	try {
-        	ModelPortfolioService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted ModelPortfolio with key " + command.getModelPortfolioId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted ModelPortfolio with Id " + command.getModelPortfolioId()  );
+	}
 	
     /**
      * Handles loading a ModelPortfolio using a UUID
@@ -150,16 +133,10 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
      * @return		ModelPortfolio
      */    
     @GetMapping("/load")
-    public ModelPortfolio load( @RequestParam(required=true) UUID uuid ) {    	
-    	ModelPortfolio entity = null;
+    public ModelPortfolio load( @RequestParam(required=true) UUID uuid ) {
+    	ModelPortfolio entity = service.getModelPortfolio( new ModelPortfolioFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getModelPortfolio( new ModelPortfolioFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load ModelPortfolio using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded ModelPortfolio with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<ModelPortfolio> loadAll() {                
     	List<ModelPortfolio> modelPortfolioList = null;
-        
-    	try {
-            // load the ModelPortfolio
-            modelPortfolioList = service.getAllModelPortfolio();
-            
-            if ( modelPortfolioList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all ModelPortfolios" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all ModelPortfolios ", exc );
-        	return null;
-        }
+
+		modelPortfolioList = service.getAllModelPortfolio();
+		LOGGER.log( Level.INFO,  "successfully loaded all ModelPortfolios" );
 
         return modelPortfolioList;
                             
@@ -195,12 +163,8 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAllocations")
 	public void addToAllocations( @RequestBody(required=true) AssignAllocationsToModelPortfolioCommand command ) {
-		try {
-			service.addToAllocations( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Allocations", exc );
-		}
+		service.addToAllocations( command );
+		LOGGER.info( "Successfully added Allocations with Id " + command.getModelPortfolioId()  );
 	}
 
     /**
@@ -210,12 +174,8 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAllocations")
 	public void removeFromAllocations( 	@RequestBody(required=true) RemoveAllocationsFromModelPortfolioCommand command )
 	{		
-		try {
-			service.removeFromAllocations( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Allocations", exc );
-		}
+		service.removeFromAllocations( command );
+		LOGGER.info( "Successfully removed Allocations with Id " + command.getModelPortfolioId()  );
 	}
 
     /**
@@ -224,12 +184,8 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToPortfolios")
 	public void addToPortfolios( @RequestBody(required=true) AssignPortfoliosToModelPortfolioCommand command ) {
-		try {
-			service.addToPortfolios( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Portfolios", exc );
-		}
+		service.addToPortfolios( command );
+		LOGGER.info( "Successfully added Portfolios with Id " + command.getModelPortfolioId()  );
 	}
 
     /**
@@ -239,12 +195,8 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromPortfolios")
 	public void removeFromPortfolios( 	@RequestBody(required=true) RemovePortfoliosFromModelPortfolioCommand command )
 	{		
-		try {
-			service.removeFromPortfolios( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Portfolios", exc );
-		}
+		service.removeFromPortfolios( command );
+		LOGGER.info( "Successfully removed Portfolios with Id " + command.getModelPortfolioId()  );
 	}
 
 
@@ -255,6 +207,6 @@ public class ModelPortfolioRestController extends BaseSpringRestController {
 //************************************************************************
     protected ModelPortfolio modelPortfolio = null;
 	protected ModelPortfolioService service = null;
-    private static final Logger LOGGER = Logger.getLogger(ModelPortfolioRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModelPortfolioRestController.class.getName());
     
 }

@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public RiskAssessment create( @RequestBody(required=true) CreateRiskAssessmentCommand command ) {
     	RiskAssessment entity = null;
-		try {       
-        	
-			entity = service.createRiskAssessment( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createRiskAssessment( command );
+		LOGGER.info( "Successfully created RiskAssessment with Id " + entity.getRiskAssessmentId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public RiskAssessment update( @RequestBody(required=true) UpdateRiskAssessmentCommand command ) {
 		RiskAssessment entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateRiskAssessmentCommand
-			// -----------------------------------------------
-			entity = service.updateRiskAssessment(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "RiskAssessmentController:update() - successfully update RiskAssessment - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateRiskAssessment(command);
+		LOGGER.info( "Successfully updated RiskAssessment with Id " + command.getRiskAssessmentId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteRiskAssessmentCommand command ) {                
-    	try {
-        	RiskAssessmentService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted RiskAssessment with key " + command.getRiskAssessmentId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted RiskAssessment with Id " + command.getRiskAssessmentId()  );
+	}
 	
     /**
      * Handles loading a RiskAssessment using a UUID
@@ -150,16 +133,10 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
      * @return		RiskAssessment
      */    
     @GetMapping("/load")
-    public RiskAssessment load( @RequestParam(required=true) UUID uuid ) {    	
-    	RiskAssessment entity = null;
+    public RiskAssessment load( @RequestParam(required=true) UUID uuid ) {
+    	RiskAssessment entity = service.getRiskAssessment( new RiskAssessmentFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getRiskAssessment( new RiskAssessmentFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load RiskAssessment using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded RiskAssessment with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<RiskAssessment> loadAll() {                
     	List<RiskAssessment> riskAssessmentList = null;
-        
-    	try {
-            // load the RiskAssessment
-            riskAssessmentList = service.getAllRiskAssessment();
-            
-            if ( riskAssessmentList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all RiskAssessments" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all RiskAssessments ", exc );
-        	return null;
-        }
+
+		riskAssessmentList = service.getAllRiskAssessment();
+		LOGGER.log( Level.INFO,  "successfully loaded all RiskAssessments" );
 
         return riskAssessmentList;
                             
@@ -194,12 +162,8 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToRiskAssessmentCommand command ) {
-		try {
-			service.assignHousehold( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
-        }
+		service.assignHousehold( command );
+		LOGGER.info( "Successfully assigned Household with Id " + command.getRiskAssessmentId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromRiskAssessmentCommand command ) {
-		try {
-			service.unAssignHousehold( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
-		}
+		service.unAssignHousehold( command );
+		LOGGER.info( "Successfully unassigned Household with Id " + command.getRiskAssessmentId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToRiskAssessmentCommand command ) {
-		try {
-			service.assignAdvisor( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
-        }
+		service.assignAdvisor( command );
+		LOGGER.info( "Successfully assigned Advisor with Id " + command.getRiskAssessmentId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromRiskAssessmentCommand command ) {
-		try {
-			service.unAssignAdvisor( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
-		}
+		service.unAssignAdvisor( command );
+		LOGGER.info( "Successfully unassigned Advisor with Id " + command.getRiskAssessmentId()  );
 	}
 	
 
@@ -253,6 +205,6 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
 //************************************************************************
     protected RiskAssessment riskAssessment = null;
 	protected RiskAssessmentService service = null;
-    private static final Logger LOGGER = Logger.getLogger(RiskAssessmentRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(RiskAssessmentRestController.class.getName());
     
 }

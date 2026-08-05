@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class DocumentRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Document create( @RequestBody(required=true) CreateDocumentCommand command ) {
     	Document entity = null;
-		try {       
-        	
-			entity = service.createDocument( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createDocument( command );
+		LOGGER.info( "Successfully created Document with Id " + entity.getDocumentId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class DocumentRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Document update( @RequestBody(required=true) UpdateDocumentCommand command ) {
 		Document entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateDocumentCommand
-			// -----------------------------------------------
-			entity = service.updateDocument(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "DocumentController:update() - successfully update Document - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateDocument(command);
+		LOGGER.info( "Successfully updated Document with Id " + command.getDocumentId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class DocumentRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteDocumentCommand command ) {                
-    	try {
-        	DocumentService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Document with key " + command.getDocumentId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Document with Id " + command.getDocumentId()  );
+	}
 	
     /**
      * Handles loading a Document using a UUID
@@ -150,16 +133,10 @@ public class DocumentRestController extends BaseSpringRestController {
      * @return		Document
      */    
     @GetMapping("/load")
-    public Document load( @RequestParam(required=true) UUID uuid ) {    	
-    	Document entity = null;
+    public Document load( @RequestParam(required=true) UUID uuid ) {
+    	Document entity = service.getDocument( new DocumentFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getDocument( new DocumentFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Document using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Document with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class DocumentRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Document> loadAll() {                
     	List<Document> documentList = null;
-        
-    	try {
-            // load the Document
-            documentList = service.getAllDocument();
-            
-            if ( documentList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Documents" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Documents ", exc );
-        	return null;
-        }
+
+		documentList = service.getAllDocument();
+		LOGGER.log( Level.INFO,  "successfully loaded all Documents" );
 
         return documentList;
                             
@@ -194,12 +162,8 @@ public class DocumentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignClient")
 	public void assignClient( @RequestBody AssignClientToDocumentCommand command ) {
-		try {
-			service.assignClient( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Client", exc );
-        }
+		service.assignClient( command );
+		LOGGER.info( "Successfully assigned Client with Id " + command.getDocumentId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class DocumentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignClient")
 	public void unAssignClient( @RequestBody(required=true)  UnAssignClientFromDocumentCommand command ) {
-		try {
-			service.unAssignClient( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Client", exc );
-		}
+		service.unAssignClient( command );
+		LOGGER.info( "Successfully unassigned Client with Id " + command.getDocumentId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class DocumentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignKycRecord")
 	public void assignKycRecord( @RequestBody AssignKycRecordToDocumentCommand command ) {
-		try {
-			service.assignKycRecord( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign KycRecord", exc );
-        }
+		service.assignKycRecord( command );
+		LOGGER.info( "Successfully assigned KycRecord with Id " + command.getDocumentId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class DocumentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignKycRecord")
 	public void unAssignKycRecord( @RequestBody(required=true)  UnAssignKycRecordFromDocumentCommand command ) {
-		try {
-			service.unAssignKycRecord( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign KycRecord", exc );
-		}
+		service.unAssignKycRecord( command );
+		LOGGER.info( "Successfully unassigned KycRecord with Id " + command.getDocumentId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class DocumentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAgreement")
 	public void assignAgreement( @RequestBody AssignAgreementToDocumentCommand command ) {
-		try {
-			service.assignAgreement( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Agreement", exc );
-        }
+		service.assignAgreement( command );
+		LOGGER.info( "Successfully assigned Agreement with Id " + command.getDocumentId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class DocumentRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAgreement")
 	public void unAssignAgreement( @RequestBody(required=true)  UnAssignAgreementFromDocumentCommand command ) {
-		try {
-			service.unAssignAgreement( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Agreement", exc );
-		}
+		service.unAssignAgreement( command );
+		LOGGER.info( "Successfully unassigned Agreement with Id " + command.getDocumentId()  );
 	}
 	
 
@@ -281,6 +225,6 @@ public class DocumentRestController extends BaseSpringRestController {
 //************************************************************************
     protected Document document = null;
 	protected DocumentService service = null;
-    private static final Logger LOGGER = Logger.getLogger(DocumentRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRestController.class.getName());
     
 }

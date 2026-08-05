@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public InvestmentPolicy create( @RequestBody(required=true) CreateInvestmentPolicyCommand command ) {
     	InvestmentPolicy entity = null;
-		try {       
-        	
-			entity = service.createInvestmentPolicy( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createInvestmentPolicy( command );
+		LOGGER.info( "Successfully created InvestmentPolicy with Id " + entity.getInvestmentPolicyId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public InvestmentPolicy update( @RequestBody(required=true) UpdateInvestmentPolicyCommand command ) {
 		InvestmentPolicy entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateInvestmentPolicyCommand
-			// -----------------------------------------------
-			entity = service.updateInvestmentPolicy(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "InvestmentPolicyController:update() - successfully update InvestmentPolicy - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateInvestmentPolicy(command);
+		LOGGER.info( "Successfully updated InvestmentPolicy with Id " + command.getInvestmentPolicyId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteInvestmentPolicyCommand command ) {                
-    	try {
-        	InvestmentPolicyService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted InvestmentPolicy with key " + command.getInvestmentPolicyId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted InvestmentPolicy with Id " + command.getInvestmentPolicyId()  );
+	}
 	
     /**
      * Handles loading a InvestmentPolicy using a UUID
@@ -150,16 +133,10 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
      * @return		InvestmentPolicy
      */    
     @GetMapping("/load")
-    public InvestmentPolicy load( @RequestParam(required=true) UUID uuid ) {    	
-    	InvestmentPolicy entity = null;
+    public InvestmentPolicy load( @RequestParam(required=true) UUID uuid ) {
+    	InvestmentPolicy entity = service.getInvestmentPolicy( new InvestmentPolicyFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getInvestmentPolicy( new InvestmentPolicyFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load InvestmentPolicy using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded InvestmentPolicy with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<InvestmentPolicy> loadAll() {                
     	List<InvestmentPolicy> investmentPolicyList = null;
-        
-    	try {
-            // load the InvestmentPolicy
-            investmentPolicyList = service.getAllInvestmentPolicy();
-            
-            if ( investmentPolicyList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all InvestmentPolicys" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all InvestmentPolicys ", exc );
-        	return null;
-        }
+
+		investmentPolicyList = service.getAllInvestmentPolicy();
+		LOGGER.log( Level.INFO,  "successfully loaded all InvestmentPolicys" );
 
         return investmentPolicyList;
                             
@@ -194,12 +162,8 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToInvestmentPolicyCommand command ) {
-		try {
-			service.assignPortfolio( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
-        }
+		service.assignPortfolio( command );
+		LOGGER.info( "Successfully assigned Portfolio with Id " + command.getInvestmentPolicyId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromInvestmentPolicyCommand command ) {
-		try {
-			service.unAssignPortfolio( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
-		}
+		service.unAssignPortfolio( command );
+		LOGGER.info( "Successfully unassigned Portfolio with Id " + command.getInvestmentPolicyId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignRiskAssessment")
 	public void assignRiskAssessment( @RequestBody AssignRiskAssessmentToInvestmentPolicyCommand command ) {
-		try {
-			service.assignRiskAssessment( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign RiskAssessment", exc );
-        }
+		service.assignRiskAssessment( command );
+		LOGGER.info( "Successfully assigned RiskAssessment with Id " + command.getInvestmentPolicyId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignRiskAssessment")
 	public void unAssignRiskAssessment( @RequestBody(required=true)  UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) {
-		try {
-			service.unAssignRiskAssessment( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign RiskAssessment", exc );
-		}
+		service.unAssignRiskAssessment( command );
+		LOGGER.info( "Successfully unassigned RiskAssessment with Id " + command.getInvestmentPolicyId()  );
 	}
 	
 
@@ -251,12 +203,8 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToGoals")
 	public void addToGoals( @RequestBody(required=true) AssignGoalsToInvestmentPolicyCommand command ) {
-		try {
-			service.addToGoals( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Goals", exc );
-		}
+		service.addToGoals( command );
+		LOGGER.info( "Successfully added Goals with Id " + command.getInvestmentPolicyId()  );
 	}
 
     /**
@@ -266,12 +214,8 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromGoals")
 	public void removeFromGoals( 	@RequestBody(required=true) RemoveGoalsFromInvestmentPolicyCommand command )
 	{		
-		try {
-			service.removeFromGoals( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Goals", exc );
-		}
+		service.removeFromGoals( command );
+		LOGGER.info( "Successfully removed Goals with Id " + command.getInvestmentPolicyId()  );
 	}
 
 
@@ -282,6 +226,6 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
 //************************************************************************
     protected InvestmentPolicy investmentPolicy = null;
 	protected InvestmentPolicyService service = null;
-    private static final Logger LOGGER = Logger.getLogger(InvestmentPolicyRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(InvestmentPolicyRestController.class.getName());
     
 }

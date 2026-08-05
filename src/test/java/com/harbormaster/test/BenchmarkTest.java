@@ -49,245 +49,245 @@ public class BenchmarkTest
     public BenchmarkTest(BenchmarkService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Benchmark, through a BenchmarkTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on BenchmarkTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on BenchmarkTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on BenchmarkTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on BenchmarkTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Benchmark.
      *
      * @return    Benchmark
      */
     public Benchmark testCreate() throws Throwable {
-        Benchmark entity = null;
+    Benchmark entity = null;
 
-        LOGGER.info( "BenchmarkTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Benchmark");
+    LOGGER.info( "BenchmarkTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Benchmark");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Benchmark" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Benchmark" );
 
-        try {            
-            entity = service.createBenchmark( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createBenchmark( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getBenchmarkId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getBenchmarkId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Benchmark with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Benchmark with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Benchmark.
      *
-     * @return    Benchmark  
+     * @return    Benchmark
      */
     public Benchmark testRead() throws Throwable {
-        LOGGER.info( "BenchmarkTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Benchmark" );
+    LOGGER.info( "BenchmarkTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Benchmark" );
 
-        Benchmark entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Benchmark with primary key" );
-        msg.append( theId );
+    Benchmark entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Benchmark with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getBenchmark( new BenchmarkFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getBenchmark( new BenchmarkFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getBenchmarkId();
-            
-            LOGGER.info( "-- Successfully found Benchmark " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getBenchmarkId();
+
+        LOGGER.info( "-- Successfully found Benchmark " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Benchmark.
      *
      * @return    Benchmark
      */
     public Benchmark testUpdate() throws Throwable {
-        LOGGER.info( "BenchmarkTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Benchmark." );
+    LOGGER.info( "BenchmarkTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Benchmark." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Benchmark : " );        
-        Benchmark entity = null;
-    
-        try {            
-        	UpdateBenchmarkCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setBenchmarkId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Benchmark : " );
+    Benchmark entity = null;
 
-            LOGGER.info( "-- Now updating the created Benchmark." );
-            
-            entity = service.updateBenchmark( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateBenchmarkCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Benchmark - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setBenchmarkId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Benchmark." );
+
+        entity = service.updateBenchmark( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Benchmark - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Benchmark.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "BenchmarkTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Benchmark." );
-        
-        try {
-        	DeleteBenchmarkCommand deleteCommand = new DeleteBenchmarkCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Benchmark with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Benchmark with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "BenchmarkTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Benchmark." );
 
-    /** 
+    try {
+        DeleteBenchmarkCommand deleteCommand = new DeleteBenchmarkCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Benchmark with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Benchmark with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Benchmarks.
      *
      * @return    Collection
      */
-    public List<Benchmark> testGetAll() throws Throwable {    
-        LOGGER.info( "BenchmarkTest:testGetAll() - Retrieving Collection of Benchmarks:" );
+    public List<Benchmark> testGetAll() throws Throwable {
+    LOGGER.info( "BenchmarkTest:testGetAll() - Retrieving Collection of Benchmarks:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Benchmark : " );        
-        List<Benchmark> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Benchmark : " );
+    List<Benchmark> collection  = null;
 
-        try {
-            // call the static get method on the BenchmarkService
-            collection = service.getAllBenchmark();
+    try {
+        // call the static get method on the BenchmarkService
+        collection = service.getAllBenchmark();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Benchmark currEntity  = null;            
-	            Iterator<Benchmark> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getBenchmarkId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Benchmark currEntity  = null;
+            Iterator<Benchmark> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getBenchmarkId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public BenchmarkTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Benchmark
-	 * 
-	 * @return CreateBenchmarkCommand alias
-	 */
+
+    /**
+     * Returns a new populated Benchmark
+     *
+     * @return CreateBenchmarkCommand alias
+     */
 	protected CreateBenchmarkCommand generateNewCommand() {
-        CreateBenchmarkCommand command = new CreateBenchmarkCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  BenchmarkType.values()[0] );
-		
-		return( command );
-	}
+    CreateBenchmarkCommand command = new CreateBenchmarkCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  BenchmarkType.values()[0] );
 
-		/**
-		 * Returns a new populated Benchmark
-		 * 
-		 * @return UpdateBenchmarkCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Benchmark
+     *
+     * @return UpdateBenchmarkCommand alias
+     */
 	protected UpdateBenchmarkCommand generateUpdateCommand() {
-	        UpdateBenchmarkCommand command = new UpdateBenchmarkCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>(),  BenchmarkType.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateBenchmarkCommand command = new UpdateBenchmarkCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>(),  BenchmarkType.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected BenchmarkService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Benchmark.class.getName());
 
 }

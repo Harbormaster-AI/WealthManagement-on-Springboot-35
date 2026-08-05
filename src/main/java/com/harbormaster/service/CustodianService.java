@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,85 +93,83 @@ import com.harbormaster.security.*;
  */
 @Service
 public class CustodianService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public CustodianService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new CustodianEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(CustodianRepository.class) );
+		}
 
-    	projector 		= new CustodianEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(CustodianRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Custodian
+		 */
+			public Custodian createCustodian( CreateCustodianCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Custodian
-    */
-	public Custodian createCustodian( CreateCustodianCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Custodian entity = new Custodian();
 
-		Custodian entity = new Custodian();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	CustodianValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CustodianValidator.getInstance().validate( command );
 
             entity.setCustodianId( command.getCustodianId() );
             entity.setName( command.getName() );
             entity.setClearingNumber( command.getClearingNumber() );
             entity.setCountry( command.getCountry() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Custodian {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Custodian - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateCustodianCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Custodian
-    */
-    public Custodian updateCustodian( UpdateCustodianCommand command ) 
+				LOGGER.info( "done creating of Custodian {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Custodian - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateCustodianCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Custodian
+		 */
+		public Custodian updateCustodian( UpdateCustodianCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Custodian entity = new Custodian();
+			Custodian entity = new Custodian();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	CustodianValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				CustodianValidator.getInstance().validate( command );
 
             entity.setCustodianId( command.getCustodianId() );
             entity.setName( command.getName() );
@@ -179,224 +177,224 @@ extends BaseService {
             entity.setCountry( command.getCountry() );
             entity.setAccounts( command.getAccounts() );
             entity.setTransfers( command.getTransfers() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Custodian {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Custodian - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteCustodianCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteCustodianCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	CustodianValidator.getInstance().validate( command );    
-        
-        	id = command.getCustodianId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Custodian {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Custodian using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Custodian {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Custodian - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Custodian via CustodianFetchOneSummary
-     * @param 	summary CustodianFetchOneSummary 
-     * @return 	CustodianFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteCustodianCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteCustodianCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CustodianValidator.getInstance().validate( command );
+
+				id = command.getCustodianId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Custodian {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Custodian using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Custodian via CustodianFetchOneSummary
+		 * @param 	summary CustodianFetchOneSummary
+		 * @return 	CustodianFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Custodian getCustodian( CustodianFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "CustodianFetchOneSummary arg cannot be null" );
-    	
-    	Custodian entity = null;
-    	UUID id = summary.getCustodianId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	CustodianValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Custodian using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Custodian with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "CustodianFetchOneSummary arg cannot be null" );
+
+			Custodian entity = null;
+			UUID id = summary.getCustodianId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				CustodianValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Custodian using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Custodian with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Custodians
-     *
-     * @return 	List<Custodian> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Custodians
+		 *
+		 * @return 	List<Custodian>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Custodian> getAllCustodian() 
     throws ProcessingException {
-        List<Custodian> list = null;
+			List<Custodian> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllCustodianQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Custodian";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllCustodianQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Custodian";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-
-    /**
-     * add Account to Accounts 
-     * @param		command AssignAccountsToCustodianCommand
-     * @exception	ProcessingException
-     */     
-	public void addToAccounts( AssignAccountsToCustodianCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	CustodianValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToAccounts(command.getCustodianId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Account as Accounts to Custodian" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+			return list;
 		}
 
-	}
 
-    /**
-     * remove Account from Accounts
-     * @param		command RemoveAccountsFromCustodianCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromAccounts( RemoveAccountsFromCustodianCommand command ) throws ProcessingException {		
+		/**
+		 * add Account to Accounts
+		 * @param		command AssignAccountsToCustodianCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToAccounts( AssignAccountsToCustodianCommand command ) throws ProcessingException {
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	CustodianValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CustodianValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromAccounts(command.getCustodianId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getCustodianId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add AccountTransfer to Transfers 
-     * @param		command AssignTransfersToCustodianCommand
-     * @exception	ProcessingException
-     */     
-	public void addToTransfers( AssignTransfersToCustodianCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	CustodianValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToTransfers(command.getCustodianId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a AccountTransfer as Transfers to Custodian" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove AccountTransfer from Transfers
-     * @param		command RemoveTransfersFromCustodianCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromTransfers( RemoveTransfersFromCustodianCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	CustodianValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromTransfers(command.getCustodianId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToAccounts(command.getCustodianId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Account as Accounts to Custodian" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getCustodianId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Account from Accounts
+		 * @param		command RemoveAccountsFromCustodianCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromAccounts( RemoveAccountsFromCustodianCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CustodianValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromAccounts(command.getCustodianId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getCustodianId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
+
+		/**
+		 * add AccountTransfer to Transfers
+		 * @param		command AssignTransfersToCustodianCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToTransfers( AssignTransfersToCustodianCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CustodianValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToTransfers(command.getCustodianId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a AccountTransfer as Transfers to Custodian" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove AccountTransfer from Transfers
+		 * @param		command RemoveTransfersFromCustodianCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromTransfers( RemoveTransfersFromCustodianCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CustodianValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromTransfers(command.getCustodianId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getCustodianId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
 
 
@@ -409,5 +407,5 @@ extends BaseService {
     private final CustodianEntityProjector projector;
 	private Custodian custodian 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustodianService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustodianService.class);
 }

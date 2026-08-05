@@ -49,245 +49,245 @@ public class FeeTest
     public FeeTest(FeeService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Fee, through a FeeTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on FeeTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on FeeTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on FeeTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on FeeTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Fee.
      *
      * @return    Fee
      */
     public Fee testCreate() throws Throwable {
-        Fee entity = null;
+    Fee entity = null;
 
-        LOGGER.info( "FeeTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Fee");
+    LOGGER.info( "FeeTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Fee");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Fee" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Fee" );
 
-        try {            
-            entity = service.createFee( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createFee( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getFeeId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getFeeId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Fee with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Fee with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Fee.
      *
-     * @return    Fee  
+     * @return    Fee
      */
     public Fee testRead() throws Throwable {
-        LOGGER.info( "FeeTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Fee" );
+    LOGGER.info( "FeeTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Fee" );
 
-        Fee entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Fee with primary key" );
-        msg.append( theId );
+    Fee entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Fee with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getFee( new FeeFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getFee( new FeeFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getFeeId();
-            
-            LOGGER.info( "-- Successfully found Fee " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getFeeId();
+
+        LOGGER.info( "-- Successfully found Fee " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Fee.
      *
      * @return    Fee
      */
     public Fee testUpdate() throws Throwable {
-        LOGGER.info( "FeeTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Fee." );
+    LOGGER.info( "FeeTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Fee." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Fee : " );        
-        Fee entity = null;
-    
-        try {            
-        	UpdateFeeCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setFeeId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Fee : " );
+    Fee entity = null;
 
-            LOGGER.info( "-- Now updating the created Fee." );
-            
-            entity = service.updateFee( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateFeeCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Fee - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setFeeId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Fee." );
+
+        entity = service.updateFee( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Fee - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Fee.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "FeeTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Fee." );
-        
-        try {
-        	DeleteFeeCommand deleteCommand = new DeleteFeeCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Fee with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Fee with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "FeeTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Fee." );
 
-    /** 
+    try {
+        DeleteFeeCommand deleteCommand = new DeleteFeeCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Fee with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Fee with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Fees.
      *
      * @return    Collection
      */
-    public List<Fee> testGetAll() throws Throwable {    
-        LOGGER.info( "FeeTest:testGetAll() - Retrieving Collection of Fees:" );
+    public List<Fee> testGetAll() throws Throwable {
+    LOGGER.info( "FeeTest:testGetAll() - Retrieving Collection of Fees:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Fee : " );        
-        List<Fee> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Fee : " );
+    List<Fee> collection  = null;
 
-        try {
-            // call the static get method on the FeeService
-            collection = service.getAllFee();
+    try {
+        // call the static get method on the FeeService
+        collection = service.getAllFee();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Fee currEntity  = null;            
-	            Iterator<Fee> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getFeeId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Fee currEntity  = null;
+            Iterator<Fee> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getFeeId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public FeeTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Fee
-	 * 
-	 * @return CreateFeeCommand alias
-	 */
+
+    /**
+     * Returns a new populated Fee
+     *
+     * @return CreateFeeCommand alias
+     */
 	protected CreateFeeCommand generateNewCommand() {
-        CreateFeeCommand command = new CreateFeeCommand( null,   new Date(),  new Money(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  FeeType.values()[0] );
-		
-		return( command );
-	}
+    CreateFeeCommand command = new CreateFeeCommand( null,   new Date(),  new Money(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  FeeType.values()[0] );
 
-		/**
-		 * Returns a new populated Fee
-		 * 
-		 * @return UpdateFeeCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Fee
+     *
+     * @return UpdateFeeCommand alias
+     */
 	protected UpdateFeeCommand generateUpdateCommand() {
-	        UpdateFeeCommand command = new UpdateFeeCommand( null,   new Date(),  new Money(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  FeeType.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateFeeCommand command = new UpdateFeeCommand( null,   new Date(),  new Money(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  FeeType.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected FeeService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Fee.class.getName());
 
 }

@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public AdvisoryTeam create( @RequestBody(required=true) CreateAdvisoryTeamCommand command ) {
     	AdvisoryTeam entity = null;
-		try {       
-        	
-			entity = service.createAdvisoryTeam( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createAdvisoryTeam( command );
+		LOGGER.info( "Successfully created AdvisoryTeam with Id " + entity.getAdvisoryTeamId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public AdvisoryTeam update( @RequestBody(required=true) UpdateAdvisoryTeamCommand command ) {
 		AdvisoryTeam entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateAdvisoryTeamCommand
-			// -----------------------------------------------
-			entity = service.updateAdvisoryTeam(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "AdvisoryTeamController:update() - successfully update AdvisoryTeam - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateAdvisoryTeam(command);
+		LOGGER.info( "Successfully updated AdvisoryTeam with Id " + command.getAdvisoryTeamId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAdvisoryTeamCommand command ) {                
-    	try {
-        	AdvisoryTeamService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted AdvisoryTeam with key " + command.getAdvisoryTeamId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted AdvisoryTeam with Id " + command.getAdvisoryTeamId()  );
+	}
 	
     /**
      * Handles loading a AdvisoryTeam using a UUID
@@ -150,16 +133,10 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
      * @return		AdvisoryTeam
      */    
     @GetMapping("/load")
-    public AdvisoryTeam load( @RequestParam(required=true) UUID uuid ) {    	
-    	AdvisoryTeam entity = null;
+    public AdvisoryTeam load( @RequestParam(required=true) UUID uuid ) {
+    	AdvisoryTeam entity = service.getAdvisoryTeam( new AdvisoryTeamFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getAdvisoryTeam( new AdvisoryTeamFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load AdvisoryTeam using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded AdvisoryTeam with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<AdvisoryTeam> loadAll() {                
     	List<AdvisoryTeam> advisoryTeamList = null;
-        
-    	try {
-            // load the AdvisoryTeam
-            advisoryTeamList = service.getAllAdvisoryTeam();
-            
-            if ( advisoryTeamList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all AdvisoryTeams" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all AdvisoryTeams ", exc );
-        	return null;
-        }
+
+		advisoryTeamList = service.getAllAdvisoryTeam();
+		LOGGER.log( Level.INFO,  "successfully loaded all AdvisoryTeams" );
 
         return advisoryTeamList;
                             
@@ -195,12 +163,8 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAdvisors")
 	public void addToAdvisors( @RequestBody(required=true) AssignAdvisorsToAdvisoryTeamCommand command ) {
-		try {
-			service.addToAdvisors( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Advisors", exc );
-		}
+		service.addToAdvisors( command );
+		LOGGER.info( "Successfully added Advisors with Id " + command.getAdvisoryTeamId()  );
 	}
 
     /**
@@ -210,12 +174,8 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAdvisors")
 	public void removeFromAdvisors( 	@RequestBody(required=true) RemoveAdvisorsFromAdvisoryTeamCommand command )
 	{		
-		try {
-			service.removeFromAdvisors( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Advisors", exc );
-		}
+		service.removeFromAdvisors( command );
+		LOGGER.info( "Successfully removed Advisors with Id " + command.getAdvisoryTeamId()  );
 	}
 
     /**
@@ -224,12 +184,8 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToHouseholds")
 	public void addToHouseholds( @RequestBody(required=true) AssignHouseholdsToAdvisoryTeamCommand command ) {
-		try {
-			service.addToHouseholds( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Households", exc );
-		}
+		service.addToHouseholds( command );
+		LOGGER.info( "Successfully added Households with Id " + command.getAdvisoryTeamId()  );
 	}
 
     /**
@@ -239,12 +195,8 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromHouseholds")
 	public void removeFromHouseholds( 	@RequestBody(required=true) RemoveHouseholdsFromAdvisoryTeamCommand command )
 	{		
-		try {
-			service.removeFromHouseholds( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Households", exc );
-		}
+		service.removeFromHouseholds( command );
+		LOGGER.info( "Successfully removed Households with Id " + command.getAdvisoryTeamId()  );
 	}
 
 
@@ -255,6 +207,6 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
 //************************************************************************
     protected AdvisoryTeam advisoryTeam = null;
 	protected AdvisoryTeamService service = null;
-    private static final Logger LOGGER = Logger.getLogger(AdvisoryTeamRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdvisoryTeamRestController.class.getName());
     
 }

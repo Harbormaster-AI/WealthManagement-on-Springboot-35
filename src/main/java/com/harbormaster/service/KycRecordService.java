@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class KycRecordService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public KycRecordService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new KycRecordEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(KycRecordRepository.class) );
+		}
 
-    	projector 		= new KycRecordEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(KycRecordRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		KycRecord
+		 */
+			public KycRecord createKycRecord( CreateKycRecordCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		KycRecord
-    */
-	public KycRecord createKycRecord( CreateKycRecordCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			KycRecord entity = new KycRecord();
 
-		KycRecord entity = new KycRecord();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	KycRecordValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				KycRecordValidator.getInstance().validate( command );
 
             entity.setKycRecordId( command.getKycRecordId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
             entity.setPepFlag( command.getPepFlag() );
             entity.setSourceOfWealth( command.getSourceOfWealth() );
             entity.setStatus( command.getStatus() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of KycRecord {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create KycRecord - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateKycRecordCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		KycRecord
-    */
-    public KycRecord updateKycRecord( UpdateKycRecordCommand command ) 
+				LOGGER.info( "done creating of KycRecord {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create KycRecord - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateKycRecordCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		KycRecord
+		 */
+		public KycRecord updateKycRecord( UpdateKycRecordCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    KycRecord entity = new KycRecord();
+			KycRecord entity = new KycRecord();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	KycRecordValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				KycRecordValidator.getInstance().validate( command );
 
             entity.setKycRecordId( command.getKycRecordId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -181,223 +179,223 @@ extends BaseService {
             entity.setClient( command.getClient() );
             entity.setDocuments( command.getDocuments() );
             entity.setStatus( command.getStatus() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of KycRecord {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save KycRecord - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteKycRecordCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteKycRecordCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	KycRecordValidator.getInstance().validate( command );    
-        
-        	id = command.getKycRecordId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of KycRecord {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete KycRecord using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of KycRecord {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save KycRecord - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the KycRecord via KycRecordFetchOneSummary
-     * @param 	summary KycRecordFetchOneSummary 
-     * @return 	KycRecordFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteKycRecordCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteKycRecordCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				KycRecordValidator.getInstance().validate( command );
+
+				id = command.getKycRecordId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of KycRecord {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete KycRecord using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the KycRecord via KycRecordFetchOneSummary
+		 * @param 	summary KycRecordFetchOneSummary
+		 * @return 	KycRecordFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public KycRecord getKycRecord( KycRecordFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "KycRecordFetchOneSummary arg cannot be null" );
-    	
-    	KycRecord entity = null;
-    	UUID id = summary.getKycRecordId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	KycRecordValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a KycRecord using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate KycRecord with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "KycRecordFetchOneSummary arg cannot be null" );
+
+			KycRecord entity = null;
+			UUID id = summary.getKycRecordId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				KycRecordValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a KycRecord using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate KycRecord with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all KycRecords
-     *
-     * @return 	List<KycRecord> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all KycRecords
+		 *
+		 * @return 	List<KycRecord>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<KycRecord> getAllKycRecord() 
     throws ProcessingException {
-        List<KycRecord> list = null;
+			List<KycRecord> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllKycRecordQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all KycRecord";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllKycRecordQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all KycRecord";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Client on KycRecord
-     * @param		command AssignClientToKycRecordCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignClient( AssignClientToKycRecordCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	KycRecordValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignClient(command.getKycRecordId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Client using id " + command.getKycRecordId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Client on KycRecord
-     * @param		command UnAssignClientFromKycRecordCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignClient( UnAssignClientFromKycRecordCommand command ) throws ProcessingException {
+		/**
+		 * assign Client on KycRecord
+		 * @param		command AssignClientToKycRecordCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignClient( AssignClientToKycRecordCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	KycRecordValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				KycRecordValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignClient(command.getKycRecordId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Client using id " + command.getKycRecordId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Client on KycRecord
+		 * @param		command UnAssignClientFromKycRecordCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignClient( UnAssignClientFromKycRecordCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				KycRecordValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignClient(command.getKycRecordId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Client on KycRecord";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignClient(command.getKycRecordId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Client on KycRecord";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
 
-    /**
-     * add Document to Documents 
-     * @param		command AssignDocumentsToKycRecordCommand
-     * @exception	ProcessingException
-     */     
-	public void addToDocuments( AssignDocumentsToKycRecordCommand command ) throws ProcessingException {
+		/**
+		 * add Document to Documents
+		 * @param		command AssignDocumentsToKycRecordCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToDocuments( AssignDocumentsToKycRecordCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	KycRecordValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				KycRecordValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToDocuments(command.getKycRecordId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Document as Documents to KycRecord" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Document from Documents
-     * @param		command RemoveDocumentsFromKycRecordCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromDocuments( RemoveDocumentsFromKycRecordCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	KycRecordValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromDocuments(command.getKycRecordId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToDocuments(command.getKycRecordId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Document as Documents to KycRecord" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getKycRecordId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Document from Documents
+		 * @param		command RemoveDocumentsFromKycRecordCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromDocuments( RemoveDocumentsFromKycRecordCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				KycRecordValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromDocuments(command.getKycRecordId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getKycRecordId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -410,5 +408,5 @@ extends BaseService {
     private final KycRecordEntityProjector projector;
 	private KycRecord kycRecord 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(KycRecordService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(KycRecordService.class);
 }

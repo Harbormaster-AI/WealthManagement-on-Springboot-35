@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class InvoiceService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public InvoiceService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new InvoiceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(InvoiceRepository.class) );
+		}
 
-    	projector 		= new InvoiceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(InvoiceRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Invoice
+		 */
+			public Invoice createInvoice( CreateInvoiceCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Invoice
-    */
-	public Invoice createInvoice( CreateInvoiceCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Invoice entity = new Invoice();
 
-		Invoice entity = new Invoice();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	InvoiceValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
 
             entity.setInvoiceId( command.getInvoiceId() );
             entity.setInvoiceNumber( command.getInvoiceNumber() );
@@ -136,44 +134,44 @@ extends BaseService {
             entity.setDueDate( command.getDueDate() );
             entity.setTotalDue( command.getTotalDue() );
             entity.setStatus( command.getStatus() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Invoice {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Invoice - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateInvoiceCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Invoice
-    */
-    public Invoice updateInvoice( UpdateInvoiceCommand command ) 
+				LOGGER.info( "done creating of Invoice {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Invoice - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateInvoiceCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Invoice
+		 */
+		public Invoice updateInvoice( UpdateInvoiceCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Invoice entity = new Invoice();
+			Invoice entity = new Invoice();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	InvoiceValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
 
             entity.setInvoiceId( command.getInvoiceId() );
             entity.setInvoiceNumber( command.getInvoiceNumber() );
@@ -184,274 +182,274 @@ extends BaseService {
             entity.setFees( command.getFees() );
             entity.setBillingRun( command.getBillingRun() );
             entity.setStatus( command.getStatus() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Invoice {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Invoice - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteInvoiceCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteInvoiceCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	InvoiceValidator.getInstance().validate( command );    
-        
-        	id = command.getInvoiceId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Invoice {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Invoice using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Invoice {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Invoice - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Invoice via InvoiceFetchOneSummary
-     * @param 	summary InvoiceFetchOneSummary 
-     * @return 	InvoiceFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteInvoiceCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteInvoiceCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
+
+				id = command.getInvoiceId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Invoice {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Invoice using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Invoice via InvoiceFetchOneSummary
+		 * @param 	summary InvoiceFetchOneSummary
+		 * @return 	InvoiceFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Invoice getInvoice( InvoiceFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "InvoiceFetchOneSummary arg cannot be null" );
-    	
-    	Invoice entity = null;
-    	UUID id = summary.getInvoiceId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	InvoiceValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Invoice using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Invoice with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "InvoiceFetchOneSummary arg cannot be null" );
+
+			Invoice entity = null;
+			UUID id = summary.getInvoiceId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Invoice using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Invoice with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Invoices
-     *
-     * @return 	List<Invoice> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Invoices
+		 *
+		 * @return 	List<Invoice>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Invoice> getAllInvoice() 
     throws ProcessingException {
-        List<Invoice> list = null;
+			List<Invoice> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllInvoiceQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Invoice";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllInvoiceQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Invoice";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Account on Invoice
-     * @param		command AssignAccountToInvoiceCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToInvoiceCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	InvoiceValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getInvoiceId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getInvoiceId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on Invoice
-     * @param		command UnAssignAccountFromInvoiceCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromInvoiceCommand command ) throws ProcessingException {
+		/**
+		 * assign Account on Invoice
+		 * @param		command AssignAccountToInvoiceCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToInvoiceCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvoiceValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getInvoiceId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getInvoiceId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Account on Invoice
+		 * @param		command UnAssignAccountFromInvoiceCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromInvoiceCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getInvoiceId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on Invoice";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getInvoiceId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on Invoice";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign BillingRun on Invoice
-     * @param		command AssignBillingRunToInvoiceCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignBillingRun( AssignBillingRunToInvoiceCommand command ) throws ProcessingException {
+		/**
+		 * assign BillingRun on Invoice
+		 * @param		command AssignBillingRunToInvoiceCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignBillingRun( AssignBillingRunToInvoiceCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	InvoiceValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignBillingRun(command.getInvoiceId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get BillingRun using id " + command.getInvoiceId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignBillingRun(command.getInvoiceId(), command.getAssignment());
 
-    /**
-     * unAssign BillingRun on Invoice
-     * @param		command UnAssignBillingRunFromInvoiceCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignBillingRun( UnAssignBillingRunFromInvoiceCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get BillingRun using id " + command.getInvoiceId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvoiceValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignBillingRun(command.getInvoiceId());
+		/**
+		 * unAssign BillingRun on Invoice
+		 * @param		command UnAssignBillingRunFromInvoiceCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignBillingRun( UnAssignBillingRunFromInvoiceCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignBillingRun(command.getInvoiceId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign BillingRun on Invoice";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign BillingRun on Invoice";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add Fee to Fees 
-     * @param		command AssignFeesToInvoiceCommand
-     * @exception	ProcessingException
-     */     
-	public void addToFees( AssignFeesToInvoiceCommand command ) throws ProcessingException {
+		/**
+		 * add Fee to Fees
+		 * @param		command AssignFeesToInvoiceCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToFees( AssignFeesToInvoiceCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvoiceValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToFees(command.getInvoiceId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Fee as Fees to Invoice" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Fee from Fees
-     * @param		command RemoveFeesFromInvoiceCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromFees( RemoveFeesFromInvoiceCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvoiceValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromFees(command.getInvoiceId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToFees(command.getInvoiceId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Fee as Fees to Invoice" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getInvoiceId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Fee from Fees
+		 * @param		command RemoveFeesFromInvoiceCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromFees( RemoveFeesFromInvoiceCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvoiceValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromFees(command.getInvoiceId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getInvoiceId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -464,5 +462,5 @@ extends BaseService {
     private final InvoiceEntityProjector projector;
 	private Invoice invoice 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvoiceService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvoiceService.class);
 }

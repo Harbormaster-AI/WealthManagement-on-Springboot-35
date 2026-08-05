@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class PerformanceReportRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public PerformanceReport create( @RequestBody(required=true) CreatePerformanceReportCommand command ) {
     	PerformanceReport entity = null;
-		try {       
-        	
-			entity = service.createPerformanceReport( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createPerformanceReport( command );
+		LOGGER.info( "Successfully created PerformanceReport with Id " + entity.getPerformanceReportId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class PerformanceReportRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public PerformanceReport update( @RequestBody(required=true) UpdatePerformanceReportCommand command ) {
 		PerformanceReport entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdatePerformanceReportCommand
-			// -----------------------------------------------
-			entity = service.updatePerformanceReport(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "PerformanceReportController:update() - successfully update PerformanceReport - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updatePerformanceReport(command);
+		LOGGER.info( "Successfully updated PerformanceReport with Id " + command.getPerformanceReportId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class PerformanceReportRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeletePerformanceReportCommand command ) {                
-    	try {
-        	PerformanceReportService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted PerformanceReport with key " + command.getPerformanceReportId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted PerformanceReport with Id " + command.getPerformanceReportId()  );
+	}
 	
     /**
      * Handles loading a PerformanceReport using a UUID
@@ -150,16 +133,10 @@ public class PerformanceReportRestController extends BaseSpringRestController {
      * @return		PerformanceReport
      */    
     @GetMapping("/load")
-    public PerformanceReport load( @RequestParam(required=true) UUID uuid ) {    	
-    	PerformanceReport entity = null;
+    public PerformanceReport load( @RequestParam(required=true) UUID uuid ) {
+    	PerformanceReport entity = service.getPerformanceReport( new PerformanceReportFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getPerformanceReport( new PerformanceReportFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load PerformanceReport using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded PerformanceReport with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class PerformanceReportRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<PerformanceReport> loadAll() {                
     	List<PerformanceReport> performanceReportList = null;
-        
-    	try {
-            // load the PerformanceReport
-            performanceReportList = service.getAllPerformanceReport();
-            
-            if ( performanceReportList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all PerformanceReports" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all PerformanceReports ", exc );
-        	return null;
-        }
+
+		performanceReportList = service.getAllPerformanceReport();
+		LOGGER.log( Level.INFO,  "successfully loaded all PerformanceReports" );
 
         return performanceReportList;
                             
@@ -194,12 +162,8 @@ public class PerformanceReportRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToPerformanceReportCommand command ) {
-		try {
-			service.assignPortfolio( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
-        }
+		service.assignPortfolio( command );
+		LOGGER.info( "Successfully assigned Portfolio with Id " + command.getPerformanceReportId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class PerformanceReportRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromPerformanceReportCommand command ) {
-		try {
-			service.unAssignPortfolio( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
-		}
+		service.unAssignPortfolio( command );
+		LOGGER.info( "Successfully unassigned Portfolio with Id " + command.getPerformanceReportId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class PerformanceReportRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignBenchmark")
 	public void assignBenchmark( @RequestBody AssignBenchmarkToPerformanceReportCommand command ) {
-		try {
-			service.assignBenchmark( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Benchmark", exc );
-        }
+		service.assignBenchmark( command );
+		LOGGER.info( "Successfully assigned Benchmark with Id " + command.getPerformanceReportId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class PerformanceReportRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignBenchmark")
 	public void unAssignBenchmark( @RequestBody(required=true)  UnAssignBenchmarkFromPerformanceReportCommand command ) {
-		try {
-			service.unAssignBenchmark( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Benchmark", exc );
-		}
+		service.unAssignBenchmark( command );
+		LOGGER.info( "Successfully unassigned Benchmark with Id " + command.getPerformanceReportId()  );
 	}
 	
 
@@ -253,6 +205,6 @@ public class PerformanceReportRestController extends BaseSpringRestController {
 //************************************************************************
     protected PerformanceReport performanceReport = null;
 	protected PerformanceReportService service = null;
-    private static final Logger LOGGER = Logger.getLogger(PerformanceReportRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(PerformanceReportRestController.class.getName());
     
 }

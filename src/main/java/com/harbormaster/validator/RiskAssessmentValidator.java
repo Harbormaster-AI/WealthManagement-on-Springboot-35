@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>RiskAssessmentValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -66,6 +68,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class RiskAssessmentValidator {
 		
 	/**
@@ -73,50 +76,55 @@ public class RiskAssessmentValidator {
 	 */
 	protected RiskAssessmentValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public RiskAssessmentValidator getInstance() {
-		return new RiskAssessmentValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a RiskAssessment
 	 */
-	public void validate( CreateRiskAssessmentCommand riskAssessment )throws Exception {
-		Assert.notNull( riskAssessment, "CreateRiskAssessmentCommand should not be null" );
+	public void validate( CreateRiskAssessmentCommand riskAssessment )throws ValidationException {
+		if ( riskAssessment == null )
+			throw new ValidationException( "RiskAssessment", "validating CreateRiskAssessmentCommand" );
+
 //		Assert.isNull( riskAssessment.getRiskAssessmentId(), "CreateRiskAssessmentCommand identifier should be null" );
-		Assert.notNull( riskAssessment.getAssessmentDate(), "Field CreateRiskAssessmentCommand.assessmentDate should not be null" );
-		Assert.notNull( riskAssessment.getCapacityScore(), "Field CreateRiskAssessmentCommand.capacityScore should not be null" );
-		Assert.notNull( riskAssessment.getHorizonYears(), "Field CreateRiskAssessmentCommand.horizonYears should not be null" );
+		if ( riskAssessment.getAssessmentDate() == null )
+			throw new ValidationException( "RiskAssessment", "validating access on getAssessmentDate" );
+		if ( riskAssessment.getCapacityScore() == null )
+			throw new ValidationException( "RiskAssessment", "validating access on getCapacityScore" );
+		if ( riskAssessment.getHorizonYears() == null )
+			throw new ValidationException( "RiskAssessment", "validating access on getHorizonYears" );
 	}
 
 	/**
 	 * handles update validation for a RiskAssessment
 	 */
-	public void validate( UpdateRiskAssessmentCommand riskAssessment ) throws Exception {
-		Assert.notNull( riskAssessment, "UpdateRiskAssessmentCommand should not be null" );
-		Assert.notNull( riskAssessment.getRiskAssessmentId(), "UpdateRiskAssessmentCommand identifier should not be null" );
-		Assert.notNull( riskAssessment.getAssessmentDate(), "Field UpdateRiskAssessmentCommand.assessmentDate should not be null" );
-		Assert.notNull( riskAssessment.getCapacityScore(), "Field UpdateRiskAssessmentCommand.capacityScore should not be null" );
-		Assert.notNull( riskAssessment.getHorizonYears(), "Field UpdateRiskAssessmentCommand.horizonYears should not be null" );
+	public void validate( UpdateRiskAssessmentCommand riskAssessment ) throws ValidationException {
+		if ( riskAssessment == null )
+			throw new ValidationException( "RiskAssessment", "validating UpdateRiskAssessmentCommand" );
+		if ( riskAssessment.getAssessmentDate() == null )
+			throw new ValidationException( "RiskAssessment", "validating method getAssessmentDate" );
+		if ( riskAssessment.getCapacityScore() == null )
+			throw new ValidationException( "RiskAssessment", "validating method getCapacityScore" );
+		if ( riskAssessment.getHorizonYears() == null )
+			throw new ValidationException( "RiskAssessment", "validating method getHorizonYears" );
     }
 
 	/**
 	 * handles delete validation for a RiskAssessment
 	 */
-    public void validate( DeleteRiskAssessmentCommand riskAssessment ) throws Exception {
-		Assert.notNull( riskAssessment, "{commandAlias} should not be null" );
-		Assert.notNull( riskAssessment.getRiskAssessmentId(), "DeleteRiskAssessmentCommand identifier should not be null" );
+    public void validate( DeleteRiskAssessmentCommand riskAssessment ) throws ValidationException {
+		if ( riskAssessment == null )
+			throw new ValidationException( "RiskAssessment", "validating DeleteRiskAssessmentCommand" );
+
+		if ( riskAssessment.getHorizonYears() == null )
+			throw new ValidationException( "RiskAssessment", "validating getHorizonYears" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a RiskAssessment
 	 */
-	public void validate( RiskAssessmentFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "RiskAssessmentFetchOneSummary should not be null" );
-		Assert.notNull( summary.getRiskAssessmentId(), "RiskAssessmentFetchOneSummary identifier should not be null" );
+	public void validate( RiskAssessmentFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "RiskAssessment", "validating summary );
 	}
 
 	/**
@@ -124,10 +132,16 @@ public class RiskAssessmentValidator {
 	 * 
 	 * @param	command AssignHouseholdToRiskAssessmentCommand
 	 */	
-	public void validate( AssignHouseholdToRiskAssessmentCommand command ) throws Exception {
-		Assert.notNull( command, "AssignHouseholdToRiskAssessmentCommand should not be null" );
-		Assert.notNull( command.getRiskAssessmentId(), "AssignHouseholdToRiskAssessmentCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignHouseholdToRiskAssessmentCommand assignment should not be null" );
+	public void validate( AssignHouseholdToRiskAssessmentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RiskAssessment", "validating AssignHouseholdToRiskAssessmentCommand" );
+
+		if ( command.getRiskAssessmentId() == null )
+			throw new ValidationException( "RiskAssessment", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "RiskAssessment", "validating assignment" );
+
 	}
 
 	/**
@@ -135,19 +149,28 @@ public class RiskAssessmentValidator {
 	 * 
 	 * @param	command UnAssignHouseholdFromRiskAssessmentCommand
 	 */	
-	public void validate( UnAssignHouseholdFromRiskAssessmentCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignHouseholdFromRiskAssessmentCommand should not be null" );
-		Assert.notNull( command.getRiskAssessmentId(), "UnAssignHouseholdFromRiskAssessmentCommand identifier should not be null" );
+	public void validate( UnAssignHouseholdFromRiskAssessmentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RiskAssessment", "validating UnAssignHouseholdFromRiskAssessmentCommand" );
+
+		if ( command.getRiskAssessmentId() == null ) }
+			throw new ValidationException( "RiskAssessment", "validating identity on UnAssignHouseholdFromRiskAssessmentCommand" );
 	}
 	/**
 	 * handles assign Advisor validation for a RiskAssessment
 	 * 
 	 * @param	command AssignAdvisorToRiskAssessmentCommand
 	 */	
-	public void validate( AssignAdvisorToRiskAssessmentCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorToRiskAssessmentCommand should not be null" );
-		Assert.notNull( command.getRiskAssessmentId(), "AssignAdvisorToRiskAssessmentCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisorToRiskAssessmentCommand assignment should not be null" );
+	public void validate( AssignAdvisorToRiskAssessmentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RiskAssessment", "validating AssignAdvisorToRiskAssessmentCommand" );
+
+		if ( command.getRiskAssessmentId() == null )
+			throw new ValidationException( "RiskAssessment", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "RiskAssessment", "validating assignment" );
+
 	}
 
 	/**
@@ -155,9 +178,12 @@ public class RiskAssessmentValidator {
 	 * 
 	 * @param	command UnAssignAdvisorFromRiskAssessmentCommand
 	 */	
-	public void validate( UnAssignAdvisorFromRiskAssessmentCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisorFromRiskAssessmentCommand should not be null" );
-		Assert.notNull( command.getRiskAssessmentId(), "UnAssignAdvisorFromRiskAssessmentCommand identifier should not be null" );
+	public void validate( UnAssignAdvisorFromRiskAssessmentCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "RiskAssessment", "validating UnAssignAdvisorFromRiskAssessmentCommand" );
+
+		if ( command.getRiskAssessmentId() == null ) }
+			throw new ValidationException( "RiskAssessment", "validating identity on UnAssignAdvisorFromRiskAssessmentCommand" );
 	}
 
 

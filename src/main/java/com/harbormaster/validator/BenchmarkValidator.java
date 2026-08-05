@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>BenchmarkValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class BenchmarkValidator {
 		
 	/**
@@ -77,46 +80,47 @@ public class BenchmarkValidator {
 	 */
 	protected BenchmarkValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public BenchmarkValidator getInstance() {
-		return new BenchmarkValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Benchmark
 	 */
-	public void validate( CreateBenchmarkCommand benchmark )throws Exception {
-		Assert.notNull( benchmark, "CreateBenchmarkCommand should not be null" );
+	public void validate( CreateBenchmarkCommand benchmark )throws ValidationException {
+		if ( benchmark == null )
+			throw new ValidationException( "Benchmark", "validating CreateBenchmarkCommand" );
+
 //		Assert.isNull( benchmark.getBenchmarkId(), "CreateBenchmarkCommand identifier should be null" );
-		Assert.notNull( benchmark.getName(), "Field CreateBenchmarkCommand.name should not be null" );
+		if ( benchmark.getName() == null )
+			throw new ValidationException( "Benchmark", "validating access on getName" );
 	}
 
 	/**
 	 * handles update validation for a Benchmark
 	 */
-	public void validate( UpdateBenchmarkCommand benchmark ) throws Exception {
-		Assert.notNull( benchmark, "UpdateBenchmarkCommand should not be null" );
-		Assert.notNull( benchmark.getBenchmarkId(), "UpdateBenchmarkCommand identifier should not be null" );
-		Assert.notNull( benchmark.getName(), "Field UpdateBenchmarkCommand.name should not be null" );
+	public void validate( UpdateBenchmarkCommand benchmark ) throws ValidationException {
+		if ( benchmark == null )
+			throw new ValidationException( "Benchmark", "validating UpdateBenchmarkCommand" );
+		if ( benchmark.getName() == null )
+			throw new ValidationException( "Benchmark", "validating method getName" );
     }
 
 	/**
 	 * handles delete validation for a Benchmark
 	 */
-    public void validate( DeleteBenchmarkCommand benchmark ) throws Exception {
-		Assert.notNull( benchmark, "{commandAlias} should not be null" );
-		Assert.notNull( benchmark.getBenchmarkId(), "DeleteBenchmarkCommand identifier should not be null" );
+    public void validate( DeleteBenchmarkCommand benchmark ) throws ValidationException {
+		if ( benchmark == null )
+			throw new ValidationException( "Benchmark", "validating DeleteBenchmarkCommand" );
+
+		if ( benchmark.getName() == null )
+			throw new ValidationException( "Benchmark", "validating getName" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Benchmark
 	 */
-	public void validate( BenchmarkFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "BenchmarkFetchOneSummary should not be null" );
-		Assert.notNull( summary.getBenchmarkId(), "BenchmarkFetchOneSummary identifier should not be null" );
+	public void validate( BenchmarkFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Benchmark", "validating summary );
 	}
 
 
@@ -125,10 +129,16 @@ public class BenchmarkValidator {
 	 * 
 	 * @param	command AssignPerformanceReportsToBenchmarkCommand
 	 */	
-	public void validate( AssignPerformanceReportsToBenchmarkCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPerformanceReportsToBenchmarkCommand should not be null" );
-		Assert.notNull( command.getBenchmarkId(), "AssignPerformanceReportsToBenchmarkCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignPerformanceReportsToBenchmarkCommand addTo attribute should not be null" );
+	public void validate( AssignPerformanceReportsToBenchmarkCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Benchmark", "validating AssignPerformanceReportsToBenchmarkCommand" );
+
+		if ( command.getBenchmarkId() == null ) }
+			throw new ValidationException( "Benchmark", "validating identity on AssignPerformanceReportsToBenchmarkCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Benchmark", "validating addTo attribute on AssignPerformanceReportsToBenchmarkCommand" );
+
 	}
 
 	/**
@@ -136,11 +146,18 @@ public class BenchmarkValidator {
 	 * 
 	 * @param	command RemovePerformanceReportsFromBenchmarkCommand
 	 */	
-	public void validate( RemovePerformanceReportsFromBenchmarkCommand command ) throws Exception {
-		Assert.notNull( command, "RemovePerformanceReportsFromBenchmarkCommand should not be null" );
-		Assert.notNull( command.getBenchmarkId(), "RemovePerformanceReportsFromBenchmarkCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemovePerformanceReportsFromBenchmarkCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getPerformanceReportId(), "RemovePerformanceReportsFromBenchmarkCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemovePerformanceReportsFromBenchmarkCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Benchmark", "validating RemovePerformanceReportsFromBenchmarkCommand");
+
+		if( command.getBenchmarkId() == null )
+			throw new ValidationException"Benchmark", "validating id on RemovePerformanceReportsFromBenchmarkCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Benchmark", "validating remove from";
+
+		if( command.getRemoveFrom().getPerformanceReportId() == null )
+			throw new ValidationException"Benchmark", "validating id on remove from}";
 	}
 	
 	/**
@@ -148,10 +165,16 @@ public class BenchmarkValidator {
 	 * 
 	 * @param	command AssignConstituentsToBenchmarkCommand
 	 */	
-	public void validate( AssignConstituentsToBenchmarkCommand command ) throws Exception {
-		Assert.notNull( command, "AssignConstituentsToBenchmarkCommand should not be null" );
-		Assert.notNull( command.getBenchmarkId(), "AssignConstituentsToBenchmarkCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignConstituentsToBenchmarkCommand addTo attribute should not be null" );
+	public void validate( AssignConstituentsToBenchmarkCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Benchmark", "validating AssignConstituentsToBenchmarkCommand" );
+
+		if ( command.getBenchmarkId() == null ) }
+			throw new ValidationException( "Benchmark", "validating identity on AssignConstituentsToBenchmarkCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Benchmark", "validating addTo attribute on AssignConstituentsToBenchmarkCommand" );
+
 	}
 
 	/**
@@ -159,11 +182,18 @@ public class BenchmarkValidator {
 	 * 
 	 * @param	command RemoveConstituentsFromBenchmarkCommand
 	 */	
-	public void validate( RemoveConstituentsFromBenchmarkCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveConstituentsFromBenchmarkCommand should not be null" );
-		Assert.notNull( command.getBenchmarkId(), "RemoveConstituentsFromBenchmarkCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveConstituentsFromBenchmarkCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getSecurityId(), "RemoveConstituentsFromBenchmarkCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveConstituentsFromBenchmarkCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Benchmark", "validating RemoveConstituentsFromBenchmarkCommand");
+
+		if( command.getBenchmarkId() == null )
+			throw new ValidationException"Benchmark", "validating id on RemoveConstituentsFromBenchmarkCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Benchmark", "validating remove from";
+
+		if( command.getRemoveFrom().getSecurityId() == null )
+			throw new ValidationException"Benchmark", "validating id on remove from}";
 	}
 	
 

@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>AccountTransferValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class AccountTransferValidator {
 		
 	/**
@@ -75,48 +78,51 @@ public class AccountTransferValidator {
 	 */
 	protected AccountTransferValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public AccountTransferValidator getInstance() {
-		return new AccountTransferValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a AccountTransfer
 	 */
-	public void validate( CreateAccountTransferCommand accountTransfer )throws Exception {
-		Assert.notNull( accountTransfer, "CreateAccountTransferCommand should not be null" );
+	public void validate( CreateAccountTransferCommand accountTransfer )throws ValidationException {
+		if ( accountTransfer == null )
+			throw new ValidationException( "AccountTransfer", "validating CreateAccountTransferCommand" );
+
 //		Assert.isNull( accountTransfer.getAccountTransferId(), "CreateAccountTransferCommand identifier should be null" );
-		Assert.notNull( accountTransfer.getRequestDate(), "Field CreateAccountTransferCommand.requestDate should not be null" );
-		Assert.notNull( accountTransfer.getCompletionDate(), "Field CreateAccountTransferCommand.completionDate should not be null" );
+		if ( accountTransfer.getRequestDate() == null )
+			throw new ValidationException( "AccountTransfer", "validating access on getRequestDate" );
+		if ( accountTransfer.getCompletionDate() == null )
+			throw new ValidationException( "AccountTransfer", "validating access on getCompletionDate" );
 	}
 
 	/**
 	 * handles update validation for a AccountTransfer
 	 */
-	public void validate( UpdateAccountTransferCommand accountTransfer ) throws Exception {
-		Assert.notNull( accountTransfer, "UpdateAccountTransferCommand should not be null" );
-		Assert.notNull( accountTransfer.getAccountTransferId(), "UpdateAccountTransferCommand identifier should not be null" );
-		Assert.notNull( accountTransfer.getRequestDate(), "Field UpdateAccountTransferCommand.requestDate should not be null" );
-		Assert.notNull( accountTransfer.getCompletionDate(), "Field UpdateAccountTransferCommand.completionDate should not be null" );
+	public void validate( UpdateAccountTransferCommand accountTransfer ) throws ValidationException {
+		if ( accountTransfer == null )
+			throw new ValidationException( "AccountTransfer", "validating UpdateAccountTransferCommand" );
+		if ( accountTransfer.getRequestDate() == null )
+			throw new ValidationException( "AccountTransfer", "validating method getRequestDate" );
+		if ( accountTransfer.getCompletionDate() == null )
+			throw new ValidationException( "AccountTransfer", "validating method getCompletionDate" );
     }
 
 	/**
 	 * handles delete validation for a AccountTransfer
 	 */
-    public void validate( DeleteAccountTransferCommand accountTransfer ) throws Exception {
-		Assert.notNull( accountTransfer, "{commandAlias} should not be null" );
-		Assert.notNull( accountTransfer.getAccountTransferId(), "DeleteAccountTransferCommand identifier should not be null" );
+    public void validate( DeleteAccountTransferCommand accountTransfer ) throws ValidationException {
+		if ( accountTransfer == null )
+			throw new ValidationException( "AccountTransfer", "validating DeleteAccountTransferCommand" );
+
+		if ( accountTransfer.getCompletionDate() == null )
+			throw new ValidationException( "AccountTransfer", "validating getCompletionDate" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a AccountTransfer
 	 */
-	public void validate( AccountTransferFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "AccountTransferFetchOneSummary should not be null" );
-		Assert.notNull( summary.getAccountTransferId(), "AccountTransferFetchOneSummary identifier should not be null" );
+	public void validate( AccountTransferFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "AccountTransfer", "validating summary );
 	}
 
 	/**
@@ -124,10 +130,16 @@ public class AccountTransferValidator {
 	 * 
 	 * @param	command AssignFromCustodianToAccountTransferCommand
 	 */	
-	public void validate( AssignFromCustodianToAccountTransferCommand command ) throws Exception {
-		Assert.notNull( command, "AssignFromCustodianToAccountTransferCommand should not be null" );
-		Assert.notNull( command.getAccountTransferId(), "AssignFromCustodianToAccountTransferCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignFromCustodianToAccountTransferCommand assignment should not be null" );
+	public void validate( AssignFromCustodianToAccountTransferCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AccountTransfer", "validating AssignFromCustodianToAccountTransferCommand" );
+
+		if ( command.getAccountTransferId() == null )
+			throw new ValidationException( "AccountTransfer", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "AccountTransfer", "validating assignment" );
+
 	}
 
 	/**
@@ -135,19 +147,28 @@ public class AccountTransferValidator {
 	 * 
 	 * @param	command UnAssignFromCustodianFromAccountTransferCommand
 	 */	
-	public void validate( UnAssignFromCustodianFromAccountTransferCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignFromCustodianFromAccountTransferCommand should not be null" );
-		Assert.notNull( command.getAccountTransferId(), "UnAssignFromCustodianFromAccountTransferCommand identifier should not be null" );
+	public void validate( UnAssignFromCustodianFromAccountTransferCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AccountTransfer", "validating UnAssignFromCustodianFromAccountTransferCommand" );
+
+		if ( command.getAccountTransferId() == null ) }
+			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignFromCustodianFromAccountTransferCommand" );
 	}
 	/**
 	 * handles assign ToCustodian validation for a AccountTransfer
 	 * 
 	 * @param	command AssignToCustodianToAccountTransferCommand
 	 */	
-	public void validate( AssignToCustodianToAccountTransferCommand command ) throws Exception {
-		Assert.notNull( command, "AssignToCustodianToAccountTransferCommand should not be null" );
-		Assert.notNull( command.getAccountTransferId(), "AssignToCustodianToAccountTransferCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignToCustodianToAccountTransferCommand assignment should not be null" );
+	public void validate( AssignToCustodianToAccountTransferCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AccountTransfer", "validating AssignToCustodianToAccountTransferCommand" );
+
+		if ( command.getAccountTransferId() == null )
+			throw new ValidationException( "AccountTransfer", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "AccountTransfer", "validating assignment" );
+
 	}
 
 	/**
@@ -155,19 +176,28 @@ public class AccountTransferValidator {
 	 * 
 	 * @param	command UnAssignToCustodianFromAccountTransferCommand
 	 */	
-	public void validate( UnAssignToCustodianFromAccountTransferCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignToCustodianFromAccountTransferCommand should not be null" );
-		Assert.notNull( command.getAccountTransferId(), "UnAssignToCustodianFromAccountTransferCommand identifier should not be null" );
+	public void validate( UnAssignToCustodianFromAccountTransferCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AccountTransfer", "validating UnAssignToCustodianFromAccountTransferCommand" );
+
+		if ( command.getAccountTransferId() == null ) }
+			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignToCustodianFromAccountTransferCommand" );
 	}
 	/**
 	 * handles assign Account validation for a AccountTransfer
 	 * 
 	 * @param	command AssignAccountToAccountTransferCommand
 	 */	
-	public void validate( AssignAccountToAccountTransferCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToAccountTransferCommand should not be null" );
-		Assert.notNull( command.getAccountTransferId(), "AssignAccountToAccountTransferCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToAccountTransferCommand assignment should not be null" );
+	public void validate( AssignAccountToAccountTransferCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AccountTransfer", "validating AssignAccountToAccountTransferCommand" );
+
+		if ( command.getAccountTransferId() == null )
+			throw new ValidationException( "AccountTransfer", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "AccountTransfer", "validating assignment" );
+
 	}
 
 	/**
@@ -175,9 +205,12 @@ public class AccountTransferValidator {
 	 * 
 	 * @param	command UnAssignAccountFromAccountTransferCommand
 	 */	
-	public void validate( UnAssignAccountFromAccountTransferCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromAccountTransferCommand should not be null" );
-		Assert.notNull( command.getAccountTransferId(), "UnAssignAccountFromAccountTransferCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromAccountTransferCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AccountTransfer", "validating UnAssignAccountFromAccountTransferCommand" );
+
+		if ( command.getAccountTransferId() == null ) }
+			throw new ValidationException( "AccountTransfer", "validating identity on UnAssignAccountFromAccountTransferCommand" );
 	}
 
 

@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class CustodianRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Custodian create( @RequestBody(required=true) CreateCustodianCommand command ) {
     	Custodian entity = null;
-		try {       
-        	
-			entity = service.createCustodian( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createCustodian( command );
+		LOGGER.info( "Successfully created Custodian with Id " + entity.getCustodianId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class CustodianRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Custodian update( @RequestBody(required=true) UpdateCustodianCommand command ) {
 		Custodian entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateCustodianCommand
-			// -----------------------------------------------
-			entity = service.updateCustodian(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "CustodianController:update() - successfully update Custodian - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateCustodian(command);
+		LOGGER.info( "Successfully updated Custodian with Id " + command.getCustodianId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class CustodianRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteCustodianCommand command ) {                
-    	try {
-        	CustodianService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Custodian with key " + command.getCustodianId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Custodian with Id " + command.getCustodianId()  );
+	}
 	
     /**
      * Handles loading a Custodian using a UUID
@@ -150,16 +133,10 @@ public class CustodianRestController extends BaseSpringRestController {
      * @return		Custodian
      */    
     @GetMapping("/load")
-    public Custodian load( @RequestParam(required=true) UUID uuid ) {    	
-    	Custodian entity = null;
+    public Custodian load( @RequestParam(required=true) UUID uuid ) {
+    	Custodian entity = service.getCustodian( new CustodianFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getCustodian( new CustodianFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Custodian using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Custodian with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class CustodianRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Custodian> loadAll() {                
     	List<Custodian> custodianList = null;
-        
-    	try {
-            // load the Custodian
-            custodianList = service.getAllCustodian();
-            
-            if ( custodianList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Custodians" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Custodians ", exc );
-        	return null;
-        }
+
+		custodianList = service.getAllCustodian();
+		LOGGER.log( Level.INFO,  "successfully loaded all Custodians" );
 
         return custodianList;
                             
@@ -195,12 +163,8 @@ public class CustodianRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAccounts")
 	public void addToAccounts( @RequestBody(required=true) AssignAccountsToCustodianCommand command ) {
-		try {
-			service.addToAccounts( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Accounts", exc );
-		}
+		service.addToAccounts( command );
+		LOGGER.info( "Successfully added Accounts with Id " + command.getCustodianId()  );
 	}
 
     /**
@@ -210,12 +174,8 @@ public class CustodianRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAccounts")
 	public void removeFromAccounts( 	@RequestBody(required=true) RemoveAccountsFromCustodianCommand command )
 	{		
-		try {
-			service.removeFromAccounts( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Accounts", exc );
-		}
+		service.removeFromAccounts( command );
+		LOGGER.info( "Successfully removed Accounts with Id " + command.getCustodianId()  );
 	}
 
     /**
@@ -224,12 +184,8 @@ public class CustodianRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToTransfers")
 	public void addToTransfers( @RequestBody(required=true) AssignTransfersToCustodianCommand command ) {
-		try {
-			service.addToTransfers( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Transfers", exc );
-		}
+		service.addToTransfers( command );
+		LOGGER.info( "Successfully added Transfers with Id " + command.getCustodianId()  );
 	}
 
     /**
@@ -239,12 +195,8 @@ public class CustodianRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromTransfers")
 	public void removeFromTransfers( 	@RequestBody(required=true) RemoveTransfersFromCustodianCommand command )
 	{		
-		try {
-			service.removeFromTransfers( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Transfers", exc );
-		}
+		service.removeFromTransfers( command );
+		LOGGER.info( "Successfully removed Transfers with Id " + command.getCustodianId()  );
 	}
 
 
@@ -255,6 +207,6 @@ public class CustodianRestController extends BaseSpringRestController {
 //************************************************************************
     protected Custodian custodian = null;
 	protected CustodianService service = null;
-    private static final Logger LOGGER = Logger.getLogger(CustodianRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustodianRestController.class.getName());
     
 }

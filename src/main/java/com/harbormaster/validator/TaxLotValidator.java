@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>TaxLotValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -64,6 +66,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class TaxLotValidator {
 		
 	/**
@@ -71,50 +74,55 @@ public class TaxLotValidator {
 	 */
 	protected TaxLotValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public TaxLotValidator getInstance() {
-		return new TaxLotValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a TaxLot
 	 */
-	public void validate( CreateTaxLotCommand taxLot )throws Exception {
-		Assert.notNull( taxLot, "CreateTaxLotCommand should not be null" );
+	public void validate( CreateTaxLotCommand taxLot )throws ValidationException {
+		if ( taxLot == null )
+			throw new ValidationException( "TaxLot", "validating CreateTaxLotCommand" );
+
 //		Assert.isNull( taxLot.getTaxLotId(), "CreateTaxLotCommand identifier should be null" );
-		Assert.notNull( taxLot.getAcquisitionDate(), "Field CreateTaxLotCommand.acquisitionDate should not be null" );
-		Assert.notNull( taxLot.getQuantity(), "Field CreateTaxLotCommand.quantity should not be null" );
-		Assert.notNull( taxLot.getUnitCost(), "Field CreateTaxLotCommand.unitCost should not be null" );
+		if ( taxLot.getAcquisitionDate() == null )
+			throw new ValidationException( "TaxLot", "validating access on getAcquisitionDate" );
+		if ( taxLot.getQuantity() == null )
+			throw new ValidationException( "TaxLot", "validating access on getQuantity" );
+		if ( taxLot.getUnitCost() == null )
+			throw new ValidationException( "TaxLot", "validating access on getUnitCost" );
 	}
 
 	/**
 	 * handles update validation for a TaxLot
 	 */
-	public void validate( UpdateTaxLotCommand taxLot ) throws Exception {
-		Assert.notNull( taxLot, "UpdateTaxLotCommand should not be null" );
-		Assert.notNull( taxLot.getTaxLotId(), "UpdateTaxLotCommand identifier should not be null" );
-		Assert.notNull( taxLot.getAcquisitionDate(), "Field UpdateTaxLotCommand.acquisitionDate should not be null" );
-		Assert.notNull( taxLot.getQuantity(), "Field UpdateTaxLotCommand.quantity should not be null" );
-		Assert.notNull( taxLot.getUnitCost(), "Field UpdateTaxLotCommand.unitCost should not be null" );
+	public void validate( UpdateTaxLotCommand taxLot ) throws ValidationException {
+		if ( taxLot == null )
+			throw new ValidationException( "TaxLot", "validating UpdateTaxLotCommand" );
+		if ( taxLot.getAcquisitionDate() == null )
+			throw new ValidationException( "TaxLot", "validating method getAcquisitionDate" );
+		if ( taxLot.getQuantity() == null )
+			throw new ValidationException( "TaxLot", "validating method getQuantity" );
+		if ( taxLot.getUnitCost() == null )
+			throw new ValidationException( "TaxLot", "validating method getUnitCost" );
     }
 
 	/**
 	 * handles delete validation for a TaxLot
 	 */
-    public void validate( DeleteTaxLotCommand taxLot ) throws Exception {
-		Assert.notNull( taxLot, "{commandAlias} should not be null" );
-		Assert.notNull( taxLot.getTaxLotId(), "DeleteTaxLotCommand identifier should not be null" );
+    public void validate( DeleteTaxLotCommand taxLot ) throws ValidationException {
+		if ( taxLot == null )
+			throw new ValidationException( "TaxLot", "validating DeleteTaxLotCommand" );
+
+		if ( taxLot.getUnitCost() == null )
+			throw new ValidationException( "TaxLot", "validating getUnitCost" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a TaxLot
 	 */
-	public void validate( TaxLotFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "TaxLotFetchOneSummary should not be null" );
-		Assert.notNull( summary.getTaxLotId(), "TaxLotFetchOneSummary identifier should not be null" );
+	public void validate( TaxLotFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "TaxLot", "validating summary );
 	}
 
 	/**
@@ -122,10 +130,16 @@ public class TaxLotValidator {
 	 * 
 	 * @param	command AssignPositionToTaxLotCommand
 	 */	
-	public void validate( AssignPositionToTaxLotCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPositionToTaxLotCommand should not be null" );
-		Assert.notNull( command.getTaxLotId(), "AssignPositionToTaxLotCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPositionToTaxLotCommand assignment should not be null" );
+	public void validate( AssignPositionToTaxLotCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "TaxLot", "validating AssignPositionToTaxLotCommand" );
+
+		if ( command.getTaxLotId() == null )
+			throw new ValidationException( "TaxLot", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "TaxLot", "validating assignment" );
+
 	}
 
 	/**
@@ -133,9 +147,12 @@ public class TaxLotValidator {
 	 * 
 	 * @param	command UnAssignPositionFromTaxLotCommand
 	 */	
-	public void validate( UnAssignPositionFromTaxLotCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPositionFromTaxLotCommand should not be null" );
-		Assert.notNull( command.getTaxLotId(), "UnAssignPositionFromTaxLotCommand identifier should not be null" );
+	public void validate( UnAssignPositionFromTaxLotCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "TaxLot", "validating UnAssignPositionFromTaxLotCommand" );
+
+		if ( command.getTaxLotId() == null ) }
+			throw new ValidationException( "TaxLot", "validating identity on UnAssignPositionFromTaxLotCommand" );
 	}
 
 

@@ -49,245 +49,245 @@ public class AgreementTest
     public AgreementTest(AgreementService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Agreement, through a AgreementTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on AgreementTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on AgreementTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on AgreementTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on AgreementTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Agreement.
      *
      * @return    Agreement
      */
     public Agreement testCreate() throws Throwable {
-        Agreement entity = null;
+    Agreement entity = null;
 
-        LOGGER.info( "AgreementTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Agreement");
+    LOGGER.info( "AgreementTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Agreement");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Agreement" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Agreement" );
 
-        try {            
-            entity = service.createAgreement( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createAgreement( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getAgreementId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getAgreementId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Agreement with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Agreement with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Agreement.
      *
-     * @return    Agreement  
+     * @return    Agreement
      */
     public Agreement testRead() throws Throwable {
-        LOGGER.info( "AgreementTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Agreement" );
+    LOGGER.info( "AgreementTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Agreement" );
 
-        Agreement entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Agreement with primary key" );
-        msg.append( theId );
+    Agreement entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Agreement with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getAgreement( new AgreementFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getAgreement( new AgreementFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getAgreementId();
-            
-            LOGGER.info( "-- Successfully found Agreement " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getAgreementId();
+
+        LOGGER.info( "-- Successfully found Agreement " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Agreement.
      *
      * @return    Agreement
      */
     public Agreement testUpdate() throws Throwable {
-        LOGGER.info( "AgreementTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Agreement." );
+    LOGGER.info( "AgreementTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Agreement." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Agreement : " );        
-        Agreement entity = null;
-    
-        try {            
-        	UpdateAgreementCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setAgreementId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Agreement : " );
+    Agreement entity = null;
 
-            LOGGER.info( "-- Now updating the created Agreement." );
-            
-            entity = service.updateAgreement( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateAgreementCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Agreement - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setAgreementId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Agreement." );
+
+        entity = service.updateAgreement( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Agreement - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Agreement.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "AgreementTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Agreement." );
-        
-        try {
-        	DeleteAgreementCommand deleteCommand = new DeleteAgreementCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Agreement with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Agreement with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "AgreementTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Agreement." );
 
-    /** 
+    try {
+        DeleteAgreementCommand deleteCommand = new DeleteAgreementCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Agreement with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Agreement with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Agreements.
      *
      * @return    Collection
      */
-    public List<Agreement> testGetAll() throws Throwable {    
-        LOGGER.info( "AgreementTest:testGetAll() - Retrieving Collection of Agreements:" );
+    public List<Agreement> testGetAll() throws Throwable {
+    LOGGER.info( "AgreementTest:testGetAll() - Retrieving Collection of Agreements:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Agreement : " );        
-        List<Agreement> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Agreement : " );
+    List<Agreement> collection  = null;
 
-        try {
-            // call the static get method on the AgreementService
-            collection = service.getAllAgreement();
+    try {
+        // call the static get method on the AgreementService
+        collection = service.getAllAgreement();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Agreement currEntity  = null;            
-	            Iterator<Agreement> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getAgreementId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Agreement currEntity  = null;
+            Iterator<Agreement> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getAgreementId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public AgreementTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Agreement
-	 * 
-	 * @return CreateAgreementCommand alias
-	 */
+
+    /**
+     * Returns a new populated Agreement
+     *
+     * @return CreateAgreementCommand alias
+     */
 	protected CreateAgreementCommand generateNewCommand() {
-        CreateAgreementCommand command = new CreateAgreementCommand( null,   new Date(),  AgreementType.values()[0],  AgreementStatus.values()[0] );
-		
-		return( command );
-	}
+    CreateAgreementCommand command = new CreateAgreementCommand( null,   new Date(),  AgreementType.values()[0],  AgreementStatus.values()[0] );
 
-		/**
-		 * Returns a new populated Agreement
-		 * 
-		 * @return UpdateAgreementCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Agreement
+     *
+     * @return UpdateAgreementCommand alias
+     */
 	protected UpdateAgreementCommand generateUpdateCommand() {
-	        UpdateAgreementCommand command = new UpdateAgreementCommand( null,   new Date(),  null,  null,  new HashSet<>(),  AgreementType.values()[0],  AgreementStatus.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateAgreementCommand command = new UpdateAgreementCommand( null,   new Date(),  null,  null,  new HashSet<>(),  AgreementType.values()[0],  AgreementStatus.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected AgreementService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Agreement.class.getName());
 
 }

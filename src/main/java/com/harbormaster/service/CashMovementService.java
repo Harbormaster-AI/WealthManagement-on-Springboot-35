@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class CashMovementService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public CashMovementService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new CashMovementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(CashMovementRepository.class) );
+		}
 
-    	projector 		= new CashMovementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(CashMovementRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		CashMovement
+		 */
+			public CashMovement createCashMovement( CreateCashMovementCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		CashMovement
-    */
-	public CashMovement createCashMovement( CreateCashMovementCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			CashMovement entity = new CashMovement();
 
-		CashMovement entity = new CashMovement();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	CashMovementValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
 
             entity.setCashMovementId( command.getCashMovementId() );
             entity.setAmount( command.getAmount() );
             entity.setValueDate( command.getValueDate() );
             entity.setDescription( command.getDescription() );
             entity.setMovementType( command.getMovementType() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of CashMovement {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create CashMovement - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateCashMovementCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		CashMovement
-    */
-    public CashMovement updateCashMovement( UpdateCashMovementCommand command ) 
+				LOGGER.info( "done creating of CashMovement {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create CashMovement - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateCashMovementCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		CashMovement
+		 */
+		public CashMovement updateCashMovement( UpdateCashMovementCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    CashMovement entity = new CashMovement();
+			CashMovement entity = new CashMovement();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	CashMovementValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
 
             entity.setCashMovementId( command.getCashMovementId() );
             entity.setAmount( command.getAmount() );
@@ -182,272 +180,272 @@ extends BaseService {
             entity.setRelatedInstruction( command.getRelatedInstruction() );
             entity.setRelatedTransaction( command.getRelatedTransaction() );
             entity.setMovementType( command.getMovementType() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of CashMovement {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save CashMovement - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteCashMovementCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteCashMovementCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	CashMovementValidator.getInstance().validate( command );    
-        
-        	id = command.getCashMovementId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of CashMovement {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete CashMovement using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of CashMovement {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save CashMovement - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the CashMovement via CashMovementFetchOneSummary
-     * @param 	summary CashMovementFetchOneSummary 
-     * @return 	CashMovementFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteCashMovementCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteCashMovementCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
+
+				id = command.getCashMovementId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of CashMovement {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete CashMovement using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the CashMovement via CashMovementFetchOneSummary
+		 * @param 	summary CashMovementFetchOneSummary
+		 * @return 	CashMovementFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public CashMovement getCashMovement( CashMovementFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "CashMovementFetchOneSummary arg cannot be null" );
-    	
-    	CashMovement entity = null;
-    	UUID id = summary.getCashMovementId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	CashMovementValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a CashMovement using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate CashMovement with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "CashMovementFetchOneSummary arg cannot be null" );
+
+			CashMovement entity = null;
+			UUID id = summary.getCashMovementId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a CashMovement using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate CashMovement with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all CashMovements
-     *
-     * @return 	List<CashMovement> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all CashMovements
+		 *
+		 * @return 	List<CashMovement>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<CashMovement> getAllCashMovement() 
     throws ProcessingException {
-        List<CashMovement> list = null;
+			List<CashMovement> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllCashMovementQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all CashMovement";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllCashMovementQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all CashMovement";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Account on CashMovement
-     * @param		command AssignAccountToCashMovementCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToCashMovementCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	CashMovementValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getCashMovementId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getCashMovementId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on CashMovement
-     * @param		command UnAssignAccountFromCashMovementCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromCashMovementCommand command ) throws ProcessingException {
+		/**
+		 * assign Account on CashMovement
+		 * @param		command AssignAccountToCashMovementCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToCashMovementCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	CashMovementValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getCashMovementId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getCashMovementId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Account on CashMovement
+		 * @param		command UnAssignAccountFromCashMovementCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromCashMovementCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getCashMovementId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on CashMovement";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getCashMovementId());
+		/**
+		 * assign RelatedInstruction on CashMovement
+		 * @param		command AssignRelatedInstructionToCashMovementCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignRelatedInstruction( AssignRelatedInstructionToCashMovementCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignRelatedInstruction(command.getCashMovementId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get StandingInstruction using id " + command.getCashMovementId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on CashMovement";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign RelatedInstruction on CashMovement
+		 * @param		command UnAssignRelatedInstructionFromCashMovementCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignRelatedInstruction( UnAssignRelatedInstructionFromCashMovementCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignRelatedInstruction(command.getCashMovementId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign RelatedInstruction on CashMovement";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign RelatedInstruction on CashMovement
-     * @param		command AssignRelatedInstructionToCashMovementCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignRelatedInstruction( AssignRelatedInstructionToCashMovementCommand command ) throws ProcessingException {
+		/**
+		 * assign RelatedTransaction on CashMovement
+		 * @param		command AssignRelatedTransactionToCashMovementCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignRelatedTransaction( AssignRelatedTransactionToCashMovementCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	CashMovementValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignRelatedInstruction(command.getCashMovementId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignRelatedTransaction(command.getCashMovementId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Transaction using id " + command.getCashMovementId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get StandingInstruction using id " + command.getCashMovementId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign RelatedInstruction on CashMovement
-     * @param		command UnAssignRelatedInstructionFromCashMovementCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignRelatedInstruction( UnAssignRelatedInstructionFromCashMovementCommand command ) throws ProcessingException {
+		/**
+		 * unAssign RelatedTransaction on CashMovement
+		 * @param		command UnAssignRelatedTransactionFromCashMovementCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignRelatedTransaction( UnAssignRelatedTransactionFromCashMovementCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	CashMovementValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignRelatedInstruction(command.getCashMovementId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				CashMovementValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignRelatedTransaction(command.getCashMovementId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign RelatedTransaction on CashMovement";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign RelatedInstruction on CashMovement";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign RelatedTransaction on CashMovement
-     * @param		command AssignRelatedTransactionToCashMovementCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignRelatedTransaction( AssignRelatedTransactionToCashMovementCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	CashMovementValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignRelatedTransaction(command.getCashMovementId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Transaction using id " + command.getCashMovementId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign RelatedTransaction on CashMovement
-     * @param		command UnAssignRelatedTransactionFromCashMovementCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignRelatedTransaction( UnAssignRelatedTransactionFromCashMovementCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	CashMovementValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignRelatedTransaction(command.getCashMovementId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign RelatedTransaction on CashMovement";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -461,5 +459,5 @@ extends BaseService {
     private final CashMovementEntityProjector projector;
 	private CashMovement cashMovement 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(CashMovementService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CashMovementService.class);
 }

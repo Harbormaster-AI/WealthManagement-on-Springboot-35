@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class WealthGoalRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public WealthGoal create( @RequestBody(required=true) CreateWealthGoalCommand command ) {
     	WealthGoal entity = null;
-		try {       
-        	
-			entity = service.createWealthGoal( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createWealthGoal( command );
+		LOGGER.info( "Successfully created WealthGoal with Id " + entity.getWealthGoalId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class WealthGoalRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public WealthGoal update( @RequestBody(required=true) UpdateWealthGoalCommand command ) {
 		WealthGoal entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateWealthGoalCommand
-			// -----------------------------------------------
-			entity = service.updateWealthGoal(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "WealthGoalController:update() - successfully update WealthGoal - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateWealthGoal(command);
+		LOGGER.info( "Successfully updated WealthGoal with Id " + command.getWealthGoalId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class WealthGoalRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteWealthGoalCommand command ) {                
-    	try {
-        	WealthGoalService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted WealthGoal with key " + command.getWealthGoalId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted WealthGoal with Id " + command.getWealthGoalId()  );
+	}
 	
     /**
      * Handles loading a WealthGoal using a UUID
@@ -150,16 +133,10 @@ public class WealthGoalRestController extends BaseSpringRestController {
      * @return		WealthGoal
      */    
     @GetMapping("/load")
-    public WealthGoal load( @RequestParam(required=true) UUID uuid ) {    	
-    	WealthGoal entity = null;
+    public WealthGoal load( @RequestParam(required=true) UUID uuid ) {
+    	WealthGoal entity = service.getWealthGoal( new WealthGoalFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getWealthGoal( new WealthGoalFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load WealthGoal using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded WealthGoal with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class WealthGoalRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<WealthGoal> loadAll() {                
     	List<WealthGoal> wealthGoalList = null;
-        
-    	try {
-            // load the WealthGoal
-            wealthGoalList = service.getAllWealthGoal();
-            
-            if ( wealthGoalList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all WealthGoals" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all WealthGoals ", exc );
-        	return null;
-        }
+
+		wealthGoalList = service.getAllWealthGoal();
+		LOGGER.log( Level.INFO,  "successfully loaded all WealthGoals" );
 
         return wealthGoalList;
                             
@@ -194,12 +162,8 @@ public class WealthGoalRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToWealthGoalCommand command ) {
-		try {
-			service.assignHousehold( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
-        }
+		service.assignHousehold( command );
+		LOGGER.info( "Successfully assigned Household with Id " + command.getWealthGoalId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class WealthGoalRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromWealthGoalCommand command ) {
-		try {
-			service.unAssignHousehold( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
-		}
+		service.unAssignHousehold( command );
+		LOGGER.info( "Successfully unassigned Household with Id " + command.getWealthGoalId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class WealthGoalRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToWealthGoalCommand command ) {
-		try {
-			service.assignPortfolio( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
-        }
+		service.assignPortfolio( command );
+		LOGGER.info( "Successfully assigned Portfolio with Id " + command.getWealthGoalId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class WealthGoalRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromWealthGoalCommand command ) {
-		try {
-			service.unAssignPortfolio( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
-		}
+		service.unAssignPortfolio( command );
+		LOGGER.info( "Successfully unassigned Portfolio with Id " + command.getWealthGoalId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class WealthGoalRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignInvestmentPolicy")
 	public void assignInvestmentPolicy( @RequestBody AssignInvestmentPolicyToWealthGoalCommand command ) {
-		try {
-			service.assignInvestmentPolicy( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign InvestmentPolicy", exc );
-        }
+		service.assignInvestmentPolicy( command );
+		LOGGER.info( "Successfully assigned InvestmentPolicy with Id " + command.getWealthGoalId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class WealthGoalRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignInvestmentPolicy")
 	public void unAssignInvestmentPolicy( @RequestBody(required=true)  UnAssignInvestmentPolicyFromWealthGoalCommand command ) {
-		try {
-			service.unAssignInvestmentPolicy( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign InvestmentPolicy", exc );
-		}
+		service.unAssignInvestmentPolicy( command );
+		LOGGER.info( "Successfully unassigned InvestmentPolicy with Id " + command.getWealthGoalId()  );
 	}
 	
 
@@ -281,6 +225,6 @@ public class WealthGoalRestController extends BaseSpringRestController {
 //************************************************************************
     protected WealthGoal wealthGoal = null;
 	protected WealthGoalService service = null;
-    private static final Logger LOGGER = Logger.getLogger(WealthGoalRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(WealthGoalRestController.class.getName());
     
 }

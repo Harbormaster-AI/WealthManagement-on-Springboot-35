@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class RiskAssessmentService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public RiskAssessmentService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new RiskAssessmentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(RiskAssessmentRepository.class) );
+		}
 
-    	projector 		= new RiskAssessmentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(RiskAssessmentRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		RiskAssessment
+		 */
+			public RiskAssessment createRiskAssessment( CreateRiskAssessmentCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		RiskAssessment
-    */
-	public RiskAssessment createRiskAssessment( CreateRiskAssessmentCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			RiskAssessment entity = new RiskAssessment();
 
-		RiskAssessment entity = new RiskAssessment();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	RiskAssessmentValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RiskAssessmentValidator.getInstance().validate( command );
 
             entity.setRiskAssessmentId( command.getRiskAssessmentId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
             entity.setCapacityScore( command.getCapacityScore() );
             entity.setHorizonYears( command.getHorizonYears() );
             entity.setRiskTolerance( command.getRiskTolerance() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of RiskAssessment {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create RiskAssessment - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateRiskAssessmentCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		RiskAssessment
-    */
-    public RiskAssessment updateRiskAssessment( UpdateRiskAssessmentCommand command ) 
+				LOGGER.info( "done creating of RiskAssessment {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create RiskAssessment - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateRiskAssessmentCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		RiskAssessment
+		 */
+		public RiskAssessment updateRiskAssessment( UpdateRiskAssessmentCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    RiskAssessment entity = new RiskAssessment();
+			RiskAssessment entity = new RiskAssessment();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	RiskAssessmentValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				RiskAssessmentValidator.getInstance().validate( command );
 
             entity.setRiskAssessmentId( command.getRiskAssessmentId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -181,221 +179,221 @@ extends BaseService {
             entity.setHousehold( command.getHousehold() );
             entity.setAdvisor( command.getAdvisor() );
             entity.setRiskTolerance( command.getRiskTolerance() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of RiskAssessment {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save RiskAssessment - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteRiskAssessmentCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteRiskAssessmentCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	RiskAssessmentValidator.getInstance().validate( command );    
-        
-        	id = command.getRiskAssessmentId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of RiskAssessment {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete RiskAssessment using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of RiskAssessment {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save RiskAssessment - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the RiskAssessment via RiskAssessmentFetchOneSummary
-     * @param 	summary RiskAssessmentFetchOneSummary 
-     * @return 	RiskAssessmentFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteRiskAssessmentCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteRiskAssessmentCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RiskAssessmentValidator.getInstance().validate( command );
+
+				id = command.getRiskAssessmentId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of RiskAssessment {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete RiskAssessment using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the RiskAssessment via RiskAssessmentFetchOneSummary
+		 * @param 	summary RiskAssessmentFetchOneSummary
+		 * @return 	RiskAssessmentFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public RiskAssessment getRiskAssessment( RiskAssessmentFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "RiskAssessmentFetchOneSummary arg cannot be null" );
-    	
-    	RiskAssessment entity = null;
-    	UUID id = summary.getRiskAssessmentId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	RiskAssessmentValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a RiskAssessment using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate RiskAssessment with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "RiskAssessmentFetchOneSummary arg cannot be null" );
+
+			RiskAssessment entity = null;
+			UUID id = summary.getRiskAssessmentId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				RiskAssessmentValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a RiskAssessment using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate RiskAssessment with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all RiskAssessments
-     *
-     * @return 	List<RiskAssessment> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all RiskAssessments
+		 *
+		 * @return 	List<RiskAssessment>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<RiskAssessment> getAllRiskAssessment() 
     throws ProcessingException {
-        List<RiskAssessment> list = null;
+			List<RiskAssessment> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllRiskAssessmentQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all RiskAssessment";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllRiskAssessmentQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all RiskAssessment";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Household on RiskAssessment
-     * @param		command AssignHouseholdToRiskAssessmentCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignHousehold( AssignHouseholdToRiskAssessmentCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	RiskAssessmentValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignHousehold(command.getRiskAssessmentId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Household using id " + command.getRiskAssessmentId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Household on RiskAssessment
-     * @param		command UnAssignHouseholdFromRiskAssessmentCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignHousehold( UnAssignHouseholdFromRiskAssessmentCommand command ) throws ProcessingException {
+		/**
+		 * assign Household on RiskAssessment
+		 * @param		command AssignHouseholdToRiskAssessmentCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignHousehold( AssignHouseholdToRiskAssessmentCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	RiskAssessmentValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				RiskAssessmentValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignHousehold(command.getRiskAssessmentId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Household using id " + command.getRiskAssessmentId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Household on RiskAssessment
+		 * @param		command UnAssignHouseholdFromRiskAssessmentCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignHousehold( UnAssignHouseholdFromRiskAssessmentCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RiskAssessmentValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignHousehold(command.getRiskAssessmentId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Household on RiskAssessment";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignHousehold(command.getRiskAssessmentId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Household on RiskAssessment";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Advisor on RiskAssessment
-     * @param		command AssignAdvisorToRiskAssessmentCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAdvisor( AssignAdvisorToRiskAssessmentCommand command ) throws ProcessingException {
+		/**
+		 * assign Advisor on RiskAssessment
+		 * @param		command AssignAdvisorToRiskAssessmentCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAdvisor( AssignAdvisorToRiskAssessmentCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	RiskAssessmentValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				RiskAssessmentValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAdvisor(command.getRiskAssessmentId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Advisor using id " + command.getRiskAssessmentId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAdvisor(command.getRiskAssessmentId(), command.getAssignment());
 
-    /**
-     * unAssign Advisor on RiskAssessment
-     * @param		command UnAssignAdvisorFromRiskAssessmentCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAdvisor( UnAssignAdvisorFromRiskAssessmentCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Advisor using id " + command.getRiskAssessmentId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	RiskAssessmentValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAdvisor(command.getRiskAssessmentId());
+		/**
+		 * unAssign Advisor on RiskAssessment
+		 * @param		command UnAssignAdvisorFromRiskAssessmentCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAdvisor( UnAssignAdvisorFromRiskAssessmentCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RiskAssessmentValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAdvisor(command.getRiskAssessmentId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Advisor on RiskAssessment";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Advisor on RiskAssessment";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -409,5 +407,5 @@ extends BaseService {
     private final RiskAssessmentEntityProjector projector;
 	private RiskAssessment riskAssessment 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(RiskAssessmentService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(RiskAssessmentService.class);
 }

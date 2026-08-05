@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class KycRecordRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public KycRecord create( @RequestBody(required=true) CreateKycRecordCommand command ) {
     	KycRecord entity = null;
-		try {       
-        	
-			entity = service.createKycRecord( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createKycRecord( command );
+		LOGGER.info( "Successfully created KycRecord with Id " + entity.getKycRecordId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class KycRecordRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public KycRecord update( @RequestBody(required=true) UpdateKycRecordCommand command ) {
 		KycRecord entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateKycRecordCommand
-			// -----------------------------------------------
-			entity = service.updateKycRecord(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "KycRecordController:update() - successfully update KycRecord - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateKycRecord(command);
+		LOGGER.info( "Successfully updated KycRecord with Id " + command.getKycRecordId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class KycRecordRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteKycRecordCommand command ) {                
-    	try {
-        	KycRecordService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted KycRecord with key " + command.getKycRecordId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted KycRecord with Id " + command.getKycRecordId()  );
+	}
 	
     /**
      * Handles loading a KycRecord using a UUID
@@ -150,16 +133,10 @@ public class KycRecordRestController extends BaseSpringRestController {
      * @return		KycRecord
      */    
     @GetMapping("/load")
-    public KycRecord load( @RequestParam(required=true) UUID uuid ) {    	
-    	KycRecord entity = null;
+    public KycRecord load( @RequestParam(required=true) UUID uuid ) {
+    	KycRecord entity = service.getKycRecord( new KycRecordFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getKycRecord( new KycRecordFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load KycRecord using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded KycRecord with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class KycRecordRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<KycRecord> loadAll() {                
     	List<KycRecord> kycRecordList = null;
-        
-    	try {
-            // load the KycRecord
-            kycRecordList = service.getAllKycRecord();
-            
-            if ( kycRecordList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all KycRecords" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all KycRecords ", exc );
-        	return null;
-        }
+
+		kycRecordList = service.getAllKycRecord();
+		LOGGER.log( Level.INFO,  "successfully loaded all KycRecords" );
 
         return kycRecordList;
                             
@@ -194,12 +162,8 @@ public class KycRecordRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignClient")
 	public void assignClient( @RequestBody AssignClientToKycRecordCommand command ) {
-		try {
-			service.assignClient( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Client", exc );
-        }
+		service.assignClient( command );
+		LOGGER.info( "Successfully assigned Client with Id " + command.getKycRecordId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class KycRecordRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignClient")
 	public void unAssignClient( @RequestBody(required=true)  UnAssignClientFromKycRecordCommand command ) {
-		try {
-			service.unAssignClient( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Client", exc );
-		}
+		service.unAssignClient( command );
+		LOGGER.info( "Successfully unassigned Client with Id " + command.getKycRecordId()  );
 	}
 	
 
@@ -223,12 +183,8 @@ public class KycRecordRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToDocuments")
 	public void addToDocuments( @RequestBody(required=true) AssignDocumentsToKycRecordCommand command ) {
-		try {
-			service.addToDocuments( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Documents", exc );
-		}
+		service.addToDocuments( command );
+		LOGGER.info( "Successfully added Documents with Id " + command.getKycRecordId()  );
 	}
 
     /**
@@ -238,12 +194,8 @@ public class KycRecordRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromDocuments")
 	public void removeFromDocuments( 	@RequestBody(required=true) RemoveDocumentsFromKycRecordCommand command )
 	{		
-		try {
-			service.removeFromDocuments( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Documents", exc );
-		}
+		service.removeFromDocuments( command );
+		LOGGER.info( "Successfully removed Documents with Id " + command.getKycRecordId()  );
 	}
 
 
@@ -254,6 +206,6 @@ public class KycRecordRestController extends BaseSpringRestController {
 //************************************************************************
     protected KycRecord kycRecord = null;
 	protected KycRecordService service = null;
-    private static final Logger LOGGER = Logger.getLogger(KycRecordRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(KycRecordRestController.class.getName());
     
 }

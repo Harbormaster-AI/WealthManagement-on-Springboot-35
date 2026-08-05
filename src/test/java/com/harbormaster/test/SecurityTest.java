@@ -49,245 +49,245 @@ public class SecurityTest
     public SecurityTest(SecurityService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Security, through a SecurityTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on SecurityTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on SecurityTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on SecurityTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on SecurityTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Security.
      *
      * @return    Security
      */
     public Security testCreate() throws Throwable {
-        Security entity = null;
+    Security entity = null;
 
-        LOGGER.info( "SecurityTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Security");
+    LOGGER.info( "SecurityTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Security");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Security" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Security" );
 
-        try {            
-            entity = service.createSecurity( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createSecurity( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getSecurityId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getSecurityId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Security with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Security with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Security.
      *
-     * @return    Security  
+     * @return    Security
      */
     public Security testRead() throws Throwable {
-        LOGGER.info( "SecurityTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Security" );
+    LOGGER.info( "SecurityTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Security" );
 
-        Security entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Security with primary key" );
-        msg.append( theId );
+    Security entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Security with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getSecurity( new SecurityFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getSecurity( new SecurityFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getSecurityId();
-            
-            LOGGER.info( "-- Successfully found Security " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getSecurityId();
+
+        LOGGER.info( "-- Successfully found Security " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Security.
      *
      * @return    Security
      */
     public Security testUpdate() throws Throwable {
-        LOGGER.info( "SecurityTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Security." );
+    LOGGER.info( "SecurityTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Security." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Security : " );        
-        Security entity = null;
-    
-        try {            
-        	UpdateSecurityCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setSecurityId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Security : " );
+    Security entity = null;
 
-            LOGGER.info( "-- Now updating the created Security." );
-            
-            entity = service.updateSecurity( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateSecurityCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Security - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setSecurityId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Security." );
+
+        entity = service.updateSecurity( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Security - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Security.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "SecurityTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Security." );
-        
-        try {
-        	DeleteSecurityCommand deleteCommand = new DeleteSecurityCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Security with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Security with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "SecurityTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Security." );
 
-    /** 
+    try {
+        DeleteSecurityCommand deleteCommand = new DeleteSecurityCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Security with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Security with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Securitys.
      *
      * @return    Collection
      */
-    public List<Security> testGetAll() throws Throwable {    
-        LOGGER.info( "SecurityTest:testGetAll() - Retrieving Collection of Securitys:" );
+    public List<Security> testGetAll() throws Throwable {
+    LOGGER.info( "SecurityTest:testGetAll() - Retrieving Collection of Securitys:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Security : " );        
-        List<Security> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Security : " );
+    List<Security> collection  = null;
 
-        try {
-            // call the static get method on the SecurityService
-            collection = service.getAllSecurity();
+    try {
+        // call the static get method on the SecurityService
+        collection = service.getAllSecurity();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Security currEntity  = null;            
-	            Iterator<Security> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getSecurityId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Security currEntity  = null;
+            Iterator<Security> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getSecurityId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public SecurityTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Security
-	 * 
-	 * @return CreateSecurityCommand alias
-	 */
+
+    /**
+     * Returns a new populated Security
+     *
+     * @return CreateSecurityCommand alias
+     */
 	protected CreateSecurityCommand generateNewCommand() {
-        CreateSecurityCommand command = new CreateSecurityCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new ISIN(),  new CUSIP(),  new Percentage(),  SecurityType.values()[0],  AssetClass.values()[0] );
-		
-		return( command );
-	}
+    CreateSecurityCommand command = new CreateSecurityCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new ISIN(),  new CUSIP(),  new Percentage(),  SecurityType.values()[0],  AssetClass.values()[0] );
 
-		/**
-		 * Returns a new populated Security
-		 * 
-		 * @return UpdateSecurityCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Security
+     *
+     * @return UpdateSecurityCommand alias
+     */
 	protected UpdateSecurityCommand generateUpdateCommand() {
-	        UpdateSecurityCommand command = new UpdateSecurityCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new ISIN(),  new CUSIP(),  new Percentage(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  SecurityType.values()[0],  AssetClass.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateSecurityCommand command = new UpdateSecurityCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new ISIN(),  new CUSIP(),  new Percentage(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  SecurityType.values()[0],  AssetClass.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected SecurityService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Security.class.getName());
 
 }

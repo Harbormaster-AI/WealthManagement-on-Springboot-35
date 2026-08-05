@@ -49,245 +49,245 @@ public class RiskAssessmentTest
     public RiskAssessmentTest(RiskAssessmentService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a RiskAssessment, through a RiskAssessmentTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on RiskAssessmentTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on RiskAssessmentTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on RiskAssessmentTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on RiskAssessmentTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new RiskAssessment.
      *
      * @return    RiskAssessment
      */
     public RiskAssessment testCreate() throws Throwable {
-        RiskAssessment entity = null;
+    RiskAssessment entity = null;
 
-        LOGGER.info( "RiskAssessmentTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a RiskAssessment");
+    LOGGER.info( "RiskAssessmentTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a RiskAssessment");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a RiskAssessment" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a RiskAssessment" );
 
-        try {            
-            entity = service.createRiskAssessment( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createRiskAssessment( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getRiskAssessmentId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getRiskAssessmentId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a RiskAssessment with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a RiskAssessment with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a RiskAssessment.
      *
-     * @return    RiskAssessment  
+     * @return    RiskAssessment
      */
     public RiskAssessment testRead() throws Throwable {
-        LOGGER.info( "RiskAssessmentTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created RiskAssessment" );
+    LOGGER.info( "RiskAssessmentTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created RiskAssessment" );
 
-        RiskAssessment entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read RiskAssessment with primary key" );
-        msg.append( theId );
+    RiskAssessment entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read RiskAssessment with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getRiskAssessment( new RiskAssessmentFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getRiskAssessment( new RiskAssessmentFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getRiskAssessmentId();
-            
-            LOGGER.info( "-- Successfully found RiskAssessment " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getRiskAssessmentId();
+
+        LOGGER.info( "-- Successfully found RiskAssessment " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a RiskAssessment.
      *
      * @return    RiskAssessment
      */
     public RiskAssessment testUpdate() throws Throwable {
-        LOGGER.info( "RiskAssessmentTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a RiskAssessment." );
+    LOGGER.info( "RiskAssessmentTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a RiskAssessment." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a RiskAssessment : " );        
-        RiskAssessment entity = null;
-    
-        try {            
-        	UpdateRiskAssessmentCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setRiskAssessmentId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a RiskAssessment : " );
+    RiskAssessment entity = null;
 
-            LOGGER.info( "-- Now updating the created RiskAssessment." );
-            
-            entity = service.updateRiskAssessment( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateRiskAssessmentCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved RiskAssessment - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setRiskAssessmentId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created RiskAssessment." );
+
+        entity = service.updateRiskAssessment( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved RiskAssessment - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a RiskAssessment.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "RiskAssessmentTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created RiskAssessment." );
-        
-        try {
-        	DeleteRiskAssessmentCommand deleteCommand = new DeleteRiskAssessmentCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted RiskAssessment with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete RiskAssessment with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "RiskAssessmentTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created RiskAssessment." );
 
-    /** 
+    try {
+        DeleteRiskAssessmentCommand deleteCommand = new DeleteRiskAssessmentCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted RiskAssessment with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete RiskAssessment with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all RiskAssessments.
      *
      * @return    Collection
      */
-    public List<RiskAssessment> testGetAll() throws Throwable {    
-        LOGGER.info( "RiskAssessmentTest:testGetAll() - Retrieving Collection of RiskAssessments:" );
+    public List<RiskAssessment> testGetAll() throws Throwable {
+    LOGGER.info( "RiskAssessmentTest:testGetAll() - Retrieving Collection of RiskAssessments:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all RiskAssessment : " );        
-        List<RiskAssessment> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all RiskAssessment : " );
+    List<RiskAssessment> collection  = null;
 
-        try {
-            // call the static get method on the RiskAssessmentService
-            collection = service.getAllRiskAssessment();
+    try {
+        // call the static get method on the RiskAssessmentService
+        collection = service.getAllRiskAssessment();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            RiskAssessment currEntity  = null;            
-	            Iterator<RiskAssessment> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getRiskAssessmentId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            RiskAssessment currEntity  = null;
+            Iterator<RiskAssessment> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getRiskAssessmentId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public RiskAssessmentTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated RiskAssessment
-	 * 
-	 * @return CreateRiskAssessmentCommand alias
-	 */
+
+    /**
+     * Returns a new populated RiskAssessment
+     *
+     * @return CreateRiskAssessmentCommand alias
+     */
 	protected CreateRiskAssessmentCommand generateNewCommand() {
-        CreateRiskAssessmentCommand command = new CreateRiskAssessmentCommand( null,   new Date(),  0,  0,  RiskToleranceLevel.values()[0] );
-		
-		return( command );
-	}
+    CreateRiskAssessmentCommand command = new CreateRiskAssessmentCommand( null,   new Date(),  0,  0,  RiskToleranceLevel.values()[0] );
 
-		/**
-		 * Returns a new populated RiskAssessment
-		 * 
-		 * @return UpdateRiskAssessmentCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated RiskAssessment
+     *
+     * @return UpdateRiskAssessmentCommand alias
+     */
 	protected UpdateRiskAssessmentCommand generateUpdateCommand() {
-	        UpdateRiskAssessmentCommand command = new UpdateRiskAssessmentCommand( null,   new Date(),  0,  0,  null,  null,  RiskToleranceLevel.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateRiskAssessmentCommand command = new UpdateRiskAssessmentCommand( null,   new Date(),  0,  0,  null,  null,  RiskToleranceLevel.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected RiskAssessmentService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(RiskAssessment.class.getName());
 
 }

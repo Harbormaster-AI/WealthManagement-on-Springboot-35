@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>ResearchNoteValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -66,6 +68,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class ResearchNoteValidator {
 		
 	/**
@@ -73,52 +76,59 @@ public class ResearchNoteValidator {
 	 */
 	protected ResearchNoteValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public ResearchNoteValidator getInstance() {
-		return new ResearchNoteValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a ResearchNote
 	 */
-	public void validate( CreateResearchNoteCommand researchNote )throws Exception {
-		Assert.notNull( researchNote, "CreateResearchNoteCommand should not be null" );
+	public void validate( CreateResearchNoteCommand researchNote )throws ValidationException {
+		if ( researchNote == null )
+			throw new ValidationException( "ResearchNote", "validating CreateResearchNoteCommand" );
+
 //		Assert.isNull( researchNote.getResearchNoteId(), "CreateResearchNoteCommand identifier should be null" );
-		Assert.notNull( researchNote.getTitle(), "Field CreateResearchNoteCommand.title should not be null" );
-		Assert.notNull( researchNote.getPublishedDate(), "Field CreateResearchNoteCommand.publishedDate should not be null" );
-		Assert.notNull( researchNote.getAuthor(), "Field CreateResearchNoteCommand.author should not be null" );
-		Assert.notNull( researchNote.getContentSummary(), "Field CreateResearchNoteCommand.contentSummary should not be null" );
+		if ( researchNote.getTitle() == null )
+			throw new ValidationException( "ResearchNote", "validating access on getTitle" );
+		if ( researchNote.getPublishedDate() == null )
+			throw new ValidationException( "ResearchNote", "validating access on getPublishedDate" );
+		if ( researchNote.getAuthor() == null )
+			throw new ValidationException( "ResearchNote", "validating access on getAuthor" );
+		if ( researchNote.getContentSummary() == null )
+			throw new ValidationException( "ResearchNote", "validating access on getContentSummary" );
 	}
 
 	/**
 	 * handles update validation for a ResearchNote
 	 */
-	public void validate( UpdateResearchNoteCommand researchNote ) throws Exception {
-		Assert.notNull( researchNote, "UpdateResearchNoteCommand should not be null" );
-		Assert.notNull( researchNote.getResearchNoteId(), "UpdateResearchNoteCommand identifier should not be null" );
-		Assert.notNull( researchNote.getTitle(), "Field UpdateResearchNoteCommand.title should not be null" );
-		Assert.notNull( researchNote.getPublishedDate(), "Field UpdateResearchNoteCommand.publishedDate should not be null" );
-		Assert.notNull( researchNote.getAuthor(), "Field UpdateResearchNoteCommand.author should not be null" );
-		Assert.notNull( researchNote.getContentSummary(), "Field UpdateResearchNoteCommand.contentSummary should not be null" );
+	public void validate( UpdateResearchNoteCommand researchNote ) throws ValidationException {
+		if ( researchNote == null )
+			throw new ValidationException( "ResearchNote", "validating UpdateResearchNoteCommand" );
+		if ( researchNote.getTitle() == null )
+			throw new ValidationException( "ResearchNote", "validating method getTitle" );
+		if ( researchNote.getPublishedDate() == null )
+			throw new ValidationException( "ResearchNote", "validating method getPublishedDate" );
+		if ( researchNote.getAuthor() == null )
+			throw new ValidationException( "ResearchNote", "validating method getAuthor" );
+		if ( researchNote.getContentSummary() == null )
+			throw new ValidationException( "ResearchNote", "validating method getContentSummary" );
     }
 
 	/**
 	 * handles delete validation for a ResearchNote
 	 */
-    public void validate( DeleteResearchNoteCommand researchNote ) throws Exception {
-		Assert.notNull( researchNote, "{commandAlias} should not be null" );
-		Assert.notNull( researchNote.getResearchNoteId(), "DeleteResearchNoteCommand identifier should not be null" );
+    public void validate( DeleteResearchNoteCommand researchNote ) throws ValidationException {
+		if ( researchNote == null )
+			throw new ValidationException( "ResearchNote", "validating DeleteResearchNoteCommand" );
+
+		if ( researchNote.getContentSummary() == null )
+			throw new ValidationException( "ResearchNote", "validating getContentSummary" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a ResearchNote
 	 */
-	public void validate( ResearchNoteFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "ResearchNoteFetchOneSummary should not be null" );
-		Assert.notNull( summary.getResearchNoteId(), "ResearchNoteFetchOneSummary identifier should not be null" );
+	public void validate( ResearchNoteFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "ResearchNote", "validating summary );
 	}
 
 	/**
@@ -126,10 +136,16 @@ public class ResearchNoteValidator {
 	 * 
 	 * @param	command AssignSecurityToResearchNoteCommand
 	 */	
-	public void validate( AssignSecurityToResearchNoteCommand command ) throws Exception {
-		Assert.notNull( command, "AssignSecurityToResearchNoteCommand should not be null" );
-		Assert.notNull( command.getResearchNoteId(), "AssignSecurityToResearchNoteCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignSecurityToResearchNoteCommand assignment should not be null" );
+	public void validate( AssignSecurityToResearchNoteCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ResearchNote", "validating AssignSecurityToResearchNoteCommand" );
+
+		if ( command.getResearchNoteId() == null )
+			throw new ValidationException( "ResearchNote", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ResearchNote", "validating assignment" );
+
 	}
 
 	/**
@@ -137,19 +153,28 @@ public class ResearchNoteValidator {
 	 * 
 	 * @param	command UnAssignSecurityFromResearchNoteCommand
 	 */	
-	public void validate( UnAssignSecurityFromResearchNoteCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignSecurityFromResearchNoteCommand should not be null" );
-		Assert.notNull( command.getResearchNoteId(), "UnAssignSecurityFromResearchNoteCommand identifier should not be null" );
+	public void validate( UnAssignSecurityFromResearchNoteCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ResearchNote", "validating UnAssignSecurityFromResearchNoteCommand" );
+
+		if ( command.getResearchNoteId() == null ) }
+			throw new ValidationException( "ResearchNote", "validating identity on UnAssignSecurityFromResearchNoteCommand" );
 	}
 	/**
 	 * handles assign Advisor validation for a ResearchNote
 	 * 
 	 * @param	command AssignAdvisorToResearchNoteCommand
 	 */	
-	public void validate( AssignAdvisorToResearchNoteCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorToResearchNoteCommand should not be null" );
-		Assert.notNull( command.getResearchNoteId(), "AssignAdvisorToResearchNoteCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisorToResearchNoteCommand assignment should not be null" );
+	public void validate( AssignAdvisorToResearchNoteCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ResearchNote", "validating AssignAdvisorToResearchNoteCommand" );
+
+		if ( command.getResearchNoteId() == null )
+			throw new ValidationException( "ResearchNote", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ResearchNote", "validating assignment" );
+
 	}
 
 	/**
@@ -157,9 +182,12 @@ public class ResearchNoteValidator {
 	 * 
 	 * @param	command UnAssignAdvisorFromResearchNoteCommand
 	 */	
-	public void validate( UnAssignAdvisorFromResearchNoteCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisorFromResearchNoteCommand should not be null" );
-		Assert.notNull( command.getResearchNoteId(), "UnAssignAdvisorFromResearchNoteCommand identifier should not be null" );
+	public void validate( UnAssignAdvisorFromResearchNoteCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ResearchNote", "validating UnAssignAdvisorFromResearchNoteCommand" );
+
+		if ( command.getResearchNoteId() == null ) }
+			throw new ValidationException( "ResearchNote", "validating identity on UnAssignAdvisorFromResearchNoteCommand" );
 	}
 
 

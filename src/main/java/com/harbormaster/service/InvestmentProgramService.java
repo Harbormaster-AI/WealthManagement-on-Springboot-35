@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,85 +93,83 @@ import com.harbormaster.security.*;
  */
 @Service
 public class InvestmentProgramService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public InvestmentProgramService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new InvestmentProgramEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(InvestmentProgramRepository.class) );
+		}
 
-    	projector 		= new InvestmentProgramEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(InvestmentProgramRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		InvestmentProgram
+		 */
+			public InvestmentProgram createInvestmentProgram( CreateInvestmentProgramCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		InvestmentProgram
-    */
-	public InvestmentProgram createInvestmentProgram( CreateInvestmentProgramCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			InvestmentProgram entity = new InvestmentProgram();
 
-		InvestmentProgram entity = new InvestmentProgram();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	InvestmentProgramValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentProgramValidator.getInstance().validate( command );
 
             entity.setInvestmentProgramId( command.getInvestmentProgramId() );
             entity.setName( command.getName() );
             entity.setDescription( command.getDescription() );
             entity.setProgramType( command.getProgramType() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of InvestmentProgram {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create InvestmentProgram - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateInvestmentProgramCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		InvestmentProgram
-    */
-    public InvestmentProgram updateInvestmentProgram( UpdateInvestmentProgramCommand command ) 
+				LOGGER.info( "done creating of InvestmentProgram {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create InvestmentProgram - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateInvestmentProgramCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		InvestmentProgram
+		 */
+		public InvestmentProgram updateInvestmentProgram( UpdateInvestmentProgramCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    InvestmentProgram entity = new InvestmentProgram();
+			InvestmentProgram entity = new InvestmentProgram();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	InvestmentProgramValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				InvestmentProgramValidator.getInstance().validate( command );
 
             entity.setInvestmentProgramId( command.getInvestmentProgramId() );
             entity.setName( command.getName() );
@@ -179,224 +177,224 @@ extends BaseService {
             entity.setProgramType( command.getProgramType() );
             entity.setModelPortfolios( command.getModelPortfolios() );
             entity.setFeeSchedules( command.getFeeSchedules() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of InvestmentProgram {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save InvestmentProgram - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteInvestmentProgramCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteInvestmentProgramCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	InvestmentProgramValidator.getInstance().validate( command );    
-        
-        	id = command.getInvestmentProgramId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of InvestmentProgram {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete InvestmentProgram using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of InvestmentProgram {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save InvestmentProgram - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the InvestmentProgram via InvestmentProgramFetchOneSummary
-     * @param 	summary InvestmentProgramFetchOneSummary 
-     * @return 	InvestmentProgramFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteInvestmentProgramCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteInvestmentProgramCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentProgramValidator.getInstance().validate( command );
+
+				id = command.getInvestmentProgramId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of InvestmentProgram {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete InvestmentProgram using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the InvestmentProgram via InvestmentProgramFetchOneSummary
+		 * @param 	summary InvestmentProgramFetchOneSummary
+		 * @return 	InvestmentProgramFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public InvestmentProgram getInvestmentProgram( InvestmentProgramFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "InvestmentProgramFetchOneSummary arg cannot be null" );
-    	
-    	InvestmentProgram entity = null;
-    	UUID id = summary.getInvestmentProgramId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	InvestmentProgramValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a InvestmentProgram using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate InvestmentProgram with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "InvestmentProgramFetchOneSummary arg cannot be null" );
+
+			InvestmentProgram entity = null;
+			UUID id = summary.getInvestmentProgramId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				InvestmentProgramValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a InvestmentProgram using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate InvestmentProgram with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all InvestmentPrograms
-     *
-     * @return 	List<InvestmentProgram> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all InvestmentPrograms
+		 *
+		 * @return 	List<InvestmentProgram>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<InvestmentProgram> getAllInvestmentProgram() 
     throws ProcessingException {
-        List<InvestmentProgram> list = null;
+			List<InvestmentProgram> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllInvestmentProgramQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all InvestmentProgram";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllInvestmentProgramQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all InvestmentProgram";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-
-    /**
-     * add ModelPortfolio to ModelPortfolios 
-     * @param		command AssignModelPortfoliosToInvestmentProgramCommand
-     * @exception	ProcessingException
-     */     
-	public void addToModelPortfolios( AssignModelPortfoliosToInvestmentProgramCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvestmentProgramValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToModelPortfolios(command.getInvestmentProgramId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a ModelPortfolio as ModelPortfolios to InvestmentProgram" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+			return list;
 		}
 
-	}
 
-    /**
-     * remove ModelPortfolio from ModelPortfolios
-     * @param		command RemoveModelPortfoliosFromInvestmentProgramCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromModelPortfolios( RemoveModelPortfoliosFromInvestmentProgramCommand command ) throws ProcessingException {		
+		/**
+		 * add ModelPortfolio to ModelPortfolios
+		 * @param		command AssignModelPortfoliosToInvestmentProgramCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToModelPortfolios( AssignModelPortfoliosToInvestmentProgramCommand command ) throws ProcessingException {
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvestmentProgramValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentProgramValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromModelPortfolios(command.getInvestmentProgramId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getInvestmentProgramId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add FeeSchedule to FeeSchedules 
-     * @param		command AssignFeeSchedulesToInvestmentProgramCommand
-     * @exception	ProcessingException
-     */     
-	public void addToFeeSchedules( AssignFeeSchedulesToInvestmentProgramCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvestmentProgramValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToFeeSchedules(command.getInvestmentProgramId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a FeeSchedule as FeeSchedules to InvestmentProgram" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove FeeSchedule from FeeSchedules
-     * @param		command RemoveFeeSchedulesFromInvestmentProgramCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromFeeSchedules( RemoveFeeSchedulesFromInvestmentProgramCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	InvestmentProgramValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromFeeSchedules(command.getInvestmentProgramId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToModelPortfolios(command.getInvestmentProgramId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a ModelPortfolio as ModelPortfolios to InvestmentProgram" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getInvestmentProgramId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove ModelPortfolio from ModelPortfolios
+		 * @param		command RemoveModelPortfoliosFromInvestmentProgramCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromModelPortfolios( RemoveModelPortfoliosFromInvestmentProgramCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentProgramValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromModelPortfolios(command.getInvestmentProgramId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getInvestmentProgramId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
+
+		/**
+		 * add FeeSchedule to FeeSchedules
+		 * @param		command AssignFeeSchedulesToInvestmentProgramCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToFeeSchedules( AssignFeeSchedulesToInvestmentProgramCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentProgramValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToFeeSchedules(command.getInvestmentProgramId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a FeeSchedule as FeeSchedules to InvestmentProgram" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove FeeSchedule from FeeSchedules
+		 * @param		command RemoveFeeSchedulesFromInvestmentProgramCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromFeeSchedules( RemoveFeeSchedulesFromInvestmentProgramCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				InvestmentProgramValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromFeeSchedules(command.getInvestmentProgramId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getInvestmentProgramId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
 
 
@@ -409,5 +407,5 @@ extends BaseService {
     private final InvestmentProgramEntityProjector projector;
 	private InvestmentProgram investmentProgram 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentProgramService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentProgramService.class);
 }

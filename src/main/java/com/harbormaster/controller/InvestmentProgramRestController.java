@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public InvestmentProgram create( @RequestBody(required=true) CreateInvestmentProgramCommand command ) {
     	InvestmentProgram entity = null;
-		try {       
-        	
-			entity = service.createInvestmentProgram( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createInvestmentProgram( command );
+		LOGGER.info( "Successfully created InvestmentProgram with Id " + entity.getInvestmentProgramId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public InvestmentProgram update( @RequestBody(required=true) UpdateInvestmentProgramCommand command ) {
 		InvestmentProgram entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateInvestmentProgramCommand
-			// -----------------------------------------------
-			entity = service.updateInvestmentProgram(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "InvestmentProgramController:update() - successfully update InvestmentProgram - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateInvestmentProgram(command);
+		LOGGER.info( "Successfully updated InvestmentProgram with Id " + command.getInvestmentProgramId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteInvestmentProgramCommand command ) {                
-    	try {
-        	InvestmentProgramService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted InvestmentProgram with key " + command.getInvestmentProgramId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted InvestmentProgram with Id " + command.getInvestmentProgramId()  );
+	}
 	
     /**
      * Handles loading a InvestmentProgram using a UUID
@@ -150,16 +133,10 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
      * @return		InvestmentProgram
      */    
     @GetMapping("/load")
-    public InvestmentProgram load( @RequestParam(required=true) UUID uuid ) {    	
-    	InvestmentProgram entity = null;
+    public InvestmentProgram load( @RequestParam(required=true) UUID uuid ) {
+    	InvestmentProgram entity = service.getInvestmentProgram( new InvestmentProgramFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getInvestmentProgram( new InvestmentProgramFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load InvestmentProgram using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded InvestmentProgram with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<InvestmentProgram> loadAll() {                
     	List<InvestmentProgram> investmentProgramList = null;
-        
-    	try {
-            // load the InvestmentProgram
-            investmentProgramList = service.getAllInvestmentProgram();
-            
-            if ( investmentProgramList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all InvestmentPrograms" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all InvestmentPrograms ", exc );
-        	return null;
-        }
+
+		investmentProgramList = service.getAllInvestmentProgram();
+		LOGGER.log( Level.INFO,  "successfully loaded all InvestmentPrograms" );
 
         return investmentProgramList;
                             
@@ -195,12 +163,8 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToModelPortfolios")
 	public void addToModelPortfolios( @RequestBody(required=true) AssignModelPortfoliosToInvestmentProgramCommand command ) {
-		try {
-			service.addToModelPortfolios( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set ModelPortfolios", exc );
-		}
+		service.addToModelPortfolios( command );
+		LOGGER.info( "Successfully added ModelPortfolios with Id " + command.getInvestmentProgramId()  );
 	}
 
     /**
@@ -210,12 +174,8 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromModelPortfolios")
 	public void removeFromModelPortfolios( 	@RequestBody(required=true) RemoveModelPortfoliosFromInvestmentProgramCommand command )
 	{		
-		try {
-			service.removeFromModelPortfolios( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set ModelPortfolios", exc );
-		}
+		service.removeFromModelPortfolios( command );
+		LOGGER.info( "Successfully removed ModelPortfolios with Id " + command.getInvestmentProgramId()  );
 	}
 
     /**
@@ -224,12 +184,8 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToFeeSchedules")
 	public void addToFeeSchedules( @RequestBody(required=true) AssignFeeSchedulesToInvestmentProgramCommand command ) {
-		try {
-			service.addToFeeSchedules( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set FeeSchedules", exc );
-		}
+		service.addToFeeSchedules( command );
+		LOGGER.info( "Successfully added FeeSchedules with Id " + command.getInvestmentProgramId()  );
 	}
 
     /**
@@ -239,12 +195,8 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromFeeSchedules")
 	public void removeFromFeeSchedules( 	@RequestBody(required=true) RemoveFeeSchedulesFromInvestmentProgramCommand command )
 	{		
-		try {
-			service.removeFromFeeSchedules( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set FeeSchedules", exc );
-		}
+		service.removeFromFeeSchedules( command );
+		LOGGER.info( "Successfully removed FeeSchedules with Id " + command.getInvestmentProgramId()  );
 	}
 
 
@@ -255,6 +207,6 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
 //************************************************************************
     protected InvestmentProgram investmentProgram = null;
 	protected InvestmentProgramService service = null;
-    private static final Logger LOGGER = Logger.getLogger(InvestmentProgramRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(InvestmentProgramRestController.class.getName());
     
 }

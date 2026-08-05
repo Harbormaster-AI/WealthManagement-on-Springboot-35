@@ -49,245 +49,245 @@ public class ResearchNoteTest
     public ResearchNoteTest(ResearchNoteService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a ResearchNote, through a ResearchNoteTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on ResearchNoteTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on ResearchNoteTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on ResearchNoteTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on ResearchNoteTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new ResearchNote.
      *
      * @return    ResearchNote
      */
     public ResearchNote testCreate() throws Throwable {
-        ResearchNote entity = null;
+    ResearchNote entity = null;
 
-        LOGGER.info( "ResearchNoteTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a ResearchNote");
+    LOGGER.info( "ResearchNoteTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a ResearchNote");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a ResearchNote" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a ResearchNote" );
 
-        try {            
-            entity = service.createResearchNote( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createResearchNote( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getResearchNoteId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getResearchNoteId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a ResearchNote with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a ResearchNote with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a ResearchNote.
      *
-     * @return    ResearchNote  
+     * @return    ResearchNote
      */
     public ResearchNote testRead() throws Throwable {
-        LOGGER.info( "ResearchNoteTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created ResearchNote" );
+    LOGGER.info( "ResearchNoteTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created ResearchNote" );
 
-        ResearchNote entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read ResearchNote with primary key" );
-        msg.append( theId );
+    ResearchNote entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read ResearchNote with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getResearchNote( new ResearchNoteFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getResearchNote( new ResearchNoteFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getResearchNoteId();
-            
-            LOGGER.info( "-- Successfully found ResearchNote " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getResearchNoteId();
+
+        LOGGER.info( "-- Successfully found ResearchNote " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a ResearchNote.
      *
      * @return    ResearchNote
      */
     public ResearchNote testUpdate() throws Throwable {
-        LOGGER.info( "ResearchNoteTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a ResearchNote." );
+    LOGGER.info( "ResearchNoteTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a ResearchNote." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a ResearchNote : " );        
-        ResearchNote entity = null;
-    
-        try {            
-        	UpdateResearchNoteCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setResearchNoteId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a ResearchNote : " );
+    ResearchNote entity = null;
 
-            LOGGER.info( "-- Now updating the created ResearchNote." );
-            
-            entity = service.updateResearchNote( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateResearchNoteCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved ResearchNote - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setResearchNoteId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created ResearchNote." );
+
+        entity = service.updateResearchNote( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved ResearchNote - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a ResearchNote.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "ResearchNoteTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created ResearchNote." );
-        
-        try {
-        	DeleteResearchNoteCommand deleteCommand = new DeleteResearchNoteCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted ResearchNote with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete ResearchNote with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "ResearchNoteTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created ResearchNote." );
 
-    /** 
+    try {
+        DeleteResearchNoteCommand deleteCommand = new DeleteResearchNoteCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted ResearchNote with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete ResearchNote with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all ResearchNotes.
      *
      * @return    Collection
      */
-    public List<ResearchNote> testGetAll() throws Throwable {    
-        LOGGER.info( "ResearchNoteTest:testGetAll() - Retrieving Collection of ResearchNotes:" );
+    public List<ResearchNote> testGetAll() throws Throwable {
+    LOGGER.info( "ResearchNoteTest:testGetAll() - Retrieving Collection of ResearchNotes:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all ResearchNote : " );        
-        List<ResearchNote> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all ResearchNote : " );
+    List<ResearchNote> collection  = null;
 
-        try {
-            // call the static get method on the ResearchNoteService
-            collection = service.getAllResearchNote();
+    try {
+        // call the static get method on the ResearchNoteService
+        collection = service.getAllResearchNote();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            ResearchNote currEntity  = null;            
-	            Iterator<ResearchNote> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getResearchNoteId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            ResearchNote currEntity  = null;
+            Iterator<ResearchNote> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getResearchNoteId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public ResearchNoteTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated ResearchNote
-	 * 
-	 * @return CreateResearchNoteCommand alias
-	 */
+
+    /**
+     * Returns a new populated ResearchNote
+     *
+     * @return CreateResearchNoteCommand alias
+     */
 	protected CreateResearchNoteCommand generateNewCommand() {
-        CreateResearchNoteCommand command = new CreateResearchNoteCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AnalystRating.values()[0] );
-		
-		return( command );
-	}
+    CreateResearchNoteCommand command = new CreateResearchNoteCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AnalystRating.values()[0] );
 
-		/**
-		 * Returns a new populated ResearchNote
-		 * 
-		 * @return UpdateResearchNoteCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated ResearchNote
+     *
+     * @return UpdateResearchNoteCommand alias
+     */
 	protected UpdateResearchNoteCommand generateUpdateCommand() {
-	        UpdateResearchNoteCommand command = new UpdateResearchNoteCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  AnalystRating.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateResearchNoteCommand command = new UpdateResearchNoteCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  AnalystRating.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected ResearchNoteService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(ResearchNote.class.getName());
 
 }

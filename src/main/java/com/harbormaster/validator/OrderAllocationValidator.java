@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>OrderAllocationValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class OrderAllocationValidator {
 		
 	/**
@@ -75,46 +78,47 @@ public class OrderAllocationValidator {
 	 */
 	protected OrderAllocationValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public OrderAllocationValidator getInstance() {
-		return new OrderAllocationValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a OrderAllocation
 	 */
-	public void validate( CreateOrderAllocationCommand orderAllocation )throws Exception {
-		Assert.notNull( orderAllocation, "CreateOrderAllocationCommand should not be null" );
+	public void validate( CreateOrderAllocationCommand orderAllocation )throws ValidationException {
+		if ( orderAllocation == null )
+			throw new ValidationException( "OrderAllocation", "validating CreateOrderAllocationCommand" );
+
 //		Assert.isNull( orderAllocation.getOrderAllocationId(), "CreateOrderAllocationCommand identifier should be null" );
-		Assert.notNull( orderAllocation.getAllocationPercent(), "Field CreateOrderAllocationCommand.allocationPercent should not be null" );
+		if ( orderAllocation.getAllocationPercent() == null )
+			throw new ValidationException( "OrderAllocation", "validating access on getAllocationPercent" );
 	}
 
 	/**
 	 * handles update validation for a OrderAllocation
 	 */
-	public void validate( UpdateOrderAllocationCommand orderAllocation ) throws Exception {
-		Assert.notNull( orderAllocation, "UpdateOrderAllocationCommand should not be null" );
-		Assert.notNull( orderAllocation.getOrderAllocationId(), "UpdateOrderAllocationCommand identifier should not be null" );
-		Assert.notNull( orderAllocation.getAllocationPercent(), "Field UpdateOrderAllocationCommand.allocationPercent should not be null" );
+	public void validate( UpdateOrderAllocationCommand orderAllocation ) throws ValidationException {
+		if ( orderAllocation == null )
+			throw new ValidationException( "OrderAllocation", "validating UpdateOrderAllocationCommand" );
+		if ( orderAllocation.getAllocationPercent() == null )
+			throw new ValidationException( "OrderAllocation", "validating method getAllocationPercent" );
     }
 
 	/**
 	 * handles delete validation for a OrderAllocation
 	 */
-    public void validate( DeleteOrderAllocationCommand orderAllocation ) throws Exception {
-		Assert.notNull( orderAllocation, "{commandAlias} should not be null" );
-		Assert.notNull( orderAllocation.getOrderAllocationId(), "DeleteOrderAllocationCommand identifier should not be null" );
+    public void validate( DeleteOrderAllocationCommand orderAllocation ) throws ValidationException {
+		if ( orderAllocation == null )
+			throw new ValidationException( "OrderAllocation", "validating DeleteOrderAllocationCommand" );
+
+		if ( orderAllocation.getAllocationPercent() == null )
+			throw new ValidationException( "OrderAllocation", "validating getAllocationPercent" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a OrderAllocation
 	 */
-	public void validate( OrderAllocationFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "OrderAllocationFetchOneSummary should not be null" );
-		Assert.notNull( summary.getOrderAllocationId(), "OrderAllocationFetchOneSummary identifier should not be null" );
+	public void validate( OrderAllocationFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "OrderAllocation", "validating summary );
 	}
 
 	/**
@@ -122,10 +126,16 @@ public class OrderAllocationValidator {
 	 * 
 	 * @param	command AssignOrderToOrderAllocationCommand
 	 */	
-	public void validate( AssignOrderToOrderAllocationCommand command ) throws Exception {
-		Assert.notNull( command, "AssignOrderToOrderAllocationCommand should not be null" );
-		Assert.notNull( command.getOrderAllocationId(), "AssignOrderToOrderAllocationCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignOrderToOrderAllocationCommand assignment should not be null" );
+	public void validate( AssignOrderToOrderAllocationCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "OrderAllocation", "validating AssignOrderToOrderAllocationCommand" );
+
+		if ( command.getOrderAllocationId() == null )
+			throw new ValidationException( "OrderAllocation", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "OrderAllocation", "validating assignment" );
+
 	}
 
 	/**
@@ -133,19 +143,28 @@ public class OrderAllocationValidator {
 	 * 
 	 * @param	command UnAssignOrderFromOrderAllocationCommand
 	 */	
-	public void validate( UnAssignOrderFromOrderAllocationCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignOrderFromOrderAllocationCommand should not be null" );
-		Assert.notNull( command.getOrderAllocationId(), "UnAssignOrderFromOrderAllocationCommand identifier should not be null" );
+	public void validate( UnAssignOrderFromOrderAllocationCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "OrderAllocation", "validating UnAssignOrderFromOrderAllocationCommand" );
+
+		if ( command.getOrderAllocationId() == null ) }
+			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignOrderFromOrderAllocationCommand" );
 	}
 	/**
 	 * handles assign Account validation for a OrderAllocation
 	 * 
 	 * @param	command AssignAccountToOrderAllocationCommand
 	 */	
-	public void validate( AssignAccountToOrderAllocationCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToOrderAllocationCommand should not be null" );
-		Assert.notNull( command.getOrderAllocationId(), "AssignAccountToOrderAllocationCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToOrderAllocationCommand assignment should not be null" );
+	public void validate( AssignAccountToOrderAllocationCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "OrderAllocation", "validating AssignAccountToOrderAllocationCommand" );
+
+		if ( command.getOrderAllocationId() == null )
+			throw new ValidationException( "OrderAllocation", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "OrderAllocation", "validating assignment" );
+
 	}
 
 	/**
@@ -153,19 +172,28 @@ public class OrderAllocationValidator {
 	 * 
 	 * @param	command UnAssignAccountFromOrderAllocationCommand
 	 */	
-	public void validate( UnAssignAccountFromOrderAllocationCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromOrderAllocationCommand should not be null" );
-		Assert.notNull( command.getOrderAllocationId(), "UnAssignAccountFromOrderAllocationCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromOrderAllocationCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "OrderAllocation", "validating UnAssignAccountFromOrderAllocationCommand" );
+
+		if ( command.getOrderAllocationId() == null ) }
+			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignAccountFromOrderAllocationCommand" );
 	}
 	/**
 	 * handles assign Portfolio validation for a OrderAllocation
 	 * 
 	 * @param	command AssignPortfolioToOrderAllocationCommand
 	 */	
-	public void validate( AssignPortfolioToOrderAllocationCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfolioToOrderAllocationCommand should not be null" );
-		Assert.notNull( command.getOrderAllocationId(), "AssignPortfolioToOrderAllocationCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPortfolioToOrderAllocationCommand assignment should not be null" );
+	public void validate( AssignPortfolioToOrderAllocationCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "OrderAllocation", "validating AssignPortfolioToOrderAllocationCommand" );
+
+		if ( command.getOrderAllocationId() == null )
+			throw new ValidationException( "OrderAllocation", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "OrderAllocation", "validating assignment" );
+
 	}
 
 	/**
@@ -173,9 +201,12 @@ public class OrderAllocationValidator {
 	 * 
 	 * @param	command UnAssignPortfolioFromOrderAllocationCommand
 	 */	
-	public void validate( UnAssignPortfolioFromOrderAllocationCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPortfolioFromOrderAllocationCommand should not be null" );
-		Assert.notNull( command.getOrderAllocationId(), "UnAssignPortfolioFromOrderAllocationCommand identifier should not be null" );
+	public void validate( UnAssignPortfolioFromOrderAllocationCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "OrderAllocation", "validating UnAssignPortfolioFromOrderAllocationCommand" );
+
+		if ( command.getOrderAllocationId() == null ) }
+			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignPortfolioFromOrderAllocationCommand" );
 	}
 
 

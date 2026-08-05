@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class DividendRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Dividend create( @RequestBody(required=true) CreateDividendCommand command ) {
     	Dividend entity = null;
-		try {       
-        	
-			entity = service.createDividend( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createDividend( command );
+		LOGGER.info( "Successfully created Dividend with Id " + entity.getDividendId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class DividendRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Dividend update( @RequestBody(required=true) UpdateDividendCommand command ) {
 		Dividend entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateDividendCommand
-			// -----------------------------------------------
-			entity = service.updateDividend(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "DividendController:update() - successfully update Dividend - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateDividend(command);
+		LOGGER.info( "Successfully updated Dividend with Id " + command.getDividendId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class DividendRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteDividendCommand command ) {                
-    	try {
-        	DividendService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Dividend with key " + command.getDividendId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Dividend with Id " + command.getDividendId()  );
+	}
 	
     /**
      * Handles loading a Dividend using a UUID
@@ -150,16 +133,10 @@ public class DividendRestController extends BaseSpringRestController {
      * @return		Dividend
      */    
     @GetMapping("/load")
-    public Dividend load( @RequestParam(required=true) UUID uuid ) {    	
-    	Dividend entity = null;
+    public Dividend load( @RequestParam(required=true) UUID uuid ) {
+    	Dividend entity = service.getDividend( new DividendFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getDividend( new DividendFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Dividend using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Dividend with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class DividendRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Dividend> loadAll() {                
     	List<Dividend> dividendList = null;
-        
-    	try {
-            // load the Dividend
-            dividendList = service.getAllDividend();
-            
-            if ( dividendList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Dividends" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Dividends ", exc );
-        	return null;
-        }
+
+		dividendList = service.getAllDividend();
+		LOGGER.log( Level.INFO,  "successfully loaded all Dividends" );
 
         return dividendList;
                             
@@ -194,12 +162,8 @@ public class DividendRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignCorporateAction")
 	public void assignCorporateAction( @RequestBody AssignCorporateActionToDividendCommand command ) {
-		try {
-			service.assignCorporateAction( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign CorporateAction", exc );
-        }
+		service.assignCorporateAction( command );
+		LOGGER.info( "Successfully assigned CorporateAction with Id " + command.getDividendId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class DividendRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignCorporateAction")
 	public void unAssignCorporateAction( @RequestBody(required=true)  UnAssignCorporateActionFromDividendCommand command ) {
-		try {
-			service.unAssignCorporateAction( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign CorporateAction", exc );
-		}
+		service.unAssignCorporateAction( command );
+		LOGGER.info( "Successfully unassigned CorporateAction with Id " + command.getDividendId()  );
 	}
 	
 
@@ -225,6 +185,6 @@ public class DividendRestController extends BaseSpringRestController {
 //************************************************************************
     protected Dividend dividend = null;
 	protected DividendService service = null;
-    private static final Logger LOGGER = Logger.getLogger(DividendRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(DividendRestController.class.getName());
     
 }

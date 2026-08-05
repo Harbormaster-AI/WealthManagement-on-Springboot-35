@@ -49,245 +49,245 @@ public class AccountTransferTest
     public AccountTransferTest(AccountTransferService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a AccountTransfer, through a AccountTransferTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on AccountTransferTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on AccountTransferTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on AccountTransferTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on AccountTransferTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new AccountTransfer.
      *
      * @return    AccountTransfer
      */
     public AccountTransfer testCreate() throws Throwable {
-        AccountTransfer entity = null;
+    AccountTransfer entity = null;
 
-        LOGGER.info( "AccountTransferTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a AccountTransfer");
+    LOGGER.info( "AccountTransferTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a AccountTransfer");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a AccountTransfer" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a AccountTransfer" );
 
-        try {            
-            entity = service.createAccountTransfer( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createAccountTransfer( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getAccountTransferId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getAccountTransferId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a AccountTransfer with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a AccountTransfer with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a AccountTransfer.
      *
-     * @return    AccountTransfer  
+     * @return    AccountTransfer
      */
     public AccountTransfer testRead() throws Throwable {
-        LOGGER.info( "AccountTransferTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created AccountTransfer" );
+    LOGGER.info( "AccountTransferTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created AccountTransfer" );
 
-        AccountTransfer entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read AccountTransfer with primary key" );
-        msg.append( theId );
+    AccountTransfer entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read AccountTransfer with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getAccountTransfer( new AccountTransferFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getAccountTransfer( new AccountTransferFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getAccountTransferId();
-            
-            LOGGER.info( "-- Successfully found AccountTransfer " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getAccountTransferId();
+
+        LOGGER.info( "-- Successfully found AccountTransfer " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a AccountTransfer.
      *
      * @return    AccountTransfer
      */
     public AccountTransfer testUpdate() throws Throwable {
-        LOGGER.info( "AccountTransferTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a AccountTransfer." );
+    LOGGER.info( "AccountTransferTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a AccountTransfer." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a AccountTransfer : " );        
-        AccountTransfer entity = null;
-    
-        try {            
-        	UpdateAccountTransferCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setAccountTransferId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a AccountTransfer : " );
+    AccountTransfer entity = null;
 
-            LOGGER.info( "-- Now updating the created AccountTransfer." );
-            
-            entity = service.updateAccountTransfer( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateAccountTransferCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved AccountTransfer - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setAccountTransferId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created AccountTransfer." );
+
+        entity = service.updateAccountTransfer( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved AccountTransfer - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a AccountTransfer.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "AccountTransferTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created AccountTransfer." );
-        
-        try {
-        	DeleteAccountTransferCommand deleteCommand = new DeleteAccountTransferCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted AccountTransfer with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete AccountTransfer with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "AccountTransferTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created AccountTransfer." );
 
-    /** 
+    try {
+        DeleteAccountTransferCommand deleteCommand = new DeleteAccountTransferCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted AccountTransfer with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete AccountTransfer with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all AccountTransfers.
      *
      * @return    Collection
      */
-    public List<AccountTransfer> testGetAll() throws Throwable {    
-        LOGGER.info( "AccountTransferTest:testGetAll() - Retrieving Collection of AccountTransfers:" );
+    public List<AccountTransfer> testGetAll() throws Throwable {
+    LOGGER.info( "AccountTransferTest:testGetAll() - Retrieving Collection of AccountTransfers:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all AccountTransfer : " );        
-        List<AccountTransfer> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all AccountTransfer : " );
+    List<AccountTransfer> collection  = null;
 
-        try {
-            // call the static get method on the AccountTransferService
-            collection = service.getAllAccountTransfer();
+    try {
+        // call the static get method on the AccountTransferService
+        collection = service.getAllAccountTransfer();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            AccountTransfer currEntity  = null;            
-	            Iterator<AccountTransfer> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getAccountTransferId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            AccountTransfer currEntity  = null;
+            Iterator<AccountTransfer> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getAccountTransferId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public AccountTransferTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated AccountTransfer
-	 * 
-	 * @return CreateAccountTransferCommand alias
-	 */
+
+    /**
+     * Returns a new populated AccountTransfer
+     *
+     * @return CreateAccountTransferCommand alias
+     */
 	protected CreateAccountTransferCommand generateNewCommand() {
-        CreateAccountTransferCommand command = new CreateAccountTransferCommand( null,   new Date(),   new Date(),  TransferType.values()[0],  TransferStatus.values()[0] );
-		
-		return( command );
-	}
+    CreateAccountTransferCommand command = new CreateAccountTransferCommand( null,   new Date(),   new Date(),  TransferType.values()[0],  TransferStatus.values()[0] );
 
-		/**
-		 * Returns a new populated AccountTransfer
-		 * 
-		 * @return UpdateAccountTransferCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated AccountTransfer
+     *
+     * @return UpdateAccountTransferCommand alias
+     */
 	protected UpdateAccountTransferCommand generateUpdateCommand() {
-	        UpdateAccountTransferCommand command = new UpdateAccountTransferCommand( null,   new Date(),   new Date(),  null,  null,  null,  TransferType.values()[0],  TransferStatus.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateAccountTransferCommand command = new UpdateAccountTransferCommand( null,   new Date(),   new Date(),  null,  null,  null,  TransferType.values()[0],  TransferStatus.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected AccountTransferService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(AccountTransfer.class.getName());
 
 }

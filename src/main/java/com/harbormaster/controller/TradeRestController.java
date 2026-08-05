@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class TradeRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Trade create( @RequestBody(required=true) CreateTradeCommand command ) {
     	Trade entity = null;
-		try {       
-        	
-			entity = service.createTrade( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createTrade( command );
+		LOGGER.info( "Successfully created Trade with Id " + entity.getTradeId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class TradeRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Trade update( @RequestBody(required=true) UpdateTradeCommand command ) {
 		Trade entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateTradeCommand
-			// -----------------------------------------------
-			entity = service.updateTrade(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "TradeController:update() - successfully update Trade - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateTrade(command);
+		LOGGER.info( "Successfully updated Trade with Id " + command.getTradeId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class TradeRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteTradeCommand command ) {                
-    	try {
-        	TradeService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Trade with key " + command.getTradeId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Trade with Id " + command.getTradeId()  );
+	}
 	
     /**
      * Handles loading a Trade using a UUID
@@ -150,16 +133,10 @@ public class TradeRestController extends BaseSpringRestController {
      * @return		Trade
      */    
     @GetMapping("/load")
-    public Trade load( @RequestParam(required=true) UUID uuid ) {    	
-    	Trade entity = null;
+    public Trade load( @RequestParam(required=true) UUID uuid ) {
+    	Trade entity = service.getTrade( new TradeFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getTrade( new TradeFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Trade using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Trade with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class TradeRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Trade> loadAll() {                
     	List<Trade> tradeList = null;
-        
-    	try {
-            // load the Trade
-            tradeList = service.getAllTrade();
-            
-            if ( tradeList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Trades" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Trades ", exc );
-        	return null;
-        }
+
+		tradeList = service.getAllTrade();
+		LOGGER.log( Level.INFO,  "successfully loaded all Trades" );
 
         return tradeList;
                             
@@ -194,12 +162,8 @@ public class TradeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignOrder")
 	public void assignOrder( @RequestBody AssignOrderToTradeCommand command ) {
-		try {
-			service.assignOrder( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Order", exc );
-        }
+		service.assignOrder( command );
+		LOGGER.info( "Successfully assigned Order with Id " + command.getTradeId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class TradeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignOrder")
 	public void unAssignOrder( @RequestBody(required=true)  UnAssignOrderFromTradeCommand command ) {
-		try {
-			service.unAssignOrder( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Order", exc );
-		}
+		service.unAssignOrder( command );
+		LOGGER.info( "Successfully unassigned Order with Id " + command.getTradeId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class TradeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToTradeCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getTradeId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class TradeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromTradeCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getTradeId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class TradeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignSecurity")
 	public void assignSecurity( @RequestBody AssignSecurityToTradeCommand command ) {
-		try {
-			service.assignSecurity( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Security", exc );
-        }
+		service.assignSecurity( command );
+		LOGGER.info( "Successfully assigned Security with Id " + command.getTradeId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class TradeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignSecurity")
 	public void unAssignSecurity( @RequestBody(required=true)  UnAssignSecurityFromTradeCommand command ) {
-		try {
-			service.unAssignSecurity( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Security", exc );
-		}
+		service.unAssignSecurity( command );
+		LOGGER.info( "Successfully unassigned Security with Id " + command.getTradeId()  );
 	}
 	
     /**
@@ -278,12 +222,8 @@ public class TradeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignTransaction")
 	public void assignTransaction( @RequestBody AssignTransactionToTradeCommand command ) {
-		try {
-			service.assignTransaction( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Transaction", exc );
-        }
+		service.assignTransaction( command );
+		LOGGER.info( "Successfully assigned Transaction with Id " + command.getTradeId()  );
 	}
 
     /**
@@ -292,12 +232,8 @@ public class TradeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignTransaction")
 	public void unAssignTransaction( @RequestBody(required=true)  UnAssignTransactionFromTradeCommand command ) {
-		try {
-			service.unAssignTransaction( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Transaction", exc );
-		}
+		service.unAssignTransaction( command );
+		LOGGER.info( "Successfully unassigned Transaction with Id " + command.getTradeId()  );
 	}
 	
 
@@ -309,6 +245,6 @@ public class TradeRestController extends BaseSpringRestController {
 //************************************************************************
     protected Trade trade = null;
 	protected TradeService service = null;
-    private static final Logger LOGGER = Logger.getLogger(TradeRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(TradeRestController.class.getName());
     
 }

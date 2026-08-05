@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class AccountTransferRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public AccountTransfer create( @RequestBody(required=true) CreateAccountTransferCommand command ) {
     	AccountTransfer entity = null;
-		try {       
-        	
-			entity = service.createAccountTransfer( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createAccountTransfer( command );
+		LOGGER.info( "Successfully created AccountTransfer with Id " + entity.getAccountTransferId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class AccountTransferRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public AccountTransfer update( @RequestBody(required=true) UpdateAccountTransferCommand command ) {
 		AccountTransfer entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateAccountTransferCommand
-			// -----------------------------------------------
-			entity = service.updateAccountTransfer(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "AccountTransferController:update() - successfully update AccountTransfer - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateAccountTransfer(command);
+		LOGGER.info( "Successfully updated AccountTransfer with Id " + command.getAccountTransferId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class AccountTransferRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAccountTransferCommand command ) {                
-    	try {
-        	AccountTransferService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted AccountTransfer with key " + command.getAccountTransferId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted AccountTransfer with Id " + command.getAccountTransferId()  );
+	}
 	
     /**
      * Handles loading a AccountTransfer using a UUID
@@ -150,16 +133,10 @@ public class AccountTransferRestController extends BaseSpringRestController {
      * @return		AccountTransfer
      */    
     @GetMapping("/load")
-    public AccountTransfer load( @RequestParam(required=true) UUID uuid ) {    	
-    	AccountTransfer entity = null;
+    public AccountTransfer load( @RequestParam(required=true) UUID uuid ) {
+    	AccountTransfer entity = service.getAccountTransfer( new AccountTransferFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getAccountTransfer( new AccountTransferFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load AccountTransfer using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded AccountTransfer with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class AccountTransferRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<AccountTransfer> loadAll() {                
     	List<AccountTransfer> accountTransferList = null;
-        
-    	try {
-            // load the AccountTransfer
-            accountTransferList = service.getAllAccountTransfer();
-            
-            if ( accountTransferList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all AccountTransfers" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all AccountTransfers ", exc );
-        	return null;
-        }
+
+		accountTransferList = service.getAllAccountTransfer();
+		LOGGER.log( Level.INFO,  "successfully loaded all AccountTransfers" );
 
         return accountTransferList;
                             
@@ -194,12 +162,8 @@ public class AccountTransferRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignFromCustodian")
 	public void assignFromCustodian( @RequestBody AssignFromCustodianToAccountTransferCommand command ) {
-		try {
-			service.assignFromCustodian( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign FromCustodian", exc );
-        }
+		service.assignFromCustodian( command );
+		LOGGER.info( "Successfully assigned FromCustodian with Id " + command.getAccountTransferId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class AccountTransferRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignFromCustodian")
 	public void unAssignFromCustodian( @RequestBody(required=true)  UnAssignFromCustodianFromAccountTransferCommand command ) {
-		try {
-			service.unAssignFromCustodian( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign FromCustodian", exc );
-		}
+		service.unAssignFromCustodian( command );
+		LOGGER.info( "Successfully unassigned FromCustodian with Id " + command.getAccountTransferId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class AccountTransferRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignToCustodian")
 	public void assignToCustodian( @RequestBody AssignToCustodianToAccountTransferCommand command ) {
-		try {
-			service.assignToCustodian( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign ToCustodian", exc );
-        }
+		service.assignToCustodian( command );
+		LOGGER.info( "Successfully assigned ToCustodian with Id " + command.getAccountTransferId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class AccountTransferRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignToCustodian")
 	public void unAssignToCustodian( @RequestBody(required=true)  UnAssignToCustodianFromAccountTransferCommand command ) {
-		try {
-			service.unAssignToCustodian( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign ToCustodian", exc );
-		}
+		service.unAssignToCustodian( command );
+		LOGGER.info( "Successfully unassigned ToCustodian with Id " + command.getAccountTransferId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class AccountTransferRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToAccountTransferCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getAccountTransferId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class AccountTransferRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromAccountTransferCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getAccountTransferId()  );
 	}
 	
 
@@ -281,6 +225,6 @@ public class AccountTransferRestController extends BaseSpringRestController {
 //************************************************************************
     protected AccountTransfer accountTransfer = null;
 	protected AccountTransferService service = null;
-    private static final Logger LOGGER = Logger.getLogger(AccountTransferRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountTransferRestController.class.getName());
     
 }

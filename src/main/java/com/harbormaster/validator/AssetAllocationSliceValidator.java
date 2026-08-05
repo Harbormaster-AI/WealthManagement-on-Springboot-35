@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>AssetAllocationSliceValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -64,6 +66,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class AssetAllocationSliceValidator {
 		
 	/**
@@ -71,46 +74,47 @@ public class AssetAllocationSliceValidator {
 	 */
 	protected AssetAllocationSliceValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public AssetAllocationSliceValidator getInstance() {
-		return new AssetAllocationSliceValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a AssetAllocationSlice
 	 */
-	public void validate( CreateAssetAllocationSliceCommand assetAllocationSlice )throws Exception {
-		Assert.notNull( assetAllocationSlice, "CreateAssetAllocationSliceCommand should not be null" );
+	public void validate( CreateAssetAllocationSliceCommand assetAllocationSlice )throws ValidationException {
+		if ( assetAllocationSlice == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating CreateAssetAllocationSliceCommand" );
+
 //		Assert.isNull( assetAllocationSlice.getAssetAllocationSliceId(), "CreateAssetAllocationSliceCommand identifier should be null" );
-		Assert.notNull( assetAllocationSlice.getTargetWeight(), "Field CreateAssetAllocationSliceCommand.targetWeight should not be null" );
+		if ( assetAllocationSlice.getTargetWeight() == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating access on getTargetWeight" );
 	}
 
 	/**
 	 * handles update validation for a AssetAllocationSlice
 	 */
-	public void validate( UpdateAssetAllocationSliceCommand assetAllocationSlice ) throws Exception {
-		Assert.notNull( assetAllocationSlice, "UpdateAssetAllocationSliceCommand should not be null" );
-		Assert.notNull( assetAllocationSlice.getAssetAllocationSliceId(), "UpdateAssetAllocationSliceCommand identifier should not be null" );
-		Assert.notNull( assetAllocationSlice.getTargetWeight(), "Field UpdateAssetAllocationSliceCommand.targetWeight should not be null" );
+	public void validate( UpdateAssetAllocationSliceCommand assetAllocationSlice ) throws ValidationException {
+		if ( assetAllocationSlice == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating UpdateAssetAllocationSliceCommand" );
+		if ( assetAllocationSlice.getTargetWeight() == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating method getTargetWeight" );
     }
 
 	/**
 	 * handles delete validation for a AssetAllocationSlice
 	 */
-    public void validate( DeleteAssetAllocationSliceCommand assetAllocationSlice ) throws Exception {
-		Assert.notNull( assetAllocationSlice, "{commandAlias} should not be null" );
-		Assert.notNull( assetAllocationSlice.getAssetAllocationSliceId(), "DeleteAssetAllocationSliceCommand identifier should not be null" );
+    public void validate( DeleteAssetAllocationSliceCommand assetAllocationSlice ) throws ValidationException {
+		if ( assetAllocationSlice == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating DeleteAssetAllocationSliceCommand" );
+
+		if ( assetAllocationSlice.getTargetWeight() == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating getTargetWeight" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a AssetAllocationSlice
 	 */
-	public void validate( AssetAllocationSliceFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "AssetAllocationSliceFetchOneSummary should not be null" );
-		Assert.notNull( summary.getAssetAllocationSliceId(), "AssetAllocationSliceFetchOneSummary identifier should not be null" );
+	public void validate( AssetAllocationSliceFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating summary );
 	}
 
 	/**
@@ -118,10 +122,16 @@ public class AssetAllocationSliceValidator {
 	 * 
 	 * @param	command AssignModelPortfolioToAssetAllocationSliceCommand
 	 */	
-	public void validate( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws Exception {
-		Assert.notNull( command, "AssignModelPortfolioToAssetAllocationSliceCommand should not be null" );
-		Assert.notNull( command.getAssetAllocationSliceId(), "AssignModelPortfolioToAssetAllocationSliceCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignModelPortfolioToAssetAllocationSliceCommand assignment should not be null" );
+	public void validate( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating AssignModelPortfolioToAssetAllocationSliceCommand" );
+
+		if ( command.getAssetAllocationSliceId() == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating assignment" );
+
 	}
 
 	/**
@@ -129,9 +139,12 @@ public class AssetAllocationSliceValidator {
 	 * 
 	 * @param	command UnAssignModelPortfolioFromAssetAllocationSliceCommand
 	 */	
-	public void validate( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignModelPortfolioFromAssetAllocationSliceCommand should not be null" );
-		Assert.notNull( command.getAssetAllocationSliceId(), "UnAssignModelPortfolioFromAssetAllocationSliceCommand identifier should not be null" );
+	public void validate( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "AssetAllocationSlice", "validating UnAssignModelPortfolioFromAssetAllocationSliceCommand" );
+
+		if ( command.getAssetAllocationSliceId() == null ) }
+			throw new ValidationException( "AssetAllocationSlice", "validating identity on UnAssignModelPortfolioFromAssetAllocationSliceCommand" );
 	}
 
 

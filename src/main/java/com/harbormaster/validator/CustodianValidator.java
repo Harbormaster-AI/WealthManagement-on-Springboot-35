@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>CustodianValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class CustodianValidator {
 		
 	/**
@@ -77,50 +80,55 @@ public class CustodianValidator {
 	 */
 	protected CustodianValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public CustodianValidator getInstance() {
-		return new CustodianValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Custodian
 	 */
-	public void validate( CreateCustodianCommand custodian )throws Exception {
-		Assert.notNull( custodian, "CreateCustodianCommand should not be null" );
+	public void validate( CreateCustodianCommand custodian )throws ValidationException {
+		if ( custodian == null )
+			throw new ValidationException( "Custodian", "validating CreateCustodianCommand" );
+
 //		Assert.isNull( custodian.getCustodianId(), "CreateCustodianCommand identifier should be null" );
-		Assert.notNull( custodian.getName(), "Field CreateCustodianCommand.name should not be null" );
-		Assert.notNull( custodian.getClearingNumber(), "Field CreateCustodianCommand.clearingNumber should not be null" );
-		Assert.notNull( custodian.getCountry(), "Field CreateCustodianCommand.country should not be null" );
+		if ( custodian.getName() == null )
+			throw new ValidationException( "Custodian", "validating access on getName" );
+		if ( custodian.getClearingNumber() == null )
+			throw new ValidationException( "Custodian", "validating access on getClearingNumber" );
+		if ( custodian.getCountry() == null )
+			throw new ValidationException( "Custodian", "validating access on getCountry" );
 	}
 
 	/**
 	 * handles update validation for a Custodian
 	 */
-	public void validate( UpdateCustodianCommand custodian ) throws Exception {
-		Assert.notNull( custodian, "UpdateCustodianCommand should not be null" );
-		Assert.notNull( custodian.getCustodianId(), "UpdateCustodianCommand identifier should not be null" );
-		Assert.notNull( custodian.getName(), "Field UpdateCustodianCommand.name should not be null" );
-		Assert.notNull( custodian.getClearingNumber(), "Field UpdateCustodianCommand.clearingNumber should not be null" );
-		Assert.notNull( custodian.getCountry(), "Field UpdateCustodianCommand.country should not be null" );
+	public void validate( UpdateCustodianCommand custodian ) throws ValidationException {
+		if ( custodian == null )
+			throw new ValidationException( "Custodian", "validating UpdateCustodianCommand" );
+		if ( custodian.getName() == null )
+			throw new ValidationException( "Custodian", "validating method getName" );
+		if ( custodian.getClearingNumber() == null )
+			throw new ValidationException( "Custodian", "validating method getClearingNumber" );
+		if ( custodian.getCountry() == null )
+			throw new ValidationException( "Custodian", "validating method getCountry" );
     }
 
 	/**
 	 * handles delete validation for a Custodian
 	 */
-    public void validate( DeleteCustodianCommand custodian ) throws Exception {
-		Assert.notNull( custodian, "{commandAlias} should not be null" );
-		Assert.notNull( custodian.getCustodianId(), "DeleteCustodianCommand identifier should not be null" );
+    public void validate( DeleteCustodianCommand custodian ) throws ValidationException {
+		if ( custodian == null )
+			throw new ValidationException( "Custodian", "validating DeleteCustodianCommand" );
+
+		if ( custodian.getCountry() == null )
+			throw new ValidationException( "Custodian", "validating getCountry" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Custodian
 	 */
-	public void validate( CustodianFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "CustodianFetchOneSummary should not be null" );
-		Assert.notNull( summary.getCustodianId(), "CustodianFetchOneSummary identifier should not be null" );
+	public void validate( CustodianFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Custodian", "validating summary );
 	}
 
 
@@ -129,10 +137,16 @@ public class CustodianValidator {
 	 * 
 	 * @param	command AssignAccountsToCustodianCommand
 	 */	
-	public void validate( AssignAccountsToCustodianCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountsToCustodianCommand should not be null" );
-		Assert.notNull( command.getCustodianId(), "AssignAccountsToCustodianCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAccountsToCustodianCommand addTo attribute should not be null" );
+	public void validate( AssignAccountsToCustodianCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Custodian", "validating AssignAccountsToCustodianCommand" );
+
+		if ( command.getCustodianId() == null ) }
+			throw new ValidationException( "Custodian", "validating identity on AssignAccountsToCustodianCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Custodian", "validating addTo attribute on AssignAccountsToCustodianCommand" );
+
 	}
 
 	/**
@@ -140,11 +154,18 @@ public class CustodianValidator {
 	 * 
 	 * @param	command RemoveAccountsFromCustodianCommand
 	 */	
-	public void validate( RemoveAccountsFromCustodianCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAccountsFromCustodianCommand should not be null" );
-		Assert.notNull( command.getCustodianId(), "RemoveAccountsFromCustodianCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAccountsFromCustodianCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAccountId(), "RemoveAccountsFromCustodianCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAccountsFromCustodianCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Custodian", "validating RemoveAccountsFromCustodianCommand");
+
+		if( command.getCustodianId() == null )
+			throw new ValidationException"Custodian", "validating id on RemoveAccountsFromCustodianCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Custodian", "validating remove from";
+
+		if( command.getRemoveFrom().getAccountId() == null )
+			throw new ValidationException"Custodian", "validating id on remove from}";
 	}
 	
 	/**
@@ -152,10 +173,16 @@ public class CustodianValidator {
 	 * 
 	 * @param	command AssignTransfersToCustodianCommand
 	 */	
-	public void validate( AssignTransfersToCustodianCommand command ) throws Exception {
-		Assert.notNull( command, "AssignTransfersToCustodianCommand should not be null" );
-		Assert.notNull( command.getCustodianId(), "AssignTransfersToCustodianCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignTransfersToCustodianCommand addTo attribute should not be null" );
+	public void validate( AssignTransfersToCustodianCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Custodian", "validating AssignTransfersToCustodianCommand" );
+
+		if ( command.getCustodianId() == null ) }
+			throw new ValidationException( "Custodian", "validating identity on AssignTransfersToCustodianCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Custodian", "validating addTo attribute on AssignTransfersToCustodianCommand" );
+
 	}
 
 	/**
@@ -163,11 +190,18 @@ public class CustodianValidator {
 	 * 
 	 * @param	command RemoveTransfersFromCustodianCommand
 	 */	
-	public void validate( RemoveTransfersFromCustodianCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveTransfersFromCustodianCommand should not be null" );
-		Assert.notNull( command.getCustodianId(), "RemoveTransfersFromCustodianCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveTransfersFromCustodianCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAccountTransferId(), "RemoveTransfersFromCustodianCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveTransfersFromCustodianCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Custodian", "validating RemoveTransfersFromCustodianCommand");
+
+		if( command.getCustodianId() == null )
+			throw new ValidationException"Custodian", "validating id on RemoveTransfersFromCustodianCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Custodian", "validating remove from";
+
+		if( command.getRemoveFrom().getAccountTransferId() == null )
+			throw new ValidationException"Custodian", "validating id on remove from}";
 	}
 	
 

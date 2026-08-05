@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,85 +93,83 @@ import com.harbormaster.security.*;
  */
 @Service
 public class RebalancePlanService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public RebalancePlanService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new RebalancePlanEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(RebalancePlanRepository.class) );
+		}
 
-    	projector 		= new RebalancePlanEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(RebalancePlanRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		RebalancePlan
+		 */
+			public RebalancePlan createRebalancePlan( CreateRebalancePlanCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		RebalancePlan
-    */
-	public RebalancePlan createRebalancePlan( CreateRebalancePlanCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			RebalancePlan entity = new RebalancePlan();
 
-		RebalancePlan entity = new RebalancePlan();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	RebalancePlanValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
 
             entity.setRebalancePlanId( command.getRebalancePlanId() );
             entity.setPlanDate( command.getPlanDate() );
             entity.setStatus( command.getStatus() );
             entity.setMethod( command.getMethod() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of RebalancePlan {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create RebalancePlan - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateRebalancePlanCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		RebalancePlan
-    */
-    public RebalancePlan updateRebalancePlan( UpdateRebalancePlanCommand command ) 
+				LOGGER.info( "done creating of RebalancePlan {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create RebalancePlan - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateRebalancePlanCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		RebalancePlan
+		 */
+		public RebalancePlan updateRebalancePlan( UpdateRebalancePlanCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    RebalancePlan entity = new RebalancePlan();
+			RebalancePlan entity = new RebalancePlan();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	RebalancePlanValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
 
             entity.setRebalancePlanId( command.getRebalancePlanId() );
             entity.setPlanDate( command.getPlanDate() );
@@ -180,274 +178,274 @@ extends BaseService {
             entity.setAdvisor( command.getAdvisor() );
             entity.setStatus( command.getStatus() );
             entity.setMethod( command.getMethod() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of RebalancePlan {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save RebalancePlan - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteRebalancePlanCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteRebalancePlanCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	RebalancePlanValidator.getInstance().validate( command );    
-        
-        	id = command.getRebalancePlanId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of RebalancePlan {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete RebalancePlan using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of RebalancePlan {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save RebalancePlan - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the RebalancePlan via RebalancePlanFetchOneSummary
-     * @param 	summary RebalancePlanFetchOneSummary 
-     * @return 	RebalancePlanFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteRebalancePlanCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteRebalancePlanCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
+
+				id = command.getRebalancePlanId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of RebalancePlan {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete RebalancePlan using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the RebalancePlan via RebalancePlanFetchOneSummary
+		 * @param 	summary RebalancePlanFetchOneSummary
+		 * @return 	RebalancePlanFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public RebalancePlan getRebalancePlan( RebalancePlanFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "RebalancePlanFetchOneSummary arg cannot be null" );
-    	
-    	RebalancePlan entity = null;
-    	UUID id = summary.getRebalancePlanId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	RebalancePlanValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a RebalancePlan using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate RebalancePlan with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "RebalancePlanFetchOneSummary arg cannot be null" );
+
+			RebalancePlan entity = null;
+			UUID id = summary.getRebalancePlanId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a RebalancePlan using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate RebalancePlan with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all RebalancePlans
-     *
-     * @return 	List<RebalancePlan> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all RebalancePlans
+		 *
+		 * @return 	List<RebalancePlan>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<RebalancePlan> getAllRebalancePlan() 
     throws ProcessingException {
-        List<RebalancePlan> list = null;
+			List<RebalancePlan> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllRebalancePlanQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all RebalancePlan";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllRebalancePlanQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all RebalancePlan";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Portfolio on RebalancePlan
-     * @param		command AssignPortfolioToRebalancePlanCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPortfolio( AssignPortfolioToRebalancePlanCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	RebalancePlanValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPortfolio(command.getRebalancePlanId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Portfolio using id " + command.getRebalancePlanId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Portfolio on RebalancePlan
-     * @param		command UnAssignPortfolioFromRebalancePlanCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPortfolio( UnAssignPortfolioFromRebalancePlanCommand command ) throws ProcessingException {
+		/**
+		 * assign Portfolio on RebalancePlan
+		 * @param		command AssignPortfolioToRebalancePlanCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPortfolio( AssignPortfolioToRebalancePlanCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	RebalancePlanValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPortfolio(command.getRebalancePlanId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Portfolio using id " + command.getRebalancePlanId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Portfolio on RebalancePlan
+		 * @param		command UnAssignPortfolioFromRebalancePlanCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPortfolio( UnAssignPortfolioFromRebalancePlanCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPortfolio(command.getRebalancePlanId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Portfolio on RebalancePlan";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPortfolio(command.getRebalancePlanId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Portfolio on RebalancePlan";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Advisor on RebalancePlan
-     * @param		command AssignAdvisorToRebalancePlanCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAdvisor( AssignAdvisorToRebalancePlanCommand command ) throws ProcessingException {
+		/**
+		 * assign Advisor on RebalancePlan
+		 * @param		command AssignAdvisorToRebalancePlanCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAdvisor( AssignAdvisorToRebalancePlanCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	RebalancePlanValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAdvisor(command.getRebalancePlanId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Advisor using id " + command.getRebalancePlanId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAdvisor(command.getRebalancePlanId(), command.getAssignment());
 
-    /**
-     * unAssign Advisor on RebalancePlan
-     * @param		command UnAssignAdvisorFromRebalancePlanCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAdvisor( UnAssignAdvisorFromRebalancePlanCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Advisor using id " + command.getRebalancePlanId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	RebalancePlanValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAdvisor(command.getRebalancePlanId());
+		/**
+		 * unAssign Advisor on RebalancePlan
+		 * @param		command UnAssignAdvisorFromRebalancePlanCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAdvisor( UnAssignAdvisorFromRebalancePlanCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAdvisor(command.getRebalancePlanId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Advisor on RebalancePlan";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Advisor on RebalancePlan";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add Order to ProposedOrders 
-     * @param		command AssignProposedOrdersToRebalancePlanCommand
-     * @exception	ProcessingException
-     */     
-	public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) throws ProcessingException {
+		/**
+		 * add Order to ProposedOrders
+		 * @param		command AssignProposedOrdersToRebalancePlanCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	RebalancePlanValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToProposedOrders(command.getRebalancePlanId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Order as ProposedOrders to RebalancePlan" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Order from ProposedOrders
-     * @param		command RemoveProposedOrdersFromRebalancePlanCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	RebalancePlanValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromProposedOrders(command.getRebalancePlanId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToProposedOrders(command.getRebalancePlanId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Order as ProposedOrders to RebalancePlan" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getRebalancePlanId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Order from ProposedOrders
+		 * @param		command RemoveProposedOrdersFromRebalancePlanCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				RebalancePlanValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromProposedOrders(command.getRebalancePlanId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getRebalancePlanId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -460,5 +458,5 @@ extends BaseService {
     private final RebalancePlanEntityProjector projector;
 	private RebalancePlan rebalancePlan 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(RebalancePlanService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(RebalancePlanService.class);
 }

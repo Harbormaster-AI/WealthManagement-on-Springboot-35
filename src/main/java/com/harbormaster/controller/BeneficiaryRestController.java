@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class BeneficiaryRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Beneficiary create( @RequestBody(required=true) CreateBeneficiaryCommand command ) {
     	Beneficiary entity = null;
-		try {       
-        	
-			entity = service.createBeneficiary( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createBeneficiary( command );
+		LOGGER.info( "Successfully created Beneficiary with Id " + entity.getBeneficiaryId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class BeneficiaryRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Beneficiary update( @RequestBody(required=true) UpdateBeneficiaryCommand command ) {
 		Beneficiary entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateBeneficiaryCommand
-			// -----------------------------------------------
-			entity = service.updateBeneficiary(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "BeneficiaryController:update() - successfully update Beneficiary - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateBeneficiary(command);
+		LOGGER.info( "Successfully updated Beneficiary with Id " + command.getBeneficiaryId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class BeneficiaryRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteBeneficiaryCommand command ) {                
-    	try {
-        	BeneficiaryService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Beneficiary with key " + command.getBeneficiaryId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Beneficiary with Id " + command.getBeneficiaryId()  );
+	}
 	
     /**
      * Handles loading a Beneficiary using a UUID
@@ -150,16 +133,10 @@ public class BeneficiaryRestController extends BaseSpringRestController {
      * @return		Beneficiary
      */    
     @GetMapping("/load")
-    public Beneficiary load( @RequestParam(required=true) UUID uuid ) {    	
-    	Beneficiary entity = null;
+    public Beneficiary load( @RequestParam(required=true) UUID uuid ) {
+    	Beneficiary entity = service.getBeneficiary( new BeneficiaryFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getBeneficiary( new BeneficiaryFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Beneficiary using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Beneficiary with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class BeneficiaryRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Beneficiary> loadAll() {                
     	List<Beneficiary> beneficiaryList = null;
-        
-    	try {
-            // load the Beneficiary
-            beneficiaryList = service.getAllBeneficiary();
-            
-            if ( beneficiaryList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Beneficiarys" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Beneficiarys ", exc );
-        	return null;
-        }
+
+		beneficiaryList = service.getAllBeneficiary();
+		LOGGER.log( Level.INFO,  "successfully loaded all Beneficiarys" );
 
         return beneficiaryList;
                             
@@ -194,12 +162,8 @@ public class BeneficiaryRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignClient")
 	public void assignClient( @RequestBody AssignClientToBeneficiaryCommand command ) {
-		try {
-			service.assignClient( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Client", exc );
-        }
+		service.assignClient( command );
+		LOGGER.info( "Successfully assigned Client with Id " + command.getBeneficiaryId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class BeneficiaryRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignClient")
 	public void unAssignClient( @RequestBody(required=true)  UnAssignClientFromBeneficiaryCommand command ) {
-		try {
-			service.unAssignClient( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Client", exc );
-		}
+		service.unAssignClient( command );
+		LOGGER.info( "Successfully unassigned Client with Id " + command.getBeneficiaryId()  );
 	}
 	
 
@@ -223,12 +183,8 @@ public class BeneficiaryRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAccounts")
 	public void addToAccounts( @RequestBody(required=true) AssignAccountsToBeneficiaryCommand command ) {
-		try {
-			service.addToAccounts( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Accounts", exc );
-		}
+		service.addToAccounts( command );
+		LOGGER.info( "Successfully added Accounts with Id " + command.getBeneficiaryId()  );
 	}
 
     /**
@@ -238,12 +194,8 @@ public class BeneficiaryRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAccounts")
 	public void removeFromAccounts( 	@RequestBody(required=true) RemoveAccountsFromBeneficiaryCommand command )
 	{		
-		try {
-			service.removeFromAccounts( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Accounts", exc );
-		}
+		service.removeFromAccounts( command );
+		LOGGER.info( "Successfully removed Accounts with Id " + command.getBeneficiaryId()  );
 	}
 
 
@@ -254,6 +206,6 @@ public class BeneficiaryRestController extends BaseSpringRestController {
 //************************************************************************
     protected Beneficiary beneficiary = null;
 	protected BeneficiaryService service = null;
-    private static final Logger LOGGER = Logger.getLogger(BeneficiaryRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(BeneficiaryRestController.class.getName());
     
 }

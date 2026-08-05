@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class TradeService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public TradeService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new TradeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(TradeRepository.class) );
+		}
 
-    	projector 		= new TradeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(TradeRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Trade
+		 */
+			public Trade createTrade( CreateTradeCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Trade
-    */
-	public Trade createTrade( CreateTradeCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Trade entity = new Trade();
 
-		Trade entity = new Trade();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	TradeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
 
             entity.setTradeId( command.getTradeId() );
             entity.setExecutionId( command.getExecutionId() );
@@ -137,44 +135,44 @@ extends BaseService {
             entity.setTradeDate( command.getTradeDate() );
             entity.setVenue( command.getVenue() );
             entity.setStatus( command.getStatus() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Trade {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Trade - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateTradeCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Trade
-    */
-    public Trade updateTrade( UpdateTradeCommand command ) 
+				LOGGER.info( "done creating of Trade {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Trade - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateTradeCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Trade
+		 */
+		public Trade updateTrade( UpdateTradeCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Trade entity = new Trade();
+			Trade entity = new Trade();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	TradeValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
 
             entity.setTradeId( command.getTradeId() );
             entity.setExecutionId( command.getExecutionId() );
@@ -187,323 +185,323 @@ extends BaseService {
             entity.setSecurity( command.getSecurity() );
             entity.setTransaction( command.getTransaction() );
             entity.setStatus( command.getStatus() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Trade {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Trade - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteTradeCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteTradeCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	TradeValidator.getInstance().validate( command );    
-        
-        	id = command.getTradeId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Trade {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Trade using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Trade {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Trade - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Trade via TradeFetchOneSummary
-     * @param 	summary TradeFetchOneSummary 
-     * @return 	TradeFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteTradeCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteTradeCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
+
+				id = command.getTradeId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Trade {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Trade using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Trade via TradeFetchOneSummary
+		 * @param 	summary TradeFetchOneSummary
+		 * @return 	TradeFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Trade getTrade( TradeFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "TradeFetchOneSummary arg cannot be null" );
-    	
-    	Trade entity = null;
-    	UUID id = summary.getTradeId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	TradeValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Trade using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Trade with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "TradeFetchOneSummary arg cannot be null" );
+
+			Trade entity = null;
+			UUID id = summary.getTradeId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				TradeValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Trade using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Trade with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Trades
-     *
-     * @return 	List<Trade> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Trades
+		 *
+		 * @return 	List<Trade>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Trade> getAllTrade() 
     throws ProcessingException {
-        List<Trade> list = null;
+			List<Trade> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllTradeQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Trade";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllTradeQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Trade";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Order on Trade
-     * @param		command AssignOrderToTradeCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignOrder( AssignOrderToTradeCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	TradeValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignOrder(command.getTradeId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Order using id " + command.getTradeId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Order on Trade
-     * @param		command UnAssignOrderFromTradeCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignOrder( UnAssignOrderFromTradeCommand command ) throws ProcessingException {
+		/**
+		 * assign Order on Trade
+		 * @param		command AssignOrderToTradeCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignOrder( AssignOrderToTradeCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	TradeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignOrder(command.getTradeId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Order using id " + command.getTradeId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Order on Trade
+		 * @param		command UnAssignOrderFromTradeCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignOrder( UnAssignOrderFromTradeCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignOrder(command.getTradeId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Order on Trade";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignOrder(command.getTradeId());
+		/**
+		 * assign Account on Trade
+		 * @param		command AssignAccountToTradeCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToTradeCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getTradeId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getTradeId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Order on Trade";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Account on Trade
+		 * @param		command UnAssignAccountFromTradeCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromTradeCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getTradeId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on Trade";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign Account on Trade
-     * @param		command AssignAccountToTradeCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToTradeCommand command ) throws ProcessingException {
+		/**
+		 * assign Security on Trade
+		 * @param		command AssignSecurityToTradeCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignSecurity( AssignSecurityToTradeCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	TradeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getTradeId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignSecurity(command.getTradeId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Security using id " + command.getTradeId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getTradeId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on Trade
-     * @param		command UnAssignAccountFromTradeCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromTradeCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Security on Trade
+		 * @param		command UnAssignSecurityFromTradeCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignSecurity( UnAssignSecurityFromTradeCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	TradeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignSecurity(command.getTradeId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Security on Trade";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getTradeId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on Trade";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Security on Trade
-     * @param		command AssignSecurityToTradeCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignSecurity( AssignSecurityToTradeCommand command ) throws ProcessingException {
+		/**
+		 * assign Transaction on Trade
+		 * @param		command AssignTransactionToTradeCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignTransaction( AssignTransactionToTradeCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	TradeValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignSecurity(command.getTradeId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignTransaction(command.getTradeId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Transaction using id " + command.getTradeId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Security using id " + command.getTradeId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Security on Trade
-     * @param		command UnAssignSecurityFromTradeCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignSecurity( UnAssignSecurityFromTradeCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Transaction on Trade
+		 * @param		command UnAssignTransactionFromTradeCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignTransaction( UnAssignTransactionFromTradeCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	TradeValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignSecurity(command.getTradeId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				TradeValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignTransaction(command.getTradeId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Transaction on Trade";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Security on Trade";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Transaction on Trade
-     * @param		command AssignTransactionToTradeCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignTransaction( AssignTransactionToTradeCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	TradeValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignTransaction(command.getTradeId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Transaction using id " + command.getTradeId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign Transaction on Trade
-     * @param		command UnAssignTransactionFromTradeCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignTransaction( UnAssignTransactionFromTradeCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	TradeValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignTransaction(command.getTradeId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Transaction on Trade";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -517,5 +515,5 @@ extends BaseService {
     private final TradeEntityProjector projector;
 	private Trade trade 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(TradeService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(TradeService.class);
 }

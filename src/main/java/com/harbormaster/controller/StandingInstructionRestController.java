@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class StandingInstructionRestController extends BaseSpringRestController 
 	@PostMapping("/create")
     public StandingInstruction create( @RequestBody(required=true) CreateStandingInstructionCommand command ) {
     	StandingInstruction entity = null;
-		try {       
-        	
-			entity = service.createStandingInstruction( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createStandingInstruction( command );
+		LOGGER.info( "Successfully created StandingInstruction with Id " + entity.getStandingInstructionId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class StandingInstructionRestController extends BaseSpringRestController 
 	@PutMapping("/update")
     public StandingInstruction update( @RequestBody(required=true) UpdateStandingInstructionCommand command ) {
 		StandingInstruction entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateStandingInstructionCommand
-			// -----------------------------------------------
-			entity = service.updateStandingInstruction(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "StandingInstructionController:update() - successfully update StandingInstruction - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateStandingInstruction(command);
+		LOGGER.info( "Successfully updated StandingInstruction with Id " + command.getStandingInstructionId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class StandingInstructionRestController extends BaseSpringRestController 
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteStandingInstructionCommand command ) {                
-    	try {
-        	StandingInstructionService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted StandingInstruction with key " + command.getStandingInstructionId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted StandingInstruction with Id " + command.getStandingInstructionId()  );
+	}
 	
     /**
      * Handles loading a StandingInstruction using a UUID
@@ -150,16 +133,10 @@ public class StandingInstructionRestController extends BaseSpringRestController 
      * @return		StandingInstruction
      */    
     @GetMapping("/load")
-    public StandingInstruction load( @RequestParam(required=true) UUID uuid ) {    	
-    	StandingInstruction entity = null;
+    public StandingInstruction load( @RequestParam(required=true) UUID uuid ) {
+    	StandingInstruction entity = service.getStandingInstruction( new StandingInstructionFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getStandingInstruction( new StandingInstructionFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load StandingInstruction using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded StandingInstruction with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class StandingInstructionRestController extends BaseSpringRestController 
     @GetMapping("/")
     public List<StandingInstruction> loadAll() {                
     	List<StandingInstruction> standingInstructionList = null;
-        
-    	try {
-            // load the StandingInstruction
-            standingInstructionList = service.getAllStandingInstruction();
-            
-            if ( standingInstructionList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all StandingInstructions" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all StandingInstructions ", exc );
-        	return null;
-        }
+
+		standingInstructionList = service.getAllStandingInstruction();
+		LOGGER.log( Level.INFO,  "successfully loaded all StandingInstructions" );
 
         return standingInstructionList;
                             
@@ -194,12 +162,8 @@ public class StandingInstructionRestController extends BaseSpringRestController 
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToStandingInstructionCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getStandingInstructionId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class StandingInstructionRestController extends BaseSpringRestController 
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromStandingInstructionCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getStandingInstructionId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class StandingInstructionRestController extends BaseSpringRestController 
      */     
 	@PutMapping("/assignDestinationAccount")
 	public void assignDestinationAccount( @RequestBody AssignDestinationAccountToStandingInstructionCommand command ) {
-		try {
-			service.assignDestinationAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign DestinationAccount", exc );
-        }
+		service.assignDestinationAccount( command );
+		LOGGER.info( "Successfully assigned DestinationAccount with Id " + command.getStandingInstructionId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class StandingInstructionRestController extends BaseSpringRestController 
      */     
 	@PutMapping("/unAssignDestinationAccount")
 	public void unAssignDestinationAccount( @RequestBody(required=true)  UnAssignDestinationAccountFromStandingInstructionCommand command ) {
-		try {
-			service.unAssignDestinationAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign DestinationAccount", exc );
-		}
+		service.unAssignDestinationAccount( command );
+		LOGGER.info( "Successfully unassigned DestinationAccount with Id " + command.getStandingInstructionId()  );
 	}
 	
 
@@ -253,6 +205,6 @@ public class StandingInstructionRestController extends BaseSpringRestController 
 //************************************************************************
     protected StandingInstruction standingInstruction = null;
 	protected StandingInstructionService service = null;
-    private static final Logger LOGGER = Logger.getLogger(StandingInstructionRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(StandingInstructionRestController.class.getName());
     
 }

@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class AdvisorRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Advisor create( @RequestBody(required=true) CreateAdvisorCommand command ) {
     	Advisor entity = null;
-		try {       
-        	
-			entity = service.createAdvisor( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createAdvisor( command );
+		LOGGER.info( "Successfully created Advisor with Id " + entity.getAdvisorId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class AdvisorRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Advisor update( @RequestBody(required=true) UpdateAdvisorCommand command ) {
 		Advisor entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateAdvisorCommand
-			// -----------------------------------------------
-			entity = service.updateAdvisor(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "AdvisorController:update() - successfully update Advisor - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateAdvisor(command);
+		LOGGER.info( "Successfully updated Advisor with Id " + command.getAdvisorId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class AdvisorRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAdvisorCommand command ) {                
-    	try {
-        	AdvisorService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Advisor with key " + command.getAdvisorId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Advisor with Id " + command.getAdvisorId()  );
+	}
 	
     /**
      * Handles loading a Advisor using a UUID
@@ -150,16 +133,10 @@ public class AdvisorRestController extends BaseSpringRestController {
      * @return		Advisor
      */    
     @GetMapping("/load")
-    public Advisor load( @RequestParam(required=true) UUID uuid ) {    	
-    	Advisor entity = null;
+    public Advisor load( @RequestParam(required=true) UUID uuid ) {
+    	Advisor entity = service.getAdvisor( new AdvisorFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getAdvisor( new AdvisorFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Advisor using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Advisor with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class AdvisorRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Advisor> loadAll() {                
     	List<Advisor> advisorList = null;
-        
-    	try {
-            // load the Advisor
-            advisorList = service.getAllAdvisor();
-            
-            if ( advisorList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Advisors" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Advisors ", exc );
-        	return null;
-        }
+
+		advisorList = service.getAllAdvisor();
+		LOGGER.log( Level.INFO,  "successfully loaded all Advisors" );
 
         return advisorList;
                             
@@ -194,12 +162,8 @@ public class AdvisorRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignFirm")
 	public void assignFirm( @RequestBody AssignFirmToAdvisorCommand command ) {
-		try {
-			service.assignFirm( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Firm", exc );
-        }
+		service.assignFirm( command );
+		LOGGER.info( "Successfully assigned Firm with Id " + command.getAdvisorId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class AdvisorRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignFirm")
 	public void unAssignFirm( @RequestBody(required=true)  UnAssignFirmFromAdvisorCommand command ) {
-		try {
-			service.unAssignFirm( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Firm", exc );
-		}
+		service.unAssignFirm( command );
+		LOGGER.info( "Successfully unassigned Firm with Id " + command.getAdvisorId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class AdvisorRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignOffice")
 	public void assignOffice( @RequestBody AssignOfficeToAdvisorCommand command ) {
-		try {
-			service.assignOffice( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Office", exc );
-        }
+		service.assignOffice( command );
+		LOGGER.info( "Successfully assigned Office with Id " + command.getAdvisorId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class AdvisorRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignOffice")
 	public void unAssignOffice( @RequestBody(required=true)  UnAssignOfficeFromAdvisorCommand command ) {
-		try {
-			service.unAssignOffice( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Office", exc );
-		}
+		service.unAssignOffice( command );
+		LOGGER.info( "Successfully unassigned Office with Id " + command.getAdvisorId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class AdvisorRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAdvisoryTeam")
 	public void assignAdvisoryTeam( @RequestBody AssignAdvisoryTeamToAdvisorCommand command ) {
-		try {
-			service.assignAdvisoryTeam( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign AdvisoryTeam", exc );
-        }
+		service.assignAdvisoryTeam( command );
+		LOGGER.info( "Successfully assigned AdvisoryTeam with Id " + command.getAdvisorId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class AdvisorRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAdvisoryTeam")
 	public void unAssignAdvisoryTeam( @RequestBody(required=true)  UnAssignAdvisoryTeamFromAdvisorCommand command ) {
-		try {
-			service.unAssignAdvisoryTeam( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign AdvisoryTeam", exc );
-		}
+		service.unAssignAdvisoryTeam( command );
+		LOGGER.info( "Successfully unassigned AdvisoryTeam with Id " + command.getAdvisorId()  );
 	}
 	
 
@@ -279,12 +223,8 @@ public class AdvisorRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToClients")
 	public void addToClients( @RequestBody(required=true) AssignClientsToAdvisorCommand command ) {
-		try {
-			service.addToClients( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Clients", exc );
-		}
+		service.addToClients( command );
+		LOGGER.info( "Successfully added Clients with Id " + command.getAdvisorId()  );
 	}
 
     /**
@@ -294,12 +234,8 @@ public class AdvisorRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromClients")
 	public void removeFromClients( 	@RequestBody(required=true) RemoveClientsFromAdvisorCommand command )
 	{		
-		try {
-			service.removeFromClients( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Clients", exc );
-		}
+		service.removeFromClients( command );
+		LOGGER.info( "Successfully removed Clients with Id " + command.getAdvisorId()  );
 	}
 
 
@@ -310,6 +246,6 @@ public class AdvisorRestController extends BaseSpringRestController {
 //************************************************************************
     protected Advisor advisor = null;
 	protected AdvisorService service = null;
-    private static final Logger LOGGER = Logger.getLogger(AdvisorRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdvisorRestController.class.getName());
     
 }

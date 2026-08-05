@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class MarketPriceRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public MarketPrice create( @RequestBody(required=true) CreateMarketPriceCommand command ) {
     	MarketPrice entity = null;
-		try {       
-        	
-			entity = service.createMarketPrice( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createMarketPrice( command );
+		LOGGER.info( "Successfully created MarketPrice with Id " + entity.getMarketPriceId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class MarketPriceRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public MarketPrice update( @RequestBody(required=true) UpdateMarketPriceCommand command ) {
 		MarketPrice entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateMarketPriceCommand
-			// -----------------------------------------------
-			entity = service.updateMarketPrice(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "MarketPriceController:update() - successfully update MarketPrice - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateMarketPrice(command);
+		LOGGER.info( "Successfully updated MarketPrice with Id " + command.getMarketPriceId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class MarketPriceRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteMarketPriceCommand command ) {                
-    	try {
-        	MarketPriceService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted MarketPrice with key " + command.getMarketPriceId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted MarketPrice with Id " + command.getMarketPriceId()  );
+	}
 	
     /**
      * Handles loading a MarketPrice using a UUID
@@ -150,16 +133,10 @@ public class MarketPriceRestController extends BaseSpringRestController {
      * @return		MarketPrice
      */    
     @GetMapping("/load")
-    public MarketPrice load( @RequestParam(required=true) UUID uuid ) {    	
-    	MarketPrice entity = null;
+    public MarketPrice load( @RequestParam(required=true) UUID uuid ) {
+    	MarketPrice entity = service.getMarketPrice( new MarketPriceFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getMarketPrice( new MarketPriceFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load MarketPrice using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded MarketPrice with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class MarketPriceRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<MarketPrice> loadAll() {                
     	List<MarketPrice> marketPriceList = null;
-        
-    	try {
-            // load the MarketPrice
-            marketPriceList = service.getAllMarketPrice();
-            
-            if ( marketPriceList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all MarketPrices" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all MarketPrices ", exc );
-        	return null;
-        }
+
+		marketPriceList = service.getAllMarketPrice();
+		LOGGER.log( Level.INFO,  "successfully loaded all MarketPrices" );
 
         return marketPriceList;
                             
@@ -194,12 +162,8 @@ public class MarketPriceRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignSecurity")
 	public void assignSecurity( @RequestBody AssignSecurityToMarketPriceCommand command ) {
-		try {
-			service.assignSecurity( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Security", exc );
-        }
+		service.assignSecurity( command );
+		LOGGER.info( "Successfully assigned Security with Id " + command.getMarketPriceId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class MarketPriceRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignSecurity")
 	public void unAssignSecurity( @RequestBody(required=true)  UnAssignSecurityFromMarketPriceCommand command ) {
-		try {
-			service.unAssignSecurity( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Security", exc );
-		}
+		service.unAssignSecurity( command );
+		LOGGER.info( "Successfully unassigned Security with Id " + command.getMarketPriceId()  );
 	}
 	
 
@@ -225,6 +185,6 @@ public class MarketPriceRestController extends BaseSpringRestController {
 //************************************************************************
     protected MarketPrice marketPrice = null;
 	protected MarketPriceService service = null;
-    private static final Logger LOGGER = Logger.getLogger(MarketPriceRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MarketPriceRestController.class.getName());
     
 }

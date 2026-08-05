@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class StandingInstructionService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public StandingInstructionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new StandingInstructionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(StandingInstructionRepository.class) );
+		}
 
-    	projector 		= new StandingInstructionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(StandingInstructionRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		StandingInstruction
+		 */
+			public StandingInstruction createStandingInstruction( CreateStandingInstructionCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		StandingInstruction
-    */
-	public StandingInstruction createStandingInstruction( CreateStandingInstructionCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			StandingInstruction entity = new StandingInstruction();
 
-		StandingInstruction entity = new StandingInstruction();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	StandingInstructionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				StandingInstructionValidator.getInstance().validate( command );
 
             entity.setStandingInstructionId( command.getStandingInstructionId() );
             entity.setNextExecutionDate( command.getNextExecutionDate() );
@@ -136,44 +134,44 @@ extends BaseService {
             entity.setActive( command.getActive() );
             entity.setInstructionType( command.getInstructionType() );
             entity.setFrequency( command.getFrequency() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of StandingInstruction {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create StandingInstruction - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateStandingInstructionCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		StandingInstruction
-    */
-    public StandingInstruction updateStandingInstruction( UpdateStandingInstructionCommand command ) 
+				LOGGER.info( "done creating of StandingInstruction {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create StandingInstruction - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateStandingInstructionCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		StandingInstruction
+		 */
+		public StandingInstruction updateStandingInstruction( UpdateStandingInstructionCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    StandingInstruction entity = new StandingInstruction();
+			StandingInstruction entity = new StandingInstruction();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	StandingInstructionValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				StandingInstructionValidator.getInstance().validate( command );
 
             entity.setStandingInstructionId( command.getStandingInstructionId() );
             entity.setNextExecutionDate( command.getNextExecutionDate() );
@@ -183,221 +181,221 @@ extends BaseService {
             entity.setDestinationAccount( command.getDestinationAccount() );
             entity.setInstructionType( command.getInstructionType() );
             entity.setFrequency( command.getFrequency() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of StandingInstruction {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save StandingInstruction - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteStandingInstructionCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteStandingInstructionCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	StandingInstructionValidator.getInstance().validate( command );    
-        
-        	id = command.getStandingInstructionId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of StandingInstruction {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete StandingInstruction using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of StandingInstruction {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save StandingInstruction - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the StandingInstruction via StandingInstructionFetchOneSummary
-     * @param 	summary StandingInstructionFetchOneSummary 
-     * @return 	StandingInstructionFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteStandingInstructionCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteStandingInstructionCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				StandingInstructionValidator.getInstance().validate( command );
+
+				id = command.getStandingInstructionId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of StandingInstruction {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete StandingInstruction using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the StandingInstruction via StandingInstructionFetchOneSummary
+		 * @param 	summary StandingInstructionFetchOneSummary
+		 * @return 	StandingInstructionFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public StandingInstruction getStandingInstruction( StandingInstructionFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "StandingInstructionFetchOneSummary arg cannot be null" );
-    	
-    	StandingInstruction entity = null;
-    	UUID id = summary.getStandingInstructionId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	StandingInstructionValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a StandingInstruction using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate StandingInstruction with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "StandingInstructionFetchOneSummary arg cannot be null" );
+
+			StandingInstruction entity = null;
+			UUID id = summary.getStandingInstructionId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				StandingInstructionValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a StandingInstruction using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate StandingInstruction with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all StandingInstructions
-     *
-     * @return 	List<StandingInstruction> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all StandingInstructions
+		 *
+		 * @return 	List<StandingInstruction>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<StandingInstruction> getAllStandingInstruction() 
     throws ProcessingException {
-        List<StandingInstruction> list = null;
+			List<StandingInstruction> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllStandingInstructionQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all StandingInstruction";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllStandingInstructionQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all StandingInstruction";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Account on StandingInstruction
-     * @param		command AssignAccountToStandingInstructionCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToStandingInstructionCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	StandingInstructionValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getStandingInstructionId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getStandingInstructionId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on StandingInstruction
-     * @param		command UnAssignAccountFromStandingInstructionCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromStandingInstructionCommand command ) throws ProcessingException {
+		/**
+		 * assign Account on StandingInstruction
+		 * @param		command AssignAccountToStandingInstructionCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToStandingInstructionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	StandingInstructionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				StandingInstructionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getStandingInstructionId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getStandingInstructionId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Account on StandingInstruction
+		 * @param		command UnAssignAccountFromStandingInstructionCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromStandingInstructionCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				StandingInstructionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getStandingInstructionId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on StandingInstruction";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getStandingInstructionId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on StandingInstruction";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign DestinationAccount on StandingInstruction
-     * @param		command AssignDestinationAccountToStandingInstructionCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignDestinationAccount( AssignDestinationAccountToStandingInstructionCommand command ) throws ProcessingException {
+		/**
+		 * assign DestinationAccount on StandingInstruction
+		 * @param		command AssignDestinationAccountToStandingInstructionCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignDestinationAccount( AssignDestinationAccountToStandingInstructionCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	StandingInstructionValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				StandingInstructionValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignDestinationAccount(command.getStandingInstructionId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getStandingInstructionId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignDestinationAccount(command.getStandingInstructionId(), command.getAssignment());
 
-    /**
-     * unAssign DestinationAccount on StandingInstruction
-     * @param		command UnAssignDestinationAccountFromStandingInstructionCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignDestinationAccount( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getStandingInstructionId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	StandingInstructionValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignDestinationAccount(command.getStandingInstructionId());
+		/**
+		 * unAssign DestinationAccount on StandingInstruction
+		 * @param		command UnAssignDestinationAccountFromStandingInstructionCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignDestinationAccount( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				StandingInstructionValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignDestinationAccount(command.getStandingInstructionId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign DestinationAccount on StandingInstruction";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign DestinationAccount on StandingInstruction";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -411,5 +409,5 @@ extends BaseService {
     private final StandingInstructionEntityProjector projector;
 	private StandingInstruction standingInstruction 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(StandingInstructionService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(StandingInstructionService.class);
 }

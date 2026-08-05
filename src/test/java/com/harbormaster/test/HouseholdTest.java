@@ -49,245 +49,245 @@ public class HouseholdTest
     public HouseholdTest(HouseholdService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Household, through a HouseholdTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on HouseholdTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on HouseholdTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on HouseholdTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on HouseholdTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Household.
      *
      * @return    Household
      */
     public Household testCreate() throws Throwable {
-        Household entity = null;
+    Household entity = null;
 
-        LOGGER.info( "HouseholdTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Household");
+    LOGGER.info( "HouseholdTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Household");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Household" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Household" );
 
-        try {            
-            entity = service.createHousehold( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createHousehold( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getHouseholdId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getHouseholdId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Household with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Household with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Household.
      *
-     * @return    Household  
+     * @return    Household
      */
     public Household testRead() throws Throwable {
-        LOGGER.info( "HouseholdTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Household" );
+    LOGGER.info( "HouseholdTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Household" );
 
-        Household entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Household with primary key" );
-        msg.append( theId );
+    Household entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Household with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getHousehold( new HouseholdFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getHousehold( new HouseholdFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getHouseholdId();
-            
-            LOGGER.info( "-- Successfully found Household " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getHouseholdId();
+
+        LOGGER.info( "-- Successfully found Household " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Household.
      *
      * @return    Household
      */
     public Household testUpdate() throws Throwable {
-        LOGGER.info( "HouseholdTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Household." );
+    LOGGER.info( "HouseholdTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Household." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Household : " );        
-        Household entity = null;
-    
-        try {            
-        	UpdateHouseholdCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setHouseholdId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Household : " );
+    Household entity = null;
 
-            LOGGER.info( "-- Now updating the created Household." );
-            
-            entity = service.updateHousehold( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateHouseholdCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Household - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setHouseholdId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Household." );
+
+        entity = service.updateHousehold( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Household - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Household.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "HouseholdTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Household." );
-        
-        try {
-        	DeleteHouseholdCommand deleteCommand = new DeleteHouseholdCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Household with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Household with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "HouseholdTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Household." );
 
-    /** 
+    try {
+        DeleteHouseholdCommand deleteCommand = new DeleteHouseholdCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Household with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Household with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Households.
      *
      * @return    Collection
      */
-    public List<Household> testGetAll() throws Throwable {    
-        LOGGER.info( "HouseholdTest:testGetAll() - Retrieving Collection of Households:" );
+    public List<Household> testGetAll() throws Throwable {
+    LOGGER.info( "HouseholdTest:testGetAll() - Retrieving Collection of Households:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Household : " );        
-        List<Household> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Household : " );
+    List<Household> collection  = null;
 
-        try {
-            // call the static get method on the HouseholdService
-            collection = service.getAllHousehold();
+    try {
+        // call the static get method on the HouseholdService
+        collection = service.getAllHousehold();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Household currEntity  = null;            
-	            Iterator<Household> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getHouseholdId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Household currEntity  = null;
+            Iterator<Household> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getHouseholdId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public HouseholdTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Household
-	 * 
-	 * @return CreateHouseholdCommand alias
-	 */
+
+    /**
+     * Returns a new populated Household
+     *
+     * @return CreateHouseholdCommand alias
+     */
 	protected CreateHouseholdCommand generateNewCommand() {
-        CreateHouseholdCommand command = new CreateHouseholdCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
-		
-		return( command );
-	}
+    CreateHouseholdCommand command = new CreateHouseholdCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
-		/**
-		 * Returns a new populated Household
-		 * 
-		 * @return UpdateHouseholdCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Household
+     *
+     * @return UpdateHouseholdCommand alias
+     */
 	protected UpdateHouseholdCommand generateUpdateCommand() {
-	        UpdateHouseholdCommand command = new UpdateHouseholdCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>() );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateHouseholdCommand command = new UpdateHouseholdCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>() );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected HouseholdService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Household.class.getName());
 
 }

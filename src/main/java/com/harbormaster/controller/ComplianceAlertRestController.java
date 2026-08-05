@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public ComplianceAlert create( @RequestBody(required=true) CreateComplianceAlertCommand command ) {
     	ComplianceAlert entity = null;
-		try {       
-        	
-			entity = service.createComplianceAlert( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createComplianceAlert( command );
+		LOGGER.info( "Successfully created ComplianceAlert with Id " + entity.getComplianceAlertId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public ComplianceAlert update( @RequestBody(required=true) UpdateComplianceAlertCommand command ) {
 		ComplianceAlert entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateComplianceAlertCommand
-			// -----------------------------------------------
-			entity = service.updateComplianceAlert(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "ComplianceAlertController:update() - successfully update ComplianceAlert - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateComplianceAlert(command);
+		LOGGER.info( "Successfully updated ComplianceAlert with Id " + command.getComplianceAlertId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteComplianceAlertCommand command ) {                
-    	try {
-        	ComplianceAlertService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted ComplianceAlert with key " + command.getComplianceAlertId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted ComplianceAlert with Id " + command.getComplianceAlertId()  );
+	}
 	
     /**
      * Handles loading a ComplianceAlert using a UUID
@@ -150,16 +133,10 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      * @return		ComplianceAlert
      */    
     @GetMapping("/load")
-    public ComplianceAlert load( @RequestParam(required=true) UUID uuid ) {    	
-    	ComplianceAlert entity = null;
+    public ComplianceAlert load( @RequestParam(required=true) UUID uuid ) {
+    	ComplianceAlert entity = service.getComplianceAlert( new ComplianceAlertFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getComplianceAlert( new ComplianceAlertFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load ComplianceAlert using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded ComplianceAlert with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<ComplianceAlert> loadAll() {                
     	List<ComplianceAlert> complianceAlertList = null;
-        
-    	try {
-            // load the ComplianceAlert
-            complianceAlertList = service.getAllComplianceAlert();
-            
-            if ( complianceAlertList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all ComplianceAlerts" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all ComplianceAlerts ", exc );
-        	return null;
-        }
+
+		complianceAlertList = service.getAllComplianceAlert();
+		LOGGER.log( Level.INFO,  "successfully loaded all ComplianceAlerts" );
 
         return complianceAlertList;
                             
@@ -194,12 +162,8 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignRule")
 	public void assignRule( @RequestBody AssignRuleToComplianceAlertCommand command ) {
-		try {
-			service.assignRule( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Rule", exc );
-        }
+		service.assignRule( command );
+		LOGGER.info( "Successfully assigned Rule with Id " + command.getComplianceAlertId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignRule")
 	public void unAssignRule( @RequestBody(required=true)  UnAssignRuleFromComplianceAlertCommand command ) {
-		try {
-			service.unAssignRule( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Rule", exc );
-		}
+		service.unAssignRule( command );
+		LOGGER.info( "Successfully unassigned Rule with Id " + command.getComplianceAlertId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToComplianceAlertCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getComplianceAlertId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromComplianceAlertCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getComplianceAlertId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignOrder")
 	public void assignOrder( @RequestBody AssignOrderToComplianceAlertCommand command ) {
-		try {
-			service.assignOrder( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Order", exc );
-        }
+		service.assignOrder( command );
+		LOGGER.info( "Successfully assigned Order with Id " + command.getComplianceAlertId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignOrder")
 	public void unAssignOrder( @RequestBody(required=true)  UnAssignOrderFromComplianceAlertCommand command ) {
-		try {
-			service.unAssignOrder( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Order", exc );
-		}
+		service.unAssignOrder( command );
+		LOGGER.info( "Successfully unassigned Order with Id " + command.getComplianceAlertId()  );
 	}
 	
     /**
@@ -278,12 +222,8 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToComplianceAlertCommand command ) {
-		try {
-			service.assignAdvisor( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
-        }
+		service.assignAdvisor( command );
+		LOGGER.info( "Successfully assigned Advisor with Id " + command.getComplianceAlertId()  );
 	}
 
     /**
@@ -292,12 +232,8 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromComplianceAlertCommand command ) {
-		try {
-			service.unAssignAdvisor( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
-		}
+		service.unAssignAdvisor( command );
+		LOGGER.info( "Successfully unassigned Advisor with Id " + command.getComplianceAlertId()  );
 	}
 	
 
@@ -309,6 +245,6 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
 //************************************************************************
     protected ComplianceAlert complianceAlert = null;
 	protected ComplianceAlertService service = null;
-    private static final Logger LOGGER = Logger.getLogger(ComplianceAlertRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComplianceAlertRestController.class.getName());
     
 }

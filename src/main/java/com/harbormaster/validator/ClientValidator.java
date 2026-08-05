@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>ClientValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -82,6 +84,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class ClientValidator {
 		
 	/**
@@ -89,54 +92,63 @@ public class ClientValidator {
 	 */
 	protected ClientValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public ClientValidator getInstance() {
-		return new ClientValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Client
 	 */
-	public void validate( CreateClientCommand client )throws Exception {
-		Assert.notNull( client, "CreateClientCommand should not be null" );
+	public void validate( CreateClientCommand client )throws ValidationException {
+		if ( client == null )
+			throw new ValidationException( "Client", "validating CreateClientCommand" );
+
 //		Assert.isNull( client.getClientId(), "CreateClientCommand identifier should be null" );
-		Assert.notNull( client.getFirstName(), "Field CreateClientCommand.firstName should not be null" );
-		Assert.notNull( client.getLastName(), "Field CreateClientCommand.lastName should not be null" );
-		Assert.notNull( client.getTaxResidency(), "Field CreateClientCommand.taxResidency should not be null" );
-		Assert.notNull( client.getDateOfBirth(), "Field CreateClientCommand.dateOfBirth should not be null" );
-		Assert.notNull( client.getEmail(), "Field CreateClientCommand.email should not be null" );
+		if ( client.getFirstName() == null )
+			throw new ValidationException( "Client", "validating access on getFirstName" );
+		if ( client.getLastName() == null )
+			throw new ValidationException( "Client", "validating access on getLastName" );
+		if ( client.getTaxResidency() == null )
+			throw new ValidationException( "Client", "validating access on getTaxResidency" );
+		if ( client.getDateOfBirth() == null )
+			throw new ValidationException( "Client", "validating access on getDateOfBirth" );
+		if ( client.getEmail() == null )
+			throw new ValidationException( "Client", "validating access on getEmail" );
 	}
 
 	/**
 	 * handles update validation for a Client
 	 */
-	public void validate( UpdateClientCommand client ) throws Exception {
-		Assert.notNull( client, "UpdateClientCommand should not be null" );
-		Assert.notNull( client.getClientId(), "UpdateClientCommand identifier should not be null" );
-		Assert.notNull( client.getFirstName(), "Field UpdateClientCommand.firstName should not be null" );
-		Assert.notNull( client.getLastName(), "Field UpdateClientCommand.lastName should not be null" );
-		Assert.notNull( client.getTaxResidency(), "Field UpdateClientCommand.taxResidency should not be null" );
-		Assert.notNull( client.getDateOfBirth(), "Field UpdateClientCommand.dateOfBirth should not be null" );
-		Assert.notNull( client.getEmail(), "Field UpdateClientCommand.email should not be null" );
+	public void validate( UpdateClientCommand client ) throws ValidationException {
+		if ( client == null )
+			throw new ValidationException( "Client", "validating UpdateClientCommand" );
+		if ( client.getFirstName() == null )
+			throw new ValidationException( "Client", "validating method getFirstName" );
+		if ( client.getLastName() == null )
+			throw new ValidationException( "Client", "validating method getLastName" );
+		if ( client.getTaxResidency() == null )
+			throw new ValidationException( "Client", "validating method getTaxResidency" );
+		if ( client.getDateOfBirth() == null )
+			throw new ValidationException( "Client", "validating method getDateOfBirth" );
+		if ( client.getEmail() == null )
+			throw new ValidationException( "Client", "validating method getEmail" );
     }
 
 	/**
 	 * handles delete validation for a Client
 	 */
-    public void validate( DeleteClientCommand client ) throws Exception {
-		Assert.notNull( client, "{commandAlias} should not be null" );
-		Assert.notNull( client.getClientId(), "DeleteClientCommand identifier should not be null" );
+    public void validate( DeleteClientCommand client ) throws ValidationException {
+		if ( client == null )
+			throw new ValidationException( "Client", "validating DeleteClientCommand" );
+
+		if ( client.getEmail() == null )
+			throw new ValidationException( "Client", "validating getEmail" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Client
 	 */
-	public void validate( ClientFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "ClientFetchOneSummary should not be null" );
-		Assert.notNull( summary.getClientId(), "ClientFetchOneSummary identifier should not be null" );
+	public void validate( ClientFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Client", "validating summary );
 	}
 
 	/**
@@ -144,10 +156,16 @@ public class ClientValidator {
 	 * 
 	 * @param	command AssignHouseholdToClientCommand
 	 */	
-	public void validate( AssignHouseholdToClientCommand command ) throws Exception {
-		Assert.notNull( command, "AssignHouseholdToClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "AssignHouseholdToClientCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignHouseholdToClientCommand assignment should not be null" );
+	public void validate( AssignHouseholdToClientCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Client", "validating AssignHouseholdToClientCommand" );
+
+		if ( command.getClientId() == null )
+			throw new ValidationException( "Client", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Client", "validating assignment" );
+
 	}
 
 	/**
@@ -155,19 +173,28 @@ public class ClientValidator {
 	 * 
 	 * @param	command UnAssignHouseholdFromClientCommand
 	 */	
-	public void validate( UnAssignHouseholdFromClientCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignHouseholdFromClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "UnAssignHouseholdFromClientCommand identifier should not be null" );
+	public void validate( UnAssignHouseholdFromClientCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Client", "validating UnAssignHouseholdFromClientCommand" );
+
+		if ( command.getClientId() == null ) }
+			throw new ValidationException( "Client", "validating identity on UnAssignHouseholdFromClientCommand" );
 	}
 	/**
 	 * handles assign KycRecord validation for a Client
 	 * 
 	 * @param	command AssignKycRecordToClientCommand
 	 */	
-	public void validate( AssignKycRecordToClientCommand command ) throws Exception {
-		Assert.notNull( command, "AssignKycRecordToClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "AssignKycRecordToClientCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignKycRecordToClientCommand assignment should not be null" );
+	public void validate( AssignKycRecordToClientCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Client", "validating AssignKycRecordToClientCommand" );
+
+		if ( command.getClientId() == null )
+			throw new ValidationException( "Client", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Client", "validating assignment" );
+
 	}
 
 	/**
@@ -175,9 +202,12 @@ public class ClientValidator {
 	 * 
 	 * @param	command UnAssignKycRecordFromClientCommand
 	 */	
-	public void validate( UnAssignKycRecordFromClientCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignKycRecordFromClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "UnAssignKycRecordFromClientCommand identifier should not be null" );
+	public void validate( UnAssignKycRecordFromClientCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Client", "validating UnAssignKycRecordFromClientCommand" );
+
+		if ( command.getClientId() == null ) }
+			throw new ValidationException( "Client", "validating identity on UnAssignKycRecordFromClientCommand" );
 	}
 
 	/**
@@ -185,10 +215,16 @@ public class ClientValidator {
 	 * 
 	 * @param	command AssignAccountsToClientCommand
 	 */	
-	public void validate( AssignAccountsToClientCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountsToClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "AssignAccountsToClientCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAccountsToClientCommand addTo attribute should not be null" );
+	public void validate( AssignAccountsToClientCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Client", "validating AssignAccountsToClientCommand" );
+
+		if ( command.getClientId() == null ) }
+			throw new ValidationException( "Client", "validating identity on AssignAccountsToClientCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Client", "validating addTo attribute on AssignAccountsToClientCommand" );
+
 	}
 
 	/**
@@ -196,11 +232,18 @@ public class ClientValidator {
 	 * 
 	 * @param	command RemoveAccountsFromClientCommand
 	 */	
-	public void validate( RemoveAccountsFromClientCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAccountsFromClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "RemoveAccountsFromClientCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAccountsFromClientCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAccountId(), "RemoveAccountsFromClientCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAccountsFromClientCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Client", "validating RemoveAccountsFromClientCommand");
+
+		if( command.getClientId() == null )
+			throw new ValidationException"Client", "validating id on RemoveAccountsFromClientCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Client", "validating remove from";
+
+		if( command.getRemoveFrom().getAccountId() == null )
+			throw new ValidationException"Client", "validating id on remove from}";
 	}
 	
 	/**
@@ -208,10 +251,16 @@ public class ClientValidator {
 	 * 
 	 * @param	command AssignDocumentsToClientCommand
 	 */	
-	public void validate( AssignDocumentsToClientCommand command ) throws Exception {
-		Assert.notNull( command, "AssignDocumentsToClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "AssignDocumentsToClientCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignDocumentsToClientCommand addTo attribute should not be null" );
+	public void validate( AssignDocumentsToClientCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Client", "validating AssignDocumentsToClientCommand" );
+
+		if ( command.getClientId() == null ) }
+			throw new ValidationException( "Client", "validating identity on AssignDocumentsToClientCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Client", "validating addTo attribute on AssignDocumentsToClientCommand" );
+
 	}
 
 	/**
@@ -219,11 +268,18 @@ public class ClientValidator {
 	 * 
 	 * @param	command RemoveDocumentsFromClientCommand
 	 */	
-	public void validate( RemoveDocumentsFromClientCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveDocumentsFromClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "RemoveDocumentsFromClientCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveDocumentsFromClientCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getDocumentId(), "RemoveDocumentsFromClientCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveDocumentsFromClientCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Client", "validating RemoveDocumentsFromClientCommand");
+
+		if( command.getClientId() == null )
+			throw new ValidationException"Client", "validating id on RemoveDocumentsFromClientCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Client", "validating remove from";
+
+		if( command.getRemoveFrom().getDocumentId() == null )
+			throw new ValidationException"Client", "validating id on remove from}";
 	}
 	
 	/**
@@ -231,10 +287,16 @@ public class ClientValidator {
 	 * 
 	 * @param	command AssignBeneficiariesToClientCommand
 	 */	
-	public void validate( AssignBeneficiariesToClientCommand command ) throws Exception {
-		Assert.notNull( command, "AssignBeneficiariesToClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "AssignBeneficiariesToClientCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignBeneficiariesToClientCommand addTo attribute should not be null" );
+	public void validate( AssignBeneficiariesToClientCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Client", "validating AssignBeneficiariesToClientCommand" );
+
+		if ( command.getClientId() == null ) }
+			throw new ValidationException( "Client", "validating identity on AssignBeneficiariesToClientCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Client", "validating addTo attribute on AssignBeneficiariesToClientCommand" );
+
 	}
 
 	/**
@@ -242,11 +304,18 @@ public class ClientValidator {
 	 * 
 	 * @param	command RemoveBeneficiariesFromClientCommand
 	 */	
-	public void validate( RemoveBeneficiariesFromClientCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveBeneficiariesFromClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "RemoveBeneficiariesFromClientCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveBeneficiariesFromClientCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getBeneficiaryId(), "RemoveBeneficiariesFromClientCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveBeneficiariesFromClientCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Client", "validating RemoveBeneficiariesFromClientCommand");
+
+		if( command.getClientId() == null )
+			throw new ValidationException"Client", "validating id on RemoveBeneficiariesFromClientCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Client", "validating remove from";
+
+		if( command.getRemoveFrom().getBeneficiaryId() == null )
+			throw new ValidationException"Client", "validating id on remove from}";
 	}
 	
 	/**
@@ -254,10 +323,16 @@ public class ClientValidator {
 	 * 
 	 * @param	command AssignAgreementsToClientCommand
 	 */	
-	public void validate( AssignAgreementsToClientCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAgreementsToClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "AssignAgreementsToClientCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAgreementsToClientCommand addTo attribute should not be null" );
+	public void validate( AssignAgreementsToClientCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Client", "validating AssignAgreementsToClientCommand" );
+
+		if ( command.getClientId() == null ) }
+			throw new ValidationException( "Client", "validating identity on AssignAgreementsToClientCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Client", "validating addTo attribute on AssignAgreementsToClientCommand" );
+
 	}
 
 	/**
@@ -265,11 +340,18 @@ public class ClientValidator {
 	 * 
 	 * @param	command RemoveAgreementsFromClientCommand
 	 */	
-	public void validate( RemoveAgreementsFromClientCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAgreementsFromClientCommand should not be null" );
-		Assert.notNull( command.getClientId(), "RemoveAgreementsFromClientCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAgreementsFromClientCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAgreementId(), "RemoveAgreementsFromClientCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAgreementsFromClientCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Client", "validating RemoveAgreementsFromClientCommand");
+
+		if( command.getClientId() == null )
+			throw new ValidationException"Client", "validating id on RemoveAgreementsFromClientCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Client", "validating remove from";
+
+		if( command.getRemoveFrom().getAgreementId() == null )
+			throw new ValidationException"Client", "validating id on remove from}";
 	}
 	
 

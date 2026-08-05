@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>BeneficiaryValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class BeneficiaryValidator {
 		
 	/**
@@ -75,52 +78,59 @@ public class BeneficiaryValidator {
 	 */
 	protected BeneficiaryValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public BeneficiaryValidator getInstance() {
-		return new BeneficiaryValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Beneficiary
 	 */
-	public void validate( CreateBeneficiaryCommand beneficiary )throws Exception {
-		Assert.notNull( beneficiary, "CreateBeneficiaryCommand should not be null" );
+	public void validate( CreateBeneficiaryCommand beneficiary )throws ValidationException {
+		if ( beneficiary == null )
+			throw new ValidationException( "Beneficiary", "validating CreateBeneficiaryCommand" );
+
 //		Assert.isNull( beneficiary.getBeneficiaryId(), "CreateBeneficiaryCommand identifier should be null" );
-		Assert.notNull( beneficiary.getFirstName(), "Field CreateBeneficiaryCommand.firstName should not be null" );
-		Assert.notNull( beneficiary.getLastName(), "Field CreateBeneficiaryCommand.lastName should not be null" );
-		Assert.notNull( beneficiary.getRelationship(), "Field CreateBeneficiaryCommand.relationship should not be null" );
-		Assert.notNull( beneficiary.getAllocationPercent(), "Field CreateBeneficiaryCommand.allocationPercent should not be null" );
+		if ( beneficiary.getFirstName() == null )
+			throw new ValidationException( "Beneficiary", "validating access on getFirstName" );
+		if ( beneficiary.getLastName() == null )
+			throw new ValidationException( "Beneficiary", "validating access on getLastName" );
+		if ( beneficiary.getRelationship() == null )
+			throw new ValidationException( "Beneficiary", "validating access on getRelationship" );
+		if ( beneficiary.getAllocationPercent() == null )
+			throw new ValidationException( "Beneficiary", "validating access on getAllocationPercent" );
 	}
 
 	/**
 	 * handles update validation for a Beneficiary
 	 */
-	public void validate( UpdateBeneficiaryCommand beneficiary ) throws Exception {
-		Assert.notNull( beneficiary, "UpdateBeneficiaryCommand should not be null" );
-		Assert.notNull( beneficiary.getBeneficiaryId(), "UpdateBeneficiaryCommand identifier should not be null" );
-		Assert.notNull( beneficiary.getFirstName(), "Field UpdateBeneficiaryCommand.firstName should not be null" );
-		Assert.notNull( beneficiary.getLastName(), "Field UpdateBeneficiaryCommand.lastName should not be null" );
-		Assert.notNull( beneficiary.getRelationship(), "Field UpdateBeneficiaryCommand.relationship should not be null" );
-		Assert.notNull( beneficiary.getAllocationPercent(), "Field UpdateBeneficiaryCommand.allocationPercent should not be null" );
+	public void validate( UpdateBeneficiaryCommand beneficiary ) throws ValidationException {
+		if ( beneficiary == null )
+			throw new ValidationException( "Beneficiary", "validating UpdateBeneficiaryCommand" );
+		if ( beneficiary.getFirstName() == null )
+			throw new ValidationException( "Beneficiary", "validating method getFirstName" );
+		if ( beneficiary.getLastName() == null )
+			throw new ValidationException( "Beneficiary", "validating method getLastName" );
+		if ( beneficiary.getRelationship() == null )
+			throw new ValidationException( "Beneficiary", "validating method getRelationship" );
+		if ( beneficiary.getAllocationPercent() == null )
+			throw new ValidationException( "Beneficiary", "validating method getAllocationPercent" );
     }
 
 	/**
 	 * handles delete validation for a Beneficiary
 	 */
-    public void validate( DeleteBeneficiaryCommand beneficiary ) throws Exception {
-		Assert.notNull( beneficiary, "{commandAlias} should not be null" );
-		Assert.notNull( beneficiary.getBeneficiaryId(), "DeleteBeneficiaryCommand identifier should not be null" );
+    public void validate( DeleteBeneficiaryCommand beneficiary ) throws ValidationException {
+		if ( beneficiary == null )
+			throw new ValidationException( "Beneficiary", "validating DeleteBeneficiaryCommand" );
+
+		if ( beneficiary.getAllocationPercent() == null )
+			throw new ValidationException( "Beneficiary", "validating getAllocationPercent" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Beneficiary
 	 */
-	public void validate( BeneficiaryFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "BeneficiaryFetchOneSummary should not be null" );
-		Assert.notNull( summary.getBeneficiaryId(), "BeneficiaryFetchOneSummary identifier should not be null" );
+	public void validate( BeneficiaryFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Beneficiary", "validating summary );
 	}
 
 	/**
@@ -128,10 +138,16 @@ public class BeneficiaryValidator {
 	 * 
 	 * @param	command AssignClientToBeneficiaryCommand
 	 */	
-	public void validate( AssignClientToBeneficiaryCommand command ) throws Exception {
-		Assert.notNull( command, "AssignClientToBeneficiaryCommand should not be null" );
-		Assert.notNull( command.getBeneficiaryId(), "AssignClientToBeneficiaryCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignClientToBeneficiaryCommand assignment should not be null" );
+	public void validate( AssignClientToBeneficiaryCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Beneficiary", "validating AssignClientToBeneficiaryCommand" );
+
+		if ( command.getBeneficiaryId() == null )
+			throw new ValidationException( "Beneficiary", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Beneficiary", "validating assignment" );
+
 	}
 
 	/**
@@ -139,9 +155,12 @@ public class BeneficiaryValidator {
 	 * 
 	 * @param	command UnAssignClientFromBeneficiaryCommand
 	 */	
-	public void validate( UnAssignClientFromBeneficiaryCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignClientFromBeneficiaryCommand should not be null" );
-		Assert.notNull( command.getBeneficiaryId(), "UnAssignClientFromBeneficiaryCommand identifier should not be null" );
+	public void validate( UnAssignClientFromBeneficiaryCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Beneficiary", "validating UnAssignClientFromBeneficiaryCommand" );
+
+		if ( command.getBeneficiaryId() == null ) }
+			throw new ValidationException( "Beneficiary", "validating identity on UnAssignClientFromBeneficiaryCommand" );
 	}
 
 	/**
@@ -149,10 +168,16 @@ public class BeneficiaryValidator {
 	 * 
 	 * @param	command AssignAccountsToBeneficiaryCommand
 	 */	
-	public void validate( AssignAccountsToBeneficiaryCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountsToBeneficiaryCommand should not be null" );
-		Assert.notNull( command.getBeneficiaryId(), "AssignAccountsToBeneficiaryCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignAccountsToBeneficiaryCommand addTo attribute should not be null" );
+	public void validate( AssignAccountsToBeneficiaryCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Beneficiary", "validating AssignAccountsToBeneficiaryCommand" );
+
+		if ( command.getBeneficiaryId() == null ) }
+			throw new ValidationException( "Beneficiary", "validating identity on AssignAccountsToBeneficiaryCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Beneficiary", "validating addTo attribute on AssignAccountsToBeneficiaryCommand" );
+
 	}
 
 	/**
@@ -160,11 +185,18 @@ public class BeneficiaryValidator {
 	 * 
 	 * @param	command RemoveAccountsFromBeneficiaryCommand
 	 */	
-	public void validate( RemoveAccountsFromBeneficiaryCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveAccountsFromBeneficiaryCommand should not be null" );
-		Assert.notNull( command.getBeneficiaryId(), "RemoveAccountsFromBeneficiaryCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveAccountsFromBeneficiaryCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getAccountId(), "RemoveAccountsFromBeneficiaryCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveAccountsFromBeneficiaryCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Beneficiary", "validating RemoveAccountsFromBeneficiaryCommand");
+
+		if( command.getBeneficiaryId() == null )
+			throw new ValidationException"Beneficiary", "validating id on RemoveAccountsFromBeneficiaryCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Beneficiary", "validating remove from";
+
+		if( command.getRemoveFrom().getAccountId() == null )
+			throw new ValidationException"Beneficiary", "validating id on remove from}";
 	}
 	
 

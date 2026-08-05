@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class PositionRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Position create( @RequestBody(required=true) CreatePositionCommand command ) {
     	Position entity = null;
-		try {       
-        	
-			entity = service.createPosition( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createPosition( command );
+		LOGGER.info( "Successfully created Position with Id " + entity.getPositionId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class PositionRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Position update( @RequestBody(required=true) UpdatePositionCommand command ) {
 		Position entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdatePositionCommand
-			// -----------------------------------------------
-			entity = service.updatePosition(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "PositionController:update() - successfully update Position - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updatePosition(command);
+		LOGGER.info( "Successfully updated Position with Id " + command.getPositionId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class PositionRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeletePositionCommand command ) {                
-    	try {
-        	PositionService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Position with key " + command.getPositionId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Position with Id " + command.getPositionId()  );
+	}
 	
     /**
      * Handles loading a Position using a UUID
@@ -150,16 +133,10 @@ public class PositionRestController extends BaseSpringRestController {
      * @return		Position
      */    
     @GetMapping("/load")
-    public Position load( @RequestParam(required=true) UUID uuid ) {    	
-    	Position entity = null;
+    public Position load( @RequestParam(required=true) UUID uuid ) {
+    	Position entity = service.getPosition( new PositionFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getPosition( new PositionFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Position using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Position with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class PositionRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Position> loadAll() {                
     	List<Position> positionList = null;
-        
-    	try {
-            // load the Position
-            positionList = service.getAllPosition();
-            
-            if ( positionList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Positions" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Positions ", exc );
-        	return null;
-        }
+
+		positionList = service.getAllPosition();
+		LOGGER.log( Level.INFO,  "successfully loaded all Positions" );
 
         return positionList;
                             
@@ -194,12 +162,8 @@ public class PositionRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToPositionCommand command ) {
-		try {
-			service.assignPortfolio( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
-        }
+		service.assignPortfolio( command );
+		LOGGER.info( "Successfully assigned Portfolio with Id " + command.getPositionId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class PositionRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromPositionCommand command ) {
-		try {
-			service.unAssignPortfolio( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
-		}
+		service.unAssignPortfolio( command );
+		LOGGER.info( "Successfully unassigned Portfolio with Id " + command.getPositionId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class PositionRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignSecurity")
 	public void assignSecurity( @RequestBody AssignSecurityToPositionCommand command ) {
-		try {
-			service.assignSecurity( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Security", exc );
-        }
+		service.assignSecurity( command );
+		LOGGER.info( "Successfully assigned Security with Id " + command.getPositionId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class PositionRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignSecurity")
 	public void unAssignSecurity( @RequestBody(required=true)  UnAssignSecurityFromPositionCommand command ) {
-		try {
-			service.unAssignSecurity( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Security", exc );
-		}
+		service.unAssignSecurity( command );
+		LOGGER.info( "Successfully unassigned Security with Id " + command.getPositionId()  );
 	}
 	
 
@@ -251,12 +203,8 @@ public class PositionRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToTaxLots")
 	public void addToTaxLots( @RequestBody(required=true) AssignTaxLotsToPositionCommand command ) {
-		try {
-			service.addToTaxLots( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set TaxLots", exc );
-		}
+		service.addToTaxLots( command );
+		LOGGER.info( "Successfully added TaxLots with Id " + command.getPositionId()  );
 	}
 
     /**
@@ -266,12 +214,8 @@ public class PositionRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromTaxLots")
 	public void removeFromTaxLots( 	@RequestBody(required=true) RemoveTaxLotsFromPositionCommand command )
 	{		
-		try {
-			service.removeFromTaxLots( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set TaxLots", exc );
-		}
+		service.removeFromTaxLots( command );
+		LOGGER.info( "Successfully removed TaxLots with Id " + command.getPositionId()  );
 	}
 
     /**
@@ -280,12 +224,8 @@ public class PositionRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToTransactions")
 	public void addToTransactions( @RequestBody(required=true) AssignTransactionsToPositionCommand command ) {
-		try {
-			service.addToTransactions( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Transactions", exc );
-		}
+		service.addToTransactions( command );
+		LOGGER.info( "Successfully added Transactions with Id " + command.getPositionId()  );
 	}
 
     /**
@@ -295,12 +235,8 @@ public class PositionRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromTransactions")
 	public void removeFromTransactions( 	@RequestBody(required=true) RemoveTransactionsFromPositionCommand command )
 	{		
-		try {
-			service.removeFromTransactions( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Transactions", exc );
-		}
+		service.removeFromTransactions( command );
+		LOGGER.info( "Successfully removed Transactions with Id " + command.getPositionId()  );
 	}
 
 
@@ -311,6 +247,6 @@ public class PositionRestController extends BaseSpringRestController {
 //************************************************************************
     protected Position position = null;
 	protected PositionService service = null;
-    private static final Logger LOGGER = Logger.getLogger(PositionRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(PositionRestController.class.getName());
     
 }

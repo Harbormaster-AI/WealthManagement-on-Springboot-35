@@ -49,245 +49,245 @@ public class DocumentTest
     public DocumentTest(DocumentService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Document, through a DocumentTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on DocumentTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on DocumentTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on DocumentTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on DocumentTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Document.
      *
      * @return    Document
      */
     public Document testCreate() throws Throwable {
-        Document entity = null;
+    Document entity = null;
 
-        LOGGER.info( "DocumentTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Document");
+    LOGGER.info( "DocumentTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Document");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Document" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Document" );
 
-        try {            
-            entity = service.createDocument( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createDocument( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getDocumentId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getDocumentId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Document with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Document with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Document.
      *
-     * @return    Document  
+     * @return    Document
      */
     public Document testRead() throws Throwable {
-        LOGGER.info( "DocumentTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Document" );
+    LOGGER.info( "DocumentTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Document" );
 
-        Document entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Document with primary key" );
-        msg.append( theId );
+    Document entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Document with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getDocument( new DocumentFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getDocument( new DocumentFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getDocumentId();
-            
-            LOGGER.info( "-- Successfully found Document " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getDocumentId();
+
+        LOGGER.info( "-- Successfully found Document " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Document.
      *
      * @return    Document
      */
     public Document testUpdate() throws Throwable {
-        LOGGER.info( "DocumentTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Document." );
+    LOGGER.info( "DocumentTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Document." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Document : " );        
-        Document entity = null;
-    
-        try {            
-        	UpdateDocumentCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setDocumentId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Document : " );
+    Document entity = null;
 
-            LOGGER.info( "-- Now updating the created Document." );
-            
-            entity = service.updateDocument( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateDocumentCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Document - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setDocumentId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Document." );
+
+        entity = service.updateDocument( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Document - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Document.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "DocumentTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Document." );
-        
-        try {
-        	DeleteDocumentCommand deleteCommand = new DeleteDocumentCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Document with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Document with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "DocumentTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Document." );
 
-    /** 
+    try {
+        DeleteDocumentCommand deleteCommand = new DeleteDocumentCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Document with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Document with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Documents.
      *
      * @return    Collection
      */
-    public List<Document> testGetAll() throws Throwable {    
-        LOGGER.info( "DocumentTest:testGetAll() - Retrieving Collection of Documents:" );
+    public List<Document> testGetAll() throws Throwable {
+    LOGGER.info( "DocumentTest:testGetAll() - Retrieving Collection of Documents:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Document : " );        
-        List<Document> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Document : " );
+    List<Document> collection  = null;
 
-        try {
-            // call the static get method on the DocumentService
-            collection = service.getAllDocument();
+    try {
+        // call the static get method on the DocumentService
+        collection = service.getAllDocument();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Document currEntity  = null;            
-	            Iterator<Document> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getDocumentId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Document currEntity  = null;
+            Iterator<Document> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getDocumentId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public DocumentTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Document
-	 * 
-	 * @return CreateDocumentCommand alias
-	 */
+
+    /**
+     * Returns a new populated Document
+     *
+     * @return CreateDocumentCommand alias
+     */
 	protected CreateDocumentCommand generateNewCommand() {
-        CreateDocumentCommand command = new CreateDocumentCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  DocumentType.values()[0] );
-		
-		return( command );
-	}
+    CreateDocumentCommand command = new CreateDocumentCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  DocumentType.values()[0] );
 
-		/**
-		 * Returns a new populated Document
-		 * 
-		 * @return UpdateDocumentCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Document
+     *
+     * @return UpdateDocumentCommand alias
+     */
 	protected UpdateDocumentCommand generateUpdateCommand() {
-	        UpdateDocumentCommand command = new UpdateDocumentCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  null,  null,  null,  DocumentType.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateDocumentCommand command = new UpdateDocumentCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  null,  null,  null,  DocumentType.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected DocumentService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Document.class.getName());
 
 }

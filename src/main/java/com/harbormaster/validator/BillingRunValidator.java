@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>BillingRunValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class BillingRunValidator {
 		
 	/**
@@ -75,50 +78,55 @@ public class BillingRunValidator {
 	 */
 	protected BillingRunValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public BillingRunValidator getInstance() {
-		return new BillingRunValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a BillingRun
 	 */
-	public void validate( CreateBillingRunCommand billingRun )throws Exception {
-		Assert.notNull( billingRun, "CreateBillingRunCommand should not be null" );
+	public void validate( CreateBillingRunCommand billingRun )throws ValidationException {
+		if ( billingRun == null )
+			throw new ValidationException( "BillingRun", "validating CreateBillingRunCommand" );
+
 //		Assert.isNull( billingRun.getBillingRunId(), "CreateBillingRunCommand identifier should be null" );
-		Assert.notNull( billingRun.getRunDate(), "Field CreateBillingRunCommand.runDate should not be null" );
-		Assert.notNull( billingRun.getPeriodStart(), "Field CreateBillingRunCommand.periodStart should not be null" );
-		Assert.notNull( billingRun.getPeriodEnd(), "Field CreateBillingRunCommand.periodEnd should not be null" );
+		if ( billingRun.getRunDate() == null )
+			throw new ValidationException( "BillingRun", "validating access on getRunDate" );
+		if ( billingRun.getPeriodStart() == null )
+			throw new ValidationException( "BillingRun", "validating access on getPeriodStart" );
+		if ( billingRun.getPeriodEnd() == null )
+			throw new ValidationException( "BillingRun", "validating access on getPeriodEnd" );
 	}
 
 	/**
 	 * handles update validation for a BillingRun
 	 */
-	public void validate( UpdateBillingRunCommand billingRun ) throws Exception {
-		Assert.notNull( billingRun, "UpdateBillingRunCommand should not be null" );
-		Assert.notNull( billingRun.getBillingRunId(), "UpdateBillingRunCommand identifier should not be null" );
-		Assert.notNull( billingRun.getRunDate(), "Field UpdateBillingRunCommand.runDate should not be null" );
-		Assert.notNull( billingRun.getPeriodStart(), "Field UpdateBillingRunCommand.periodStart should not be null" );
-		Assert.notNull( billingRun.getPeriodEnd(), "Field UpdateBillingRunCommand.periodEnd should not be null" );
+	public void validate( UpdateBillingRunCommand billingRun ) throws ValidationException {
+		if ( billingRun == null )
+			throw new ValidationException( "BillingRun", "validating UpdateBillingRunCommand" );
+		if ( billingRun.getRunDate() == null )
+			throw new ValidationException( "BillingRun", "validating method getRunDate" );
+		if ( billingRun.getPeriodStart() == null )
+			throw new ValidationException( "BillingRun", "validating method getPeriodStart" );
+		if ( billingRun.getPeriodEnd() == null )
+			throw new ValidationException( "BillingRun", "validating method getPeriodEnd" );
     }
 
 	/**
 	 * handles delete validation for a BillingRun
 	 */
-    public void validate( DeleteBillingRunCommand billingRun ) throws Exception {
-		Assert.notNull( billingRun, "{commandAlias} should not be null" );
-		Assert.notNull( billingRun.getBillingRunId(), "DeleteBillingRunCommand identifier should not be null" );
+    public void validate( DeleteBillingRunCommand billingRun ) throws ValidationException {
+		if ( billingRun == null )
+			throw new ValidationException( "BillingRun", "validating DeleteBillingRunCommand" );
+
+		if ( billingRun.getPeriodEnd() == null )
+			throw new ValidationException( "BillingRun", "validating getPeriodEnd" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a BillingRun
 	 */
-	public void validate( BillingRunFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "BillingRunFetchOneSummary should not be null" );
-		Assert.notNull( summary.getBillingRunId(), "BillingRunFetchOneSummary identifier should not be null" );
+	public void validate( BillingRunFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "BillingRun", "validating summary );
 	}
 
 	/**
@@ -126,10 +134,16 @@ public class BillingRunValidator {
 	 * 
 	 * @param	command AssignFeeScheduleToBillingRunCommand
 	 */	
-	public void validate( AssignFeeScheduleToBillingRunCommand command ) throws Exception {
-		Assert.notNull( command, "AssignFeeScheduleToBillingRunCommand should not be null" );
-		Assert.notNull( command.getBillingRunId(), "AssignFeeScheduleToBillingRunCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignFeeScheduleToBillingRunCommand assignment should not be null" );
+	public void validate( AssignFeeScheduleToBillingRunCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "BillingRun", "validating AssignFeeScheduleToBillingRunCommand" );
+
+		if ( command.getBillingRunId() == null )
+			throw new ValidationException( "BillingRun", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "BillingRun", "validating assignment" );
+
 	}
 
 	/**
@@ -137,9 +151,12 @@ public class BillingRunValidator {
 	 * 
 	 * @param	command UnAssignFeeScheduleFromBillingRunCommand
 	 */	
-	public void validate( UnAssignFeeScheduleFromBillingRunCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignFeeScheduleFromBillingRunCommand should not be null" );
-		Assert.notNull( command.getBillingRunId(), "UnAssignFeeScheduleFromBillingRunCommand identifier should not be null" );
+	public void validate( UnAssignFeeScheduleFromBillingRunCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "BillingRun", "validating UnAssignFeeScheduleFromBillingRunCommand" );
+
+		if ( command.getBillingRunId() == null ) }
+			throw new ValidationException( "BillingRun", "validating identity on UnAssignFeeScheduleFromBillingRunCommand" );
 	}
 
 	/**
@@ -147,10 +164,16 @@ public class BillingRunValidator {
 	 * 
 	 * @param	command AssignInvoicesToBillingRunCommand
 	 */	
-	public void validate( AssignInvoicesToBillingRunCommand command ) throws Exception {
-		Assert.notNull( command, "AssignInvoicesToBillingRunCommand should not be null" );
-		Assert.notNull( command.getBillingRunId(), "AssignInvoicesToBillingRunCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignInvoicesToBillingRunCommand addTo attribute should not be null" );
+	public void validate( AssignInvoicesToBillingRunCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "BillingRun", "validating AssignInvoicesToBillingRunCommand" );
+
+		if ( command.getBillingRunId() == null ) }
+			throw new ValidationException( "BillingRun", "validating identity on AssignInvoicesToBillingRunCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "BillingRun", "validating addTo attribute on AssignInvoicesToBillingRunCommand" );
+
 	}
 
 	/**
@@ -158,11 +181,18 @@ public class BillingRunValidator {
 	 * 
 	 * @param	command RemoveInvoicesFromBillingRunCommand
 	 */	
-	public void validate( RemoveInvoicesFromBillingRunCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveInvoicesFromBillingRunCommand should not be null" );
-		Assert.notNull( command.getBillingRunId(), "RemoveInvoicesFromBillingRunCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveInvoicesFromBillingRunCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getInvoiceId(), "RemoveInvoicesFromBillingRunCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveInvoicesFromBillingRunCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("BillingRun", "validating RemoveInvoicesFromBillingRunCommand");
+
+		if( command.getBillingRunId() == null )
+			throw new ValidationException"BillingRun", "validating id on RemoveInvoicesFromBillingRunCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"BillingRun", "validating remove from";
+
+		if( command.getRemoveFrom().getInvoiceId() == null )
+			throw new ValidationException"BillingRun", "validating id on remove from}";
 	}
 	
 

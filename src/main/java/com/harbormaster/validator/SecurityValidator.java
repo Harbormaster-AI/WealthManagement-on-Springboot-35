@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>SecurityValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -74,6 +76,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class SecurityValidator {
 		
 	/**
@@ -81,56 +84,67 @@ public class SecurityValidator {
 	 */
 	protected SecurityValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public SecurityValidator getInstance() {
-		return new SecurityValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Security
 	 */
-	public void validate( CreateSecurityCommand security )throws Exception {
-		Assert.notNull( security, "CreateSecurityCommand should not be null" );
+	public void validate( CreateSecurityCommand security )throws ValidationException {
+		if ( security == null )
+			throw new ValidationException( "Security", "validating CreateSecurityCommand" );
+
 //		Assert.isNull( security.getSecurityId(), "CreateSecurityCommand identifier should be null" );
-		Assert.notNull( security.getTicker(), "Field CreateSecurityCommand.ticker should not be null" );
-		Assert.notNull( security.getName(), "Field CreateSecurityCommand.name should not be null" );
-		Assert.notNull( security.getCurrency(), "Field CreateSecurityCommand.currency should not be null" );
-		Assert.notNull( security.getIsin(), "Field CreateSecurityCommand.isin should not be null" );
-		Assert.notNull( security.getCusip(), "Field CreateSecurityCommand.cusip should not be null" );
-		Assert.notNull( security.getExpenseRatio(), "Field CreateSecurityCommand.expenseRatio should not be null" );
+		if ( security.getTicker() == null )
+			throw new ValidationException( "Security", "validating access on getTicker" );
+		if ( security.getName() == null )
+			throw new ValidationException( "Security", "validating access on getName" );
+		if ( security.getCurrency() == null )
+			throw new ValidationException( "Security", "validating access on getCurrency" );
+		if ( security.getIsin() == null )
+			throw new ValidationException( "Security", "validating access on getIsin" );
+		if ( security.getCusip() == null )
+			throw new ValidationException( "Security", "validating access on getCusip" );
+		if ( security.getExpenseRatio() == null )
+			throw new ValidationException( "Security", "validating access on getExpenseRatio" );
 	}
 
 	/**
 	 * handles update validation for a Security
 	 */
-	public void validate( UpdateSecurityCommand security ) throws Exception {
-		Assert.notNull( security, "UpdateSecurityCommand should not be null" );
-		Assert.notNull( security.getSecurityId(), "UpdateSecurityCommand identifier should not be null" );
-		Assert.notNull( security.getTicker(), "Field UpdateSecurityCommand.ticker should not be null" );
-		Assert.notNull( security.getName(), "Field UpdateSecurityCommand.name should not be null" );
-		Assert.notNull( security.getCurrency(), "Field UpdateSecurityCommand.currency should not be null" );
-		Assert.notNull( security.getIsin(), "Field UpdateSecurityCommand.isin should not be null" );
-		Assert.notNull( security.getCusip(), "Field UpdateSecurityCommand.cusip should not be null" );
-		Assert.notNull( security.getExpenseRatio(), "Field UpdateSecurityCommand.expenseRatio should not be null" );
+	public void validate( UpdateSecurityCommand security ) throws ValidationException {
+		if ( security == null )
+			throw new ValidationException( "Security", "validating UpdateSecurityCommand" );
+		if ( security.getTicker() == null )
+			throw new ValidationException( "Security", "validating method getTicker" );
+		if ( security.getName() == null )
+			throw new ValidationException( "Security", "validating method getName" );
+		if ( security.getCurrency() == null )
+			throw new ValidationException( "Security", "validating method getCurrency" );
+		if ( security.getIsin() == null )
+			throw new ValidationException( "Security", "validating method getIsin" );
+		if ( security.getCusip() == null )
+			throw new ValidationException( "Security", "validating method getCusip" );
+		if ( security.getExpenseRatio() == null )
+			throw new ValidationException( "Security", "validating method getExpenseRatio" );
     }
 
 	/**
 	 * handles delete validation for a Security
 	 */
-    public void validate( DeleteSecurityCommand security ) throws Exception {
-		Assert.notNull( security, "{commandAlias} should not be null" );
-		Assert.notNull( security.getSecurityId(), "DeleteSecurityCommand identifier should not be null" );
+    public void validate( DeleteSecurityCommand security ) throws ValidationException {
+		if ( security == null )
+			throw new ValidationException( "Security", "validating DeleteSecurityCommand" );
+
+		if ( security.getExpenseRatio() == null )
+			throw new ValidationException( "Security", "validating getExpenseRatio" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Security
 	 */
-	public void validate( SecurityFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "SecurityFetchOneSummary should not be null" );
-		Assert.notNull( summary.getSecurityId(), "SecurityFetchOneSummary identifier should not be null" );
+	public void validate( SecurityFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Security", "validating summary );
 	}
 
 
@@ -139,10 +153,16 @@ public class SecurityValidator {
 	 * 
 	 * @param	command AssignCorporateActionsToSecurityCommand
 	 */	
-	public void validate( AssignCorporateActionsToSecurityCommand command ) throws Exception {
-		Assert.notNull( command, "AssignCorporateActionsToSecurityCommand should not be null" );
-		Assert.notNull( command.getSecurityId(), "AssignCorporateActionsToSecurityCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignCorporateActionsToSecurityCommand addTo attribute should not be null" );
+	public void validate( AssignCorporateActionsToSecurityCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Security", "validating AssignCorporateActionsToSecurityCommand" );
+
+		if ( command.getSecurityId() == null ) }
+			throw new ValidationException( "Security", "validating identity on AssignCorporateActionsToSecurityCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Security", "validating addTo attribute on AssignCorporateActionsToSecurityCommand" );
+
 	}
 
 	/**
@@ -150,11 +170,18 @@ public class SecurityValidator {
 	 * 
 	 * @param	command RemoveCorporateActionsFromSecurityCommand
 	 */	
-	public void validate( RemoveCorporateActionsFromSecurityCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveCorporateActionsFromSecurityCommand should not be null" );
-		Assert.notNull( command.getSecurityId(), "RemoveCorporateActionsFromSecurityCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveCorporateActionsFromSecurityCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getCorporateActionId(), "RemoveCorporateActionsFromSecurityCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveCorporateActionsFromSecurityCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Security", "validating RemoveCorporateActionsFromSecurityCommand");
+
+		if( command.getSecurityId() == null )
+			throw new ValidationException"Security", "validating id on RemoveCorporateActionsFromSecurityCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Security", "validating remove from";
+
+		if( command.getRemoveFrom().getCorporateActionId() == null )
+			throw new ValidationException"Security", "validating id on remove from}";
 	}
 	
 	/**
@@ -162,10 +189,16 @@ public class SecurityValidator {
 	 * 
 	 * @param	command AssignPricesToSecurityCommand
 	 */	
-	public void validate( AssignPricesToSecurityCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPricesToSecurityCommand should not be null" );
-		Assert.notNull( command.getSecurityId(), "AssignPricesToSecurityCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignPricesToSecurityCommand addTo attribute should not be null" );
+	public void validate( AssignPricesToSecurityCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Security", "validating AssignPricesToSecurityCommand" );
+
+		if ( command.getSecurityId() == null ) }
+			throw new ValidationException( "Security", "validating identity on AssignPricesToSecurityCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Security", "validating addTo attribute on AssignPricesToSecurityCommand" );
+
 	}
 
 	/**
@@ -173,11 +206,18 @@ public class SecurityValidator {
 	 * 
 	 * @param	command RemovePricesFromSecurityCommand
 	 */	
-	public void validate( RemovePricesFromSecurityCommand command ) throws Exception {
-		Assert.notNull( command, "RemovePricesFromSecurityCommand should not be null" );
-		Assert.notNull( command.getSecurityId(), "RemovePricesFromSecurityCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemovePricesFromSecurityCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getMarketPriceId(), "RemovePricesFromSecurityCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemovePricesFromSecurityCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Security", "validating RemovePricesFromSecurityCommand");
+
+		if( command.getSecurityId() == null )
+			throw new ValidationException"Security", "validating id on RemovePricesFromSecurityCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Security", "validating remove from";
+
+		if( command.getRemoveFrom().getMarketPriceId() == null )
+			throw new ValidationException"Security", "validating id on remove from}";
 	}
 	
 	/**
@@ -185,10 +225,16 @@ public class SecurityValidator {
 	 * 
 	 * @param	command AssignBenchmarksToSecurityCommand
 	 */	
-	public void validate( AssignBenchmarksToSecurityCommand command ) throws Exception {
-		Assert.notNull( command, "AssignBenchmarksToSecurityCommand should not be null" );
-		Assert.notNull( command.getSecurityId(), "AssignBenchmarksToSecurityCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignBenchmarksToSecurityCommand addTo attribute should not be null" );
+	public void validate( AssignBenchmarksToSecurityCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Security", "validating AssignBenchmarksToSecurityCommand" );
+
+		if ( command.getSecurityId() == null ) }
+			throw new ValidationException( "Security", "validating identity on AssignBenchmarksToSecurityCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Security", "validating addTo attribute on AssignBenchmarksToSecurityCommand" );
+
 	}
 
 	/**
@@ -196,11 +242,18 @@ public class SecurityValidator {
 	 * 
 	 * @param	command RemoveBenchmarksFromSecurityCommand
 	 */	
-	public void validate( RemoveBenchmarksFromSecurityCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveBenchmarksFromSecurityCommand should not be null" );
-		Assert.notNull( command.getSecurityId(), "RemoveBenchmarksFromSecurityCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveBenchmarksFromSecurityCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getBenchmarkId(), "RemoveBenchmarksFromSecurityCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveBenchmarksFromSecurityCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Security", "validating RemoveBenchmarksFromSecurityCommand");
+
+		if( command.getSecurityId() == null )
+			throw new ValidationException"Security", "validating id on RemoveBenchmarksFromSecurityCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Security", "validating remove from";
+
+		if( command.getRemoveFrom().getBenchmarkId() == null )
+			throw new ValidationException"Security", "validating id on remove from}";
 	}
 	
 

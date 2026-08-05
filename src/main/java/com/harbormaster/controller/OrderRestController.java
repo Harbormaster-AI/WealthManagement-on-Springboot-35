@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class OrderRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Order create( @RequestBody(required=true) CreateOrderCommand command ) {
     	Order entity = null;
-		try {       
-        	
-			entity = service.createOrder( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createOrder( command );
+		LOGGER.info( "Successfully created Order with Id " + entity.getOrderId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class OrderRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Order update( @RequestBody(required=true) UpdateOrderCommand command ) {
 		Order entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateOrderCommand
-			// -----------------------------------------------
-			entity = service.updateOrder(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "OrderController:update() - successfully update Order - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateOrder(command);
+		LOGGER.info( "Successfully updated Order with Id " + command.getOrderId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class OrderRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteOrderCommand command ) {                
-    	try {
-        	OrderService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Order with key " + command.getOrderId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Order with Id " + command.getOrderId()  );
+	}
 	
     /**
      * Handles loading a Order using a UUID
@@ -150,16 +133,10 @@ public class OrderRestController extends BaseSpringRestController {
      * @return		Order
      */    
     @GetMapping("/load")
-    public Order load( @RequestParam(required=true) UUID uuid ) {    	
-    	Order entity = null;
+    public Order load( @RequestParam(required=true) UUID uuid ) {
+    	Order entity = service.getOrder( new OrderFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getOrder( new OrderFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Order using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Order with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class OrderRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Order> loadAll() {                
     	List<Order> orderList = null;
-        
-    	try {
-            // load the Order
-            orderList = service.getAllOrder();
-            
-            if ( orderList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Orders" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Orders ", exc );
-        	return null;
-        }
+
+		orderList = service.getAllOrder();
+		LOGGER.log( Level.INFO,  "successfully loaded all Orders" );
 
         return orderList;
                             
@@ -194,12 +162,8 @@ public class OrderRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToOrderCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getOrderId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class OrderRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromOrderCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getOrderId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class OrderRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignSecurity")
 	public void assignSecurity( @RequestBody AssignSecurityToOrderCommand command ) {
-		try {
-			service.assignSecurity( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Security", exc );
-        }
+		service.assignSecurity( command );
+		LOGGER.info( "Successfully assigned Security with Id " + command.getOrderId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class OrderRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignSecurity")
 	public void unAssignSecurity( @RequestBody(required=true)  UnAssignSecurityFromOrderCommand command ) {
-		try {
-			service.unAssignSecurity( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Security", exc );
-		}
+		service.unAssignSecurity( command );
+		LOGGER.info( "Successfully unassigned Security with Id " + command.getOrderId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class OrderRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToOrderCommand command ) {
-		try {
-			service.assignAdvisor( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
-        }
+		service.assignAdvisor( command );
+		LOGGER.info( "Successfully assigned Advisor with Id " + command.getOrderId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class OrderRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromOrderCommand command ) {
-		try {
-			service.unAssignAdvisor( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
-		}
+		service.unAssignAdvisor( command );
+		LOGGER.info( "Successfully unassigned Advisor with Id " + command.getOrderId()  );
 	}
 	
 
@@ -279,12 +223,8 @@ public class OrderRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAllocations")
 	public void addToAllocations( @RequestBody(required=true) AssignAllocationsToOrderCommand command ) {
-		try {
-			service.addToAllocations( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Allocations", exc );
-		}
+		service.addToAllocations( command );
+		LOGGER.info( "Successfully added Allocations with Id " + command.getOrderId()  );
 	}
 
     /**
@@ -294,12 +234,8 @@ public class OrderRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAllocations")
 	public void removeFromAllocations( 	@RequestBody(required=true) RemoveAllocationsFromOrderCommand command )
 	{		
-		try {
-			service.removeFromAllocations( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Allocations", exc );
-		}
+		service.removeFromAllocations( command );
+		LOGGER.info( "Successfully removed Allocations with Id " + command.getOrderId()  );
 	}
 
     /**
@@ -308,12 +244,8 @@ public class OrderRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToTrades")
 	public void addToTrades( @RequestBody(required=true) AssignTradesToOrderCommand command ) {
-		try {
-			service.addToTrades( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Trades", exc );
-		}
+		service.addToTrades( command );
+		LOGGER.info( "Successfully added Trades with Id " + command.getOrderId()  );
 	}
 
     /**
@@ -323,12 +255,8 @@ public class OrderRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromTrades")
 	public void removeFromTrades( 	@RequestBody(required=true) RemoveTradesFromOrderCommand command )
 	{		
-		try {
-			service.removeFromTrades( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Trades", exc );
-		}
+		service.removeFromTrades( command );
+		LOGGER.info( "Successfully removed Trades with Id " + command.getOrderId()  );
 	}
 
 
@@ -339,6 +267,6 @@ public class OrderRestController extends BaseSpringRestController {
 //************************************************************************
     protected Order order = null;
 	protected OrderService service = null;
-    private static final Logger LOGGER = Logger.getLogger(OrderRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderRestController.class.getName());
     
 }

@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>MeetingValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class MeetingValidator {
 		
 	/**
@@ -77,52 +80,59 @@ public class MeetingValidator {
 	 */
 	protected MeetingValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public MeetingValidator getInstance() {
-		return new MeetingValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Meeting
 	 */
-	public void validate( CreateMeetingCommand meeting )throws Exception {
-		Assert.notNull( meeting, "CreateMeetingCommand should not be null" );
+	public void validate( CreateMeetingCommand meeting )throws ValidationException {
+		if ( meeting == null )
+			throw new ValidationException( "Meeting", "validating CreateMeetingCommand" );
+
 //		Assert.isNull( meeting.getMeetingId(), "CreateMeetingCommand identifier should be null" );
-		Assert.notNull( meeting.getMeetingDate(), "Field CreateMeetingCommand.meetingDate should not be null" );
-		Assert.notNull( meeting.getLocation(), "Field CreateMeetingCommand.location should not be null" );
-		Assert.notNull( meeting.getSubject(), "Field CreateMeetingCommand.subject should not be null" );
-		Assert.notNull( meeting.getNotes(), "Field CreateMeetingCommand.notes should not be null" );
+		if ( meeting.getMeetingDate() == null )
+			throw new ValidationException( "Meeting", "validating access on getMeetingDate" );
+		if ( meeting.getLocation() == null )
+			throw new ValidationException( "Meeting", "validating access on getLocation" );
+		if ( meeting.getSubject() == null )
+			throw new ValidationException( "Meeting", "validating access on getSubject" );
+		if ( meeting.getNotes() == null )
+			throw new ValidationException( "Meeting", "validating access on getNotes" );
 	}
 
 	/**
 	 * handles update validation for a Meeting
 	 */
-	public void validate( UpdateMeetingCommand meeting ) throws Exception {
-		Assert.notNull( meeting, "UpdateMeetingCommand should not be null" );
-		Assert.notNull( meeting.getMeetingId(), "UpdateMeetingCommand identifier should not be null" );
-		Assert.notNull( meeting.getMeetingDate(), "Field UpdateMeetingCommand.meetingDate should not be null" );
-		Assert.notNull( meeting.getLocation(), "Field UpdateMeetingCommand.location should not be null" );
-		Assert.notNull( meeting.getSubject(), "Field UpdateMeetingCommand.subject should not be null" );
-		Assert.notNull( meeting.getNotes(), "Field UpdateMeetingCommand.notes should not be null" );
+	public void validate( UpdateMeetingCommand meeting ) throws ValidationException {
+		if ( meeting == null )
+			throw new ValidationException( "Meeting", "validating UpdateMeetingCommand" );
+		if ( meeting.getMeetingDate() == null )
+			throw new ValidationException( "Meeting", "validating method getMeetingDate" );
+		if ( meeting.getLocation() == null )
+			throw new ValidationException( "Meeting", "validating method getLocation" );
+		if ( meeting.getSubject() == null )
+			throw new ValidationException( "Meeting", "validating method getSubject" );
+		if ( meeting.getNotes() == null )
+			throw new ValidationException( "Meeting", "validating method getNotes" );
     }
 
 	/**
 	 * handles delete validation for a Meeting
 	 */
-    public void validate( DeleteMeetingCommand meeting ) throws Exception {
-		Assert.notNull( meeting, "{commandAlias} should not be null" );
-		Assert.notNull( meeting.getMeetingId(), "DeleteMeetingCommand identifier should not be null" );
+    public void validate( DeleteMeetingCommand meeting ) throws ValidationException {
+		if ( meeting == null )
+			throw new ValidationException( "Meeting", "validating DeleteMeetingCommand" );
+
+		if ( meeting.getNotes() == null )
+			throw new ValidationException( "Meeting", "validating getNotes" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Meeting
 	 */
-	public void validate( MeetingFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "MeetingFetchOneSummary should not be null" );
-		Assert.notNull( summary.getMeetingId(), "MeetingFetchOneSummary identifier should not be null" );
+	public void validate( MeetingFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Meeting", "validating summary );
 	}
 
 	/**
@@ -130,10 +140,16 @@ public class MeetingValidator {
 	 * 
 	 * @param	command AssignHouseholdToMeetingCommand
 	 */	
-	public void validate( AssignHouseholdToMeetingCommand command ) throws Exception {
-		Assert.notNull( command, "AssignHouseholdToMeetingCommand should not be null" );
-		Assert.notNull( command.getMeetingId(), "AssignHouseholdToMeetingCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignHouseholdToMeetingCommand assignment should not be null" );
+	public void validate( AssignHouseholdToMeetingCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Meeting", "validating AssignHouseholdToMeetingCommand" );
+
+		if ( command.getMeetingId() == null )
+			throw new ValidationException( "Meeting", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Meeting", "validating assignment" );
+
 	}
 
 	/**
@@ -141,19 +157,28 @@ public class MeetingValidator {
 	 * 
 	 * @param	command UnAssignHouseholdFromMeetingCommand
 	 */	
-	public void validate( UnAssignHouseholdFromMeetingCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignHouseholdFromMeetingCommand should not be null" );
-		Assert.notNull( command.getMeetingId(), "UnAssignHouseholdFromMeetingCommand identifier should not be null" );
+	public void validate( UnAssignHouseholdFromMeetingCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Meeting", "validating UnAssignHouseholdFromMeetingCommand" );
+
+		if ( command.getMeetingId() == null ) }
+			throw new ValidationException( "Meeting", "validating identity on UnAssignHouseholdFromMeetingCommand" );
 	}
 	/**
 	 * handles assign Advisor validation for a Meeting
 	 * 
 	 * @param	command AssignAdvisorToMeetingCommand
 	 */	
-	public void validate( AssignAdvisorToMeetingCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorToMeetingCommand should not be null" );
-		Assert.notNull( command.getMeetingId(), "AssignAdvisorToMeetingCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisorToMeetingCommand assignment should not be null" );
+	public void validate( AssignAdvisorToMeetingCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Meeting", "validating AssignAdvisorToMeetingCommand" );
+
+		if ( command.getMeetingId() == null )
+			throw new ValidationException( "Meeting", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Meeting", "validating assignment" );
+
 	}
 
 	/**
@@ -161,9 +186,12 @@ public class MeetingValidator {
 	 * 
 	 * @param	command UnAssignAdvisorFromMeetingCommand
 	 */	
-	public void validate( UnAssignAdvisorFromMeetingCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisorFromMeetingCommand should not be null" );
-		Assert.notNull( command.getMeetingId(), "UnAssignAdvisorFromMeetingCommand identifier should not be null" );
+	public void validate( UnAssignAdvisorFromMeetingCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Meeting", "validating UnAssignAdvisorFromMeetingCommand" );
+
+		if ( command.getMeetingId() == null ) }
+			throw new ValidationException( "Meeting", "validating identity on UnAssignAdvisorFromMeetingCommand" );
 	}
 
 	/**
@@ -171,10 +199,16 @@ public class MeetingValidator {
 	 * 
 	 * @param	command AssignDocumentsToMeetingCommand
 	 */	
-	public void validate( AssignDocumentsToMeetingCommand command ) throws Exception {
-		Assert.notNull( command, "AssignDocumentsToMeetingCommand should not be null" );
-		Assert.notNull( command.getMeetingId(), "AssignDocumentsToMeetingCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignDocumentsToMeetingCommand addTo attribute should not be null" );
+	public void validate( AssignDocumentsToMeetingCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Meeting", "validating AssignDocumentsToMeetingCommand" );
+
+		if ( command.getMeetingId() == null ) }
+			throw new ValidationException( "Meeting", "validating identity on AssignDocumentsToMeetingCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "Meeting", "validating addTo attribute on AssignDocumentsToMeetingCommand" );
+
 	}
 
 	/**
@@ -182,11 +216,18 @@ public class MeetingValidator {
 	 * 
 	 * @param	command RemoveDocumentsFromMeetingCommand
 	 */	
-	public void validate( RemoveDocumentsFromMeetingCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveDocumentsFromMeetingCommand should not be null" );
-		Assert.notNull( command.getMeetingId(), "RemoveDocumentsFromMeetingCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveDocumentsFromMeetingCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getDocumentId(), "RemoveDocumentsFromMeetingCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveDocumentsFromMeetingCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("Meeting", "validating RemoveDocumentsFromMeetingCommand");
+
+		if( command.getMeetingId() == null )
+			throw new ValidationException"Meeting", "validating id on RemoveDocumentsFromMeetingCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"Meeting", "validating remove from";
+
+		if( command.getRemoveFrom().getDocumentId() == null )
+			throw new ValidationException"Meeting", "validating id on remove from}";
 	}
 	
 

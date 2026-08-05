@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class OrderService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public OrderService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new OrderEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(OrderRepository.class) );
+		}
 
-    	projector 		= new OrderEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(OrderRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Order
+		 */
+			public Order createOrder( CreateOrderCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Order
-    */
-	public Order createOrder( CreateOrderCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Order entity = new Order();
 
-		Order entity = new Order();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	OrderValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
 
             entity.setOrderId( command.getOrderId() );
             entity.setOrderNumber( command.getOrderNumber() );
@@ -139,44 +137,44 @@ extends BaseService {
             entity.setPriceType( command.getPriceType() );
             entity.setTimeInForce( command.getTimeInForce() );
             entity.setStatus( command.getStatus() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Order {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Order - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateOrderCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Order
-    */
-    public Order updateOrder( UpdateOrderCommand command ) 
+				LOGGER.info( "done creating of Order {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Order - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateOrderCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Order
+		 */
+		public Order updateOrder( UpdateOrderCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Order entity = new Order();
+			Order entity = new Order();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	OrderValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
 
             entity.setOrderId( command.getOrderId() );
             entity.setOrderNumber( command.getOrderNumber() );
@@ -192,377 +190,377 @@ extends BaseService {
             entity.setPriceType( command.getPriceType() );
             entity.setTimeInForce( command.getTimeInForce() );
             entity.setStatus( command.getStatus() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Order {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Order - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteOrderCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteOrderCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	OrderValidator.getInstance().validate( command );    
-        
-        	id = command.getOrderId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Order {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Order using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Order {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Order - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Order via OrderFetchOneSummary
-     * @param 	summary OrderFetchOneSummary 
-     * @return 	OrderFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteOrderCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteOrderCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
+
+				id = command.getOrderId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Order {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Order using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Order via OrderFetchOneSummary
+		 * @param 	summary OrderFetchOneSummary
+		 * @return 	OrderFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Order getOrder( OrderFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "OrderFetchOneSummary arg cannot be null" );
-    	
-    	Order entity = null;
-    	UUID id = summary.getOrderId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	OrderValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Order using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Order with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "OrderFetchOneSummary arg cannot be null" );
+
+			Order entity = null;
+			UUID id = summary.getOrderId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				OrderValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Order using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Order with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Orders
-     *
-     * @return 	List<Order> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Orders
+		 *
+		 * @return 	List<Order>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Order> getAllOrder() 
     throws ProcessingException {
-        List<Order> list = null;
+			List<Order> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllOrderQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Order";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllOrderQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Order";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Account on Order
-     * @param		command AssignAccountToOrderCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToOrderCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getOrderId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getOrderId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on Order
-     * @param		command UnAssignAccountFromOrderCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromOrderCommand command ) throws ProcessingException {
+		/**
+		 * assign Account on Order
+		 * @param		command AssignAccountToOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToOrderCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getOrderId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getOrderId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Account on Order
+		 * @param		command UnAssignAccountFromOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromOrderCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getOrderId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on Order";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getOrderId());
+		/**
+		 * assign Security on Order
+		 * @param		command AssignSecurityToOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignSecurity( AssignSecurityToOrderCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignSecurity(command.getOrderId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Security using id " + command.getOrderId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on Order";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Security on Order
+		 * @param		command UnAssignSecurityFromOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignSecurity( UnAssignSecurityFromOrderCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignSecurity(command.getOrderId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Security on Order";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign Security on Order
-     * @param		command AssignSecurityToOrderCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignSecurity( AssignSecurityToOrderCommand command ) throws ProcessingException {
+		/**
+		 * assign Advisor on Order
+		 * @param		command AssignAdvisorToOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAdvisor( AssignAdvisorToOrderCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignSecurity(command.getOrderId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAdvisor(command.getOrderId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Advisor using id " + command.getOrderId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Security using id " + command.getOrderId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Security on Order
-     * @param		command UnAssignSecurityFromOrderCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignSecurity( UnAssignSecurityFromOrderCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Advisor on Order
+		 * @param		command UnAssignAdvisorFromOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAdvisor( UnAssignAdvisorFromOrderCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignSecurity(command.getOrderId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAdvisor(command.getOrderId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Advisor on Order";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Security on Order";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Advisor on Order
-     * @param		command AssignAdvisorToOrderCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAdvisor( AssignAdvisorToOrderCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAdvisor(command.getOrderId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Advisor using id " + command.getOrderId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign Advisor on Order
-     * @param		command UnAssignAdvisorFromOrderCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAdvisor( UnAssignAdvisorFromOrderCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAdvisor(command.getOrderId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Advisor on Order";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
-    /**
-     * add OrderAllocation to Allocations 
-     * @param		command AssignAllocationsToOrderCommand
-     * @exception	ProcessingException
-     */     
-	public void addToAllocations( AssignAllocationsToOrderCommand command ) throws ProcessingException {
+		/**
+		 * add OrderAllocation to Allocations
+		 * @param		command AssignAllocationsToOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToAllocations( AssignAllocationsToOrderCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToAllocations(command.getOrderId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a OrderAllocation as Allocations to Order" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove OrderAllocation from Allocations
-     * @param		command RemoveAllocationsFromOrderCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromAllocations( RemoveAllocationsFromOrderCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromAllocations(command.getOrderId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToAllocations(command.getOrderId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a OrderAllocation as Allocations to Order" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getOrderId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Trade to Trades 
-     * @param		command AssignTradesToOrderCommand
-     * @exception	ProcessingException
-     */     
-	public void addToTrades( AssignTradesToOrderCommand command ) throws ProcessingException {
+		/**
+		 * remove OrderAllocation from Allocations
+		 * @param		command RemoveAllocationsFromOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromAllocations( RemoveAllocationsFromOrderCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToTrades(command.getOrderId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Trade as Trades to Order" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromAllocations(command.getOrderId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getOrderId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add Trade to Trades
+		 * @param		command AssignTradesToOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToTrades( AssignTradesToOrderCommand command ) throws ProcessingException {
 
-    /**
-     * remove Trade from Trades
-     * @param		command RemoveTradesFromOrderCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromTrades( RemoveTradesFromOrderCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromTrades(command.getOrderId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToTrades(command.getOrderId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Trade as Trades to Order" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getOrderId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove Trade from Trades
+		 * @param		command RemoveTradesFromOrderCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromTrades( RemoveTradesFromOrderCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromTrades(command.getOrderId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getOrderId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -575,5 +573,5 @@ extends BaseService {
     private final OrderEntityProjector projector;
 	private Order order 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderService.class);
 }

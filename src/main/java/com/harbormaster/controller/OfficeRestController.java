@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class OfficeRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Office create( @RequestBody(required=true) CreateOfficeCommand command ) {
     	Office entity = null;
-		try {       
-        	
-			entity = service.createOffice( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createOffice( command );
+		LOGGER.info( "Successfully created Office with Id " + entity.getOfficeId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class OfficeRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Office update( @RequestBody(required=true) UpdateOfficeCommand command ) {
 		Office entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateOfficeCommand
-			// -----------------------------------------------
-			entity = service.updateOffice(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "OfficeController:update() - successfully update Office - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateOffice(command);
+		LOGGER.info( "Successfully updated Office with Id " + command.getOfficeId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class OfficeRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteOfficeCommand command ) {                
-    	try {
-        	OfficeService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Office with key " + command.getOfficeId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Office with Id " + command.getOfficeId()  );
+	}
 	
     /**
      * Handles loading a Office using a UUID
@@ -150,16 +133,10 @@ public class OfficeRestController extends BaseSpringRestController {
      * @return		Office
      */    
     @GetMapping("/load")
-    public Office load( @RequestParam(required=true) UUID uuid ) {    	
-    	Office entity = null;
+    public Office load( @RequestParam(required=true) UUID uuid ) {
+    	Office entity = service.getOffice( new OfficeFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getOffice( new OfficeFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Office using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Office with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class OfficeRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Office> loadAll() {                
     	List<Office> officeList = null;
-        
-    	try {
-            // load the Office
-            officeList = service.getAllOffice();
-            
-            if ( officeList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Offices" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Offices ", exc );
-        	return null;
-        }
+
+		officeList = service.getAllOffice();
+		LOGGER.log( Level.INFO,  "successfully loaded all Offices" );
 
         return officeList;
                             
@@ -194,12 +162,8 @@ public class OfficeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignFirm")
 	public void assignFirm( @RequestBody AssignFirmToOfficeCommand command ) {
-		try {
-			service.assignFirm( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Firm", exc );
-        }
+		service.assignFirm( command );
+		LOGGER.info( "Successfully assigned Firm with Id " + command.getOfficeId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class OfficeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignFirm")
 	public void unAssignFirm( @RequestBody(required=true)  UnAssignFirmFromOfficeCommand command ) {
-		try {
-			service.unAssignFirm( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Firm", exc );
-		}
+		service.unAssignFirm( command );
+		LOGGER.info( "Successfully unassigned Firm with Id " + command.getOfficeId()  );
 	}
 	
 
@@ -223,12 +183,8 @@ public class OfficeRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAdvisors")
 	public void addToAdvisors( @RequestBody(required=true) AssignAdvisorsToOfficeCommand command ) {
-		try {
-			service.addToAdvisors( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Advisors", exc );
-		}
+		service.addToAdvisors( command );
+		LOGGER.info( "Successfully added Advisors with Id " + command.getOfficeId()  );
 	}
 
     /**
@@ -238,12 +194,8 @@ public class OfficeRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAdvisors")
 	public void removeFromAdvisors( 	@RequestBody(required=true) RemoveAdvisorsFromOfficeCommand command )
 	{		
-		try {
-			service.removeFromAdvisors( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Advisors", exc );
-		}
+		service.removeFromAdvisors( command );
+		LOGGER.info( "Successfully removed Advisors with Id " + command.getOfficeId()  );
 	}
 
 
@@ -254,6 +206,6 @@ public class OfficeRestController extends BaseSpringRestController {
 //************************************************************************
     protected Office office = null;
 	protected OfficeService service = null;
-    private static final Logger LOGGER = Logger.getLogger(OfficeRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(OfficeRestController.class.getName());
     
 }

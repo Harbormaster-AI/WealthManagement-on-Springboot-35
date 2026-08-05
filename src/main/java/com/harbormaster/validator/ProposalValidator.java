@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>ProposalValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class ProposalValidator {
 		
 	/**
@@ -77,50 +80,55 @@ public class ProposalValidator {
 	 */
 	protected ProposalValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public ProposalValidator getInstance() {
-		return new ProposalValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Proposal
 	 */
-	public void validate( CreateProposalCommand proposal )throws Exception {
-		Assert.notNull( proposal, "CreateProposalCommand should not be null" );
+	public void validate( CreateProposalCommand proposal )throws ValidationException {
+		if ( proposal == null )
+			throw new ValidationException( "Proposal", "validating CreateProposalCommand" );
+
 //		Assert.isNull( proposal.getProposalId(), "CreateProposalCommand identifier should be null" );
-		Assert.notNull( proposal.getProposalNumber(), "Field CreateProposalCommand.proposalNumber should not be null" );
-		Assert.notNull( proposal.getCreatedDate(), "Field CreateProposalCommand.createdDate should not be null" );
-		Assert.notNull( proposal.getRecommendationText(), "Field CreateProposalCommand.recommendationText should not be null" );
+		if ( proposal.getProposalNumber() == null )
+			throw new ValidationException( "Proposal", "validating access on getProposalNumber" );
+		if ( proposal.getCreatedDate() == null )
+			throw new ValidationException( "Proposal", "validating access on getCreatedDate" );
+		if ( proposal.getRecommendationText() == null )
+			throw new ValidationException( "Proposal", "validating access on getRecommendationText" );
 	}
 
 	/**
 	 * handles update validation for a Proposal
 	 */
-	public void validate( UpdateProposalCommand proposal ) throws Exception {
-		Assert.notNull( proposal, "UpdateProposalCommand should not be null" );
-		Assert.notNull( proposal.getProposalId(), "UpdateProposalCommand identifier should not be null" );
-		Assert.notNull( proposal.getProposalNumber(), "Field UpdateProposalCommand.proposalNumber should not be null" );
-		Assert.notNull( proposal.getCreatedDate(), "Field UpdateProposalCommand.createdDate should not be null" );
-		Assert.notNull( proposal.getRecommendationText(), "Field UpdateProposalCommand.recommendationText should not be null" );
+	public void validate( UpdateProposalCommand proposal ) throws ValidationException {
+		if ( proposal == null )
+			throw new ValidationException( "Proposal", "validating UpdateProposalCommand" );
+		if ( proposal.getProposalNumber() == null )
+			throw new ValidationException( "Proposal", "validating method getProposalNumber" );
+		if ( proposal.getCreatedDate() == null )
+			throw new ValidationException( "Proposal", "validating method getCreatedDate" );
+		if ( proposal.getRecommendationText() == null )
+			throw new ValidationException( "Proposal", "validating method getRecommendationText" );
     }
 
 	/**
 	 * handles delete validation for a Proposal
 	 */
-    public void validate( DeleteProposalCommand proposal ) throws Exception {
-		Assert.notNull( proposal, "{commandAlias} should not be null" );
-		Assert.notNull( proposal.getProposalId(), "DeleteProposalCommand identifier should not be null" );
+    public void validate( DeleteProposalCommand proposal ) throws ValidationException {
+		if ( proposal == null )
+			throw new ValidationException( "Proposal", "validating DeleteProposalCommand" );
+
+		if ( proposal.getRecommendationText() == null )
+			throw new ValidationException( "Proposal", "validating getRecommendationText" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Proposal
 	 */
-	public void validate( ProposalFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "ProposalFetchOneSummary should not be null" );
-		Assert.notNull( summary.getProposalId(), "ProposalFetchOneSummary identifier should not be null" );
+	public void validate( ProposalFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Proposal", "validating summary );
 	}
 
 	/**
@@ -128,10 +136,16 @@ public class ProposalValidator {
 	 * 
 	 * @param	command AssignHouseholdToProposalCommand
 	 */	
-	public void validate( AssignHouseholdToProposalCommand command ) throws Exception {
-		Assert.notNull( command, "AssignHouseholdToProposalCommand should not be null" );
-		Assert.notNull( command.getProposalId(), "AssignHouseholdToProposalCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignHouseholdToProposalCommand assignment should not be null" );
+	public void validate( AssignHouseholdToProposalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Proposal", "validating AssignHouseholdToProposalCommand" );
+
+		if ( command.getProposalId() == null )
+			throw new ValidationException( "Proposal", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Proposal", "validating assignment" );
+
 	}
 
 	/**
@@ -139,19 +153,28 @@ public class ProposalValidator {
 	 * 
 	 * @param	command UnAssignHouseholdFromProposalCommand
 	 */	
-	public void validate( UnAssignHouseholdFromProposalCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignHouseholdFromProposalCommand should not be null" );
-		Assert.notNull( command.getProposalId(), "UnAssignHouseholdFromProposalCommand identifier should not be null" );
+	public void validate( UnAssignHouseholdFromProposalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Proposal", "validating UnAssignHouseholdFromProposalCommand" );
+
+		if ( command.getProposalId() == null ) }
+			throw new ValidationException( "Proposal", "validating identity on UnAssignHouseholdFromProposalCommand" );
 	}
 	/**
 	 * handles assign Advisor validation for a Proposal
 	 * 
 	 * @param	command AssignAdvisorToProposalCommand
 	 */	
-	public void validate( AssignAdvisorToProposalCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorToProposalCommand should not be null" );
-		Assert.notNull( command.getProposalId(), "AssignAdvisorToProposalCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisorToProposalCommand assignment should not be null" );
+	public void validate( AssignAdvisorToProposalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Proposal", "validating AssignAdvisorToProposalCommand" );
+
+		if ( command.getProposalId() == null )
+			throw new ValidationException( "Proposal", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Proposal", "validating assignment" );
+
 	}
 
 	/**
@@ -159,19 +182,28 @@ public class ProposalValidator {
 	 * 
 	 * @param	command UnAssignAdvisorFromProposalCommand
 	 */	
-	public void validate( UnAssignAdvisorFromProposalCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisorFromProposalCommand should not be null" );
-		Assert.notNull( command.getProposalId(), "UnAssignAdvisorFromProposalCommand identifier should not be null" );
+	public void validate( UnAssignAdvisorFromProposalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Proposal", "validating UnAssignAdvisorFromProposalCommand" );
+
+		if ( command.getProposalId() == null ) }
+			throw new ValidationException( "Proposal", "validating identity on UnAssignAdvisorFromProposalCommand" );
 	}
 	/**
 	 * handles assign ModelPortfolio validation for a Proposal
 	 * 
 	 * @param	command AssignModelPortfolioToProposalCommand
 	 */	
-	public void validate( AssignModelPortfolioToProposalCommand command ) throws Exception {
-		Assert.notNull( command, "AssignModelPortfolioToProposalCommand should not be null" );
-		Assert.notNull( command.getProposalId(), "AssignModelPortfolioToProposalCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignModelPortfolioToProposalCommand assignment should not be null" );
+	public void validate( AssignModelPortfolioToProposalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Proposal", "validating AssignModelPortfolioToProposalCommand" );
+
+		if ( command.getProposalId() == null )
+			throw new ValidationException( "Proposal", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Proposal", "validating assignment" );
+
 	}
 
 	/**
@@ -179,19 +211,28 @@ public class ProposalValidator {
 	 * 
 	 * @param	command UnAssignModelPortfolioFromProposalCommand
 	 */	
-	public void validate( UnAssignModelPortfolioFromProposalCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignModelPortfolioFromProposalCommand should not be null" );
-		Assert.notNull( command.getProposalId(), "UnAssignModelPortfolioFromProposalCommand identifier should not be null" );
+	public void validate( UnAssignModelPortfolioFromProposalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Proposal", "validating UnAssignModelPortfolioFromProposalCommand" );
+
+		if ( command.getProposalId() == null ) }
+			throw new ValidationException( "Proposal", "validating identity on UnAssignModelPortfolioFromProposalCommand" );
 	}
 	/**
 	 * handles assign Account validation for a Proposal
 	 * 
 	 * @param	command AssignAccountToProposalCommand
 	 */	
-	public void validate( AssignAccountToProposalCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToProposalCommand should not be null" );
-		Assert.notNull( command.getProposalId(), "AssignAccountToProposalCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToProposalCommand assignment should not be null" );
+	public void validate( AssignAccountToProposalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Proposal", "validating AssignAccountToProposalCommand" );
+
+		if ( command.getProposalId() == null )
+			throw new ValidationException( "Proposal", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Proposal", "validating assignment" );
+
 	}
 
 	/**
@@ -199,9 +240,12 @@ public class ProposalValidator {
 	 * 
 	 * @param	command UnAssignAccountFromProposalCommand
 	 */	
-	public void validate( UnAssignAccountFromProposalCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromProposalCommand should not be null" );
-		Assert.notNull( command.getProposalId(), "UnAssignAccountFromProposalCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromProposalCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Proposal", "validating UnAssignAccountFromProposalCommand" );
+
+		if ( command.getProposalId() == null ) }
+			throw new ValidationException( "Proposal", "validating identity on UnAssignAccountFromProposalCommand" );
 	}
 
 

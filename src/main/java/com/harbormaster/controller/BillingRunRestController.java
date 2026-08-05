@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class BillingRunRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public BillingRun create( @RequestBody(required=true) CreateBillingRunCommand command ) {
     	BillingRun entity = null;
-		try {       
-        	
-			entity = service.createBillingRun( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createBillingRun( command );
+		LOGGER.info( "Successfully created BillingRun with Id " + entity.getBillingRunId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class BillingRunRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public BillingRun update( @RequestBody(required=true) UpdateBillingRunCommand command ) {
 		BillingRun entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateBillingRunCommand
-			// -----------------------------------------------
-			entity = service.updateBillingRun(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "BillingRunController:update() - successfully update BillingRun - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateBillingRun(command);
+		LOGGER.info( "Successfully updated BillingRun with Id " + command.getBillingRunId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class BillingRunRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteBillingRunCommand command ) {                
-    	try {
-        	BillingRunService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted BillingRun with key " + command.getBillingRunId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted BillingRun with Id " + command.getBillingRunId()  );
+	}
 	
     /**
      * Handles loading a BillingRun using a UUID
@@ -150,16 +133,10 @@ public class BillingRunRestController extends BaseSpringRestController {
      * @return		BillingRun
      */    
     @GetMapping("/load")
-    public BillingRun load( @RequestParam(required=true) UUID uuid ) {    	
-    	BillingRun entity = null;
+    public BillingRun load( @RequestParam(required=true) UUID uuid ) {
+    	BillingRun entity = service.getBillingRun( new BillingRunFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getBillingRun( new BillingRunFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load BillingRun using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded BillingRun with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class BillingRunRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<BillingRun> loadAll() {                
     	List<BillingRun> billingRunList = null;
-        
-    	try {
-            // load the BillingRun
-            billingRunList = service.getAllBillingRun();
-            
-            if ( billingRunList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all BillingRuns" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all BillingRuns ", exc );
-        	return null;
-        }
+
+		billingRunList = service.getAllBillingRun();
+		LOGGER.log( Level.INFO,  "successfully loaded all BillingRuns" );
 
         return billingRunList;
                             
@@ -194,12 +162,8 @@ public class BillingRunRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignFeeSchedule")
 	public void assignFeeSchedule( @RequestBody AssignFeeScheduleToBillingRunCommand command ) {
-		try {
-			service.assignFeeSchedule( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign FeeSchedule", exc );
-        }
+		service.assignFeeSchedule( command );
+		LOGGER.info( "Successfully assigned FeeSchedule with Id " + command.getBillingRunId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class BillingRunRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignFeeSchedule")
 	public void unAssignFeeSchedule( @RequestBody(required=true)  UnAssignFeeScheduleFromBillingRunCommand command ) {
-		try {
-			service.unAssignFeeSchedule( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign FeeSchedule", exc );
-		}
+		service.unAssignFeeSchedule( command );
+		LOGGER.info( "Successfully unassigned FeeSchedule with Id " + command.getBillingRunId()  );
 	}
 	
 
@@ -223,12 +183,8 @@ public class BillingRunRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToInvoices")
 	public void addToInvoices( @RequestBody(required=true) AssignInvoicesToBillingRunCommand command ) {
-		try {
-			service.addToInvoices( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Invoices", exc );
-		}
+		service.addToInvoices( command );
+		LOGGER.info( "Successfully added Invoices with Id " + command.getBillingRunId()  );
 	}
 
     /**
@@ -238,12 +194,8 @@ public class BillingRunRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromInvoices")
 	public void removeFromInvoices( 	@RequestBody(required=true) RemoveInvoicesFromBillingRunCommand command )
 	{		
-		try {
-			service.removeFromInvoices( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Invoices", exc );
-		}
+		service.removeFromInvoices( command );
+		LOGGER.info( "Successfully removed Invoices with Id " + command.getBillingRunId()  );
 	}
 
 
@@ -254,6 +206,6 @@ public class BillingRunRestController extends BaseSpringRestController {
 //************************************************************************
     protected BillingRun billingRun = null;
 	protected BillingRunService service = null;
-    private static final Logger LOGGER = Logger.getLogger(BillingRunRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(BillingRunRestController.class.getName());
     
 }

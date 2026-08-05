@@ -49,245 +49,245 @@ public class AdvisoryTeamTest
     public AdvisoryTeamTest(AdvisoryTeamService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a AdvisoryTeam, through a AdvisoryTeamTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on AdvisoryTeamTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on AdvisoryTeamTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on AdvisoryTeamTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on AdvisoryTeamTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new AdvisoryTeam.
      *
      * @return    AdvisoryTeam
      */
     public AdvisoryTeam testCreate() throws Throwable {
-        AdvisoryTeam entity = null;
+    AdvisoryTeam entity = null;
 
-        LOGGER.info( "AdvisoryTeamTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a AdvisoryTeam");
+    LOGGER.info( "AdvisoryTeamTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a AdvisoryTeam");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a AdvisoryTeam" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a AdvisoryTeam" );
 
-        try {            
-            entity = service.createAdvisoryTeam( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createAdvisoryTeam( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getAdvisoryTeamId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getAdvisoryTeamId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a AdvisoryTeam with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a AdvisoryTeam with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a AdvisoryTeam.
      *
-     * @return    AdvisoryTeam  
+     * @return    AdvisoryTeam
      */
     public AdvisoryTeam testRead() throws Throwable {
-        LOGGER.info( "AdvisoryTeamTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created AdvisoryTeam" );
+    LOGGER.info( "AdvisoryTeamTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created AdvisoryTeam" );
 
-        AdvisoryTeam entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read AdvisoryTeam with primary key" );
-        msg.append( theId );
+    AdvisoryTeam entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read AdvisoryTeam with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getAdvisoryTeam( new AdvisoryTeamFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getAdvisoryTeam( new AdvisoryTeamFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getAdvisoryTeamId();
-            
-            LOGGER.info( "-- Successfully found AdvisoryTeam " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getAdvisoryTeamId();
+
+        LOGGER.info( "-- Successfully found AdvisoryTeam " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a AdvisoryTeam.
      *
      * @return    AdvisoryTeam
      */
     public AdvisoryTeam testUpdate() throws Throwable {
-        LOGGER.info( "AdvisoryTeamTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a AdvisoryTeam." );
+    LOGGER.info( "AdvisoryTeamTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a AdvisoryTeam." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a AdvisoryTeam : " );        
-        AdvisoryTeam entity = null;
-    
-        try {            
-        	UpdateAdvisoryTeamCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setAdvisoryTeamId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a AdvisoryTeam : " );
+    AdvisoryTeam entity = null;
 
-            LOGGER.info( "-- Now updating the created AdvisoryTeam." );
-            
-            entity = service.updateAdvisoryTeam( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateAdvisoryTeamCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved AdvisoryTeam - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setAdvisoryTeamId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created AdvisoryTeam." );
+
+        entity = service.updateAdvisoryTeam( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved AdvisoryTeam - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a AdvisoryTeam.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "AdvisoryTeamTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created AdvisoryTeam." );
-        
-        try {
-        	DeleteAdvisoryTeamCommand deleteCommand = new DeleteAdvisoryTeamCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted AdvisoryTeam with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete AdvisoryTeam with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "AdvisoryTeamTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created AdvisoryTeam." );
 
-    /** 
+    try {
+        DeleteAdvisoryTeamCommand deleteCommand = new DeleteAdvisoryTeamCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted AdvisoryTeam with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete AdvisoryTeam with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all AdvisoryTeams.
      *
      * @return    Collection
      */
-    public List<AdvisoryTeam> testGetAll() throws Throwable {    
-        LOGGER.info( "AdvisoryTeamTest:testGetAll() - Retrieving Collection of AdvisoryTeams:" );
+    public List<AdvisoryTeam> testGetAll() throws Throwable {
+    LOGGER.info( "AdvisoryTeamTest:testGetAll() - Retrieving Collection of AdvisoryTeams:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all AdvisoryTeam : " );        
-        List<AdvisoryTeam> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all AdvisoryTeam : " );
+    List<AdvisoryTeam> collection  = null;
 
-        try {
-            // call the static get method on the AdvisoryTeamService
-            collection = service.getAllAdvisoryTeam();
+    try {
+        // call the static get method on the AdvisoryTeamService
+        collection = service.getAllAdvisoryTeam();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            AdvisoryTeam currEntity  = null;            
-	            Iterator<AdvisoryTeam> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getAdvisoryTeamId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            AdvisoryTeam currEntity  = null;
+            Iterator<AdvisoryTeam> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getAdvisoryTeamId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public AdvisoryTeamTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated AdvisoryTeam
-	 * 
-	 * @return CreateAdvisoryTeamCommand alias
-	 */
+
+    /**
+     * Returns a new populated AdvisoryTeam
+     *
+     * @return CreateAdvisoryTeamCommand alias
+     */
 	protected CreateAdvisoryTeamCommand generateNewCommand() {
-        CreateAdvisoryTeamCommand command = new CreateAdvisoryTeamCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
-		
-		return( command );
-	}
+    CreateAdvisoryTeamCommand command = new CreateAdvisoryTeamCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
-		/**
-		 * Returns a new populated AdvisoryTeam
-		 * 
-		 * @return UpdateAdvisoryTeamCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated AdvisoryTeam
+     *
+     * @return UpdateAdvisoryTeamCommand alias
+     */
 	protected UpdateAdvisoryTeamCommand generateUpdateCommand() {
-	        UpdateAdvisoryTeamCommand command = new UpdateAdvisoryTeamCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>() );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateAdvisoryTeamCommand command = new UpdateAdvisoryTeamCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>() );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected AdvisoryTeamService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(AdvisoryTeam.class.getName());
 
 }

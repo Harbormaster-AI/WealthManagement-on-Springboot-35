@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,86 +93,84 @@ import com.harbormaster.security.*;
  */
 @Service
 public class ComplianceRuleService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public ComplianceRuleService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new ComplianceRuleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(ComplianceRuleRepository.class) );
+		}
 
-    	projector 		= new ComplianceRuleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(ComplianceRuleRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		ComplianceRule
+		 */
+			public ComplianceRule createComplianceRule( CreateComplianceRuleCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		ComplianceRule
-    */
-	public ComplianceRule createComplianceRule( CreateComplianceRuleCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			ComplianceRule entity = new ComplianceRule();
 
-		ComplianceRule entity = new ComplianceRule();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	ComplianceRuleValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceRuleValidator.getInstance().validate( command );
 
             entity.setComplianceRuleId( command.getComplianceRuleId() );
             entity.setName( command.getName() );
             entity.setRuleCode( command.getRuleCode() );
             entity.setDescription( command.getDescription() );
             entity.setRuleSeverity( command.getRuleSeverity() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of ComplianceRule {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create ComplianceRule - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateComplianceRuleCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		ComplianceRule
-    */
-    public ComplianceRule updateComplianceRule( UpdateComplianceRuleCommand command ) 
+				LOGGER.info( "done creating of ComplianceRule {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create ComplianceRule - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateComplianceRuleCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		ComplianceRule
+		 */
+		public ComplianceRule updateComplianceRule( UpdateComplianceRuleCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    ComplianceRule entity = new ComplianceRule();
+			ComplianceRule entity = new ComplianceRule();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	ComplianceRuleValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				ComplianceRuleValidator.getInstance().validate( command );
 
             entity.setComplianceRuleId( command.getComplianceRuleId() );
             entity.setName( command.getName() );
@@ -180,172 +178,172 @@ extends BaseService {
             entity.setDescription( command.getDescription() );
             entity.setAlerts( command.getAlerts() );
             entity.setRuleSeverity( command.getRuleSeverity() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of ComplianceRule {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save ComplianceRule - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteComplianceRuleCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteComplianceRuleCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	ComplianceRuleValidator.getInstance().validate( command );    
-        
-        	id = command.getComplianceRuleId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of ComplianceRule {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete ComplianceRule using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of ComplianceRule {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save ComplianceRule - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the ComplianceRule via ComplianceRuleFetchOneSummary
-     * @param 	summary ComplianceRuleFetchOneSummary 
-     * @return 	ComplianceRuleFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteComplianceRuleCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteComplianceRuleCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceRuleValidator.getInstance().validate( command );
+
+				id = command.getComplianceRuleId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of ComplianceRule {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete ComplianceRule using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the ComplianceRule via ComplianceRuleFetchOneSummary
+		 * @param 	summary ComplianceRuleFetchOneSummary
+		 * @return 	ComplianceRuleFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public ComplianceRule getComplianceRule( ComplianceRuleFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "ComplianceRuleFetchOneSummary arg cannot be null" );
-    	
-    	ComplianceRule entity = null;
-    	UUID id = summary.getComplianceRuleId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	ComplianceRuleValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a ComplianceRule using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate ComplianceRule with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "ComplianceRuleFetchOneSummary arg cannot be null" );
+
+			ComplianceRule entity = null;
+			UUID id = summary.getComplianceRuleId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				ComplianceRuleValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a ComplianceRule using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate ComplianceRule with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all ComplianceRules
-     *
-     * @return 	List<ComplianceRule> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all ComplianceRules
+		 *
+		 * @return 	List<ComplianceRule>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<ComplianceRule> getAllComplianceRule() 
     throws ProcessingException {
-        List<ComplianceRule> list = null;
+			List<ComplianceRule> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllComplianceRuleQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all ComplianceRule";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllComplianceRuleQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all ComplianceRule";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-
-    /**
-     * add ComplianceAlert to Alerts 
-     * @param		command AssignAlertsToComplianceRuleCommand
-     * @exception	ProcessingException
-     */     
-	public void addToAlerts( AssignAlertsToComplianceRuleCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ComplianceRuleValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToAlerts(command.getComplianceRuleId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a ComplianceAlert as Alerts to ComplianceRule" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+			return list;
 		}
 
-	}
 
-    /**
-     * remove ComplianceAlert from Alerts
-     * @param		command RemoveAlertsFromComplianceRuleCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromAlerts( RemoveAlertsFromComplianceRuleCommand command ) throws ProcessingException {		
+		/**
+		 * add ComplianceAlert to Alerts
+		 * @param		command AssignAlertsToComplianceRuleCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToAlerts( AssignAlertsToComplianceRuleCommand command ) throws ProcessingException {
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ComplianceRuleValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceRuleValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromAlerts(command.getComplianceRuleId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToAlerts(command.getComplianceRuleId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a ComplianceAlert as Alerts to ComplianceRule" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getComplianceRuleId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove ComplianceAlert from Alerts
+		 * @param		command RemoveAlertsFromComplianceRuleCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromAlerts( RemoveAlertsFromComplianceRuleCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ComplianceRuleValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromAlerts(command.getComplianceRuleId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getComplianceRuleId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 
 
 
@@ -358,5 +356,5 @@ extends BaseService {
     private final ComplianceRuleEntityProjector projector;
 	private ComplianceRule complianceRule 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceRuleService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceRuleService.class);
 }

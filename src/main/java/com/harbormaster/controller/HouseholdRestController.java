@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Household create( @RequestBody(required=true) CreateHouseholdCommand command ) {
     	Household entity = null;
-		try {       
-        	
-			entity = service.createHousehold( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createHousehold( command );
+		LOGGER.info( "Successfully created Household with Id " + entity.getHouseholdId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Household update( @RequestBody(required=true) UpdateHouseholdCommand command ) {
 		Household entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateHouseholdCommand
-			// -----------------------------------------------
-			entity = service.updateHousehold(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "HouseholdController:update() - successfully update Household - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateHousehold(command);
+		LOGGER.info( "Successfully updated Household with Id " + command.getHouseholdId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class HouseholdRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteHouseholdCommand command ) {                
-    	try {
-        	HouseholdService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Household with key " + command.getHouseholdId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Household with Id " + command.getHouseholdId()  );
+	}
 	
     /**
      * Handles loading a Household using a UUID
@@ -150,16 +133,10 @@ public class HouseholdRestController extends BaseSpringRestController {
      * @return		Household
      */    
     @GetMapping("/load")
-    public Household load( @RequestParam(required=true) UUID uuid ) {    	
-    	Household entity = null;
+    public Household load( @RequestParam(required=true) UUID uuid ) {
+    	Household entity = service.getHousehold( new HouseholdFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getHousehold( new HouseholdFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Household using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Household with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class HouseholdRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Household> loadAll() {                
     	List<Household> householdList = null;
-        
-    	try {
-            // load the Household
-            householdList = service.getAllHousehold();
-            
-            if ( householdList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Households" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Households ", exc );
-        	return null;
-        }
+
+		householdList = service.getAllHousehold();
+		LOGGER.log( Level.INFO,  "successfully loaded all Households" );
 
         return householdList;
                             
@@ -194,12 +162,8 @@ public class HouseholdRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPrimaryAdvisor")
 	public void assignPrimaryAdvisor( @RequestBody AssignPrimaryAdvisorToHouseholdCommand command ) {
-		try {
-			service.assignPrimaryAdvisor( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign PrimaryAdvisor", exc );
-        }
+		service.assignPrimaryAdvisor( command );
+		LOGGER.info( "Successfully assigned PrimaryAdvisor with Id " + command.getHouseholdId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class HouseholdRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPrimaryAdvisor")
 	public void unAssignPrimaryAdvisor( @RequestBody(required=true)  UnAssignPrimaryAdvisorFromHouseholdCommand command ) {
-		try {
-			service.unAssignPrimaryAdvisor( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign PrimaryAdvisor", exc );
-		}
+		service.unAssignPrimaryAdvisor( command );
+		LOGGER.info( "Successfully unassigned PrimaryAdvisor with Id " + command.getHouseholdId()  );
 	}
 	
 
@@ -223,12 +183,8 @@ public class HouseholdRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToClients")
 	public void addToClients( @RequestBody(required=true) AssignClientsToHouseholdCommand command ) {
-		try {
-			service.addToClients( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Clients", exc );
-		}
+		service.addToClients( command );
+		LOGGER.info( "Successfully added Clients with Id " + command.getHouseholdId()  );
 	}
 
     /**
@@ -238,12 +194,8 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromClients")
 	public void removeFromClients( 	@RequestBody(required=true) RemoveClientsFromHouseholdCommand command )
 	{		
-		try {
-			service.removeFromClients( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Clients", exc );
-		}
+		service.removeFromClients( command );
+		LOGGER.info( "Successfully removed Clients with Id " + command.getHouseholdId()  );
 	}
 
     /**
@@ -252,12 +204,8 @@ public class HouseholdRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToPortfolios")
 	public void addToPortfolios( @RequestBody(required=true) AssignPortfoliosToHouseholdCommand command ) {
-		try {
-			service.addToPortfolios( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Portfolios", exc );
-		}
+		service.addToPortfolios( command );
+		LOGGER.info( "Successfully added Portfolios with Id " + command.getHouseholdId()  );
 	}
 
     /**
@@ -267,12 +215,8 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromPortfolios")
 	public void removeFromPortfolios( 	@RequestBody(required=true) RemovePortfoliosFromHouseholdCommand command )
 	{		
-		try {
-			service.removeFromPortfolios( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Portfolios", exc );
-		}
+		service.removeFromPortfolios( command );
+		LOGGER.info( "Successfully removed Portfolios with Id " + command.getHouseholdId()  );
 	}
 
     /**
@@ -281,12 +225,8 @@ public class HouseholdRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToGoals")
 	public void addToGoals( @RequestBody(required=true) AssignGoalsToHouseholdCommand command ) {
-		try {
-			service.addToGoals( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Goals", exc );
-		}
+		service.addToGoals( command );
+		LOGGER.info( "Successfully added Goals with Id " + command.getHouseholdId()  );
 	}
 
     /**
@@ -296,12 +236,8 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromGoals")
 	public void removeFromGoals( 	@RequestBody(required=true) RemoveGoalsFromHouseholdCommand command )
 	{		
-		try {
-			service.removeFromGoals( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Goals", exc );
-		}
+		service.removeFromGoals( command );
+		LOGGER.info( "Successfully removed Goals with Id " + command.getHouseholdId()  );
 	}
 
     /**
@@ -310,12 +246,8 @@ public class HouseholdRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToRiskAssessments")
 	public void addToRiskAssessments( @RequestBody(required=true) AssignRiskAssessmentsToHouseholdCommand command ) {
-		try {
-			service.addToRiskAssessments( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set RiskAssessments", exc );
-		}
+		service.addToRiskAssessments( command );
+		LOGGER.info( "Successfully added RiskAssessments with Id " + command.getHouseholdId()  );
 	}
 
     /**
@@ -325,12 +257,8 @@ public class HouseholdRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromRiskAssessments")
 	public void removeFromRiskAssessments( 	@RequestBody(required=true) RemoveRiskAssessmentsFromHouseholdCommand command )
 	{		
-		try {
-			service.removeFromRiskAssessments( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set RiskAssessments", exc );
-		}
+		service.removeFromRiskAssessments( command );
+		LOGGER.info( "Successfully removed RiskAssessments with Id " + command.getHouseholdId()  );
 	}
 
 
@@ -341,6 +269,6 @@ public class HouseholdRestController extends BaseSpringRestController {
 //************************************************************************
     protected Household household = null;
 	protected HouseholdService service = null;
-    private static final Logger LOGGER = Logger.getLogger(HouseholdRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(HouseholdRestController.class.getName());
     
 }

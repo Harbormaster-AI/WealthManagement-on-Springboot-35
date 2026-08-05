@@ -49,245 +49,245 @@ public class CashMovementTest
     public CashMovementTest(CashMovementService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a CashMovement, through a CashMovementTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on CashMovementTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on CashMovementTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on CashMovementTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on CashMovementTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new CashMovement.
      *
      * @return    CashMovement
      */
     public CashMovement testCreate() throws Throwable {
-        CashMovement entity = null;
+    CashMovement entity = null;
 
-        LOGGER.info( "CashMovementTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a CashMovement");
+    LOGGER.info( "CashMovementTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a CashMovement");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a CashMovement" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a CashMovement" );
 
-        try {            
-            entity = service.createCashMovement( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createCashMovement( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getCashMovementId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getCashMovementId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a CashMovement with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a CashMovement with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a CashMovement.
      *
-     * @return    CashMovement  
+     * @return    CashMovement
      */
     public CashMovement testRead() throws Throwable {
-        LOGGER.info( "CashMovementTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created CashMovement" );
+    LOGGER.info( "CashMovementTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created CashMovement" );
 
-        CashMovement entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read CashMovement with primary key" );
-        msg.append( theId );
+    CashMovement entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read CashMovement with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getCashMovement( new CashMovementFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getCashMovement( new CashMovementFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getCashMovementId();
-            
-            LOGGER.info( "-- Successfully found CashMovement " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getCashMovementId();
+
+        LOGGER.info( "-- Successfully found CashMovement " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a CashMovement.
      *
      * @return    CashMovement
      */
     public CashMovement testUpdate() throws Throwable {
-        LOGGER.info( "CashMovementTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a CashMovement." );
+    LOGGER.info( "CashMovementTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a CashMovement." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a CashMovement : " );        
-        CashMovement entity = null;
-    
-        try {            
-        	UpdateCashMovementCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setCashMovementId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a CashMovement : " );
+    CashMovement entity = null;
 
-            LOGGER.info( "-- Now updating the created CashMovement." );
-            
-            entity = service.updateCashMovement( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateCashMovementCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved CashMovement - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setCashMovementId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created CashMovement." );
+
+        entity = service.updateCashMovement( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved CashMovement - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a CashMovement.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "CashMovementTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created CashMovement." );
-        
-        try {
-        	DeleteCashMovementCommand deleteCommand = new DeleteCashMovementCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted CashMovement with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete CashMovement with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "CashMovementTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created CashMovement." );
 
-    /** 
+    try {
+        DeleteCashMovementCommand deleteCommand = new DeleteCashMovementCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted CashMovement with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete CashMovement with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all CashMovements.
      *
      * @return    Collection
      */
-    public List<CashMovement> testGetAll() throws Throwable {    
-        LOGGER.info( "CashMovementTest:testGetAll() - Retrieving Collection of CashMovements:" );
+    public List<CashMovement> testGetAll() throws Throwable {
+    LOGGER.info( "CashMovementTest:testGetAll() - Retrieving Collection of CashMovements:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all CashMovement : " );        
-        List<CashMovement> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all CashMovement : " );
+    List<CashMovement> collection  = null;
 
-        try {
-            // call the static get method on the CashMovementService
-            collection = service.getAllCashMovement();
+    try {
+        // call the static get method on the CashMovementService
+        collection = service.getAllCashMovement();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            CashMovement currEntity  = null;            
-	            Iterator<CashMovement> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getCashMovementId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            CashMovement currEntity  = null;
+            Iterator<CashMovement> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getCashMovementId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public CashMovementTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated CashMovement
-	 * 
-	 * @return CreateCashMovementCommand alias
-	 */
+
+    /**
+     * Returns a new populated CashMovement
+     *
+     * @return CreateCashMovementCommand alias
+     */
 	protected CreateCashMovementCommand generateNewCommand() {
-        CreateCashMovementCommand command = new CreateCashMovementCommand( null,  new Money(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  CashMovementType.values()[0] );
-		
-		return( command );
-	}
+    CreateCashMovementCommand command = new CreateCashMovementCommand( null,  new Money(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  CashMovementType.values()[0] );
 
-		/**
-		 * Returns a new populated CashMovement
-		 * 
-		 * @return UpdateCashMovementCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated CashMovement
+     *
+     * @return UpdateCashMovementCommand alias
+     */
 	protected UpdateCashMovementCommand generateUpdateCommand() {
-	        UpdateCashMovementCommand command = new UpdateCashMovementCommand( null,  new Money(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  CashMovementType.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateCashMovementCommand command = new UpdateCashMovementCommand( null,  new Money(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  CashMovementType.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected CashMovementService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(CashMovement.class.getName());
 
 }

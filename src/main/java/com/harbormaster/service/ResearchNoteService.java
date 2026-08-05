@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,42 +93,40 @@ import com.harbormaster.security.*;
  */
 @Service
 public class ResearchNoteService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public ResearchNoteService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new ResearchNoteEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(ResearchNoteRepository.class) );
+		}
 
-    	projector 		= new ResearchNoteEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(ResearchNoteRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		ResearchNote
+		 */
+			public ResearchNote createResearchNote( CreateResearchNoteCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		ResearchNote
-    */
-	public ResearchNote createResearchNote( CreateResearchNoteCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			ResearchNote entity = new ResearchNote();
 
-		ResearchNote entity = new ResearchNote();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	ResearchNoteValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ResearchNoteValidator.getInstance().validate( command );
 
             entity.setResearchNoteId( command.getResearchNoteId() );
             entity.setTitle( command.getTitle() );
@@ -136,44 +134,44 @@ extends BaseService {
             entity.setAuthor( command.getAuthor() );
             entity.setContentSummary( command.getContentSummary() );
             entity.setRating( command.getRating() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of ResearchNote {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create ResearchNote - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateResearchNoteCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		ResearchNote
-    */
-    public ResearchNote updateResearchNote( UpdateResearchNoteCommand command ) 
+				LOGGER.info( "done creating of ResearchNote {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create ResearchNote - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateResearchNoteCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		ResearchNote
+		 */
+		public ResearchNote updateResearchNote( UpdateResearchNoteCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    ResearchNote entity = new ResearchNote();
+			ResearchNote entity = new ResearchNote();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	ResearchNoteValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				ResearchNoteValidator.getInstance().validate( command );
 
             entity.setResearchNoteId( command.getResearchNoteId() );
             entity.setTitle( command.getTitle() );
@@ -183,221 +181,221 @@ extends BaseService {
             entity.setSecurity( command.getSecurity() );
             entity.setAdvisor( command.getAdvisor() );
             entity.setRating( command.getRating() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of ResearchNote {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save ResearchNote - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteResearchNoteCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteResearchNoteCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	ResearchNoteValidator.getInstance().validate( command );    
-        
-        	id = command.getResearchNoteId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of ResearchNote {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete ResearchNote using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of ResearchNote {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save ResearchNote - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the ResearchNote via ResearchNoteFetchOneSummary
-     * @param 	summary ResearchNoteFetchOneSummary 
-     * @return 	ResearchNoteFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteResearchNoteCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteResearchNoteCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ResearchNoteValidator.getInstance().validate( command );
+
+				id = command.getResearchNoteId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of ResearchNote {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete ResearchNote using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the ResearchNote via ResearchNoteFetchOneSummary
+		 * @param 	summary ResearchNoteFetchOneSummary
+		 * @return 	ResearchNoteFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public ResearchNote getResearchNote( ResearchNoteFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "ResearchNoteFetchOneSummary arg cannot be null" );
-    	
-    	ResearchNote entity = null;
-    	UUID id = summary.getResearchNoteId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	ResearchNoteValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a ResearchNote using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate ResearchNote with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "ResearchNoteFetchOneSummary arg cannot be null" );
+
+			ResearchNote entity = null;
+			UUID id = summary.getResearchNoteId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				ResearchNoteValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a ResearchNote using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate ResearchNote with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all ResearchNotes
-     *
-     * @return 	List<ResearchNote> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all ResearchNotes
+		 *
+		 * @return 	List<ResearchNote>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<ResearchNote> getAllResearchNote() 
     throws ProcessingException {
-        List<ResearchNote> list = null;
+			List<ResearchNote> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllResearchNoteQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all ResearchNote";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllResearchNoteQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all ResearchNote";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Security on ResearchNote
-     * @param		command AssignSecurityToResearchNoteCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignSecurity( AssignSecurityToResearchNoteCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	ResearchNoteValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignSecurity(command.getResearchNoteId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Security using id " + command.getResearchNoteId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Security on ResearchNote
-     * @param		command UnAssignSecurityFromResearchNoteCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignSecurity( UnAssignSecurityFromResearchNoteCommand command ) throws ProcessingException {
+		/**
+		 * assign Security on ResearchNote
+		 * @param		command AssignSecurityToResearchNoteCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignSecurity( AssignSecurityToResearchNoteCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ResearchNoteValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				ResearchNoteValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignSecurity(command.getResearchNoteId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Security using id " + command.getResearchNoteId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Security on ResearchNote
+		 * @param		command UnAssignSecurityFromResearchNoteCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignSecurity( UnAssignSecurityFromResearchNoteCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ResearchNoteValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignSecurity(command.getResearchNoteId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Security on ResearchNote";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignSecurity(command.getResearchNoteId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Security on ResearchNote";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Advisor on ResearchNote
-     * @param		command AssignAdvisorToResearchNoteCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAdvisor( AssignAdvisorToResearchNoteCommand command ) throws ProcessingException {
+		/**
+		 * assign Advisor on ResearchNote
+		 * @param		command AssignAdvisorToResearchNoteCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAdvisor( AssignAdvisorToResearchNoteCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	ResearchNoteValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				ResearchNoteValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAdvisor(command.getResearchNoteId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Advisor using id " + command.getResearchNoteId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAdvisor(command.getResearchNoteId(), command.getAssignment());
 
-    /**
-     * unAssign Advisor on ResearchNote
-     * @param		command UnAssignAdvisorFromResearchNoteCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAdvisor( UnAssignAdvisorFromResearchNoteCommand command ) throws ProcessingException {
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Advisor using id " + command.getResearchNoteId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	ResearchNoteValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAdvisor(command.getResearchNoteId());
+		/**
+		 * unAssign Advisor on ResearchNote
+		 * @param		command UnAssignAdvisorFromResearchNoteCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAdvisor( UnAssignAdvisorFromResearchNoteCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				ResearchNoteValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAdvisor(command.getResearchNoteId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Advisor on ResearchNote";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Advisor on ResearchNote";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -411,5 +409,5 @@ extends BaseService {
     private final ResearchNoteEntityProjector projector;
 	private ResearchNote researchNote 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(ResearchNoteService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ResearchNoteService.class);
 }

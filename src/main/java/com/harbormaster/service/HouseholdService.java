@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,83 +93,81 @@ import com.harbormaster.security.*;
  */
 @Service
 public class HouseholdService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public HouseholdService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new HouseholdEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(HouseholdRepository.class) );
+		}
 
-    	projector 		= new HouseholdEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(HouseholdRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		Household
+		 */
+			public Household createHousehold( CreateHouseholdCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		Household
-    */
-	public Household createHousehold( CreateHouseholdCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			Household entity = new Household();
 
-		Household entity = new Household();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	HouseholdValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
 
             entity.setHouseholdId( command.getHouseholdId() );
             entity.setName( command.getName() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of Household {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create Household - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateHouseholdCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		Household
-    */
-    public Household updateHousehold( UpdateHouseholdCommand command ) 
+				LOGGER.info( "done creating of Household {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create Household - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateHouseholdCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		Household
+		 */
+		public Household updateHousehold( UpdateHouseholdCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    Household entity = new Household();
+			Household entity = new Household();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	HouseholdValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
 
             entity.setHouseholdId( command.getHouseholdId() );
             entity.setName( command.getName() );
@@ -178,379 +176,379 @@ extends BaseService {
             entity.setPortfolios( command.getPortfolios() );
             entity.setGoals( command.getGoals() );
             entity.setRiskAssessments( command.getRiskAssessments() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of Household {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save Household - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteHouseholdCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteHouseholdCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	HouseholdValidator.getInstance().validate( command );    
-        
-        	id = command.getHouseholdId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of Household {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete Household using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of Household {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save Household - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the Household via HouseholdFetchOneSummary
-     * @param 	summary HouseholdFetchOneSummary 
-     * @return 	HouseholdFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteHouseholdCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteHouseholdCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
+
+				id = command.getHouseholdId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of Household {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete Household using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the Household via HouseholdFetchOneSummary
+		 * @param 	summary HouseholdFetchOneSummary
+		 * @return 	HouseholdFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public Household getHousehold( HouseholdFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "HouseholdFetchOneSummary arg cannot be null" );
-    	
-    	Household entity = null;
-    	UUID id = summary.getHouseholdId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	HouseholdValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a Household using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate Household with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "HouseholdFetchOneSummary arg cannot be null" );
+
+			Household entity = null;
+			UUID id = summary.getHouseholdId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a Household using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate Household with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all Households
-     *
-     * @return 	List<Household> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all Households
+		 *
+		 * @return 	List<Household>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<Household> getAllHousehold() 
     throws ProcessingException {
-        List<Household> list = null;
+			List<Household> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllHouseholdQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all Household";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllHouseholdQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all Household";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign PrimaryAdvisor on Household
-     * @param		command AssignPrimaryAdvisorToHouseholdCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPrimaryAdvisor( AssignPrimaryAdvisorToHouseholdCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPrimaryAdvisor(command.getHouseholdId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Advisor using id " + command.getHouseholdId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign PrimaryAdvisor on Household
-     * @param		command UnAssignPrimaryAdvisorFromHouseholdCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPrimaryAdvisor( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws ProcessingException {
+		/**
+		 * assign PrimaryAdvisor on Household
+		 * @param		command AssignPrimaryAdvisorToHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPrimaryAdvisor( AssignPrimaryAdvisorToHouseholdCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPrimaryAdvisor(command.getHouseholdId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Advisor using id " + command.getHouseholdId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign PrimaryAdvisor on Household
+		 * @param		command UnAssignPrimaryAdvisorFromHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPrimaryAdvisor( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPrimaryAdvisor(command.getHouseholdId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign PrimaryAdvisor on Household";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPrimaryAdvisor(command.getHouseholdId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign PrimaryAdvisor on Household";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
 
-    /**
-     * add Client to Clients 
-     * @param		command AssignClientsToHouseholdCommand
-     * @exception	ProcessingException
-     */     
-	public void addToClients( AssignClientsToHouseholdCommand command ) throws ProcessingException {
+		/**
+		 * add Client to Clients
+		 * @param		command AssignClientsToHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToClients( AssignClientsToHouseholdCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToClients(command.getHouseholdId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Client as Clients to Household" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove Client from Clients
-     * @param		command RemoveClientsFromHouseholdCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromClients( RemoveClientsFromHouseholdCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromClients(command.getHouseholdId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToClients(command.getHouseholdId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Client as Clients to Household" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getHouseholdId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add Portfolio to Portfolios 
-     * @param		command AssignPortfoliosToHouseholdCommand
-     * @exception	ProcessingException
-     */     
-	public void addToPortfolios( AssignPortfoliosToHouseholdCommand command ) throws ProcessingException {
+		/**
+		 * remove Client from Clients
+		 * @param		command RemoveClientsFromHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromClients( RemoveClientsFromHouseholdCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToPortfolios(command.getHouseholdId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a Portfolio as Portfolios to Household" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromClients(command.getHouseholdId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add Portfolio to Portfolios
+		 * @param		command AssignPortfoliosToHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToPortfolios( AssignPortfoliosToHouseholdCommand command ) throws ProcessingException {
 
-    /**
-     * remove Portfolio from Portfolios
-     * @param		command RemovePortfoliosFromHouseholdCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromPortfolios( RemovePortfoliosFromHouseholdCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromPortfolios(command.getHouseholdId(), command.getRemoveFrom());
-
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getHouseholdId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-
-    /**
-     * add WealthGoal to Goals 
-     * @param		command AssignGoalsToHouseholdCommand
-     * @exception	ProcessingException
-     */     
-	public void addToGoals( AssignGoalsToHouseholdCommand command ) throws ProcessingException {
-
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToGoals(command.getHouseholdId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a WealthGoal as Goals to Household" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-
-	}
-
-    /**
-     * remove WealthGoal from Goals
-     * @param		command RemoveGoalsFromHouseholdCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromGoals( RemoveGoalsFromHouseholdCommand command ) throws ProcessingException {		
-
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromGoals(command.getHouseholdId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToPortfolios(command.getHouseholdId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a Portfolio as Portfolios to Household" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getHouseholdId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 
-    /**
-     * add RiskAssessment to RiskAssessments 
-     * @param		command AssignRiskAssessmentsToHouseholdCommand
-     * @exception	ProcessingException
-     */     
-	public void addToRiskAssessments( AssignRiskAssessmentsToHouseholdCommand command ) throws ProcessingException {
+		/**
+		 * remove Portfolio from Portfolios
+		 * @param		command RemovePortfoliosFromHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromPortfolios( RemovePortfoliosFromHouseholdCommand command ) throws ProcessingException {
 
-		try {		
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
+			try {
 
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.addToRiskAssessments(command.getHouseholdId(), command.getAddTo());		}
-		catch( Exception exc ) {
-			final String msg = "Failed to add a RiskAssessment as RiskAssessments to Household" ; 
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromPortfolios(command.getHouseholdId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
 
-	}
+		/**
+		 * add WealthGoal to Goals
+		 * @param		command AssignGoalsToHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToGoals( AssignGoalsToHouseholdCommand command ) throws ProcessingException {
 
-    /**
-     * remove RiskAssessment from RiskAssessments
-     * @param		command RemoveRiskAssessmentsFromHouseholdCommand
-     * @exception	ProcessingException
-     */     	
-	public void removeFromRiskAssessments( RemoveRiskAssessmentsFromHouseholdCommand command ) throws ProcessingException {		
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
 
-		try {
-			
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	HouseholdValidator.getInstance().validate( command );    
-
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.removeFromRiskAssessments(command.getHouseholdId(), command.getRemoveFrom());
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToGoals(command.getHouseholdId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a WealthGoal as Goals to Household" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to remove child using Id " + command.getHouseholdId(); 
-			LOGGER.warn(  msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * remove WealthGoal from Goals
+		 * @param		command RemoveGoalsFromHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromGoals( RemoveGoalsFromHouseholdCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromGoals(command.getHouseholdId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
+
+		/**
+		 * add RiskAssessment to RiskAssessments
+		 * @param		command AssignRiskAssessmentsToHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void addToRiskAssessments( AssignRiskAssessmentsToHouseholdCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.addToRiskAssessments(command.getHouseholdId(), command.getAddTo());		}
+			catch( Exception exc ) {
+				final String msg = "Failed to add a RiskAssessment as RiskAssessments to Household" ;
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+
+		}
+
+		/**
+		 * remove RiskAssessment from RiskAssessments
+		 * @param		command RemoveRiskAssessmentsFromHouseholdCommand
+		 * @exception	ProcessingException
+		 */
+		public void removeFromRiskAssessments( RemoveRiskAssessmentsFromHouseholdCommand command ) throws ProcessingException {
+
+			try {
+
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				HouseholdValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.removeFromRiskAssessments(command.getHouseholdId(), command.getRemoveFrom());
+
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
+				LOGGER.warn(  msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 
 
 
@@ -563,5 +561,5 @@ extends BaseService {
     private final HouseholdEntityProjector projector;
 	private Household household 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(HouseholdService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(HouseholdService.class);
 }

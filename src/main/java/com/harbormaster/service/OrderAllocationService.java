@@ -21,7 +21,7 @@
  * Contributors :
  *       Turnstone Biologics - General Release
  */
-package com.harbormaster.service;
+		package com.harbormaster.service;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,7 +64,7 @@ import com.harbormaster.security.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -93,355 +93,353 @@ import com.harbormaster.security.*;
  */
 @Service
 public class OrderAllocationService 
-extends BaseService {
+		extends BaseService {
 //************************************************************************
 // Public Methods
 //************************************************************************
-    /** 
-     * Default Constructor 
-     */
+		/**
+		 * Default Constructor
+		 */
     public OrderAllocationService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-		this.identity	= identity;
+			this.identity	= identity;
+			projector 		= new OrderAllocationEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+											applicationContext.getBean(OrderAllocationRepository.class) );
+		}
 
-    	projector 		= new OrderAllocationEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-							applicationContext.getBean(OrderAllocationRepository.class) );
-	}
 
+		/**
+		 * Creates the provided command.
+		 *
+		 * @param		command ${class.getCreateCommandAlias()}
+		 * @exception    ProcessingException
+		 * @exception	IllegalArgumentException
+		 * @return		OrderAllocation
+		 */
+			public OrderAllocation createOrderAllocation( CreateOrderAllocationCommand command )
+    		throws ProcessingException, IllegalArgumentException {
 
- 
-   /**
-    * Creates the provided command.
-    * 
-    * @param		command ${class.getCreateCommandAlias()}
-    * @exception    ProcessingException
-    * @exception	IllegalArgumentException
-    * @return		OrderAllocation
-    */
-	public OrderAllocation createOrderAllocation( CreateOrderAllocationCommand command )
-    throws ProcessingException, IllegalArgumentException {
+			OrderAllocation entity = new OrderAllocation();
 
-		OrderAllocation entity = new OrderAllocation();
-
-		try {
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	OrderAllocationValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
 
             entity.setOrderAllocationId( command.getOrderAllocationId() );
             entity.setAllocationPercent( command.getAllocationPercent() );
-    	    
-        	// ------------------------------------------
-        	// persist a new one
-        	// ------------------------------------------ 
-    	    entity = projector.create(entity);
-    	    
-			LOGGER.info( "done creating of OrderAllocation {0} ", entity.toString() );
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to create OrderAllocation - " + exc;
-            LOGGER.warn(  errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+				// ------------------------------------------
+				// persist a new one
+				// ------------------------------------------
+				entity = projector.create(entity);
 
-   /**
-    * Update the provided command.
-    * @param		command UpdateOrderAllocationCommand
-    * @exception    ProcessingException
-    * @exception  	IllegalArgumentException
-    * @return		OrderAllocation
-    */
-    public OrderAllocation updateOrderAllocation( UpdateOrderAllocationCommand command ) 
+				LOGGER.info( "done creating of OrderAllocation {0} ", entity.toString() );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to create OrderAllocation - " + exc;
+				LOGGER.warn(  errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
+
+		/**
+		 * Update the provided command.
+		 * @param		command UpdateOrderAllocationCommand
+		 * @exception    ProcessingException
+		 * @exception  	IllegalArgumentException
+		 * @return		OrderAllocation
+		 */
+		public OrderAllocation updateOrderAllocation( UpdateOrderAllocationCommand command )
     throws ProcessingException, IllegalArgumentException {
 
-	    OrderAllocation entity = new OrderAllocation();
+			OrderAllocation entity = new OrderAllocation();
 
-    	try {       
+			try {
 
-			// --------------------------------------
-        	// validate 
-        	// --------------------------------------    	
-        	OrderAllocationValidator.getInstance().validate( command );    
+				// --------------------------------------
+				// validate
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
 
             entity.setOrderAllocationId( command.getOrderAllocationId() );
             entity.setAllocationPercent( command.getAllocationPercent() );
             entity.setOrder( command.getOrder() );
             entity.setAccount( command.getAccount() );
             entity.setPortfolio( command.getPortfolio() );
-        	
-        	// ------------------------------------------
-        	// persist an existing one
-        	// ------------------------------------------ 
-        	entity = projector.update(entity);
-    	    
-			LOGGER.info( "done saving of OrderAllocation {0} ", entity.toString() );
-    	}
-        catch (Exception exc) {
-            final String errMsg = "Unable to save OrderAllocation - " + exc;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-    	
-    	return entity;
-    }
-   
-   /**
-    * Deletes the associatied value object
-    * @param		command DeleteOrderAllocationCommand
-    * @exception 	ProcessingException
-    */
-    public void delete( DeleteOrderAllocationCommand command ) 
-    throws ProcessingException, IllegalArgumentException {	
-        UUID id = null;
-        
-    	try {  
-			// --------------------------------------
-        	// validate the command
-        	// --------------------------------------    	
-        	OrderAllocationValidator.getInstance().validate( command );    
-        
-        	id = command.getOrderAllocationId();
-        	
-        	// ------------------------------------------
-        	// delete the entity
-        	// ------------------------------------------
-        	projector.delete(id);
 
-        	LOGGER.info( "done deleting of OrderAllocation {0} ", id );
+				// ------------------------------------------
+				// persist an existing one
+				// ------------------------------------------
+				entity = projector.update(entity);
 
-        }
-        catch (Exception exc) {
-            final String errMsg = "Unable to delete OrderAllocation using Id = "  + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }
-    }
+				LOGGER.info( "done saving of OrderAllocation {0} ", entity.toString() );
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to save OrderAllocation - " + exc;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
 
-    /**
-     * Method to retrieve the OrderAllocation via OrderAllocationFetchOneSummary
-     * @param 	summary OrderAllocationFetchOneSummary 
-     * @return 	OrderAllocationFetchOneResponse
-     * @exception ProcessingException - Thrown if processing any related problems
-     * @exception IllegalArgumentException 
-     */
+			return entity;
+		}
+
+		/**
+		 * Deletes the associatied value object
+		 * @param		command DeleteOrderAllocationCommand
+		 * @exception 	ProcessingException
+		 */
+		public void delete( DeleteOrderAllocationCommand command )
+    throws ProcessingException, IllegalArgumentException {
+			UUID id = null;
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
+
+				id = command.getOrderAllocationId();
+
+				// ------------------------------------------
+				// delete the entity
+				// ------------------------------------------
+				projector.delete(id);
+
+				LOGGER.info( "done deleting of OrderAllocation {0} ", id );
+
+			}
+			catch (Exception exc) {
+				final String errMsg = "Unable to delete OrderAllocation using Id = "  + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+		}
+
+		/**
+		 * Method to retrieve the OrderAllocation via OrderAllocationFetchOneSummary
+		 * @param 	summary OrderAllocationFetchOneSummary
+		 * @return 	OrderAllocationFetchOneResponse
+		 * @exception ProcessingException - Thrown if processing any related problems
+		 * @exception IllegalArgumentException
+		 */
     public OrderAllocation getOrderAllocation( OrderAllocationFetchOneSummary summary ) 
     throws ProcessingException, IllegalArgumentException {
-    	
-    	if( summary == null )
-    		throw new IllegalArgumentException( "OrderAllocationFetchOneSummary arg cannot be null" );
-    	
-    	OrderAllocation entity = null;
-    	UUID id = summary.getOrderAllocationId();
-    	
-        try {
-        	// --------------------------------------
-        	// validate the fetch one summary
-        	// --------------------------------------    	
-        	OrderAllocationValidator.getInstance().validate( summary );    
-        	
-        	// --------------------------------------
-        	// find a OrderAllocation using the provided id
-        	// --------------------------------------
-        	entity = projector.find( id );
-        }
-        catch( Exception exc ) {
-            final String errMsg = "Unable to locate OrderAllocation with id " + id;
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return entity;
-    }
+
+			if( summary == null )
+				throw new IllegalArgumentException( "OrderAllocationFetchOneSummary arg cannot be null" );
+
+			OrderAllocation entity = null;
+			UUID id = summary.getOrderAllocationId();
+
+			try {
+				// --------------------------------------
+				// validate the fetch one summary
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( summary );
+
+				// --------------------------------------
+				// find a OrderAllocation using the provided id
+				// --------------------------------------
+				entity = projector.find( id );
+			}
+			catch( Exception exc ) {
+				final String errMsg = "Unable to locate OrderAllocation with id " + id;
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
+
+			return entity;
+		}
 
 
-    /**
-     * Method to retrieve a collection of all OrderAllocations
-     *
-     * @return 	List<OrderAllocation> 
-     * @exception ProcessingException Thrown if any problems
-     */
+		/**
+		 * Method to retrieve a collection of all OrderAllocations
+		 *
+		 * @return 	List<OrderAllocation>
+		 * @exception ProcessingException Thrown if any problems
+		 */
     public List<OrderAllocation> getAllOrderAllocation() 
     throws ProcessingException {
-        List<OrderAllocation> list = null;
+			List<OrderAllocation> list = null;
 
-        try {        	
-        	list = projector.findAll( new FindAllOrderAllocationQuery() );
-        }
-        catch( Exception exc ) {
-            String errMsg = "Failed to get all OrderAllocation";
-            LOGGER.warn( errMsg, exc );
-            throw new ProcessingException( errMsg, exc );
-        }
-        finally {
-        }        
-        
-        return list;
-    }
+			try {
+				list = projector.findAll( new FindAllOrderAllocationQuery() );
+			}
+			catch( Exception exc ) {
+				String errMsg = "Failed to get all OrderAllocation";
+				LOGGER.warn( errMsg, exc );
+				throw new ProcessingException( errMsg, exc );
+			}
+			finally {
+			}
 
-    /**
-     * assign Order on OrderAllocation
-     * @param		command AssignOrderToOrderAllocationCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignOrder( AssignOrderToOrderAllocationCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	OrderAllocationValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignOrder(command.getOrderAllocationId(), command.getAssignment());
-		    
+			return list;
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Order using id " + command.getOrderAllocationId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Order on OrderAllocation
-     * @param		command UnAssignOrderFromOrderAllocationCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignOrder( UnAssignOrderFromOrderAllocationCommand command ) throws ProcessingException {
+		/**
+		 * assign Order on OrderAllocation
+		 * @param		command AssignOrderToOrderAllocationCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignOrder( AssignOrderToOrderAllocationCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderAllocationValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignOrder(command.getOrderAllocationId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Order using id " + command.getOrderAllocationId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
+		}
+
+		/**
+		 * unAssign Order on OrderAllocation
+		 * @param		command UnAssignOrderFromOrderAllocationCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignOrder( UnAssignOrderFromOrderAllocationCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignOrder(command.getOrderAllocationId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Order on OrderAllocation";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
+		}
 	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignOrder(command.getOrderAllocationId());
+		/**
+		 * assign Account on OrderAllocation
+		 * @param		command AssignAccountToOrderAllocationCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignAccount( AssignAccountToOrderAllocationCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignAccount(command.getOrderAllocationId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Account using id " + command.getOrderAllocationId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Order on OrderAllocation";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
+
+		/**
+		 * unAssign Account on OrderAllocation
+		 * @param		command UnAssignAccountFromOrderAllocationCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignAccount( UnAssignAccountFromOrderAllocationCommand command ) throws ProcessingException {
+
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignAccount(command.getOrderAllocationId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Account on OrderAllocation";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-	}
 	
-    /**
-     * assign Account on OrderAllocation
-     * @param		command AssignAccountToOrderAllocationCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignAccount( AssignAccountToOrderAllocationCommand command ) throws ProcessingException {
+		/**
+		 * assign Portfolio on OrderAllocation
+		 * @param		command AssignPortfolioToOrderAllocationCommand
+		 * @exception	ProcessingException
+		 */
+		public void assignPortfolio( AssignPortfolioToOrderAllocationCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	OrderAllocationValidator.getInstance().validate( command );    
+			try {
+				// --------------------------------------
+				// best to validate the command now
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
 
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignAccount(command.getOrderAllocationId(), command.getAssignment());
-		    
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.assignPortfolio(command.getOrderAllocationId(), command.getAssignment());
+
+			}
+			catch( Throwable exc ) {
+				final String msg = "Failed to get Portfolio using id " + command.getOrderAllocationId();
+				LOGGER.warn( msg );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Account using id " + command.getOrderAllocationId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
 
-    /**
-     * unAssign Account on OrderAllocation
-     * @param		command UnAssignAccountFromOrderAllocationCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignAccount( UnAssignAccountFromOrderAllocationCommand command ) throws ProcessingException {
+		/**
+		 * unAssign Portfolio on OrderAllocation
+		 * @param		command UnAssignPortfolioFromOrderAllocationCommand
+		 * @exception	ProcessingException
+		 */
+		public void unAssignPortfolio( UnAssignPortfolioFromOrderAllocationCommand command ) throws ProcessingException {
 
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderAllocationValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignAccount(command.getOrderAllocationId());
+			try {
+				// --------------------------------------
+				// validate the command
+				// --------------------------------------
+				OrderAllocationValidator.getInstance().validate( command );
+
+				// --------------------------------------
+				// delegate to the projector
+				// --------------------------------------
+				projector.unAssignPortfolio(command.getOrderAllocationId());
+			}
+			catch( Exception exc ) {
+				final String msg = "Failed to unassign Portfolio on OrderAllocation";
+				LOGGER.warn( msg, exc );
+				throw new ProcessingException( msg, exc );
+			}
 		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Account on OrderAllocation";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
-	
-    /**
-     * assign Portfolio on OrderAllocation
-     * @param		command AssignPortfolioToOrderAllocationCommand	
-     * @exception	ProcessingException
-     */     
-	public void assignPortfolio( AssignPortfolioToOrderAllocationCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// best to validate the command now
-	    	// --------------------------------------    
-	    	OrderAllocationValidator.getInstance().validate( command );    
-
-			// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.assignPortfolio(command.getOrderAllocationId(), command.getAssignment());
-		    
-		}
-        catch( Throwable exc ) {
-			final String msg = "Failed to get Portfolio using id " + command.getOrderAllocationId();
-			LOGGER.warn( msg );
-			throw new ProcessingException( msg, exc );
-        }
-	}
-
-    /**
-     * unAssign Portfolio on OrderAllocation
-     * @param		command UnAssignPortfolioFromOrderAllocationCommand
-     * @exception	ProcessingException
-     */     
-	public void unAssignPortfolio( UnAssignPortfolioFromOrderAllocationCommand command ) throws ProcessingException {
-
-		try {
-			// --------------------------------------
-	    	// validate the command
-	    	// --------------------------------------    
-	    	OrderAllocationValidator.getInstance().validate( command );    
-	
-	    	// --------------------------------------
-	    	// delegate to the projector
-	    	// --------------------------------------    	    	
-	    	projector.unAssignPortfolio(command.getOrderAllocationId());
-		}
-		catch( Exception exc ) {
-			final String msg = "Failed to unassign Portfolio on OrderAllocation";
-			LOGGER.warn( msg, exc );
-			throw new ProcessingException( msg, exc );
-		}
-	}
 	
 
 
@@ -455,5 +453,5 @@ extends BaseService {
     private final OrderAllocationEntityProjector projector;
 	private OrderAllocation orderAllocation 	= null;
 	private CurrentIdentity identity			= null;
-    private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderAllocationService.class);
+	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderAllocationService.class);
 }

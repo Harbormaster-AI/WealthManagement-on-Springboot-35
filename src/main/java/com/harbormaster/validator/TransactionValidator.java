@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>TransactionValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class TransactionValidator {
 		
 	/**
@@ -77,52 +80,59 @@ public class TransactionValidator {
 	 */
 	protected TransactionValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public TransactionValidator getInstance() {
-		return new TransactionValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Transaction
 	 */
-	public void validate( CreateTransactionCommand transaction )throws Exception {
-		Assert.notNull( transaction, "CreateTransactionCommand should not be null" );
+	public void validate( CreateTransactionCommand transaction )throws ValidationException {
+		if ( transaction == null )
+			throw new ValidationException( "Transaction", "validating CreateTransactionCommand" );
+
 //		Assert.isNull( transaction.getTransactionId(), "CreateTransactionCommand identifier should be null" );
-		Assert.notNull( transaction.getTradeDate(), "Field CreateTransactionCommand.tradeDate should not be null" );
-		Assert.notNull( transaction.getSettleDate(), "Field CreateTransactionCommand.settleDate should not be null" );
-		Assert.notNull( transaction.getAmount(), "Field CreateTransactionCommand.amount should not be null" );
-		Assert.notNull( transaction.getQuantity(), "Field CreateTransactionCommand.quantity should not be null" );
+		if ( transaction.getTradeDate() == null )
+			throw new ValidationException( "Transaction", "validating access on getTradeDate" );
+		if ( transaction.getSettleDate() == null )
+			throw new ValidationException( "Transaction", "validating access on getSettleDate" );
+		if ( transaction.getAmount() == null )
+			throw new ValidationException( "Transaction", "validating access on getAmount" );
+		if ( transaction.getQuantity() == null )
+			throw new ValidationException( "Transaction", "validating access on getQuantity" );
 	}
 
 	/**
 	 * handles update validation for a Transaction
 	 */
-	public void validate( UpdateTransactionCommand transaction ) throws Exception {
-		Assert.notNull( transaction, "UpdateTransactionCommand should not be null" );
-		Assert.notNull( transaction.getTransactionId(), "UpdateTransactionCommand identifier should not be null" );
-		Assert.notNull( transaction.getTradeDate(), "Field UpdateTransactionCommand.tradeDate should not be null" );
-		Assert.notNull( transaction.getSettleDate(), "Field UpdateTransactionCommand.settleDate should not be null" );
-		Assert.notNull( transaction.getAmount(), "Field UpdateTransactionCommand.amount should not be null" );
-		Assert.notNull( transaction.getQuantity(), "Field UpdateTransactionCommand.quantity should not be null" );
+	public void validate( UpdateTransactionCommand transaction ) throws ValidationException {
+		if ( transaction == null )
+			throw new ValidationException( "Transaction", "validating UpdateTransactionCommand" );
+		if ( transaction.getTradeDate() == null )
+			throw new ValidationException( "Transaction", "validating method getTradeDate" );
+		if ( transaction.getSettleDate() == null )
+			throw new ValidationException( "Transaction", "validating method getSettleDate" );
+		if ( transaction.getAmount() == null )
+			throw new ValidationException( "Transaction", "validating method getAmount" );
+		if ( transaction.getQuantity() == null )
+			throw new ValidationException( "Transaction", "validating method getQuantity" );
     }
 
 	/**
 	 * handles delete validation for a Transaction
 	 */
-    public void validate( DeleteTransactionCommand transaction ) throws Exception {
-		Assert.notNull( transaction, "{commandAlias} should not be null" );
-		Assert.notNull( transaction.getTransactionId(), "DeleteTransactionCommand identifier should not be null" );
+    public void validate( DeleteTransactionCommand transaction ) throws ValidationException {
+		if ( transaction == null )
+			throw new ValidationException( "Transaction", "validating DeleteTransactionCommand" );
+
+		if ( transaction.getQuantity() == null )
+			throw new ValidationException( "Transaction", "validating getQuantity" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Transaction
 	 */
-	public void validate( TransactionFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "TransactionFetchOneSummary should not be null" );
-		Assert.notNull( summary.getTransactionId(), "TransactionFetchOneSummary identifier should not be null" );
+	public void validate( TransactionFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Transaction", "validating summary );
 	}
 
 	/**
@@ -130,10 +140,16 @@ public class TransactionValidator {
 	 * 
 	 * @param	command AssignAccountToTransactionCommand
 	 */	
-	public void validate( AssignAccountToTransactionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToTransactionCommand should not be null" );
-		Assert.notNull( command.getTransactionId(), "AssignAccountToTransactionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToTransactionCommand assignment should not be null" );
+	public void validate( AssignAccountToTransactionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Transaction", "validating AssignAccountToTransactionCommand" );
+
+		if ( command.getTransactionId() == null )
+			throw new ValidationException( "Transaction", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Transaction", "validating assignment" );
+
 	}
 
 	/**
@@ -141,19 +157,28 @@ public class TransactionValidator {
 	 * 
 	 * @param	command UnAssignAccountFromTransactionCommand
 	 */	
-	public void validate( UnAssignAccountFromTransactionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromTransactionCommand should not be null" );
-		Assert.notNull( command.getTransactionId(), "UnAssignAccountFromTransactionCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromTransactionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Transaction", "validating UnAssignAccountFromTransactionCommand" );
+
+		if ( command.getTransactionId() == null ) }
+			throw new ValidationException( "Transaction", "validating identity on UnAssignAccountFromTransactionCommand" );
 	}
 	/**
 	 * handles assign Security validation for a Transaction
 	 * 
 	 * @param	command AssignSecurityToTransactionCommand
 	 */	
-	public void validate( AssignSecurityToTransactionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignSecurityToTransactionCommand should not be null" );
-		Assert.notNull( command.getTransactionId(), "AssignSecurityToTransactionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignSecurityToTransactionCommand assignment should not be null" );
+	public void validate( AssignSecurityToTransactionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Transaction", "validating AssignSecurityToTransactionCommand" );
+
+		if ( command.getTransactionId() == null )
+			throw new ValidationException( "Transaction", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Transaction", "validating assignment" );
+
 	}
 
 	/**
@@ -161,19 +186,28 @@ public class TransactionValidator {
 	 * 
 	 * @param	command UnAssignSecurityFromTransactionCommand
 	 */	
-	public void validate( UnAssignSecurityFromTransactionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignSecurityFromTransactionCommand should not be null" );
-		Assert.notNull( command.getTransactionId(), "UnAssignSecurityFromTransactionCommand identifier should not be null" );
+	public void validate( UnAssignSecurityFromTransactionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Transaction", "validating UnAssignSecurityFromTransactionCommand" );
+
+		if ( command.getTransactionId() == null ) }
+			throw new ValidationException( "Transaction", "validating identity on UnAssignSecurityFromTransactionCommand" );
 	}
 	/**
 	 * handles assign Order validation for a Transaction
 	 * 
 	 * @param	command AssignOrderToTransactionCommand
 	 */	
-	public void validate( AssignOrderToTransactionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignOrderToTransactionCommand should not be null" );
-		Assert.notNull( command.getTransactionId(), "AssignOrderToTransactionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignOrderToTransactionCommand assignment should not be null" );
+	public void validate( AssignOrderToTransactionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Transaction", "validating AssignOrderToTransactionCommand" );
+
+		if ( command.getTransactionId() == null )
+			throw new ValidationException( "Transaction", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Transaction", "validating assignment" );
+
 	}
 
 	/**
@@ -181,19 +215,28 @@ public class TransactionValidator {
 	 * 
 	 * @param	command UnAssignOrderFromTransactionCommand
 	 */	
-	public void validate( UnAssignOrderFromTransactionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignOrderFromTransactionCommand should not be null" );
-		Assert.notNull( command.getTransactionId(), "UnAssignOrderFromTransactionCommand identifier should not be null" );
+	public void validate( UnAssignOrderFromTransactionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Transaction", "validating UnAssignOrderFromTransactionCommand" );
+
+		if ( command.getTransactionId() == null ) }
+			throw new ValidationException( "Transaction", "validating identity on UnAssignOrderFromTransactionCommand" );
 	}
 	/**
 	 * handles assign Position validation for a Transaction
 	 * 
 	 * @param	command AssignPositionToTransactionCommand
 	 */	
-	public void validate( AssignPositionToTransactionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPositionToTransactionCommand should not be null" );
-		Assert.notNull( command.getTransactionId(), "AssignPositionToTransactionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPositionToTransactionCommand assignment should not be null" );
+	public void validate( AssignPositionToTransactionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Transaction", "validating AssignPositionToTransactionCommand" );
+
+		if ( command.getTransactionId() == null )
+			throw new ValidationException( "Transaction", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Transaction", "validating assignment" );
+
 	}
 
 	/**
@@ -201,9 +244,12 @@ public class TransactionValidator {
 	 * 
 	 * @param	command UnAssignPositionFromTransactionCommand
 	 */	
-	public void validate( UnAssignPositionFromTransactionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPositionFromTransactionCommand should not be null" );
-		Assert.notNull( command.getTransactionId(), "UnAssignPositionFromTransactionCommand identifier should not be null" );
+	public void validate( UnAssignPositionFromTransactionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Transaction", "validating UnAssignPositionFromTransactionCommand" );
+
+		if ( command.getTransactionId() == null ) }
+			throw new ValidationException( "Transaction", "validating identity on UnAssignPositionFromTransactionCommand" );
 	}
 
 

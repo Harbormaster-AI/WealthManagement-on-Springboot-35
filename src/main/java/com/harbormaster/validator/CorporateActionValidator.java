@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>CorporateActionValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -68,6 +70,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class CorporateActionValidator {
 		
 	/**
@@ -75,50 +78,55 @@ public class CorporateActionValidator {
 	 */
 	protected CorporateActionValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public CorporateActionValidator getInstance() {
-		return new CorporateActionValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a CorporateAction
 	 */
-	public void validate( CreateCorporateActionCommand corporateAction )throws Exception {
-		Assert.notNull( corporateAction, "CreateCorporateActionCommand should not be null" );
+	public void validate( CreateCorporateActionCommand corporateAction )throws ValidationException {
+		if ( corporateAction == null )
+			throw new ValidationException( "CorporateAction", "validating CreateCorporateActionCommand" );
+
 //		Assert.isNull( corporateAction.getCorporateActionId(), "CreateCorporateActionCommand identifier should be null" );
-		Assert.notNull( corporateAction.getRecordDate(), "Field CreateCorporateActionCommand.recordDate should not be null" );
-		Assert.notNull( corporateAction.getPayableDate(), "Field CreateCorporateActionCommand.payableDate should not be null" );
-		Assert.notNull( corporateAction.getDetails(), "Field CreateCorporateActionCommand.details should not be null" );
+		if ( corporateAction.getRecordDate() == null )
+			throw new ValidationException( "CorporateAction", "validating access on getRecordDate" );
+		if ( corporateAction.getPayableDate() == null )
+			throw new ValidationException( "CorporateAction", "validating access on getPayableDate" );
+		if ( corporateAction.getDetails() == null )
+			throw new ValidationException( "CorporateAction", "validating access on getDetails" );
 	}
 
 	/**
 	 * handles update validation for a CorporateAction
 	 */
-	public void validate( UpdateCorporateActionCommand corporateAction ) throws Exception {
-		Assert.notNull( corporateAction, "UpdateCorporateActionCommand should not be null" );
-		Assert.notNull( corporateAction.getCorporateActionId(), "UpdateCorporateActionCommand identifier should not be null" );
-		Assert.notNull( corporateAction.getRecordDate(), "Field UpdateCorporateActionCommand.recordDate should not be null" );
-		Assert.notNull( corporateAction.getPayableDate(), "Field UpdateCorporateActionCommand.payableDate should not be null" );
-		Assert.notNull( corporateAction.getDetails(), "Field UpdateCorporateActionCommand.details should not be null" );
+	public void validate( UpdateCorporateActionCommand corporateAction ) throws ValidationException {
+		if ( corporateAction == null )
+			throw new ValidationException( "CorporateAction", "validating UpdateCorporateActionCommand" );
+		if ( corporateAction.getRecordDate() == null )
+			throw new ValidationException( "CorporateAction", "validating method getRecordDate" );
+		if ( corporateAction.getPayableDate() == null )
+			throw new ValidationException( "CorporateAction", "validating method getPayableDate" );
+		if ( corporateAction.getDetails() == null )
+			throw new ValidationException( "CorporateAction", "validating method getDetails" );
     }
 
 	/**
 	 * handles delete validation for a CorporateAction
 	 */
-    public void validate( DeleteCorporateActionCommand corporateAction ) throws Exception {
-		Assert.notNull( corporateAction, "{commandAlias} should not be null" );
-		Assert.notNull( corporateAction.getCorporateActionId(), "DeleteCorporateActionCommand identifier should not be null" );
+    public void validate( DeleteCorporateActionCommand corporateAction ) throws ValidationException {
+		if ( corporateAction == null )
+			throw new ValidationException( "CorporateAction", "validating DeleteCorporateActionCommand" );
+
+		if ( corporateAction.getDetails() == null )
+			throw new ValidationException( "CorporateAction", "validating getDetails" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a CorporateAction
 	 */
-	public void validate( CorporateActionFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "CorporateActionFetchOneSummary should not be null" );
-		Assert.notNull( summary.getCorporateActionId(), "CorporateActionFetchOneSummary identifier should not be null" );
+	public void validate( CorporateActionFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "CorporateAction", "validating summary );
 	}
 
 	/**
@@ -126,10 +134,16 @@ public class CorporateActionValidator {
 	 * 
 	 * @param	command AssignSecurityToCorporateActionCommand
 	 */	
-	public void validate( AssignSecurityToCorporateActionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignSecurityToCorporateActionCommand should not be null" );
-		Assert.notNull( command.getCorporateActionId(), "AssignSecurityToCorporateActionCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignSecurityToCorporateActionCommand assignment should not be null" );
+	public void validate( AssignSecurityToCorporateActionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CorporateAction", "validating AssignSecurityToCorporateActionCommand" );
+
+		if ( command.getCorporateActionId() == null )
+			throw new ValidationException( "CorporateAction", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "CorporateAction", "validating assignment" );
+
 	}
 
 	/**
@@ -137,9 +151,12 @@ public class CorporateActionValidator {
 	 * 
 	 * @param	command UnAssignSecurityFromCorporateActionCommand
 	 */	
-	public void validate( UnAssignSecurityFromCorporateActionCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignSecurityFromCorporateActionCommand should not be null" );
-		Assert.notNull( command.getCorporateActionId(), "UnAssignSecurityFromCorporateActionCommand identifier should not be null" );
+	public void validate( UnAssignSecurityFromCorporateActionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CorporateAction", "validating UnAssignSecurityFromCorporateActionCommand" );
+
+		if ( command.getCorporateActionId() == null ) }
+			throw new ValidationException( "CorporateAction", "validating identity on UnAssignSecurityFromCorporateActionCommand" );
 	}
 
 	/**
@@ -147,10 +164,16 @@ public class CorporateActionValidator {
 	 * 
 	 * @param	command AssignDividendsToCorporateActionCommand
 	 */	
-	public void validate( AssignDividendsToCorporateActionCommand command ) throws Exception {
-		Assert.notNull( command, "AssignDividendsToCorporateActionCommand should not be null" );
-		Assert.notNull( command.getCorporateActionId(), "AssignDividendsToCorporateActionCommand identifier should not be null" );
-		Assert.notNull( command.getAddTo(), "AssignDividendsToCorporateActionCommand addTo attribute should not be null" );
+	public void validate( AssignDividendsToCorporateActionCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "CorporateAction", "validating AssignDividendsToCorporateActionCommand" );
+
+		if ( command.getCorporateActionId() == null ) }
+			throw new ValidationException( "CorporateAction", "validating identity on AssignDividendsToCorporateActionCommand" );
+
+		if ( command.command.getAddTo() == null ) }
+			throw new ValidationException( "CorporateAction", "validating addTo attribute on AssignDividendsToCorporateActionCommand" );
+
 	}
 
 	/**
@@ -158,11 +181,18 @@ public class CorporateActionValidator {
 	 * 
 	 * @param	command RemoveDividendsFromCorporateActionCommand
 	 */	
-	public void validate( RemoveDividendsFromCorporateActionCommand command ) throws Exception {
-		Assert.notNull( command, "RemoveDividendsFromCorporateActionCommand should not be null" );
-		Assert.notNull( command.getCorporateActionId(), "RemoveDividendsFromCorporateActionCommand identifier should not be null" );
-		Assert.notNull( command.getRemoveFrom(), "RemoveDividendsFromCorporateActionCommand removeFrom attribute should not be null" );
-		Assert.notNull( command.getRemoveFrom().getDividendId(), "RemoveDividendsFromCorporateActionCommand removeFrom attribubte identifier should not be null" );
+	public void validate( RemoveDividendsFromCorporateActionCommand ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException("CorporateAction", "validating RemoveDividendsFromCorporateActionCommand");
+
+		if( command.getCorporateActionId() == null )
+			throw new ValidationException"CorporateAction", "validating id on RemoveDividendsFromCorporateActionCommand";
+
+		if( command.getRemoveFrom() == null )
+			throw new ValidationException"CorporateAction", "validating remove from";
+
+		if( command.getRemoveFrom().getDividendId() == null )
+			throw new ValidationException"CorporateAction", "validating id on remove from}";
 	}
 	
 

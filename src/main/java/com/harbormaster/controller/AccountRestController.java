@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class AccountRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Account create( @RequestBody(required=true) CreateAccountCommand command ) {
     	Account entity = null;
-		try {       
-        	
-			entity = service.createAccount( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createAccount( command );
+		LOGGER.info( "Successfully created Account with Id " + entity.getAccountId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Account update( @RequestBody(required=true) UpdateAccountCommand command ) {
 		Account entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateAccountCommand
-			// -----------------------------------------------
-			entity = service.updateAccount(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "AccountController:update() - successfully update Account - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateAccount(command);
+		LOGGER.info( "Successfully updated Account with Id " + command.getAccountId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class AccountRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteAccountCommand command ) {                
-    	try {
-        	AccountService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Account with key " + command.getAccountId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Account with Id " + command.getAccountId()  );
+	}
 	
     /**
      * Handles loading a Account using a UUID
@@ -150,16 +133,10 @@ public class AccountRestController extends BaseSpringRestController {
      * @return		Account
      */    
     @GetMapping("/load")
-    public Account load( @RequestParam(required=true) UUID uuid ) {    	
-    	Account entity = null;
+    public Account load( @RequestParam(required=true) UUID uuid ) {
+    	Account entity = service.getAccount( new AccountFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getAccount( new AccountFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Account using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Account with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class AccountRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Account> loadAll() {                
     	List<Account> accountList = null;
-        
-    	try {
-            // load the Account
-            accountList = service.getAllAccount();
-            
-            if ( accountList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Accounts" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Accounts ", exc );
-        	return null;
-        }
+
+		accountList = service.getAllAccount();
+		LOGGER.log( Level.INFO,  "successfully loaded all Accounts" );
 
         return accountList;
                             
@@ -194,12 +162,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToAccountCommand command ) {
-		try {
-			service.assignHousehold( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
-        }
+		service.assignHousehold( command );
+		LOGGER.info( "Successfully assigned Household with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromAccountCommand command ) {
-		try {
-			service.unAssignHousehold( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
-		}
+		service.unAssignHousehold( command );
+		LOGGER.info( "Successfully unassigned Household with Id " + command.getAccountId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToAccountCommand command ) {
-		try {
-			service.assignAdvisor( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
-        }
+		service.assignAdvisor( command );
+		LOGGER.info( "Successfully assigned Advisor with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromAccountCommand command ) {
-		try {
-			service.unAssignAdvisor( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
-		}
+		service.unAssignAdvisor( command );
+		LOGGER.info( "Successfully unassigned Advisor with Id " + command.getAccountId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignCustodian")
 	public void assignCustodian( @RequestBody AssignCustodianToAccountCommand command ) {
-		try {
-			service.assignCustodian( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Custodian", exc );
-        }
+		service.assignCustodian( command );
+		LOGGER.info( "Successfully assigned Custodian with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignCustodian")
 	public void unAssignCustodian( @RequestBody(required=true)  UnAssignCustodianFromAccountCommand command ) {
-		try {
-			service.unAssignCustodian( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Custodian", exc );
-		}
+		service.unAssignCustodian( command );
+		LOGGER.info( "Successfully unassigned Custodian with Id " + command.getAccountId()  );
 	}
 	
     /**
@@ -278,12 +222,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToAccountCommand command ) {
-		try {
-			service.assignPortfolio( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
-        }
+		service.assignPortfolio( command );
+		LOGGER.info( "Successfully assigned Portfolio with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -292,12 +232,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromAccountCommand command ) {
-		try {
-			service.unAssignPortfolio( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
-		}
+		service.unAssignPortfolio( command );
+		LOGGER.info( "Successfully unassigned Portfolio with Id " + command.getAccountId()  );
 	}
 	
 
@@ -307,12 +243,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToBeneficiaries")
 	public void addToBeneficiaries( @RequestBody(required=true) AssignBeneficiariesToAccountCommand command ) {
-		try {
-			service.addToBeneficiaries( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Beneficiaries", exc );
-		}
+		service.addToBeneficiaries( command );
+		LOGGER.info( "Successfully added Beneficiaries with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -322,12 +254,8 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromBeneficiaries")
 	public void removeFromBeneficiaries( 	@RequestBody(required=true) RemoveBeneficiariesFromAccountCommand command )
 	{		
-		try {
-			service.removeFromBeneficiaries( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Beneficiaries", exc );
-		}
+		service.removeFromBeneficiaries( command );
+		LOGGER.info( "Successfully removed Beneficiaries with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -336,12 +264,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToPositions")
 	public void addToPositions( @RequestBody(required=true) AssignPositionsToAccountCommand command ) {
-		try {
-			service.addToPositions( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Positions", exc );
-		}
+		service.addToPositions( command );
+		LOGGER.info( "Successfully added Positions with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -351,12 +275,8 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromPositions")
 	public void removeFromPositions( 	@RequestBody(required=true) RemovePositionsFromAccountCommand command )
 	{		
-		try {
-			service.removeFromPositions( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Positions", exc );
-		}
+		service.removeFromPositions( command );
+		LOGGER.info( "Successfully removed Positions with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -365,12 +285,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToTransactions")
 	public void addToTransactions( @RequestBody(required=true) AssignTransactionsToAccountCommand command ) {
-		try {
-			service.addToTransactions( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Transactions", exc );
-		}
+		service.addToTransactions( command );
+		LOGGER.info( "Successfully added Transactions with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -380,12 +296,8 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromTransactions")
 	public void removeFromTransactions( 	@RequestBody(required=true) RemoveTransactionsFromAccountCommand command )
 	{		
-		try {
-			service.removeFromTransactions( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Transactions", exc );
-		}
+		service.removeFromTransactions( command );
+		LOGGER.info( "Successfully removed Transactions with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -394,12 +306,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToFees")
 	public void addToFees( @RequestBody(required=true) AssignFeesToAccountCommand command ) {
-		try {
-			service.addToFees( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Fees", exc );
-		}
+		service.addToFees( command );
+		LOGGER.info( "Successfully added Fees with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -409,12 +317,8 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromFees")
 	public void removeFromFees( 	@RequestBody(required=true) RemoveFeesFromAccountCommand command )
 	{		
-		try {
-			service.removeFromFees( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Fees", exc );
-		}
+		service.removeFromFees( command );
+		LOGGER.info( "Successfully removed Fees with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -423,12 +327,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToStandingInstructions")
 	public void addToStandingInstructions( @RequestBody(required=true) AssignStandingInstructionsToAccountCommand command ) {
-		try {
-			service.addToStandingInstructions( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set StandingInstructions", exc );
-		}
+		service.addToStandingInstructions( command );
+		LOGGER.info( "Successfully added StandingInstructions with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -438,12 +338,8 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromStandingInstructions")
 	public void removeFromStandingInstructions( 	@RequestBody(required=true) RemoveStandingInstructionsFromAccountCommand command )
 	{		
-		try {
-			service.removeFromStandingInstructions( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set StandingInstructions", exc );
-		}
+		service.removeFromStandingInstructions( command );
+		LOGGER.info( "Successfully removed StandingInstructions with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -452,12 +348,8 @@ public class AccountRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToInvoices")
 	public void addToInvoices( @RequestBody(required=true) AssignInvoicesToAccountCommand command ) {
-		try {
-			service.addToInvoices( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Invoices", exc );
-		}
+		service.addToInvoices( command );
+		LOGGER.info( "Successfully added Invoices with Id " + command.getAccountId()  );
 	}
 
     /**
@@ -467,12 +359,8 @@ public class AccountRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromInvoices")
 	public void removeFromInvoices( 	@RequestBody(required=true) RemoveInvoicesFromAccountCommand command )
 	{		
-		try {
-			service.removeFromInvoices( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Invoices", exc );
-		}
+		service.removeFromInvoices( command );
+		LOGGER.info( "Successfully removed Invoices with Id " + command.getAccountId()  );
 	}
 
 
@@ -483,6 +371,6 @@ public class AccountRestController extends BaseSpringRestController {
 //************************************************************************
     protected Account account = null;
 	protected AccountService service = null;
-    private static final Logger LOGGER = Logger.getLogger(AccountRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountRestController.class.getName());
     
 }

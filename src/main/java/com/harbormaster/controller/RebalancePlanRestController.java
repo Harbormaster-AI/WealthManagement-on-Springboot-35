@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public RebalancePlan create( @RequestBody(required=true) CreateRebalancePlanCommand command ) {
     	RebalancePlan entity = null;
-		try {       
-        	
-			entity = service.createRebalancePlan( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createRebalancePlan( command );
+		LOGGER.info( "Successfully created RebalancePlan with Id " + entity.getRebalancePlanId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public RebalancePlan update( @RequestBody(required=true) UpdateRebalancePlanCommand command ) {
 		RebalancePlan entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateRebalancePlanCommand
-			// -----------------------------------------------
-			entity = service.updateRebalancePlan(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "RebalancePlanController:update() - successfully update RebalancePlan - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateRebalancePlan(command);
+		LOGGER.info( "Successfully updated RebalancePlan with Id " + command.getRebalancePlanId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class RebalancePlanRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteRebalancePlanCommand command ) {                
-    	try {
-        	RebalancePlanService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted RebalancePlan with key " + command.getRebalancePlanId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted RebalancePlan with Id " + command.getRebalancePlanId()  );
+	}
 	
     /**
      * Handles loading a RebalancePlan using a UUID
@@ -150,16 +133,10 @@ public class RebalancePlanRestController extends BaseSpringRestController {
      * @return		RebalancePlan
      */    
     @GetMapping("/load")
-    public RebalancePlan load( @RequestParam(required=true) UUID uuid ) {    	
-    	RebalancePlan entity = null;
+    public RebalancePlan load( @RequestParam(required=true) UUID uuid ) {
+    	RebalancePlan entity = service.getRebalancePlan( new RebalancePlanFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getRebalancePlan( new RebalancePlanFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load RebalancePlan using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded RebalancePlan with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class RebalancePlanRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<RebalancePlan> loadAll() {                
     	List<RebalancePlan> rebalancePlanList = null;
-        
-    	try {
-            // load the RebalancePlan
-            rebalancePlanList = service.getAllRebalancePlan();
-            
-            if ( rebalancePlanList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all RebalancePlans" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all RebalancePlans ", exc );
-        	return null;
-        }
+
+		rebalancePlanList = service.getAllRebalancePlan();
+		LOGGER.log( Level.INFO,  "successfully loaded all RebalancePlans" );
 
         return rebalancePlanList;
                             
@@ -194,12 +162,8 @@ public class RebalancePlanRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPortfolio")
 	public void assignPortfolio( @RequestBody AssignPortfolioToRebalancePlanCommand command ) {
-		try {
-			service.assignPortfolio( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Portfolio", exc );
-        }
+		service.assignPortfolio( command );
+		LOGGER.info( "Successfully assigned Portfolio with Id " + command.getRebalancePlanId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class RebalancePlanRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPortfolio")
 	public void unAssignPortfolio( @RequestBody(required=true)  UnAssignPortfolioFromRebalancePlanCommand command ) {
-		try {
-			service.unAssignPortfolio( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Portfolio", exc );
-		}
+		service.unAssignPortfolio( command );
+		LOGGER.info( "Successfully unassigned Portfolio with Id " + command.getRebalancePlanId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class RebalancePlanRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToRebalancePlanCommand command ) {
-		try {
-			service.assignAdvisor( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
-        }
+		service.assignAdvisor( command );
+		LOGGER.info( "Successfully assigned Advisor with Id " + command.getRebalancePlanId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class RebalancePlanRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromRebalancePlanCommand command ) {
-		try {
-			service.unAssignAdvisor( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
-		}
+		service.unAssignAdvisor( command );
+		LOGGER.info( "Successfully unassigned Advisor with Id " + command.getRebalancePlanId()  );
 	}
 	
 
@@ -251,12 +203,8 @@ public class RebalancePlanRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToProposedOrders")
 	public void addToProposedOrders( @RequestBody(required=true) AssignProposedOrdersToRebalancePlanCommand command ) {
-		try {
-			service.addToProposedOrders( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set ProposedOrders", exc );
-		}
+		service.addToProposedOrders( command );
+		LOGGER.info( "Successfully added ProposedOrders with Id " + command.getRebalancePlanId()  );
 	}
 
     /**
@@ -266,12 +214,8 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromProposedOrders")
 	public void removeFromProposedOrders( 	@RequestBody(required=true) RemoveProposedOrdersFromRebalancePlanCommand command )
 	{		
-		try {
-			service.removeFromProposedOrders( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set ProposedOrders", exc );
-		}
+		service.removeFromProposedOrders( command );
+		LOGGER.info( "Successfully removed ProposedOrders with Id " + command.getRebalancePlanId()  );
 	}
 
 
@@ -282,6 +226,6 @@ public class RebalancePlanRestController extends BaseSpringRestController {
 //************************************************************************
     protected RebalancePlan rebalancePlan = null;
 	protected RebalancePlanService service = null;
-    private static final Logger LOGGER = Logger.getLogger(RebalancePlanRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(RebalancePlanRestController.class.getName());
     
 }

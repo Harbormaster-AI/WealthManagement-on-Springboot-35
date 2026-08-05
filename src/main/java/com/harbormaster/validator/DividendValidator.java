@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>DividendValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -64,6 +66,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class DividendValidator {
 		
 	/**
@@ -71,48 +74,51 @@ public class DividendValidator {
 	 */
 	protected DividendValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public DividendValidator getInstance() {
-		return new DividendValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a Dividend
 	 */
-	public void validate( CreateDividendCommand dividend )throws Exception {
-		Assert.notNull( dividend, "CreateDividendCommand should not be null" );
+	public void validate( CreateDividendCommand dividend )throws ValidationException {
+		if ( dividend == null )
+			throw new ValidationException( "Dividend", "validating CreateDividendCommand" );
+
 //		Assert.isNull( dividend.getDividendId(), "CreateDividendCommand identifier should be null" );
-		Assert.notNull( dividend.getGrossAmount(), "Field CreateDividendCommand.grossAmount should not be null" );
-		Assert.notNull( dividend.getTaxWithheld(), "Field CreateDividendCommand.taxWithheld should not be null" );
+		if ( dividend.getGrossAmount() == null )
+			throw new ValidationException( "Dividend", "validating access on getGrossAmount" );
+		if ( dividend.getTaxWithheld() == null )
+			throw new ValidationException( "Dividend", "validating access on getTaxWithheld" );
 	}
 
 	/**
 	 * handles update validation for a Dividend
 	 */
-	public void validate( UpdateDividendCommand dividend ) throws Exception {
-		Assert.notNull( dividend, "UpdateDividendCommand should not be null" );
-		Assert.notNull( dividend.getDividendId(), "UpdateDividendCommand identifier should not be null" );
-		Assert.notNull( dividend.getGrossAmount(), "Field UpdateDividendCommand.grossAmount should not be null" );
-		Assert.notNull( dividend.getTaxWithheld(), "Field UpdateDividendCommand.taxWithheld should not be null" );
+	public void validate( UpdateDividendCommand dividend ) throws ValidationException {
+		if ( dividend == null )
+			throw new ValidationException( "Dividend", "validating UpdateDividendCommand" );
+		if ( dividend.getGrossAmount() == null )
+			throw new ValidationException( "Dividend", "validating method getGrossAmount" );
+		if ( dividend.getTaxWithheld() == null )
+			throw new ValidationException( "Dividend", "validating method getTaxWithheld" );
     }
 
 	/**
 	 * handles delete validation for a Dividend
 	 */
-    public void validate( DeleteDividendCommand dividend ) throws Exception {
-		Assert.notNull( dividend, "{commandAlias} should not be null" );
-		Assert.notNull( dividend.getDividendId(), "DeleteDividendCommand identifier should not be null" );
+    public void validate( DeleteDividendCommand dividend ) throws ValidationException {
+		if ( dividend == null )
+			throw new ValidationException( "Dividend", "validating DeleteDividendCommand" );
+
+		if ( dividend.getTaxWithheld() == null )
+			throw new ValidationException( "Dividend", "validating getTaxWithheld" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a Dividend
 	 */
-	public void validate( DividendFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "DividendFetchOneSummary should not be null" );
-		Assert.notNull( summary.getDividendId(), "DividendFetchOneSummary identifier should not be null" );
+	public void validate( DividendFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "Dividend", "validating summary );
 	}
 
 	/**
@@ -120,10 +126,16 @@ public class DividendValidator {
 	 * 
 	 * @param	command AssignCorporateActionToDividendCommand
 	 */	
-	public void validate( AssignCorporateActionToDividendCommand command ) throws Exception {
-		Assert.notNull( command, "AssignCorporateActionToDividendCommand should not be null" );
-		Assert.notNull( command.getDividendId(), "AssignCorporateActionToDividendCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignCorporateActionToDividendCommand assignment should not be null" );
+	public void validate( AssignCorporateActionToDividendCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Dividend", "validating AssignCorporateActionToDividendCommand" );
+
+		if ( command.getDividendId() == null )
+			throw new ValidationException( "Dividend", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "Dividend", "validating assignment" );
+
 	}
 
 	/**
@@ -131,9 +143,12 @@ public class DividendValidator {
 	 * 
 	 * @param	command UnAssignCorporateActionFromDividendCommand
 	 */	
-	public void validate( UnAssignCorporateActionFromDividendCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignCorporateActionFromDividendCommand should not be null" );
-		Assert.notNull( command.getDividendId(), "UnAssignCorporateActionFromDividendCommand identifier should not be null" );
+	public void validate( UnAssignCorporateActionFromDividendCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "Dividend", "validating UnAssignCorporateActionFromDividendCommand" );
+
+		if ( command.getDividendId() == null ) }
+			throw new ValidationException( "Dividend", "validating identity on UnAssignCorporateActionFromDividendCommand" );
 	}
 
 

@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public FeeSchedule create( @RequestBody(required=true) CreateFeeScheduleCommand command ) {
     	FeeSchedule entity = null;
-		try {       
-        	
-			entity = service.createFeeSchedule( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createFeeSchedule( command );
+		LOGGER.info( "Successfully created FeeSchedule with Id " + entity.getFeeScheduleId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public FeeSchedule update( @RequestBody(required=true) UpdateFeeScheduleCommand command ) {
 		FeeSchedule entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateFeeScheduleCommand
-			// -----------------------------------------------
-			entity = service.updateFeeSchedule(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "FeeScheduleController:update() - successfully update FeeSchedule - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateFeeSchedule(command);
+		LOGGER.info( "Successfully updated FeeSchedule with Id " + command.getFeeScheduleId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class FeeScheduleRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteFeeScheduleCommand command ) {                
-    	try {
-        	FeeScheduleService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted FeeSchedule with key " + command.getFeeScheduleId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted FeeSchedule with Id " + command.getFeeScheduleId()  );
+	}
 	
     /**
      * Handles loading a FeeSchedule using a UUID
@@ -150,16 +133,10 @@ public class FeeScheduleRestController extends BaseSpringRestController {
      * @return		FeeSchedule
      */    
     @GetMapping("/load")
-    public FeeSchedule load( @RequestParam(required=true) UUID uuid ) {    	
-    	FeeSchedule entity = null;
+    public FeeSchedule load( @RequestParam(required=true) UUID uuid ) {
+    	FeeSchedule entity = service.getFeeSchedule( new FeeScheduleFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getFeeSchedule( new FeeScheduleFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load FeeSchedule using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded FeeSchedule with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class FeeScheduleRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<FeeSchedule> loadAll() {                
     	List<FeeSchedule> feeScheduleList = null;
-        
-    	try {
-            // load the FeeSchedule
-            feeScheduleList = service.getAllFeeSchedule();
-            
-            if ( feeScheduleList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all FeeSchedules" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all FeeSchedules ", exc );
-        	return null;
-        }
+
+		feeScheduleList = service.getAllFeeSchedule();
+		LOGGER.log( Level.INFO,  "successfully loaded all FeeSchedules" );
 
         return feeScheduleList;
                             
@@ -195,12 +163,8 @@ public class FeeScheduleRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToAccounts")
 	public void addToAccounts( @RequestBody(required=true) AssignAccountsToFeeScheduleCommand command ) {
-		try {
-			service.addToAccounts( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Accounts", exc );
-		}
+		service.addToAccounts( command );
+		LOGGER.info( "Successfully added Accounts with Id " + command.getFeeScheduleId()  );
 	}
 
     /**
@@ -210,12 +174,8 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromAccounts")
 	public void removeFromAccounts( 	@RequestBody(required=true) RemoveAccountsFromFeeScheduleCommand command )
 	{		
-		try {
-			service.removeFromAccounts( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Accounts", exc );
-		}
+		service.removeFromAccounts( command );
+		LOGGER.info( "Successfully removed Accounts with Id " + command.getFeeScheduleId()  );
 	}
 
     /**
@@ -224,12 +184,8 @@ public class FeeScheduleRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToBillingRuns")
 	public void addToBillingRuns( @RequestBody(required=true) AssignBillingRunsToFeeScheduleCommand command ) {
-		try {
-			service.addToBillingRuns( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set BillingRuns", exc );
-		}
+		service.addToBillingRuns( command );
+		LOGGER.info( "Successfully added BillingRuns with Id " + command.getFeeScheduleId()  );
 	}
 
     /**
@@ -239,12 +195,8 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromBillingRuns")
 	public void removeFromBillingRuns( 	@RequestBody(required=true) RemoveBillingRunsFromFeeScheduleCommand command )
 	{		
-		try {
-			service.removeFromBillingRuns( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set BillingRuns", exc );
-		}
+		service.removeFromBillingRuns( command );
+		LOGGER.info( "Successfully removed BillingRuns with Id " + command.getFeeScheduleId()  );
 	}
 
 
@@ -255,6 +207,6 @@ public class FeeScheduleRestController extends BaseSpringRestController {
 //************************************************************************
     protected FeeSchedule feeSchedule = null;
 	protected FeeScheduleService service = null;
-    private static final Logger LOGGER = Logger.getLogger(FeeScheduleRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeeScheduleRestController.class.getName());
     
 }

@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class CashMovementRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public CashMovement create( @RequestBody(required=true) CreateCashMovementCommand command ) {
     	CashMovement entity = null;
-		try {       
-        	
-			entity = service.createCashMovement( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createCashMovement( command );
+		LOGGER.info( "Successfully created CashMovement with Id " + entity.getCashMovementId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class CashMovementRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public CashMovement update( @RequestBody(required=true) UpdateCashMovementCommand command ) {
 		CashMovement entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateCashMovementCommand
-			// -----------------------------------------------
-			entity = service.updateCashMovement(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "CashMovementController:update() - successfully update CashMovement - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateCashMovement(command);
+		LOGGER.info( "Successfully updated CashMovement with Id " + command.getCashMovementId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class CashMovementRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteCashMovementCommand command ) {                
-    	try {
-        	CashMovementService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted CashMovement with key " + command.getCashMovementId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted CashMovement with Id " + command.getCashMovementId()  );
+	}
 	
     /**
      * Handles loading a CashMovement using a UUID
@@ -150,16 +133,10 @@ public class CashMovementRestController extends BaseSpringRestController {
      * @return		CashMovement
      */    
     @GetMapping("/load")
-    public CashMovement load( @RequestParam(required=true) UUID uuid ) {    	
-    	CashMovement entity = null;
+    public CashMovement load( @RequestParam(required=true) UUID uuid ) {
+    	CashMovement entity = service.getCashMovement( new CashMovementFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getCashMovement( new CashMovementFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load CashMovement using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded CashMovement with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class CashMovementRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<CashMovement> loadAll() {                
     	List<CashMovement> cashMovementList = null;
-        
-    	try {
-            // load the CashMovement
-            cashMovementList = service.getAllCashMovement();
-            
-            if ( cashMovementList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all CashMovements" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all CashMovements ", exc );
-        	return null;
-        }
+
+		cashMovementList = service.getAllCashMovement();
+		LOGGER.log( Level.INFO,  "successfully loaded all CashMovements" );
 
         return cashMovementList;
                             
@@ -194,12 +162,8 @@ public class CashMovementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAccount")
 	public void assignAccount( @RequestBody AssignAccountToCashMovementCommand command ) {
-		try {
-			service.assignAccount( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Account", exc );
-        }
+		service.assignAccount( command );
+		LOGGER.info( "Successfully assigned Account with Id " + command.getCashMovementId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class CashMovementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAccount")
 	public void unAssignAccount( @RequestBody(required=true)  UnAssignAccountFromCashMovementCommand command ) {
-		try {
-			service.unAssignAccount( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Account", exc );
-		}
+		service.unAssignAccount( command );
+		LOGGER.info( "Successfully unassigned Account with Id " + command.getCashMovementId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class CashMovementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignRelatedInstruction")
 	public void assignRelatedInstruction( @RequestBody AssignRelatedInstructionToCashMovementCommand command ) {
-		try {
-			service.assignRelatedInstruction( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign RelatedInstruction", exc );
-        }
+		service.assignRelatedInstruction( command );
+		LOGGER.info( "Successfully assigned RelatedInstruction with Id " + command.getCashMovementId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class CashMovementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignRelatedInstruction")
 	public void unAssignRelatedInstruction( @RequestBody(required=true)  UnAssignRelatedInstructionFromCashMovementCommand command ) {
-		try {
-			service.unAssignRelatedInstruction( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign RelatedInstruction", exc );
-		}
+		service.unAssignRelatedInstruction( command );
+		LOGGER.info( "Successfully unassigned RelatedInstruction with Id " + command.getCashMovementId()  );
 	}
 	
     /**
@@ -250,12 +202,8 @@ public class CashMovementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignRelatedTransaction")
 	public void assignRelatedTransaction( @RequestBody AssignRelatedTransactionToCashMovementCommand command ) {
-		try {
-			service.assignRelatedTransaction( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign RelatedTransaction", exc );
-        }
+		service.assignRelatedTransaction( command );
+		LOGGER.info( "Successfully assigned RelatedTransaction with Id " + command.getCashMovementId()  );
 	}
 
     /**
@@ -264,12 +212,8 @@ public class CashMovementRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignRelatedTransaction")
 	public void unAssignRelatedTransaction( @RequestBody(required=true)  UnAssignRelatedTransactionFromCashMovementCommand command ) {
-		try {
-			service.unAssignRelatedTransaction( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign RelatedTransaction", exc );
-		}
+		service.unAssignRelatedTransaction( command );
+		LOGGER.info( "Successfully unassigned RelatedTransaction with Id " + command.getCashMovementId()  );
 	}
 	
 
@@ -281,6 +225,6 @@ public class CashMovementRestController extends BaseSpringRestController {
 //************************************************************************
     protected CashMovement cashMovement = null;
 	protected CashMovementService service = null;
-    private static final Logger LOGGER = Logger.getLogger(CashMovementRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CashMovementRestController.class.getName());
     
 }

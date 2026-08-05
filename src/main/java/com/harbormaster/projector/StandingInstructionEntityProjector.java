@@ -24,9 +24,10 @@
 package com.harbormaster.projector;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,7 +61,7 @@ import com.harbormaster.repository.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -264,7 +265,7 @@ public class StandingInstructionEntityProjector implements EntityProjector<Stand
     		return repository.findById(id).get();
     	}
     	catch( IllegalArgumentException exc ) {
-    		LOGGER.log( Level.WARNING, "Failed to find a StandingInstruction - {0}", exc.getMessage() );
+    		LOGGER.warn( "Failed to find a StandingInstruction - {0}", exc.getMessage() );
     	}
     	return null;
     }
@@ -282,7 +283,7 @@ public class StandingInstructionEntityProjector implements EntityProjector<Stand
     		return repository.findAll();
     	}
     	catch( IllegalArgumentException exc ) {
-    		LOGGER.log( Level.WARNING, "Failed to find all StandingInstruction - {0}", exc.getMessage() );
+    		LOGGER.warn( "Failed to find all StandingInstruction - {0}", exc.getMessage() );
     	}
     	return null;
     }
@@ -296,6 +297,6 @@ public class StandingInstructionEntityProjector implements EntityProjector<Stand
 	protected final ProjectorRegistry registry;
 
 
-    private static final Logger LOGGER 	= Logger.getLogger(StandingInstructionEntityProjector.class.getName());
+    private static final Logger LOGGER 	= LoggerFactory.getLogger(StandingInstructionEntityProjector.class.getName());
 
 }

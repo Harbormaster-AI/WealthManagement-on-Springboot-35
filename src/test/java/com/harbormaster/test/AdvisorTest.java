@@ -49,245 +49,245 @@ public class AdvisorTest
     public AdvisorTest(AdvisorService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a Advisor, through a AdvisorTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on AdvisorTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on AdvisorTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on AdvisorTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on AdvisorTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new Advisor.
      *
      * @return    Advisor
      */
     public Advisor testCreate() throws Throwable {
-        Advisor entity = null;
+    Advisor entity = null;
 
-        LOGGER.info( "AdvisorTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a Advisor");
+    LOGGER.info( "AdvisorTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a Advisor");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a Advisor" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a Advisor" );
 
-        try {            
-            entity = service.createAdvisor( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createAdvisor( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getAdvisorId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getAdvisorId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a Advisor with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a Advisor with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a Advisor.
      *
-     * @return    Advisor  
+     * @return    Advisor
      */
     public Advisor testRead() throws Throwable {
-        LOGGER.info( "AdvisorTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created Advisor" );
+    LOGGER.info( "AdvisorTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created Advisor" );
 
-        Advisor entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read Advisor with primary key" );
-        msg.append( theId );
+    Advisor entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read Advisor with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getAdvisor( new AdvisorFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getAdvisor( new AdvisorFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getAdvisorId();
-            
-            LOGGER.info( "-- Successfully found Advisor " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getAdvisorId();
+
+        LOGGER.info( "-- Successfully found Advisor " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a Advisor.
      *
      * @return    Advisor
      */
     public Advisor testUpdate() throws Throwable {
-        LOGGER.info( "AdvisorTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a Advisor." );
+    LOGGER.info( "AdvisorTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a Advisor." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a Advisor : " );        
-        Advisor entity = null;
-    
-        try {            
-        	UpdateAdvisorCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setAdvisorId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a Advisor : " );
+    Advisor entity = null;
 
-            LOGGER.info( "-- Now updating the created Advisor." );
-            
-            entity = service.updateAdvisor( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateAdvisorCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved Advisor - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setAdvisorId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created Advisor." );
+
+        entity = service.updateAdvisor( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved Advisor - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a Advisor.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "AdvisorTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created Advisor." );
-        
-        try {
-        	DeleteAdvisorCommand deleteCommand = new DeleteAdvisorCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted Advisor with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete Advisor with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "AdvisorTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created Advisor." );
 
-    /** 
+    try {
+        DeleteAdvisorCommand deleteCommand = new DeleteAdvisorCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted Advisor with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete Advisor with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all Advisors.
      *
      * @return    Collection
      */
-    public List<Advisor> testGetAll() throws Throwable {    
-        LOGGER.info( "AdvisorTest:testGetAll() - Retrieving Collection of Advisors:" );
+    public List<Advisor> testGetAll() throws Throwable {
+    LOGGER.info( "AdvisorTest:testGetAll() - Retrieving Collection of Advisors:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all Advisor : " );        
-        List<Advisor> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all Advisor : " );
+    List<Advisor> collection  = null;
 
-        try {
-            // call the static get method on the AdvisorService
-            collection = service.getAllAdvisor();
+    try {
+        // call the static get method on the AdvisorService
+        collection = service.getAllAdvisor();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            Advisor currEntity  = null;            
-	            Iterator<Advisor> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getAdvisorId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            Advisor currEntity  = null;
+            Iterator<Advisor> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getAdvisorId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public AdvisorTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated Advisor
-	 * 
-	 * @return CreateAdvisorCommand alias
-	 */
+
+    /**
+     * Returns a new populated Advisor
+     *
+     * @return CreateAdvisorCommand alias
+     */
 	protected CreateAdvisorCommand generateNewCommand() {
-        CreateAdvisorCommand command = new CreateAdvisorCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AdvisorRole.values()[0] );
-		
-		return( command );
-	}
+    CreateAdvisorCommand command = new CreateAdvisorCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AdvisorRole.values()[0] );
 
-		/**
-		 * Returns a new populated Advisor
-		 * 
-		 * @return UpdateAdvisorCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated Advisor
+     *
+     * @return UpdateAdvisorCommand alias
+     */
 	protected UpdateAdvisorCommand generateUpdateCommand() {
-	        UpdateAdvisorCommand command = new UpdateAdvisorCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  new HashSet<>(),  null,  AdvisorRole.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateAdvisorCommand command = new UpdateAdvisorCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  new HashSet<>(),  null,  AdvisorRole.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected AdvisorService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(Advisor.class.getName());
 
 }

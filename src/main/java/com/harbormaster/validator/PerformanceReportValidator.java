@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>PerformanceReportValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -66,6 +68,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class PerformanceReportValidator {
 		
 	/**
@@ -73,52 +76,59 @@ public class PerformanceReportValidator {
 	 */
 	protected PerformanceReportValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public PerformanceReportValidator getInstance() {
-		return new PerformanceReportValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a PerformanceReport
 	 */
-	public void validate( CreatePerformanceReportCommand performanceReport )throws Exception {
-		Assert.notNull( performanceReport, "CreatePerformanceReportCommand should not be null" );
+	public void validate( CreatePerformanceReportCommand performanceReport )throws ValidationException {
+		if ( performanceReport == null )
+			throw new ValidationException( "PerformanceReport", "validating CreatePerformanceReportCommand" );
+
 //		Assert.isNull( performanceReport.getPerformanceReportId(), "CreatePerformanceReportCommand identifier should be null" );
-		Assert.notNull( performanceReport.getPeriodStart(), "Field CreatePerformanceReportCommand.periodStart should not be null" );
-		Assert.notNull( performanceReport.getPeriodEnd(), "Field CreatePerformanceReportCommand.periodEnd should not be null" );
-		Assert.notNull( performanceReport.getNetReturn(), "Field CreatePerformanceReportCommand.netReturn should not be null" );
-		Assert.notNull( performanceReport.getGrossReturn(), "Field CreatePerformanceReportCommand.grossReturn should not be null" );
+		if ( performanceReport.getPeriodStart() == null )
+			throw new ValidationException( "PerformanceReport", "validating access on getPeriodStart" );
+		if ( performanceReport.getPeriodEnd() == null )
+			throw new ValidationException( "PerformanceReport", "validating access on getPeriodEnd" );
+		if ( performanceReport.getNetReturn() == null )
+			throw new ValidationException( "PerformanceReport", "validating access on getNetReturn" );
+		if ( performanceReport.getGrossReturn() == null )
+			throw new ValidationException( "PerformanceReport", "validating access on getGrossReturn" );
 	}
 
 	/**
 	 * handles update validation for a PerformanceReport
 	 */
-	public void validate( UpdatePerformanceReportCommand performanceReport ) throws Exception {
-		Assert.notNull( performanceReport, "UpdatePerformanceReportCommand should not be null" );
-		Assert.notNull( performanceReport.getPerformanceReportId(), "UpdatePerformanceReportCommand identifier should not be null" );
-		Assert.notNull( performanceReport.getPeriodStart(), "Field UpdatePerformanceReportCommand.periodStart should not be null" );
-		Assert.notNull( performanceReport.getPeriodEnd(), "Field UpdatePerformanceReportCommand.periodEnd should not be null" );
-		Assert.notNull( performanceReport.getNetReturn(), "Field UpdatePerformanceReportCommand.netReturn should not be null" );
-		Assert.notNull( performanceReport.getGrossReturn(), "Field UpdatePerformanceReportCommand.grossReturn should not be null" );
+	public void validate( UpdatePerformanceReportCommand performanceReport ) throws ValidationException {
+		if ( performanceReport == null )
+			throw new ValidationException( "PerformanceReport", "validating UpdatePerformanceReportCommand" );
+		if ( performanceReport.getPeriodStart() == null )
+			throw new ValidationException( "PerformanceReport", "validating method getPeriodStart" );
+		if ( performanceReport.getPeriodEnd() == null )
+			throw new ValidationException( "PerformanceReport", "validating method getPeriodEnd" );
+		if ( performanceReport.getNetReturn() == null )
+			throw new ValidationException( "PerformanceReport", "validating method getNetReturn" );
+		if ( performanceReport.getGrossReturn() == null )
+			throw new ValidationException( "PerformanceReport", "validating method getGrossReturn" );
     }
 
 	/**
 	 * handles delete validation for a PerformanceReport
 	 */
-    public void validate( DeletePerformanceReportCommand performanceReport ) throws Exception {
-		Assert.notNull( performanceReport, "{commandAlias} should not be null" );
-		Assert.notNull( performanceReport.getPerformanceReportId(), "DeletePerformanceReportCommand identifier should not be null" );
+    public void validate( DeletePerformanceReportCommand performanceReport ) throws ValidationException {
+		if ( performanceReport == null )
+			throw new ValidationException( "PerformanceReport", "validating DeletePerformanceReportCommand" );
+
+		if ( performanceReport.getGrossReturn() == null )
+			throw new ValidationException( "PerformanceReport", "validating getGrossReturn" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a PerformanceReport
 	 */
-	public void validate( PerformanceReportFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "PerformanceReportFetchOneSummary should not be null" );
-		Assert.notNull( summary.getPerformanceReportId(), "PerformanceReportFetchOneSummary identifier should not be null" );
+	public void validate( PerformanceReportFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "PerformanceReport", "validating summary );
 	}
 
 	/**
@@ -126,10 +136,16 @@ public class PerformanceReportValidator {
 	 * 
 	 * @param	command AssignPortfolioToPerformanceReportCommand
 	 */	
-	public void validate( AssignPortfolioToPerformanceReportCommand command ) throws Exception {
-		Assert.notNull( command, "AssignPortfolioToPerformanceReportCommand should not be null" );
-		Assert.notNull( command.getPerformanceReportId(), "AssignPortfolioToPerformanceReportCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignPortfolioToPerformanceReportCommand assignment should not be null" );
+	public void validate( AssignPortfolioToPerformanceReportCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "PerformanceReport", "validating AssignPortfolioToPerformanceReportCommand" );
+
+		if ( command.getPerformanceReportId() == null )
+			throw new ValidationException( "PerformanceReport", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "PerformanceReport", "validating assignment" );
+
 	}
 
 	/**
@@ -137,19 +153,28 @@ public class PerformanceReportValidator {
 	 * 
 	 * @param	command UnAssignPortfolioFromPerformanceReportCommand
 	 */	
-	public void validate( UnAssignPortfolioFromPerformanceReportCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignPortfolioFromPerformanceReportCommand should not be null" );
-		Assert.notNull( command.getPerformanceReportId(), "UnAssignPortfolioFromPerformanceReportCommand identifier should not be null" );
+	public void validate( UnAssignPortfolioFromPerformanceReportCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "PerformanceReport", "validating UnAssignPortfolioFromPerformanceReportCommand" );
+
+		if ( command.getPerformanceReportId() == null ) }
+			throw new ValidationException( "PerformanceReport", "validating identity on UnAssignPortfolioFromPerformanceReportCommand" );
 	}
 	/**
 	 * handles assign Benchmark validation for a PerformanceReport
 	 * 
 	 * @param	command AssignBenchmarkToPerformanceReportCommand
 	 */	
-	public void validate( AssignBenchmarkToPerformanceReportCommand command ) throws Exception {
-		Assert.notNull( command, "AssignBenchmarkToPerformanceReportCommand should not be null" );
-		Assert.notNull( command.getPerformanceReportId(), "AssignBenchmarkToPerformanceReportCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignBenchmarkToPerformanceReportCommand assignment should not be null" );
+	public void validate( AssignBenchmarkToPerformanceReportCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "PerformanceReport", "validating AssignBenchmarkToPerformanceReportCommand" );
+
+		if ( command.getPerformanceReportId() == null )
+			throw new ValidationException( "PerformanceReport", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "PerformanceReport", "validating assignment" );
+
 	}
 
 	/**
@@ -157,9 +182,12 @@ public class PerformanceReportValidator {
 	 * 
 	 * @param	command UnAssignBenchmarkFromPerformanceReportCommand
 	 */	
-	public void validate( UnAssignBenchmarkFromPerformanceReportCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignBenchmarkFromPerformanceReportCommand should not be null" );
-		Assert.notNull( command.getPerformanceReportId(), "UnAssignBenchmarkFromPerformanceReportCommand identifier should not be null" );
+	public void validate( UnAssignBenchmarkFromPerformanceReportCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "PerformanceReport", "validating UnAssignBenchmarkFromPerformanceReportCommand" );
+
+		if ( command.getPerformanceReportId() == null ) }
+			throw new ValidationException( "PerformanceReport", "validating identity on UnAssignBenchmarkFromPerformanceReportCommand" );
 	}
 
 

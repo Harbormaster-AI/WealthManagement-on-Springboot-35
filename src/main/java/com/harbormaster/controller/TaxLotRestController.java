@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class TaxLotRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public TaxLot create( @RequestBody(required=true) CreateTaxLotCommand command ) {
     	TaxLot entity = null;
-		try {       
-        	
-			entity = service.createTaxLot( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createTaxLot( command );
+		LOGGER.info( "Successfully created TaxLot with Id " + entity.getTaxLotId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class TaxLotRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public TaxLot update( @RequestBody(required=true) UpdateTaxLotCommand command ) {
 		TaxLot entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateTaxLotCommand
-			// -----------------------------------------------
-			entity = service.updateTaxLot(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "TaxLotController:update() - successfully update TaxLot - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateTaxLot(command);
+		LOGGER.info( "Successfully updated TaxLot with Id " + command.getTaxLotId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class TaxLotRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteTaxLotCommand command ) {                
-    	try {
-        	TaxLotService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted TaxLot with key " + command.getTaxLotId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted TaxLot with Id " + command.getTaxLotId()  );
+	}
 	
     /**
      * Handles loading a TaxLot using a UUID
@@ -150,16 +133,10 @@ public class TaxLotRestController extends BaseSpringRestController {
      * @return		TaxLot
      */    
     @GetMapping("/load")
-    public TaxLot load( @RequestParam(required=true) UUID uuid ) {    	
-    	TaxLot entity = null;
+    public TaxLot load( @RequestParam(required=true) UUID uuid ) {
+    	TaxLot entity = service.getTaxLot( new TaxLotFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getTaxLot( new TaxLotFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load TaxLot using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded TaxLot with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class TaxLotRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<TaxLot> loadAll() {                
     	List<TaxLot> taxLotList = null;
-        
-    	try {
-            // load the TaxLot
-            taxLotList = service.getAllTaxLot();
-            
-            if ( taxLotList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all TaxLots" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all TaxLots ", exc );
-        	return null;
-        }
+
+		taxLotList = service.getAllTaxLot();
+		LOGGER.log( Level.INFO,  "successfully loaded all TaxLots" );
 
         return taxLotList;
                             
@@ -194,12 +162,8 @@ public class TaxLotRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignPosition")
 	public void assignPosition( @RequestBody AssignPositionToTaxLotCommand command ) {
-		try {
-			service.assignPosition( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Position", exc );
-        }
+		service.assignPosition( command );
+		LOGGER.info( "Successfully assigned Position with Id " + command.getTaxLotId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class TaxLotRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignPosition")
 	public void unAssignPosition( @RequestBody(required=true)  UnAssignPositionFromTaxLotCommand command ) {
-		try {
-			service.unAssignPosition( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Position", exc );
-		}
+		service.unAssignPosition( command );
+		LOGGER.info( "Successfully unassigned Position with Id " + command.getTaxLotId()  );
 	}
 	
 
@@ -225,6 +185,6 @@ public class TaxLotRestController extends BaseSpringRestController {
 //************************************************************************
     protected TaxLot taxLot = null;
 	protected TaxLotService service = null;
-    private static final Logger LOGGER = Logger.getLogger(TaxLotRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaxLotRestController.class.getName());
     
 }

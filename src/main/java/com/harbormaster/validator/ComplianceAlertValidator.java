@@ -23,9 +23,11 @@
  */
 package com.harbormaster.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.harbormaster.api.*;
+import com.harbormaster.exception.*;
 
 /**
  * <h2>ComplianceAlertValidation</h2>
@@ -39,7 +41,7 @@ import com.harbormaster.api.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -70,6 +72,7 @@ import com.harbormaster.api.*;
  * @author Harbormaster Dev Team
  * </p>
  */
+@Component
 public class ComplianceAlertValidator {
 		
 	/**
@@ -77,48 +80,51 @@ public class ComplianceAlertValidator {
 	 */
 	protected ComplianceAlertValidator() {	
 	}
-	
-	/**
-	 * factory method
-	 */
-	static public ComplianceAlertValidator getInstance() {
-		return new ComplianceAlertValidator();
-	}
+
 		
 	/**
 	 * handles creation validation for a ComplianceAlert
 	 */
-	public void validate( CreateComplianceAlertCommand complianceAlert )throws Exception {
-		Assert.notNull( complianceAlert, "CreateComplianceAlertCommand should not be null" );
+	public void validate( CreateComplianceAlertCommand complianceAlert )throws ValidationException {
+		if ( complianceAlert == null )
+			throw new ValidationException( "ComplianceAlert", "validating CreateComplianceAlertCommand" );
+
 //		Assert.isNull( complianceAlert.getComplianceAlertId(), "CreateComplianceAlertCommand identifier should be null" );
-		Assert.notNull( complianceAlert.getAlertDate(), "Field CreateComplianceAlertCommand.alertDate should not be null" );
-		Assert.notNull( complianceAlert.getMessage(), "Field CreateComplianceAlertCommand.message should not be null" );
+		if ( complianceAlert.getAlertDate() == null )
+			throw new ValidationException( "ComplianceAlert", "validating access on getAlertDate" );
+		if ( complianceAlert.getMessage() == null )
+			throw new ValidationException( "ComplianceAlert", "validating access on getMessage" );
 	}
 
 	/**
 	 * handles update validation for a ComplianceAlert
 	 */
-	public void validate( UpdateComplianceAlertCommand complianceAlert ) throws Exception {
-		Assert.notNull( complianceAlert, "UpdateComplianceAlertCommand should not be null" );
-		Assert.notNull( complianceAlert.getComplianceAlertId(), "UpdateComplianceAlertCommand identifier should not be null" );
-		Assert.notNull( complianceAlert.getAlertDate(), "Field UpdateComplianceAlertCommand.alertDate should not be null" );
-		Assert.notNull( complianceAlert.getMessage(), "Field UpdateComplianceAlertCommand.message should not be null" );
+	public void validate( UpdateComplianceAlertCommand complianceAlert ) throws ValidationException {
+		if ( complianceAlert == null )
+			throw new ValidationException( "ComplianceAlert", "validating UpdateComplianceAlertCommand" );
+		if ( complianceAlert.getAlertDate() == null )
+			throw new ValidationException( "ComplianceAlert", "validating method getAlertDate" );
+		if ( complianceAlert.getMessage() == null )
+			throw new ValidationException( "ComplianceAlert", "validating method getMessage" );
     }
 
 	/**
 	 * handles delete validation for a ComplianceAlert
 	 */
-    public void validate( DeleteComplianceAlertCommand complianceAlert ) throws Exception {
-		Assert.notNull( complianceAlert, "{commandAlias} should not be null" );
-		Assert.notNull( complianceAlert.getComplianceAlertId(), "DeleteComplianceAlertCommand identifier should not be null" );
+    public void validate( DeleteComplianceAlertCommand complianceAlert ) throws ValidationException {
+		if ( complianceAlert == null )
+			throw new ValidationException( "ComplianceAlert", "validating DeleteComplianceAlertCommand" );
+
+		if ( complianceAlert.getMessage() == null )
+			throw new ValidationException( "ComplianceAlert", "validating getMessage" );
 	}
 	
 	/**
 	 * handles fetchOne validation for a ComplianceAlert
 	 */
-	public void validate( ComplianceAlertFetchOneSummary summary ) throws Exception {
-		Assert.notNull( summary, "ComplianceAlertFetchOneSummary should not be null" );
-		Assert.notNull( summary.getComplianceAlertId(), "ComplianceAlertFetchOneSummary identifier should not be null" );
+	public void validate( ComplianceAlertFetchOneSummary summary ) throws ValidationException {
+		if ( summary == null )
+			throw new ValidationException( "ComplianceAlert", "validating summary );
 	}
 
 	/**
@@ -126,10 +132,16 @@ public class ComplianceAlertValidator {
 	 * 
 	 * @param	command AssignRuleToComplianceAlertCommand
 	 */	
-	public void validate( AssignRuleToComplianceAlertCommand command ) throws Exception {
-		Assert.notNull( command, "AssignRuleToComplianceAlertCommand should not be null" );
-		Assert.notNull( command.getComplianceAlertId(), "AssignRuleToComplianceAlertCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignRuleToComplianceAlertCommand assignment should not be null" );
+	public void validate( AssignRuleToComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating AssignRuleToComplianceAlertCommand" );
+
+		if ( command.getComplianceAlertId() == null )
+			throw new ValidationException( "ComplianceAlert", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ComplianceAlert", "validating assignment" );
+
 	}
 
 	/**
@@ -137,19 +149,28 @@ public class ComplianceAlertValidator {
 	 * 
 	 * @param	command UnAssignRuleFromComplianceAlertCommand
 	 */	
-	public void validate( UnAssignRuleFromComplianceAlertCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignRuleFromComplianceAlertCommand should not be null" );
-		Assert.notNull( command.getComplianceAlertId(), "UnAssignRuleFromComplianceAlertCommand identifier should not be null" );
+	public void validate( UnAssignRuleFromComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating UnAssignRuleFromComplianceAlertCommand" );
+
+		if ( command.getComplianceAlertId() == null ) }
+			throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignRuleFromComplianceAlertCommand" );
 	}
 	/**
 	 * handles assign Account validation for a ComplianceAlert
 	 * 
 	 * @param	command AssignAccountToComplianceAlertCommand
 	 */	
-	public void validate( AssignAccountToComplianceAlertCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAccountToComplianceAlertCommand should not be null" );
-		Assert.notNull( command.getComplianceAlertId(), "AssignAccountToComplianceAlertCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAccountToComplianceAlertCommand assignment should not be null" );
+	public void validate( AssignAccountToComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating AssignAccountToComplianceAlertCommand" );
+
+		if ( command.getComplianceAlertId() == null )
+			throw new ValidationException( "ComplianceAlert", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ComplianceAlert", "validating assignment" );
+
 	}
 
 	/**
@@ -157,19 +178,28 @@ public class ComplianceAlertValidator {
 	 * 
 	 * @param	command UnAssignAccountFromComplianceAlertCommand
 	 */	
-	public void validate( UnAssignAccountFromComplianceAlertCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAccountFromComplianceAlertCommand should not be null" );
-		Assert.notNull( command.getComplianceAlertId(), "UnAssignAccountFromComplianceAlertCommand identifier should not be null" );
+	public void validate( UnAssignAccountFromComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating UnAssignAccountFromComplianceAlertCommand" );
+
+		if ( command.getComplianceAlertId() == null ) }
+			throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAccountFromComplianceAlertCommand" );
 	}
 	/**
 	 * handles assign Order validation for a ComplianceAlert
 	 * 
 	 * @param	command AssignOrderToComplianceAlertCommand
 	 */	
-	public void validate( AssignOrderToComplianceAlertCommand command ) throws Exception {
-		Assert.notNull( command, "AssignOrderToComplianceAlertCommand should not be null" );
-		Assert.notNull( command.getComplianceAlertId(), "AssignOrderToComplianceAlertCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignOrderToComplianceAlertCommand assignment should not be null" );
+	public void validate( AssignOrderToComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating AssignOrderToComplianceAlertCommand" );
+
+		if ( command.getComplianceAlertId() == null )
+			throw new ValidationException( "ComplianceAlert", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ComplianceAlert", "validating assignment" );
+
 	}
 
 	/**
@@ -177,19 +207,28 @@ public class ComplianceAlertValidator {
 	 * 
 	 * @param	command UnAssignOrderFromComplianceAlertCommand
 	 */	
-	public void validate( UnAssignOrderFromComplianceAlertCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignOrderFromComplianceAlertCommand should not be null" );
-		Assert.notNull( command.getComplianceAlertId(), "UnAssignOrderFromComplianceAlertCommand identifier should not be null" );
+	public void validate( UnAssignOrderFromComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating UnAssignOrderFromComplianceAlertCommand" );
+
+		if ( command.getComplianceAlertId() == null ) }
+			throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignOrderFromComplianceAlertCommand" );
 	}
 	/**
 	 * handles assign Advisor validation for a ComplianceAlert
 	 * 
 	 * @param	command AssignAdvisorToComplianceAlertCommand
 	 */	
-	public void validate( AssignAdvisorToComplianceAlertCommand command ) throws Exception {
-		Assert.notNull( command, "AssignAdvisorToComplianceAlertCommand should not be null" );
-		Assert.notNull( command.getComplianceAlertId(), "AssignAdvisorToComplianceAlertCommand identifier should not be null" );
-		Assert.notNull( command.getAssignment(), "AssignAdvisorToComplianceAlertCommand assignment should not be null" );
+	public void validate( AssignAdvisorToComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating AssignAdvisorToComplianceAlertCommand" );
+
+		if ( command.getComplianceAlertId() == null )
+			throw new ValidationException( "ComplianceAlert", "validating identifier" );
+
+		if ( command.getAssignment() == null )
+			throw new ValidationException( "ComplianceAlert", "validating assignment" );
+
 	}
 
 	/**
@@ -197,9 +236,12 @@ public class ComplianceAlertValidator {
 	 * 
 	 * @param	command UnAssignAdvisorFromComplianceAlertCommand
 	 */	
-	public void validate( UnAssignAdvisorFromComplianceAlertCommand command ) throws Exception {
-		Assert.notNull( command, "UnAssignAdvisorFromComplianceAlertCommand should not be null" );
-		Assert.notNull( command.getComplianceAlertId(), "UnAssignAdvisorFromComplianceAlertCommand identifier should not be null" );
+	public void validate( UnAssignAdvisorFromComplianceAlertCommand command ) throws ValidationException {
+		if ( command == null )
+			throw new ValidationException( "ComplianceAlert", "validating UnAssignAdvisorFromComplianceAlertCommand" );
+
+		if ( command.getComplianceAlertId() == null ) }
+			throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAdvisorFromComplianceAlertCommand" );
 	}
 
 

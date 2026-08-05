@@ -49,245 +49,245 @@ public class BillingRunTest
     public BillingRunTest(BillingRunService service)
     {
         this.service = service;
-    	LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
+        LOGGER.setUseParentHandlers(false);	// only want to output to the provided LogHandler
     }
 
 // test methods
     @Test
-    /** 
+    /**
      * Full Create-Read-Update-Delete of a BillingRun, through a BillingRunTest.
      */
-    public void testCRUD() throws Throwable {        
-        try {
-        	LOGGER.info( "**********************************************************" );
-            LOGGER.info( "Beginning full test on BillingRunTest..." );
-            
-            testCreate();            
-            testRead();        
-            testUpdate();
-            testGetAll();                
-            testDelete();
-            
-            LOGGER.info( "Successfully ran a full test on BillingRunTest..." );
-            LOGGER.info( "**********************************************************" );
-            LOGGER.info( "" );
-        }
-        catch( Throwable e ) {
-            throw e;
-        }
-        finally  {
-        	if ( handler != null ) {
-        		handler.flush();
-        		LOGGER.removeHandler(handler);
-        	}
-        }
-   }
+    public void testCRUD() throws Throwable {
+    try {
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "Beginning full test on BillingRunTest..." );
 
-    /** 
+        testCreate();
+        testRead();
+        testUpdate();
+        testGetAll();
+        testDelete();
+
+        LOGGER.info( "Successfully ran a full test on BillingRunTest..." );
+        LOGGER.info( "**********************************************************" );
+        LOGGER.info( "" );
+    }
+    catch( Throwable e ) {
+        throw e;
+    }
+    finally  {
+        if ( handler != null ) {
+            handler.flush();
+            LOGGER.removeHandler(handler);
+        }
+    }
+}
+
+    /**
      * Tests creating a new BillingRun.
      *
      * @return    BillingRun
      */
     public BillingRun testCreate() throws Throwable {
-        BillingRun entity = null;
+    BillingRun entity = null;
 
-        LOGGER.info( "BillingRunTest:testCreate()" );
-        LOGGER.info( "-- Attempting to create a BillingRun");
+    LOGGER.info( "BillingRunTest:testCreate()" );
+    LOGGER.info( "-- Attempting to create a BillingRun");
 
-        StringBuilder msg = new StringBuilder( "-- Failed to create a BillingRun" );
+    StringBuilder msg = new StringBuilder( "-- Failed to create a BillingRun" );
 
-        try {            
-            entity = service.createBillingRun( generateNewCommand() );
-            assertNotNull( entity, msg.toString() );
+    try {
+        entity = service.createBillingRun( generateNewCommand() );
+        assertNotNull( entity, msg.toString() );
 
-            theId = entity.getBillingRunId();
-            assertNotNull( theId, msg.toString() + " Contains a null primary key" );
+        theId = entity.getBillingRunId();
+        assertNotNull( theId, msg.toString() + " Contains a null primary key" );
 
-            LOGGER.info( "-- Successfully created a BillingRun with primary key" + theId );
-        }
-        catch (Exception e)  {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + entity );
-            
-            throw e;
-        }
-        return entity;
+        LOGGER.info( "-- Successfully created a BillingRun with primary key" + theId );
     }
+    catch (Exception e)  {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + entity );
 
-    /** 
+        throw e;
+    }
+    return entity;
+}
+
+    /**
      * Tests reading a BillingRun.
      *
-     * @return    BillingRun  
+     * @return    BillingRun
      */
     public BillingRun testRead() throws Throwable {
-        LOGGER.info( "BillingRunTest:testRead()" );
-        LOGGER.info( "-- Reading a previously created BillingRun" );
+    LOGGER.info( "BillingRunTest:testRead()" );
+    LOGGER.info( "-- Reading a previously created BillingRun" );
 
-        BillingRun entity = null;
-        StringBuilder msg = new StringBuilder( "-- Failed to read BillingRun with primary key" );
-        msg.append( theId );
+    BillingRun entity = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to read BillingRun with primary key" );
+    msg.append( theId );
 
-        try {
-            entity = service.getBillingRun( new BillingRunFetchOneSummary(theId) );
-            
-            assertNotNull( entity,msg.toString() );
+    try {
+        entity = service.getBillingRun( new BillingRunFetchOneSummary(theId) );
 
-            // for use later
-            theId = entity.getBillingRunId();
-            
-            LOGGER.info( "-- Successfully found BillingRun " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : " + e );
-            
-            throw e;
-        }
+        assertNotNull( entity,msg.toString() );
 
-        return( entity );
+        // for use later
+        theId = entity.getBillingRunId();
+
+        LOGGER.info( "-- Successfully found BillingRun " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests updating a BillingRun.
      *
      * @return    BillingRun
      */
     public BillingRun testUpdate() throws Throwable {
-        LOGGER.info( "BillingRunTest:testUpdate()" );
-        LOGGER.info( "-- Attempting to update a BillingRun." );
+    LOGGER.info( "BillingRunTest:testUpdate()" );
+    LOGGER.info( "-- Attempting to update a BillingRun." );
 
-        StringBuilder msg = new StringBuilder( "Failed to update a BillingRun : " );        
-        BillingRun entity = null;
-    
-        try {            
-        	UpdateBillingRunCommand updateCommand = this.generateUpdateCommand();
-        	
-        	// apply the current id as to update the fields of the current entity
-        	updateCommand.setBillingRunId( theId );
-            
-            assertNotNull( updateCommand, msg.toString() );
+    StringBuilder msg = new StringBuilder( "Failed to update a BillingRun : " );
+    BillingRun entity = null;
 
-            LOGGER.info( "-- Now updating the created BillingRun." );
-            
-            entity = service.updateBillingRun( updateCommand );   
-            
-            assertNotNull( entity, msg.toString()  );
+    try {
+        UpdateBillingRunCommand updateCommand = this.generateUpdateCommand();
 
-            LOGGER.info( "-- Successfully saved BillingRun - " + entity.toString() );
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
-            
-            throw e;
-        }
+        // apply the current id as to update the fields of the current entity
+        updateCommand.setBillingRunId( theId );
 
-        return( entity );
+        assertNotNull( updateCommand, msg.toString() );
+
+        LOGGER.info( "-- Now updating the created BillingRun." );
+
+        entity = service.updateBillingRun( updateCommand );
+
+        assertNotNull( entity, msg.toString()  );
+
+        LOGGER.info( "-- Successfully saved BillingRun - " + entity.toString() );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() + " : primarykey-" + theId + " : entity-" +  entity + " : " + e );
+
+        throw e;
     }
 
-    /** 
+    return( entity );
+}
+
+    /**
      * Tests deleting a BillingRun.
      */
     public void testDelete() throws Throwable {
-        LOGGER.info( "BillingRunTest:testDelete()" );
-        LOGGER.info( "-- Deleting a previously created BillingRun." );
-        
-        try {
-        	DeleteBillingRunCommand deleteCommand = new DeleteBillingRunCommand( theId );
-        	
-            service.delete( deleteCommand );
-            
-            LOGGER.info( "-- Successfully deleted BillingRun with primary key " + theId );            
-        }
-        catch ( Throwable e ) {
-            LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( "-- Failed to delete BillingRun with primary key " + theId );
-            
-            throw e;
-        }
-    }
+    LOGGER.info( "BillingRunTest:testDelete()" );
+    LOGGER.info( "-- Deleting a previously created BillingRun." );
 
-    /** 
+    try {
+        DeleteBillingRunCommand deleteCommand = new DeleteBillingRunCommand( theId );
+
+        service.delete( deleteCommand );
+
+        LOGGER.info( "-- Successfully deleted BillingRun with primary key " + theId );
+    }
+    catch ( Throwable e ) {
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( "-- Failed to delete BillingRun with primary key " + theId );
+
+        throw e;
+    }
+}
+
+    /**
      * Tests getting all BillingRuns.
      *
      * @return    Collection
      */
-    public List<BillingRun> testGetAll() throws Throwable {    
-        LOGGER.info( "BillingRunTest:testGetAll() - Retrieving Collection of BillingRuns:" );
+    public List<BillingRun> testGetAll() throws Throwable {
+    LOGGER.info( "BillingRunTest:testGetAll() - Retrieving Collection of BillingRuns:" );
 
-        StringBuilder msg = new StringBuilder( "-- Failed to get all BillingRun : " );        
-        List<BillingRun> collection  = null;
+    StringBuilder msg = new StringBuilder( "-- Failed to get all BillingRun : " );
+    List<BillingRun> collection  = null;
 
-        try {
-            // call the static get method on the BillingRunService
-            collection = service.getAllBillingRun();
+    try {
+        // call the static get method on the BillingRunService
+        collection = service.getAllBillingRun();
 
-            if ( collection == null || collection.size() == 0 ) {
-                LOGGER.warning( unexpectedErrorMsg );
-                LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
-            }
-            else {
-	            // Now print out the values
-	            BillingRun currEntity  = null;            
-	            Iterator<BillingRun> iter = collection.iterator();
-					
-	            while( iter.hasNext() ) {
-	                // Retrieve the entity   
-	                currEntity = iter.next();
-	                
-	                assertNotNull( currEntity,"-- null value object in Collection." );
-	                assertNotNull( currEntity.getBillingRunId(), "-- value object in Collection has a null primary key" );        
-	
-	                LOGGER.info( " - " + currEntity.toString() );
-	            }
-            }
-        }
-        catch ( Throwable e ){
+        if ( collection == null || collection.size() == 0 ) {
             LOGGER.warning( unexpectedErrorMsg );
-            LOGGER.warning( msg.toString() );
-            
-            throw e;
+            LOGGER.warning( "-- " + msg.toString() + " Empty collection returned."  );
         }
+        else {
+            // Now print out the values
+            BillingRun currEntity  = null;
+            Iterator<BillingRun> iter = collection.iterator();
 
-        return( collection );
+            while( iter.hasNext() ) {
+                // Retrieve the entity
+                currEntity = iter.next();
+
+                assertNotNull( currEntity,"-- null value object in Collection." );
+                assertNotNull( currEntity.getBillingRunId(), "-- value object in Collection has a null primary key" );
+
+                LOGGER.info( " - " + currEntity.toString() );
+            }
+        }
     }
-    
+    catch ( Throwable e ){
+        LOGGER.warning( unexpectedErrorMsg );
+        LOGGER.warning( msg.toString() );
+
+        throw e;
+    }
+
+    return( collection );
+}
+
     public BillingRunTest setHandler( Handler handler ) {
-    	this.handler = handler;
-    	LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
-    	return this;
-    }
-    
+    this.handler = handler;
+    LOGGER.addHandler(handler);	// assign so the LOGGER can only output results to the Handler
+    return this;
+}
 
-	/**
-	 * Returns a new populated BillingRun
-	 * 
-	 * @return CreateBillingRunCommand alias
-	 */
+
+    /**
+     * Returns a new populated BillingRun
+     *
+     * @return CreateBillingRunCommand alias
+     */
 	protected CreateBillingRunCommand generateNewCommand() {
-        CreateBillingRunCommand command = new CreateBillingRunCommand( null,   new Date(),   new Date(),   new Date(),  BillingRunStatus.values()[0] );
-		
-		return( command );
-	}
+    CreateBillingRunCommand command = new CreateBillingRunCommand( null,   new Date(),   new Date(),   new Date(),  BillingRunStatus.values()[0] );
 
-		/**
-		 * Returns a new populated BillingRun
-		 * 
-		 * @return UpdateBillingRunCommand alias
-		 */
+    return( command );
+}
+
+    /**
+     * Returns a new populated BillingRun
+     *
+     * @return UpdateBillingRunCommand alias
+     */
 	protected UpdateBillingRunCommand generateUpdateCommand() {
-	        UpdateBillingRunCommand command = new UpdateBillingRunCommand( null,   new Date(),   new Date(),   new Date(),  null,  new HashSet<>(),  BillingRunStatus.values()[0] );
-			
-			return( command );
-		}
-	//----
-    
-// attributes 
+    UpdateBillingRunCommand command = new UpdateBillingRunCommand( null,   new Date(),   new Date(),   new Date(),  null,  new HashSet<>(),  BillingRunStatus.values()[0] );
+
+    return( command );
+}
+    //----
+
+// attributes
 
     protected UUID theId  = null;
     protected BillingRunService service = null;
-	private Handler handler = null;
-	private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
+    private Handler handler = null;
+    private String unexpectedErrorMsg = ":::::::::::::: Unexpected Error :::::::::::::::::";
     private final Logger LOGGER = Logger.getLogger(BillingRun.class.getName());
 
 }

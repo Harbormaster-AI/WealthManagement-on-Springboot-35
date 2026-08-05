@@ -27,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.harbormaster.api.*;
 import com.harbormaster.service.*;
@@ -47,7 +48,7 @@ import com.harbormaster.exception.*;
  *      <h3>Blueprint</h3>
  * 			<table>
  *          <tr><td>name</td><td>Spring Boot 3.5</td></tr>
- *          <tr><td>published</td><td>07/31/2026</td></tr>
+ *          <tr><td>published</td><td>08/05/2026</td></tr>
  *          <tr><td>design pattern</td><td>ServiceLayer</td></tr>
  *          <tr><td>architecture style</td><td>Layered</td></tr>
  *          </table>
@@ -94,14 +95,10 @@ public class MeetingRestController extends BaseSpringRestController {
 	@PostMapping("/create")
     public Meeting create( @RequestBody(required=true) CreateMeetingCommand command ) {
     	Meeting entity = null;
-		try {       
-        	
-			entity = service.createMeeting( command );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage(), exc );        	
-        }
-		
+
+		entity = service.createMeeting( command );
+		LOGGER.info( "Successfully created Meeting with Id " + entity.getMeetingId()  );
+
 		return entity;
     }
 
@@ -113,16 +110,10 @@ public class MeetingRestController extends BaseSpringRestController {
 	@PutMapping("/update")
     public Meeting update( @RequestBody(required=true) UpdateMeetingCommand command ) {
 		Meeting entity = null;
-		try {                        	        
-			// -----------------------------------------------
-			// delegate the UpdateMeetingCommand
-			// -----------------------------------------------
-			entity = service.updateMeeting(command);;
-	    }
-	    catch( Throwable exc ) {
-	    	LOGGER.log( Level.WARNING, "MeetingController:update() - successfully update Meeting - " + exc.getMessage());        	
-	    }		
-		
+
+		entity = service.updateMeeting(command);
+		LOGGER.info( "Successfully updated Meeting with Id " + command.getMeetingId()  );
+
 		return entity;
 	}
  
@@ -132,17 +123,9 @@ public class MeetingRestController extends BaseSpringRestController {
      */
     @DeleteMapping("/delete")    
     public void delete( @RequestBody(required=true) DeleteMeetingCommand command ) {                
-    	try {
-        	MeetingService delegate = service;
-
-        	delegate.delete( command );
-    		LOGGER.log( Level.WARNING, "Successfully deleted Meeting with key " + command.getMeetingId() );
-        }
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, exc.getMessage() );
-        }
-
-	}        
+		service.delete( command );
+		LOGGER.info( "Successfully deleted Meeting with Id " + command.getMeetingId()  );
+	}
 	
     /**
      * Handles loading a Meeting using a UUID
@@ -150,16 +133,10 @@ public class MeetingRestController extends BaseSpringRestController {
      * @return		Meeting
      */    
     @GetMapping("/load")
-    public Meeting load( @RequestParam(required=true) UUID uuid ) {    	
-    	Meeting entity = null;
+    public Meeting load( @RequestParam(required=true) UUID uuid ) {
+    	Meeting entity = service.getMeeting( new MeetingFetchOneSummary( uuid ) );
 
-    	try {  
-    		entity = service.getMeeting( new MeetingFetchOneSummary( uuid ) );   
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING, "failed to load Meeting using Id " + uuid );
-            return null;
-        }
+		LOGGER.info( "Successfully loaded Meeting with Id " + uuid   );
 
         return entity;
     }
@@ -171,18 +148,9 @@ public class MeetingRestController extends BaseSpringRestController {
     @GetMapping("/")
     public List<Meeting> loadAll() {                
     	List<Meeting> meetingList = null;
-        
-    	try {
-            // load the Meeting
-            meetingList = service.getAllMeeting();
-            
-            if ( meetingList != null )
-                LOGGER.log( Level.INFO,  "successfully loaded all Meetings" );
-        }
-        catch( Throwable exc ) {
-            LOGGER.log( Level.WARNING,  "failed to load all Meetings ", exc );
-        	return null;
-        }
+
+		meetingList = service.getAllMeeting();
+		LOGGER.log( Level.INFO,  "successfully loaded all Meetings" );
 
         return meetingList;
                             
@@ -194,12 +162,8 @@ public class MeetingRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignHousehold")
 	public void assignHousehold( @RequestBody AssignHouseholdToMeetingCommand command ) {
-		try {
-			service.assignHousehold( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Household", exc );
-        }
+		service.assignHousehold( command );
+		LOGGER.info( "Successfully assigned Household with Id " + command.getMeetingId()  );
 	}
 
     /**
@@ -208,12 +172,8 @@ public class MeetingRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignHousehold")
 	public void unAssignHousehold( @RequestBody(required=true)  UnAssignHouseholdFromMeetingCommand command ) {
-		try {
-			service.unAssignHousehold( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Household", exc );
-		}
+		service.unAssignHousehold( command );
+		LOGGER.info( "Successfully unassigned Household with Id " + command.getMeetingId()  );
 	}
 	
     /**
@@ -222,12 +182,8 @@ public class MeetingRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/assignAdvisor")
 	public void assignAdvisor( @RequestBody AssignAdvisorToMeetingCommand command ) {
-		try {
-			service.assignAdvisor( command );   
-		}
-        catch( Throwable exc ) {
-        	LOGGER.log( Level.WARNING, "Failed to assign Advisor", exc );
-        }
+		service.assignAdvisor( command );
+		LOGGER.info( "Successfully assigned Advisor with Id " + command.getMeetingId()  );
 	}
 
     /**
@@ -236,12 +192,8 @@ public class MeetingRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/unAssignAdvisor")
 	public void unAssignAdvisor( @RequestBody(required=true)  UnAssignAdvisorFromMeetingCommand command ) {
-		try {
-			service.unAssignAdvisor( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to unassign Advisor", exc );
-		}
+		service.unAssignAdvisor( command );
+		LOGGER.info( "Successfully unassigned Advisor with Id " + command.getMeetingId()  );
 	}
 	
 
@@ -251,12 +203,8 @@ public class MeetingRestController extends BaseSpringRestController {
      */     
 	@PutMapping("/addToDocuments")
 	public void addToDocuments( @RequestBody(required=true) AssignDocumentsToMeetingCommand command ) {
-		try {
-			service.addToDocuments( command );   
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to add to Set Documents", exc );
-		}
+		service.addToDocuments( command );
+		LOGGER.info( "Successfully added Documents with Id " + command.getMeetingId()  );
 	}
 
     /**
@@ -266,12 +214,8 @@ public class MeetingRestController extends BaseSpringRestController {
 	@PutMapping("/removeFromDocuments")
 	public void removeFromDocuments( 	@RequestBody(required=true) RemoveDocumentsFromMeetingCommand command )
 	{		
-		try {
-			service.removeFromDocuments( command );
-		}
-		catch( Exception exc ) {
-			LOGGER.log( Level.WARNING, "Failed to remove from Set Documents", exc );
-		}
+		service.removeFromDocuments( command );
+		LOGGER.info( "Successfully removed Documents with Id " + command.getMeetingId()  );
 	}
 
 
@@ -282,6 +226,6 @@ public class MeetingRestController extends BaseSpringRestController {
 //************************************************************************
     protected Meeting meeting = null;
 	protected MeetingService service = null;
-    private static final Logger LOGGER = Logger.getLogger(MeetingRestController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MeetingRestController.class.getName());
     
 }

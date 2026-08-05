@@ -150,7 +150,7 @@ public class MeetingRestController extends BaseSpringRestController {
     	List<Meeting> meetingList = null;
 
 		meetingList = service.getAllMeeting();
-		LOGGER.log( Level.INFO,  "successfully loaded all Meetings" );
+		LOGGER.info( "successfully loaded all Meetings" );
 
         return meetingList;
                             

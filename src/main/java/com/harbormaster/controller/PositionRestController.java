@@ -150,7 +150,7 @@ public class PositionRestController extends BaseSpringRestController {
     	List<Position> positionList = null;
 
 		positionList = service.getAllPosition();
-		LOGGER.log( Level.INFO,  "successfully loaded all Positions" );
+		LOGGER.info( "successfully loaded all Positions" );
 
         return positionList;
                             

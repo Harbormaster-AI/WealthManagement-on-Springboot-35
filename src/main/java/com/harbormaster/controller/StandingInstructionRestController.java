@@ -150,7 +150,7 @@ public class StandingInstructionRestController extends BaseSpringRestController 
     	List<StandingInstruction> standingInstructionList = null;
 
 		standingInstructionList = service.getAllStandingInstruction();
-		LOGGER.log( Level.INFO,  "successfully loaded all StandingInstructions" );
+		LOGGER.info( "successfully loaded all StandingInstructions" );
 
         return standingInstructionList;
                             

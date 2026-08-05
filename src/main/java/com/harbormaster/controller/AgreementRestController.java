@@ -150,7 +150,7 @@ public class AgreementRestController extends BaseSpringRestController {
     	List<Agreement> agreementList = null;
 
 		agreementList = service.getAllAgreement();
-		LOGGER.log( Level.INFO,  "successfully loaded all Agreements" );
+		LOGGER.info( "successfully loaded all Agreements" );
 
         return agreementList;
                             

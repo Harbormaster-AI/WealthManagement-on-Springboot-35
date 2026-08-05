@@ -150,7 +150,7 @@ public class CustodianRestController extends BaseSpringRestController {
     	List<Custodian> custodianList = null;
 
 		custodianList = service.getAllCustodian();
-		LOGGER.log( Level.INFO,  "successfully loaded all Custodians" );
+		LOGGER.info( "successfully loaded all Custodians" );
 
         return custodianList;
                             

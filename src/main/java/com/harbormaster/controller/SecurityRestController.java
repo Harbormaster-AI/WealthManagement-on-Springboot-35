@@ -150,7 +150,7 @@ public class SecurityRestController extends BaseSpringRestController {
     	List<Security> securityList = null;
 
 		securityList = service.getAllSecurity();
-		LOGGER.log( Level.INFO,  "successfully loaded all Securitys" );
+		LOGGER.info( "successfully loaded all Securitys" );
 
         return securityList;
                             

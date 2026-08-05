@@ -150,7 +150,7 @@ public class AdvisorRestController extends BaseSpringRestController {
     	List<Advisor> advisorList = null;
 
 		advisorList = service.getAllAdvisor();
-		LOGGER.log( Level.INFO,  "successfully loaded all Advisors" );
+		LOGGER.info( "successfully loaded all Advisors" );
 
         return advisorList;
                             

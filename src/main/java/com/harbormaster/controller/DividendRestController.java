@@ -150,7 +150,7 @@ public class DividendRestController extends BaseSpringRestController {
     	List<Dividend> dividendList = null;
 
 		dividendList = service.getAllDividend();
-		LOGGER.log( Level.INFO,  "successfully loaded all Dividends" );
+		LOGGER.info( "successfully loaded all Dividends" );
 
         return dividendList;
                             

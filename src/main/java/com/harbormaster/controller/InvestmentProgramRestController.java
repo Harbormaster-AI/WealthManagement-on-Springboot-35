@@ -150,7 +150,7 @@ public class InvestmentProgramRestController extends BaseSpringRestController {
     	List<InvestmentProgram> investmentProgramList = null;
 
 		investmentProgramList = service.getAllInvestmentProgram();
-		LOGGER.log( Level.INFO,  "successfully loaded all InvestmentPrograms" );
+		LOGGER.info( "successfully loaded all InvestmentPrograms" );
 
         return investmentProgramList;
                             

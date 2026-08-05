@@ -150,7 +150,7 @@ public class OrderRestController extends BaseSpringRestController {
     	List<Order> orderList = null;
 
 		orderList = service.getAllOrder();
-		LOGGER.log( Level.INFO,  "successfully loaded all Orders" );
+		LOGGER.info( "successfully loaded all Orders" );
 
         return orderList;
                             

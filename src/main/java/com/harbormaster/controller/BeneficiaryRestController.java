@@ -150,7 +150,7 @@ public class BeneficiaryRestController extends BaseSpringRestController {
     	List<Beneficiary> beneficiaryList = null;
 
 		beneficiaryList = service.getAllBeneficiary();
-		LOGGER.log( Level.INFO,  "successfully loaded all Beneficiarys" );
+		LOGGER.info( "successfully loaded all Beneficiarys" );
 
         return beneficiaryList;
                             

@@ -150,7 +150,7 @@ public class BillingRunRestController extends BaseSpringRestController {
     	List<BillingRun> billingRunList = null;
 
 		billingRunList = service.getAllBillingRun();
-		LOGGER.log( Level.INFO,  "successfully loaded all BillingRuns" );
+		LOGGER.info( "successfully loaded all BillingRuns" );
 
         return billingRunList;
                             

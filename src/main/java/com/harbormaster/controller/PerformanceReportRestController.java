@@ -150,7 +150,7 @@ public class PerformanceReportRestController extends BaseSpringRestController {
     	List<PerformanceReport> performanceReportList = null;
 
 		performanceReportList = service.getAllPerformanceReport();
-		LOGGER.log( Level.INFO,  "successfully loaded all PerformanceReports" );
+		LOGGER.info( "successfully loaded all PerformanceReports" );
 
         return performanceReportList;
                             

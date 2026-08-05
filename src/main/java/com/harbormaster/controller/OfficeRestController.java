@@ -150,7 +150,7 @@ public class OfficeRestController extends BaseSpringRestController {
     	List<Office> officeList = null;
 
 		officeList = service.getAllOffice();
-		LOGGER.log( Level.INFO,  "successfully loaded all Offices" );
+		LOGGER.info( "successfully loaded all Offices" );
 
         return officeList;
                             

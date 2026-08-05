@@ -150,7 +150,7 @@ public class AdvisoryTeamRestController extends BaseSpringRestController {
     	List<AdvisoryTeam> advisoryTeamList = null;
 
 		advisoryTeamList = service.getAllAdvisoryTeam();
-		LOGGER.log( Level.INFO,  "successfully loaded all AdvisoryTeams" );
+		LOGGER.info( "successfully loaded all AdvisoryTeams" );
 
         return advisoryTeamList;
                             

@@ -150,7 +150,7 @@ public class CorporateActionRestController extends BaseSpringRestController {
     	List<CorporateAction> corporateActionList = null;
 
 		corporateActionList = service.getAllCorporateAction();
-		LOGGER.log( Level.INFO,  "successfully loaded all CorporateActions" );
+		LOGGER.info( "successfully loaded all CorporateActions" );
 
         return corporateActionList;
                             

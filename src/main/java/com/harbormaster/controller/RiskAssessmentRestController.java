@@ -150,7 +150,7 @@ public class RiskAssessmentRestController extends BaseSpringRestController {
     	List<RiskAssessment> riskAssessmentList = null;
 
 		riskAssessmentList = service.getAllRiskAssessment();
-		LOGGER.log( Level.INFO,  "successfully loaded all RiskAssessments" );
+		LOGGER.info( "successfully loaded all RiskAssessments" );
 
         return riskAssessmentList;
                             

@@ -150,7 +150,7 @@ public class ComplianceAlertRestController extends BaseSpringRestController {
     	List<ComplianceAlert> complianceAlertList = null;
 
 		complianceAlertList = service.getAllComplianceAlert();
-		LOGGER.log( Level.INFO,  "successfully loaded all ComplianceAlerts" );
+		LOGGER.info( "successfully loaded all ComplianceAlerts" );
 
         return complianceAlertList;
                             

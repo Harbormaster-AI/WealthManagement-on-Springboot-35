@@ -150,7 +150,7 @@ public class AssetAllocationSliceRestController extends BaseSpringRestController
     	List<AssetAllocationSlice> assetAllocationSliceList = null;
 
 		assetAllocationSliceList = service.getAllAssetAllocationSlice();
-		LOGGER.log( Level.INFO,  "successfully loaded all AssetAllocationSlices" );
+		LOGGER.info( "successfully loaded all AssetAllocationSlices" );
 
         return assetAllocationSliceList;
                             

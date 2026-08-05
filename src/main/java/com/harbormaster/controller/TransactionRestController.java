@@ -150,7 +150,7 @@ public class TransactionRestController extends BaseSpringRestController {
     	List<Transaction> transactionList = null;
 
 		transactionList = service.getAllTransaction();
-		LOGGER.log( Level.INFO,  "successfully loaded all Transactions" );
+		LOGGER.info( "successfully loaded all Transactions" );
 
         return transactionList;
                             

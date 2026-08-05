@@ -150,7 +150,7 @@ public class TaxLotRestController extends BaseSpringRestController {
     	List<TaxLot> taxLotList = null;
 
 		taxLotList = service.getAllTaxLot();
-		LOGGER.log( Level.INFO,  "successfully loaded all TaxLots" );
+		LOGGER.info( "successfully loaded all TaxLots" );
 
         return taxLotList;
                             

@@ -150,7 +150,7 @@ public class ComplianceRuleRestController extends BaseSpringRestController {
     	List<ComplianceRule> complianceRuleList = null;
 
 		complianceRuleList = service.getAllComplianceRule();
-		LOGGER.log( Level.INFO,  "successfully loaded all ComplianceRules" );
+		LOGGER.info( "successfully loaded all ComplianceRules" );
 
         return complianceRuleList;
                             

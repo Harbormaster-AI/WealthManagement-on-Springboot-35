@@ -3,11 +3,14 @@ package com.harbormaster.security;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,25 +37,39 @@ public class SpringSecurityCurrentIdentity
     @Override
     public String getSubject() {
 
-        Authentication authentication =
-                authentication();
+        Authentication authentication = authentication();
 
+        if (authentication == null) {
+            return null;
+        }
+
+        //
+        // JWT Resource Server
+        //
         if (authentication instanceof JwtAuthenticationToken jwt) {
             return jwt.getToken().getSubject();
         }
 
+        //
+        // OAuth2 Login
+        //
         if (authentication instanceof OAuth2AuthenticationToken oauth) {
             return oauth.getName();
         }
 
-        Object principal = authentication.getPrincipal();
 
-        if (principal instanceof UserDetails user) {
-            return user.getUsername();
-        }
+        //
+        // Form Login / LDAP
+        //
+        if (authentication instanceof UsernamePasswordAuthenticationToken usernamePassword) {
 
-        if (principal instanceof ApiKeyPrincipal apiKey) {
-            return apiKey.getKeyId();
+            Object principal = usernamePassword.getPrincipal();
+
+          //  if (principal instanceof UserDetails user) {
+            //    return user.getUsername();
+            //}
+
+            return usernamePassword.getName();
         }
 
         return authentication.getName();
@@ -87,7 +104,7 @@ public class SpringSecurityCurrentIdentity
         //
         if (authentication instanceof OAuth2AuthenticationToken oauth) {
 
-            // Provider-specific. These are examples.
+            // Provider-specific
             String organization =
                     oauth.getPrincipal()
                             .getAttribute("organization");
@@ -96,27 +113,25 @@ public class SpringSecurityCurrentIdentity
                 return organization;
             }
 
-            // Azure AD tenant id
+            // Azure AD tenant
             return oauth.getPrincipal()
                     .getAttribute("tid");
         }
 
         //
-        // Form Login
+        // Form Login / LDAP
         //
-        Object principal = authentication.getPrincipal();
+        if (authentication instanceof UsernamePasswordAuthenticationToken usernamePassword) {
 
-        if (principal instanceof CurrentUser user) {
+            Object principal =
+                    usernamePassword.getPrincipal();
 
-            return user.getOrganizationId();
-        }
+            if (principal instanceof CurrentUser user) {
 
-        //
-        // API Key
-        //
-        if (principal instanceof ApiKeyPrincipal apiKey) {
+                return user.getOrganizationId();
+            }
 
-            return apiKey.getOrganizationId();
+            return null;
         }
 
         return null;

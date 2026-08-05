@@ -150,7 +150,7 @@ public class RebalancePlanRestController extends BaseSpringRestController {
     	List<RebalancePlan> rebalancePlanList = null;
 
 		rebalancePlanList = service.getAllRebalancePlan();
-		LOGGER.log( Level.INFO,  "successfully loaded all RebalancePlans" );
+		LOGGER.info( "successfully loaded all RebalancePlans" );
 
         return rebalancePlanList;
                             

@@ -150,7 +150,7 @@ public class AccountRestController extends BaseSpringRestController {
     	List<Account> accountList = null;
 
 		accountList = service.getAllAccount();
-		LOGGER.log( Level.INFO,  "successfully loaded all Accounts" );
+		LOGGER.info( "successfully loaded all Accounts" );
 
         return accountList;
                             

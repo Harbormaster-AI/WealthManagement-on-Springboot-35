@@ -150,7 +150,7 @@ public class WealthFirmRestController extends BaseSpringRestController {
     	List<WealthFirm> wealthFirmList = null;
 
 		wealthFirmList = service.getAllWealthFirm();
-		LOGGER.log( Level.INFO,  "successfully loaded all WealthFirms" );
+		LOGGER.info( "successfully loaded all WealthFirms" );
 
         return wealthFirmList;
                             

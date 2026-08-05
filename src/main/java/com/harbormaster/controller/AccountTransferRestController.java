@@ -150,7 +150,7 @@ public class AccountTransferRestController extends BaseSpringRestController {
     	List<AccountTransfer> accountTransferList = null;
 
 		accountTransferList = service.getAllAccountTransfer();
-		LOGGER.log( Level.INFO,  "successfully loaded all AccountTransfers" );
+		LOGGER.info( "successfully loaded all AccountTransfers" );
 
         return accountTransferList;
                             

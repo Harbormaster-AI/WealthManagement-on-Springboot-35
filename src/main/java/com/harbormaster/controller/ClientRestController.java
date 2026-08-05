@@ -150,7 +150,7 @@ public class ClientRestController extends BaseSpringRestController {
     	List<Client> clientList = null;
 
 		clientList = service.getAllClient();
-		LOGGER.log( Level.INFO,  "successfully loaded all Clients" );
+		LOGGER.info( "successfully loaded all Clients" );
 
         return clientList;
                             

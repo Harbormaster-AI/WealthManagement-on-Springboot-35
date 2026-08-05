@@ -150,7 +150,7 @@ public class InvestmentPolicyRestController extends BaseSpringRestController {
     	List<InvestmentPolicy> investmentPolicyList = null;
 
 		investmentPolicyList = service.getAllInvestmentPolicy();
-		LOGGER.log( Level.INFO,  "successfully loaded all InvestmentPolicys" );
+		LOGGER.info( "successfully loaded all InvestmentPolicys" );
 
         return investmentPolicyList;
                             

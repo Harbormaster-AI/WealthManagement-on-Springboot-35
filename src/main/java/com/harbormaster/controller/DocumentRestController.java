@@ -150,7 +150,7 @@ public class DocumentRestController extends BaseSpringRestController {
     	List<Document> documentList = null;
 
 		documentList = service.getAllDocument();
-		LOGGER.log( Level.INFO,  "successfully loaded all Documents" );
+		LOGGER.info( "successfully loaded all Documents" );
 
         return documentList;
                             

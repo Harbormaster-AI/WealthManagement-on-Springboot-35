@@ -150,7 +150,7 @@ public class KycRecordRestController extends BaseSpringRestController {
     	List<KycRecord> kycRecordList = null;
 
 		kycRecordList = service.getAllKycRecord();
-		LOGGER.log( Level.INFO,  "successfully loaded all KycRecords" );
+		LOGGER.info( "successfully loaded all KycRecords" );
 
         return kycRecordList;
                             

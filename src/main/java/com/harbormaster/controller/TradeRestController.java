@@ -150,7 +150,7 @@ public class TradeRestController extends BaseSpringRestController {
     	List<Trade> tradeList = null;
 
 		tradeList = service.getAllTrade();
-		LOGGER.log( Level.INFO,  "successfully loaded all Trades" );
+		LOGGER.info( "successfully loaded all Trades" );
 
         return tradeList;
                             

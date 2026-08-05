@@ -150,7 +150,7 @@ public class PortfolioRestController extends BaseSpringRestController {
     	List<Portfolio> portfolioList = null;
 
 		portfolioList = service.getAllPortfolio();
-		LOGGER.log( Level.INFO,  "successfully loaded all Portfolios" );
+		LOGGER.info( "successfully loaded all Portfolios" );
 
         return portfolioList;
                             

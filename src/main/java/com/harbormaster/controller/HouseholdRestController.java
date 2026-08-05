@@ -150,7 +150,7 @@ public class HouseholdRestController extends BaseSpringRestController {
     	List<Household> householdList = null;
 
 		householdList = service.getAllHousehold();
-		LOGGER.log( Level.INFO,  "successfully loaded all Households" );
+		LOGGER.info( "successfully loaded all Households" );
 
         return householdList;
                             

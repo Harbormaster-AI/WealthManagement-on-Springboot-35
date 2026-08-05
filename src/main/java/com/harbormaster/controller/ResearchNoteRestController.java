@@ -150,7 +150,7 @@ public class ResearchNoteRestController extends BaseSpringRestController {
     	List<ResearchNote> researchNoteList = null;
 
 		researchNoteList = service.getAllResearchNote();
-		LOGGER.log( Level.INFO,  "successfully loaded all ResearchNotes" );
+		LOGGER.info( "successfully loaded all ResearchNotes" );
 
         return researchNoteList;
                             

@@ -150,7 +150,7 @@ public class FeeScheduleRestController extends BaseSpringRestController {
     	List<FeeSchedule> feeScheduleList = null;
 
 		feeScheduleList = service.getAllFeeSchedule();
-		LOGGER.log( Level.INFO,  "successfully loaded all FeeSchedules" );
+		LOGGER.info( "successfully loaded all FeeSchedules" );
 
         return feeScheduleList;
                             

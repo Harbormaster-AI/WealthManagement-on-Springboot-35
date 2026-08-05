@@ -150,7 +150,7 @@ public class InvoiceRestController extends BaseSpringRestController {
     	List<Invoice> invoiceList = null;
 
 		invoiceList = service.getAllInvoice();
-		LOGGER.log( Level.INFO,  "successfully loaded all Invoices" );
+		LOGGER.info( "successfully loaded all Invoices" );
 
         return invoiceList;
                             

@@ -150,7 +150,7 @@ public class BenchmarkRestController extends BaseSpringRestController {
     	List<Benchmark> benchmarkList = null;
 
 		benchmarkList = service.getAllBenchmark();
-		LOGGER.log( Level.INFO,  "successfully loaded all Benchmarks" );
+		LOGGER.info( "successfully loaded all Benchmarks" );
 
         return benchmarkList;
                             

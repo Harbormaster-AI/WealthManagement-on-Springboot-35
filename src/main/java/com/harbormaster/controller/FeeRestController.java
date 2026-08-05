@@ -150,7 +150,7 @@ public class FeeRestController extends BaseSpringRestController {
     	List<Fee> feeList = null;
 
 		feeList = service.getAllFee();
-		LOGGER.log( Level.INFO,  "successfully loaded all Fees" );
+		LOGGER.info( "successfully loaded all Fees" );
 
         return feeList;
                             

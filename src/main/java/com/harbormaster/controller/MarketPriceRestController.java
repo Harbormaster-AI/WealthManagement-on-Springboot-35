@@ -150,7 +150,7 @@ public class MarketPriceRestController extends BaseSpringRestController {
     	List<MarketPrice> marketPriceList = null;
 
 		marketPriceList = service.getAllMarketPrice();
-		LOGGER.log( Level.INFO,  "successfully loaded all MarketPrices" );
+		LOGGER.info( "successfully loaded all MarketPrices" );
 
         return marketPriceList;
                             

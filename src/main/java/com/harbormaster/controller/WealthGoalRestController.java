@@ -150,7 +150,7 @@ public class WealthGoalRestController extends BaseSpringRestController {
     	List<WealthGoal> wealthGoalList = null;
 
 		wealthGoalList = service.getAllWealthGoal();
-		LOGGER.log( Level.INFO,  "successfully loaded all WealthGoals" );
+		LOGGER.info( "successfully loaded all WealthGoals" );
 
         return wealthGoalList;
                             

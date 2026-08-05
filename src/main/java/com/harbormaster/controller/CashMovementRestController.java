@@ -150,7 +150,7 @@ public class CashMovementRestController extends BaseSpringRestController {
     	List<CashMovement> cashMovementList = null;
 
 		cashMovementList = service.getAllCashMovement();
-		LOGGER.log( Level.INFO,  "successfully loaded all CashMovements" );
+		LOGGER.info( "successfully loaded all CashMovements" );
 
         return cashMovementList;
                             

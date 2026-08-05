@@ -150,7 +150,7 @@ public class OrderAllocationRestController extends BaseSpringRestController {
     	List<OrderAllocation> orderAllocationList = null;
 
 		orderAllocationList = service.getAllOrderAllocation();
-		LOGGER.log( Level.INFO,  "successfully loaded all OrderAllocations" );
+		LOGGER.info( "successfully loaded all OrderAllocations" );
 
         return orderAllocationList;
                             

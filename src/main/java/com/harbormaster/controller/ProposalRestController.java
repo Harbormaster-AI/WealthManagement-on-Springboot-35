@@ -150,7 +150,7 @@ public class ProposalRestController extends BaseSpringRestController {
     	List<Proposal> proposalList = null;
 
 		proposalList = service.getAllProposal();
-		LOGGER.log( Level.INFO,  "successfully loaded all Proposals" );
+		LOGGER.info( "successfully loaded all Proposals" );
 
         return proposalList;
                             

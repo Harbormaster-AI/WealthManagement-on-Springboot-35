@@ -335,7 +335,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToDocuments(command.getMeetingId(), command.getAddTo())
+		projector.addToDocuments(command.getMeetingId(), command.getAddTo());
 	}
 
 	/**

@@ -420,7 +420,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToBeneficiaries(command.getAccountId(), command.getAddTo())
+		projector.addToBeneficiaries(command.getAccountId(), command.getAddTo());
 	}
 
 	/**
@@ -455,7 +455,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToPositions(command.getAccountId(), command.getAddTo())
+		projector.addToPositions(command.getAccountId(), command.getAddTo());
 	}
 
 	/**
@@ -490,7 +490,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToTransactions(command.getAccountId(), command.getAddTo())
+		projector.addToTransactions(command.getAccountId(), command.getAddTo());
 	}
 
 	/**
@@ -525,7 +525,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToFees(command.getAccountId(), command.getAddTo())
+		projector.addToFees(command.getAccountId(), command.getAddTo());
 	}
 
 	/**
@@ -560,7 +560,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToStandingInstructions(command.getAccountId(), command.getAddTo())
+		projector.addToStandingInstructions(command.getAccountId(), command.getAddTo());
 	}
 
 	/**
@@ -595,7 +595,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToInvoices(command.getAccountId(), command.getAddTo())
+		projector.addToInvoices(command.getAccountId(), command.getAddTo());
 	}
 
 	/**

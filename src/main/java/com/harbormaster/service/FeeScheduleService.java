@@ -264,7 +264,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToAccounts(command.getFeeScheduleId(), command.getAddTo())
+		projector.addToAccounts(command.getFeeScheduleId(), command.getAddTo());
 	}
 
 	/**
@@ -299,7 +299,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToBillingRuns(command.getFeeScheduleId(), command.getAddTo())
+		projector.addToBillingRuns(command.getFeeScheduleId(), command.getAddTo());
 	}
 
 	/**

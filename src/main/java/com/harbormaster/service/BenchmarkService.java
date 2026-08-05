@@ -258,7 +258,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToPerformanceReports(command.getBenchmarkId(), command.getAddTo())
+		projector.addToPerformanceReports(command.getBenchmarkId(), command.getAddTo());
 	}
 
 	/**
@@ -293,7 +293,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToConstituents(command.getBenchmarkId(), command.getAddTo())
+		projector.addToConstituents(command.getBenchmarkId(), command.getAddTo());
 	}
 
 	/**

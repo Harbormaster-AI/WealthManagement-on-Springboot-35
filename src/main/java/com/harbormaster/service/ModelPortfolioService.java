@@ -260,7 +260,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToAllocations(command.getModelPortfolioId(), command.getAddTo())
+		projector.addToAllocations(command.getModelPortfolioId(), command.getAddTo());
 	}
 
 	/**
@@ -295,7 +295,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToPortfolios(command.getModelPortfolioId(), command.getAddTo())
+		projector.addToPortfolios(command.getModelPortfolioId(), command.getAddTo());
 	}
 
 	/**

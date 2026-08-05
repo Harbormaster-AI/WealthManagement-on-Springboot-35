@@ -333,7 +333,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToGoals(command.getInvestmentPolicyId(), command.getAddTo())
+		projector.addToGoals(command.getInvestmentPolicyId(), command.getAddTo());
 	}
 
 	/**

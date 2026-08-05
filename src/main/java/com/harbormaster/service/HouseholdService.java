@@ -295,7 +295,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToClients(command.getHouseholdId(), command.getAddTo())
+		projector.addToClients(command.getHouseholdId(), command.getAddTo());
 	}
 
 	/**
@@ -330,7 +330,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToPortfolios(command.getHouseholdId(), command.getAddTo())
+		projector.addToPortfolios(command.getHouseholdId(), command.getAddTo());
 	}
 
 	/**
@@ -365,7 +365,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToGoals(command.getHouseholdId(), command.getAddTo())
+		projector.addToGoals(command.getHouseholdId(), command.getAddTo());
 	}
 
 	/**
@@ -400,7 +400,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToRiskAssessments(command.getHouseholdId(), command.getAddTo())
+		projector.addToRiskAssessments(command.getHouseholdId(), command.getAddTo());
 	}
 
 	/**

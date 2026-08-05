@@ -372,7 +372,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToClients(command.getAdvisorId(), command.getAddTo())
+		projector.addToClients(command.getAdvisorId(), command.getAddTo());
 	}
 
 	/**

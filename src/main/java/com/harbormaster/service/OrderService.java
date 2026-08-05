@@ -381,7 +381,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToAllocations(command.getOrderId(), command.getAddTo())
+		projector.addToAllocations(command.getOrderId(), command.getAddTo());
 	}
 
 	/**
@@ -416,7 +416,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToTrades(command.getOrderId(), command.getAddTo())
+		projector.addToTrades(command.getOrderId(), command.getAddTo());
 	}
 
 	/**

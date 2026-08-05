@@ -271,7 +271,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToCorporateActions(command.getSecurityId(), command.getAddTo())
+		projector.addToCorporateActions(command.getSecurityId(), command.getAddTo());
 	}
 
 	/**
@@ -306,7 +306,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToPrices(command.getSecurityId(), command.getAddTo())
+		projector.addToPrices(command.getSecurityId(), command.getAddTo());
 	}
 
 	/**
@@ -341,7 +341,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToBenchmarks(command.getSecurityId(), command.getAddTo())
+		projector.addToBenchmarks(command.getSecurityId(), command.getAddTo());
 	}
 
 	/**

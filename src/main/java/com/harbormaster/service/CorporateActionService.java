@@ -298,7 +298,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToDividends(command.getCorporateActionId(), command.getAddTo())
+		projector.addToDividends(command.getCorporateActionId(), command.getAddTo());
 	}
 
 	/**

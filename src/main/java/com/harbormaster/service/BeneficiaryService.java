@@ -298,7 +298,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToAccounts(command.getBeneficiaryId(), command.getAddTo())
+		projector.addToAccounts(command.getBeneficiaryId(), command.getAddTo());
 	}
 
 	/**

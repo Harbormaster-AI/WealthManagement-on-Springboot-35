@@ -264,7 +264,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToAdvisors(command.getWealthFirmId(), command.getAddTo())
+		projector.addToAdvisors(command.getWealthFirmId(), command.getAddTo());
 	}
 
 	/**
@@ -299,7 +299,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToOffices(command.getWealthFirmId(), command.getAddTo())
+		projector.addToOffices(command.getWealthFirmId(), command.getAddTo());
 	}
 
 	/**
@@ -334,7 +334,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToCustodians(command.getWealthFirmId(), command.getAddTo())
+		projector.addToCustodians(command.getWealthFirmId(), command.getAddTo());
 	}
 
 	/**
@@ -369,7 +369,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToInvestmentPrograms(command.getWealthFirmId(), command.getAddTo())
+		projector.addToInvestmentPrograms(command.getWealthFirmId(), command.getAddTo());
 	}
 
 	/**

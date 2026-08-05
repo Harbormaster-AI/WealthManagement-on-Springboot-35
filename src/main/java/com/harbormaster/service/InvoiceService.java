@@ -337,7 +337,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToFees(command.getInvoiceId(), command.getAddTo())
+		projector.addToFees(command.getInvoiceId(), command.getAddTo());
 	}
 
 	/**

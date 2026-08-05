@@ -336,7 +336,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToTaxLots(command.getPositionId(), command.getAddTo())
+		projector.addToTaxLots(command.getPositionId(), command.getAddTo());
 	}
 
 	/**
@@ -371,7 +371,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToTransactions(command.getPositionId(), command.getAddTo())
+		projector.addToTransactions(command.getPositionId(), command.getAddTo());
 	}
 
 	/**

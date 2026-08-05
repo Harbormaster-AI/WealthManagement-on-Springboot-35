@@ -294,7 +294,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToAdvisors(command.getOfficeId(), command.getAddTo())
+		projector.addToAdvisors(command.getOfficeId(), command.getAddTo());
 	}
 
 	/**

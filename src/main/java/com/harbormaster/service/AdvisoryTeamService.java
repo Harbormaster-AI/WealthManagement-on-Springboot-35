@@ -258,7 +258,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToAdvisors(command.getAdvisoryTeamId(), command.getAddTo())
+		projector.addToAdvisors(command.getAdvisoryTeamId(), command.getAddTo());
 	}
 
 	/**
@@ -293,7 +293,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToHouseholds(command.getAdvisoryTeamId(), command.getAddTo())
+		projector.addToHouseholds(command.getAdvisoryTeamId(), command.getAddTo());
 	}
 
 	/**

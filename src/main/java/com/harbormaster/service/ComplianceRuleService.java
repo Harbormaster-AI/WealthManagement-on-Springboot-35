@@ -261,7 +261,7 @@ throws BusinessException {
 		// --------------------------------------
 		// delegate to the projector
 		// --------------------------------------
-		projector.addToAlerts(command.getComplianceRuleId(), command.getAddTo())
+		projector.addToAlerts(command.getComplianceRuleId(), command.getAddTo());
 	}
 
 	/**

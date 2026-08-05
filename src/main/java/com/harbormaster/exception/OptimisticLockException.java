@@ -6,7 +6,7 @@ public class OptimisticLockException extends BusinessException {
         super(  "OPT_LOCK",
                 entity,
                 operation,
-                "Optimistic lock on " + entity + " signaled during operation " + operation );
+                "Optimistic lock on " + entity + " signaled during operation " + operation
                 );
     }
 }

@@ -6,7 +6,7 @@ public class ExternalServiceException extends BusinessException {
         super(  "EXTERNAL_SERVICE",
                 entity,
                 operation,
-                "An exception on an extenal service using " + entity + " signaled during operation " + operation );
+                "An exception on an extenal service using " + entity + " signaled during operation " + operation
                 );
     }
 }

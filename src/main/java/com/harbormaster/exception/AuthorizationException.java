@@ -6,7 +6,7 @@ public class AuthorizationException extends BusinessException {
         super(  "AUTH_FAILED",
                 entity,
                 operation,
-                "Authorization failure on " + entity + " signaled during operation " + operation );
+                "Authorization failure on " + entity + " signaled during operation " + operation
                 );
     }
 }

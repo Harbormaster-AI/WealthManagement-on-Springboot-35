@@ -6,7 +6,7 @@ public class IllegalStateException extends BusinessException {
         super(  "ILLEGAL_STATE",
                 entity,
                 operation,
-                "Illegal state on " + entity + " signaled during operation " + operation );
+                "Illegal state on " + entity + " signaled during operation " + operation
                 );
     }
 }

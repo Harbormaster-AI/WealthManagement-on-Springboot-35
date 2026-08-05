@@ -118,9 +118,6 @@ public class BeneficiaryValidator {
 	public void validate( DeleteBeneficiaryCommand beneficiary ) throws ValidationException {
 		if ( beneficiary == null )
 			throw new ValidationException( "Beneficiary", "validating DeleteBeneficiaryCommand" );
-
-		if ( beneficiary.getAllocationPercent() == null )
-		throw new ValidationException( "Beneficiary", "validating getAllocationPercent" );
 	}
 
 /**

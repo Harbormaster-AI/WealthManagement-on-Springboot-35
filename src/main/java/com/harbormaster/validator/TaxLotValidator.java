@@ -110,9 +110,6 @@ public class TaxLotValidator {
 	public void validate( DeleteTaxLotCommand taxLot ) throws ValidationException {
 		if ( taxLot == null )
 			throw new ValidationException( "TaxLot", "validating DeleteTaxLotCommand" );
-
-		if ( taxLot.getUnitCost() == null )
-		throw new ValidationException( "TaxLot", "validating getUnitCost" );
 	}
 
 /**

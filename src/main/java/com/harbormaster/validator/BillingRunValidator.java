@@ -114,9 +114,6 @@ public class BillingRunValidator {
 	public void validate( DeleteBillingRunCommand billingRun ) throws ValidationException {
 		if ( billingRun == null )
 			throw new ValidationException( "BillingRun", "validating DeleteBillingRunCommand" );
-
-		if ( billingRun.getPeriodEnd() == null )
-		throw new ValidationException( "BillingRun", "validating getPeriodEnd" );
 	}
 
 /**

@@ -102,9 +102,6 @@ public class AssetAllocationSliceValidator {
 	public void validate( DeleteAssetAllocationSliceCommand assetAllocationSlice ) throws ValidationException {
 		if ( assetAllocationSlice == null )
 			throw new ValidationException( "AssetAllocationSlice", "validating DeleteAssetAllocationSliceCommand" );
-
-		if ( assetAllocationSlice.getTargetWeight() == null )
-		throw new ValidationException( "AssetAllocationSlice", "validating getTargetWeight" );
 	}
 
 /**

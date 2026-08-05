@@ -116,9 +116,6 @@ public class CustodianValidator {
 	public void validate( DeleteCustodianCommand custodian ) throws ValidationException {
 		if ( custodian == null )
 			throw new ValidationException( "Custodian", "validating DeleteCustodianCommand" );
-
-		if ( custodian.getCountry() == null )
-		throw new ValidationException( "Custodian", "validating getCountry" );
 	}
 
 /**

@@ -112,9 +112,6 @@ public class InvestmentPolicyValidator {
 	public void validate( DeleteInvestmentPolicyCommand investmentPolicy ) throws ValidationException {
 		if ( investmentPolicy == null )
 			throw new ValidationException( "InvestmentPolicy", "validating DeleteInvestmentPolicyCommand" );
-
-		if ( investmentPolicy.getConstraints() == null )
-		throw new ValidationException( "InvestmentPolicy", "validating getConstraints" );
 	}
 
 /**

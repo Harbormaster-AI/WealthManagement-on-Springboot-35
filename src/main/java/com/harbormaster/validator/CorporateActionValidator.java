@@ -114,9 +114,6 @@ public class CorporateActionValidator {
 	public void validate( DeleteCorporateActionCommand corporateAction ) throws ValidationException {
 		if ( corporateAction == null )
 			throw new ValidationException( "CorporateAction", "validating DeleteCorporateActionCommand" );
-
-		if ( corporateAction.getDetails() == null )
-		throw new ValidationException( "CorporateAction", "validating getDetails" );
 	}
 
 /**

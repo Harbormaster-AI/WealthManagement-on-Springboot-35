@@ -116,9 +116,6 @@ public class FeeScheduleValidator {
 	public void validate( DeleteFeeScheduleCommand feeSchedule ) throws ValidationException {
 		if ( feeSchedule == null )
 			throw new ValidationException( "FeeSchedule", "validating DeleteFeeScheduleCommand" );
-
-		if ( feeSchedule.getMinimumFee() == null )
-		throw new ValidationException( "FeeSchedule", "validating getMinimumFee" );
 	}
 
 /**

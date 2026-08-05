@@ -114,9 +114,6 @@ public class DocumentValidator {
 	public void validate( DeleteDocumentCommand document ) throws ValidationException {
 		if ( document == null )
 			throw new ValidationException( "Document", "validating DeleteDocumentCommand" );
-
-		if ( document.getReceivedDate() == null )
-		throw new ValidationException( "Document", "validating getReceivedDate" );
 	}
 
 /**

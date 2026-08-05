@@ -112,9 +112,6 @@ public class FeeValidator {
 	public void validate( DeleteFeeCommand fee ) throws ValidationException {
 		if ( fee == null )
 			throw new ValidationException( "Fee", "validating DeleteFeeCommand" );
-
-		if ( fee.getDescription() == null )
-		throw new ValidationException( "Fee", "validating getDescription" );
 	}
 
 /**

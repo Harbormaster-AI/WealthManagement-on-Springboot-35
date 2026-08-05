@@ -106,9 +106,6 @@ public class DividendValidator {
 	public void validate( DeleteDividendCommand dividend ) throws ValidationException {
 		if ( dividend == null )
 			throw new ValidationException( "Dividend", "validating DeleteDividendCommand" );
-
-		if ( dividend.getTaxWithheld() == null )
-		throw new ValidationException( "Dividend", "validating getTaxWithheld" );
 	}
 
 /**

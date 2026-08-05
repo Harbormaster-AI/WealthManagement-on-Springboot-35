@@ -112,9 +112,6 @@ public class AdvisoryTeamValidator {
 	public void validate( DeleteAdvisoryTeamCommand advisoryTeam ) throws ValidationException {
 		if ( advisoryTeam == null )
 			throw new ValidationException( "AdvisoryTeam", "validating DeleteAdvisoryTeamCommand" );
-
-		if ( advisoryTeam.getSpecialization() == null )
-		throw new ValidationException( "AdvisoryTeam", "validating getSpecialization" );
 	}
 
 /**

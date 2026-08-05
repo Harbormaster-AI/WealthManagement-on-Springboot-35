@@ -144,9 +144,6 @@ public class AccountValidator {
 	public void validate( DeleteAccountCommand account ) throws ValidationException {
 		if ( account == null )
 			throw new ValidationException( "Account", "validating DeleteAccountCommand" );
-
-		if ( account.getOpenedDate() == null )
-		throw new ValidationException( "Account", "validating getOpenedDate" );
 	}
 
 /**

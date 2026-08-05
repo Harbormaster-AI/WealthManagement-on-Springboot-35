@@ -114,9 +114,6 @@ public class CashMovementValidator {
 	public void validate( DeleteCashMovementCommand cashMovement ) throws ValidationException {
 		if ( cashMovement == null )
 			throw new ValidationException( "CashMovement", "validating DeleteCashMovementCommand" );
-
-		if ( cashMovement.getDescription() == null )
-		throw new ValidationException( "CashMovement", "validating getDescription" );
 	}
 
 /**

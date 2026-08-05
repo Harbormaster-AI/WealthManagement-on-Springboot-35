@@ -108,9 +108,6 @@ public class RebalancePlanValidator {
 	public void validate( DeleteRebalancePlanCommand rebalancePlan ) throws ValidationException {
 		if ( rebalancePlan == null )
 			throw new ValidationException( "RebalancePlan", "validating DeleteRebalancePlanCommand" );
-
-		if ( rebalancePlan.getPlanDate() == null )
-		throw new ValidationException( "RebalancePlan", "validating getPlanDate" );
 	}
 
 /**

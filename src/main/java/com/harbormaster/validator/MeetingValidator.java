@@ -120,9 +120,6 @@ public class MeetingValidator {
 	public void validate( DeleteMeetingCommand meeting ) throws ValidationException {
 		if ( meeting == null )
 			throw new ValidationException( "Meeting", "validating DeleteMeetingCommand" );
-
-		if ( meeting.getNotes() == null )
-		throw new ValidationException( "Meeting", "validating getNotes" );
 	}
 
 /**

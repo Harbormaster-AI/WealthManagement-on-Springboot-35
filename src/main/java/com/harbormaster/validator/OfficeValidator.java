@@ -110,9 +110,6 @@ public class OfficeValidator {
 	public void validate( DeleteOfficeCommand office ) throws ValidationException {
 		if ( office == null )
 			throw new ValidationException( "Office", "validating DeleteOfficeCommand" );
-
-		if ( office.getAddress() == null )
-		throw new ValidationException( "Office", "validating getAddress" );
 	}
 
 /**

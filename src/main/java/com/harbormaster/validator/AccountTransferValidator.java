@@ -110,9 +110,6 @@ public class AccountTransferValidator {
 	public void validate( DeleteAccountTransferCommand accountTransfer ) throws ValidationException {
 		if ( accountTransfer == null )
 			throw new ValidationException( "AccountTransfer", "validating DeleteAccountTransferCommand" );
-
-		if ( accountTransfer.getCompletionDate() == null )
-		throw new ValidationException( "AccountTransfer", "validating getCompletionDate" );
 	}
 
 /**

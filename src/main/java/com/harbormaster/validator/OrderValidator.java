@@ -122,9 +122,6 @@ public class OrderValidator {
 	public void validate( DeleteOrderCommand order ) throws ValidationException {
 		if ( order == null )
 			throw new ValidationException( "Order", "validating DeleteOrderCommand" );
-
-		if ( order.getLimitPrice() == null )
-		throw new ValidationException( "Order", "validating getLimitPrice" );
 	}
 
 /**

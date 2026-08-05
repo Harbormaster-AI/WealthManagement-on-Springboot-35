@@ -118,9 +118,6 @@ public class HouseholdValidator {
 	public void validate( DeleteHouseholdCommand household ) throws ValidationException {
 		if ( household == null )
 			throw new ValidationException( "Household", "validating DeleteHouseholdCommand" );
-
-		if ( household.getName() == null )
-		throw new ValidationException( "Household", "validating getName" );
 	}
 
 /**

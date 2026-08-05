@@ -116,9 +116,6 @@ public class InvestmentProgramValidator {
 	public void validate( DeleteInvestmentProgramCommand investmentProgram ) throws ValidationException {
 		if ( investmentProgram == null )
 			throw new ValidationException( "InvestmentProgram", "validating DeleteInvestmentProgramCommand" );
-
-		if ( investmentProgram.getProgramType() == null )
-		throw new ValidationException( "InvestmentProgram", "validating getProgramType" );
 	}
 
 /**

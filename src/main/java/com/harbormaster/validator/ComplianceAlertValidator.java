@@ -112,9 +112,6 @@ public class ComplianceAlertValidator {
 	public void validate( DeleteComplianceAlertCommand complianceAlert ) throws ValidationException {
 		if ( complianceAlert == null )
 			throw new ValidationException( "ComplianceAlert", "validating DeleteComplianceAlertCommand" );
-
-		if ( complianceAlert.getMessage() == null )
-		throw new ValidationException( "ComplianceAlert", "validating getMessage" );
 	}
 
 /**

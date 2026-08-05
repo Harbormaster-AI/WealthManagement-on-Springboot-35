@@ -106,9 +106,6 @@ public class MarketPriceValidator {
 	public void validate( DeleteMarketPriceCommand marketPrice ) throws ValidationException {
 		if ( marketPrice == null )
 			throw new ValidationException( "MarketPrice", "validating DeleteMarketPriceCommand" );
-
-		if ( marketPrice.getPriceDate() == null )
-		throw new ValidationException( "MarketPrice", "validating getPriceDate" );
 	}
 
 /**

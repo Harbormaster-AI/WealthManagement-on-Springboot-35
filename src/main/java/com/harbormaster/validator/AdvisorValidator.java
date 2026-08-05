@@ -118,9 +118,6 @@ public class AdvisorValidator {
 	public void validate( DeleteAdvisorCommand advisor ) throws ValidationException {
 		if ( advisor == null )
 			throw new ValidationException( "Advisor", "validating DeleteAdvisorCommand" );
-
-		if ( advisor.getLicenseNumber() == null )
-		throw new ValidationException( "Advisor", "validating getLicenseNumber" );
 	}
 
 /**

@@ -116,9 +116,6 @@ public class PositionValidator {
 	public void validate( DeletePositionCommand position ) throws ValidationException {
 		if ( position == null )
 			throw new ValidationException( "Position", "validating DeletePositionCommand" );
-
-		if ( position.getCostBasis() == null )
-		throw new ValidationException( "Position", "validating getCostBasis" );
 	}
 
 /**

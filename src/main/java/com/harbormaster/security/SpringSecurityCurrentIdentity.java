@@ -126,10 +126,10 @@ public class SpringSecurityCurrentIdentity
             Object principal =
                     usernamePassword.getPrincipal();
 
-            if (principal instanceof CurrentUser user) {
+          //  if (principal instanceof CurrentUser user) {
 
-                return user.getOrganizationId();
-            }
+            //    return user.getOrganizationId();
+            //}
 
             return null;
         }

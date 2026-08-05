@@ -110,9 +110,6 @@ public class KycRecordValidator {
 	public void validate( DeleteKycRecordCommand kycRecord ) throws ValidationException {
 		if ( kycRecord == null )
 			throw new ValidationException( "KycRecord", "validating DeleteKycRecordCommand" );
-
-		if ( kycRecord.getSourceOfWealth() == null )
-		throw new ValidationException( "KycRecord", "validating getSourceOfWealth" );
 	}
 
 /**

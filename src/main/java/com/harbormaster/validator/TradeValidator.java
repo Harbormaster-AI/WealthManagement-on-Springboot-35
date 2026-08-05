@@ -124,9 +124,6 @@ public class TradeValidator {
 	public void validate( DeleteTradeCommand trade ) throws ValidationException {
 		if ( trade == null )
 			throw new ValidationException( "Trade", "validating DeleteTradeCommand" );
-
-		if ( trade.getVenue() == null )
-		throw new ValidationException( "Trade", "validating getVenue" );
 	}
 
 /**

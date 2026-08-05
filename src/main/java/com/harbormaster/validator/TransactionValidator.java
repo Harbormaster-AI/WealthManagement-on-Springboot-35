@@ -120,9 +120,6 @@ public class TransactionValidator {
 	public void validate( DeleteTransactionCommand transaction ) throws ValidationException {
 		if ( transaction == null )
 			throw new ValidationException( "Transaction", "validating DeleteTransactionCommand" );
-
-		if ( transaction.getQuantity() == null )
-		throw new ValidationException( "Transaction", "validating getQuantity" );
 	}
 
 /**

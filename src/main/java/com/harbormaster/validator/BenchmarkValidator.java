@@ -108,9 +108,6 @@ public class BenchmarkValidator {
 	public void validate( DeleteBenchmarkCommand benchmark ) throws ValidationException {
 		if ( benchmark == null )
 			throw new ValidationException( "Benchmark", "validating DeleteBenchmarkCommand" );
-
-		if ( benchmark.getName() == null )
-		throw new ValidationException( "Benchmark", "validating getName" );
 	}
 
 /**

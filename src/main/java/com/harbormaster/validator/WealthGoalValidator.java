@@ -118,9 +118,6 @@ public class WealthGoalValidator {
 	public void validate( DeleteWealthGoalCommand wealthGoal ) throws ValidationException {
 		if ( wealthGoal == null )
 			throw new ValidationException( "WealthGoal", "validating DeleteWealthGoalCommand" );
-
-		if ( wealthGoal.getPriority() == null )
-		throw new ValidationException( "WealthGoal", "validating getPriority" );
 	}
 
 /**

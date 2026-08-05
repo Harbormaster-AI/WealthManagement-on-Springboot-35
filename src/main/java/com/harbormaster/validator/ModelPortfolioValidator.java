@@ -112,9 +112,6 @@ public class ModelPortfolioValidator {
 	public void validate( DeleteModelPortfolioCommand modelPortfolio ) throws ValidationException {
 		if ( modelPortfolio == null )
 			throw new ValidationException( "ModelPortfolio", "validating DeleteModelPortfolioCommand" );
-
-		if ( modelPortfolio.getObjective() == null )
-		throw new ValidationException( "ModelPortfolio", "validating getObjective" );
 	}
 
 /**

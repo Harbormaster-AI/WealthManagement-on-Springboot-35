@@ -116,9 +116,6 @@ public class ProposalValidator {
 	public void validate( DeleteProposalCommand proposal ) throws ValidationException {
 		if ( proposal == null )
 			throw new ValidationException( "Proposal", "validating DeleteProposalCommand" );
-
-		if ( proposal.getRecommendationText() == null )
-		throw new ValidationException( "Proposal", "validating getRecommendationText" );
 	}
 
 /**

@@ -112,9 +112,6 @@ public class RiskAssessmentValidator {
 	public void validate( DeleteRiskAssessmentCommand riskAssessment ) throws ValidationException {
 		if ( riskAssessment == null )
 			throw new ValidationException( "RiskAssessment", "validating DeleteRiskAssessmentCommand" );
-
-		if ( riskAssessment.getHorizonYears() == null )
-		throw new ValidationException( "RiskAssessment", "validating getHorizonYears" );
 	}
 
 /**

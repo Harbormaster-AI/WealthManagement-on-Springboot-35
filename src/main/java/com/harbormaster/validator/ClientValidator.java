@@ -136,9 +136,6 @@ public class ClientValidator {
 	public void validate( DeleteClientCommand client ) throws ValidationException {
 		if ( client == null )
 			throw new ValidationException( "Client", "validating DeleteClientCommand" );
-
-		if ( client.getEmail() == null )
-		throw new ValidationException( "Client", "validating getEmail" );
 	}
 
 /**

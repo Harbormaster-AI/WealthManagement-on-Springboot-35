@@ -112,9 +112,6 @@ public class ComplianceRuleValidator {
 	public void validate( DeleteComplianceRuleCommand complianceRule ) throws ValidationException {
 		if ( complianceRule == null )
 			throw new ValidationException( "ComplianceRule", "validating DeleteComplianceRuleCommand" );
-
-		if ( complianceRule.getDescription() == null )
-		throw new ValidationException( "ComplianceRule", "validating getDescription" );
 	}
 
 /**

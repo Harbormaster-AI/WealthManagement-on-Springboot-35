@@ -116,9 +116,6 @@ public class PerformanceReportValidator {
 	public void validate( DeletePerformanceReportCommand performanceReport ) throws ValidationException {
 		if ( performanceReport == null )
 			throw new ValidationException( "PerformanceReport", "validating DeletePerformanceReportCommand" );
-
-		if ( performanceReport.getGrossReturn() == null )
-		throw new ValidationException( "PerformanceReport", "validating getGrossReturn" );
 	}
 
 /**

@@ -108,9 +108,6 @@ public class AgreementValidator {
 	public void validate( DeleteAgreementCommand agreement ) throws ValidationException {
 		if ( agreement == null )
 			throw new ValidationException( "Agreement", "validating DeleteAgreementCommand" );
-
-		if ( agreement.getEffectiveDate() == null )
-		throw new ValidationException( "Agreement", "validating getEffectiveDate" );
 	}
 
 /**

@@ -116,9 +116,6 @@ public class ResearchNoteValidator {
 	public void validate( DeleteResearchNoteCommand researchNote ) throws ValidationException {
 		if ( researchNote == null )
 			throw new ValidationException( "ResearchNote", "validating DeleteResearchNoteCommand" );
-
-		if ( researchNote.getContentSummary() == null )
-		throw new ValidationException( "ResearchNote", "validating getContentSummary" );
 	}
 
 /**

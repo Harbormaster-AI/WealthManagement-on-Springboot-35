@@ -120,9 +120,6 @@ public class InvoiceValidator {
 	public void validate( DeleteInvoiceCommand invoice ) throws ValidationException {
 		if ( invoice == null )
 			throw new ValidationException( "Invoice", "validating DeleteInvoiceCommand" );
-
-		if ( invoice.getTotalDue() == null )
-		throw new ValidationException( "Invoice", "validating getTotalDue" );
 	}
 
 /**

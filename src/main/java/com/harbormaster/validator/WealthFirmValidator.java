@@ -128,9 +128,6 @@ public class WealthFirmValidator {
 	public void validate( DeleteWealthFirmCommand wealthFirm ) throws ValidationException {
 		if ( wealthFirm == null )
 			throw new ValidationException( "WealthFirm", "validating DeleteWealthFirmCommand" );
-
-		if ( wealthFirm.getWebsite() == null )
-		throw new ValidationException( "WealthFirm", "validating getWebsite" );
 	}
 
 /**

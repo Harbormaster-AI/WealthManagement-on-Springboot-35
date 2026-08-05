@@ -132,9 +132,6 @@ public class SecurityValidator {
 	public void validate( DeleteSecurityCommand security ) throws ValidationException {
 		if ( security == null )
 			throw new ValidationException( "Security", "validating DeleteSecurityCommand" );
-
-		if ( security.getExpenseRatio() == null )
-		throw new ValidationException( "Security", "validating getExpenseRatio" );
 	}
 
 /**

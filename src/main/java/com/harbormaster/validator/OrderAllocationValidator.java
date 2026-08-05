@@ -106,9 +106,6 @@ public class OrderAllocationValidator {
 	public void validate( DeleteOrderAllocationCommand orderAllocation ) throws ValidationException {
 		if ( orderAllocation == null )
 			throw new ValidationException( "OrderAllocation", "validating DeleteOrderAllocationCommand" );
-
-		if ( orderAllocation.getAllocationPercent() == null )
-		throw new ValidationException( "OrderAllocation", "validating getAllocationPercent" );
 	}
 
 /**

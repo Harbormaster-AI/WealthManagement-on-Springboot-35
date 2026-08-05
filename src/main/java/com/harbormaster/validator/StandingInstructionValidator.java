@@ -108,9 +108,6 @@ public class StandingInstructionValidator {
 	public void validate( DeleteStandingInstructionCommand standingInstruction ) throws ValidationException {
 		if ( standingInstruction == null )
 			throw new ValidationException( "StandingInstruction", "validating DeleteStandingInstructionCommand" );
-
-		if ( standingInstruction.getAmount() == null )
-		throw new ValidationException( "StandingInstruction", "validating getAmount" );
 	}
 
 /**

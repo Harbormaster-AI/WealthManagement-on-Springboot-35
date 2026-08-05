@@ -128,9 +128,6 @@ public class PortfolioValidator {
 	public void validate( DeletePortfolioCommand portfolio ) throws ValidationException {
 		if ( portfolio == null )
 			throw new ValidationException( "Portfolio", "validating DeletePortfolioCommand" );
-
-		if ( portfolio.getInceptionDate() == null )
-		throw new ValidationException( "Portfolio", "validating getInceptionDate" );
 	}
 
 /**

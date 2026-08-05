@@ -83,11 +83,11 @@ public class TaxLotValidator {
 		if ( taxLot == null )
 		throw new ValidationException( "TaxLot", "validating CreateTaxLotCommand" );
 		if ( taxLot.getAcquisitionDate() == null )
-			throw new ValidationException( "TaxLot", "validating access on getAcquisitionDate" );
+		throw new ValidationException( "TaxLot", "validating access on getAcquisitionDate" );
 		if ( taxLot.getQuantity() == null )
-			throw new ValidationException( "TaxLot", "validating access on getQuantity" );
+		throw new ValidationException( "TaxLot", "validating access on getQuantity" );
 		if ( taxLot.getUnitCost() == null )
-			throw new ValidationException( "TaxLot", "validating access on getUnitCost" );
+		throw new ValidationException( "TaxLot", "validating access on getUnitCost" );
 	}
 
 	/**
@@ -95,13 +95,13 @@ public class TaxLotValidator {
 	 */
 	public void validate( UpdateTaxLotCommand taxLot ) throws ValidationException {
 		if ( taxLot == null )
-			throw new ValidationException( "TaxLot", "validating UpdateTaxLotCommand" );
+		throw new ValidationException( "TaxLot", "validating UpdateTaxLotCommand" );
 		if ( taxLot.getAcquisitionDate() == null )
-			throw new ValidationException( "TaxLot", "validating method getAcquisitionDate" );
+		throw new ValidationException( "TaxLot", "validating method getAcquisitionDate" );
 		if ( taxLot.getQuantity() == null )
-			throw new ValidationException( "TaxLot", "validating method getQuantity" );
+		throw new ValidationException( "TaxLot", "validating method getQuantity" );
 		if ( taxLot.getUnitCost() == null )
-			throw new ValidationException( "TaxLot", "validating method getUnitCost" );
+		throw new ValidationException( "TaxLot", "validating method getUnitCost" );
 }
 
 /**
@@ -109,10 +109,10 @@ public class TaxLotValidator {
  */
 public void validate( DeleteTaxLotCommand taxLot ) throws ValidationException {
 	if ( taxLot == null )
-		throw new ValidationException( "TaxLot", "validating DeleteTaxLotCommand" );
+	throw new ValidationException( "TaxLot", "validating DeleteTaxLotCommand" );
 
 	if ( taxLot.getUnitCost() == null )
-		throw new ValidationException( "TaxLot", "validating getUnitCost" );
+	throw new ValidationException( "TaxLot", "validating getUnitCost" );
 }
 
 /**
@@ -133,11 +133,10 @@ public void validate( AssignPositionToTaxLotCommand command ) throws ValidationE
 		throw new ValidationException( "TaxLot", "validating AssignPositionToTaxLotCommand" );
 
 	if ( command.getTaxLotId() == null )
-		throw new ValidationException( "TaxLot", "validating identifier" );
+	throw new ValidationException( "TaxLot", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "TaxLot", "validating assignment" );
-
 }
 
 /**
@@ -149,9 +148,8 @@ public void validate( UnAssignPositionFromTaxLotCommand command ) throws Validat
 	if ( command == null )
 		throw new ValidationException( "TaxLot", "validating UnAssignPositionFromTaxLotCommand" );
 
-	if ( command.getTaxLotId() == null ) }
-		throw new ValidationException( "TaxLot", "validating identity on UnAssignPositionFromTaxLotCommand" );
-	}
-			
+	if ( command.getTaxLotId() == null )
+	throw new ValidationException( "TaxLot", "validating identity on UnAssignPositionFromTaxLotCommand" );
+}
+
 		
-		}

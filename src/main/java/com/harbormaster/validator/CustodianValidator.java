@@ -89,11 +89,11 @@ public class CustodianValidator {
 		if ( custodian == null )
 		throw new ValidationException( "Custodian", "validating CreateCustodianCommand" );
 		if ( custodian.getName() == null )
-			throw new ValidationException( "Custodian", "validating access on getName" );
+		throw new ValidationException( "Custodian", "validating access on getName" );
 		if ( custodian.getClearingNumber() == null )
-			throw new ValidationException( "Custodian", "validating access on getClearingNumber" );
+		throw new ValidationException( "Custodian", "validating access on getClearingNumber" );
 		if ( custodian.getCountry() == null )
-			throw new ValidationException( "Custodian", "validating access on getCountry" );
+		throw new ValidationException( "Custodian", "validating access on getCountry" );
 	}
 
 	/**
@@ -101,13 +101,13 @@ public class CustodianValidator {
 	 */
 	public void validate( UpdateCustodianCommand custodian ) throws ValidationException {
 		if ( custodian == null )
-			throw new ValidationException( "Custodian", "validating UpdateCustodianCommand" );
+		throw new ValidationException( "Custodian", "validating UpdateCustodianCommand" );
 		if ( custodian.getName() == null )
-			throw new ValidationException( "Custodian", "validating method getName" );
+		throw new ValidationException( "Custodian", "validating method getName" );
 		if ( custodian.getClearingNumber() == null )
-			throw new ValidationException( "Custodian", "validating method getClearingNumber" );
+		throw new ValidationException( "Custodian", "validating method getClearingNumber" );
 		if ( custodian.getCountry() == null )
-			throw new ValidationException( "Custodian", "validating method getCountry" );
+		throw new ValidationException( "Custodian", "validating method getCountry" );
 }
 
 /**
@@ -115,10 +115,10 @@ public class CustodianValidator {
  */
 public void validate( DeleteCustodianCommand custodian ) throws ValidationException {
 	if ( custodian == null )
-		throw new ValidationException( "Custodian", "validating DeleteCustodianCommand" );
+	throw new ValidationException( "Custodian", "validating DeleteCustodianCommand" );
 
 	if ( custodian.getCountry() == null )
-		throw new ValidationException( "Custodian", "validating getCountry" );
+	throw new ValidationException( "Custodian", "validating getCountry" );
 }
 
 /**
@@ -140,7 +140,7 @@ public void validate( AssignAccountsToCustodianCommand command ) throws Validati
 		throw new ValidationException( "Custodian", "validating AssignAccountsToCustodianCommand" );
 
 	if ( command.getCustodianId() == null )
-		throw new ValidationException( "Custodian", "validating identity on AssignAccountsToCustodianCommand" );
+	throw new ValidationException( "Custodian", "validating identity on AssignAccountsToCustodianCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Custodian", "validating addTo attribute on AssignAccountsToCustodianCommand" );
@@ -152,20 +152,20 @@ public void validate( AssignAccountsToCustodianCommand command ) throws Validati
  *
  * @param	command RemoveAccountsFromCustodianCommand
  */
-public void validate( RemoveAccountsFromCustodianCommand ) throws ValidationException {
+public void validate( RemoveAccountsFromCustodianCommand command ) throws ValidationException {
 	if ( command == null )
 		throw new ValidationException("Custodian", "validating RemoveAccountsFromCustodianCommand" );
 
 	if( command.getCustodianId() == null )
-		throw new ValidationException("Custodian", "validating id on RemoveAccountsFromCustodianCommand" );
+	throw new ValidationException("Custodian", "validating id on RemoveAccountsFromCustodianCommand" );
 
 	if( command.getRemoveFrom() == null )
 		throw new ValidationException("Custodian", "validating remove from RemoveAccountsFromCustodianCommand" );
 
 	if( command.getRemoveFrom().getAccountId() == null )
-		throw new ValidationException("Custodian", "validating id on remove from RemoveAccountsFromCustodianCommand" );
+	throw new ValidationException("Custodian", "validating id on remove from RemoveAccountsFromCustodianCommand" );
 }
-	
+
 /**
  * handles add to Transfers validation for a Custodian
  *
@@ -176,7 +176,7 @@ public void validate( AssignTransfersToCustodianCommand command ) throws Validat
 		throw new ValidationException( "Custodian", "validating AssignTransfersToCustodianCommand" );
 
 	if ( command.getCustodianId() == null )
-		throw new ValidationException( "Custodian", "validating identity on AssignTransfersToCustodianCommand" );
+	throw new ValidationException( "Custodian", "validating identity on AssignTransfersToCustodianCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Custodian", "validating addTo attribute on AssignTransfersToCustodianCommand" );
@@ -188,19 +188,17 @@ public void validate( AssignTransfersToCustodianCommand command ) throws Validat
  *
  * @param	command RemoveTransfersFromCustodianCommand
  */
-public void validate( RemoveTransfersFromCustodianCommand ) throws ValidationException {
+public void validate( RemoveTransfersFromCustodianCommand command ) throws ValidationException {
 	if ( command == null )
 		throw new ValidationException("Custodian", "validating RemoveTransfersFromCustodianCommand" );
 
 	if( command.getCustodianId() == null )
-		throw new ValidationException("Custodian", "validating id on RemoveTransfersFromCustodianCommand" );
+	throw new ValidationException("Custodian", "validating id on RemoveTransfersFromCustodianCommand" );
 
 	if( command.getRemoveFrom() == null )
 		throw new ValidationException("Custodian", "validating remove from RemoveTransfersFromCustodianCommand" );
 
 	if( command.getRemoveFrom().getAccountTransferId() == null )
-		throw new ValidationException("Custodian", "validating id on remove from RemoveTransfersFromCustodianCommand" );
+	throw new ValidationException("Custodian", "validating id on remove from RemoveTransfersFromCustodianCommand" );
 }
-	
 
-		}

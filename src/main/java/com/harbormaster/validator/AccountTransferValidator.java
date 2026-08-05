@@ -87,9 +87,9 @@ public class AccountTransferValidator {
 		if ( accountTransfer == null )
 		throw new ValidationException( "AccountTransfer", "validating CreateAccountTransferCommand" );
 		if ( accountTransfer.getRequestDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating access on getRequestDate" );
+		throw new ValidationException( "AccountTransfer", "validating access on getRequestDate" );
 		if ( accountTransfer.getCompletionDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating access on getCompletionDate" );
+		throw new ValidationException( "AccountTransfer", "validating access on getCompletionDate" );
 	}
 
 	/**
@@ -97,11 +97,11 @@ public class AccountTransferValidator {
 	 */
 	public void validate( UpdateAccountTransferCommand accountTransfer ) throws ValidationException {
 		if ( accountTransfer == null )
-			throw new ValidationException( "AccountTransfer", "validating UpdateAccountTransferCommand" );
+		throw new ValidationException( "AccountTransfer", "validating UpdateAccountTransferCommand" );
 		if ( accountTransfer.getRequestDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating method getRequestDate" );
+		throw new ValidationException( "AccountTransfer", "validating method getRequestDate" );
 		if ( accountTransfer.getCompletionDate() == null )
-			throw new ValidationException( "AccountTransfer", "validating method getCompletionDate" );
+		throw new ValidationException( "AccountTransfer", "validating method getCompletionDate" );
 }
 
 /**
@@ -109,10 +109,10 @@ public class AccountTransferValidator {
  */
 public void validate( DeleteAccountTransferCommand accountTransfer ) throws ValidationException {
 	if ( accountTransfer == null )
-		throw new ValidationException( "AccountTransfer", "validating DeleteAccountTransferCommand" );
+	throw new ValidationException( "AccountTransfer", "validating DeleteAccountTransferCommand" );
 
 	if ( accountTransfer.getCompletionDate() == null )
-		throw new ValidationException( "AccountTransfer", "validating getCompletionDate" );
+	throw new ValidationException( "AccountTransfer", "validating getCompletionDate" );
 }
 
 /**
@@ -133,11 +133,10 @@ public void validate( AssignFromCustodianToAccountTransferCommand command ) thro
 		throw new ValidationException( "AccountTransfer", "validating AssignFromCustodianToAccountTransferCommand" );
 
 	if ( command.getAccountTransferId() == null )
-		throw new ValidationException( "AccountTransfer", "validating identifier" );
+	throw new ValidationException( "AccountTransfer", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "AccountTransfer", "validating assignment" );
-
 }
 
 /**
@@ -149,10 +148,10 @@ public void validate( UnAssignFromCustodianFromAccountTransferCommand command ) 
 	if ( command == null )
 		throw new ValidationException( "AccountTransfer", "validating UnAssignFromCustodianFromAccountTransferCommand" );
 
-	if ( command.getAccountTransferId() == null ) }
-		throw new ValidationException( "AccountTransfer", "validating identity on UnAssignFromCustodianFromAccountTransferCommand" );
-	}
-			/**
+	if ( command.getAccountTransferId() == null )
+	throw new ValidationException( "AccountTransfer", "validating identity on UnAssignFromCustodianFromAccountTransferCommand" );
+}
+/**
  * handles assign ToCustodian validation for a AccountTransfer
  *
  * @param	command AssignToCustodianToAccountTransferCommand
@@ -162,11 +161,10 @@ public void validate( AssignToCustodianToAccountTransferCommand command ) throws
 		throw new ValidationException( "AccountTransfer", "validating AssignToCustodianToAccountTransferCommand" );
 
 	if ( command.getAccountTransferId() == null )
-		throw new ValidationException( "AccountTransfer", "validating identifier" );
+	throw new ValidationException( "AccountTransfer", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "AccountTransfer", "validating assignment" );
-
 }
 
 /**
@@ -178,10 +176,10 @@ public void validate( UnAssignToCustodianFromAccountTransferCommand command ) th
 	if ( command == null )
 		throw new ValidationException( "AccountTransfer", "validating UnAssignToCustodianFromAccountTransferCommand" );
 
-	if ( command.getAccountTransferId() == null ) }
-		throw new ValidationException( "AccountTransfer", "validating identity on UnAssignToCustodianFromAccountTransferCommand" );
-	}
-			/**
+	if ( command.getAccountTransferId() == null )
+	throw new ValidationException( "AccountTransfer", "validating identity on UnAssignToCustodianFromAccountTransferCommand" );
+}
+/**
  * handles assign Account validation for a AccountTransfer
  *
  * @param	command AssignAccountToAccountTransferCommand
@@ -191,11 +189,10 @@ public void validate( AssignAccountToAccountTransferCommand command ) throws Val
 		throw new ValidationException( "AccountTransfer", "validating AssignAccountToAccountTransferCommand" );
 
 	if ( command.getAccountTransferId() == null )
-		throw new ValidationException( "AccountTransfer", "validating identifier" );
+	throw new ValidationException( "AccountTransfer", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "AccountTransfer", "validating assignment" );
-
 }
 
 /**
@@ -207,9 +204,8 @@ public void validate( UnAssignAccountFromAccountTransferCommand command ) throws
 	if ( command == null )
 		throw new ValidationException( "AccountTransfer", "validating UnAssignAccountFromAccountTransferCommand" );
 
-	if ( command.getAccountTransferId() == null ) }
-		throw new ValidationException( "AccountTransfer", "validating identity on UnAssignAccountFromAccountTransferCommand" );
-	}
-			
+	if ( command.getAccountTransferId() == null )
+	throw new ValidationException( "AccountTransfer", "validating identity on UnAssignAccountFromAccountTransferCommand" );
+}
+
 		
-		}

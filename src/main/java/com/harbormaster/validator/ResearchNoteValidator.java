@@ -85,13 +85,13 @@ public class ResearchNoteValidator {
 		if ( researchNote == null )
 		throw new ValidationException( "ResearchNote", "validating CreateResearchNoteCommand" );
 		if ( researchNote.getTitle() == null )
-			throw new ValidationException( "ResearchNote", "validating access on getTitle" );
+		throw new ValidationException( "ResearchNote", "validating access on getTitle" );
 		if ( researchNote.getPublishedDate() == null )
-			throw new ValidationException( "ResearchNote", "validating access on getPublishedDate" );
+		throw new ValidationException( "ResearchNote", "validating access on getPublishedDate" );
 		if ( researchNote.getAuthor() == null )
-			throw new ValidationException( "ResearchNote", "validating access on getAuthor" );
+		throw new ValidationException( "ResearchNote", "validating access on getAuthor" );
 		if ( researchNote.getContentSummary() == null )
-			throw new ValidationException( "ResearchNote", "validating access on getContentSummary" );
+		throw new ValidationException( "ResearchNote", "validating access on getContentSummary" );
 	}
 
 	/**
@@ -99,15 +99,15 @@ public class ResearchNoteValidator {
 	 */
 	public void validate( UpdateResearchNoteCommand researchNote ) throws ValidationException {
 		if ( researchNote == null )
-			throw new ValidationException( "ResearchNote", "validating UpdateResearchNoteCommand" );
+		throw new ValidationException( "ResearchNote", "validating UpdateResearchNoteCommand" );
 		if ( researchNote.getTitle() == null )
-			throw new ValidationException( "ResearchNote", "validating method getTitle" );
+		throw new ValidationException( "ResearchNote", "validating method getTitle" );
 		if ( researchNote.getPublishedDate() == null )
-			throw new ValidationException( "ResearchNote", "validating method getPublishedDate" );
+		throw new ValidationException( "ResearchNote", "validating method getPublishedDate" );
 		if ( researchNote.getAuthor() == null )
-			throw new ValidationException( "ResearchNote", "validating method getAuthor" );
+		throw new ValidationException( "ResearchNote", "validating method getAuthor" );
 		if ( researchNote.getContentSummary() == null )
-			throw new ValidationException( "ResearchNote", "validating method getContentSummary" );
+		throw new ValidationException( "ResearchNote", "validating method getContentSummary" );
 }
 
 /**
@@ -115,10 +115,10 @@ public class ResearchNoteValidator {
  */
 public void validate( DeleteResearchNoteCommand researchNote ) throws ValidationException {
 	if ( researchNote == null )
-		throw new ValidationException( "ResearchNote", "validating DeleteResearchNoteCommand" );
+	throw new ValidationException( "ResearchNote", "validating DeleteResearchNoteCommand" );
 
 	if ( researchNote.getContentSummary() == null )
-		throw new ValidationException( "ResearchNote", "validating getContentSummary" );
+	throw new ValidationException( "ResearchNote", "validating getContentSummary" );
 }
 
 /**
@@ -139,11 +139,10 @@ public void validate( AssignSecurityToResearchNoteCommand command ) throws Valid
 		throw new ValidationException( "ResearchNote", "validating AssignSecurityToResearchNoteCommand" );
 
 	if ( command.getResearchNoteId() == null )
-		throw new ValidationException( "ResearchNote", "validating identifier" );
+	throw new ValidationException( "ResearchNote", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "ResearchNote", "validating assignment" );
-
 }
 
 /**
@@ -155,10 +154,10 @@ public void validate( UnAssignSecurityFromResearchNoteCommand command ) throws V
 	if ( command == null )
 		throw new ValidationException( "ResearchNote", "validating UnAssignSecurityFromResearchNoteCommand" );
 
-	if ( command.getResearchNoteId() == null ) }
-		throw new ValidationException( "ResearchNote", "validating identity on UnAssignSecurityFromResearchNoteCommand" );
-	}
-			/**
+	if ( command.getResearchNoteId() == null )
+	throw new ValidationException( "ResearchNote", "validating identity on UnAssignSecurityFromResearchNoteCommand" );
+}
+/**
  * handles assign Advisor validation for a ResearchNote
  *
  * @param	command AssignAdvisorToResearchNoteCommand
@@ -168,11 +167,10 @@ public void validate( AssignAdvisorToResearchNoteCommand command ) throws Valida
 		throw new ValidationException( "ResearchNote", "validating AssignAdvisorToResearchNoteCommand" );
 
 	if ( command.getResearchNoteId() == null )
-		throw new ValidationException( "ResearchNote", "validating identifier" );
+	throw new ValidationException( "ResearchNote", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "ResearchNote", "validating assignment" );
-
 }
 
 /**
@@ -184,9 +182,8 @@ public void validate( UnAssignAdvisorFromResearchNoteCommand command ) throws Va
 	if ( command == null )
 		throw new ValidationException( "ResearchNote", "validating UnAssignAdvisorFromResearchNoteCommand" );
 
-	if ( command.getResearchNoteId() == null ) }
-		throw new ValidationException( "ResearchNote", "validating identity on UnAssignAdvisorFromResearchNoteCommand" );
-	}
-			
+	if ( command.getResearchNoteId() == null )
+	throw new ValidationException( "ResearchNote", "validating identity on UnAssignAdvisorFromResearchNoteCommand" );
+}
+
 		
-		}

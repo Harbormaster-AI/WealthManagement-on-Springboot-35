@@ -89,9 +89,9 @@ public class InvestmentPolicyValidator {
 		if ( investmentPolicy == null )
 		throw new ValidationException( "InvestmentPolicy", "validating CreateInvestmentPolicyCommand" );
 		if ( investmentPolicy.getPolicyNumber() == null )
-			throw new ValidationException( "InvestmentPolicy", "validating access on getPolicyNumber" );
+		throw new ValidationException( "InvestmentPolicy", "validating access on getPolicyNumber" );
 		if ( investmentPolicy.getConstraints() == null )
-			throw new ValidationException( "InvestmentPolicy", "validating access on getConstraints" );
+		throw new ValidationException( "InvestmentPolicy", "validating access on getConstraints" );
 	}
 
 	/**
@@ -99,11 +99,11 @@ public class InvestmentPolicyValidator {
 	 */
 	public void validate( UpdateInvestmentPolicyCommand investmentPolicy ) throws ValidationException {
 		if ( investmentPolicy == null )
-			throw new ValidationException( "InvestmentPolicy", "validating UpdateInvestmentPolicyCommand" );
+		throw new ValidationException( "InvestmentPolicy", "validating UpdateInvestmentPolicyCommand" );
 		if ( investmentPolicy.getPolicyNumber() == null )
-			throw new ValidationException( "InvestmentPolicy", "validating method getPolicyNumber" );
+		throw new ValidationException( "InvestmentPolicy", "validating method getPolicyNumber" );
 		if ( investmentPolicy.getConstraints() == null )
-			throw new ValidationException( "InvestmentPolicy", "validating method getConstraints" );
+		throw new ValidationException( "InvestmentPolicy", "validating method getConstraints" );
 }
 
 /**
@@ -111,10 +111,10 @@ public class InvestmentPolicyValidator {
  */
 public void validate( DeleteInvestmentPolicyCommand investmentPolicy ) throws ValidationException {
 	if ( investmentPolicy == null )
-		throw new ValidationException( "InvestmentPolicy", "validating DeleteInvestmentPolicyCommand" );
+	throw new ValidationException( "InvestmentPolicy", "validating DeleteInvestmentPolicyCommand" );
 
 	if ( investmentPolicy.getConstraints() == null )
-		throw new ValidationException( "InvestmentPolicy", "validating getConstraints" );
+	throw new ValidationException( "InvestmentPolicy", "validating getConstraints" );
 }
 
 /**
@@ -135,11 +135,10 @@ public void validate( AssignPortfolioToInvestmentPolicyCommand command ) throws 
 		throw new ValidationException( "InvestmentPolicy", "validating AssignPortfolioToInvestmentPolicyCommand" );
 
 	if ( command.getInvestmentPolicyId() == null )
-		throw new ValidationException( "InvestmentPolicy", "validating identifier" );
+	throw new ValidationException( "InvestmentPolicy", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "InvestmentPolicy", "validating assignment" );
-
 }
 
 /**
@@ -151,10 +150,10 @@ public void validate( UnAssignPortfolioFromInvestmentPolicyCommand command ) thr
 	if ( command == null )
 		throw new ValidationException( "InvestmentPolicy", "validating UnAssignPortfolioFromInvestmentPolicyCommand" );
 
-	if ( command.getInvestmentPolicyId() == null ) }
-		throw new ValidationException( "InvestmentPolicy", "validating identity on UnAssignPortfolioFromInvestmentPolicyCommand" );
-	}
-			/**
+	if ( command.getInvestmentPolicyId() == null )
+	throw new ValidationException( "InvestmentPolicy", "validating identity on UnAssignPortfolioFromInvestmentPolicyCommand" );
+}
+/**
  * handles assign RiskAssessment validation for a InvestmentPolicy
  *
  * @param	command AssignRiskAssessmentToInvestmentPolicyCommand
@@ -164,11 +163,10 @@ public void validate( AssignRiskAssessmentToInvestmentPolicyCommand command ) th
 		throw new ValidationException( "InvestmentPolicy", "validating AssignRiskAssessmentToInvestmentPolicyCommand" );
 
 	if ( command.getInvestmentPolicyId() == null )
-		throw new ValidationException( "InvestmentPolicy", "validating identifier" );
+	throw new ValidationException( "InvestmentPolicy", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "InvestmentPolicy", "validating assignment" );
-
 }
 
 /**
@@ -180,10 +178,10 @@ public void validate( UnAssignRiskAssessmentFromInvestmentPolicyCommand command 
 	if ( command == null )
 		throw new ValidationException( "InvestmentPolicy", "validating UnAssignRiskAssessmentFromInvestmentPolicyCommand" );
 
-	if ( command.getInvestmentPolicyId() == null ) }
-		throw new ValidationException( "InvestmentPolicy", "validating identity on UnAssignRiskAssessmentFromInvestmentPolicyCommand" );
-	}
-			
+	if ( command.getInvestmentPolicyId() == null )
+	throw new ValidationException( "InvestmentPolicy", "validating identity on UnAssignRiskAssessmentFromInvestmentPolicyCommand" );
+}
+
 		/**
  * handles add to Goals validation for a InvestmentPolicy
  *
@@ -194,7 +192,7 @@ public void validate( AssignGoalsToInvestmentPolicyCommand command ) throws Vali
 		throw new ValidationException( "InvestmentPolicy", "validating AssignGoalsToInvestmentPolicyCommand" );
 
 	if ( command.getInvestmentPolicyId() == null )
-		throw new ValidationException( "InvestmentPolicy", "validating identity on AssignGoalsToInvestmentPolicyCommand" );
+	throw new ValidationException( "InvestmentPolicy", "validating identity on AssignGoalsToInvestmentPolicyCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "InvestmentPolicy", "validating addTo attribute on AssignGoalsToInvestmentPolicyCommand" );
@@ -206,19 +204,17 @@ public void validate( AssignGoalsToInvestmentPolicyCommand command ) throws Vali
  *
  * @param	command RemoveGoalsFromInvestmentPolicyCommand
  */
-public void validate( RemoveGoalsFromInvestmentPolicyCommand ) throws ValidationException {
+public void validate( RemoveGoalsFromInvestmentPolicyCommand command ) throws ValidationException {
 	if ( command == null )
 		throw new ValidationException("InvestmentPolicy", "validating RemoveGoalsFromInvestmentPolicyCommand" );
 
 	if( command.getInvestmentPolicyId() == null )
-		throw new ValidationException("InvestmentPolicy", "validating id on RemoveGoalsFromInvestmentPolicyCommand" );
+	throw new ValidationException("InvestmentPolicy", "validating id on RemoveGoalsFromInvestmentPolicyCommand" );
 
 	if( command.getRemoveFrom() == null )
 		throw new ValidationException("InvestmentPolicy", "validating remove from RemoveGoalsFromInvestmentPolicyCommand" );
 
 	if( command.getRemoveFrom().getWealthGoalId() == null )
-		throw new ValidationException("InvestmentPolicy", "validating id on remove from RemoveGoalsFromInvestmentPolicyCommand" );
+	throw new ValidationException("InvestmentPolicy", "validating id on remove from RemoveGoalsFromInvestmentPolicyCommand" );
 }
-	
 
-		}

@@ -85,11 +85,11 @@ public class RiskAssessmentValidator {
 		if ( riskAssessment == null )
 		throw new ValidationException( "RiskAssessment", "validating CreateRiskAssessmentCommand" );
 		if ( riskAssessment.getAssessmentDate() == null )
-			throw new ValidationException( "RiskAssessment", "validating access on getAssessmentDate" );
+		throw new ValidationException( "RiskAssessment", "validating access on getAssessmentDate" );
 		if ( riskAssessment.getCapacityScore() == null )
-			throw new ValidationException( "RiskAssessment", "validating access on getCapacityScore" );
+		throw new ValidationException( "RiskAssessment", "validating access on getCapacityScore" );
 		if ( riskAssessment.getHorizonYears() == null )
-			throw new ValidationException( "RiskAssessment", "validating access on getHorizonYears" );
+		throw new ValidationException( "RiskAssessment", "validating access on getHorizonYears" );
 	}
 
 	/**
@@ -97,13 +97,13 @@ public class RiskAssessmentValidator {
 	 */
 	public void validate( UpdateRiskAssessmentCommand riskAssessment ) throws ValidationException {
 		if ( riskAssessment == null )
-			throw new ValidationException( "RiskAssessment", "validating UpdateRiskAssessmentCommand" );
+		throw new ValidationException( "RiskAssessment", "validating UpdateRiskAssessmentCommand" );
 		if ( riskAssessment.getAssessmentDate() == null )
-			throw new ValidationException( "RiskAssessment", "validating method getAssessmentDate" );
+		throw new ValidationException( "RiskAssessment", "validating method getAssessmentDate" );
 		if ( riskAssessment.getCapacityScore() == null )
-			throw new ValidationException( "RiskAssessment", "validating method getCapacityScore" );
+		throw new ValidationException( "RiskAssessment", "validating method getCapacityScore" );
 		if ( riskAssessment.getHorizonYears() == null )
-			throw new ValidationException( "RiskAssessment", "validating method getHorizonYears" );
+		throw new ValidationException( "RiskAssessment", "validating method getHorizonYears" );
 }
 
 /**
@@ -111,10 +111,10 @@ public class RiskAssessmentValidator {
  */
 public void validate( DeleteRiskAssessmentCommand riskAssessment ) throws ValidationException {
 	if ( riskAssessment == null )
-		throw new ValidationException( "RiskAssessment", "validating DeleteRiskAssessmentCommand" );
+	throw new ValidationException( "RiskAssessment", "validating DeleteRiskAssessmentCommand" );
 
 	if ( riskAssessment.getHorizonYears() == null )
-		throw new ValidationException( "RiskAssessment", "validating getHorizonYears" );
+	throw new ValidationException( "RiskAssessment", "validating getHorizonYears" );
 }
 
 /**
@@ -135,11 +135,10 @@ public void validate( AssignHouseholdToRiskAssessmentCommand command ) throws Va
 		throw new ValidationException( "RiskAssessment", "validating AssignHouseholdToRiskAssessmentCommand" );
 
 	if ( command.getRiskAssessmentId() == null )
-		throw new ValidationException( "RiskAssessment", "validating identifier" );
+	throw new ValidationException( "RiskAssessment", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "RiskAssessment", "validating assignment" );
-
 }
 
 /**
@@ -151,10 +150,10 @@ public void validate( UnAssignHouseholdFromRiskAssessmentCommand command ) throw
 	if ( command == null )
 		throw new ValidationException( "RiskAssessment", "validating UnAssignHouseholdFromRiskAssessmentCommand" );
 
-	if ( command.getRiskAssessmentId() == null ) }
-		throw new ValidationException( "RiskAssessment", "validating identity on UnAssignHouseholdFromRiskAssessmentCommand" );
-	}
-			/**
+	if ( command.getRiskAssessmentId() == null )
+	throw new ValidationException( "RiskAssessment", "validating identity on UnAssignHouseholdFromRiskAssessmentCommand" );
+}
+/**
  * handles assign Advisor validation for a RiskAssessment
  *
  * @param	command AssignAdvisorToRiskAssessmentCommand
@@ -164,11 +163,10 @@ public void validate( AssignAdvisorToRiskAssessmentCommand command ) throws Vali
 		throw new ValidationException( "RiskAssessment", "validating AssignAdvisorToRiskAssessmentCommand" );
 
 	if ( command.getRiskAssessmentId() == null )
-		throw new ValidationException( "RiskAssessment", "validating identifier" );
+	throw new ValidationException( "RiskAssessment", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "RiskAssessment", "validating assignment" );
-
 }
 
 /**
@@ -180,9 +178,8 @@ public void validate( UnAssignAdvisorFromRiskAssessmentCommand command ) throws 
 	if ( command == null )
 		throw new ValidationException( "RiskAssessment", "validating UnAssignAdvisorFromRiskAssessmentCommand" );
 
-	if ( command.getRiskAssessmentId() == null ) }
-		throw new ValidationException( "RiskAssessment", "validating identity on UnAssignAdvisorFromRiskAssessmentCommand" );
-	}
-			
+	if ( command.getRiskAssessmentId() == null )
+	throw new ValidationException( "RiskAssessment", "validating identity on UnAssignAdvisorFromRiskAssessmentCommand" );
+}
+
 		
-		}

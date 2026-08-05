@@ -89,13 +89,13 @@ public class MeetingValidator {
 		if ( meeting == null )
 		throw new ValidationException( "Meeting", "validating CreateMeetingCommand" );
 		if ( meeting.getMeetingDate() == null )
-			throw new ValidationException( "Meeting", "validating access on getMeetingDate" );
+		throw new ValidationException( "Meeting", "validating access on getMeetingDate" );
 		if ( meeting.getLocation() == null )
-			throw new ValidationException( "Meeting", "validating access on getLocation" );
+		throw new ValidationException( "Meeting", "validating access on getLocation" );
 		if ( meeting.getSubject() == null )
-			throw new ValidationException( "Meeting", "validating access on getSubject" );
+		throw new ValidationException( "Meeting", "validating access on getSubject" );
 		if ( meeting.getNotes() == null )
-			throw new ValidationException( "Meeting", "validating access on getNotes" );
+		throw new ValidationException( "Meeting", "validating access on getNotes" );
 	}
 
 	/**
@@ -103,15 +103,15 @@ public class MeetingValidator {
 	 */
 	public void validate( UpdateMeetingCommand meeting ) throws ValidationException {
 		if ( meeting == null )
-			throw new ValidationException( "Meeting", "validating UpdateMeetingCommand" );
+		throw new ValidationException( "Meeting", "validating UpdateMeetingCommand" );
 		if ( meeting.getMeetingDate() == null )
-			throw new ValidationException( "Meeting", "validating method getMeetingDate" );
+		throw new ValidationException( "Meeting", "validating method getMeetingDate" );
 		if ( meeting.getLocation() == null )
-			throw new ValidationException( "Meeting", "validating method getLocation" );
+		throw new ValidationException( "Meeting", "validating method getLocation" );
 		if ( meeting.getSubject() == null )
-			throw new ValidationException( "Meeting", "validating method getSubject" );
+		throw new ValidationException( "Meeting", "validating method getSubject" );
 		if ( meeting.getNotes() == null )
-			throw new ValidationException( "Meeting", "validating method getNotes" );
+		throw new ValidationException( "Meeting", "validating method getNotes" );
 }
 
 /**
@@ -119,10 +119,10 @@ public class MeetingValidator {
  */
 public void validate( DeleteMeetingCommand meeting ) throws ValidationException {
 	if ( meeting == null )
-		throw new ValidationException( "Meeting", "validating DeleteMeetingCommand" );
+	throw new ValidationException( "Meeting", "validating DeleteMeetingCommand" );
 
 	if ( meeting.getNotes() == null )
-		throw new ValidationException( "Meeting", "validating getNotes" );
+	throw new ValidationException( "Meeting", "validating getNotes" );
 }
 
 /**
@@ -143,11 +143,10 @@ public void validate( AssignHouseholdToMeetingCommand command ) throws Validatio
 		throw new ValidationException( "Meeting", "validating AssignHouseholdToMeetingCommand" );
 
 	if ( command.getMeetingId() == null )
-		throw new ValidationException( "Meeting", "validating identifier" );
+	throw new ValidationException( "Meeting", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Meeting", "validating assignment" );
-
 }
 
 /**
@@ -159,10 +158,10 @@ public void validate( UnAssignHouseholdFromMeetingCommand command ) throws Valid
 	if ( command == null )
 		throw new ValidationException( "Meeting", "validating UnAssignHouseholdFromMeetingCommand" );
 
-	if ( command.getMeetingId() == null ) }
-		throw new ValidationException( "Meeting", "validating identity on UnAssignHouseholdFromMeetingCommand" );
-	}
-			/**
+	if ( command.getMeetingId() == null )
+	throw new ValidationException( "Meeting", "validating identity on UnAssignHouseholdFromMeetingCommand" );
+}
+/**
  * handles assign Advisor validation for a Meeting
  *
  * @param	command AssignAdvisorToMeetingCommand
@@ -172,11 +171,10 @@ public void validate( AssignAdvisorToMeetingCommand command ) throws ValidationE
 		throw new ValidationException( "Meeting", "validating AssignAdvisorToMeetingCommand" );
 
 	if ( command.getMeetingId() == null )
-		throw new ValidationException( "Meeting", "validating identifier" );
+	throw new ValidationException( "Meeting", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Meeting", "validating assignment" );
-
 }
 
 /**
@@ -188,10 +186,10 @@ public void validate( UnAssignAdvisorFromMeetingCommand command ) throws Validat
 	if ( command == null )
 		throw new ValidationException( "Meeting", "validating UnAssignAdvisorFromMeetingCommand" );
 
-	if ( command.getMeetingId() == null ) }
-		throw new ValidationException( "Meeting", "validating identity on UnAssignAdvisorFromMeetingCommand" );
-	}
-			
+	if ( command.getMeetingId() == null )
+	throw new ValidationException( "Meeting", "validating identity on UnAssignAdvisorFromMeetingCommand" );
+}
+
 		/**
  * handles add to Documents validation for a Meeting
  *
@@ -202,7 +200,7 @@ public void validate( AssignDocumentsToMeetingCommand command ) throws Validatio
 		throw new ValidationException( "Meeting", "validating AssignDocumentsToMeetingCommand" );
 
 	if ( command.getMeetingId() == null )
-		throw new ValidationException( "Meeting", "validating identity on AssignDocumentsToMeetingCommand" );
+	throw new ValidationException( "Meeting", "validating identity on AssignDocumentsToMeetingCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Meeting", "validating addTo attribute on AssignDocumentsToMeetingCommand" );
@@ -214,19 +212,17 @@ public void validate( AssignDocumentsToMeetingCommand command ) throws Validatio
  *
  * @param	command RemoveDocumentsFromMeetingCommand
  */
-public void validate( RemoveDocumentsFromMeetingCommand ) throws ValidationException {
+public void validate( RemoveDocumentsFromMeetingCommand command ) throws ValidationException {
 	if ( command == null )
 		throw new ValidationException("Meeting", "validating RemoveDocumentsFromMeetingCommand" );
 
 	if( command.getMeetingId() == null )
-		throw new ValidationException("Meeting", "validating id on RemoveDocumentsFromMeetingCommand" );
+	throw new ValidationException("Meeting", "validating id on RemoveDocumentsFromMeetingCommand" );
 
 	if( command.getRemoveFrom() == null )
 		throw new ValidationException("Meeting", "validating remove from RemoveDocumentsFromMeetingCommand" );
 
 	if( command.getRemoveFrom().getDocumentId() == null )
-		throw new ValidationException("Meeting", "validating id on remove from RemoveDocumentsFromMeetingCommand" );
+	throw new ValidationException("Meeting", "validating id on remove from RemoveDocumentsFromMeetingCommand" );
 }
-	
 
-		}

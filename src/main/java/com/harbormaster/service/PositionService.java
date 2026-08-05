@@ -103,9 +103,10 @@ public class PositionService
     public PositionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new PositionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new PositionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(PositionRepository.class) );
+			this.validator		= applicationContext.getBean(PositionValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setPositionId( command.getPositionId() );
             entity.setQuantity( command.getQuantity() );
@@ -170,7 +171,7 @@ public class PositionService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setPositionId( command.getPositionId() );
             entity.setQuantity( command.getQuantity() );
@@ -211,7 +212,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getPositionId();
 
@@ -252,7 +253,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				PositionValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Position using the provided id
@@ -306,7 +307,7 @@ public class PositionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -332,7 +333,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -357,7 +358,7 @@ public class PositionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -383,7 +384,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -409,7 +410,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -435,7 +436,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -461,7 +462,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -487,7 +488,7 @@ public class PositionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PositionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -511,7 +512,11 @@ public class PositionService
 //************************************************************************
 	@Autowired
     private final PositionEntityProjector projector;
+	private final {className}Validator validator;
 	private Position position 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PositionService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

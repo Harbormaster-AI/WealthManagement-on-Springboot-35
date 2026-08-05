@@ -103,9 +103,10 @@ public class MarketPriceService
     public MarketPriceService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new MarketPriceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new MarketPriceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(MarketPriceRepository.class) );
+			this.validator		= applicationContext.getBean(MarketPriceValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class MarketPriceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MarketPriceValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setMarketPriceId( command.getMarketPriceId() );
             entity.setPrice( command.getPrice() );
@@ -169,7 +170,7 @@ public class MarketPriceService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				MarketPriceValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setMarketPriceId( command.getMarketPriceId() );
             entity.setPrice( command.getPrice() );
@@ -206,7 +207,7 @@ public class MarketPriceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MarketPriceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getMarketPriceId();
 
@@ -247,7 +248,7 @@ public class MarketPriceService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				MarketPriceValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a MarketPrice using the provided id
@@ -301,7 +302,7 @@ public class MarketPriceService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				MarketPriceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -327,7 +328,7 @@ public class MarketPriceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MarketPriceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -351,7 +352,11 @@ public class MarketPriceService
 //************************************************************************
 	@Autowired
     private final MarketPriceEntityProjector projector;
+	private final {className}Validator validator;
 	private MarketPrice marketPrice 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(MarketPriceService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

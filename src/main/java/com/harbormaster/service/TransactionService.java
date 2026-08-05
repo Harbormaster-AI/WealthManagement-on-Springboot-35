@@ -103,9 +103,10 @@ public class TransactionService
     public TransactionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new TransactionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new TransactionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(TransactionRepository.class) );
+			this.validator		= applicationContext.getBean(TransactionValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class TransactionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setTransactionId( command.getTransactionId() );
             entity.setTradeDate( command.getTradeDate() );
@@ -171,7 +172,7 @@ public class TransactionService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setTransactionId( command.getTransactionId() );
             entity.setTradeDate( command.getTradeDate() );
@@ -213,7 +214,7 @@ public class TransactionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getTransactionId();
 
@@ -254,7 +255,7 @@ public class TransactionService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Transaction using the provided id
@@ -308,7 +309,7 @@ public class TransactionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -334,7 +335,7 @@ public class TransactionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -359,7 +360,7 @@ public class TransactionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -385,7 +386,7 @@ public class TransactionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -410,7 +411,7 @@ public class TransactionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -436,7 +437,7 @@ public class TransactionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -461,7 +462,7 @@ public class TransactionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -487,7 +488,7 @@ public class TransactionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TransactionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -511,7 +512,11 @@ public class TransactionService
 //************************************************************************
 	@Autowired
     private final TransactionEntityProjector projector;
+	private final {className}Validator validator;
 	private Transaction transaction 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(TransactionService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

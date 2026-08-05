@@ -103,9 +103,10 @@ public class ComplianceAlertService
     public ComplianceAlertService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new ComplianceAlertEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new ComplianceAlertEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(ComplianceAlertRepository.class) );
+			this.validator		= applicationContext.getBean(ComplianceAlertValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setComplianceAlertId( command.getComplianceAlertId() );
             entity.setAlertDate( command.getAlertDate() );
@@ -170,7 +171,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setComplianceAlertId( command.getComplianceAlertId() );
             entity.setAlertDate( command.getAlertDate() );
@@ -211,7 +212,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getComplianceAlertId();
 
@@ -252,7 +253,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a ComplianceAlert using the provided id
@@ -306,7 +307,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -332,7 +333,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -357,7 +358,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -383,7 +384,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -408,7 +409,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -434,7 +435,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -459,7 +460,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -485,7 +486,7 @@ public class ComplianceAlertService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceAlertValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -509,7 +510,11 @@ public class ComplianceAlertService
 //************************************************************************
 	@Autowired
     private final ComplianceAlertEntityProjector projector;
+	private final {className}Validator validator;
 	private ComplianceAlert complianceAlert 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceAlertService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

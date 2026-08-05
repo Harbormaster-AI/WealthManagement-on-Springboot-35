@@ -103,9 +103,10 @@ public class ClientService
     public ClientService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new ClientEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new ClientEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(ClientRepository.class) );
+			this.validator		= applicationContext.getBean(ClientValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setClientId( command.getClientId() );
             entity.setFirstName( command.getFirstName() );
@@ -171,7 +172,7 @@ public class ClientService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setClientId( command.getClientId() );
             entity.setFirstName( command.getFirstName() );
@@ -215,7 +216,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getClientId();
 
@@ -256,7 +257,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				ClientValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Client using the provided id
@@ -310,7 +311,7 @@ public class ClientService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -336,7 +337,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -361,7 +362,7 @@ public class ClientService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -387,7 +388,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -413,7 +414,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -439,7 +440,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -465,7 +466,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -491,7 +492,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -517,7 +518,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -543,7 +544,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -569,7 +570,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -595,7 +596,7 @@ public class ClientService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ClientValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -619,7 +620,11 @@ public class ClientService
 //************************************************************************
 	@Autowired
     private final ClientEntityProjector projector;
+	private final {className}Validator validator;
 	private Client client 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ClientService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

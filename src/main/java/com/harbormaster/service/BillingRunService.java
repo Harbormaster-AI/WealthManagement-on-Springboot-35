@@ -103,9 +103,10 @@ public class BillingRunService
     public BillingRunService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new BillingRunEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new BillingRunEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(BillingRunRepository.class) );
+			this.validator		= applicationContext.getBean(BillingRunValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class BillingRunService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BillingRunValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setBillingRunId( command.getBillingRunId() );
             entity.setRunDate( command.getRunDate() );
@@ -170,7 +171,7 @@ public class BillingRunService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				BillingRunValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setBillingRunId( command.getBillingRunId() );
             entity.setRunDate( command.getRunDate() );
@@ -209,7 +210,7 @@ public class BillingRunService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BillingRunValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getBillingRunId();
 
@@ -250,7 +251,7 @@ public class BillingRunService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				BillingRunValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a BillingRun using the provided id
@@ -304,7 +305,7 @@ public class BillingRunService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				BillingRunValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -330,7 +331,7 @@ public class BillingRunService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BillingRunValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -356,7 +357,7 @@ public class BillingRunService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BillingRunValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -382,7 +383,7 @@ public class BillingRunService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BillingRunValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -406,7 +407,11 @@ public class BillingRunService
 //************************************************************************
 	@Autowired
     private final BillingRunEntityProjector projector;
+	private final {className}Validator validator;
 	private BillingRun billingRun 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BillingRunService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

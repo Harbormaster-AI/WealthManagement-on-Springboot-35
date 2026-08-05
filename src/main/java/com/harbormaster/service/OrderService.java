@@ -103,9 +103,10 @@ public class OrderService
     public OrderService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new OrderEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new OrderEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(OrderRepository.class) );
+			this.validator		= applicationContext.getBean(OrderValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setOrderId( command.getOrderId() );
             entity.setOrderNumber( command.getOrderNumber() );
@@ -174,7 +175,7 @@ public class OrderService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setOrderId( command.getOrderId() );
             entity.setOrderNumber( command.getOrderNumber() );
@@ -220,7 +221,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getOrderId();
 
@@ -261,7 +262,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				OrderValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Order using the provided id
@@ -315,7 +316,7 @@ public class OrderService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -341,7 +342,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -366,7 +367,7 @@ public class OrderService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -392,7 +393,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -417,7 +418,7 @@ public class OrderService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -443,7 +444,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -469,7 +470,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -495,7 +496,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -521,7 +522,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -547,7 +548,7 @@ public class OrderService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -571,7 +572,11 @@ public class OrderService
 //************************************************************************
 	@Autowired
     private final OrderEntityProjector projector;
+	private final {className}Validator validator;
 	private Order order 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

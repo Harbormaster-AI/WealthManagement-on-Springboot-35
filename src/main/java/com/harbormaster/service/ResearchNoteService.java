@@ -103,9 +103,10 @@ public class ResearchNoteService
     public ResearchNoteService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new ResearchNoteEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new ResearchNoteEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(ResearchNoteRepository.class) );
+			this.validator		= applicationContext.getBean(ResearchNoteValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class ResearchNoteService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ResearchNoteValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setResearchNoteId( command.getResearchNoteId() );
             entity.setTitle( command.getTitle() );
@@ -171,7 +172,7 @@ public class ResearchNoteService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				ResearchNoteValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setResearchNoteId( command.getResearchNoteId() );
             entity.setTitle( command.getTitle() );
@@ -211,7 +212,7 @@ public class ResearchNoteService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ResearchNoteValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getResearchNoteId();
 
@@ -252,7 +253,7 @@ public class ResearchNoteService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				ResearchNoteValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a ResearchNote using the provided id
@@ -306,7 +307,7 @@ public class ResearchNoteService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ResearchNoteValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -332,7 +333,7 @@ public class ResearchNoteService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ResearchNoteValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -357,7 +358,7 @@ public class ResearchNoteService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ResearchNoteValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -383,7 +384,7 @@ public class ResearchNoteService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ResearchNoteValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -407,7 +408,11 @@ public class ResearchNoteService
 //************************************************************************
 	@Autowired
     private final ResearchNoteEntityProjector projector;
+	private final {className}Validator validator;
 	private ResearchNote researchNote 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ResearchNoteService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

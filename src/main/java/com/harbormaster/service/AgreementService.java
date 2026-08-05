@@ -103,9 +103,10 @@ public class AgreementService
     public AgreementService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new AgreementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new AgreementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(AgreementRepository.class) );
+			this.validator		= applicationContext.getBean(AgreementValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class AgreementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAgreementId( command.getAgreementId() );
             entity.setEffectiveDate( command.getEffectiveDate() );
@@ -169,7 +170,7 @@ public class AgreementService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAgreementId( command.getAgreementId() );
             entity.setEffectiveDate( command.getEffectiveDate() );
@@ -208,7 +209,7 @@ public class AgreementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getAgreementId();
 
@@ -249,7 +250,7 @@ public class AgreementService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Agreement using the provided id
@@ -303,7 +304,7 @@ public class AgreementService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -329,7 +330,7 @@ public class AgreementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -354,7 +355,7 @@ public class AgreementService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -380,7 +381,7 @@ public class AgreementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -406,7 +407,7 @@ public class AgreementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -432,7 +433,7 @@ public class AgreementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AgreementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -456,7 +457,11 @@ public class AgreementService
 //************************************************************************
 	@Autowired
     private final AgreementEntityProjector projector;
+	private final {className}Validator validator;
 	private Agreement agreement 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AgreementService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

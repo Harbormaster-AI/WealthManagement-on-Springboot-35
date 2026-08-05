@@ -103,9 +103,10 @@ public class ModelPortfolioService
     public ModelPortfolioService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new ModelPortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new ModelPortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(ModelPortfolioRepository.class) );
+			this.validator		= applicationContext.getBean(ModelPortfolioValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class ModelPortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ModelPortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setModelPortfolioId( command.getModelPortfolioId() );
             entity.setName( command.getName() );
@@ -169,7 +170,7 @@ public class ModelPortfolioService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				ModelPortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setModelPortfolioId( command.getModelPortfolioId() );
             entity.setName( command.getName() );
@@ -207,7 +208,7 @@ public class ModelPortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ModelPortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getModelPortfolioId();
 
@@ -248,7 +249,7 @@ public class ModelPortfolioService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				ModelPortfolioValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a ModelPortfolio using the provided id
@@ -303,7 +304,7 @@ public class ModelPortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ModelPortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -329,7 +330,7 @@ public class ModelPortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ModelPortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -355,7 +356,7 @@ public class ModelPortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ModelPortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -381,7 +382,7 @@ public class ModelPortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ModelPortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -405,7 +406,11 @@ public class ModelPortfolioService
 //************************************************************************
 	@Autowired
     private final ModelPortfolioEntityProjector projector;
+	private final {className}Validator validator;
 	private ModelPortfolio modelPortfolio 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ModelPortfolioService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

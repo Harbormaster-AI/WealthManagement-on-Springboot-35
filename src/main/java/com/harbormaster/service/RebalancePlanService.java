@@ -103,9 +103,10 @@ public class RebalancePlanService
     public RebalancePlanService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new RebalancePlanEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new RebalancePlanEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(RebalancePlanRepository.class) );
+			this.validator		= applicationContext.getBean(RebalancePlanValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setRebalancePlanId( command.getRebalancePlanId() );
             entity.setPlanDate( command.getPlanDate() );
@@ -169,7 +170,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setRebalancePlanId( command.getRebalancePlanId() );
             entity.setPlanDate( command.getPlanDate() );
@@ -208,7 +209,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getRebalancePlanId();
 
@@ -249,7 +250,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a RebalancePlan using the provided id
@@ -303,7 +304,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -329,7 +330,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -354,7 +355,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -380,7 +381,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -406,7 +407,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -432,7 +433,7 @@ public class RebalancePlanService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RebalancePlanValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -456,7 +457,11 @@ public class RebalancePlanService
 //************************************************************************
 	@Autowired
     private final RebalancePlanEntityProjector projector;
+	private final {className}Validator validator;
 	private RebalancePlan rebalancePlan 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(RebalancePlanService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

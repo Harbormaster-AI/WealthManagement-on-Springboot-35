@@ -103,9 +103,10 @@ public class AssetAllocationSliceService
     public AssetAllocationSliceService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new AssetAllocationSliceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new AssetAllocationSliceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(AssetAllocationSliceRepository.class) );
+			this.validator		= applicationContext.getBean(AssetAllocationSliceValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class AssetAllocationSliceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AssetAllocationSliceValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAssetAllocationSliceId( command.getAssetAllocationSliceId() );
             entity.setTargetWeight( command.getTargetWeight() );
@@ -168,7 +169,7 @@ public class AssetAllocationSliceService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				AssetAllocationSliceValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAssetAllocationSliceId( command.getAssetAllocationSliceId() );
             entity.setTargetWeight( command.getTargetWeight() );
@@ -204,7 +205,7 @@ public class AssetAllocationSliceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AssetAllocationSliceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getAssetAllocationSliceId();
 
@@ -245,7 +246,7 @@ public class AssetAllocationSliceService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				AssetAllocationSliceValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a AssetAllocationSlice using the provided id
@@ -299,7 +300,7 @@ public class AssetAllocationSliceService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AssetAllocationSliceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -325,7 +326,7 @@ public class AssetAllocationSliceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AssetAllocationSliceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -349,7 +350,11 @@ public class AssetAllocationSliceService
 //************************************************************************
 	@Autowired
     private final AssetAllocationSliceEntityProjector projector;
+	private final {className}Validator validator;
 	private AssetAllocationSlice assetAllocationSlice 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AssetAllocationSliceService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

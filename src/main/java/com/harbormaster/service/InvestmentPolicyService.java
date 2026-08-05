@@ -103,9 +103,10 @@ public class InvestmentPolicyService
     public InvestmentPolicyService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new InvestmentPolicyEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new InvestmentPolicyEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(InvestmentPolicyRepository.class) );
+			this.validator		= applicationContext.getBean(InvestmentPolicyValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setInvestmentPolicyId( command.getInvestmentPolicyId() );
             entity.setPolicyNumber( command.getPolicyNumber() );
@@ -169,7 +170,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setInvestmentPolicyId( command.getInvestmentPolicyId() );
             entity.setPolicyNumber( command.getPolicyNumber() );
@@ -208,7 +209,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getInvestmentPolicyId();
 
@@ -249,7 +250,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a InvestmentPolicy using the provided id
@@ -303,7 +304,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -329,7 +330,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -354,7 +355,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -380,7 +381,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -406,7 +407,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -432,7 +433,7 @@ public class InvestmentPolicyService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentPolicyValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -456,7 +457,11 @@ public class InvestmentPolicyService
 //************************************************************************
 	@Autowired
     private final InvestmentPolicyEntityProjector projector;
+	private final {className}Validator validator;
 	private InvestmentPolicy investmentPolicy 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentPolicyService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

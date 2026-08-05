@@ -103,9 +103,10 @@ public class KycRecordService
     public KycRecordService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new KycRecordEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new KycRecordEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(KycRecordRepository.class) );
+			this.validator		= applicationContext.getBean(KycRecordValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class KycRecordService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				KycRecordValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setKycRecordId( command.getKycRecordId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -170,7 +171,7 @@ public class KycRecordService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				KycRecordValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setKycRecordId( command.getKycRecordId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -209,7 +210,7 @@ public class KycRecordService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				KycRecordValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getKycRecordId();
 
@@ -250,7 +251,7 @@ public class KycRecordService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				KycRecordValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a KycRecord using the provided id
@@ -304,7 +305,7 @@ public class KycRecordService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				KycRecordValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -330,7 +331,7 @@ public class KycRecordService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				KycRecordValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -356,7 +357,7 @@ public class KycRecordService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				KycRecordValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -382,7 +383,7 @@ public class KycRecordService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				KycRecordValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -406,7 +407,11 @@ public class KycRecordService
 //************************************************************************
 	@Autowired
     private final KycRecordEntityProjector projector;
+	private final {className}Validator validator;
 	private KycRecord kycRecord 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(KycRecordService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

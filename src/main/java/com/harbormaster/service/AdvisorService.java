@@ -103,9 +103,10 @@ public class AdvisorService
     public AdvisorService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new AdvisorEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new AdvisorEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(AdvisorRepository.class) );
+			this.validator		= applicationContext.getBean(AdvisorValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAdvisorId( command.getAdvisorId() );
             entity.setFirstName( command.getFirstName() );
@@ -170,7 +171,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAdvisorId( command.getAdvisorId() );
             entity.setFirstName( command.getFirstName() );
@@ -211,7 +212,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getAdvisorId();
 
@@ -252,7 +253,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Advisor using the provided id
@@ -306,7 +307,7 @@ public class AdvisorService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -332,7 +333,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -357,7 +358,7 @@ public class AdvisorService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -383,7 +384,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -408,7 +409,7 @@ public class AdvisorService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -434,7 +435,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -460,7 +461,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -486,7 +487,7 @@ public class AdvisorService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisorValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -510,7 +511,11 @@ public class AdvisorService
 //************************************************************************
 	@Autowired
     private final AdvisorEntityProjector projector;
+	private final {className}Validator validator;
 	private Advisor advisor 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisorService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

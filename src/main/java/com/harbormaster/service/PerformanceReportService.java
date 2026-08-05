@@ -103,9 +103,10 @@ public class PerformanceReportService
     public PerformanceReportService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new PerformanceReportEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new PerformanceReportEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(PerformanceReportRepository.class) );
+			this.validator		= applicationContext.getBean(PerformanceReportValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class PerformanceReportService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PerformanceReportValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setPerformanceReportId( command.getPerformanceReportId() );
             entity.setPeriodStart( command.getPeriodStart() );
@@ -171,7 +172,7 @@ public class PerformanceReportService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				PerformanceReportValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setPerformanceReportId( command.getPerformanceReportId() );
             entity.setPeriodStart( command.getPeriodStart() );
@@ -211,7 +212,7 @@ public class PerformanceReportService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PerformanceReportValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getPerformanceReportId();
 
@@ -252,7 +253,7 @@ public class PerformanceReportService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				PerformanceReportValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a PerformanceReport using the provided id
@@ -306,7 +307,7 @@ public class PerformanceReportService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				PerformanceReportValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -332,7 +333,7 @@ public class PerformanceReportService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PerformanceReportValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -357,7 +358,7 @@ public class PerformanceReportService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				PerformanceReportValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -383,7 +384,7 @@ public class PerformanceReportService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PerformanceReportValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -407,7 +408,11 @@ public class PerformanceReportService
 //************************************************************************
 	@Autowired
     private final PerformanceReportEntityProjector projector;
+	private final {className}Validator validator;
 	private PerformanceReport performanceReport 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PerformanceReportService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

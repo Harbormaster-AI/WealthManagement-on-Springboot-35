@@ -103,9 +103,10 @@ public class WealthGoalService
     public WealthGoalService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new WealthGoalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new WealthGoalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(WealthGoalRepository.class) );
+			this.validator		= applicationContext.getBean(WealthGoalValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setWealthGoalId( command.getWealthGoalId() );
             entity.setName( command.getName() );
@@ -171,7 +172,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setWealthGoalId( command.getWealthGoalId() );
             entity.setName( command.getName() );
@@ -212,7 +213,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getWealthGoalId();
 
@@ -253,7 +254,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a WealthGoal using the provided id
@@ -307,7 +308,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -333,7 +334,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -358,7 +359,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -384,7 +385,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -409,7 +410,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -435,7 +436,7 @@ public class WealthGoalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthGoalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -459,7 +460,11 @@ public class WealthGoalService
 //************************************************************************
 	@Autowired
     private final WealthGoalEntityProjector projector;
+	private final {className}Validator validator;
 	private WealthGoal wealthGoal 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthGoalService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

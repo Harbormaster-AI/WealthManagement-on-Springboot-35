@@ -103,9 +103,10 @@ public class AdvisoryTeamService
     public AdvisoryTeamService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new AdvisoryTeamEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new AdvisoryTeamEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(AdvisoryTeamRepository.class) );
+			this.validator		= applicationContext.getBean(AdvisoryTeamValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class AdvisoryTeamService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisoryTeamValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAdvisoryTeamId( command.getAdvisoryTeamId() );
             entity.setName( command.getName() );
@@ -168,7 +169,7 @@ public class AdvisoryTeamService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				AdvisoryTeamValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAdvisoryTeamId( command.getAdvisoryTeamId() );
             entity.setName( command.getName() );
@@ -205,7 +206,7 @@ public class AdvisoryTeamService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisoryTeamValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getAdvisoryTeamId();
 
@@ -246,7 +247,7 @@ public class AdvisoryTeamService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				AdvisoryTeamValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a AdvisoryTeam using the provided id
@@ -301,7 +302,7 @@ public class AdvisoryTeamService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisoryTeamValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -327,7 +328,7 @@ public class AdvisoryTeamService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisoryTeamValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -353,7 +354,7 @@ public class AdvisoryTeamService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisoryTeamValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -379,7 +380,7 @@ public class AdvisoryTeamService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AdvisoryTeamValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -403,7 +404,11 @@ public class AdvisoryTeamService
 //************************************************************************
 	@Autowired
     private final AdvisoryTeamEntityProjector projector;
+	private final {className}Validator validator;
 	private AdvisoryTeam advisoryTeam 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AdvisoryTeamService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

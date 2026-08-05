@@ -103,9 +103,10 @@ public class SecurityService
     public SecurityService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new SecurityEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new SecurityEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(SecurityRepository.class) );
+			this.validator		= applicationContext.getBean(SecurityValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setSecurityId( command.getSecurityId() );
             entity.setTicker( command.getTicker() );
@@ -174,7 +175,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setSecurityId( command.getSecurityId() );
             entity.setTicker( command.getTicker() );
@@ -218,7 +219,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getSecurityId();
 
@@ -259,7 +260,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Security using the provided id
@@ -314,7 +315,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -340,7 +341,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -366,7 +367,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -392,7 +393,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -418,7 +419,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -444,7 +445,7 @@ public class SecurityService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				SecurityValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -468,7 +469,11 @@ public class SecurityService
 //************************************************************************
 	@Autowired
     private final SecurityEntityProjector projector;
+	private final {className}Validator validator;
 	private Security security 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(SecurityService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

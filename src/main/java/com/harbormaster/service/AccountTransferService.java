@@ -103,9 +103,10 @@ public class AccountTransferService
     public AccountTransferService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new AccountTransferEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new AccountTransferEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(AccountTransferRepository.class) );
+			this.validator		= applicationContext.getBean(AccountTransferValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAccountTransferId( command.getAccountTransferId() );
             entity.setRequestDate( command.getRequestDate() );
@@ -170,7 +171,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAccountTransferId( command.getAccountTransferId() );
             entity.setRequestDate( command.getRequestDate() );
@@ -210,7 +211,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getAccountTransferId();
 
@@ -251,7 +252,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a AccountTransfer using the provided id
@@ -305,7 +306,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -331,7 +332,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -356,7 +357,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -382,7 +383,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -407,7 +408,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -433,7 +434,7 @@ public class AccountTransferService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountTransferValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -457,7 +458,11 @@ public class AccountTransferService
 //************************************************************************
 	@Autowired
     private final AccountTransferEntityProjector projector;
+	private final {className}Validator validator;
 	private AccountTransfer accountTransfer 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountTransferService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class ComplianceRuleService
     public ComplianceRuleService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new ComplianceRuleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new ComplianceRuleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(ComplianceRuleRepository.class) );
+			this.validator		= applicationContext.getBean(ComplianceRuleValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class ComplianceRuleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceRuleValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setComplianceRuleId( command.getComplianceRuleId() );
             entity.setName( command.getName() );
@@ -170,7 +171,7 @@ public class ComplianceRuleService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				ComplianceRuleValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setComplianceRuleId( command.getComplianceRuleId() );
             entity.setName( command.getName() );
@@ -208,7 +209,7 @@ public class ComplianceRuleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceRuleValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getComplianceRuleId();
 
@@ -249,7 +250,7 @@ public class ComplianceRuleService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				ComplianceRuleValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a ComplianceRule using the provided id
@@ -304,7 +305,7 @@ public class ComplianceRuleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceRuleValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -330,7 +331,7 @@ public class ComplianceRuleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ComplianceRuleValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -354,7 +355,11 @@ public class ComplianceRuleService
 //************************************************************************
 	@Autowired
     private final ComplianceRuleEntityProjector projector;
+	private final {className}Validator validator;
 	private ComplianceRule complianceRule 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ComplianceRuleService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class RiskAssessmentService
     public RiskAssessmentService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new RiskAssessmentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new RiskAssessmentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(RiskAssessmentRepository.class) );
+			this.validator		= applicationContext.getBean(RiskAssessmentValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class RiskAssessmentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RiskAssessmentValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setRiskAssessmentId( command.getRiskAssessmentId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -170,7 +171,7 @@ public class RiskAssessmentService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				RiskAssessmentValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setRiskAssessmentId( command.getRiskAssessmentId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -209,7 +210,7 @@ public class RiskAssessmentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RiskAssessmentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getRiskAssessmentId();
 
@@ -250,7 +251,7 @@ public class RiskAssessmentService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				RiskAssessmentValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a RiskAssessment using the provided id
@@ -304,7 +305,7 @@ public class RiskAssessmentService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				RiskAssessmentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -330,7 +331,7 @@ public class RiskAssessmentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RiskAssessmentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -355,7 +356,7 @@ public class RiskAssessmentService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				RiskAssessmentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -381,7 +382,7 @@ public class RiskAssessmentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				RiskAssessmentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -405,7 +406,11 @@ public class RiskAssessmentService
 //************************************************************************
 	@Autowired
     private final RiskAssessmentEntityProjector projector;
+	private final {className}Validator validator;
 	private RiskAssessment riskAssessment 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(RiskAssessmentService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

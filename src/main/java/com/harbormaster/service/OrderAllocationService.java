@@ -103,9 +103,10 @@ public class OrderAllocationService
     public OrderAllocationService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new OrderAllocationEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new OrderAllocationEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(OrderAllocationRepository.class) );
+			this.validator		= applicationContext.getBean(OrderAllocationValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setOrderAllocationId( command.getOrderAllocationId() );
             entity.setAllocationPercent( command.getAllocationPercent() );
@@ -167,7 +168,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setOrderAllocationId( command.getOrderAllocationId() );
             entity.setAllocationPercent( command.getAllocationPercent() );
@@ -204,7 +205,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getOrderAllocationId();
 
@@ -245,7 +246,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a OrderAllocation using the provided id
@@ -299,7 +300,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -325,7 +326,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -350,7 +351,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -376,7 +377,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -401,7 +402,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -427,7 +428,7 @@ public class OrderAllocationService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OrderAllocationValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -451,7 +452,11 @@ public class OrderAllocationService
 //************************************************************************
 	@Autowired
     private final OrderAllocationEntityProjector projector;
+	private final {className}Validator validator;
 	private OrderAllocation orderAllocation 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OrderAllocationService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

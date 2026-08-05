@@ -103,9 +103,10 @@ public class CorporateActionService
     public CorporateActionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new CorporateActionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new CorporateActionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(CorporateActionRepository.class) );
+			this.validator		= applicationContext.getBean(CorporateActionValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class CorporateActionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CorporateActionValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setCorporateActionId( command.getCorporateActionId() );
             entity.setRecordDate( command.getRecordDate() );
@@ -170,7 +171,7 @@ public class CorporateActionService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				CorporateActionValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setCorporateActionId( command.getCorporateActionId() );
             entity.setRecordDate( command.getRecordDate() );
@@ -209,7 +210,7 @@ public class CorporateActionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CorporateActionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getCorporateActionId();
 
@@ -250,7 +251,7 @@ public class CorporateActionService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				CorporateActionValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a CorporateAction using the provided id
@@ -304,7 +305,7 @@ public class CorporateActionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				CorporateActionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -330,7 +331,7 @@ public class CorporateActionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CorporateActionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -356,7 +357,7 @@ public class CorporateActionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CorporateActionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -382,7 +383,7 @@ public class CorporateActionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CorporateActionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -406,7 +407,11 @@ public class CorporateActionService
 //************************************************************************
 	@Autowired
     private final CorporateActionEntityProjector projector;
+	private final {className}Validator validator;
 	private CorporateAction corporateAction 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CorporateActionService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

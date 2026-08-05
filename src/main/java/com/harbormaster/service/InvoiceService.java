@@ -103,9 +103,10 @@ public class InvoiceService
     public InvoiceService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new InvoiceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new InvoiceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(InvoiceRepository.class) );
+			this.validator		= applicationContext.getBean(InvoiceValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class InvoiceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setInvoiceId( command.getInvoiceId() );
             entity.setInvoiceNumber( command.getInvoiceNumber() );
@@ -171,7 +172,7 @@ public class InvoiceService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setInvoiceId( command.getInvoiceId() );
             entity.setInvoiceNumber( command.getInvoiceNumber() );
@@ -212,7 +213,7 @@ public class InvoiceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getInvoiceId();
 
@@ -253,7 +254,7 @@ public class InvoiceService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Invoice using the provided id
@@ -307,7 +308,7 @@ public class InvoiceService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -333,7 +334,7 @@ public class InvoiceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -358,7 +359,7 @@ public class InvoiceService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -384,7 +385,7 @@ public class InvoiceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -410,7 +411,7 @@ public class InvoiceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -436,7 +437,7 @@ public class InvoiceService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvoiceValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -460,7 +461,11 @@ public class InvoiceService
 //************************************************************************
 	@Autowired
     private final InvoiceEntityProjector projector;
+	private final {className}Validator validator;
 	private Invoice invoice 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvoiceService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

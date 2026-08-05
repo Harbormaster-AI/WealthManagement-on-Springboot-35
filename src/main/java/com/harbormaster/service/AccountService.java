@@ -103,9 +103,10 @@ public class AccountService
     public AccountService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new AccountEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new AccountEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(AccountRepository.class) );
+			this.validator		= applicationContext.getBean(AccountValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAccountId( command.getAccountId() );
             entity.setName( command.getName() );
@@ -173,7 +174,7 @@ public class AccountService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setAccountId( command.getAccountId() );
             entity.setName( command.getName() );
@@ -223,7 +224,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getAccountId();
 
@@ -264,7 +265,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				AccountValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Account using the provided id
@@ -318,7 +319,7 @@ public class AccountService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -344,7 +345,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -369,7 +370,7 @@ public class AccountService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -395,7 +396,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -420,7 +421,7 @@ public class AccountService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -446,7 +447,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -471,7 +472,7 @@ public class AccountService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -497,7 +498,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -523,7 +524,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -549,7 +550,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -575,7 +576,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -601,7 +602,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -627,7 +628,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -653,7 +654,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -679,7 +680,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -705,7 +706,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -731,7 +732,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -757,7 +758,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -783,7 +784,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -809,7 +810,7 @@ public class AccountService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				AccountValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -833,7 +834,11 @@ public class AccountService
 //************************************************************************
 	@Autowired
     private final AccountEntityProjector projector;
+	private final {className}Validator validator;
 	private Account account 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(AccountService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

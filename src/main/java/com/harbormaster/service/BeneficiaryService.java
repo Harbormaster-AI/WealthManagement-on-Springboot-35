@@ -103,9 +103,10 @@ public class BeneficiaryService
     public BeneficiaryService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new BeneficiaryEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new BeneficiaryEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(BeneficiaryRepository.class) );
+			this.validator		= applicationContext.getBean(BeneficiaryValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class BeneficiaryService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BeneficiaryValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setBeneficiaryId( command.getBeneficiaryId() );
             entity.setFirstName( command.getFirstName() );
@@ -170,7 +171,7 @@ public class BeneficiaryService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				BeneficiaryValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setBeneficiaryId( command.getBeneficiaryId() );
             entity.setFirstName( command.getFirstName() );
@@ -209,7 +210,7 @@ public class BeneficiaryService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BeneficiaryValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getBeneficiaryId();
 
@@ -250,7 +251,7 @@ public class BeneficiaryService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				BeneficiaryValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Beneficiary using the provided id
@@ -304,7 +305,7 @@ public class BeneficiaryService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				BeneficiaryValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -330,7 +331,7 @@ public class BeneficiaryService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BeneficiaryValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -356,7 +357,7 @@ public class BeneficiaryService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BeneficiaryValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -382,7 +383,7 @@ public class BeneficiaryService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BeneficiaryValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -406,7 +407,11 @@ public class BeneficiaryService
 //************************************************************************
 	@Autowired
     private final BeneficiaryEntityProjector projector;
+	private final {className}Validator validator;
 	private Beneficiary beneficiary 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BeneficiaryService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

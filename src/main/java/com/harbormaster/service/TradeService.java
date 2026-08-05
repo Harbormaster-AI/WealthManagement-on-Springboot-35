@@ -103,9 +103,10 @@ public class TradeService
     public TradeService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new TradeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new TradeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(TradeRepository.class) );
+			this.validator		= applicationContext.getBean(TradeValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class TradeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setTradeId( command.getTradeId() );
             entity.setExecutionId( command.getExecutionId() );
@@ -172,7 +173,7 @@ public class TradeService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setTradeId( command.getTradeId() );
             entity.setExecutionId( command.getExecutionId() );
@@ -215,7 +216,7 @@ public class TradeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getTradeId();
 
@@ -256,7 +257,7 @@ public class TradeService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				TradeValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Trade using the provided id
@@ -310,7 +311,7 @@ public class TradeService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -336,7 +337,7 @@ public class TradeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -361,7 +362,7 @@ public class TradeService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -387,7 +388,7 @@ public class TradeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -412,7 +413,7 @@ public class TradeService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -438,7 +439,7 @@ public class TradeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -463,7 +464,7 @@ public class TradeService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -489,7 +490,7 @@ public class TradeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TradeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -513,7 +514,11 @@ public class TradeService
 //************************************************************************
 	@Autowired
     private final TradeEntityProjector projector;
+	private final {className}Validator validator;
 	private Trade trade 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(TradeService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

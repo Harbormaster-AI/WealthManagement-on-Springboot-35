@@ -103,9 +103,10 @@ public class TaxLotService
     public TaxLotService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new TaxLotEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new TaxLotEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(TaxLotRepository.class) );
+			this.validator		= applicationContext.getBean(TaxLotValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class TaxLotService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TaxLotValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setTaxLotId( command.getTaxLotId() );
             entity.setAcquisitionDate( command.getAcquisitionDate() );
@@ -169,7 +170,7 @@ public class TaxLotService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				TaxLotValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setTaxLotId( command.getTaxLotId() );
             entity.setAcquisitionDate( command.getAcquisitionDate() );
@@ -206,7 +207,7 @@ public class TaxLotService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TaxLotValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getTaxLotId();
 
@@ -247,7 +248,7 @@ public class TaxLotService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				TaxLotValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a TaxLot using the provided id
@@ -301,7 +302,7 @@ public class TaxLotService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				TaxLotValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -327,7 +328,7 @@ public class TaxLotService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				TaxLotValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -351,7 +352,11 @@ public class TaxLotService
 //************************************************************************
 	@Autowired
     private final TaxLotEntityProjector projector;
+	private final {className}Validator validator;
 	private TaxLot taxLot 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(TaxLotService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

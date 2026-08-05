@@ -103,9 +103,10 @@ public class DocumentService
     public DocumentService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new DocumentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new DocumentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(DocumentRepository.class) );
+			this.validator		= applicationContext.getBean(DocumentValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class DocumentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setDocumentId( command.getDocumentId() );
             entity.setTitle( command.getTitle() );
@@ -170,7 +171,7 @@ public class DocumentService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setDocumentId( command.getDocumentId() );
             entity.setTitle( command.getTitle() );
@@ -210,7 +211,7 @@ public class DocumentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getDocumentId();
 
@@ -251,7 +252,7 @@ public class DocumentService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Document using the provided id
@@ -305,7 +306,7 @@ public class DocumentService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -331,7 +332,7 @@ public class DocumentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -356,7 +357,7 @@ public class DocumentService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -382,7 +383,7 @@ public class DocumentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -407,7 +408,7 @@ public class DocumentService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -433,7 +434,7 @@ public class DocumentService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				DocumentValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -457,7 +458,11 @@ public class DocumentService
 //************************************************************************
 	@Autowired
     private final DocumentEntityProjector projector;
+	private final {className}Validator validator;
 	private Document document 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(DocumentService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class StandingInstructionService
     public StandingInstructionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new StandingInstructionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new StandingInstructionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(StandingInstructionRepository.class) );
+			this.validator		= applicationContext.getBean(StandingInstructionValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class StandingInstructionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				StandingInstructionValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setStandingInstructionId( command.getStandingInstructionId() );
             entity.setNextExecutionDate( command.getNextExecutionDate() );
@@ -171,7 +172,7 @@ public class StandingInstructionService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				StandingInstructionValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setStandingInstructionId( command.getStandingInstructionId() );
             entity.setNextExecutionDate( command.getNextExecutionDate() );
@@ -211,7 +212,7 @@ public class StandingInstructionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				StandingInstructionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getStandingInstructionId();
 
@@ -252,7 +253,7 @@ public class StandingInstructionService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				StandingInstructionValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a StandingInstruction using the provided id
@@ -306,7 +307,7 @@ public class StandingInstructionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				StandingInstructionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -332,7 +333,7 @@ public class StandingInstructionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				StandingInstructionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -357,7 +358,7 @@ public class StandingInstructionService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				StandingInstructionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -383,7 +384,7 @@ public class StandingInstructionService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				StandingInstructionValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -407,7 +408,11 @@ public class StandingInstructionService
 //************************************************************************
 	@Autowired
     private final StandingInstructionEntityProjector projector;
+	private final {className}Validator validator;
 	private StandingInstruction standingInstruction 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(StandingInstructionService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class WealthFirmService
     public WealthFirmService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new WealthFirmEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new WealthFirmEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(WealthFirmRepository.class) );
+			this.validator		= applicationContext.getBean(WealthFirmValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setWealthFirmId( command.getWealthFirmId() );
             entity.setName( command.getName() );
@@ -170,7 +171,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setWealthFirmId( command.getWealthFirmId() );
             entity.setName( command.getName() );
@@ -211,7 +212,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getWealthFirmId();
 
@@ -252,7 +253,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a WealthFirm using the provided id
@@ -307,7 +308,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -333,7 +334,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -359,7 +360,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -385,7 +386,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -411,7 +412,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -437,7 +438,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -463,7 +464,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -489,7 +490,7 @@ public class WealthFirmService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				WealthFirmValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -513,7 +514,11 @@ public class WealthFirmService
 //************************************************************************
 	@Autowired
     private final WealthFirmEntityProjector projector;
+	private final {className}Validator validator;
 	private WealthFirm wealthFirm 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(WealthFirmService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class PortfolioService
     public PortfolioService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new PortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new PortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(PortfolioRepository.class) );
+			this.validator		= applicationContext.getBean(PortfolioValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setPortfolioId( command.getPortfolioId() );
             entity.setName( command.getName() );
@@ -171,7 +172,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setPortfolioId( command.getPortfolioId() );
             entity.setName( command.getName() );
@@ -216,7 +217,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getPortfolioId();
 
@@ -257,7 +258,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Portfolio using the provided id
@@ -311,7 +312,7 @@ public class PortfolioService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -337,7 +338,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -362,7 +363,7 @@ public class PortfolioService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -388,7 +389,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -413,7 +414,7 @@ public class PortfolioService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -439,7 +440,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -464,7 +465,7 @@ public class PortfolioService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -490,7 +491,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -516,7 +517,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -542,7 +543,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -568,7 +569,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -594,7 +595,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -620,7 +621,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -646,7 +647,7 @@ public class PortfolioService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				PortfolioValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -670,7 +671,11 @@ public class PortfolioService
 //************************************************************************
 	@Autowired
     private final PortfolioEntityProjector projector;
+	private final {className}Validator validator;
 	private Portfolio portfolio 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(PortfolioService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class FeeService
     public FeeService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new FeeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new FeeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(FeeRepository.class) );
+			this.validator		= applicationContext.getBean(FeeValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class FeeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setFeeId( command.getFeeId() );
             entity.setFeeDate( command.getFeeDate() );
@@ -170,7 +171,7 @@ public class FeeService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				FeeValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setFeeId( command.getFeeId() );
             entity.setFeeDate( command.getFeeDate() );
@@ -209,7 +210,7 @@ public class FeeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getFeeId();
 
@@ -250,7 +251,7 @@ public class FeeService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				FeeValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Fee using the provided id
@@ -304,7 +305,7 @@ public class FeeService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				FeeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -330,7 +331,7 @@ public class FeeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -355,7 +356,7 @@ public class FeeService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				FeeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -381,7 +382,7 @@ public class FeeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -405,7 +406,11 @@ public class FeeService
 //************************************************************************
 	@Autowired
     private final FeeEntityProjector projector;
+	private final {className}Validator validator;
 	private Fee fee 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

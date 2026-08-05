@@ -103,9 +103,10 @@ public class OfficeService
     public OfficeService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new OfficeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new OfficeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(OfficeRepository.class) );
+			this.validator		= applicationContext.getBean(OfficeValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class OfficeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OfficeValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setOfficeId( command.getOfficeId() );
             entity.setName( command.getName() );
@@ -168,7 +169,7 @@ public class OfficeService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				OfficeValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setOfficeId( command.getOfficeId() );
             entity.setName( command.getName() );
@@ -205,7 +206,7 @@ public class OfficeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OfficeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getOfficeId();
 
@@ -246,7 +247,7 @@ public class OfficeService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				OfficeValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Office using the provided id
@@ -300,7 +301,7 @@ public class OfficeService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				OfficeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -326,7 +327,7 @@ public class OfficeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OfficeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -352,7 +353,7 @@ public class OfficeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OfficeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -378,7 +379,7 @@ public class OfficeService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				OfficeValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -402,7 +403,11 @@ public class OfficeService
 //************************************************************************
 	@Autowired
     private final OfficeEntityProjector projector;
+	private final {className}Validator validator;
 	private Office office 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(OfficeService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class CustodianService
     public CustodianService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new CustodianEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new CustodianEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(CustodianRepository.class) );
+			this.validator		= applicationContext.getBean(CustodianValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class CustodianService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CustodianValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setCustodianId( command.getCustodianId() );
             entity.setName( command.getName() );
@@ -169,7 +170,7 @@ public class CustodianService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				CustodianValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setCustodianId( command.getCustodianId() );
             entity.setName( command.getName() );
@@ -207,7 +208,7 @@ public class CustodianService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CustodianValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getCustodianId();
 
@@ -248,7 +249,7 @@ public class CustodianService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				CustodianValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Custodian using the provided id
@@ -303,7 +304,7 @@ public class CustodianService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CustodianValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -329,7 +330,7 @@ public class CustodianService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CustodianValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -355,7 +356,7 @@ public class CustodianService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CustodianValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -381,7 +382,7 @@ public class CustodianService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CustodianValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -405,7 +406,11 @@ public class CustodianService
 //************************************************************************
 	@Autowired
     private final CustodianEntityProjector projector;
+	private final {className}Validator validator;
 	private Custodian custodian 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CustodianService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

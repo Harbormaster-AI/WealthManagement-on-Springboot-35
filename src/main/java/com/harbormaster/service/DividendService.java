@@ -103,9 +103,10 @@ public class DividendService
     public DividendService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new DividendEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new DividendEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(DividendRepository.class) );
+			this.validator		= applicationContext.getBean(DividendValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class DividendService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				DividendValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setDividendId( command.getDividendId() );
             entity.setGrossAmount( command.getGrossAmount() );
@@ -168,7 +169,7 @@ public class DividendService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				DividendValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setDividendId( command.getDividendId() );
             entity.setGrossAmount( command.getGrossAmount() );
@@ -204,7 +205,7 @@ public class DividendService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				DividendValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getDividendId();
 
@@ -245,7 +246,7 @@ public class DividendService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				DividendValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Dividend using the provided id
@@ -299,7 +300,7 @@ public class DividendService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				DividendValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -325,7 +326,7 @@ public class DividendService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				DividendValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -349,7 +350,11 @@ public class DividendService
 //************************************************************************
 	@Autowired
     private final DividendEntityProjector projector;
+	private final {className}Validator validator;
 	private Dividend dividend 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(DividendService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

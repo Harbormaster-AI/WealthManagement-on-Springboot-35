@@ -103,9 +103,10 @@ public class ProposalService
     public ProposalService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new ProposalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new ProposalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(ProposalRepository.class) );
+			this.validator		= applicationContext.getBean(ProposalValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class ProposalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setProposalId( command.getProposalId() );
             entity.setProposalNumber( command.getProposalNumber() );
@@ -171,7 +172,7 @@ public class ProposalService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setProposalId( command.getProposalId() );
             entity.setProposalNumber( command.getProposalNumber() );
@@ -213,7 +214,7 @@ public class ProposalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getProposalId();
 
@@ -254,7 +255,7 @@ public class ProposalService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Proposal using the provided id
@@ -308,7 +309,7 @@ public class ProposalService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -334,7 +335,7 @@ public class ProposalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -359,7 +360,7 @@ public class ProposalService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -385,7 +386,7 @@ public class ProposalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -410,7 +411,7 @@ public class ProposalService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -436,7 +437,7 @@ public class ProposalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -461,7 +462,7 @@ public class ProposalService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -487,7 +488,7 @@ public class ProposalService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				ProposalValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -511,7 +512,11 @@ public class ProposalService
 //************************************************************************
 	@Autowired
     private final ProposalEntityProjector projector;
+	private final {className}Validator validator;
 	private Proposal proposal 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(ProposalService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

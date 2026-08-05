@@ -103,9 +103,10 @@ public class InvestmentProgramService
     public InvestmentProgramService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new InvestmentProgramEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new InvestmentProgramEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(InvestmentProgramRepository.class) );
+			this.validator		= applicationContext.getBean(InvestmentProgramValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class InvestmentProgramService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentProgramValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setInvestmentProgramId( command.getInvestmentProgramId() );
             entity.setName( command.getName() );
@@ -169,7 +170,7 @@ public class InvestmentProgramService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				InvestmentProgramValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setInvestmentProgramId( command.getInvestmentProgramId() );
             entity.setName( command.getName() );
@@ -207,7 +208,7 @@ public class InvestmentProgramService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentProgramValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getInvestmentProgramId();
 
@@ -248,7 +249,7 @@ public class InvestmentProgramService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				InvestmentProgramValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a InvestmentProgram using the provided id
@@ -303,7 +304,7 @@ public class InvestmentProgramService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentProgramValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -329,7 +330,7 @@ public class InvestmentProgramService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentProgramValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -355,7 +356,7 @@ public class InvestmentProgramService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentProgramValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -381,7 +382,7 @@ public class InvestmentProgramService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				InvestmentProgramValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -405,7 +406,11 @@ public class InvestmentProgramService
 //************************************************************************
 	@Autowired
     private final InvestmentProgramEntityProjector projector;
+	private final {className}Validator validator;
 	private InvestmentProgram investmentProgram 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(InvestmentProgramService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class FeeScheduleService
     public FeeScheduleService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new FeeScheduleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new FeeScheduleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(FeeScheduleRepository.class) );
+			this.validator		= applicationContext.getBean(FeeScheduleValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class FeeScheduleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeScheduleValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setFeeScheduleId( command.getFeeScheduleId() );
             entity.setName( command.getName() );
@@ -171,7 +172,7 @@ public class FeeScheduleService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				FeeScheduleValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setFeeScheduleId( command.getFeeScheduleId() );
             entity.setName( command.getName() );
@@ -211,7 +212,7 @@ public class FeeScheduleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeScheduleValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getFeeScheduleId();
 
@@ -252,7 +253,7 @@ public class FeeScheduleService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				FeeScheduleValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a FeeSchedule using the provided id
@@ -307,7 +308,7 @@ public class FeeScheduleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeScheduleValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -333,7 +334,7 @@ public class FeeScheduleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeScheduleValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -359,7 +360,7 @@ public class FeeScheduleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeScheduleValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -385,7 +386,7 @@ public class FeeScheduleService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				FeeScheduleValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -409,7 +410,11 @@ public class FeeScheduleService
 //************************************************************************
 	@Autowired
     private final FeeScheduleEntityProjector projector;
+	private final {className}Validator validator;
 	private FeeSchedule feeSchedule 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(FeeScheduleService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

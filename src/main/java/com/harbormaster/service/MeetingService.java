@@ -103,9 +103,10 @@ public class MeetingService
     public MeetingService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new MeetingEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new MeetingEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(MeetingRepository.class) );
+			this.validator		= applicationContext.getBean(MeetingValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class MeetingService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setMeetingId( command.getMeetingId() );
             entity.setMeetingDate( command.getMeetingDate() );
@@ -170,7 +171,7 @@ public class MeetingService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setMeetingId( command.getMeetingId() );
             entity.setMeetingDate( command.getMeetingDate() );
@@ -210,7 +211,7 @@ public class MeetingService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getMeetingId();
 
@@ -251,7 +252,7 @@ public class MeetingService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Meeting using the provided id
@@ -305,7 +306,7 @@ public class MeetingService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -331,7 +332,7 @@ public class MeetingService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -356,7 +357,7 @@ public class MeetingService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -382,7 +383,7 @@ public class MeetingService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -408,7 +409,7 @@ public class MeetingService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -434,7 +435,7 @@ public class MeetingService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				MeetingValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -458,7 +459,11 @@ public class MeetingService
 //************************************************************************
 	@Autowired
     private final MeetingEntityProjector projector;
+	private final {className}Validator validator;
 	private Meeting meeting 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(MeetingService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

@@ -103,9 +103,10 @@ public class BenchmarkService
     public BenchmarkService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new BenchmarkEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new BenchmarkEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(BenchmarkRepository.class) );
+			this.validator		= applicationContext.getBean(BenchmarkValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class BenchmarkService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BenchmarkValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setBenchmarkId( command.getBenchmarkId() );
             entity.setName( command.getName() );
@@ -168,7 +169,7 @@ public class BenchmarkService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				BenchmarkValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setBenchmarkId( command.getBenchmarkId() );
             entity.setName( command.getName() );
@@ -205,7 +206,7 @@ public class BenchmarkService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BenchmarkValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getBenchmarkId();
 
@@ -246,7 +247,7 @@ public class BenchmarkService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				BenchmarkValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Benchmark using the provided id
@@ -301,7 +302,7 @@ public class BenchmarkService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BenchmarkValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -327,7 +328,7 @@ public class BenchmarkService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BenchmarkValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -353,7 +354,7 @@ public class BenchmarkService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BenchmarkValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -379,7 +380,7 @@ public class BenchmarkService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				BenchmarkValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -403,7 +404,11 @@ public class BenchmarkService
 //************************************************************************
 	@Autowired
     private final BenchmarkEntityProjector projector;
+	private final {className}Validator validator;
 	private Benchmark benchmark 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(BenchmarkService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

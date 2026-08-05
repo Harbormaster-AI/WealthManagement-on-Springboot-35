@@ -103,9 +103,10 @@ public class HouseholdService
     public HouseholdService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new HouseholdEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new HouseholdEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(HouseholdRepository.class) );
+			this.validator		= applicationContext.getBean(HouseholdValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setHouseholdId( command.getHouseholdId() );
             entity.setName( command.getName() );
@@ -167,7 +168,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setHouseholdId( command.getHouseholdId() );
             entity.setName( command.getName() );
@@ -206,7 +207,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getHouseholdId();
 
@@ -247,7 +248,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a Household using the provided id
@@ -301,7 +302,7 @@ public class HouseholdService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -327,7 +328,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -353,7 +354,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -379,7 +380,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -405,7 +406,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -431,7 +432,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -457,7 +458,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -483,7 +484,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -509,7 +510,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -535,7 +536,7 @@ public class HouseholdService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				HouseholdValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -559,7 +560,11 @@ public class HouseholdService
 //************************************************************************
 	@Autowired
     private final HouseholdEntityProjector projector;
+	private final {className}Validator validator;
 	private Household household 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(HouseholdService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

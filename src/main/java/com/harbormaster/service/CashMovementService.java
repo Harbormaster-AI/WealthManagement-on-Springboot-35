@@ -103,9 +103,10 @@ public class CashMovementService
     public CashMovementService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity	= identity;
-			projector 		= new CashMovementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+			this.identity		= identity;
+			this.projector 		= new CashMovementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
 											applicationContext.getBean(CashMovementRepository.class) );
+			this.validator		= applicationContext.getBean(CashMovementValidator.class) ;
 		}
 
 
@@ -126,7 +127,7 @@ public class CashMovementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setCashMovementId( command.getCashMovementId() );
             entity.setAmount( command.getAmount() );
@@ -170,7 +171,7 @@ public class CashMovementService
 				// --------------------------------------
 				// validate
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
             entity.setCashMovementId( command.getCashMovementId() );
             entity.setAmount( command.getAmount() );
@@ -210,7 +211,7 @@ public class CashMovementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				id = command.getCashMovementId();
 
@@ -251,7 +252,7 @@ public class CashMovementService
 				// --------------------------------------
 				// validate the fetch one summary
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( summary );
+				validator.validate( summary );
 
 				// --------------------------------------
 				// find a CashMovement using the provided id
@@ -305,7 +306,7 @@ public class CashMovementService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -331,7 +332,7 @@ public class CashMovementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -356,7 +357,7 @@ public class CashMovementService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -382,7 +383,7 @@ public class CashMovementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -407,7 +408,7 @@ public class CashMovementService
 				// --------------------------------------
 				// best to validate the command now
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -433,7 +434,7 @@ public class CashMovementService
 				// --------------------------------------
 				// validate the command
 				// --------------------------------------
-				CashMovementValidator.getInstance().validate( command );
+				validator.validate( command );
 
 				// --------------------------------------
 				// delegate to the projector
@@ -457,7 +458,11 @@ public class CashMovementService
 //************************************************************************
 	@Autowired
     private final CashMovementEntityProjector projector;
+	private final {className}Validator validator;
 	private CashMovement cashMovement 	= null;
 	private CurrentIdentity identity			= null;
 	private static final Logger LOGGER 			=  LoggerFactory.getLogger(CashMovementService.class);
+}
+
+private <__TMP__> __TMP__ validator() {
 }

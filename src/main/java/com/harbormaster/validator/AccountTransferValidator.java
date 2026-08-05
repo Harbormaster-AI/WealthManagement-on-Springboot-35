@@ -120,7 +120,7 @@ public void validate( DeleteAccountTransferCommand accountTransfer ) throws Vali
  */
 public void validate( AccountTransferFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "AccountTransfer", "validating summary );
+		throw new ValidationException( "AccountTransfer", "validating summary" );
 }
 
 /**
@@ -133,7 +133,7 @@ public void validate( AssignFromCustodianToAccountTransferCommand command ) thro
 		throw new ValidationException( "AccountTransfer", "validating AssignFromCustodianToAccountTransferCommand" );
 
 	if ( command.getAccountTransferId() == null )
-	throw new ValidationException( "AccountTransfer", "validating identifier" );
+	throw new ValidationException( "AccountTransfer", "validating identifier on AssignFromCustodianToAccountTransferCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "AccountTransfer", "validating assignment" );
@@ -161,7 +161,7 @@ public void validate( AssignToCustodianToAccountTransferCommand command ) throws
 		throw new ValidationException( "AccountTransfer", "validating AssignToCustodianToAccountTransferCommand" );
 
 	if ( command.getAccountTransferId() == null )
-	throw new ValidationException( "AccountTransfer", "validating identifier" );
+	throw new ValidationException( "AccountTransfer", "validating identifier on AssignToCustodianToAccountTransferCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "AccountTransfer", "validating assignment" );
@@ -189,7 +189,7 @@ public void validate( AssignAccountToAccountTransferCommand command ) throws Val
 		throw new ValidationException( "AccountTransfer", "validating AssignAccountToAccountTransferCommand" );
 
 	if ( command.getAccountTransferId() == null )
-	throw new ValidationException( "AccountTransfer", "validating identifier" );
+	throw new ValidationException( "AccountTransfer", "validating identifier on AssignAccountToAccountTransferCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "AccountTransfer", "validating assignment" );

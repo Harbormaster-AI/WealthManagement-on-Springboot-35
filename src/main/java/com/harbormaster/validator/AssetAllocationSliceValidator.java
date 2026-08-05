@@ -112,7 +112,7 @@ public void validate( DeleteAssetAllocationSliceCommand assetAllocationSlice ) t
  */
 public void validate( AssetAllocationSliceFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "AssetAllocationSlice", "validating summary );
+		throw new ValidationException( "AssetAllocationSlice", "validating summary" );
 }
 
 /**
@@ -125,7 +125,7 @@ public void validate( AssignModelPortfolioToAssetAllocationSliceCommand command 
 		throw new ValidationException( "AssetAllocationSlice", "validating AssignModelPortfolioToAssetAllocationSliceCommand" );
 
 	if ( command.getAssetAllocationSliceId() == null )
-	throw new ValidationException( "AssetAllocationSlice", "validating identifier" );
+	throw new ValidationException( "AssetAllocationSlice", "validating identifier on AssignModelPortfolioToAssetAllocationSliceCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "AssetAllocationSlice", "validating assignment" );

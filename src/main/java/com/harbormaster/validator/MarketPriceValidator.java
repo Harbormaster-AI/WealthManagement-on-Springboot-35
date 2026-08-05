@@ -116,7 +116,7 @@ public void validate( DeleteMarketPriceCommand marketPrice ) throws ValidationEx
  */
 public void validate( MarketPriceFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "MarketPrice", "validating summary );
+		throw new ValidationException( "MarketPrice", "validating summary" );
 }
 
 /**
@@ -129,7 +129,7 @@ public void validate( AssignSecurityToMarketPriceCommand command ) throws Valida
 		throw new ValidationException( "MarketPrice", "validating AssignSecurityToMarketPriceCommand" );
 
 	if ( command.getMarketPriceId() == null )
-	throw new ValidationException( "MarketPrice", "validating identifier" );
+	throw new ValidationException( "MarketPrice", "validating identifier on AssignSecurityToMarketPriceCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "MarketPrice", "validating assignment" );

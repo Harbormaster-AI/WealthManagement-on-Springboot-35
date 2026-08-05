@@ -124,7 +124,7 @@ public void validate( DeleteDocumentCommand document ) throws ValidationExceptio
  */
 public void validate( DocumentFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Document", "validating summary );
+		throw new ValidationException( "Document", "validating summary" );
 }
 
 /**
@@ -137,7 +137,7 @@ public void validate( AssignClientToDocumentCommand command ) throws ValidationE
 		throw new ValidationException( "Document", "validating AssignClientToDocumentCommand" );
 
 	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier" );
+	throw new ValidationException( "Document", "validating identifier on AssignClientToDocumentCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Document", "validating assignment" );
@@ -165,7 +165,7 @@ public void validate( AssignKycRecordToDocumentCommand command ) throws Validati
 		throw new ValidationException( "Document", "validating AssignKycRecordToDocumentCommand" );
 
 	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier" );
+	throw new ValidationException( "Document", "validating identifier on AssignKycRecordToDocumentCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Document", "validating assignment" );
@@ -193,7 +193,7 @@ public void validate( AssignAgreementToDocumentCommand command ) throws Validati
 		throw new ValidationException( "Document", "validating AssignAgreementToDocumentCommand" );
 
 	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier" );
+	throw new ValidationException( "Document", "validating identifier on AssignAgreementToDocumentCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Document", "validating assignment" );

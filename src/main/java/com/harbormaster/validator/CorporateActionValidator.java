@@ -124,7 +124,7 @@ public void validate( DeleteCorporateActionCommand corporateAction ) throws Vali
  */
 public void validate( CorporateActionFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "CorporateAction", "validating summary );
+		throw new ValidationException( "CorporateAction", "validating summary" );
 }
 
 /**
@@ -137,7 +137,7 @@ public void validate( AssignSecurityToCorporateActionCommand command ) throws Va
 		throw new ValidationException( "CorporateAction", "validating AssignSecurityToCorporateActionCommand" );
 
 	if ( command.getCorporateActionId() == null )
-	throw new ValidationException( "CorporateAction", "validating identifier" );
+	throw new ValidationException( "CorporateAction", "validating identifier on AssignSecurityToCorporateActionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "CorporateAction", "validating assignment" );

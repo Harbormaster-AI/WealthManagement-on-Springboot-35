@@ -122,7 +122,7 @@ public void validate( DeleteComplianceRuleCommand complianceRule ) throws Valida
  */
 public void validate( ComplianceRuleFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "ComplianceRule", "validating summary );
+		throw new ValidationException( "ComplianceRule", "validating summary" );
 }
 
 

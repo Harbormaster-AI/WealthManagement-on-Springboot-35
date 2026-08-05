@@ -138,7 +138,7 @@ public void validate( DeletePortfolioCommand portfolio ) throws ValidationExcept
  */
 public void validate( PortfolioFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Portfolio", "validating summary );
+		throw new ValidationException( "Portfolio", "validating summary" );
 }
 
 /**
@@ -151,7 +151,7 @@ public void validate( AssignAccountToPortfolioCommand command ) throws Validatio
 		throw new ValidationException( "Portfolio", "validating AssignAccountToPortfolioCommand" );
 
 	if ( command.getPortfolioId() == null )
-	throw new ValidationException( "Portfolio", "validating identifier" );
+	throw new ValidationException( "Portfolio", "validating identifier on AssignAccountToPortfolioCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Portfolio", "validating assignment" );
@@ -179,7 +179,7 @@ public void validate( AssignModelPortfolioToPortfolioCommand command ) throws Va
 		throw new ValidationException( "Portfolio", "validating AssignModelPortfolioToPortfolioCommand" );
 
 	if ( command.getPortfolioId() == null )
-	throw new ValidationException( "Portfolio", "validating identifier" );
+	throw new ValidationException( "Portfolio", "validating identifier on AssignModelPortfolioToPortfolioCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Portfolio", "validating assignment" );
@@ -207,7 +207,7 @@ public void validate( AssignBenchmarkToPortfolioCommand command ) throws Validat
 		throw new ValidationException( "Portfolio", "validating AssignBenchmarkToPortfolioCommand" );
 
 	if ( command.getPortfolioId() == null )
-	throw new ValidationException( "Portfolio", "validating identifier" );
+	throw new ValidationException( "Portfolio", "validating identifier on AssignBenchmarkToPortfolioCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Portfolio", "validating assignment" );
@@ -235,7 +235,7 @@ public void validate( AssignInvestmentPolicyToPortfolioCommand command ) throws 
 		throw new ValidationException( "Portfolio", "validating AssignInvestmentPolicyToPortfolioCommand" );
 
 	if ( command.getPortfolioId() == null )
-	throw new ValidationException( "Portfolio", "validating identifier" );
+	throw new ValidationException( "Portfolio", "validating identifier on AssignInvestmentPolicyToPortfolioCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Portfolio", "validating assignment" );

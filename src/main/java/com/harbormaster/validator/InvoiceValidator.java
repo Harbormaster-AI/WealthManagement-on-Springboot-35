@@ -130,7 +130,7 @@ public void validate( DeleteInvoiceCommand invoice ) throws ValidationException 
  */
 public void validate( InvoiceFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Invoice", "validating summary );
+		throw new ValidationException( "Invoice", "validating summary" );
 }
 
 /**
@@ -143,7 +143,7 @@ public void validate( AssignAccountToInvoiceCommand command ) throws ValidationE
 		throw new ValidationException( "Invoice", "validating AssignAccountToInvoiceCommand" );
 
 	if ( command.getInvoiceId() == null )
-	throw new ValidationException( "Invoice", "validating identifier" );
+	throw new ValidationException( "Invoice", "validating identifier on AssignAccountToInvoiceCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Invoice", "validating assignment" );
@@ -171,7 +171,7 @@ public void validate( AssignBillingRunToInvoiceCommand command ) throws Validati
 		throw new ValidationException( "Invoice", "validating AssignBillingRunToInvoiceCommand" );
 
 	if ( command.getInvoiceId() == null )
-	throw new ValidationException( "Invoice", "validating identifier" );
+	throw new ValidationException( "Invoice", "validating identifier on AssignBillingRunToInvoiceCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Invoice", "validating assignment" );

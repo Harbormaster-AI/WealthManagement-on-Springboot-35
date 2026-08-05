@@ -154,7 +154,7 @@ public void validate( DeleteAccountCommand account ) throws ValidationException 
  */
 public void validate( AccountFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Account", "validating summary );
+		throw new ValidationException( "Account", "validating summary" );
 }
 
 /**
@@ -167,7 +167,7 @@ public void validate( AssignHouseholdToAccountCommand command ) throws Validatio
 		throw new ValidationException( "Account", "validating AssignHouseholdToAccountCommand" );
 
 	if ( command.getAccountId() == null )
-	throw new ValidationException( "Account", "validating identifier" );
+	throw new ValidationException( "Account", "validating identifier on AssignHouseholdToAccountCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Account", "validating assignment" );
@@ -195,7 +195,7 @@ public void validate( AssignAdvisorToAccountCommand command ) throws ValidationE
 		throw new ValidationException( "Account", "validating AssignAdvisorToAccountCommand" );
 
 	if ( command.getAccountId() == null )
-	throw new ValidationException( "Account", "validating identifier" );
+	throw new ValidationException( "Account", "validating identifier on AssignAdvisorToAccountCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Account", "validating assignment" );
@@ -223,7 +223,7 @@ public void validate( AssignCustodianToAccountCommand command ) throws Validatio
 		throw new ValidationException( "Account", "validating AssignCustodianToAccountCommand" );
 
 	if ( command.getAccountId() == null )
-	throw new ValidationException( "Account", "validating identifier" );
+	throw new ValidationException( "Account", "validating identifier on AssignCustodianToAccountCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Account", "validating assignment" );
@@ -251,7 +251,7 @@ public void validate( AssignPortfolioToAccountCommand command ) throws Validatio
 		throw new ValidationException( "Account", "validating AssignPortfolioToAccountCommand" );
 
 	if ( command.getAccountId() == null )
-	throw new ValidationException( "Account", "validating identifier" );
+	throw new ValidationException( "Account", "validating identifier on AssignPortfolioToAccountCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Account", "validating assignment" );

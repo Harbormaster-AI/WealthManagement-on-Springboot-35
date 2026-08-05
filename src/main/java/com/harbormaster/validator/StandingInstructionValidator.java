@@ -118,7 +118,7 @@ public void validate( DeleteStandingInstructionCommand standingInstruction ) thr
  */
 public void validate( StandingInstructionFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "StandingInstruction", "validating summary );
+		throw new ValidationException( "StandingInstruction", "validating summary" );
 }
 
 /**
@@ -131,7 +131,7 @@ public void validate( AssignAccountToStandingInstructionCommand command ) throws
 		throw new ValidationException( "StandingInstruction", "validating AssignAccountToStandingInstructionCommand" );
 
 	if ( command.getStandingInstructionId() == null )
-	throw new ValidationException( "StandingInstruction", "validating identifier" );
+	throw new ValidationException( "StandingInstruction", "validating identifier on AssignAccountToStandingInstructionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "StandingInstruction", "validating assignment" );
@@ -159,7 +159,7 @@ public void validate( AssignDestinationAccountToStandingInstructionCommand comma
 		throw new ValidationException( "StandingInstruction", "validating AssignDestinationAccountToStandingInstructionCommand" );
 
 	if ( command.getStandingInstructionId() == null )
-	throw new ValidationException( "StandingInstruction", "validating identifier" );
+	throw new ValidationException( "StandingInstruction", "validating identifier on AssignDestinationAccountToStandingInstructionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "StandingInstruction", "validating assignment" );

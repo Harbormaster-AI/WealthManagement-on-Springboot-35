@@ -122,7 +122,7 @@ public void validate( DeleteFeeCommand fee ) throws ValidationException {
  */
 public void validate( FeeFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Fee", "validating summary );
+		throw new ValidationException( "Fee", "validating summary" );
 }
 
 /**
@@ -135,7 +135,7 @@ public void validate( AssignAccountToFeeCommand command ) throws ValidationExcep
 		throw new ValidationException( "Fee", "validating AssignAccountToFeeCommand" );
 
 	if ( command.getFeeId() == null )
-	throw new ValidationException( "Fee", "validating identifier" );
+	throw new ValidationException( "Fee", "validating identifier on AssignAccountToFeeCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Fee", "validating assignment" );
@@ -163,7 +163,7 @@ public void validate( AssignInvoiceToFeeCommand command ) throws ValidationExcep
 		throw new ValidationException( "Fee", "validating AssignInvoiceToFeeCommand" );
 
 	if ( command.getFeeId() == null )
-	throw new ValidationException( "Fee", "validating identifier" );
+	throw new ValidationException( "Fee", "validating identifier on AssignInvoiceToFeeCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Fee", "validating assignment" );

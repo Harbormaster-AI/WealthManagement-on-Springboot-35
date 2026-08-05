@@ -128,7 +128,7 @@ public void validate( DeleteHouseholdCommand household ) throws ValidationExcept
  */
 public void validate( HouseholdFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Household", "validating summary );
+		throw new ValidationException( "Household", "validating summary" );
 }
 
 /**
@@ -141,7 +141,7 @@ public void validate( AssignPrimaryAdvisorToHouseholdCommand command ) throws Va
 		throw new ValidationException( "Household", "validating AssignPrimaryAdvisorToHouseholdCommand" );
 
 	if ( command.getHouseholdId() == null )
-	throw new ValidationException( "Household", "validating identifier" );
+	throw new ValidationException( "Household", "validating identifier on AssignPrimaryAdvisorToHouseholdCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Household", "validating assignment" );

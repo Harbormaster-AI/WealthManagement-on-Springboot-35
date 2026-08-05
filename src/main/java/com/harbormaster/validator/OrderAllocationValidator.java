@@ -116,7 +116,7 @@ public void validate( DeleteOrderAllocationCommand orderAllocation ) throws Vali
  */
 public void validate( OrderAllocationFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "OrderAllocation", "validating summary );
+		throw new ValidationException( "OrderAllocation", "validating summary" );
 }
 
 /**
@@ -129,7 +129,7 @@ public void validate( AssignOrderToOrderAllocationCommand command ) throws Valid
 		throw new ValidationException( "OrderAllocation", "validating AssignOrderToOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null )
-	throw new ValidationException( "OrderAllocation", "validating identifier" );
+	throw new ValidationException( "OrderAllocation", "validating identifier on AssignOrderToOrderAllocationCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "OrderAllocation", "validating assignment" );
@@ -157,7 +157,7 @@ public void validate( AssignAccountToOrderAllocationCommand command ) throws Val
 		throw new ValidationException( "OrderAllocation", "validating AssignAccountToOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null )
-	throw new ValidationException( "OrderAllocation", "validating identifier" );
+	throw new ValidationException( "OrderAllocation", "validating identifier on AssignAccountToOrderAllocationCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "OrderAllocation", "validating assignment" );
@@ -185,7 +185,7 @@ public void validate( AssignPortfolioToOrderAllocationCommand command ) throws V
 		throw new ValidationException( "OrderAllocation", "validating AssignPortfolioToOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null )
-	throw new ValidationException( "OrderAllocation", "validating identifier" );
+	throw new ValidationException( "OrderAllocation", "validating identifier on AssignPortfolioToOrderAllocationCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "OrderAllocation", "validating assignment" );

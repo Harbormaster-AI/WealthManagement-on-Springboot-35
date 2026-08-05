@@ -118,7 +118,7 @@ public void validate( DeleteBenchmarkCommand benchmark ) throws ValidationExcept
  */
 public void validate( BenchmarkFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Benchmark", "validating summary );
+		throw new ValidationException( "Benchmark", "validating summary" );
 }
 
 

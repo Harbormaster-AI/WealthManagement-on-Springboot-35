@@ -120,7 +120,7 @@ public void validate( DeleteKycRecordCommand kycRecord ) throws ValidationExcept
  */
 public void validate( KycRecordFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "KycRecord", "validating summary );
+		throw new ValidationException( "KycRecord", "validating summary" );
 }
 
 /**
@@ -133,7 +133,7 @@ public void validate( AssignClientToKycRecordCommand command ) throws Validation
 		throw new ValidationException( "KycRecord", "validating AssignClientToKycRecordCommand" );
 
 	if ( command.getKycRecordId() == null )
-	throw new ValidationException( "KycRecord", "validating identifier" );
+	throw new ValidationException( "KycRecord", "validating identifier on AssignClientToKycRecordCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "KycRecord", "validating assignment" );

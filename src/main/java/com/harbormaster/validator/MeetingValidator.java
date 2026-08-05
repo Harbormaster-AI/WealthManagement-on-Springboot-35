@@ -130,7 +130,7 @@ public void validate( DeleteMeetingCommand meeting ) throws ValidationException 
  */
 public void validate( MeetingFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Meeting", "validating summary );
+		throw new ValidationException( "Meeting", "validating summary" );
 }
 
 /**
@@ -143,7 +143,7 @@ public void validate( AssignHouseholdToMeetingCommand command ) throws Validatio
 		throw new ValidationException( "Meeting", "validating AssignHouseholdToMeetingCommand" );
 
 	if ( command.getMeetingId() == null )
-	throw new ValidationException( "Meeting", "validating identifier" );
+	throw new ValidationException( "Meeting", "validating identifier on AssignHouseholdToMeetingCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Meeting", "validating assignment" );
@@ -171,7 +171,7 @@ public void validate( AssignAdvisorToMeetingCommand command ) throws ValidationE
 		throw new ValidationException( "Meeting", "validating AssignAdvisorToMeetingCommand" );
 
 	if ( command.getMeetingId() == null )
-	throw new ValidationException( "Meeting", "validating identifier" );
+	throw new ValidationException( "Meeting", "validating identifier on AssignAdvisorToMeetingCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Meeting", "validating assignment" );

@@ -118,7 +118,7 @@ public void validate( DeleteAgreementCommand agreement ) throws ValidationExcept
  */
 public void validate( AgreementFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Agreement", "validating summary );
+		throw new ValidationException( "Agreement", "validating summary" );
 }
 
 /**
@@ -131,7 +131,7 @@ public void validate( AssignClientToAgreementCommand command ) throws Validation
 		throw new ValidationException( "Agreement", "validating AssignClientToAgreementCommand" );
 
 	if ( command.getAgreementId() == null )
-	throw new ValidationException( "Agreement", "validating identifier" );
+	throw new ValidationException( "Agreement", "validating identifier on AssignClientToAgreementCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Agreement", "validating assignment" );
@@ -159,7 +159,7 @@ public void validate( AssignAccountToAgreementCommand command ) throws Validatio
 		throw new ValidationException( "Agreement", "validating AssignAccountToAgreementCommand" );
 
 	if ( command.getAgreementId() == null )
-	throw new ValidationException( "Agreement", "validating identifier" );
+	throw new ValidationException( "Agreement", "validating identifier on AssignAccountToAgreementCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Agreement", "validating assignment" );

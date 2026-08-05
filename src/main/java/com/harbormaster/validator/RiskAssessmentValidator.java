@@ -122,7 +122,7 @@ public void validate( DeleteRiskAssessmentCommand riskAssessment ) throws Valida
  */
 public void validate( RiskAssessmentFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "RiskAssessment", "validating summary );
+		throw new ValidationException( "RiskAssessment", "validating summary" );
 }
 
 /**
@@ -135,7 +135,7 @@ public void validate( AssignHouseholdToRiskAssessmentCommand command ) throws Va
 		throw new ValidationException( "RiskAssessment", "validating AssignHouseholdToRiskAssessmentCommand" );
 
 	if ( command.getRiskAssessmentId() == null )
-	throw new ValidationException( "RiskAssessment", "validating identifier" );
+	throw new ValidationException( "RiskAssessment", "validating identifier on AssignHouseholdToRiskAssessmentCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "RiskAssessment", "validating assignment" );
@@ -163,7 +163,7 @@ public void validate( AssignAdvisorToRiskAssessmentCommand command ) throws Vali
 		throw new ValidationException( "RiskAssessment", "validating AssignAdvisorToRiskAssessmentCommand" );
 
 	if ( command.getRiskAssessmentId() == null )
-	throw new ValidationException( "RiskAssessment", "validating identifier" );
+	throw new ValidationException( "RiskAssessment", "validating identifier on AssignAdvisorToRiskAssessmentCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "RiskAssessment", "validating assignment" );

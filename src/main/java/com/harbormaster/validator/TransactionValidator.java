@@ -130,7 +130,7 @@ public void validate( DeleteTransactionCommand transaction ) throws ValidationEx
  */
 public void validate( TransactionFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Transaction", "validating summary );
+		throw new ValidationException( "Transaction", "validating summary" );
 }
 
 /**
@@ -143,7 +143,7 @@ public void validate( AssignAccountToTransactionCommand command ) throws Validat
 		throw new ValidationException( "Transaction", "validating AssignAccountToTransactionCommand" );
 
 	if ( command.getTransactionId() == null )
-	throw new ValidationException( "Transaction", "validating identifier" );
+	throw new ValidationException( "Transaction", "validating identifier on AssignAccountToTransactionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Transaction", "validating assignment" );
@@ -171,7 +171,7 @@ public void validate( AssignSecurityToTransactionCommand command ) throws Valida
 		throw new ValidationException( "Transaction", "validating AssignSecurityToTransactionCommand" );
 
 	if ( command.getTransactionId() == null )
-	throw new ValidationException( "Transaction", "validating identifier" );
+	throw new ValidationException( "Transaction", "validating identifier on AssignSecurityToTransactionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Transaction", "validating assignment" );
@@ -199,7 +199,7 @@ public void validate( AssignOrderToTransactionCommand command ) throws Validatio
 		throw new ValidationException( "Transaction", "validating AssignOrderToTransactionCommand" );
 
 	if ( command.getTransactionId() == null )
-	throw new ValidationException( "Transaction", "validating identifier" );
+	throw new ValidationException( "Transaction", "validating identifier on AssignOrderToTransactionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Transaction", "validating assignment" );
@@ -227,7 +227,7 @@ public void validate( AssignPositionToTransactionCommand command ) throws Valida
 		throw new ValidationException( "Transaction", "validating AssignPositionToTransactionCommand" );
 
 	if ( command.getTransactionId() == null )
-	throw new ValidationException( "Transaction", "validating identifier" );
+	throw new ValidationException( "Transaction", "validating identifier on AssignPositionToTransactionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Transaction", "validating assignment" );

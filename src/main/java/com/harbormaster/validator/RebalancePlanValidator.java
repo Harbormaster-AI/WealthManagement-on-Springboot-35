@@ -118,7 +118,7 @@ public void validate( DeleteRebalancePlanCommand rebalancePlan ) throws Validati
  */
 public void validate( RebalancePlanFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "RebalancePlan", "validating summary );
+		throw new ValidationException( "RebalancePlan", "validating summary" );
 }
 
 /**
@@ -131,7 +131,7 @@ public void validate( AssignPortfolioToRebalancePlanCommand command ) throws Val
 		throw new ValidationException( "RebalancePlan", "validating AssignPortfolioToRebalancePlanCommand" );
 
 	if ( command.getRebalancePlanId() == null )
-	throw new ValidationException( "RebalancePlan", "validating identifier" );
+	throw new ValidationException( "RebalancePlan", "validating identifier on AssignPortfolioToRebalancePlanCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "RebalancePlan", "validating assignment" );
@@ -159,7 +159,7 @@ public void validate( AssignAdvisorToRebalancePlanCommand command ) throws Valid
 		throw new ValidationException( "RebalancePlan", "validating AssignAdvisorToRebalancePlanCommand" );
 
 	if ( command.getRebalancePlanId() == null )
-	throw new ValidationException( "RebalancePlan", "validating identifier" );
+	throw new ValidationException( "RebalancePlan", "validating identifier on AssignAdvisorToRebalancePlanCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "RebalancePlan", "validating assignment" );

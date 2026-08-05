@@ -128,7 +128,7 @@ public void validate( DeleteWealthGoalCommand wealthGoal ) throws ValidationExce
  */
 public void validate( WealthGoalFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "WealthGoal", "validating summary );
+		throw new ValidationException( "WealthGoal", "validating summary" );
 }
 
 /**
@@ -141,7 +141,7 @@ public void validate( AssignHouseholdToWealthGoalCommand command ) throws Valida
 		throw new ValidationException( "WealthGoal", "validating AssignHouseholdToWealthGoalCommand" );
 
 	if ( command.getWealthGoalId() == null )
-	throw new ValidationException( "WealthGoal", "validating identifier" );
+	throw new ValidationException( "WealthGoal", "validating identifier on AssignHouseholdToWealthGoalCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "WealthGoal", "validating assignment" );
@@ -169,7 +169,7 @@ public void validate( AssignPortfolioToWealthGoalCommand command ) throws Valida
 		throw new ValidationException( "WealthGoal", "validating AssignPortfolioToWealthGoalCommand" );
 
 	if ( command.getWealthGoalId() == null )
-	throw new ValidationException( "WealthGoal", "validating identifier" );
+	throw new ValidationException( "WealthGoal", "validating identifier on AssignPortfolioToWealthGoalCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "WealthGoal", "validating assignment" );
@@ -197,7 +197,7 @@ public void validate( AssignInvestmentPolicyToWealthGoalCommand command ) throws
 		throw new ValidationException( "WealthGoal", "validating AssignInvestmentPolicyToWealthGoalCommand" );
 
 	if ( command.getWealthGoalId() == null )
-	throw new ValidationException( "WealthGoal", "validating identifier" );
+	throw new ValidationException( "WealthGoal", "validating identifier on AssignInvestmentPolicyToWealthGoalCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "WealthGoal", "validating assignment" );

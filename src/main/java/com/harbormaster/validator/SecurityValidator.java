@@ -142,7 +142,7 @@ public void validate( DeleteSecurityCommand security ) throws ValidationExceptio
  */
 public void validate( SecurityFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Security", "validating summary );
+		throw new ValidationException( "Security", "validating summary" );
 }
 
 

@@ -126,7 +126,7 @@ public void validate( DeletePositionCommand position ) throws ValidationExceptio
  */
 public void validate( PositionFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Position", "validating summary );
+		throw new ValidationException( "Position", "validating summary" );
 }
 
 /**
@@ -139,7 +139,7 @@ public void validate( AssignPortfolioToPositionCommand command ) throws Validati
 		throw new ValidationException( "Position", "validating AssignPortfolioToPositionCommand" );
 
 	if ( command.getPositionId() == null )
-	throw new ValidationException( "Position", "validating identifier" );
+	throw new ValidationException( "Position", "validating identifier on AssignPortfolioToPositionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Position", "validating assignment" );
@@ -167,7 +167,7 @@ public void validate( AssignSecurityToPositionCommand command ) throws Validatio
 		throw new ValidationException( "Position", "validating AssignSecurityToPositionCommand" );
 
 	if ( command.getPositionId() == null )
-	throw new ValidationException( "Position", "validating identifier" );
+	throw new ValidationException( "Position", "validating identifier on AssignSecurityToPositionCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Position", "validating assignment" );

@@ -116,7 +116,7 @@ public void validate( DeleteDividendCommand dividend ) throws ValidationExceptio
  */
 public void validate( DividendFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Dividend", "validating summary );
+		throw new ValidationException( "Dividend", "validating summary" );
 }
 
 /**
@@ -129,7 +129,7 @@ public void validate( AssignCorporateActionToDividendCommand command ) throws Va
 		throw new ValidationException( "Dividend", "validating AssignCorporateActionToDividendCommand" );
 
 	if ( command.getDividendId() == null )
-	throw new ValidationException( "Dividend", "validating identifier" );
+	throw new ValidationException( "Dividend", "validating identifier on AssignCorporateActionToDividendCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Dividend", "validating assignment" );

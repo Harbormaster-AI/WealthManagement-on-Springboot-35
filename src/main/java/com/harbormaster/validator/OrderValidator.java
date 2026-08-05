@@ -132,7 +132,7 @@ public void validate( DeleteOrderCommand order ) throws ValidationException {
  */
 public void validate( OrderFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Order", "validating summary );
+		throw new ValidationException( "Order", "validating summary" );
 }
 
 /**
@@ -145,7 +145,7 @@ public void validate( AssignAccountToOrderCommand command ) throws ValidationExc
 		throw new ValidationException( "Order", "validating AssignAccountToOrderCommand" );
 
 	if ( command.getOrderId() == null )
-	throw new ValidationException( "Order", "validating identifier" );
+	throw new ValidationException( "Order", "validating identifier on AssignAccountToOrderCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Order", "validating assignment" );
@@ -173,7 +173,7 @@ public void validate( AssignSecurityToOrderCommand command ) throws ValidationEx
 		throw new ValidationException( "Order", "validating AssignSecurityToOrderCommand" );
 
 	if ( command.getOrderId() == null )
-	throw new ValidationException( "Order", "validating identifier" );
+	throw new ValidationException( "Order", "validating identifier on AssignSecurityToOrderCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Order", "validating assignment" );
@@ -201,7 +201,7 @@ public void validate( AssignAdvisorToOrderCommand command ) throws ValidationExc
 		throw new ValidationException( "Order", "validating AssignAdvisorToOrderCommand" );
 
 	if ( command.getOrderId() == null )
-	throw new ValidationException( "Order", "validating identifier" );
+	throw new ValidationException( "Order", "validating identifier on AssignAdvisorToOrderCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Order", "validating assignment" );

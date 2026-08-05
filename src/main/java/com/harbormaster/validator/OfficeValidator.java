@@ -120,7 +120,7 @@ public void validate( DeleteOfficeCommand office ) throws ValidationException {
  */
 public void validate( OfficeFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Office", "validating summary );
+		throw new ValidationException( "Office", "validating summary" );
 }
 
 /**
@@ -133,7 +133,7 @@ public void validate( AssignFirmToOfficeCommand command ) throws ValidationExcep
 		throw new ValidationException( "Office", "validating AssignFirmToOfficeCommand" );
 
 	if ( command.getOfficeId() == null )
-	throw new ValidationException( "Office", "validating identifier" );
+	throw new ValidationException( "Office", "validating identifier on AssignFirmToOfficeCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Office", "validating assignment" );

@@ -124,7 +124,7 @@ public void validate( DeleteCashMovementCommand cashMovement ) throws Validation
  */
 public void validate( CashMovementFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "CashMovement", "validating summary );
+		throw new ValidationException( "CashMovement", "validating summary" );
 }
 
 /**
@@ -137,7 +137,7 @@ public void validate( AssignAccountToCashMovementCommand command ) throws Valida
 		throw new ValidationException( "CashMovement", "validating AssignAccountToCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier" );
+	throw new ValidationException( "CashMovement", "validating identifier on AssignAccountToCashMovementCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "CashMovement", "validating assignment" );
@@ -165,7 +165,7 @@ public void validate( AssignRelatedInstructionToCashMovementCommand command ) th
 		throw new ValidationException( "CashMovement", "validating AssignRelatedInstructionToCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier" );
+	throw new ValidationException( "CashMovement", "validating identifier on AssignRelatedInstructionToCashMovementCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "CashMovement", "validating assignment" );
@@ -193,7 +193,7 @@ public void validate( AssignRelatedTransactionToCashMovementCommand command ) th
 		throw new ValidationException( "CashMovement", "validating AssignRelatedTransactionToCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier" );
+	throw new ValidationException( "CashMovement", "validating identifier on AssignRelatedTransactionToCashMovementCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "CashMovement", "validating assignment" );

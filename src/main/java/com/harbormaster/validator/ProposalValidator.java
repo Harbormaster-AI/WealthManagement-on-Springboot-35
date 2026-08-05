@@ -126,7 +126,7 @@ public void validate( DeleteProposalCommand proposal ) throws ValidationExceptio
  */
 public void validate( ProposalFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Proposal", "validating summary );
+		throw new ValidationException( "Proposal", "validating summary" );
 }
 
 /**
@@ -139,7 +139,7 @@ public void validate( AssignHouseholdToProposalCommand command ) throws Validati
 		throw new ValidationException( "Proposal", "validating AssignHouseholdToProposalCommand" );
 
 	if ( command.getProposalId() == null )
-	throw new ValidationException( "Proposal", "validating identifier" );
+	throw new ValidationException( "Proposal", "validating identifier on AssignHouseholdToProposalCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Proposal", "validating assignment" );
@@ -167,7 +167,7 @@ public void validate( AssignAdvisorToProposalCommand command ) throws Validation
 		throw new ValidationException( "Proposal", "validating AssignAdvisorToProposalCommand" );
 
 	if ( command.getProposalId() == null )
-	throw new ValidationException( "Proposal", "validating identifier" );
+	throw new ValidationException( "Proposal", "validating identifier on AssignAdvisorToProposalCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Proposal", "validating assignment" );
@@ -195,7 +195,7 @@ public void validate( AssignModelPortfolioToProposalCommand command ) throws Val
 		throw new ValidationException( "Proposal", "validating AssignModelPortfolioToProposalCommand" );
 
 	if ( command.getProposalId() == null )
-	throw new ValidationException( "Proposal", "validating identifier" );
+	throw new ValidationException( "Proposal", "validating identifier on AssignModelPortfolioToProposalCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Proposal", "validating assignment" );
@@ -223,7 +223,7 @@ public void validate( AssignAccountToProposalCommand command ) throws Validation
 		throw new ValidationException( "Proposal", "validating AssignAccountToProposalCommand" );
 
 	if ( command.getProposalId() == null )
-	throw new ValidationException( "Proposal", "validating identifier" );
+	throw new ValidationException( "Proposal", "validating identifier on AssignAccountToProposalCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Proposal", "validating assignment" );

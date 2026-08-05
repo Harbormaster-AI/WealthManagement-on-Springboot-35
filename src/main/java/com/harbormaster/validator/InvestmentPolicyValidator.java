@@ -122,7 +122,7 @@ public void validate( DeleteInvestmentPolicyCommand investmentPolicy ) throws Va
  */
 public void validate( InvestmentPolicyFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "InvestmentPolicy", "validating summary );
+		throw new ValidationException( "InvestmentPolicy", "validating summary" );
 }
 
 /**
@@ -135,7 +135,7 @@ public void validate( AssignPortfolioToInvestmentPolicyCommand command ) throws 
 		throw new ValidationException( "InvestmentPolicy", "validating AssignPortfolioToInvestmentPolicyCommand" );
 
 	if ( command.getInvestmentPolicyId() == null )
-	throw new ValidationException( "InvestmentPolicy", "validating identifier" );
+	throw new ValidationException( "InvestmentPolicy", "validating identifier on AssignPortfolioToInvestmentPolicyCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "InvestmentPolicy", "validating assignment" );
@@ -163,7 +163,7 @@ public void validate( AssignRiskAssessmentToInvestmentPolicyCommand command ) th
 		throw new ValidationException( "InvestmentPolicy", "validating AssignRiskAssessmentToInvestmentPolicyCommand" );
 
 	if ( command.getInvestmentPolicyId() == null )
-	throw new ValidationException( "InvestmentPolicy", "validating identifier" );
+	throw new ValidationException( "InvestmentPolicy", "validating identifier on AssignRiskAssessmentToInvestmentPolicyCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "InvestmentPolicy", "validating assignment" );

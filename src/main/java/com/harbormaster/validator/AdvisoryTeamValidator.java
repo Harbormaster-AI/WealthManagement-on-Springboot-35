@@ -122,7 +122,7 @@ public void validate( DeleteAdvisoryTeamCommand advisoryTeam ) throws Validation
  */
 public void validate( AdvisoryTeamFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "AdvisoryTeam", "validating summary );
+		throw new ValidationException( "AdvisoryTeam", "validating summary" );
 }
 
 

@@ -126,7 +126,7 @@ public void validate( DeleteFeeScheduleCommand feeSchedule ) throws ValidationEx
  */
 public void validate( FeeScheduleFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "FeeSchedule", "validating summary );
+		throw new ValidationException( "FeeSchedule", "validating summary" );
 }
 
 

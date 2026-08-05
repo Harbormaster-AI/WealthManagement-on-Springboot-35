@@ -120,7 +120,7 @@ public void validate( DeleteTaxLotCommand taxLot ) throws ValidationException {
  */
 public void validate( TaxLotFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "TaxLot", "validating summary );
+		throw new ValidationException( "TaxLot", "validating summary" );
 }
 
 /**
@@ -133,7 +133,7 @@ public void validate( AssignPositionToTaxLotCommand command ) throws ValidationE
 		throw new ValidationException( "TaxLot", "validating AssignPositionToTaxLotCommand" );
 
 	if ( command.getTaxLotId() == null )
-	throw new ValidationException( "TaxLot", "validating identifier" );
+	throw new ValidationException( "TaxLot", "validating identifier on AssignPositionToTaxLotCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "TaxLot", "validating assignment" );

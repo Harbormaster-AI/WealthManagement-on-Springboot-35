@@ -124,7 +124,7 @@ public void validate( DeleteBillingRunCommand billingRun ) throws ValidationExce
  */
 public void validate( BillingRunFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "BillingRun", "validating summary );
+		throw new ValidationException( "BillingRun", "validating summary" );
 }
 
 /**
@@ -137,7 +137,7 @@ public void validate( AssignFeeScheduleToBillingRunCommand command ) throws Vali
 		throw new ValidationException( "BillingRun", "validating AssignFeeScheduleToBillingRunCommand" );
 
 	if ( command.getBillingRunId() == null )
-	throw new ValidationException( "BillingRun", "validating identifier" );
+	throw new ValidationException( "BillingRun", "validating identifier on AssignFeeScheduleToBillingRunCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "BillingRun", "validating assignment" );

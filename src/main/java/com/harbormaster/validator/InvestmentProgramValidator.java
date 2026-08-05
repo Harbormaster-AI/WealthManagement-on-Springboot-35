@@ -126,7 +126,7 @@ public void validate( DeleteInvestmentProgramCommand investmentProgram ) throws 
  */
 public void validate( InvestmentProgramFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "InvestmentProgram", "validating summary );
+		throw new ValidationException( "InvestmentProgram", "validating summary" );
 }
 
 

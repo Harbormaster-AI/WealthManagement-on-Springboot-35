@@ -126,7 +126,7 @@ public void validate( DeletePerformanceReportCommand performanceReport ) throws 
  */
 public void validate( PerformanceReportFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "PerformanceReport", "validating summary );
+		throw new ValidationException( "PerformanceReport", "validating summary" );
 }
 
 /**
@@ -139,7 +139,7 @@ public void validate( AssignPortfolioToPerformanceReportCommand command ) throws
 		throw new ValidationException( "PerformanceReport", "validating AssignPortfolioToPerformanceReportCommand" );
 
 	if ( command.getPerformanceReportId() == null )
-	throw new ValidationException( "PerformanceReport", "validating identifier" );
+	throw new ValidationException( "PerformanceReport", "validating identifier on AssignPortfolioToPerformanceReportCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "PerformanceReport", "validating assignment" );
@@ -167,7 +167,7 @@ public void validate( AssignBenchmarkToPerformanceReportCommand command ) throws
 		throw new ValidationException( "PerformanceReport", "validating AssignBenchmarkToPerformanceReportCommand" );
 
 	if ( command.getPerformanceReportId() == null )
-	throw new ValidationException( "PerformanceReport", "validating identifier" );
+	throw new ValidationException( "PerformanceReport", "validating identifier on AssignBenchmarkToPerformanceReportCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "PerformanceReport", "validating assignment" );

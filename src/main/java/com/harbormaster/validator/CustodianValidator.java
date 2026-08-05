@@ -126,7 +126,7 @@ public void validate( DeleteCustodianCommand custodian ) throws ValidationExcept
  */
 public void validate( CustodianFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Custodian", "validating summary );
+		throw new ValidationException( "Custodian", "validating summary" );
 }
 
 

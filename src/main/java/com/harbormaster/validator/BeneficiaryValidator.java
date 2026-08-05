@@ -128,7 +128,7 @@ public void validate( DeleteBeneficiaryCommand beneficiary ) throws ValidationEx
  */
 public void validate( BeneficiaryFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Beneficiary", "validating summary );
+		throw new ValidationException( "Beneficiary", "validating summary" );
 }
 
 /**
@@ -141,7 +141,7 @@ public void validate( AssignClientToBeneficiaryCommand command ) throws Validati
 		throw new ValidationException( "Beneficiary", "validating AssignClientToBeneficiaryCommand" );
 
 	if ( command.getBeneficiaryId() == null )
-	throw new ValidationException( "Beneficiary", "validating identifier" );
+	throw new ValidationException( "Beneficiary", "validating identifier on AssignClientToBeneficiaryCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Beneficiary", "validating assignment" );

@@ -128,7 +128,7 @@ public void validate( DeleteAdvisorCommand advisor ) throws ValidationException 
  */
 public void validate( AdvisorFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Advisor", "validating summary );
+		throw new ValidationException( "Advisor", "validating summary" );
 }
 
 /**
@@ -141,7 +141,7 @@ public void validate( AssignFirmToAdvisorCommand command ) throws ValidationExce
 		throw new ValidationException( "Advisor", "validating AssignFirmToAdvisorCommand" );
 
 	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identifier" );
+	throw new ValidationException( "Advisor", "validating identifier on AssignFirmToAdvisorCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Advisor", "validating assignment" );
@@ -169,7 +169,7 @@ public void validate( AssignOfficeToAdvisorCommand command ) throws ValidationEx
 		throw new ValidationException( "Advisor", "validating AssignOfficeToAdvisorCommand" );
 
 	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identifier" );
+	throw new ValidationException( "Advisor", "validating identifier on AssignOfficeToAdvisorCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Advisor", "validating assignment" );
@@ -197,7 +197,7 @@ public void validate( AssignAdvisoryTeamToAdvisorCommand command ) throws Valida
 		throw new ValidationException( "Advisor", "validating AssignAdvisoryTeamToAdvisorCommand" );
 
 	if ( command.getAdvisorId() == null )
-	throw new ValidationException( "Advisor", "validating identifier" );
+	throw new ValidationException( "Advisor", "validating identifier on AssignAdvisoryTeamToAdvisorCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Advisor", "validating assignment" );

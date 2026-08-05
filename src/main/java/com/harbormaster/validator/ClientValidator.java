@@ -146,7 +146,7 @@ public void validate( DeleteClientCommand client ) throws ValidationException {
  */
 public void validate( ClientFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "Client", "validating summary );
+		throw new ValidationException( "Client", "validating summary" );
 }
 
 /**
@@ -159,7 +159,7 @@ public void validate( AssignHouseholdToClientCommand command ) throws Validation
 		throw new ValidationException( "Client", "validating AssignHouseholdToClientCommand" );
 
 	if ( command.getClientId() == null )
-	throw new ValidationException( "Client", "validating identifier" );
+	throw new ValidationException( "Client", "validating identifier on AssignHouseholdToClientCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Client", "validating assignment" );
@@ -187,7 +187,7 @@ public void validate( AssignKycRecordToClientCommand command ) throws Validation
 		throw new ValidationException( "Client", "validating AssignKycRecordToClientCommand" );
 
 	if ( command.getClientId() == null )
-	throw new ValidationException( "Client", "validating identifier" );
+	throw new ValidationException( "Client", "validating identifier on AssignKycRecordToClientCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Client", "validating assignment" );

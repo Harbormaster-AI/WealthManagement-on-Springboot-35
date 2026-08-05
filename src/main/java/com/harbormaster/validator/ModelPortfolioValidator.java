@@ -122,7 +122,7 @@ public void validate( DeleteModelPortfolioCommand modelPortfolio ) throws Valida
  */
 public void validate( ModelPortfolioFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "ModelPortfolio", "validating summary );
+		throw new ValidationException( "ModelPortfolio", "validating summary" );
 }
 
 

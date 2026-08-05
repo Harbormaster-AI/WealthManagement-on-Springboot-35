@@ -138,7 +138,7 @@ public void validate( DeleteWealthFirmCommand wealthFirm ) throws ValidationExce
  */
 public void validate( WealthFirmFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "WealthFirm", "validating summary );
+		throw new ValidationException( "WealthFirm", "validating summary" );
 }
 
 

@@ -126,7 +126,7 @@ public void validate( DeleteResearchNoteCommand researchNote ) throws Validation
  */
 public void validate( ResearchNoteFetchOneSummary summary ) throws ValidationException {
 	if ( summary == null )
-		throw new ValidationException( "ResearchNote", "validating summary );
+		throw new ValidationException( "ResearchNote", "validating summary" );
 }
 
 /**
@@ -139,7 +139,7 @@ public void validate( AssignSecurityToResearchNoteCommand command ) throws Valid
 		throw new ValidationException( "ResearchNote", "validating AssignSecurityToResearchNoteCommand" );
 
 	if ( command.getResearchNoteId() == null )
-	throw new ValidationException( "ResearchNote", "validating identifier" );
+	throw new ValidationException( "ResearchNote", "validating identifier on AssignSecurityToResearchNoteCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "ResearchNote", "validating assignment" );
@@ -167,7 +167,7 @@ public void validate( AssignAdvisorToResearchNoteCommand command ) throws Valida
 		throw new ValidationException( "ResearchNote", "validating AssignAdvisorToResearchNoteCommand" );
 
 	if ( command.getResearchNoteId() == null )
-	throw new ValidationException( "ResearchNote", "validating identifier" );
+	throw new ValidationException( "ResearchNote", "validating identifier on AssignAdvisorToResearchNoteCommand" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "ResearchNote", "validating assignment" );

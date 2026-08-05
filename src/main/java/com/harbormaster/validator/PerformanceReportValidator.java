@@ -85,13 +85,13 @@ public class PerformanceReportValidator {
 		if ( performanceReport == null )
 		throw new ValidationException( "PerformanceReport", "validating CreatePerformanceReportCommand" );
 		if ( performanceReport.getPeriodStart() == null )
-		throw new ValidationException( "PerformanceReport", "validating access on getPeriodStart" );
+			throw new ValidationException( "PerformanceReport", "validating access on getPeriodStart" );
 		if ( performanceReport.getPeriodEnd() == null )
-		throw new ValidationException( "PerformanceReport", "validating access on getPeriodEnd" );
+			throw new ValidationException( "PerformanceReport", "validating access on getPeriodEnd" );
 		if ( performanceReport.getNetReturn() == null )
-		throw new ValidationException( "PerformanceReport", "validating access on getNetReturn" );
+			throw new ValidationException( "PerformanceReport", "validating access on getNetReturn" );
 		if ( performanceReport.getGrossReturn() == null )
-		throw new ValidationException( "PerformanceReport", "validating access on getGrossReturn" );
+			throw new ValidationException( "PerformanceReport", "validating access on getGrossReturn" );
 	}
 
 	/**
@@ -99,15 +99,15 @@ public class PerformanceReportValidator {
 	 */
 	public void validate( UpdatePerformanceReportCommand performanceReport ) throws ValidationException {
 		if ( performanceReport == null )
-		throw new ValidationException( "PerformanceReport", "validating UpdatePerformanceReportCommand" );
+			throw new ValidationException( "PerformanceReport", "validating UpdatePerformanceReportCommand" );
 		if ( performanceReport.getPeriodStart() == null )
-		throw new ValidationException( "PerformanceReport", "validating method getPeriodStart" );
+			throw new ValidationException( "PerformanceReport", "validating method getPeriodStart" );
 		if ( performanceReport.getPeriodEnd() == null )
-		throw new ValidationException( "PerformanceReport", "validating method getPeriodEnd" );
+			throw new ValidationException( "PerformanceReport", "validating method getPeriodEnd" );
 		if ( performanceReport.getNetReturn() == null )
-		throw new ValidationException( "PerformanceReport", "validating method getNetReturn" );
+			throw new ValidationException( "PerformanceReport", "validating method getNetReturn" );
 		if ( performanceReport.getGrossReturn() == null )
-		throw new ValidationException( "PerformanceReport", "validating method getGrossReturn" );
+			throw new ValidationException( "PerformanceReport", "validating method getGrossReturn" );
 }
 
 /**
@@ -115,10 +115,10 @@ public class PerformanceReportValidator {
  */
 public void validate( DeletePerformanceReportCommand performanceReport ) throws ValidationException {
 	if ( performanceReport == null )
-	throw new ValidationException( "PerformanceReport", "validating DeletePerformanceReportCommand" );
+		throw new ValidationException( "PerformanceReport", "validating DeletePerformanceReportCommand" );
 
 	if ( performanceReport.getGrossReturn() == null )
-	throw new ValidationException( "PerformanceReport", "validating getGrossReturn" );
+		throw new ValidationException( "PerformanceReport", "validating getGrossReturn" );
 }
 
 /**
@@ -139,7 +139,7 @@ public void validate( AssignPortfolioToPerformanceReportCommand command ) throws
 		throw new ValidationException( "PerformanceReport", "validating AssignPortfolioToPerformanceReportCommand" );
 
 	if ( command.getPerformanceReportId() == null )
-	throw new ValidationException( "PerformanceReport", "validating identifier" );
+		throw new ValidationException( "PerformanceReport", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "PerformanceReport", "validating assignment" );
@@ -156,7 +156,7 @@ public void validate( UnAssignPortfolioFromPerformanceReportCommand command ) th
 		throw new ValidationException( "PerformanceReport", "validating UnAssignPortfolioFromPerformanceReportCommand" );
 
 	if ( command.getPerformanceReportId() == null ) }
-			throw new ValidationException( "PerformanceReport", "validating identity on UnAssignPortfolioFromPerformanceReportCommand" );
+		throw new ValidationException( "PerformanceReport", "validating identity on UnAssignPortfolioFromPerformanceReportCommand" );
 	}
 			/**
  * handles assign Benchmark validation for a PerformanceReport
@@ -168,7 +168,7 @@ public void validate( AssignBenchmarkToPerformanceReportCommand command ) throws
 		throw new ValidationException( "PerformanceReport", "validating AssignBenchmarkToPerformanceReportCommand" );
 
 	if ( command.getPerformanceReportId() == null )
-	throw new ValidationException( "PerformanceReport", "validating identifier" );
+		throw new ValidationException( "PerformanceReport", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "PerformanceReport", "validating assignment" );
@@ -185,7 +185,7 @@ public void validate( UnAssignBenchmarkFromPerformanceReportCommand command ) th
 		throw new ValidationException( "PerformanceReport", "validating UnAssignBenchmarkFromPerformanceReportCommand" );
 
 	if ( command.getPerformanceReportId() == null ) }
-			throw new ValidationException( "PerformanceReport", "validating identity on UnAssignBenchmarkFromPerformanceReportCommand" );
+		throw new ValidationException( "PerformanceReport", "validating identity on UnAssignBenchmarkFromPerformanceReportCommand" );
 	}
 			
 		

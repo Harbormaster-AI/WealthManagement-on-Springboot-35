@@ -89,13 +89,13 @@ public class TransactionValidator {
 		if ( transaction == null )
 		throw new ValidationException( "Transaction", "validating CreateTransactionCommand" );
 		if ( transaction.getTradeDate() == null )
-		throw new ValidationException( "Transaction", "validating access on getTradeDate" );
+			throw new ValidationException( "Transaction", "validating access on getTradeDate" );
 		if ( transaction.getSettleDate() == null )
-		throw new ValidationException( "Transaction", "validating access on getSettleDate" );
+			throw new ValidationException( "Transaction", "validating access on getSettleDate" );
 		if ( transaction.getAmount() == null )
-		throw new ValidationException( "Transaction", "validating access on getAmount" );
+			throw new ValidationException( "Transaction", "validating access on getAmount" );
 		if ( transaction.getQuantity() == null )
-		throw new ValidationException( "Transaction", "validating access on getQuantity" );
+			throw new ValidationException( "Transaction", "validating access on getQuantity" );
 	}
 
 	/**
@@ -103,15 +103,15 @@ public class TransactionValidator {
 	 */
 	public void validate( UpdateTransactionCommand transaction ) throws ValidationException {
 		if ( transaction == null )
-		throw new ValidationException( "Transaction", "validating UpdateTransactionCommand" );
+			throw new ValidationException( "Transaction", "validating UpdateTransactionCommand" );
 		if ( transaction.getTradeDate() == null )
-		throw new ValidationException( "Transaction", "validating method getTradeDate" );
+			throw new ValidationException( "Transaction", "validating method getTradeDate" );
 		if ( transaction.getSettleDate() == null )
-		throw new ValidationException( "Transaction", "validating method getSettleDate" );
+			throw new ValidationException( "Transaction", "validating method getSettleDate" );
 		if ( transaction.getAmount() == null )
-		throw new ValidationException( "Transaction", "validating method getAmount" );
+			throw new ValidationException( "Transaction", "validating method getAmount" );
 		if ( transaction.getQuantity() == null )
-		throw new ValidationException( "Transaction", "validating method getQuantity" );
+			throw new ValidationException( "Transaction", "validating method getQuantity" );
 }
 
 /**
@@ -119,10 +119,10 @@ public class TransactionValidator {
  */
 public void validate( DeleteTransactionCommand transaction ) throws ValidationException {
 	if ( transaction == null )
-	throw new ValidationException( "Transaction", "validating DeleteTransactionCommand" );
+		throw new ValidationException( "Transaction", "validating DeleteTransactionCommand" );
 
 	if ( transaction.getQuantity() == null )
-	throw new ValidationException( "Transaction", "validating getQuantity" );
+		throw new ValidationException( "Transaction", "validating getQuantity" );
 }
 
 /**
@@ -143,7 +143,7 @@ public void validate( AssignAccountToTransactionCommand command ) throws Validat
 		throw new ValidationException( "Transaction", "validating AssignAccountToTransactionCommand" );
 
 	if ( command.getTransactionId() == null )
-	throw new ValidationException( "Transaction", "validating identifier" );
+		throw new ValidationException( "Transaction", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Transaction", "validating assignment" );
@@ -160,7 +160,7 @@ public void validate( UnAssignAccountFromTransactionCommand command ) throws Val
 		throw new ValidationException( "Transaction", "validating UnAssignAccountFromTransactionCommand" );
 
 	if ( command.getTransactionId() == null ) }
-			throw new ValidationException( "Transaction", "validating identity on UnAssignAccountFromTransactionCommand" );
+		throw new ValidationException( "Transaction", "validating identity on UnAssignAccountFromTransactionCommand" );
 	}
 			/**
  * handles assign Security validation for a Transaction
@@ -172,7 +172,7 @@ public void validate( AssignSecurityToTransactionCommand command ) throws Valida
 		throw new ValidationException( "Transaction", "validating AssignSecurityToTransactionCommand" );
 
 	if ( command.getTransactionId() == null )
-	throw new ValidationException( "Transaction", "validating identifier" );
+		throw new ValidationException( "Transaction", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Transaction", "validating assignment" );
@@ -189,7 +189,7 @@ public void validate( UnAssignSecurityFromTransactionCommand command ) throws Va
 		throw new ValidationException( "Transaction", "validating UnAssignSecurityFromTransactionCommand" );
 
 	if ( command.getTransactionId() == null ) }
-			throw new ValidationException( "Transaction", "validating identity on UnAssignSecurityFromTransactionCommand" );
+		throw new ValidationException( "Transaction", "validating identity on UnAssignSecurityFromTransactionCommand" );
 	}
 			/**
  * handles assign Order validation for a Transaction
@@ -201,7 +201,7 @@ public void validate( AssignOrderToTransactionCommand command ) throws Validatio
 		throw new ValidationException( "Transaction", "validating AssignOrderToTransactionCommand" );
 
 	if ( command.getTransactionId() == null )
-	throw new ValidationException( "Transaction", "validating identifier" );
+		throw new ValidationException( "Transaction", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Transaction", "validating assignment" );
@@ -218,7 +218,7 @@ public void validate( UnAssignOrderFromTransactionCommand command ) throws Valid
 		throw new ValidationException( "Transaction", "validating UnAssignOrderFromTransactionCommand" );
 
 	if ( command.getTransactionId() == null ) }
-			throw new ValidationException( "Transaction", "validating identity on UnAssignOrderFromTransactionCommand" );
+		throw new ValidationException( "Transaction", "validating identity on UnAssignOrderFromTransactionCommand" );
 	}
 			/**
  * handles assign Position validation for a Transaction
@@ -230,7 +230,7 @@ public void validate( AssignPositionToTransactionCommand command ) throws Valida
 		throw new ValidationException( "Transaction", "validating AssignPositionToTransactionCommand" );
 
 	if ( command.getTransactionId() == null )
-	throw new ValidationException( "Transaction", "validating identifier" );
+		throw new ValidationException( "Transaction", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Transaction", "validating assignment" );
@@ -247,7 +247,7 @@ public void validate( UnAssignPositionFromTransactionCommand command ) throws Va
 		throw new ValidationException( "Transaction", "validating UnAssignPositionFromTransactionCommand" );
 
 	if ( command.getTransactionId() == null ) }
-			throw new ValidationException( "Transaction", "validating identity on UnAssignPositionFromTransactionCommand" );
+		throw new ValidationException( "Transaction", "validating identity on UnAssignPositionFromTransactionCommand" );
 	}
 			
 		

@@ -89,9 +89,9 @@ public class AdvisoryTeamValidator {
 		if ( advisoryTeam == null )
 		throw new ValidationException( "AdvisoryTeam", "validating CreateAdvisoryTeamCommand" );
 		if ( advisoryTeam.getName() == null )
-		throw new ValidationException( "AdvisoryTeam", "validating access on getName" );
+			throw new ValidationException( "AdvisoryTeam", "validating access on getName" );
 		if ( advisoryTeam.getSpecialization() == null )
-		throw new ValidationException( "AdvisoryTeam", "validating access on getSpecialization" );
+			throw new ValidationException( "AdvisoryTeam", "validating access on getSpecialization" );
 	}
 
 	/**
@@ -99,11 +99,11 @@ public class AdvisoryTeamValidator {
 	 */
 	public void validate( UpdateAdvisoryTeamCommand advisoryTeam ) throws ValidationException {
 		if ( advisoryTeam == null )
-		throw new ValidationException( "AdvisoryTeam", "validating UpdateAdvisoryTeamCommand" );
+			throw new ValidationException( "AdvisoryTeam", "validating UpdateAdvisoryTeamCommand" );
 		if ( advisoryTeam.getName() == null )
-		throw new ValidationException( "AdvisoryTeam", "validating method getName" );
+			throw new ValidationException( "AdvisoryTeam", "validating method getName" );
 		if ( advisoryTeam.getSpecialization() == null )
-		throw new ValidationException( "AdvisoryTeam", "validating method getSpecialization" );
+			throw new ValidationException( "AdvisoryTeam", "validating method getSpecialization" );
 }
 
 /**
@@ -111,10 +111,10 @@ public class AdvisoryTeamValidator {
  */
 public void validate( DeleteAdvisoryTeamCommand advisoryTeam ) throws ValidationException {
 	if ( advisoryTeam == null )
-	throw new ValidationException( "AdvisoryTeam", "validating DeleteAdvisoryTeamCommand" );
+		throw new ValidationException( "AdvisoryTeam", "validating DeleteAdvisoryTeamCommand" );
 
 	if ( advisoryTeam.getSpecialization() == null )
-	throw new ValidationException( "AdvisoryTeam", "validating getSpecialization" );
+		throw new ValidationException( "AdvisoryTeam", "validating getSpecialization" );
 }
 
 /**
@@ -136,7 +136,7 @@ public void validate( AssignAdvisorsToAdvisoryTeamCommand command ) throws Valid
 		throw new ValidationException( "AdvisoryTeam", "validating AssignAdvisorsToAdvisoryTeamCommand" );
 
 	if ( command.getAdvisoryTeamId() == null )
-	throw new ValidationException( "AdvisoryTeam", "validating identity on AssignAdvisorsToAdvisoryTeamCommand" );
+		throw new ValidationException( "AdvisoryTeam", "validating identity on AssignAdvisorsToAdvisoryTeamCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "AdvisoryTeam", "validating addTo attribute on AssignAdvisorsToAdvisoryTeamCommand" );
@@ -153,13 +153,13 @@ public void validate( RemoveAdvisorsFromAdvisoryTeamCommand ) throws ValidationE
 		throw new ValidationException("AdvisoryTeam", "validating RemoveAdvisorsFromAdvisoryTeamCommand" );
 
 	if( command.getAdvisoryTeamId() == null )
-		throw new ValidationException"AdvisoryTeam", "validating id on RemoveAdvisorsFromAdvisoryTeamCommand" );
+		throw new ValidationException("AdvisoryTeam", "validating id on RemoveAdvisorsFromAdvisoryTeamCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"AdvisoryTeam", "validating remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
+		throw new ValidationException("AdvisoryTeam", "validating remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
 
 	if( command.getRemoveFrom().getAdvisorId() == null )
-		throw new ValidationException"AdvisoryTeam", "validating id on remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
+		throw new ValidationException("AdvisoryTeam", "validating id on remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
 }
 	
 /**
@@ -172,7 +172,7 @@ public void validate( AssignHouseholdsToAdvisoryTeamCommand command ) throws Val
 		throw new ValidationException( "AdvisoryTeam", "validating AssignHouseholdsToAdvisoryTeamCommand" );
 
 	if ( command.getAdvisoryTeamId() == null )
-	throw new ValidationException( "AdvisoryTeam", "validating identity on AssignHouseholdsToAdvisoryTeamCommand" );
+		throw new ValidationException( "AdvisoryTeam", "validating identity on AssignHouseholdsToAdvisoryTeamCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "AdvisoryTeam", "validating addTo attribute on AssignHouseholdsToAdvisoryTeamCommand" );
@@ -189,13 +189,13 @@ public void validate( RemoveHouseholdsFromAdvisoryTeamCommand ) throws Validatio
 		throw new ValidationException("AdvisoryTeam", "validating RemoveHouseholdsFromAdvisoryTeamCommand" );
 
 	if( command.getAdvisoryTeamId() == null )
-		throw new ValidationException"AdvisoryTeam", "validating id on RemoveHouseholdsFromAdvisoryTeamCommand" );
+		throw new ValidationException("AdvisoryTeam", "validating id on RemoveHouseholdsFromAdvisoryTeamCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"AdvisoryTeam", "validating remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
+		throw new ValidationException("AdvisoryTeam", "validating remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
 
 	if( command.getRemoveFrom().getHouseholdId() == null )
-		throw new ValidationException"AdvisoryTeam", "validating id on remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
+		throw new ValidationException("AdvisoryTeam", "validating id on remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
 }
 	
 

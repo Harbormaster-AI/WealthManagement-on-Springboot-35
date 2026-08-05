@@ -87,9 +87,9 @@ public class OfficeValidator {
 		if ( office == null )
 		throw new ValidationException( "Office", "validating CreateOfficeCommand" );
 		if ( office.getName() == null )
-		throw new ValidationException( "Office", "validating access on getName" );
+			throw new ValidationException( "Office", "validating access on getName" );
 		if ( office.getAddress() == null )
-		throw new ValidationException( "Office", "validating access on getAddress" );
+			throw new ValidationException( "Office", "validating access on getAddress" );
 	}
 
 	/**
@@ -97,11 +97,11 @@ public class OfficeValidator {
 	 */
 	public void validate( UpdateOfficeCommand office ) throws ValidationException {
 		if ( office == null )
-		throw new ValidationException( "Office", "validating UpdateOfficeCommand" );
+			throw new ValidationException( "Office", "validating UpdateOfficeCommand" );
 		if ( office.getName() == null )
-		throw new ValidationException( "Office", "validating method getName" );
+			throw new ValidationException( "Office", "validating method getName" );
 		if ( office.getAddress() == null )
-		throw new ValidationException( "Office", "validating method getAddress" );
+			throw new ValidationException( "Office", "validating method getAddress" );
 }
 
 /**
@@ -109,10 +109,10 @@ public class OfficeValidator {
  */
 public void validate( DeleteOfficeCommand office ) throws ValidationException {
 	if ( office == null )
-	throw new ValidationException( "Office", "validating DeleteOfficeCommand" );
+		throw new ValidationException( "Office", "validating DeleteOfficeCommand" );
 
 	if ( office.getAddress() == null )
-	throw new ValidationException( "Office", "validating getAddress" );
+		throw new ValidationException( "Office", "validating getAddress" );
 }
 
 /**
@@ -133,7 +133,7 @@ public void validate( AssignFirmToOfficeCommand command ) throws ValidationExcep
 		throw new ValidationException( "Office", "validating AssignFirmToOfficeCommand" );
 
 	if ( command.getOfficeId() == null )
-	throw new ValidationException( "Office", "validating identifier" );
+		throw new ValidationException( "Office", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Office", "validating assignment" );
@@ -150,7 +150,7 @@ public void validate( UnAssignFirmFromOfficeCommand command ) throws ValidationE
 		throw new ValidationException( "Office", "validating UnAssignFirmFromOfficeCommand" );
 
 	if ( command.getOfficeId() == null ) }
-			throw new ValidationException( "Office", "validating identity on UnAssignFirmFromOfficeCommand" );
+		throw new ValidationException( "Office", "validating identity on UnAssignFirmFromOfficeCommand" );
 	}
 			
 		/**
@@ -163,7 +163,7 @@ public void validate( AssignAdvisorsToOfficeCommand command ) throws ValidationE
 		throw new ValidationException( "Office", "validating AssignAdvisorsToOfficeCommand" );
 
 	if ( command.getOfficeId() == null )
-	throw new ValidationException( "Office", "validating identity on AssignAdvisorsToOfficeCommand" );
+		throw new ValidationException( "Office", "validating identity on AssignAdvisorsToOfficeCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Office", "validating addTo attribute on AssignAdvisorsToOfficeCommand" );
@@ -180,13 +180,13 @@ public void validate( RemoveAdvisorsFromOfficeCommand ) throws ValidationExcepti
 		throw new ValidationException("Office", "validating RemoveAdvisorsFromOfficeCommand" );
 
 	if( command.getOfficeId() == null )
-		throw new ValidationException"Office", "validating id on RemoveAdvisorsFromOfficeCommand" );
+		throw new ValidationException("Office", "validating id on RemoveAdvisorsFromOfficeCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Office", "validating remove from RemoveAdvisorsFromOfficeCommand" );
+		throw new ValidationException("Office", "validating remove from RemoveAdvisorsFromOfficeCommand" );
 
 	if( command.getRemoveFrom().getAdvisorId() == null )
-		throw new ValidationException"Office", "validating id on remove from RemoveAdvisorsFromOfficeCommand" );
+		throw new ValidationException("Office", "validating id on remove from RemoveAdvisorsFromOfficeCommand" );
 }
 	
 

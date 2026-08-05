@@ -83,9 +83,9 @@ public class MarketPriceValidator {
 		if ( marketPrice == null )
 		throw new ValidationException( "MarketPrice", "validating CreateMarketPriceCommand" );
 		if ( marketPrice.getPrice() == null )
-		throw new ValidationException( "MarketPrice", "validating access on getPrice" );
+			throw new ValidationException( "MarketPrice", "validating access on getPrice" );
 		if ( marketPrice.getPriceDate() == null )
-		throw new ValidationException( "MarketPrice", "validating access on getPriceDate" );
+			throw new ValidationException( "MarketPrice", "validating access on getPriceDate" );
 	}
 
 	/**
@@ -93,11 +93,11 @@ public class MarketPriceValidator {
 	 */
 	public void validate( UpdateMarketPriceCommand marketPrice ) throws ValidationException {
 		if ( marketPrice == null )
-		throw new ValidationException( "MarketPrice", "validating UpdateMarketPriceCommand" );
+			throw new ValidationException( "MarketPrice", "validating UpdateMarketPriceCommand" );
 		if ( marketPrice.getPrice() == null )
-		throw new ValidationException( "MarketPrice", "validating method getPrice" );
+			throw new ValidationException( "MarketPrice", "validating method getPrice" );
 		if ( marketPrice.getPriceDate() == null )
-		throw new ValidationException( "MarketPrice", "validating method getPriceDate" );
+			throw new ValidationException( "MarketPrice", "validating method getPriceDate" );
 }
 
 /**
@@ -105,10 +105,10 @@ public class MarketPriceValidator {
  */
 public void validate( DeleteMarketPriceCommand marketPrice ) throws ValidationException {
 	if ( marketPrice == null )
-	throw new ValidationException( "MarketPrice", "validating DeleteMarketPriceCommand" );
+		throw new ValidationException( "MarketPrice", "validating DeleteMarketPriceCommand" );
 
 	if ( marketPrice.getPriceDate() == null )
-	throw new ValidationException( "MarketPrice", "validating getPriceDate" );
+		throw new ValidationException( "MarketPrice", "validating getPriceDate" );
 }
 
 /**
@@ -129,7 +129,7 @@ public void validate( AssignSecurityToMarketPriceCommand command ) throws Valida
 		throw new ValidationException( "MarketPrice", "validating AssignSecurityToMarketPriceCommand" );
 
 	if ( command.getMarketPriceId() == null )
-	throw new ValidationException( "MarketPrice", "validating identifier" );
+		throw new ValidationException( "MarketPrice", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "MarketPrice", "validating assignment" );
@@ -146,7 +146,7 @@ public void validate( UnAssignSecurityFromMarketPriceCommand command ) throws Va
 		throw new ValidationException( "MarketPrice", "validating UnAssignSecurityFromMarketPriceCommand" );
 
 	if ( command.getMarketPriceId() == null ) }
-			throw new ValidationException( "MarketPrice", "validating identity on UnAssignSecurityFromMarketPriceCommand" );
+		throw new ValidationException( "MarketPrice", "validating identity on UnAssignSecurityFromMarketPriceCommand" );
 	}
 			
 		

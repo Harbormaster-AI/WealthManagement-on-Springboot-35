@@ -85,11 +85,11 @@ public class FeeValidator {
 		if ( fee == null )
 		throw new ValidationException( "Fee", "validating CreateFeeCommand" );
 		if ( fee.getFeeDate() == null )
-		throw new ValidationException( "Fee", "validating access on getFeeDate" );
+			throw new ValidationException( "Fee", "validating access on getFeeDate" );
 		if ( fee.getAmount() == null )
-		throw new ValidationException( "Fee", "validating access on getAmount" );
+			throw new ValidationException( "Fee", "validating access on getAmount" );
 		if ( fee.getDescription() == null )
-		throw new ValidationException( "Fee", "validating access on getDescription" );
+			throw new ValidationException( "Fee", "validating access on getDescription" );
 	}
 
 	/**
@@ -97,13 +97,13 @@ public class FeeValidator {
 	 */
 	public void validate( UpdateFeeCommand fee ) throws ValidationException {
 		if ( fee == null )
-		throw new ValidationException( "Fee", "validating UpdateFeeCommand" );
+			throw new ValidationException( "Fee", "validating UpdateFeeCommand" );
 		if ( fee.getFeeDate() == null )
-		throw new ValidationException( "Fee", "validating method getFeeDate" );
+			throw new ValidationException( "Fee", "validating method getFeeDate" );
 		if ( fee.getAmount() == null )
-		throw new ValidationException( "Fee", "validating method getAmount" );
+			throw new ValidationException( "Fee", "validating method getAmount" );
 		if ( fee.getDescription() == null )
-		throw new ValidationException( "Fee", "validating method getDescription" );
+			throw new ValidationException( "Fee", "validating method getDescription" );
 }
 
 /**
@@ -111,10 +111,10 @@ public class FeeValidator {
  */
 public void validate( DeleteFeeCommand fee ) throws ValidationException {
 	if ( fee == null )
-	throw new ValidationException( "Fee", "validating DeleteFeeCommand" );
+		throw new ValidationException( "Fee", "validating DeleteFeeCommand" );
 
 	if ( fee.getDescription() == null )
-	throw new ValidationException( "Fee", "validating getDescription" );
+		throw new ValidationException( "Fee", "validating getDescription" );
 }
 
 /**
@@ -135,7 +135,7 @@ public void validate( AssignAccountToFeeCommand command ) throws ValidationExcep
 		throw new ValidationException( "Fee", "validating AssignAccountToFeeCommand" );
 
 	if ( command.getFeeId() == null )
-	throw new ValidationException( "Fee", "validating identifier" );
+		throw new ValidationException( "Fee", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Fee", "validating assignment" );
@@ -152,7 +152,7 @@ public void validate( UnAssignAccountFromFeeCommand command ) throws ValidationE
 		throw new ValidationException( "Fee", "validating UnAssignAccountFromFeeCommand" );
 
 	if ( command.getFeeId() == null ) }
-			throw new ValidationException( "Fee", "validating identity on UnAssignAccountFromFeeCommand" );
+		throw new ValidationException( "Fee", "validating identity on UnAssignAccountFromFeeCommand" );
 	}
 			/**
  * handles assign Invoice validation for a Fee
@@ -164,7 +164,7 @@ public void validate( AssignInvoiceToFeeCommand command ) throws ValidationExcep
 		throw new ValidationException( "Fee", "validating AssignInvoiceToFeeCommand" );
 
 	if ( command.getFeeId() == null )
-	throw new ValidationException( "Fee", "validating identifier" );
+		throw new ValidationException( "Fee", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Fee", "validating assignment" );
@@ -181,7 +181,7 @@ public void validate( UnAssignInvoiceFromFeeCommand command ) throws ValidationE
 		throw new ValidationException( "Fee", "validating UnAssignInvoiceFromFeeCommand" );
 
 	if ( command.getFeeId() == null ) }
-			throw new ValidationException( "Fee", "validating identity on UnAssignInvoiceFromFeeCommand" );
+		throw new ValidationException( "Fee", "validating identity on UnAssignInvoiceFromFeeCommand" );
 	}
 			
 		

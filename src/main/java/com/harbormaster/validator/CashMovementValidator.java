@@ -87,11 +87,11 @@ public class CashMovementValidator {
 		if ( cashMovement == null )
 		throw new ValidationException( "CashMovement", "validating CreateCashMovementCommand" );
 		if ( cashMovement.getAmount() == null )
-		throw new ValidationException( "CashMovement", "validating access on getAmount" );
+			throw new ValidationException( "CashMovement", "validating access on getAmount" );
 		if ( cashMovement.getValueDate() == null )
-		throw new ValidationException( "CashMovement", "validating access on getValueDate" );
+			throw new ValidationException( "CashMovement", "validating access on getValueDate" );
 		if ( cashMovement.getDescription() == null )
-		throw new ValidationException( "CashMovement", "validating access on getDescription" );
+			throw new ValidationException( "CashMovement", "validating access on getDescription" );
 	}
 
 	/**
@@ -99,13 +99,13 @@ public class CashMovementValidator {
 	 */
 	public void validate( UpdateCashMovementCommand cashMovement ) throws ValidationException {
 		if ( cashMovement == null )
-		throw new ValidationException( "CashMovement", "validating UpdateCashMovementCommand" );
+			throw new ValidationException( "CashMovement", "validating UpdateCashMovementCommand" );
 		if ( cashMovement.getAmount() == null )
-		throw new ValidationException( "CashMovement", "validating method getAmount" );
+			throw new ValidationException( "CashMovement", "validating method getAmount" );
 		if ( cashMovement.getValueDate() == null )
-		throw new ValidationException( "CashMovement", "validating method getValueDate" );
+			throw new ValidationException( "CashMovement", "validating method getValueDate" );
 		if ( cashMovement.getDescription() == null )
-		throw new ValidationException( "CashMovement", "validating method getDescription" );
+			throw new ValidationException( "CashMovement", "validating method getDescription" );
 }
 
 /**
@@ -113,10 +113,10 @@ public class CashMovementValidator {
  */
 public void validate( DeleteCashMovementCommand cashMovement ) throws ValidationException {
 	if ( cashMovement == null )
-	throw new ValidationException( "CashMovement", "validating DeleteCashMovementCommand" );
+		throw new ValidationException( "CashMovement", "validating DeleteCashMovementCommand" );
 
 	if ( cashMovement.getDescription() == null )
-	throw new ValidationException( "CashMovement", "validating getDescription" );
+		throw new ValidationException( "CashMovement", "validating getDescription" );
 }
 
 /**
@@ -137,7 +137,7 @@ public void validate( AssignAccountToCashMovementCommand command ) throws Valida
 		throw new ValidationException( "CashMovement", "validating AssignAccountToCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier" );
+		throw new ValidationException( "CashMovement", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "CashMovement", "validating assignment" );
@@ -154,7 +154,7 @@ public void validate( UnAssignAccountFromCashMovementCommand command ) throws Va
 		throw new ValidationException( "CashMovement", "validating UnAssignAccountFromCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null ) }
-			throw new ValidationException( "CashMovement", "validating identity on UnAssignAccountFromCashMovementCommand" );
+		throw new ValidationException( "CashMovement", "validating identity on UnAssignAccountFromCashMovementCommand" );
 	}
 			/**
  * handles assign RelatedInstruction validation for a CashMovement
@@ -166,7 +166,7 @@ public void validate( AssignRelatedInstructionToCashMovementCommand command ) th
 		throw new ValidationException( "CashMovement", "validating AssignRelatedInstructionToCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier" );
+		throw new ValidationException( "CashMovement", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "CashMovement", "validating assignment" );
@@ -183,7 +183,7 @@ public void validate( UnAssignRelatedInstructionFromCashMovementCommand command 
 		throw new ValidationException( "CashMovement", "validating UnAssignRelatedInstructionFromCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null ) }
-			throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedInstructionFromCashMovementCommand" );
+		throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedInstructionFromCashMovementCommand" );
 	}
 			/**
  * handles assign RelatedTransaction validation for a CashMovement
@@ -195,7 +195,7 @@ public void validate( AssignRelatedTransactionToCashMovementCommand command ) th
 		throw new ValidationException( "CashMovement", "validating AssignRelatedTransactionToCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null )
-	throw new ValidationException( "CashMovement", "validating identifier" );
+		throw new ValidationException( "CashMovement", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "CashMovement", "validating assignment" );
@@ -212,7 +212,7 @@ public void validate( UnAssignRelatedTransactionFromCashMovementCommand command 
 		throw new ValidationException( "CashMovement", "validating UnAssignRelatedTransactionFromCashMovementCommand" );
 
 	if ( command.getCashMovementId() == null ) }
-			throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedTransactionFromCashMovementCommand" );
+		throw new ValidationException( "CashMovement", "validating identity on UnAssignRelatedTransactionFromCashMovementCommand" );
 	}
 			
 		

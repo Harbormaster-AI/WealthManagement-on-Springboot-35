@@ -87,7 +87,7 @@ public class OrderAllocationValidator {
 		if ( orderAllocation == null )
 		throw new ValidationException( "OrderAllocation", "validating CreateOrderAllocationCommand" );
 		if ( orderAllocation.getAllocationPercent() == null )
-		throw new ValidationException( "OrderAllocation", "validating access on getAllocationPercent" );
+			throw new ValidationException( "OrderAllocation", "validating access on getAllocationPercent" );
 	}
 
 	/**
@@ -95,9 +95,9 @@ public class OrderAllocationValidator {
 	 */
 	public void validate( UpdateOrderAllocationCommand orderAllocation ) throws ValidationException {
 		if ( orderAllocation == null )
-		throw new ValidationException( "OrderAllocation", "validating UpdateOrderAllocationCommand" );
+			throw new ValidationException( "OrderAllocation", "validating UpdateOrderAllocationCommand" );
 		if ( orderAllocation.getAllocationPercent() == null )
-		throw new ValidationException( "OrderAllocation", "validating method getAllocationPercent" );
+			throw new ValidationException( "OrderAllocation", "validating method getAllocationPercent" );
 }
 
 /**
@@ -105,10 +105,10 @@ public class OrderAllocationValidator {
  */
 public void validate( DeleteOrderAllocationCommand orderAllocation ) throws ValidationException {
 	if ( orderAllocation == null )
-	throw new ValidationException( "OrderAllocation", "validating DeleteOrderAllocationCommand" );
+		throw new ValidationException( "OrderAllocation", "validating DeleteOrderAllocationCommand" );
 
 	if ( orderAllocation.getAllocationPercent() == null )
-	throw new ValidationException( "OrderAllocation", "validating getAllocationPercent" );
+		throw new ValidationException( "OrderAllocation", "validating getAllocationPercent" );
 }
 
 /**
@@ -129,7 +129,7 @@ public void validate( AssignOrderToOrderAllocationCommand command ) throws Valid
 		throw new ValidationException( "OrderAllocation", "validating AssignOrderToOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null )
-	throw new ValidationException( "OrderAllocation", "validating identifier" );
+		throw new ValidationException( "OrderAllocation", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "OrderAllocation", "validating assignment" );
@@ -146,7 +146,7 @@ public void validate( UnAssignOrderFromOrderAllocationCommand command ) throws V
 		throw new ValidationException( "OrderAllocation", "validating UnAssignOrderFromOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null ) }
-			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignOrderFromOrderAllocationCommand" );
+		throw new ValidationException( "OrderAllocation", "validating identity on UnAssignOrderFromOrderAllocationCommand" );
 	}
 			/**
  * handles assign Account validation for a OrderAllocation
@@ -158,7 +158,7 @@ public void validate( AssignAccountToOrderAllocationCommand command ) throws Val
 		throw new ValidationException( "OrderAllocation", "validating AssignAccountToOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null )
-	throw new ValidationException( "OrderAllocation", "validating identifier" );
+		throw new ValidationException( "OrderAllocation", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "OrderAllocation", "validating assignment" );
@@ -175,7 +175,7 @@ public void validate( UnAssignAccountFromOrderAllocationCommand command ) throws
 		throw new ValidationException( "OrderAllocation", "validating UnAssignAccountFromOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null ) }
-			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignAccountFromOrderAllocationCommand" );
+		throw new ValidationException( "OrderAllocation", "validating identity on UnAssignAccountFromOrderAllocationCommand" );
 	}
 			/**
  * handles assign Portfolio validation for a OrderAllocation
@@ -187,7 +187,7 @@ public void validate( AssignPortfolioToOrderAllocationCommand command ) throws V
 		throw new ValidationException( "OrderAllocation", "validating AssignPortfolioToOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null )
-	throw new ValidationException( "OrderAllocation", "validating identifier" );
+		throw new ValidationException( "OrderAllocation", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "OrderAllocation", "validating assignment" );
@@ -204,7 +204,7 @@ public void validate( UnAssignPortfolioFromOrderAllocationCommand command ) thro
 		throw new ValidationException( "OrderAllocation", "validating UnAssignPortfolioFromOrderAllocationCommand" );
 
 	if ( command.getOrderAllocationId() == null ) }
-			throw new ValidationException( "OrderAllocation", "validating identity on UnAssignPortfolioFromOrderAllocationCommand" );
+		throw new ValidationException( "OrderAllocation", "validating identity on UnAssignPortfolioFromOrderAllocationCommand" );
 	}
 			
 		

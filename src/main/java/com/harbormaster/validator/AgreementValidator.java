@@ -89,7 +89,7 @@ public class AgreementValidator {
 		if ( agreement == null )
 		throw new ValidationException( "Agreement", "validating CreateAgreementCommand" );
 		if ( agreement.getEffectiveDate() == null )
-		throw new ValidationException( "Agreement", "validating access on getEffectiveDate" );
+			throw new ValidationException( "Agreement", "validating access on getEffectiveDate" );
 	}
 
 	/**
@@ -97,9 +97,9 @@ public class AgreementValidator {
 	 */
 	public void validate( UpdateAgreementCommand agreement ) throws ValidationException {
 		if ( agreement == null )
-		throw new ValidationException( "Agreement", "validating UpdateAgreementCommand" );
+			throw new ValidationException( "Agreement", "validating UpdateAgreementCommand" );
 		if ( agreement.getEffectiveDate() == null )
-		throw new ValidationException( "Agreement", "validating method getEffectiveDate" );
+			throw new ValidationException( "Agreement", "validating method getEffectiveDate" );
 }
 
 /**
@@ -107,10 +107,10 @@ public class AgreementValidator {
  */
 public void validate( DeleteAgreementCommand agreement ) throws ValidationException {
 	if ( agreement == null )
-	throw new ValidationException( "Agreement", "validating DeleteAgreementCommand" );
+		throw new ValidationException( "Agreement", "validating DeleteAgreementCommand" );
 
 	if ( agreement.getEffectiveDate() == null )
-	throw new ValidationException( "Agreement", "validating getEffectiveDate" );
+		throw new ValidationException( "Agreement", "validating getEffectiveDate" );
 }
 
 /**
@@ -131,7 +131,7 @@ public void validate( AssignClientToAgreementCommand command ) throws Validation
 		throw new ValidationException( "Agreement", "validating AssignClientToAgreementCommand" );
 
 	if ( command.getAgreementId() == null )
-	throw new ValidationException( "Agreement", "validating identifier" );
+		throw new ValidationException( "Agreement", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Agreement", "validating assignment" );
@@ -148,7 +148,7 @@ public void validate( UnAssignClientFromAgreementCommand command ) throws Valida
 		throw new ValidationException( "Agreement", "validating UnAssignClientFromAgreementCommand" );
 
 	if ( command.getAgreementId() == null ) }
-			throw new ValidationException( "Agreement", "validating identity on UnAssignClientFromAgreementCommand" );
+		throw new ValidationException( "Agreement", "validating identity on UnAssignClientFromAgreementCommand" );
 	}
 			/**
  * handles assign Account validation for a Agreement
@@ -160,7 +160,7 @@ public void validate( AssignAccountToAgreementCommand command ) throws Validatio
 		throw new ValidationException( "Agreement", "validating AssignAccountToAgreementCommand" );
 
 	if ( command.getAgreementId() == null )
-	throw new ValidationException( "Agreement", "validating identifier" );
+		throw new ValidationException( "Agreement", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Agreement", "validating assignment" );
@@ -177,7 +177,7 @@ public void validate( UnAssignAccountFromAgreementCommand command ) throws Valid
 		throw new ValidationException( "Agreement", "validating UnAssignAccountFromAgreementCommand" );
 
 	if ( command.getAgreementId() == null ) }
-			throw new ValidationException( "Agreement", "validating identity on UnAssignAccountFromAgreementCommand" );
+		throw new ValidationException( "Agreement", "validating identity on UnAssignAccountFromAgreementCommand" );
 	}
 			
 		/**
@@ -190,7 +190,7 @@ public void validate( AssignDocumentsToAgreementCommand command ) throws Validat
 		throw new ValidationException( "Agreement", "validating AssignDocumentsToAgreementCommand" );
 
 	if ( command.getAgreementId() == null )
-	throw new ValidationException( "Agreement", "validating identity on AssignDocumentsToAgreementCommand" );
+		throw new ValidationException( "Agreement", "validating identity on AssignDocumentsToAgreementCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Agreement", "validating addTo attribute on AssignDocumentsToAgreementCommand" );
@@ -207,13 +207,13 @@ public void validate( RemoveDocumentsFromAgreementCommand ) throws ValidationExc
 		throw new ValidationException("Agreement", "validating RemoveDocumentsFromAgreementCommand" );
 
 	if( command.getAgreementId() == null )
-		throw new ValidationException"Agreement", "validating id on RemoveDocumentsFromAgreementCommand" );
+		throw new ValidationException("Agreement", "validating id on RemoveDocumentsFromAgreementCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Agreement", "validating remove from RemoveDocumentsFromAgreementCommand" );
+		throw new ValidationException("Agreement", "validating remove from RemoveDocumentsFromAgreementCommand" );
 
 	if( command.getRemoveFrom().getDocumentId() == null )
-		throw new ValidationException"Agreement", "validating id on remove from RemoveDocumentsFromAgreementCommand" );
+		throw new ValidationException("Agreement", "validating id on remove from RemoveDocumentsFromAgreementCommand" );
 }
 	
 

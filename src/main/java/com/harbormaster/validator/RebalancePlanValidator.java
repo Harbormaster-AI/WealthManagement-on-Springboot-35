@@ -89,7 +89,7 @@ public class RebalancePlanValidator {
 		if ( rebalancePlan == null )
 		throw new ValidationException( "RebalancePlan", "validating CreateRebalancePlanCommand" );
 		if ( rebalancePlan.getPlanDate() == null )
-		throw new ValidationException( "RebalancePlan", "validating access on getPlanDate" );
+			throw new ValidationException( "RebalancePlan", "validating access on getPlanDate" );
 	}
 
 	/**
@@ -97,9 +97,9 @@ public class RebalancePlanValidator {
 	 */
 	public void validate( UpdateRebalancePlanCommand rebalancePlan ) throws ValidationException {
 		if ( rebalancePlan == null )
-		throw new ValidationException( "RebalancePlan", "validating UpdateRebalancePlanCommand" );
+			throw new ValidationException( "RebalancePlan", "validating UpdateRebalancePlanCommand" );
 		if ( rebalancePlan.getPlanDate() == null )
-		throw new ValidationException( "RebalancePlan", "validating method getPlanDate" );
+			throw new ValidationException( "RebalancePlan", "validating method getPlanDate" );
 }
 
 /**
@@ -107,10 +107,10 @@ public class RebalancePlanValidator {
  */
 public void validate( DeleteRebalancePlanCommand rebalancePlan ) throws ValidationException {
 	if ( rebalancePlan == null )
-	throw new ValidationException( "RebalancePlan", "validating DeleteRebalancePlanCommand" );
+		throw new ValidationException( "RebalancePlan", "validating DeleteRebalancePlanCommand" );
 
 	if ( rebalancePlan.getPlanDate() == null )
-	throw new ValidationException( "RebalancePlan", "validating getPlanDate" );
+		throw new ValidationException( "RebalancePlan", "validating getPlanDate" );
 }
 
 /**
@@ -131,7 +131,7 @@ public void validate( AssignPortfolioToRebalancePlanCommand command ) throws Val
 		throw new ValidationException( "RebalancePlan", "validating AssignPortfolioToRebalancePlanCommand" );
 
 	if ( command.getRebalancePlanId() == null )
-	throw new ValidationException( "RebalancePlan", "validating identifier" );
+		throw new ValidationException( "RebalancePlan", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "RebalancePlan", "validating assignment" );
@@ -148,7 +148,7 @@ public void validate( UnAssignPortfolioFromRebalancePlanCommand command ) throws
 		throw new ValidationException( "RebalancePlan", "validating UnAssignPortfolioFromRebalancePlanCommand" );
 
 	if ( command.getRebalancePlanId() == null ) }
-			throw new ValidationException( "RebalancePlan", "validating identity on UnAssignPortfolioFromRebalancePlanCommand" );
+		throw new ValidationException( "RebalancePlan", "validating identity on UnAssignPortfolioFromRebalancePlanCommand" );
 	}
 			/**
  * handles assign Advisor validation for a RebalancePlan
@@ -160,7 +160,7 @@ public void validate( AssignAdvisorToRebalancePlanCommand command ) throws Valid
 		throw new ValidationException( "RebalancePlan", "validating AssignAdvisorToRebalancePlanCommand" );
 
 	if ( command.getRebalancePlanId() == null )
-	throw new ValidationException( "RebalancePlan", "validating identifier" );
+		throw new ValidationException( "RebalancePlan", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "RebalancePlan", "validating assignment" );
@@ -177,7 +177,7 @@ public void validate( UnAssignAdvisorFromRebalancePlanCommand command ) throws V
 		throw new ValidationException( "RebalancePlan", "validating UnAssignAdvisorFromRebalancePlanCommand" );
 
 	if ( command.getRebalancePlanId() == null ) }
-			throw new ValidationException( "RebalancePlan", "validating identity on UnAssignAdvisorFromRebalancePlanCommand" );
+		throw new ValidationException( "RebalancePlan", "validating identity on UnAssignAdvisorFromRebalancePlanCommand" );
 	}
 			
 		/**
@@ -190,7 +190,7 @@ public void validate( AssignProposedOrdersToRebalancePlanCommand command ) throw
 		throw new ValidationException( "RebalancePlan", "validating AssignProposedOrdersToRebalancePlanCommand" );
 
 	if ( command.getRebalancePlanId() == null )
-	throw new ValidationException( "RebalancePlan", "validating identity on AssignProposedOrdersToRebalancePlanCommand" );
+		throw new ValidationException( "RebalancePlan", "validating identity on AssignProposedOrdersToRebalancePlanCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "RebalancePlan", "validating addTo attribute on AssignProposedOrdersToRebalancePlanCommand" );
@@ -207,13 +207,13 @@ public void validate( RemoveProposedOrdersFromRebalancePlanCommand ) throws Vali
 		throw new ValidationException("RebalancePlan", "validating RemoveProposedOrdersFromRebalancePlanCommand" );
 
 	if( command.getRebalancePlanId() == null )
-		throw new ValidationException"RebalancePlan", "validating id on RemoveProposedOrdersFromRebalancePlanCommand" );
+		throw new ValidationException("RebalancePlan", "validating id on RemoveProposedOrdersFromRebalancePlanCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"RebalancePlan", "validating remove from RemoveProposedOrdersFromRebalancePlanCommand" );
+		throw new ValidationException("RebalancePlan", "validating remove from RemoveProposedOrdersFromRebalancePlanCommand" );
 
 	if( command.getRemoveFrom().getOrderId() == null )
-		throw new ValidationException"RebalancePlan", "validating id on remove from RemoveProposedOrdersFromRebalancePlanCommand" );
+		throw new ValidationException("RebalancePlan", "validating id on remove from RemoveProposedOrdersFromRebalancePlanCommand" );
 }
 	
 

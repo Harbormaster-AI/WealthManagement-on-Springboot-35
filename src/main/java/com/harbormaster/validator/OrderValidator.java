@@ -95,11 +95,11 @@ public class OrderValidator {
 		if ( order == null )
 		throw new ValidationException( "Order", "validating CreateOrderCommand" );
 		if ( order.getOrderNumber() == null )
-		throw new ValidationException( "Order", "validating access on getOrderNumber" );
+			throw new ValidationException( "Order", "validating access on getOrderNumber" );
 		if ( order.getQuantity() == null )
-		throw new ValidationException( "Order", "validating access on getQuantity" );
+			throw new ValidationException( "Order", "validating access on getQuantity" );
 		if ( order.getLimitPrice() == null )
-		throw new ValidationException( "Order", "validating access on getLimitPrice" );
+			throw new ValidationException( "Order", "validating access on getLimitPrice" );
 	}
 
 	/**
@@ -107,13 +107,13 @@ public class OrderValidator {
 	 */
 	public void validate( UpdateOrderCommand order ) throws ValidationException {
 		if ( order == null )
-		throw new ValidationException( "Order", "validating UpdateOrderCommand" );
+			throw new ValidationException( "Order", "validating UpdateOrderCommand" );
 		if ( order.getOrderNumber() == null )
-		throw new ValidationException( "Order", "validating method getOrderNumber" );
+			throw new ValidationException( "Order", "validating method getOrderNumber" );
 		if ( order.getQuantity() == null )
-		throw new ValidationException( "Order", "validating method getQuantity" );
+			throw new ValidationException( "Order", "validating method getQuantity" );
 		if ( order.getLimitPrice() == null )
-		throw new ValidationException( "Order", "validating method getLimitPrice" );
+			throw new ValidationException( "Order", "validating method getLimitPrice" );
 }
 
 /**
@@ -121,10 +121,10 @@ public class OrderValidator {
  */
 public void validate( DeleteOrderCommand order ) throws ValidationException {
 	if ( order == null )
-	throw new ValidationException( "Order", "validating DeleteOrderCommand" );
+		throw new ValidationException( "Order", "validating DeleteOrderCommand" );
 
 	if ( order.getLimitPrice() == null )
-	throw new ValidationException( "Order", "validating getLimitPrice" );
+		throw new ValidationException( "Order", "validating getLimitPrice" );
 }
 
 /**
@@ -145,7 +145,7 @@ public void validate( AssignAccountToOrderCommand command ) throws ValidationExc
 		throw new ValidationException( "Order", "validating AssignAccountToOrderCommand" );
 
 	if ( command.getOrderId() == null )
-	throw new ValidationException( "Order", "validating identifier" );
+		throw new ValidationException( "Order", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Order", "validating assignment" );
@@ -162,7 +162,7 @@ public void validate( UnAssignAccountFromOrderCommand command ) throws Validatio
 		throw new ValidationException( "Order", "validating UnAssignAccountFromOrderCommand" );
 
 	if ( command.getOrderId() == null ) }
-			throw new ValidationException( "Order", "validating identity on UnAssignAccountFromOrderCommand" );
+		throw new ValidationException( "Order", "validating identity on UnAssignAccountFromOrderCommand" );
 	}
 			/**
  * handles assign Security validation for a Order
@@ -174,7 +174,7 @@ public void validate( AssignSecurityToOrderCommand command ) throws ValidationEx
 		throw new ValidationException( "Order", "validating AssignSecurityToOrderCommand" );
 
 	if ( command.getOrderId() == null )
-	throw new ValidationException( "Order", "validating identifier" );
+		throw new ValidationException( "Order", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Order", "validating assignment" );
@@ -191,7 +191,7 @@ public void validate( UnAssignSecurityFromOrderCommand command ) throws Validati
 		throw new ValidationException( "Order", "validating UnAssignSecurityFromOrderCommand" );
 
 	if ( command.getOrderId() == null ) }
-			throw new ValidationException( "Order", "validating identity on UnAssignSecurityFromOrderCommand" );
+		throw new ValidationException( "Order", "validating identity on UnAssignSecurityFromOrderCommand" );
 	}
 			/**
  * handles assign Advisor validation for a Order
@@ -203,7 +203,7 @@ public void validate( AssignAdvisorToOrderCommand command ) throws ValidationExc
 		throw new ValidationException( "Order", "validating AssignAdvisorToOrderCommand" );
 
 	if ( command.getOrderId() == null )
-	throw new ValidationException( "Order", "validating identifier" );
+		throw new ValidationException( "Order", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Order", "validating assignment" );
@@ -220,7 +220,7 @@ public void validate( UnAssignAdvisorFromOrderCommand command ) throws Validatio
 		throw new ValidationException( "Order", "validating UnAssignAdvisorFromOrderCommand" );
 
 	if ( command.getOrderId() == null ) }
-			throw new ValidationException( "Order", "validating identity on UnAssignAdvisorFromOrderCommand" );
+		throw new ValidationException( "Order", "validating identity on UnAssignAdvisorFromOrderCommand" );
 	}
 			
 		/**
@@ -233,7 +233,7 @@ public void validate( AssignAllocationsToOrderCommand command ) throws Validatio
 		throw new ValidationException( "Order", "validating AssignAllocationsToOrderCommand" );
 
 	if ( command.getOrderId() == null )
-	throw new ValidationException( "Order", "validating identity on AssignAllocationsToOrderCommand" );
+		throw new ValidationException( "Order", "validating identity on AssignAllocationsToOrderCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Order", "validating addTo attribute on AssignAllocationsToOrderCommand" );
@@ -250,13 +250,13 @@ public void validate( RemoveAllocationsFromOrderCommand ) throws ValidationExcep
 		throw new ValidationException("Order", "validating RemoveAllocationsFromOrderCommand" );
 
 	if( command.getOrderId() == null )
-		throw new ValidationException"Order", "validating id on RemoveAllocationsFromOrderCommand" );
+		throw new ValidationException("Order", "validating id on RemoveAllocationsFromOrderCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Order", "validating remove from RemoveAllocationsFromOrderCommand" );
+		throw new ValidationException("Order", "validating remove from RemoveAllocationsFromOrderCommand" );
 
 	if( command.getRemoveFrom().getOrderAllocationId() == null )
-		throw new ValidationException"Order", "validating id on remove from RemoveAllocationsFromOrderCommand" );
+		throw new ValidationException("Order", "validating id on remove from RemoveAllocationsFromOrderCommand" );
 }
 	
 /**
@@ -269,7 +269,7 @@ public void validate( AssignTradesToOrderCommand command ) throws ValidationExce
 		throw new ValidationException( "Order", "validating AssignTradesToOrderCommand" );
 
 	if ( command.getOrderId() == null )
-	throw new ValidationException( "Order", "validating identity on AssignTradesToOrderCommand" );
+		throw new ValidationException( "Order", "validating identity on AssignTradesToOrderCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Order", "validating addTo attribute on AssignTradesToOrderCommand" );
@@ -286,13 +286,13 @@ public void validate( RemoveTradesFromOrderCommand ) throws ValidationException 
 		throw new ValidationException("Order", "validating RemoveTradesFromOrderCommand" );
 
 	if( command.getOrderId() == null )
-		throw new ValidationException"Order", "validating id on RemoveTradesFromOrderCommand" );
+		throw new ValidationException("Order", "validating id on RemoveTradesFromOrderCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Order", "validating remove from RemoveTradesFromOrderCommand" );
+		throw new ValidationException("Order", "validating remove from RemoveTradesFromOrderCommand" );
 
 	if( command.getRemoveFrom().getTradeId() == null )
-		throw new ValidationException"Order", "validating id on remove from RemoveTradesFromOrderCommand" );
+		throw new ValidationException("Order", "validating id on remove from RemoveTradesFromOrderCommand" );
 }
 	
 

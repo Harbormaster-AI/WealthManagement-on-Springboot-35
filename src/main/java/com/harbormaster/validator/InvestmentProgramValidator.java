@@ -89,11 +89,11 @@ public class InvestmentProgramValidator {
 		if ( investmentProgram == null )
 		throw new ValidationException( "InvestmentProgram", "validating CreateInvestmentProgramCommand" );
 		if ( investmentProgram.getName() == null )
-		throw new ValidationException( "InvestmentProgram", "validating access on getName" );
+			throw new ValidationException( "InvestmentProgram", "validating access on getName" );
 		if ( investmentProgram.getDescription() == null )
-		throw new ValidationException( "InvestmentProgram", "validating access on getDescription" );
+			throw new ValidationException( "InvestmentProgram", "validating access on getDescription" );
 		if ( investmentProgram.getProgramType() == null )
-		throw new ValidationException( "InvestmentProgram", "validating access on getProgramType" );
+			throw new ValidationException( "InvestmentProgram", "validating access on getProgramType" );
 	}
 
 	/**
@@ -101,13 +101,13 @@ public class InvestmentProgramValidator {
 	 */
 	public void validate( UpdateInvestmentProgramCommand investmentProgram ) throws ValidationException {
 		if ( investmentProgram == null )
-		throw new ValidationException( "InvestmentProgram", "validating UpdateInvestmentProgramCommand" );
+			throw new ValidationException( "InvestmentProgram", "validating UpdateInvestmentProgramCommand" );
 		if ( investmentProgram.getName() == null )
-		throw new ValidationException( "InvestmentProgram", "validating method getName" );
+			throw new ValidationException( "InvestmentProgram", "validating method getName" );
 		if ( investmentProgram.getDescription() == null )
-		throw new ValidationException( "InvestmentProgram", "validating method getDescription" );
+			throw new ValidationException( "InvestmentProgram", "validating method getDescription" );
 		if ( investmentProgram.getProgramType() == null )
-		throw new ValidationException( "InvestmentProgram", "validating method getProgramType" );
+			throw new ValidationException( "InvestmentProgram", "validating method getProgramType" );
 }
 
 /**
@@ -115,10 +115,10 @@ public class InvestmentProgramValidator {
  */
 public void validate( DeleteInvestmentProgramCommand investmentProgram ) throws ValidationException {
 	if ( investmentProgram == null )
-	throw new ValidationException( "InvestmentProgram", "validating DeleteInvestmentProgramCommand" );
+		throw new ValidationException( "InvestmentProgram", "validating DeleteInvestmentProgramCommand" );
 
 	if ( investmentProgram.getProgramType() == null )
-	throw new ValidationException( "InvestmentProgram", "validating getProgramType" );
+		throw new ValidationException( "InvestmentProgram", "validating getProgramType" );
 }
 
 /**
@@ -140,7 +140,7 @@ public void validate( AssignModelPortfoliosToInvestmentProgramCommand command ) 
 		throw new ValidationException( "InvestmentProgram", "validating AssignModelPortfoliosToInvestmentProgramCommand" );
 
 	if ( command.getInvestmentProgramId() == null )
-	throw new ValidationException( "InvestmentProgram", "validating identity on AssignModelPortfoliosToInvestmentProgramCommand" );
+		throw new ValidationException( "InvestmentProgram", "validating identity on AssignModelPortfoliosToInvestmentProgramCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "InvestmentProgram", "validating addTo attribute on AssignModelPortfoliosToInvestmentProgramCommand" );
@@ -157,13 +157,13 @@ public void validate( RemoveModelPortfoliosFromInvestmentProgramCommand ) throws
 		throw new ValidationException("InvestmentProgram", "validating RemoveModelPortfoliosFromInvestmentProgramCommand" );
 
 	if( command.getInvestmentProgramId() == null )
-		throw new ValidationException"InvestmentProgram", "validating id on RemoveModelPortfoliosFromInvestmentProgramCommand" );
+		throw new ValidationException("InvestmentProgram", "validating id on RemoveModelPortfoliosFromInvestmentProgramCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"InvestmentProgram", "validating remove from RemoveModelPortfoliosFromInvestmentProgramCommand" );
+		throw new ValidationException("InvestmentProgram", "validating remove from RemoveModelPortfoliosFromInvestmentProgramCommand" );
 
 	if( command.getRemoveFrom().getModelPortfolioId() == null )
-		throw new ValidationException"InvestmentProgram", "validating id on remove from RemoveModelPortfoliosFromInvestmentProgramCommand" );
+		throw new ValidationException("InvestmentProgram", "validating id on remove from RemoveModelPortfoliosFromInvestmentProgramCommand" );
 }
 	
 /**
@@ -176,7 +176,7 @@ public void validate( AssignFeeSchedulesToInvestmentProgramCommand command ) thr
 		throw new ValidationException( "InvestmentProgram", "validating AssignFeeSchedulesToInvestmentProgramCommand" );
 
 	if ( command.getInvestmentProgramId() == null )
-	throw new ValidationException( "InvestmentProgram", "validating identity on AssignFeeSchedulesToInvestmentProgramCommand" );
+		throw new ValidationException( "InvestmentProgram", "validating identity on AssignFeeSchedulesToInvestmentProgramCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "InvestmentProgram", "validating addTo attribute on AssignFeeSchedulesToInvestmentProgramCommand" );
@@ -193,13 +193,13 @@ public void validate( RemoveFeeSchedulesFromInvestmentProgramCommand ) throws Va
 		throw new ValidationException("InvestmentProgram", "validating RemoveFeeSchedulesFromInvestmentProgramCommand" );
 
 	if( command.getInvestmentProgramId() == null )
-		throw new ValidationException"InvestmentProgram", "validating id on RemoveFeeSchedulesFromInvestmentProgramCommand" );
+		throw new ValidationException("InvestmentProgram", "validating id on RemoveFeeSchedulesFromInvestmentProgramCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"InvestmentProgram", "validating remove from RemoveFeeSchedulesFromInvestmentProgramCommand" );
+		throw new ValidationException("InvestmentProgram", "validating remove from RemoveFeeSchedulesFromInvestmentProgramCommand" );
 
 	if( command.getRemoveFrom().getFeeScheduleId() == null )
-		throw new ValidationException"InvestmentProgram", "validating id on remove from RemoveFeeSchedulesFromInvestmentProgramCommand" );
+		throw new ValidationException("InvestmentProgram", "validating id on remove from RemoveFeeSchedulesFromInvestmentProgramCommand" );
 }
 	
 

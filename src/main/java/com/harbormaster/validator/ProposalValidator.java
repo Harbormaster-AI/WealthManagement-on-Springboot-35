@@ -89,11 +89,11 @@ public class ProposalValidator {
 		if ( proposal == null )
 		throw new ValidationException( "Proposal", "validating CreateProposalCommand" );
 		if ( proposal.getProposalNumber() == null )
-		throw new ValidationException( "Proposal", "validating access on getProposalNumber" );
+			throw new ValidationException( "Proposal", "validating access on getProposalNumber" );
 		if ( proposal.getCreatedDate() == null )
-		throw new ValidationException( "Proposal", "validating access on getCreatedDate" );
+			throw new ValidationException( "Proposal", "validating access on getCreatedDate" );
 		if ( proposal.getRecommendationText() == null )
-		throw new ValidationException( "Proposal", "validating access on getRecommendationText" );
+			throw new ValidationException( "Proposal", "validating access on getRecommendationText" );
 	}
 
 	/**
@@ -101,13 +101,13 @@ public class ProposalValidator {
 	 */
 	public void validate( UpdateProposalCommand proposal ) throws ValidationException {
 		if ( proposal == null )
-		throw new ValidationException( "Proposal", "validating UpdateProposalCommand" );
+			throw new ValidationException( "Proposal", "validating UpdateProposalCommand" );
 		if ( proposal.getProposalNumber() == null )
-		throw new ValidationException( "Proposal", "validating method getProposalNumber" );
+			throw new ValidationException( "Proposal", "validating method getProposalNumber" );
 		if ( proposal.getCreatedDate() == null )
-		throw new ValidationException( "Proposal", "validating method getCreatedDate" );
+			throw new ValidationException( "Proposal", "validating method getCreatedDate" );
 		if ( proposal.getRecommendationText() == null )
-		throw new ValidationException( "Proposal", "validating method getRecommendationText" );
+			throw new ValidationException( "Proposal", "validating method getRecommendationText" );
 }
 
 /**
@@ -115,10 +115,10 @@ public class ProposalValidator {
  */
 public void validate( DeleteProposalCommand proposal ) throws ValidationException {
 	if ( proposal == null )
-	throw new ValidationException( "Proposal", "validating DeleteProposalCommand" );
+		throw new ValidationException( "Proposal", "validating DeleteProposalCommand" );
 
 	if ( proposal.getRecommendationText() == null )
-	throw new ValidationException( "Proposal", "validating getRecommendationText" );
+		throw new ValidationException( "Proposal", "validating getRecommendationText" );
 }
 
 /**
@@ -139,7 +139,7 @@ public void validate( AssignHouseholdToProposalCommand command ) throws Validati
 		throw new ValidationException( "Proposal", "validating AssignHouseholdToProposalCommand" );
 
 	if ( command.getProposalId() == null )
-	throw new ValidationException( "Proposal", "validating identifier" );
+		throw new ValidationException( "Proposal", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Proposal", "validating assignment" );
@@ -156,7 +156,7 @@ public void validate( UnAssignHouseholdFromProposalCommand command ) throws Vali
 		throw new ValidationException( "Proposal", "validating UnAssignHouseholdFromProposalCommand" );
 
 	if ( command.getProposalId() == null ) }
-			throw new ValidationException( "Proposal", "validating identity on UnAssignHouseholdFromProposalCommand" );
+		throw new ValidationException( "Proposal", "validating identity on UnAssignHouseholdFromProposalCommand" );
 	}
 			/**
  * handles assign Advisor validation for a Proposal
@@ -168,7 +168,7 @@ public void validate( AssignAdvisorToProposalCommand command ) throws Validation
 		throw new ValidationException( "Proposal", "validating AssignAdvisorToProposalCommand" );
 
 	if ( command.getProposalId() == null )
-	throw new ValidationException( "Proposal", "validating identifier" );
+		throw new ValidationException( "Proposal", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Proposal", "validating assignment" );
@@ -185,7 +185,7 @@ public void validate( UnAssignAdvisorFromProposalCommand command ) throws Valida
 		throw new ValidationException( "Proposal", "validating UnAssignAdvisorFromProposalCommand" );
 
 	if ( command.getProposalId() == null ) }
-			throw new ValidationException( "Proposal", "validating identity on UnAssignAdvisorFromProposalCommand" );
+		throw new ValidationException( "Proposal", "validating identity on UnAssignAdvisorFromProposalCommand" );
 	}
 			/**
  * handles assign ModelPortfolio validation for a Proposal
@@ -197,7 +197,7 @@ public void validate( AssignModelPortfolioToProposalCommand command ) throws Val
 		throw new ValidationException( "Proposal", "validating AssignModelPortfolioToProposalCommand" );
 
 	if ( command.getProposalId() == null )
-	throw new ValidationException( "Proposal", "validating identifier" );
+		throw new ValidationException( "Proposal", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Proposal", "validating assignment" );
@@ -214,7 +214,7 @@ public void validate( UnAssignModelPortfolioFromProposalCommand command ) throws
 		throw new ValidationException( "Proposal", "validating UnAssignModelPortfolioFromProposalCommand" );
 
 	if ( command.getProposalId() == null ) }
-			throw new ValidationException( "Proposal", "validating identity on UnAssignModelPortfolioFromProposalCommand" );
+		throw new ValidationException( "Proposal", "validating identity on UnAssignModelPortfolioFromProposalCommand" );
 	}
 			/**
  * handles assign Account validation for a Proposal
@@ -226,7 +226,7 @@ public void validate( AssignAccountToProposalCommand command ) throws Validation
 		throw new ValidationException( "Proposal", "validating AssignAccountToProposalCommand" );
 
 	if ( command.getProposalId() == null )
-	throw new ValidationException( "Proposal", "validating identifier" );
+		throw new ValidationException( "Proposal", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Proposal", "validating assignment" );
@@ -243,7 +243,7 @@ public void validate( UnAssignAccountFromProposalCommand command ) throws Valida
 		throw new ValidationException( "Proposal", "validating UnAssignAccountFromProposalCommand" );
 
 	if ( command.getProposalId() == null ) }
-			throw new ValidationException( "Proposal", "validating identity on UnAssignAccountFromProposalCommand" );
+		throw new ValidationException( "Proposal", "validating identity on UnAssignAccountFromProposalCommand" );
 	}
 			
 		

@@ -99,7 +99,7 @@ public class HouseholdValidator {
 		if ( household == null )
 		throw new ValidationException( "Household", "validating CreateHouseholdCommand" );
 		if ( household.getName() == null )
-		throw new ValidationException( "Household", "validating access on getName" );
+			throw new ValidationException( "Household", "validating access on getName" );
 	}
 
 	/**
@@ -107,9 +107,9 @@ public class HouseholdValidator {
 	 */
 	public void validate( UpdateHouseholdCommand household ) throws ValidationException {
 		if ( household == null )
-		throw new ValidationException( "Household", "validating UpdateHouseholdCommand" );
+			throw new ValidationException( "Household", "validating UpdateHouseholdCommand" );
 		if ( household.getName() == null )
-		throw new ValidationException( "Household", "validating method getName" );
+			throw new ValidationException( "Household", "validating method getName" );
 }
 
 /**
@@ -117,10 +117,10 @@ public class HouseholdValidator {
  */
 public void validate( DeleteHouseholdCommand household ) throws ValidationException {
 	if ( household == null )
-	throw new ValidationException( "Household", "validating DeleteHouseholdCommand" );
+		throw new ValidationException( "Household", "validating DeleteHouseholdCommand" );
 
 	if ( household.getName() == null )
-	throw new ValidationException( "Household", "validating getName" );
+		throw new ValidationException( "Household", "validating getName" );
 }
 
 /**
@@ -141,7 +141,7 @@ public void validate( AssignPrimaryAdvisorToHouseholdCommand command ) throws Va
 		throw new ValidationException( "Household", "validating AssignPrimaryAdvisorToHouseholdCommand" );
 
 	if ( command.getHouseholdId() == null )
-	throw new ValidationException( "Household", "validating identifier" );
+		throw new ValidationException( "Household", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Household", "validating assignment" );
@@ -158,7 +158,7 @@ public void validate( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throw
 		throw new ValidationException( "Household", "validating UnAssignPrimaryAdvisorFromHouseholdCommand" );
 
 	if ( command.getHouseholdId() == null ) }
-			throw new ValidationException( "Household", "validating identity on UnAssignPrimaryAdvisorFromHouseholdCommand" );
+		throw new ValidationException( "Household", "validating identity on UnAssignPrimaryAdvisorFromHouseholdCommand" );
 	}
 			
 		/**
@@ -171,7 +171,7 @@ public void validate( AssignClientsToHouseholdCommand command ) throws Validatio
 		throw new ValidationException( "Household", "validating AssignClientsToHouseholdCommand" );
 
 	if ( command.getHouseholdId() == null )
-	throw new ValidationException( "Household", "validating identity on AssignClientsToHouseholdCommand" );
+		throw new ValidationException( "Household", "validating identity on AssignClientsToHouseholdCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Household", "validating addTo attribute on AssignClientsToHouseholdCommand" );
@@ -188,13 +188,13 @@ public void validate( RemoveClientsFromHouseholdCommand ) throws ValidationExcep
 		throw new ValidationException("Household", "validating RemoveClientsFromHouseholdCommand" );
 
 	if( command.getHouseholdId() == null )
-		throw new ValidationException"Household", "validating id on RemoveClientsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating id on RemoveClientsFromHouseholdCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Household", "validating remove from RemoveClientsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating remove from RemoveClientsFromHouseholdCommand" );
 
 	if( command.getRemoveFrom().getClientId() == null )
-		throw new ValidationException"Household", "validating id on remove from RemoveClientsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating id on remove from RemoveClientsFromHouseholdCommand" );
 }
 	
 /**
@@ -207,7 +207,7 @@ public void validate( AssignPortfoliosToHouseholdCommand command ) throws Valida
 		throw new ValidationException( "Household", "validating AssignPortfoliosToHouseholdCommand" );
 
 	if ( command.getHouseholdId() == null )
-	throw new ValidationException( "Household", "validating identity on AssignPortfoliosToHouseholdCommand" );
+		throw new ValidationException( "Household", "validating identity on AssignPortfoliosToHouseholdCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Household", "validating addTo attribute on AssignPortfoliosToHouseholdCommand" );
@@ -224,13 +224,13 @@ public void validate( RemovePortfoliosFromHouseholdCommand ) throws ValidationEx
 		throw new ValidationException("Household", "validating RemovePortfoliosFromHouseholdCommand" );
 
 	if( command.getHouseholdId() == null )
-		throw new ValidationException"Household", "validating id on RemovePortfoliosFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating id on RemovePortfoliosFromHouseholdCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Household", "validating remove from RemovePortfoliosFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating remove from RemovePortfoliosFromHouseholdCommand" );
 
 	if( command.getRemoveFrom().getPortfolioId() == null )
-		throw new ValidationException"Household", "validating id on remove from RemovePortfoliosFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating id on remove from RemovePortfoliosFromHouseholdCommand" );
 }
 	
 /**
@@ -243,7 +243,7 @@ public void validate( AssignGoalsToHouseholdCommand command ) throws ValidationE
 		throw new ValidationException( "Household", "validating AssignGoalsToHouseholdCommand" );
 
 	if ( command.getHouseholdId() == null )
-	throw new ValidationException( "Household", "validating identity on AssignGoalsToHouseholdCommand" );
+		throw new ValidationException( "Household", "validating identity on AssignGoalsToHouseholdCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Household", "validating addTo attribute on AssignGoalsToHouseholdCommand" );
@@ -260,13 +260,13 @@ public void validate( RemoveGoalsFromHouseholdCommand ) throws ValidationExcepti
 		throw new ValidationException("Household", "validating RemoveGoalsFromHouseholdCommand" );
 
 	if( command.getHouseholdId() == null )
-		throw new ValidationException"Household", "validating id on RemoveGoalsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating id on RemoveGoalsFromHouseholdCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Household", "validating remove from RemoveGoalsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating remove from RemoveGoalsFromHouseholdCommand" );
 
 	if( command.getRemoveFrom().getWealthGoalId() == null )
-		throw new ValidationException"Household", "validating id on remove from RemoveGoalsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating id on remove from RemoveGoalsFromHouseholdCommand" );
 }
 	
 /**
@@ -279,7 +279,7 @@ public void validate( AssignRiskAssessmentsToHouseholdCommand command ) throws V
 		throw new ValidationException( "Household", "validating AssignRiskAssessmentsToHouseholdCommand" );
 
 	if ( command.getHouseholdId() == null )
-	throw new ValidationException( "Household", "validating identity on AssignRiskAssessmentsToHouseholdCommand" );
+		throw new ValidationException( "Household", "validating identity on AssignRiskAssessmentsToHouseholdCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "Household", "validating addTo attribute on AssignRiskAssessmentsToHouseholdCommand" );
@@ -296,13 +296,13 @@ public void validate( RemoveRiskAssessmentsFromHouseholdCommand ) throws Validat
 		throw new ValidationException("Household", "validating RemoveRiskAssessmentsFromHouseholdCommand" );
 
 	if( command.getHouseholdId() == null )
-		throw new ValidationException"Household", "validating id on RemoveRiskAssessmentsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating id on RemoveRiskAssessmentsFromHouseholdCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Household", "validating remove from RemoveRiskAssessmentsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating remove from RemoveRiskAssessmentsFromHouseholdCommand" );
 
 	if( command.getRemoveFrom().getRiskAssessmentId() == null )
-		throw new ValidationException"Household", "validating id on remove from RemoveRiskAssessmentsFromHouseholdCommand" );
+		throw new ValidationException("Household", "validating id on remove from RemoveRiskAssessmentsFromHouseholdCommand" );
 }
 	
 

@@ -87,11 +87,11 @@ public class DocumentValidator {
 		if ( document == null )
 		throw new ValidationException( "Document", "validating CreateDocumentCommand" );
 		if ( document.getTitle() == null )
-		throw new ValidationException( "Document", "validating access on getTitle" );
+			throw new ValidationException( "Document", "validating access on getTitle" );
 		if ( document.getFileName() == null )
-		throw new ValidationException( "Document", "validating access on getFileName" );
+			throw new ValidationException( "Document", "validating access on getFileName" );
 		if ( document.getReceivedDate() == null )
-		throw new ValidationException( "Document", "validating access on getReceivedDate" );
+			throw new ValidationException( "Document", "validating access on getReceivedDate" );
 	}
 
 	/**
@@ -99,13 +99,13 @@ public class DocumentValidator {
 	 */
 	public void validate( UpdateDocumentCommand document ) throws ValidationException {
 		if ( document == null )
-		throw new ValidationException( "Document", "validating UpdateDocumentCommand" );
+			throw new ValidationException( "Document", "validating UpdateDocumentCommand" );
 		if ( document.getTitle() == null )
-		throw new ValidationException( "Document", "validating method getTitle" );
+			throw new ValidationException( "Document", "validating method getTitle" );
 		if ( document.getFileName() == null )
-		throw new ValidationException( "Document", "validating method getFileName" );
+			throw new ValidationException( "Document", "validating method getFileName" );
 		if ( document.getReceivedDate() == null )
-		throw new ValidationException( "Document", "validating method getReceivedDate" );
+			throw new ValidationException( "Document", "validating method getReceivedDate" );
 }
 
 /**
@@ -113,10 +113,10 @@ public class DocumentValidator {
  */
 public void validate( DeleteDocumentCommand document ) throws ValidationException {
 	if ( document == null )
-	throw new ValidationException( "Document", "validating DeleteDocumentCommand" );
+		throw new ValidationException( "Document", "validating DeleteDocumentCommand" );
 
 	if ( document.getReceivedDate() == null )
-	throw new ValidationException( "Document", "validating getReceivedDate" );
+		throw new ValidationException( "Document", "validating getReceivedDate" );
 }
 
 /**
@@ -137,7 +137,7 @@ public void validate( AssignClientToDocumentCommand command ) throws ValidationE
 		throw new ValidationException( "Document", "validating AssignClientToDocumentCommand" );
 
 	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier" );
+		throw new ValidationException( "Document", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Document", "validating assignment" );
@@ -154,7 +154,7 @@ public void validate( UnAssignClientFromDocumentCommand command ) throws Validat
 		throw new ValidationException( "Document", "validating UnAssignClientFromDocumentCommand" );
 
 	if ( command.getDocumentId() == null ) }
-			throw new ValidationException( "Document", "validating identity on UnAssignClientFromDocumentCommand" );
+		throw new ValidationException( "Document", "validating identity on UnAssignClientFromDocumentCommand" );
 	}
 			/**
  * handles assign KycRecord validation for a Document
@@ -166,7 +166,7 @@ public void validate( AssignKycRecordToDocumentCommand command ) throws Validati
 		throw new ValidationException( "Document", "validating AssignKycRecordToDocumentCommand" );
 
 	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier" );
+		throw new ValidationException( "Document", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Document", "validating assignment" );
@@ -183,7 +183,7 @@ public void validate( UnAssignKycRecordFromDocumentCommand command ) throws Vali
 		throw new ValidationException( "Document", "validating UnAssignKycRecordFromDocumentCommand" );
 
 	if ( command.getDocumentId() == null ) }
-			throw new ValidationException( "Document", "validating identity on UnAssignKycRecordFromDocumentCommand" );
+		throw new ValidationException( "Document", "validating identity on UnAssignKycRecordFromDocumentCommand" );
 	}
 			/**
  * handles assign Agreement validation for a Document
@@ -195,7 +195,7 @@ public void validate( AssignAgreementToDocumentCommand command ) throws Validati
 		throw new ValidationException( "Document", "validating AssignAgreementToDocumentCommand" );
 
 	if ( command.getDocumentId() == null )
-	throw new ValidationException( "Document", "validating identifier" );
+		throw new ValidationException( "Document", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "Document", "validating assignment" );
@@ -212,7 +212,7 @@ public void validate( UnAssignAgreementFromDocumentCommand command ) throws Vali
 		throw new ValidationException( "Document", "validating UnAssignAgreementFromDocumentCommand" );
 
 	if ( command.getDocumentId() == null ) }
-			throw new ValidationException( "Document", "validating identity on UnAssignAgreementFromDocumentCommand" );
+		throw new ValidationException( "Document", "validating identity on UnAssignAgreementFromDocumentCommand" );
 	}
 			
 		

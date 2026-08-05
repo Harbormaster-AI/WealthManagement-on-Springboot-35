@@ -89,9 +89,9 @@ public class ComplianceAlertValidator {
 		if ( complianceAlert == null )
 		throw new ValidationException( "ComplianceAlert", "validating CreateComplianceAlertCommand" );
 		if ( complianceAlert.getAlertDate() == null )
-		throw new ValidationException( "ComplianceAlert", "validating access on getAlertDate" );
+			throw new ValidationException( "ComplianceAlert", "validating access on getAlertDate" );
 		if ( complianceAlert.getMessage() == null )
-		throw new ValidationException( "ComplianceAlert", "validating access on getMessage" );
+			throw new ValidationException( "ComplianceAlert", "validating access on getMessage" );
 	}
 
 	/**
@@ -99,11 +99,11 @@ public class ComplianceAlertValidator {
 	 */
 	public void validate( UpdateComplianceAlertCommand complianceAlert ) throws ValidationException {
 		if ( complianceAlert == null )
-		throw new ValidationException( "ComplianceAlert", "validating UpdateComplianceAlertCommand" );
+			throw new ValidationException( "ComplianceAlert", "validating UpdateComplianceAlertCommand" );
 		if ( complianceAlert.getAlertDate() == null )
-		throw new ValidationException( "ComplianceAlert", "validating method getAlertDate" );
+			throw new ValidationException( "ComplianceAlert", "validating method getAlertDate" );
 		if ( complianceAlert.getMessage() == null )
-		throw new ValidationException( "ComplianceAlert", "validating method getMessage" );
+			throw new ValidationException( "ComplianceAlert", "validating method getMessage" );
 }
 
 /**
@@ -111,10 +111,10 @@ public class ComplianceAlertValidator {
  */
 public void validate( DeleteComplianceAlertCommand complianceAlert ) throws ValidationException {
 	if ( complianceAlert == null )
-	throw new ValidationException( "ComplianceAlert", "validating DeleteComplianceAlertCommand" );
+		throw new ValidationException( "ComplianceAlert", "validating DeleteComplianceAlertCommand" );
 
 	if ( complianceAlert.getMessage() == null )
-	throw new ValidationException( "ComplianceAlert", "validating getMessage" );
+		throw new ValidationException( "ComplianceAlert", "validating getMessage" );
 }
 
 /**
@@ -135,7 +135,7 @@ public void validate( AssignRuleToComplianceAlertCommand command ) throws Valida
 		throw new ValidationException( "ComplianceAlert", "validating AssignRuleToComplianceAlertCommand" );
 
 	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identifier" );
+		throw new ValidationException( "ComplianceAlert", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "ComplianceAlert", "validating assignment" );
@@ -152,7 +152,7 @@ public void validate( UnAssignRuleFromComplianceAlertCommand command ) throws Va
 		throw new ValidationException( "ComplianceAlert", "validating UnAssignRuleFromComplianceAlertCommand" );
 
 	if ( command.getComplianceAlertId() == null ) }
-			throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignRuleFromComplianceAlertCommand" );
+		throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignRuleFromComplianceAlertCommand" );
 	}
 			/**
  * handles assign Account validation for a ComplianceAlert
@@ -164,7 +164,7 @@ public void validate( AssignAccountToComplianceAlertCommand command ) throws Val
 		throw new ValidationException( "ComplianceAlert", "validating AssignAccountToComplianceAlertCommand" );
 
 	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identifier" );
+		throw new ValidationException( "ComplianceAlert", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "ComplianceAlert", "validating assignment" );
@@ -181,7 +181,7 @@ public void validate( UnAssignAccountFromComplianceAlertCommand command ) throws
 		throw new ValidationException( "ComplianceAlert", "validating UnAssignAccountFromComplianceAlertCommand" );
 
 	if ( command.getComplianceAlertId() == null ) }
-			throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAccountFromComplianceAlertCommand" );
+		throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAccountFromComplianceAlertCommand" );
 	}
 			/**
  * handles assign Order validation for a ComplianceAlert
@@ -193,7 +193,7 @@ public void validate( AssignOrderToComplianceAlertCommand command ) throws Valid
 		throw new ValidationException( "ComplianceAlert", "validating AssignOrderToComplianceAlertCommand" );
 
 	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identifier" );
+		throw new ValidationException( "ComplianceAlert", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "ComplianceAlert", "validating assignment" );
@@ -210,7 +210,7 @@ public void validate( UnAssignOrderFromComplianceAlertCommand command ) throws V
 		throw new ValidationException( "ComplianceAlert", "validating UnAssignOrderFromComplianceAlertCommand" );
 
 	if ( command.getComplianceAlertId() == null ) }
-			throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignOrderFromComplianceAlertCommand" );
+		throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignOrderFromComplianceAlertCommand" );
 	}
 			/**
  * handles assign Advisor validation for a ComplianceAlert
@@ -222,7 +222,7 @@ public void validate( AssignAdvisorToComplianceAlertCommand command ) throws Val
 		throw new ValidationException( "ComplianceAlert", "validating AssignAdvisorToComplianceAlertCommand" );
 
 	if ( command.getComplianceAlertId() == null )
-	throw new ValidationException( "ComplianceAlert", "validating identifier" );
+		throw new ValidationException( "ComplianceAlert", "validating identifier" );
 
 	if ( command.getAssignment() == null )
 		throw new ValidationException( "ComplianceAlert", "validating assignment" );
@@ -239,7 +239,7 @@ public void validate( UnAssignAdvisorFromComplianceAlertCommand command ) throws
 		throw new ValidationException( "ComplianceAlert", "validating UnAssignAdvisorFromComplianceAlertCommand" );
 
 	if ( command.getComplianceAlertId() == null ) }
-			throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAdvisorFromComplianceAlertCommand" );
+		throw new ValidationException( "ComplianceAlert", "validating identity on UnAssignAdvisorFromComplianceAlertCommand" );
 	}
 			
 		

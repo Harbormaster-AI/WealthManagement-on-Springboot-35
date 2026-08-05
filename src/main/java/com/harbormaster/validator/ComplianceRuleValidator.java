@@ -85,11 +85,11 @@ public class ComplianceRuleValidator {
 		if ( complianceRule == null )
 		throw new ValidationException( "ComplianceRule", "validating CreateComplianceRuleCommand" );
 		if ( complianceRule.getName() == null )
-		throw new ValidationException( "ComplianceRule", "validating access on getName" );
+			throw new ValidationException( "ComplianceRule", "validating access on getName" );
 		if ( complianceRule.getRuleCode() == null )
-		throw new ValidationException( "ComplianceRule", "validating access on getRuleCode" );
+			throw new ValidationException( "ComplianceRule", "validating access on getRuleCode" );
 		if ( complianceRule.getDescription() == null )
-		throw new ValidationException( "ComplianceRule", "validating access on getDescription" );
+			throw new ValidationException( "ComplianceRule", "validating access on getDescription" );
 	}
 
 	/**
@@ -97,13 +97,13 @@ public class ComplianceRuleValidator {
 	 */
 	public void validate( UpdateComplianceRuleCommand complianceRule ) throws ValidationException {
 		if ( complianceRule == null )
-		throw new ValidationException( "ComplianceRule", "validating UpdateComplianceRuleCommand" );
+			throw new ValidationException( "ComplianceRule", "validating UpdateComplianceRuleCommand" );
 		if ( complianceRule.getName() == null )
-		throw new ValidationException( "ComplianceRule", "validating method getName" );
+			throw new ValidationException( "ComplianceRule", "validating method getName" );
 		if ( complianceRule.getRuleCode() == null )
-		throw new ValidationException( "ComplianceRule", "validating method getRuleCode" );
+			throw new ValidationException( "ComplianceRule", "validating method getRuleCode" );
 		if ( complianceRule.getDescription() == null )
-		throw new ValidationException( "ComplianceRule", "validating method getDescription" );
+			throw new ValidationException( "ComplianceRule", "validating method getDescription" );
 }
 
 /**
@@ -111,10 +111,10 @@ public class ComplianceRuleValidator {
  */
 public void validate( DeleteComplianceRuleCommand complianceRule ) throws ValidationException {
 	if ( complianceRule == null )
-	throw new ValidationException( "ComplianceRule", "validating DeleteComplianceRuleCommand" );
+		throw new ValidationException( "ComplianceRule", "validating DeleteComplianceRuleCommand" );
 
 	if ( complianceRule.getDescription() == null )
-	throw new ValidationException( "ComplianceRule", "validating getDescription" );
+		throw new ValidationException( "ComplianceRule", "validating getDescription" );
 }
 
 /**
@@ -136,7 +136,7 @@ public void validate( AssignAlertsToComplianceRuleCommand command ) throws Valid
 		throw new ValidationException( "ComplianceRule", "validating AssignAlertsToComplianceRuleCommand" );
 
 	if ( command.getComplianceRuleId() == null )
-	throw new ValidationException( "ComplianceRule", "validating identity on AssignAlertsToComplianceRuleCommand" );
+		throw new ValidationException( "ComplianceRule", "validating identity on AssignAlertsToComplianceRuleCommand" );
 
 	if ( command.command.getAddTo() == null )
 		throw new ValidationException( "ComplianceRule", "validating addTo attribute on AssignAlertsToComplianceRuleCommand" );
@@ -153,13 +153,13 @@ public void validate( RemoveAlertsFromComplianceRuleCommand ) throws ValidationE
 		throw new ValidationException("ComplianceRule", "validating RemoveAlertsFromComplianceRuleCommand" );
 
 	if( command.getComplianceRuleId() == null )
-		throw new ValidationException"ComplianceRule", "validating id on RemoveAlertsFromComplianceRuleCommand" );
+		throw new ValidationException("ComplianceRule", "validating id on RemoveAlertsFromComplianceRuleCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"ComplianceRule", "validating remove from RemoveAlertsFromComplianceRuleCommand" );
+		throw new ValidationException("ComplianceRule", "validating remove from RemoveAlertsFromComplianceRuleCommand" );
 
 	if( command.getRemoveFrom().getComplianceAlertId() == null )
-		throw new ValidationException"ComplianceRule", "validating id on remove from RemoveAlertsFromComplianceRuleCommand" );
+		throw new ValidationException("ComplianceRule", "validating id on remove from RemoveAlertsFromComplianceRuleCommand" );
 }
 	
 

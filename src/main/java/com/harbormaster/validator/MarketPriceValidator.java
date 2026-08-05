@@ -149,3 +149,4 @@ public void validate( UnAssignSecurityFromMarketPriceCommand command ) throws Va
 }
 
 		
+}

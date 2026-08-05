@@ -183,3 +183,4 @@ public void validate( UnAssignInvoiceFromFeeCommand command ) throws ValidationE
 }
 
 		
+}

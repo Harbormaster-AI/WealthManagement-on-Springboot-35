@@ -198,3 +198,5 @@ public void validate( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws V
 	throw new ValidationException("AdvisoryTeam", "validating id on remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
 }
 
+
+}

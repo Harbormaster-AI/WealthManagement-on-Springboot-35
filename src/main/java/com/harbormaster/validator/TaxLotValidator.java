@@ -153,3 +153,4 @@ public void validate( UnAssignPositionFromTaxLotCommand command ) throws Validat
 }
 
 		
+}

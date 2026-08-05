@@ -252,3 +252,5 @@ public void validate( RemoveClientsFromAdvisorCommand command ) throws Validatio
 	throw new ValidationException("Advisor", "validating id on remove from RemoveClientsFromAdvisorCommand" );
 }
 
+
+}

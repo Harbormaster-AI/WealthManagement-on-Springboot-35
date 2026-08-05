@@ -218,3 +218,5 @@ public void validate( RemoveGoalsFromInvestmentPolicyCommand command ) throws Va
 	throw new ValidationException("InvestmentPolicy", "validating id on remove from RemoveGoalsFromInvestmentPolicyCommand" );
 }
 
+
+}

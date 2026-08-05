@@ -202,3 +202,5 @@ public void validate( RemoveBillingRunsFromFeeScheduleCommand command ) throws V
 	throw new ValidationException("FeeSchedule", "validating id on remove from RemoveBillingRunsFromFeeScheduleCommand" );
 }
 
+
+}

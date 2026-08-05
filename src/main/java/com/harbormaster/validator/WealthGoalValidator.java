@@ -217,3 +217,4 @@ public void validate( UnAssignInvestmentPolicyFromWealthGoalCommand command ) th
 }
 
 		
+}

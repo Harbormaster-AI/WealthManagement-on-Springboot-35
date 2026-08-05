@@ -192,3 +192,5 @@ public void validate( RemoveDividendsFromCorporateActionCommand command ) throws
 	throw new ValidationException("CorporateAction", "validating id on remove from RemoveDividendsFromCorporateActionCommand" );
 }
 
+
+}

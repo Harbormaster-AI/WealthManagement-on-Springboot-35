@@ -162,3 +162,5 @@ public void validate( RemoveAlertsFromComplianceRuleCommand command ) throws Val
 	throw new ValidationException("ComplianceRule", "validating id on remove from RemoveAlertsFromComplianceRuleCommand" );
 }
 
+
+}

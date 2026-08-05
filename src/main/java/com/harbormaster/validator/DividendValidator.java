@@ -149,3 +149,4 @@ public void validate( UnAssignCorporateActionFromDividendCommand command ) throw
 }
 
 		
+}

@@ -247,3 +247,4 @@ public void validate( UnAssignPositionFromTransactionCommand command ) throws Va
 }
 
 		
+}

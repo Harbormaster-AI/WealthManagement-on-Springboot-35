@@ -258,3 +258,5 @@ public void validate( RemoveTransactionsFromPositionCommand command ) throws Val
 	throw new ValidationException("Position", "validating id on remove from RemoveTransactionsFromPositionCommand" );
 }
 
+
+}

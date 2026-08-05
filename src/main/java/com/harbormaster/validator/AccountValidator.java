@@ -486,3 +486,5 @@ public void validate( RemoveInvoicesFromAccountCommand command ) throws Validati
 	throw new ValidationException("Account", "validating id on remove from RemoveInvoicesFromAccountCommand" );
 }
 
+
+}

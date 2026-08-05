@@ -214,3 +214,5 @@ public void validate( RemoveProposedOrdersFromRebalancePlanCommand command ) thr
 	throw new ValidationException("RebalancePlan", "validating id on remove from RemoveProposedOrdersFromRebalancePlanCommand" );
 }
 
+
+}

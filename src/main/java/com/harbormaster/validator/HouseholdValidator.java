@@ -304,3 +304,5 @@ public void validate( RemoveRiskAssessmentsFromHouseholdCommand command ) throws
 	throw new ValidationException("Household", "validating id on remove from RemoveRiskAssessmentsFromHouseholdCommand" );
 }
 
+
+}

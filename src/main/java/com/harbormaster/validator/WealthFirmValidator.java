@@ -286,3 +286,5 @@ public void validate( RemoveInvestmentProgramsFromWealthFirmCommand command ) th
 	throw new ValidationException("WealthFirm", "validating id on remove from RemoveInvestmentProgramsFromWealthFirmCommand" );
 }
 
+
+}

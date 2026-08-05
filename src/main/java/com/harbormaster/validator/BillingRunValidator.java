@@ -192,3 +192,5 @@ public void validate( RemoveInvoicesFromBillingRunCommand command ) throws Valid
 	throw new ValidationException("BillingRun", "validating id on remove from RemoveInvoicesFromBillingRunCommand" );
 }
 
+
+}

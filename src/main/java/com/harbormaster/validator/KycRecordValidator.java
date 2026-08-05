@@ -188,3 +188,5 @@ public void validate( RemoveDocumentsFromKycRecordCommand command ) throws Valid
 	throw new ValidationException("KycRecord", "validating id on remove from RemoveDocumentsFromKycRecordCommand" );
 }
 
+
+}

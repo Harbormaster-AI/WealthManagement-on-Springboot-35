@@ -292,3 +292,5 @@ public void validate( RemoveTradesFromOrderCommand command ) throws ValidationEx
 	throw new ValidationException("Order", "validating id on remove from RemoveTradesFromOrderCommand" );
 }
 
+
+}

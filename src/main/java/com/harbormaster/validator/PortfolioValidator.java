@@ -362,3 +362,5 @@ public void validate( RemoveRebalancePlansFromPortfolioCommand command ) throws 
 	throw new ValidationException("Portfolio", "validating id on remove from RemoveRebalancePlansFromPortfolioCommand" );
 }
 
+
+}

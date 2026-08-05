@@ -226,3 +226,5 @@ public void validate( RemoveFeesFromInvoiceCommand command ) throws ValidationEx
 	throw new ValidationException("Invoice", "validating id on remove from RemoveFeesFromInvoiceCommand" );
 }
 
+
+}

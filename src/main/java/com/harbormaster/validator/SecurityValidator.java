@@ -254,3 +254,5 @@ public void validate( RemoveBenchmarksFromSecurityCommand command ) throws Valid
 	throw new ValidationException("Security", "validating id on remove from RemoveBenchmarksFromSecurityCommand" );
 }
 
+
+}

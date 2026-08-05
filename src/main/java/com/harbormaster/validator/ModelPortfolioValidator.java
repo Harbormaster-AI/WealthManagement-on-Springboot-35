@@ -198,3 +198,5 @@ public void validate( RemovePortfoliosFromModelPortfolioCommand command ) throws
 	throw new ValidationException("ModelPortfolio", "validating id on remove from RemovePortfoliosFromModelPortfolioCommand" );
 }
 
+
+}

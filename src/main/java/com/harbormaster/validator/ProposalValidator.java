@@ -243,3 +243,4 @@ public void validate( UnAssignAccountFromProposalCommand command ) throws Valida
 }
 
 		
+}

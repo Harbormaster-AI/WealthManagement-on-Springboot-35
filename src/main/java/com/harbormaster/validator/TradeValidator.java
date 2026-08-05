@@ -251,3 +251,4 @@ public void validate( UnAssignTransactionFromTradeCommand command ) throws Valid
 }
 
 		
+}

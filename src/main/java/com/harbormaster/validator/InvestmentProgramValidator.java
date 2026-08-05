@@ -202,3 +202,5 @@ public void validate( RemoveFeeSchedulesFromInvestmentProgramCommand command ) t
 	throw new ValidationException("InvestmentProgram", "validating id on remove from RemoveFeeSchedulesFromInvestmentProgramCommand" );
 }
 
+
+}

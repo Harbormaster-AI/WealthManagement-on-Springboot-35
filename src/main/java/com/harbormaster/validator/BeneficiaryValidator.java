@@ -196,3 +196,5 @@ public void validate( RemoveAccountsFromBeneficiaryCommand command ) throws Vali
 	throw new ValidationException("Beneficiary", "validating id on remove from RemoveAccountsFromBeneficiaryCommand" );
 }
 
+
+}

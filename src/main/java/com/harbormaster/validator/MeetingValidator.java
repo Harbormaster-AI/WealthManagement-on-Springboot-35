@@ -226,3 +226,5 @@ public void validate( RemoveDocumentsFromMeetingCommand command ) throws Validat
 	throw new ValidationException("Meeting", "validating id on remove from RemoveDocumentsFromMeetingCommand" );
 }
 
+
+}

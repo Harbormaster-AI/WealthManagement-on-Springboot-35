@@ -350,3 +350,5 @@ public void validate( RemoveAgreementsFromClientCommand command ) throws Validat
 	throw new ValidationException("Client", "validating id on remove from RemoveAgreementsFromClientCommand" );
 }
 
+
+}

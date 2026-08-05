@@ -10,8 +10,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @ConditionalOnProperty(
     name = "hm.security.authentication",
-    havingValue = "none")
-public class SecurityConfiguration {
+    havingValue = "oauth2")
+public class OAuth2SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -19,8 +19,9 @@ public class SecurityConfiguration {
             throws Exception {
                         http
                             .authorizeHttpRequests(auth -> auth
-                            .anyRequest().authenticated());
-
+                            .requestMatchers("/", "/error").permitAll()
+                            .anyRequest().authenticated())
+                            .oauth2Login(Customizer.withDefaults());
         return http.build();
     }
 }

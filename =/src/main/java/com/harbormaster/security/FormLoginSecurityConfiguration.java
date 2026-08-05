@@ -10,17 +10,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @ConditionalOnProperty(
     name = "hm.security.authentication",
-    havingValue = "none")
-public class SecurityConfiguration {
+    havingValue = "form-login")
+public class FormLoginSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http)
             throws Exception {
                         http
+                            .csrf(csrf -> csrf.disable())
                             .authorizeHttpRequests(auth -> auth
-                            .anyRequest().authenticated());
-
+                            .requestMatchers("/login").permitAll()
+                            .anyRequest().authenticated())
+                            .formLogin(Customizer.withDefaults());
         return http.build();
     }
 }

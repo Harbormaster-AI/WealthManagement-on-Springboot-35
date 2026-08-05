@@ -23,9 +23,6 @@
  */
 package com.harbormaster.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import java.util.Map;
-
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +34,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Basic Controller which is called for unhandled errors
@@ -117,7 +115,7 @@ public class AppErrorController implements ErrorController{
 
     private HttpStatus getStatus(HttpServletRequest request) 
     {
-        Integer statusCode = (Integer) request.getAttribute("jakarta.servlet.error.status_code");
+        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         
         if (statusCode != null) 
         {

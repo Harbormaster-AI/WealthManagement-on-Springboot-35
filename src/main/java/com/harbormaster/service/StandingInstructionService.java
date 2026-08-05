@@ -97,37 +97,33 @@ public class StandingInstructionService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public StandingInstructionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new StandingInstructionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(StandingInstructionRepository.class) );
-			this.validator		= applicationContext.getBean(StandingInstructionValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new StandingInstructionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(StandingInstructionRepository.class) );
+		this.validator		= applicationContext.getBean(StandingInstructionValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		StandingInstruction
-		 */
-			public StandingInstruction createStandingInstruction( CreateStandingInstructionCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		StandingInstruction
+	 */
+		public StandingInstruction createStandingInstruction( CreateStandingInstructionCommand command ) {
 
-			StandingInstruction entity = new StandingInstruction();
+		StandingInstruction entity = new StandingInstruction();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setStandingInstructionId( command.getStandingInstructionId() );
             entity.setNextExecutionDate( command.getNextExecutionDate() );
@@ -136,42 +132,29 @@ public class StandingInstructionService
             entity.setInstructionType( command.getInstructionType() );
             entity.setFrequency( command.getFrequency() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of StandingInstruction {0} ", entity.toString() );
+		LOGGER.info( "done creating of StandingInstruction {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create StandingInstruction - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateStandingInstructionCommand
+	 * @return		StandingInstruction
+	 */
+	public StandingInstruction updateStandingInstruction( UpdateStandingInstructionCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateStandingInstructionCommand
-		 * @exception    BusinessException
-		 * @return		StandingInstruction
-		 */
-		public StandingInstruction updateStandingInstruction( UpdateStandingInstructionCommand command )
-  	  	throws BusinessException {
+		StandingInstruction entity = new StandingInstruction();
 
-			StandingInstruction entity = new StandingInstruction();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setStandingInstructionId( command.getStandingInstructionId() );
             entity.setNextExecutionDate( command.getNextExecutionDate() );
@@ -182,221 +165,161 @@ public class StandingInstructionService
             entity.setInstructionType( command.getInstructionType() );
             entity.setFrequency( command.getFrequency() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of StandingInstruction {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save StandingInstruction - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of StandingInstruction {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteStandingInstructionCommand
+	 */
+	public void delete( DeleteStandingInstructionCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getStandingInstructionId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of StandingInstruction {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the StandingInstruction via StandingInstructionFetchOneSummary
+	 * @param 	summary StandingInstructionFetchOneSummary
+	 * @return 	StandingInstructionFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public StandingInstruction getStandingInstruction( StandingInstructionFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "StandingInstructionFetchOneSummary arg cannot be null" );
+
+		StandingInstruction entity = null;
+		UUID id = summary.getStandingInstructionId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a StandingInstruction using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate StandingInstruction with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteStandingInstructionCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteStandingInstructionCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getStandingInstructionId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of StandingInstruction {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete StandingInstruction using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the StandingInstruction via StandingInstructionFetchOneSummary
-		 * @param 	summary StandingInstructionFetchOneSummary
-		 * @return 	StandingInstructionFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public StandingInstruction getStandingInstruction( StandingInstructionFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "StandingInstructionFetchOneSummary arg cannot be null" );
-
-			StandingInstruction entity = null;
-			UUID id = summary.getStandingInstructionId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a StandingInstruction using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate StandingInstruction with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all StandingInstructions
-		 *
-		 * @return 	List<StandingInstruction>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<StandingInstruction> getAllStandingInstruction() 
-    throws BusinessException {
-			List<StandingInstruction> list = null;
+	/**
+	 * Method to retrieve a collection of all StandingInstructions
+	 *
+	 * @return 	List<StandingInstruction>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<StandingInstruction> getAllStandingInstruction() {
+		List<StandingInstruction> list = projector.findAll( new FindAllStandingInstructionQuery() );
 
-			try {
-				list = projector.findAll( new FindAllStandingInstructionQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all StandingInstruction";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Account on StandingInstruction
+	 * @param		command AssignAccountToStandingInstructionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToStandingInstructionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Account on StandingInstruction
-		 * @param		command AssignAccountToStandingInstructionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToStandingInstructionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getStandingInstructionId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getStandingInstructionId(), command.getAssignment());
+	/**
+	 * unAssign Account on StandingInstruction
+	 * @param		command UnAssignAccountFromStandingInstructionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromStandingInstructionCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getStandingInstructionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Account on StandingInstruction
-		 * @param		command UnAssignAccountFromStandingInstructionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromStandingInstructionCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getStandingInstructionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on StandingInstruction";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getStandingInstructionId());
+	}
 	
-		/**
-		 * assign DestinationAccount on StandingInstruction
-		 * @param		command AssignDestinationAccountToStandingInstructionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignDestinationAccount( AssignDestinationAccountToStandingInstructionCommand command ) throws BusinessException {
+	/**
+	 * assign DestinationAccount on StandingInstruction
+	 * @param		command AssignDestinationAccountToStandingInstructionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignDestinationAccount( AssignDestinationAccountToStandingInstructionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignDestinationAccount(command.getStandingInstructionId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignDestinationAccount(command.getStandingInstructionId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getStandingInstructionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign DestinationAccount on StandingInstruction
+	 * @param		command UnAssignDestinationAccountFromStandingInstructionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignDestinationAccount( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign DestinationAccount on StandingInstruction
-		 * @param		command UnAssignDestinationAccountFromStandingInstructionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignDestinationAccount( UnAssignDestinationAccountFromStandingInstructionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignDestinationAccount(command.getStandingInstructionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign DestinationAccount on StandingInstruction";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignDestinationAccount(command.getStandingInstructionId());
+	}
 	
-
 
 
 

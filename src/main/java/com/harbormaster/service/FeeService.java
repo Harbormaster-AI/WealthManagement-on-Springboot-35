@@ -97,37 +97,33 @@ public class FeeService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public FeeService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new FeeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(FeeRepository.class) );
-			this.validator		= applicationContext.getBean(FeeValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new FeeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(FeeRepository.class) );
+		this.validator		= applicationContext.getBean(FeeValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Fee
-		 */
-			public Fee createFee( CreateFeeCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Fee
+	 */
+		public Fee createFee( CreateFeeCommand command ) {
 
-			Fee entity = new Fee();
+		Fee entity = new Fee();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setFeeId( command.getFeeId() );
             entity.setFeeDate( command.getFeeDate() );
@@ -135,42 +131,29 @@ public class FeeService
             entity.setDescription( command.getDescription() );
             entity.setFeeType( command.getFeeType() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Fee {0} ", entity.toString() );
+		LOGGER.info( "done creating of Fee {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Fee - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateFeeCommand
+	 * @return		Fee
+	 */
+	public Fee updateFee( UpdateFeeCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateFeeCommand
-		 * @exception    BusinessException
-		 * @return		Fee
-		 */
-		public Fee updateFee( UpdateFeeCommand command )
-  	  	throws BusinessException {
+		Fee entity = new Fee();
 
-			Fee entity = new Fee();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setFeeId( command.getFeeId() );
             entity.setFeeDate( command.getFeeDate() );
@@ -180,221 +163,161 @@ public class FeeService
             entity.setInvoice( command.getInvoice() );
             entity.setFeeType( command.getFeeType() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Fee {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Fee - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Fee {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteFeeCommand
+	 */
+	public void delete( DeleteFeeCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getFeeId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Fee {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Fee via FeeFetchOneSummary
+	 * @param 	summary FeeFetchOneSummary
+	 * @return 	FeeFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Fee getFee( FeeFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "FeeFetchOneSummary arg cannot be null" );
+
+		Fee entity = null;
+		UUID id = summary.getFeeId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Fee using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Fee with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteFeeCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteFeeCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getFeeId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Fee {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Fee using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Fee via FeeFetchOneSummary
-		 * @param 	summary FeeFetchOneSummary
-		 * @return 	FeeFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Fee getFee( FeeFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "FeeFetchOneSummary arg cannot be null" );
-
-			Fee entity = null;
-			UUID id = summary.getFeeId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Fee using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Fee with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Fees
-		 *
-		 * @return 	List<Fee>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Fee> getAllFee() 
-    throws BusinessException {
-			List<Fee> list = null;
+	/**
+	 * Method to retrieve a collection of all Fees
+	 *
+	 * @return 	List<Fee>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Fee> getAllFee() {
+		List<Fee> list = projector.findAll( new FindAllFeeQuery() );
 
-			try {
-				list = projector.findAll( new FindAllFeeQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Fee";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Account on Fee
+	 * @param		command AssignAccountToFeeCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToFeeCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Account on Fee
-		 * @param		command AssignAccountToFeeCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToFeeCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getFeeId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getFeeId(), command.getAssignment());
+	/**
+	 * unAssign Account on Fee
+	 * @param		command UnAssignAccountFromFeeCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromFeeCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getFeeId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Account on Fee
-		 * @param		command UnAssignAccountFromFeeCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromFeeCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getFeeId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on Fee";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getFeeId());
+	}
 	
-		/**
-		 * assign Invoice on Fee
-		 * @param		command AssignInvoiceToFeeCommand
-		 * @exception	BusinessException
-		 */
-		public void assignInvoice( AssignInvoiceToFeeCommand command ) throws BusinessException {
+	/**
+	 * assign Invoice on Fee
+	 * @param		command AssignInvoiceToFeeCommand
+	 * @exception	BusinessException
+	 */
+	public void assignInvoice( AssignInvoiceToFeeCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignInvoice(command.getFeeId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignInvoice(command.getFeeId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Invoice using id " + command.getFeeId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Invoice on Fee
+	 * @param		command UnAssignInvoiceFromFeeCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignInvoice( UnAssignInvoiceFromFeeCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Invoice on Fee
-		 * @param		command UnAssignInvoiceFromFeeCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignInvoice( UnAssignInvoiceFromFeeCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignInvoice(command.getFeeId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Invoice on Fee";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignInvoice(command.getFeeId());
+	}
 	
-
 
 
 

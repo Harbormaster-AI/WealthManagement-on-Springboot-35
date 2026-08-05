@@ -97,77 +97,60 @@ public class OrderAllocationService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public OrderAllocationService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new OrderAllocationEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(OrderAllocationRepository.class) );
-			this.validator		= applicationContext.getBean(OrderAllocationValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new OrderAllocationEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(OrderAllocationRepository.class) );
+		this.validator		= applicationContext.getBean(OrderAllocationValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		OrderAllocation
-		 */
-			public OrderAllocation createOrderAllocation( CreateOrderAllocationCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		OrderAllocation
+	 */
+		public OrderAllocation createOrderAllocation( CreateOrderAllocationCommand command ) {
 
-			OrderAllocation entity = new OrderAllocation();
+		OrderAllocation entity = new OrderAllocation();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setOrderAllocationId( command.getOrderAllocationId() );
             entity.setAllocationPercent( command.getAllocationPercent() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of OrderAllocation {0} ", entity.toString() );
+		LOGGER.info( "done creating of OrderAllocation {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create OrderAllocation - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateOrderAllocationCommand
+	 * @return		OrderAllocation
+	 */
+	public OrderAllocation updateOrderAllocation( UpdateOrderAllocationCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateOrderAllocationCommand
-		 * @exception    BusinessException
-		 * @return		OrderAllocation
-		 */
-		public OrderAllocation updateOrderAllocation( UpdateOrderAllocationCommand command )
-  	  	throws BusinessException {
+		OrderAllocation entity = new OrderAllocation();
 
-			OrderAllocation entity = new OrderAllocation();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setOrderAllocationId( command.getOrderAllocationId() );
             entity.setAllocationPercent( command.getAllocationPercent() );
@@ -175,272 +158,197 @@ public class OrderAllocationService
             entity.setAccount( command.getAccount() );
             entity.setPortfolio( command.getPortfolio() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of OrderAllocation {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save OrderAllocation - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of OrderAllocation {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteOrderAllocationCommand
+	 */
+	public void delete( DeleteOrderAllocationCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getOrderAllocationId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of OrderAllocation {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the OrderAllocation via OrderAllocationFetchOneSummary
+	 * @param 	summary OrderAllocationFetchOneSummary
+	 * @return 	OrderAllocationFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public OrderAllocation getOrderAllocation( OrderAllocationFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "OrderAllocationFetchOneSummary arg cannot be null" );
+
+		OrderAllocation entity = null;
+		UUID id = summary.getOrderAllocationId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a OrderAllocation using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate OrderAllocation with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteOrderAllocationCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteOrderAllocationCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getOrderAllocationId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of OrderAllocation {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete OrderAllocation using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the OrderAllocation via OrderAllocationFetchOneSummary
-		 * @param 	summary OrderAllocationFetchOneSummary
-		 * @return 	OrderAllocationFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public OrderAllocation getOrderAllocation( OrderAllocationFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "OrderAllocationFetchOneSummary arg cannot be null" );
-
-			OrderAllocation entity = null;
-			UUID id = summary.getOrderAllocationId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a OrderAllocation using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate OrderAllocation with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all OrderAllocations
-		 *
-		 * @return 	List<OrderAllocation>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<OrderAllocation> getAllOrderAllocation() 
-    throws BusinessException {
-			List<OrderAllocation> list = null;
+	/**
+	 * Method to retrieve a collection of all OrderAllocations
+	 *
+	 * @return 	List<OrderAllocation>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<OrderAllocation> getAllOrderAllocation() {
+		List<OrderAllocation> list = projector.findAll( new FindAllOrderAllocationQuery() );
 
-			try {
-				list = projector.findAll( new FindAllOrderAllocationQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all OrderAllocation";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Order on OrderAllocation
+	 * @param		command AssignOrderToOrderAllocationCommand
+	 * @exception	BusinessException
+	 */
+	public void assignOrder( AssignOrderToOrderAllocationCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Order on OrderAllocation
-		 * @param		command AssignOrderToOrderAllocationCommand
-		 * @exception	BusinessException
-		 */
-		public void assignOrder( AssignOrderToOrderAllocationCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignOrder(command.getOrderAllocationId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignOrder(command.getOrderAllocationId(), command.getAssignment());
+	/**
+	 * unAssign Order on OrderAllocation
+	 * @param		command UnAssignOrderFromOrderAllocationCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignOrder( UnAssignOrderFromOrderAllocationCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Order using id " + command.getOrderAllocationId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Order on OrderAllocation
-		 * @param		command UnAssignOrderFromOrderAllocationCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignOrder( UnAssignOrderFromOrderAllocationCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignOrder(command.getOrderAllocationId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Order on OrderAllocation";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignOrder(command.getOrderAllocationId());
+	}
 	
-		/**
-		 * assign Account on OrderAllocation
-		 * @param		command AssignAccountToOrderAllocationCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToOrderAllocationCommand command ) throws BusinessException {
+	/**
+	 * assign Account on OrderAllocation
+	 * @param		command AssignAccountToOrderAllocationCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToOrderAllocationCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getOrderAllocationId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getOrderAllocationId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getOrderAllocationId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Account on OrderAllocation
+	 * @param		command UnAssignAccountFromOrderAllocationCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromOrderAllocationCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Account on OrderAllocation
-		 * @param		command UnAssignAccountFromOrderAllocationCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromOrderAllocationCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getOrderAllocationId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on OrderAllocation";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getOrderAllocationId());
+	}
 	
-		/**
-		 * assign Portfolio on OrderAllocation
-		 * @param		command AssignPortfolioToOrderAllocationCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPortfolio( AssignPortfolioToOrderAllocationCommand command ) throws BusinessException {
+	/**
+	 * assign Portfolio on OrderAllocation
+	 * @param		command AssignPortfolioToOrderAllocationCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPortfolio( AssignPortfolioToOrderAllocationCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPortfolio(command.getOrderAllocationId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPortfolio(command.getOrderAllocationId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Portfolio using id " + command.getOrderAllocationId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Portfolio on OrderAllocation
+	 * @param		command UnAssignPortfolioFromOrderAllocationCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPortfolio( UnAssignPortfolioFromOrderAllocationCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Portfolio on OrderAllocation
-		 * @param		command UnAssignPortfolioFromOrderAllocationCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromOrderAllocationCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPortfolio(command.getOrderAllocationId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Portfolio on OrderAllocation";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPortfolio(command.getOrderAllocationId());
+	}
 	
-
 
 
 

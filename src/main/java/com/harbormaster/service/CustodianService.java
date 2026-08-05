@@ -97,79 +97,62 @@ public class CustodianService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public CustodianService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new CustodianEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(CustodianRepository.class) );
-			this.validator		= applicationContext.getBean(CustodianValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new CustodianEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(CustodianRepository.class) );
+		this.validator		= applicationContext.getBean(CustodianValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Custodian
-		 */
-			public Custodian createCustodian( CreateCustodianCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Custodian
+	 */
+		public Custodian createCustodian( CreateCustodianCommand command ) {
 
-			Custodian entity = new Custodian();
+		Custodian entity = new Custodian();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setCustodianId( command.getCustodianId() );
             entity.setName( command.getName() );
             entity.setClearingNumber( command.getClearingNumber() );
             entity.setCountry( command.getCountry() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Custodian {0} ", entity.toString() );
+		LOGGER.info( "done creating of Custodian {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Custodian - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateCustodianCommand
+	 * @return		Custodian
+	 */
+	public Custodian updateCustodian( UpdateCustodianCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateCustodianCommand
-		 * @exception    BusinessException
-		 * @return		Custodian
-		 */
-		public Custodian updateCustodian( UpdateCustodianCommand command )
-  	  	throws BusinessException {
+		Custodian entity = new Custodian();
 
-			Custodian entity = new Custodian();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setCustodianId( command.getCustodianId() );
             entity.setName( command.getName() );
@@ -178,223 +161,159 @@ public class CustodianService
             entity.setAccounts( command.getAccounts() );
             entity.setTransfers( command.getTransfers() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Custodian {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Custodian - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Custodian {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteCustodianCommand
+	 */
+	public void delete( DeleteCustodianCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getCustodianId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Custodian {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Custodian via CustodianFetchOneSummary
+	 * @param 	summary CustodianFetchOneSummary
+	 * @return 	CustodianFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Custodian getCustodian( CustodianFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "CustodianFetchOneSummary arg cannot be null" );
+
+		Custodian entity = null;
+		UUID id = summary.getCustodianId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Custodian using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Custodian with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteCustodianCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteCustodianCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getCustodianId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Custodian {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Custodian using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Custodian via CustodianFetchOneSummary
-		 * @param 	summary CustodianFetchOneSummary
-		 * @return 	CustodianFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Custodian getCustodian( CustodianFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "CustodianFetchOneSummary arg cannot be null" );
-
-			Custodian entity = null;
-			UUID id = summary.getCustodianId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Custodian using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Custodian with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Custodians
-		 *
-		 * @return 	List<Custodian>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Custodian> getAllCustodian() 
-    throws BusinessException {
-			List<Custodian> list = null;
+	/**
+	 * Method to retrieve a collection of all Custodians
+	 *
+	 * @return 	List<Custodian>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Custodian> getAllCustodian() {
+		List<Custodian> list = projector.findAll( new FindAllCustodianQuery() );
 
-			try {
-				list = projector.findAll( new FindAllCustodianQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Custodian";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return list;
-		}
+		return list;
+	}
 
 
-		/**
-		 * add Account to Accounts
-		 * @param		command AssignAccountsToCustodianCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAccounts( AssignAccountsToCustodianCommand command ) throws BusinessException {
+	/**
+	 * add Account to Accounts
+	 * @param		command AssignAccountsToCustodianCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAccounts( AssignAccountsToCustodianCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAccounts(command.getCustodianId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Account as Accounts to Custodian" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAccounts(command.getCustodianId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Account from Accounts
+	 * @param		command RemoveAccountsFromCustodianCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAccounts( RemoveAccountsFromCustodianCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Account from Accounts
-		 * @param		command RemoveAccountsFromCustodianCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAccounts( RemoveAccountsFromCustodianCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAccounts(command.getCustodianId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add AccountTransfer to Transfers
+	 * @param		command AssignTransfersToCustodianCommand
+	 * @exception	BusinessException
+	 */
+	public void addToTransfers( AssignTransfersToCustodianCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAccounts(command.getCustodianId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToTransfers(command.getCustodianId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getCustodianId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove AccountTransfer from Transfers
+	 * @param		command RemoveTransfersFromCustodianCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromTransfers( RemoveTransfersFromCustodianCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add AccountTransfer to Transfers
-		 * @param		command AssignTransfersToCustodianCommand
-		 * @exception	BusinessException
-		 */
-		public void addToTransfers( AssignTransfersToCustodianCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToTransfers(command.getCustodianId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a AccountTransfer as Transfers to Custodian" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove AccountTransfer from Transfers
-		 * @param		command RemoveTransfersFromCustodianCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromTransfers( RemoveTransfersFromCustodianCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromTransfers(command.getCustodianId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getCustodianId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromTransfers(command.getCustodianId(), command.getRemoveFrom());
+	}
 
 
 

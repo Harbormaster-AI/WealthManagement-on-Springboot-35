@@ -97,37 +97,33 @@ public class PerformanceReportService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public PerformanceReportService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new PerformanceReportEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(PerformanceReportRepository.class) );
-			this.validator		= applicationContext.getBean(PerformanceReportValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new PerformanceReportEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(PerformanceReportRepository.class) );
+		this.validator		= applicationContext.getBean(PerformanceReportValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		PerformanceReport
-		 */
-			public PerformanceReport createPerformanceReport( CreatePerformanceReportCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		PerformanceReport
+	 */
+		public PerformanceReport createPerformanceReport( CreatePerformanceReportCommand command ) {
 
-			PerformanceReport entity = new PerformanceReport();
+		PerformanceReport entity = new PerformanceReport();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setPerformanceReportId( command.getPerformanceReportId() );
             entity.setPeriodStart( command.getPeriodStart() );
@@ -136,42 +132,29 @@ public class PerformanceReportService
             entity.setGrossReturn( command.getGrossReturn() );
             entity.setFrequency( command.getFrequency() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of PerformanceReport {0} ", entity.toString() );
+		LOGGER.info( "done creating of PerformanceReport {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create PerformanceReport - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdatePerformanceReportCommand
+	 * @return		PerformanceReport
+	 */
+	public PerformanceReport updatePerformanceReport( UpdatePerformanceReportCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdatePerformanceReportCommand
-		 * @exception    BusinessException
-		 * @return		PerformanceReport
-		 */
-		public PerformanceReport updatePerformanceReport( UpdatePerformanceReportCommand command )
-  	  	throws BusinessException {
+		PerformanceReport entity = new PerformanceReport();
 
-			PerformanceReport entity = new PerformanceReport();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setPerformanceReportId( command.getPerformanceReportId() );
             entity.setPeriodStart( command.getPeriodStart() );
@@ -182,221 +165,161 @@ public class PerformanceReportService
             entity.setBenchmark( command.getBenchmark() );
             entity.setFrequency( command.getFrequency() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of PerformanceReport {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save PerformanceReport - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of PerformanceReport {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeletePerformanceReportCommand
+	 */
+	public void delete( DeletePerformanceReportCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getPerformanceReportId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of PerformanceReport {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the PerformanceReport via PerformanceReportFetchOneSummary
+	 * @param 	summary PerformanceReportFetchOneSummary
+	 * @return 	PerformanceReportFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public PerformanceReport getPerformanceReport( PerformanceReportFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "PerformanceReportFetchOneSummary arg cannot be null" );
+
+		PerformanceReport entity = null;
+		UUID id = summary.getPerformanceReportId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a PerformanceReport using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate PerformanceReport with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeletePerformanceReportCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeletePerformanceReportCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getPerformanceReportId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of PerformanceReport {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete PerformanceReport using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the PerformanceReport via PerformanceReportFetchOneSummary
-		 * @param 	summary PerformanceReportFetchOneSummary
-		 * @return 	PerformanceReportFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public PerformanceReport getPerformanceReport( PerformanceReportFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "PerformanceReportFetchOneSummary arg cannot be null" );
-
-			PerformanceReport entity = null;
-			UUID id = summary.getPerformanceReportId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a PerformanceReport using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate PerformanceReport with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all PerformanceReports
-		 *
-		 * @return 	List<PerformanceReport>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<PerformanceReport> getAllPerformanceReport() 
-    throws BusinessException {
-			List<PerformanceReport> list = null;
+	/**
+	 * Method to retrieve a collection of all PerformanceReports
+	 *
+	 * @return 	List<PerformanceReport>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<PerformanceReport> getAllPerformanceReport() {
+		List<PerformanceReport> list = projector.findAll( new FindAllPerformanceReportQuery() );
 
-			try {
-				list = projector.findAll( new FindAllPerformanceReportQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all PerformanceReport";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Portfolio on PerformanceReport
+	 * @param		command AssignPortfolioToPerformanceReportCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPortfolio( AssignPortfolioToPerformanceReportCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Portfolio on PerformanceReport
-		 * @param		command AssignPortfolioToPerformanceReportCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPortfolio( AssignPortfolioToPerformanceReportCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPortfolio(command.getPerformanceReportId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPortfolio(command.getPerformanceReportId(), command.getAssignment());
+	/**
+	 * unAssign Portfolio on PerformanceReport
+	 * @param		command UnAssignPortfolioFromPerformanceReportCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPortfolio( UnAssignPortfolioFromPerformanceReportCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Portfolio using id " + command.getPerformanceReportId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Portfolio on PerformanceReport
-		 * @param		command UnAssignPortfolioFromPerformanceReportCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromPerformanceReportCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPortfolio(command.getPerformanceReportId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Portfolio on PerformanceReport";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPortfolio(command.getPerformanceReportId());
+	}
 	
-		/**
-		 * assign Benchmark on PerformanceReport
-		 * @param		command AssignBenchmarkToPerformanceReportCommand
-		 * @exception	BusinessException
-		 */
-		public void assignBenchmark( AssignBenchmarkToPerformanceReportCommand command ) throws BusinessException {
+	/**
+	 * assign Benchmark on PerformanceReport
+	 * @param		command AssignBenchmarkToPerformanceReportCommand
+	 * @exception	BusinessException
+	 */
+	public void assignBenchmark( AssignBenchmarkToPerformanceReportCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignBenchmark(command.getPerformanceReportId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignBenchmark(command.getPerformanceReportId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Benchmark using id " + command.getPerformanceReportId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Benchmark on PerformanceReport
+	 * @param		command UnAssignBenchmarkFromPerformanceReportCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignBenchmark( UnAssignBenchmarkFromPerformanceReportCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Benchmark on PerformanceReport
-		 * @param		command UnAssignBenchmarkFromPerformanceReportCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignBenchmark( UnAssignBenchmarkFromPerformanceReportCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignBenchmark(command.getPerformanceReportId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Benchmark on PerformanceReport";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignBenchmark(command.getPerformanceReportId());
+	}
 	
-
 
 
 

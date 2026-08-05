@@ -97,37 +97,33 @@ public class PortfolioService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public PortfolioService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new PortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(PortfolioRepository.class) );
-			this.validator		= applicationContext.getBean(PortfolioValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new PortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(PortfolioRepository.class) );
+		this.validator		= applicationContext.getBean(PortfolioValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Portfolio
-		 */
-			public Portfolio createPortfolio( CreatePortfolioCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Portfolio
+	 */
+		public Portfolio createPortfolio( CreatePortfolioCommand command ) {
 
-			Portfolio entity = new Portfolio();
+		Portfolio entity = new Portfolio();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setPortfolioId( command.getPortfolioId() );
             entity.setName( command.getName() );
@@ -136,42 +132,29 @@ public class PortfolioService
             entity.setPortfolioType( command.getPortfolioType() );
             entity.setRebalanceFrequency( command.getRebalanceFrequency() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Portfolio {0} ", entity.toString() );
+		LOGGER.info( "done creating of Portfolio {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Portfolio - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdatePortfolioCommand
+	 * @return		Portfolio
+	 */
+	public Portfolio updatePortfolio( UpdatePortfolioCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdatePortfolioCommand
-		 * @exception    BusinessException
-		 * @return		Portfolio
-		 */
-		public Portfolio updatePortfolio( UpdatePortfolioCommand command )
-  	  	throws BusinessException {
+		Portfolio entity = new Portfolio();
 
-			Portfolio entity = new Portfolio();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setPortfolioId( command.getPortfolioId() );
             entity.setName( command.getName() );
@@ -187,479 +170,338 @@ public class PortfolioService
             entity.setPortfolioType( command.getPortfolioType() );
             entity.setRebalanceFrequency( command.getRebalanceFrequency() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Portfolio {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Portfolio - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Portfolio {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeletePortfolioCommand
+	 */
+	public void delete( DeletePortfolioCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getPortfolioId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Portfolio {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Portfolio via PortfolioFetchOneSummary
+	 * @param 	summary PortfolioFetchOneSummary
+	 * @return 	PortfolioFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Portfolio getPortfolio( PortfolioFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "PortfolioFetchOneSummary arg cannot be null" );
+
+		Portfolio entity = null;
+		UUID id = summary.getPortfolioId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Portfolio using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Portfolio with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeletePortfolioCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeletePortfolioCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getPortfolioId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Portfolio {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Portfolio using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Portfolio via PortfolioFetchOneSummary
-		 * @param 	summary PortfolioFetchOneSummary
-		 * @return 	PortfolioFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Portfolio getPortfolio( PortfolioFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "PortfolioFetchOneSummary arg cannot be null" );
-
-			Portfolio entity = null;
-			UUID id = summary.getPortfolioId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Portfolio using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Portfolio with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Portfolios
-		 *
-		 * @return 	List<Portfolio>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Portfolio> getAllPortfolio() 
-    throws BusinessException {
-			List<Portfolio> list = null;
+	/**
+	 * Method to retrieve a collection of all Portfolios
+	 *
+	 * @return 	List<Portfolio>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Portfolio> getAllPortfolio() {
+		List<Portfolio> list = projector.findAll( new FindAllPortfolioQuery() );
 
-			try {
-				list = projector.findAll( new FindAllPortfolioQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Portfolio";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Account on Portfolio
+	 * @param		command AssignAccountToPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Account on Portfolio
-		 * @param		command AssignAccountToPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getPortfolioId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getPortfolioId(), command.getAssignment());
+	/**
+	 * unAssign Account on Portfolio
+	 * @param		command UnAssignAccountFromPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromPortfolioCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getPortfolioId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Account on Portfolio
-		 * @param		command UnAssignAccountFromPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromPortfolioCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getPortfolioId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on Portfolio";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getPortfolioId());
+	}
 	
-		/**
-		 * assign ModelPortfolio on Portfolio
-		 * @param		command AssignModelPortfolioToPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void assignModelPortfolio( AssignModelPortfolioToPortfolioCommand command ) throws BusinessException {
+	/**
+	 * assign ModelPortfolio on Portfolio
+	 * @param		command AssignModelPortfolioToPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void assignModelPortfolio( AssignModelPortfolioToPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignModelPortfolio(command.getPortfolioId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignModelPortfolio(command.getPortfolioId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get ModelPortfolio using id " + command.getPortfolioId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign ModelPortfolio on Portfolio
+	 * @param		command UnAssignModelPortfolioFromPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignModelPortfolio( UnAssignModelPortfolioFromPortfolioCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign ModelPortfolio on Portfolio
-		 * @param		command UnAssignModelPortfolioFromPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignModelPortfolio( UnAssignModelPortfolioFromPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignModelPortfolio(command.getPortfolioId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign ModelPortfolio on Portfolio";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignModelPortfolio(command.getPortfolioId());
+	}
 	
-		/**
-		 * assign Benchmark on Portfolio
-		 * @param		command AssignBenchmarkToPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void assignBenchmark( AssignBenchmarkToPortfolioCommand command ) throws BusinessException {
+	/**
+	 * assign Benchmark on Portfolio
+	 * @param		command AssignBenchmarkToPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void assignBenchmark( AssignBenchmarkToPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignBenchmark(command.getPortfolioId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignBenchmark(command.getPortfolioId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Benchmark using id " + command.getPortfolioId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Benchmark on Portfolio
+	 * @param		command UnAssignBenchmarkFromPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignBenchmark( UnAssignBenchmarkFromPortfolioCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Benchmark on Portfolio
-		 * @param		command UnAssignBenchmarkFromPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignBenchmark( UnAssignBenchmarkFromPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignBenchmark(command.getPortfolioId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Benchmark on Portfolio";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignBenchmark(command.getPortfolioId());
+	}
 	
-		/**
-		 * assign InvestmentPolicy on Portfolio
-		 * @param		command AssignInvestmentPolicyToPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void assignInvestmentPolicy( AssignInvestmentPolicyToPortfolioCommand command ) throws BusinessException {
+	/**
+	 * assign InvestmentPolicy on Portfolio
+	 * @param		command AssignInvestmentPolicyToPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void assignInvestmentPolicy( AssignInvestmentPolicyToPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignInvestmentPolicy(command.getPortfolioId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignInvestmentPolicy(command.getPortfolioId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get InvestmentPolicy using id " + command.getPortfolioId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign InvestmentPolicy on Portfolio
+	 * @param		command UnAssignInvestmentPolicyFromPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign InvestmentPolicy on Portfolio
-		 * @param		command UnAssignInvestmentPolicyFromPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignInvestmentPolicy(command.getPortfolioId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign InvestmentPolicy on Portfolio";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignInvestmentPolicy(command.getPortfolioId());
+	}
 	
 
-		/**
-		 * add Position to Positions
-		 * @param		command AssignPositionsToPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void addToPositions( AssignPositionsToPortfolioCommand command ) throws BusinessException {
+	/**
+	 * add Position to Positions
+	 * @param		command AssignPositionsToPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void addToPositions( AssignPositionsToPortfolioCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToPositions(command.getPortfolioId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Position as Positions to Portfolio" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToPositions(command.getPortfolioId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Position from Positions
+	 * @param		command RemovePositionsFromPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromPositions( RemovePositionsFromPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Position from Positions
-		 * @param		command RemovePositionsFromPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromPositions( RemovePositionsFromPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromPositions(command.getPortfolioId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add PerformanceReport to PerformanceReports
+	 * @param		command AssignPerformanceReportsToPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void addToPerformanceReports( AssignPerformanceReportsToPortfolioCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromPositions(command.getPortfolioId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToPerformanceReports(command.getPortfolioId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove PerformanceReport from PerformanceReports
+	 * @param		command RemovePerformanceReportsFromPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromPerformanceReports( RemovePerformanceReportsFromPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add PerformanceReport to PerformanceReports
-		 * @param		command AssignPerformanceReportsToPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void addToPerformanceReports( AssignPerformanceReportsToPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromPerformanceReports(command.getPortfolioId(), command.getRemoveFrom());
+	}
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add RebalancePlan to RebalancePlans
+	 * @param		command AssignRebalancePlansToPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void addToRebalancePlans( AssignRebalancePlansToPortfolioCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToPerformanceReports(command.getPortfolioId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a PerformanceReport as PerformanceReports to Portfolio" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToRebalancePlans(command.getPortfolioId(), command.getAddTo())
+	}
 
-		/**
-		 * remove PerformanceReport from PerformanceReports
-		 * @param		command RemovePerformanceReportsFromPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromPerformanceReports( RemovePerformanceReportsFromPortfolioCommand command ) throws BusinessException {
+	/**
+	 * remove RebalancePlan from RebalancePlans
+	 * @param		command RemoveRebalancePlansFromPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromRebalancePlans( RemoveRebalancePlansFromPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromPerformanceReports(command.getPortfolioId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
-		/**
-		 * add RebalancePlan to RebalancePlans
-		 * @param		command AssignRebalancePlansToPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void addToRebalancePlans( AssignRebalancePlansToPortfolioCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToRebalancePlans(command.getPortfolioId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a RebalancePlan as RebalancePlans to Portfolio" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove RebalancePlan from RebalancePlans
-		 * @param		command RemoveRebalancePlansFromPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromRebalancePlans( RemoveRebalancePlansFromPortfolioCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromRebalancePlans(command.getPortfolioId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getPortfolioId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromRebalancePlans(command.getPortfolioId(), command.getRemoveFrom());
+	}
 
 
 

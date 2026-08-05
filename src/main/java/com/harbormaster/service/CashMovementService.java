@@ -97,37 +97,33 @@ public class CashMovementService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public CashMovementService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new CashMovementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(CashMovementRepository.class) );
-			this.validator		= applicationContext.getBean(CashMovementValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new CashMovementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(CashMovementRepository.class) );
+		this.validator		= applicationContext.getBean(CashMovementValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		CashMovement
-		 */
-			public CashMovement createCashMovement( CreateCashMovementCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		CashMovement
+	 */
+		public CashMovement createCashMovement( CreateCashMovementCommand command ) {
 
-			CashMovement entity = new CashMovement();
+		CashMovement entity = new CashMovement();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setCashMovementId( command.getCashMovementId() );
             entity.setAmount( command.getAmount() );
@@ -135,42 +131,29 @@ public class CashMovementService
             entity.setDescription( command.getDescription() );
             entity.setMovementType( command.getMovementType() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of CashMovement {0} ", entity.toString() );
+		LOGGER.info( "done creating of CashMovement {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create CashMovement - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateCashMovementCommand
+	 * @return		CashMovement
+	 */
+	public CashMovement updateCashMovement( UpdateCashMovementCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateCashMovementCommand
-		 * @exception    BusinessException
-		 * @return		CashMovement
-		 */
-		public CashMovement updateCashMovement( UpdateCashMovementCommand command )
-  	  	throws BusinessException {
+		CashMovement entity = new CashMovement();
 
-			CashMovement entity = new CashMovement();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setCashMovementId( command.getCashMovementId() );
             entity.setAmount( command.getAmount() );
@@ -181,272 +164,197 @@ public class CashMovementService
             entity.setRelatedTransaction( command.getRelatedTransaction() );
             entity.setMovementType( command.getMovementType() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of CashMovement {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save CashMovement - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of CashMovement {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteCashMovementCommand
+	 */
+	public void delete( DeleteCashMovementCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getCashMovementId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of CashMovement {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the CashMovement via CashMovementFetchOneSummary
+	 * @param 	summary CashMovementFetchOneSummary
+	 * @return 	CashMovementFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public CashMovement getCashMovement( CashMovementFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "CashMovementFetchOneSummary arg cannot be null" );
+
+		CashMovement entity = null;
+		UUID id = summary.getCashMovementId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a CashMovement using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate CashMovement with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteCashMovementCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteCashMovementCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getCashMovementId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of CashMovement {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete CashMovement using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the CashMovement via CashMovementFetchOneSummary
-		 * @param 	summary CashMovementFetchOneSummary
-		 * @return 	CashMovementFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public CashMovement getCashMovement( CashMovementFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "CashMovementFetchOneSummary arg cannot be null" );
-
-			CashMovement entity = null;
-			UUID id = summary.getCashMovementId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a CashMovement using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate CashMovement with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all CashMovements
-		 *
-		 * @return 	List<CashMovement>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<CashMovement> getAllCashMovement() 
-    throws BusinessException {
-			List<CashMovement> list = null;
+	/**
+	 * Method to retrieve a collection of all CashMovements
+	 *
+	 * @return 	List<CashMovement>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<CashMovement> getAllCashMovement() {
+		List<CashMovement> list = projector.findAll( new FindAllCashMovementQuery() );
 
-			try {
-				list = projector.findAll( new FindAllCashMovementQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all CashMovement";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Account on CashMovement
+	 * @param		command AssignAccountToCashMovementCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToCashMovementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Account on CashMovement
-		 * @param		command AssignAccountToCashMovementCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToCashMovementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getCashMovementId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getCashMovementId(), command.getAssignment());
+	/**
+	 * unAssign Account on CashMovement
+	 * @param		command UnAssignAccountFromCashMovementCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromCashMovementCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getCashMovementId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Account on CashMovement
-		 * @param		command UnAssignAccountFromCashMovementCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromCashMovementCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getCashMovementId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on CashMovement";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getCashMovementId());
+	}
 	
-		/**
-		 * assign RelatedInstruction on CashMovement
-		 * @param		command AssignRelatedInstructionToCashMovementCommand
-		 * @exception	BusinessException
-		 */
-		public void assignRelatedInstruction( AssignRelatedInstructionToCashMovementCommand command ) throws BusinessException {
+	/**
+	 * assign RelatedInstruction on CashMovement
+	 * @param		command AssignRelatedInstructionToCashMovementCommand
+	 * @exception	BusinessException
+	 */
+	public void assignRelatedInstruction( AssignRelatedInstructionToCashMovementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignRelatedInstruction(command.getCashMovementId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignRelatedInstruction(command.getCashMovementId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get StandingInstruction using id " + command.getCashMovementId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign RelatedInstruction on CashMovement
+	 * @param		command UnAssignRelatedInstructionFromCashMovementCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignRelatedInstruction( UnAssignRelatedInstructionFromCashMovementCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign RelatedInstruction on CashMovement
-		 * @param		command UnAssignRelatedInstructionFromCashMovementCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignRelatedInstruction( UnAssignRelatedInstructionFromCashMovementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignRelatedInstruction(command.getCashMovementId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign RelatedInstruction on CashMovement";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignRelatedInstruction(command.getCashMovementId());
+	}
 	
-		/**
-		 * assign RelatedTransaction on CashMovement
-		 * @param		command AssignRelatedTransactionToCashMovementCommand
-		 * @exception	BusinessException
-		 */
-		public void assignRelatedTransaction( AssignRelatedTransactionToCashMovementCommand command ) throws BusinessException {
+	/**
+	 * assign RelatedTransaction on CashMovement
+	 * @param		command AssignRelatedTransactionToCashMovementCommand
+	 * @exception	BusinessException
+	 */
+	public void assignRelatedTransaction( AssignRelatedTransactionToCashMovementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignRelatedTransaction(command.getCashMovementId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignRelatedTransaction(command.getCashMovementId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Transaction using id " + command.getCashMovementId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign RelatedTransaction on CashMovement
+	 * @param		command UnAssignRelatedTransactionFromCashMovementCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignRelatedTransaction( UnAssignRelatedTransactionFromCashMovementCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign RelatedTransaction on CashMovement
-		 * @param		command UnAssignRelatedTransactionFromCashMovementCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignRelatedTransaction( UnAssignRelatedTransactionFromCashMovementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignRelatedTransaction(command.getCashMovementId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign RelatedTransaction on CashMovement";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignRelatedTransaction(command.getCashMovementId());
+	}
 	
-
 
 
 

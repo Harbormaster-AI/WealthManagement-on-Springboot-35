@@ -97,37 +97,33 @@ public class AdvisorService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public AdvisorService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new AdvisorEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(AdvisorRepository.class) );
-			this.validator		= applicationContext.getBean(AdvisorValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new AdvisorEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(AdvisorRepository.class) );
+		this.validator		= applicationContext.getBean(AdvisorValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Advisor
-		 */
-			public Advisor createAdvisor( CreateAdvisorCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Advisor
+	 */
+		public Advisor createAdvisor( CreateAdvisorCommand command ) {
 
-			Advisor entity = new Advisor();
+		Advisor entity = new Advisor();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAdvisorId( command.getAdvisorId() );
             entity.setFirstName( command.getFirstName() );
@@ -135,42 +131,29 @@ public class AdvisorService
             entity.setLicenseNumber( command.getLicenseNumber() );
             entity.setRole( command.getRole() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Advisor {0} ", entity.toString() );
+		LOGGER.info( "done creating of Advisor {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Advisor - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateAdvisorCommand
+	 * @return		Advisor
+	 */
+	public Advisor updateAdvisor( UpdateAdvisorCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateAdvisorCommand
-		 * @exception    BusinessException
-		 * @return		Advisor
-		 */
-		public Advisor updateAdvisor( UpdateAdvisorCommand command )
-  	  	throws BusinessException {
+		Advisor entity = new Advisor();
 
-			Advisor entity = new Advisor();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAdvisorId( command.getAdvisorId() );
             entity.setFirstName( command.getFirstName() );
@@ -182,324 +165,232 @@ public class AdvisorService
             entity.setAdvisoryTeam( command.getAdvisoryTeam() );
             entity.setRole( command.getRole() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Advisor {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Advisor - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Advisor {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteAdvisorCommand
+	 */
+	public void delete( DeleteAdvisorCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getAdvisorId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Advisor {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Advisor via AdvisorFetchOneSummary
+	 * @param 	summary AdvisorFetchOneSummary
+	 * @return 	AdvisorFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Advisor getAdvisor( AdvisorFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "AdvisorFetchOneSummary arg cannot be null" );
+
+		Advisor entity = null;
+		UUID id = summary.getAdvisorId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Advisor using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Advisor with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteAdvisorCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteAdvisorCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getAdvisorId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Advisor {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Advisor using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Advisor via AdvisorFetchOneSummary
-		 * @param 	summary AdvisorFetchOneSummary
-		 * @return 	AdvisorFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Advisor getAdvisor( AdvisorFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "AdvisorFetchOneSummary arg cannot be null" );
-
-			Advisor entity = null;
-			UUID id = summary.getAdvisorId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Advisor using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Advisor with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Advisors
-		 *
-		 * @return 	List<Advisor>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Advisor> getAllAdvisor() 
-    throws BusinessException {
-			List<Advisor> list = null;
+	/**
+	 * Method to retrieve a collection of all Advisors
+	 *
+	 * @return 	List<Advisor>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Advisor> getAllAdvisor() {
+		List<Advisor> list = projector.findAll( new FindAllAdvisorQuery() );
 
-			try {
-				list = projector.findAll( new FindAllAdvisorQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Advisor";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Firm on Advisor
+	 * @param		command AssignFirmToAdvisorCommand
+	 * @exception	BusinessException
+	 */
+	public void assignFirm( AssignFirmToAdvisorCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Firm on Advisor
-		 * @param		command AssignFirmToAdvisorCommand
-		 * @exception	BusinessException
-		 */
-		public void assignFirm( AssignFirmToAdvisorCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignFirm(command.getAdvisorId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignFirm(command.getAdvisorId(), command.getAssignment());
+	/**
+	 * unAssign Firm on Advisor
+	 * @param		command UnAssignFirmFromAdvisorCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignFirm( UnAssignFirmFromAdvisorCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get WealthFirm using id " + command.getAdvisorId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Firm on Advisor
-		 * @param		command UnAssignFirmFromAdvisorCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignFirm( UnAssignFirmFromAdvisorCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignFirm(command.getAdvisorId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Firm on Advisor";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignFirm(command.getAdvisorId());
+	}
 	
-		/**
-		 * assign Office on Advisor
-		 * @param		command AssignOfficeToAdvisorCommand
-		 * @exception	BusinessException
-		 */
-		public void assignOffice( AssignOfficeToAdvisorCommand command ) throws BusinessException {
+	/**
+	 * assign Office on Advisor
+	 * @param		command AssignOfficeToAdvisorCommand
+	 * @exception	BusinessException
+	 */
+	public void assignOffice( AssignOfficeToAdvisorCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignOffice(command.getAdvisorId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignOffice(command.getAdvisorId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Office using id " + command.getAdvisorId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Office on Advisor
+	 * @param		command UnAssignOfficeFromAdvisorCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignOffice( UnAssignOfficeFromAdvisorCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Office on Advisor
-		 * @param		command UnAssignOfficeFromAdvisorCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignOffice( UnAssignOfficeFromAdvisorCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignOffice(command.getAdvisorId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Office on Advisor";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignOffice(command.getAdvisorId());
+	}
 	
-		/**
-		 * assign AdvisoryTeam on Advisor
-		 * @param		command AssignAdvisoryTeamToAdvisorCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisoryTeam( AssignAdvisoryTeamToAdvisorCommand command ) throws BusinessException {
+	/**
+	 * assign AdvisoryTeam on Advisor
+	 * @param		command AssignAdvisoryTeamToAdvisorCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisoryTeam( AssignAdvisoryTeamToAdvisorCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisoryTeam(command.getAdvisorId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisoryTeam(command.getAdvisorId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get AdvisoryTeam using id " + command.getAdvisorId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign AdvisoryTeam on Advisor
+	 * @param		command UnAssignAdvisoryTeamFromAdvisorCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisoryTeam( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign AdvisoryTeam on Advisor
-		 * @param		command UnAssignAdvisoryTeamFromAdvisorCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisoryTeam( UnAssignAdvisoryTeamFromAdvisorCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisoryTeam(command.getAdvisorId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign AdvisoryTeam on Advisor";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisoryTeam(command.getAdvisorId());
+	}
 	
 
-		/**
-		 * add Client to Clients
-		 * @param		command AssignClientsToAdvisorCommand
-		 * @exception	BusinessException
-		 */
-		public void addToClients( AssignClientsToAdvisorCommand command ) throws BusinessException {
+	/**
+	 * add Client to Clients
+	 * @param		command AssignClientsToAdvisorCommand
+	 * @exception	BusinessException
+	 */
+	public void addToClients( AssignClientsToAdvisorCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToClients(command.getAdvisorId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Client as Clients to Advisor" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToClients(command.getAdvisorId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Client from Clients
+	 * @param		command RemoveClientsFromAdvisorCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromClients( RemoveClientsFromAdvisorCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Client from Clients
-		 * @param		command RemoveClientsFromAdvisorCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromClients( RemoveClientsFromAdvisorCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromClients(command.getAdvisorId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAdvisorId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromClients(command.getAdvisorId(), command.getRemoveFrom());
+	}
 
 
 

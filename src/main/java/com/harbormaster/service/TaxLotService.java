@@ -97,79 +97,62 @@ public class TaxLotService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public TaxLotService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new TaxLotEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(TaxLotRepository.class) );
-			this.validator		= applicationContext.getBean(TaxLotValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new TaxLotEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(TaxLotRepository.class) );
+		this.validator		= applicationContext.getBean(TaxLotValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		TaxLot
-		 */
-			public TaxLot createTaxLot( CreateTaxLotCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		TaxLot
+	 */
+		public TaxLot createTaxLot( CreateTaxLotCommand command ) {
 
-			TaxLot entity = new TaxLot();
+		TaxLot entity = new TaxLot();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setTaxLotId( command.getTaxLotId() );
             entity.setAcquisitionDate( command.getAcquisitionDate() );
             entity.setQuantity( command.getQuantity() );
             entity.setUnitCost( command.getUnitCost() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of TaxLot {0} ", entity.toString() );
+		LOGGER.info( "done creating of TaxLot {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create TaxLot - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateTaxLotCommand
+	 * @return		TaxLot
+	 */
+	public TaxLot updateTaxLot( UpdateTaxLotCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateTaxLotCommand
-		 * @exception    BusinessException
-		 * @return		TaxLot
-		 */
-		public TaxLot updateTaxLot( UpdateTaxLotCommand command )
-  	  	throws BusinessException {
+		TaxLot entity = new TaxLot();
 
-			TaxLot entity = new TaxLot();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setTaxLotId( command.getTaxLotId() );
             entity.setAcquisitionDate( command.getAcquisitionDate() );
@@ -177,170 +160,125 @@ public class TaxLotService
             entity.setUnitCost( command.getUnitCost() );
             entity.setPosition( command.getPosition() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of TaxLot {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save TaxLot - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of TaxLot {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteTaxLotCommand
+	 */
+	public void delete( DeleteTaxLotCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getTaxLotId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of TaxLot {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the TaxLot via TaxLotFetchOneSummary
+	 * @param 	summary TaxLotFetchOneSummary
+	 * @return 	TaxLotFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public TaxLot getTaxLot( TaxLotFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "TaxLotFetchOneSummary arg cannot be null" );
+
+		TaxLot entity = null;
+		UUID id = summary.getTaxLotId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a TaxLot using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate TaxLot with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteTaxLotCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteTaxLotCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getTaxLotId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of TaxLot {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete TaxLot using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the TaxLot via TaxLotFetchOneSummary
-		 * @param 	summary TaxLotFetchOneSummary
-		 * @return 	TaxLotFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public TaxLot getTaxLot( TaxLotFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "TaxLotFetchOneSummary arg cannot be null" );
-
-			TaxLot entity = null;
-			UUID id = summary.getTaxLotId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a TaxLot using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate TaxLot with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all TaxLots
-		 *
-		 * @return 	List<TaxLot>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<TaxLot> getAllTaxLot() 
-    throws BusinessException {
-			List<TaxLot> list = null;
+	/**
+	 * Method to retrieve a collection of all TaxLots
+	 *
+	 * @return 	List<TaxLot>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<TaxLot> getAllTaxLot() {
+		List<TaxLot> list = projector.findAll( new FindAllTaxLotQuery() );
 
-			try {
-				list = projector.findAll( new FindAllTaxLotQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all TaxLot";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Position on TaxLot
+	 * @param		command AssignPositionToTaxLotCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPosition( AssignPositionToTaxLotCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Position on TaxLot
-		 * @param		command AssignPositionToTaxLotCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPosition( AssignPositionToTaxLotCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPosition(command.getTaxLotId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPosition(command.getTaxLotId(), command.getAssignment());
+	/**
+	 * unAssign Position on TaxLot
+	 * @param		command UnAssignPositionFromTaxLotCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPosition( UnAssignPositionFromTaxLotCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Position using id " + command.getTaxLotId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Position on TaxLot
-		 * @param		command UnAssignPositionFromTaxLotCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPosition( UnAssignPositionFromTaxLotCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPosition(command.getTaxLotId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Position on TaxLot";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPosition(command.getTaxLotId());
+	}
 	
-
 
 
 

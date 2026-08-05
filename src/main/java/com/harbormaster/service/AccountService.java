@@ -97,37 +97,33 @@ public class AccountService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public AccountService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new AccountEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(AccountRepository.class) );
-			this.validator		= applicationContext.getBean(AccountValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new AccountEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(AccountRepository.class) );
+		this.validator		= applicationContext.getBean(AccountValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Account
-		 */
-			public Account createAccount( CreateAccountCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Account
+	 */
+		public Account createAccount( CreateAccountCommand command ) {
 
-			Account entity = new Account();
+		Account entity = new Account();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAccountId( command.getAccountId() );
             entity.setName( command.getName() );
@@ -138,42 +134,29 @@ public class AccountService
             entity.setRegistrationType( command.getRegistrationType() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Account {0} ", entity.toString() );
+		LOGGER.info( "done creating of Account {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Account - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateAccountCommand
+	 * @return		Account
+	 */
+	public Account updateAccount( UpdateAccountCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateAccountCommand
-		 * @exception    BusinessException
-		 * @return		Account
-		 */
-		public Account updateAccount( UpdateAccountCommand command )
-  	  	throws BusinessException {
+		Account entity = new Account();
 
-			Account entity = new Account();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAccountId( command.getAccountId() );
             entity.setName( command.getName() );
@@ -194,635 +177,443 @@ public class AccountService
             entity.setRegistrationType( command.getRegistrationType() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Account {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Account - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Account {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteAccountCommand
+	 */
+	public void delete( DeleteAccountCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getAccountId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Account {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Account via AccountFetchOneSummary
+	 * @param 	summary AccountFetchOneSummary
+	 * @return 	AccountFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Account getAccount( AccountFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "AccountFetchOneSummary arg cannot be null" );
+
+		Account entity = null;
+		UUID id = summary.getAccountId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Account using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Account with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteAccountCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteAccountCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getAccountId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Account {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Account using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Account via AccountFetchOneSummary
-		 * @param 	summary AccountFetchOneSummary
-		 * @return 	AccountFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Account getAccount( AccountFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "AccountFetchOneSummary arg cannot be null" );
-
-			Account entity = null;
-			UUID id = summary.getAccountId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Account using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Account with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Accounts
-		 *
-		 * @return 	List<Account>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Account> getAllAccount() 
-    throws BusinessException {
-			List<Account> list = null;
+	/**
+	 * Method to retrieve a collection of all Accounts
+	 *
+	 * @return 	List<Account>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Account> getAllAccount() {
+		List<Account> list = projector.findAll( new FindAllAccountQuery() );
 
-			try {
-				list = projector.findAll( new FindAllAccountQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Account";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Household on Account
+	 * @param		command AssignHouseholdToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void assignHousehold( AssignHouseholdToAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Household on Account
-		 * @param		command AssignHouseholdToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void assignHousehold( AssignHouseholdToAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignHousehold(command.getAccountId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignHousehold(command.getAccountId(), command.getAssignment());
+	/**
+	 * unAssign Household on Account
+	 * @param		command UnAssignHouseholdFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignHousehold( UnAssignHouseholdFromAccountCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Household using id " + command.getAccountId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Household on Account
-		 * @param		command UnAssignHouseholdFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignHousehold( UnAssignHouseholdFromAccountCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignHousehold(command.getAccountId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Household on Account";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignHousehold(command.getAccountId());
+	}
 	
-		/**
-		 * assign Advisor on Account
-		 * @param		command AssignAdvisorToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisor( AssignAdvisorToAccountCommand command ) throws BusinessException {
+	/**
+	 * assign Advisor on Account
+	 * @param		command AssignAdvisorToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisor( AssignAdvisorToAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisor(command.getAccountId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisor(command.getAccountId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getAccountId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Advisor on Account
+	 * @param		command UnAssignAdvisorFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisor( UnAssignAdvisorFromAccountCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Advisor on Account
-		 * @param		command UnAssignAdvisorFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisor(command.getAccountId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Advisor on Account";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisor(command.getAccountId());
+	}
 	
-		/**
-		 * assign Custodian on Account
-		 * @param		command AssignCustodianToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void assignCustodian( AssignCustodianToAccountCommand command ) throws BusinessException {
+	/**
+	 * assign Custodian on Account
+	 * @param		command AssignCustodianToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void assignCustodian( AssignCustodianToAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignCustodian(command.getAccountId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignCustodian(command.getAccountId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Custodian using id " + command.getAccountId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Custodian on Account
+	 * @param		command UnAssignCustodianFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignCustodian( UnAssignCustodianFromAccountCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Custodian on Account
-		 * @param		command UnAssignCustodianFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignCustodian( UnAssignCustodianFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignCustodian(command.getAccountId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Custodian on Account";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignCustodian(command.getAccountId());
+	}
 	
-		/**
-		 * assign Portfolio on Account
-		 * @param		command AssignPortfolioToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPortfolio( AssignPortfolioToAccountCommand command ) throws BusinessException {
+	/**
+	 * assign Portfolio on Account
+	 * @param		command AssignPortfolioToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPortfolio( AssignPortfolioToAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPortfolio(command.getAccountId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPortfolio(command.getAccountId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Portfolio using id " + command.getAccountId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Portfolio on Account
+	 * @param		command UnAssignPortfolioFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPortfolio( UnAssignPortfolioFromAccountCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Portfolio on Account
-		 * @param		command UnAssignPortfolioFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPortfolio(command.getAccountId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Portfolio on Account";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPortfolio(command.getAccountId());
+	}
 	
 
-		/**
-		 * add Beneficiary to Beneficiaries
-		 * @param		command AssignBeneficiariesToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void addToBeneficiaries( AssignBeneficiariesToAccountCommand command ) throws BusinessException {
+	/**
+	 * add Beneficiary to Beneficiaries
+	 * @param		command AssignBeneficiariesToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void addToBeneficiaries( AssignBeneficiariesToAccountCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToBeneficiaries(command.getAccountId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Beneficiary as Beneficiaries to Account" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToBeneficiaries(command.getAccountId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Beneficiary from Beneficiaries
+	 * @param		command RemoveBeneficiariesFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromBeneficiaries( RemoveBeneficiariesFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Beneficiary from Beneficiaries
-		 * @param		command RemoveBeneficiariesFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromBeneficiaries( RemoveBeneficiariesFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromBeneficiaries(command.getAccountId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Position to Positions
+	 * @param		command AssignPositionsToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void addToPositions( AssignPositionsToAccountCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromBeneficiaries(command.getAccountId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToPositions(command.getAccountId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAccountId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Position from Positions
+	 * @param		command RemovePositionsFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromPositions( RemovePositionsFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Position to Positions
-		 * @param		command AssignPositionsToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void addToPositions( AssignPositionsToAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromPositions(command.getAccountId(), command.getRemoveFrom());
+	}
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add Transaction to Transactions
+	 * @param		command AssignTransactionsToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void addToTransactions( AssignTransactionsToAccountCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToPositions(command.getAccountId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Position as Positions to Account" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToTransactions(command.getAccountId(), command.getAddTo())
+	}
 
-		/**
-		 * remove Position from Positions
-		 * @param		command RemovePositionsFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromPositions( RemovePositionsFromAccountCommand command ) throws BusinessException {
+	/**
+	 * remove Transaction from Transactions
+	 * @param		command RemoveTransactionsFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromTransactions( RemoveTransactionsFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromTransactions(command.getAccountId(), command.getRemoveFrom());
+	}
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add Fee to Fees
+	 * @param		command AssignFeesToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void addToFees( AssignFeesToAccountCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromPositions(command.getAccountId(), command.getRemoveFrom());
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAccountId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToFees(command.getAccountId(), command.getAddTo())
+	}
 
-		/**
-		 * add Transaction to Transactions
-		 * @param		command AssignTransactionsToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void addToTransactions( AssignTransactionsToAccountCommand command ) throws BusinessException {
+	/**
+	 * remove Fee from Fees
+	 * @param		command RemoveFeesFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromFees( RemoveFeesFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromFees(command.getAccountId(), command.getRemoveFrom());
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToTransactions(command.getAccountId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Transaction as Transactions to Account" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+	/**
+	 * add StandingInstruction to StandingInstructions
+	 * @param		command AssignStandingInstructionsToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void addToStandingInstructions( AssignStandingInstructionsToAccountCommand command ) throws BusinessException {
 
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Transaction from Transactions
-		 * @param		command RemoveTransactionsFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromTransactions( RemoveTransactionsFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToStandingInstructions(command.getAccountId(), command.getAddTo())
+	}
 
-			try {
+	/**
+	 * remove StandingInstruction from StandingInstructions
+	 * @param		command RemoveStandingInstructionsFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromStandingInstructions( RemoveStandingInstructionsFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromStandingInstructions(command.getAccountId(), command.getRemoveFrom());
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromTransactions(command.getAccountId(), command.getRemoveFrom());
+	/**
+	 * add Invoice to Invoices
+	 * @param		command AssignInvoicesToAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void addToInvoices( AssignInvoicesToAccountCommand command ) throws BusinessException {
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAccountId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Fee to Fees
-		 * @param		command AssignFeesToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void addToFees( AssignFeesToAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToInvoices(command.getAccountId(), command.getAddTo())
+	}
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * remove Invoice from Invoices
+	 * @param		command RemoveInvoicesFromAccountCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromInvoices( RemoveInvoicesFromAccountCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToFees(command.getAccountId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Fee as Fees to Account" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Fee from Fees
-		 * @param		command RemoveFeesFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromFees( RemoveFeesFromAccountCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromFees(command.getAccountId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAccountId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
-		/**
-		 * add StandingInstruction to StandingInstructions
-		 * @param		command AssignStandingInstructionsToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void addToStandingInstructions( AssignStandingInstructionsToAccountCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToStandingInstructions(command.getAccountId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a StandingInstruction as StandingInstructions to Account" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove StandingInstruction from StandingInstructions
-		 * @param		command RemoveStandingInstructionsFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromStandingInstructions( RemoveStandingInstructionsFromAccountCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromStandingInstructions(command.getAccountId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAccountId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
-		/**
-		 * add Invoice to Invoices
-		 * @param		command AssignInvoicesToAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void addToInvoices( AssignInvoicesToAccountCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToInvoices(command.getAccountId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Invoice as Invoices to Account" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Invoice from Invoices
-		 * @param		command RemoveInvoicesFromAccountCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromInvoices( RemoveInvoicesFromAccountCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromInvoices(command.getAccountId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAccountId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromInvoices(command.getAccountId(), command.getRemoveFrom());
+	}
 
 
 

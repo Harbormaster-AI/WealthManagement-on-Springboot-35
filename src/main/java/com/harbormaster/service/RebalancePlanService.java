@@ -97,79 +97,62 @@ public class RebalancePlanService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public RebalancePlanService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new RebalancePlanEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(RebalancePlanRepository.class) );
-			this.validator		= applicationContext.getBean(RebalancePlanValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new RebalancePlanEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(RebalancePlanRepository.class) );
+		this.validator		= applicationContext.getBean(RebalancePlanValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		RebalancePlan
-		 */
-			public RebalancePlan createRebalancePlan( CreateRebalancePlanCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		RebalancePlan
+	 */
+		public RebalancePlan createRebalancePlan( CreateRebalancePlanCommand command ) {
 
-			RebalancePlan entity = new RebalancePlan();
+		RebalancePlan entity = new RebalancePlan();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setRebalancePlanId( command.getRebalancePlanId() );
             entity.setPlanDate( command.getPlanDate() );
             entity.setStatus( command.getStatus() );
             entity.setMethod( command.getMethod() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of RebalancePlan {0} ", entity.toString() );
+		LOGGER.info( "done creating of RebalancePlan {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create RebalancePlan - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateRebalancePlanCommand
+	 * @return		RebalancePlan
+	 */
+	public RebalancePlan updateRebalancePlan( UpdateRebalancePlanCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateRebalancePlanCommand
-		 * @exception    BusinessException
-		 * @return		RebalancePlan
-		 */
-		public RebalancePlan updateRebalancePlan( UpdateRebalancePlanCommand command )
-  	  	throws BusinessException {
+		RebalancePlan entity = new RebalancePlan();
 
-			RebalancePlan entity = new RebalancePlan();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setRebalancePlanId( command.getRebalancePlanId() );
             entity.setPlanDate( command.getPlanDate() );
@@ -179,273 +162,196 @@ public class RebalancePlanService
             entity.setStatus( command.getStatus() );
             entity.setMethod( command.getMethod() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of RebalancePlan {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save RebalancePlan - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of RebalancePlan {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteRebalancePlanCommand
+	 */
+	public void delete( DeleteRebalancePlanCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getRebalancePlanId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of RebalancePlan {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the RebalancePlan via RebalancePlanFetchOneSummary
+	 * @param 	summary RebalancePlanFetchOneSummary
+	 * @return 	RebalancePlanFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public RebalancePlan getRebalancePlan( RebalancePlanFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "RebalancePlanFetchOneSummary arg cannot be null" );
+
+		RebalancePlan entity = null;
+		UUID id = summary.getRebalancePlanId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a RebalancePlan using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate RebalancePlan with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteRebalancePlanCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteRebalancePlanCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getRebalancePlanId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of RebalancePlan {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete RebalancePlan using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the RebalancePlan via RebalancePlanFetchOneSummary
-		 * @param 	summary RebalancePlanFetchOneSummary
-		 * @return 	RebalancePlanFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public RebalancePlan getRebalancePlan( RebalancePlanFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "RebalancePlanFetchOneSummary arg cannot be null" );
-
-			RebalancePlan entity = null;
-			UUID id = summary.getRebalancePlanId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a RebalancePlan using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate RebalancePlan with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all RebalancePlans
-		 *
-		 * @return 	List<RebalancePlan>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<RebalancePlan> getAllRebalancePlan() 
-    throws BusinessException {
-			List<RebalancePlan> list = null;
+	/**
+	 * Method to retrieve a collection of all RebalancePlans
+	 *
+	 * @return 	List<RebalancePlan>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<RebalancePlan> getAllRebalancePlan() {
+		List<RebalancePlan> list = projector.findAll( new FindAllRebalancePlanQuery() );
 
-			try {
-				list = projector.findAll( new FindAllRebalancePlanQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all RebalancePlan";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Portfolio on RebalancePlan
+	 * @param		command AssignPortfolioToRebalancePlanCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPortfolio( AssignPortfolioToRebalancePlanCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Portfolio on RebalancePlan
-		 * @param		command AssignPortfolioToRebalancePlanCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPortfolio( AssignPortfolioToRebalancePlanCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPortfolio(command.getRebalancePlanId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPortfolio(command.getRebalancePlanId(), command.getAssignment());
+	/**
+	 * unAssign Portfolio on RebalancePlan
+	 * @param		command UnAssignPortfolioFromRebalancePlanCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPortfolio( UnAssignPortfolioFromRebalancePlanCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Portfolio using id " + command.getRebalancePlanId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Portfolio on RebalancePlan
-		 * @param		command UnAssignPortfolioFromRebalancePlanCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromRebalancePlanCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPortfolio(command.getRebalancePlanId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Portfolio on RebalancePlan";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPortfolio(command.getRebalancePlanId());
+	}
 	
-		/**
-		 * assign Advisor on RebalancePlan
-		 * @param		command AssignAdvisorToRebalancePlanCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisor( AssignAdvisorToRebalancePlanCommand command ) throws BusinessException {
+	/**
+	 * assign Advisor on RebalancePlan
+	 * @param		command AssignAdvisorToRebalancePlanCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisor( AssignAdvisorToRebalancePlanCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisor(command.getRebalancePlanId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisor(command.getRebalancePlanId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getRebalancePlanId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Advisor on RebalancePlan
+	 * @param		command UnAssignAdvisorFromRebalancePlanCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisor( UnAssignAdvisorFromRebalancePlanCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Advisor on RebalancePlan
-		 * @param		command UnAssignAdvisorFromRebalancePlanCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromRebalancePlanCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisor(command.getRebalancePlanId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Advisor on RebalancePlan";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisor(command.getRebalancePlanId());
+	}
 	
 
-		/**
-		 * add Order to ProposedOrders
-		 * @param		command AssignProposedOrdersToRebalancePlanCommand
-		 * @exception	BusinessException
-		 */
-		public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) throws BusinessException {
+	/**
+	 * add Order to ProposedOrders
+	 * @param		command AssignProposedOrdersToRebalancePlanCommand
+	 * @exception	BusinessException
+	 */
+	public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToProposedOrders(command.getRebalancePlanId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Order as ProposedOrders to RebalancePlan" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToProposedOrders(command.getRebalancePlanId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Order from ProposedOrders
+	 * @param		command RemoveProposedOrdersFromRebalancePlanCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Order from ProposedOrders
-		 * @param		command RemoveProposedOrdersFromRebalancePlanCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromProposedOrders(command.getRebalancePlanId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getRebalancePlanId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromProposedOrders(command.getRebalancePlanId(), command.getRemoveFrom());
+	}
 
 
 

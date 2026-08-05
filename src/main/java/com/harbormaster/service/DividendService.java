@@ -97,248 +97,186 @@ public class DividendService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public DividendService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new DividendEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(DividendRepository.class) );
-			this.validator		= applicationContext.getBean(DividendValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new DividendEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(DividendRepository.class) );
+		this.validator		= applicationContext.getBean(DividendValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Dividend
-		 */
-			public Dividend createDividend( CreateDividendCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Dividend
+	 */
+		public Dividend createDividend( CreateDividendCommand command ) {
 
-			Dividend entity = new Dividend();
+		Dividend entity = new Dividend();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setDividendId( command.getDividendId() );
             entity.setGrossAmount( command.getGrossAmount() );
             entity.setTaxWithheld( command.getTaxWithheld() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Dividend {0} ", entity.toString() );
+		LOGGER.info( "done creating of Dividend {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Dividend - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateDividendCommand
+	 * @return		Dividend
+	 */
+	public Dividend updateDividend( UpdateDividendCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateDividendCommand
-		 * @exception    BusinessException
-		 * @return		Dividend
-		 */
-		public Dividend updateDividend( UpdateDividendCommand command )
-  	  	throws BusinessException {
+		Dividend entity = new Dividend();
 
-			Dividend entity = new Dividend();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setDividendId( command.getDividendId() );
             entity.setGrossAmount( command.getGrossAmount() );
             entity.setTaxWithheld( command.getTaxWithheld() );
             entity.setCorporateAction( command.getCorporateAction() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Dividend {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Dividend - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Dividend {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteDividendCommand
+	 */
+	public void delete( DeleteDividendCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getDividendId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Dividend {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Dividend via DividendFetchOneSummary
+	 * @param 	summary DividendFetchOneSummary
+	 * @return 	DividendFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Dividend getDividend( DividendFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "DividendFetchOneSummary arg cannot be null" );
+
+		Dividend entity = null;
+		UUID id = summary.getDividendId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Dividend using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Dividend with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteDividendCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteDividendCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getDividendId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Dividend {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Dividend using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Dividend via DividendFetchOneSummary
-		 * @param 	summary DividendFetchOneSummary
-		 * @return 	DividendFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Dividend getDividend( DividendFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "DividendFetchOneSummary arg cannot be null" );
-
-			Dividend entity = null;
-			UUID id = summary.getDividendId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Dividend using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Dividend with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Dividends
-		 *
-		 * @return 	List<Dividend>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Dividend> getAllDividend() 
-    throws BusinessException {
-			List<Dividend> list = null;
+	/**
+	 * Method to retrieve a collection of all Dividends
+	 *
+	 * @return 	List<Dividend>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Dividend> getAllDividend() {
+		List<Dividend> list = projector.findAll( new FindAllDividendQuery() );
 
-			try {
-				list = projector.findAll( new FindAllDividendQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Dividend";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign CorporateAction on Dividend
+	 * @param		command AssignCorporateActionToDividendCommand
+	 * @exception	BusinessException
+	 */
+	public void assignCorporateAction( AssignCorporateActionToDividendCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign CorporateAction on Dividend
-		 * @param		command AssignCorporateActionToDividendCommand
-		 * @exception	BusinessException
-		 */
-		public void assignCorporateAction( AssignCorporateActionToDividendCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignCorporateAction(command.getDividendId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignCorporateAction(command.getDividendId(), command.getAssignment());
+	/**
+	 * unAssign CorporateAction on Dividend
+	 * @param		command UnAssignCorporateActionFromDividendCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignCorporateAction( UnAssignCorporateActionFromDividendCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get CorporateAction using id " + command.getDividendId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign CorporateAction on Dividend
-		 * @param		command UnAssignCorporateActionFromDividendCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignCorporateAction( UnAssignCorporateActionFromDividendCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignCorporateAction(command.getDividendId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign CorporateAction on Dividend";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignCorporateAction(command.getDividendId());
+	}
 	
-
 
 
 

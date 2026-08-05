@@ -97,37 +97,33 @@ public class DocumentService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public DocumentService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new DocumentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(DocumentRepository.class) );
-			this.validator		= applicationContext.getBean(DocumentValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new DocumentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(DocumentRepository.class) );
+		this.validator		= applicationContext.getBean(DocumentValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Document
-		 */
-			public Document createDocument( CreateDocumentCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Document
+	 */
+		public Document createDocument( CreateDocumentCommand command ) {
 
-			Document entity = new Document();
+		Document entity = new Document();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setDocumentId( command.getDocumentId() );
             entity.setTitle( command.getTitle() );
@@ -135,42 +131,29 @@ public class DocumentService
             entity.setReceivedDate( command.getReceivedDate() );
             entity.setDocumentType( command.getDocumentType() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Document {0} ", entity.toString() );
+		LOGGER.info( "done creating of Document {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Document - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateDocumentCommand
+	 * @return		Document
+	 */
+	public Document updateDocument( UpdateDocumentCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateDocumentCommand
-		 * @exception    BusinessException
-		 * @return		Document
-		 */
-		public Document updateDocument( UpdateDocumentCommand command )
-  	  	throws BusinessException {
+		Document entity = new Document();
 
-			Document entity = new Document();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setDocumentId( command.getDocumentId() );
             entity.setTitle( command.getTitle() );
@@ -181,272 +164,197 @@ public class DocumentService
             entity.setAgreement( command.getAgreement() );
             entity.setDocumentType( command.getDocumentType() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Document {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Document - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Document {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteDocumentCommand
+	 */
+	public void delete( DeleteDocumentCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getDocumentId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Document {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Document via DocumentFetchOneSummary
+	 * @param 	summary DocumentFetchOneSummary
+	 * @return 	DocumentFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Document getDocument( DocumentFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "DocumentFetchOneSummary arg cannot be null" );
+
+		Document entity = null;
+		UUID id = summary.getDocumentId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Document using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Document with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteDocumentCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteDocumentCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getDocumentId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Document {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Document using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Document via DocumentFetchOneSummary
-		 * @param 	summary DocumentFetchOneSummary
-		 * @return 	DocumentFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Document getDocument( DocumentFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "DocumentFetchOneSummary arg cannot be null" );
-
-			Document entity = null;
-			UUID id = summary.getDocumentId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Document using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Document with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Documents
-		 *
-		 * @return 	List<Document>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Document> getAllDocument() 
-    throws BusinessException {
-			List<Document> list = null;
+	/**
+	 * Method to retrieve a collection of all Documents
+	 *
+	 * @return 	List<Document>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Document> getAllDocument() {
+		List<Document> list = projector.findAll( new FindAllDocumentQuery() );
 
-			try {
-				list = projector.findAll( new FindAllDocumentQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Document";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Client on Document
+	 * @param		command AssignClientToDocumentCommand
+	 * @exception	BusinessException
+	 */
+	public void assignClient( AssignClientToDocumentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Client on Document
-		 * @param		command AssignClientToDocumentCommand
-		 * @exception	BusinessException
-		 */
-		public void assignClient( AssignClientToDocumentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignClient(command.getDocumentId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignClient(command.getDocumentId(), command.getAssignment());
+	/**
+	 * unAssign Client on Document
+	 * @param		command UnAssignClientFromDocumentCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignClient( UnAssignClientFromDocumentCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Client using id " + command.getDocumentId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Client on Document
-		 * @param		command UnAssignClientFromDocumentCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignClient( UnAssignClientFromDocumentCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignClient(command.getDocumentId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Client on Document";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignClient(command.getDocumentId());
+	}
 	
-		/**
-		 * assign KycRecord on Document
-		 * @param		command AssignKycRecordToDocumentCommand
-		 * @exception	BusinessException
-		 */
-		public void assignKycRecord( AssignKycRecordToDocumentCommand command ) throws BusinessException {
+	/**
+	 * assign KycRecord on Document
+	 * @param		command AssignKycRecordToDocumentCommand
+	 * @exception	BusinessException
+	 */
+	public void assignKycRecord( AssignKycRecordToDocumentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignKycRecord(command.getDocumentId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignKycRecord(command.getDocumentId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get KycRecord using id " + command.getDocumentId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign KycRecord on Document
+	 * @param		command UnAssignKycRecordFromDocumentCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignKycRecord( UnAssignKycRecordFromDocumentCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign KycRecord on Document
-		 * @param		command UnAssignKycRecordFromDocumentCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignKycRecord( UnAssignKycRecordFromDocumentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignKycRecord(command.getDocumentId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign KycRecord on Document";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignKycRecord(command.getDocumentId());
+	}
 	
-		/**
-		 * assign Agreement on Document
-		 * @param		command AssignAgreementToDocumentCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAgreement( AssignAgreementToDocumentCommand command ) throws BusinessException {
+	/**
+	 * assign Agreement on Document
+	 * @param		command AssignAgreementToDocumentCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAgreement( AssignAgreementToDocumentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAgreement(command.getDocumentId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAgreement(command.getDocumentId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Agreement using id " + command.getDocumentId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Agreement on Document
+	 * @param		command UnAssignAgreementFromDocumentCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAgreement( UnAssignAgreementFromDocumentCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Agreement on Document
-		 * @param		command UnAssignAgreementFromDocumentCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAgreement( UnAssignAgreementFromDocumentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAgreement(command.getDocumentId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Agreement on Document";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAgreement(command.getDocumentId());
+	}
 	
-
 
 
 

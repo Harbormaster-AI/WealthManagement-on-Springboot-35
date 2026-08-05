@@ -97,37 +97,33 @@ public class OrderService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public OrderService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new OrderEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(OrderRepository.class) );
-			this.validator		= applicationContext.getBean(OrderValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new OrderEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(OrderRepository.class) );
+		this.validator		= applicationContext.getBean(OrderValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Order
-		 */
-			public Order createOrder( CreateOrderCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Order
+	 */
+		public Order createOrder( CreateOrderCommand command ) {
 
-			Order entity = new Order();
+		Order entity = new Order();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setOrderId( command.getOrderId() );
             entity.setOrderNumber( command.getOrderNumber() );
@@ -139,42 +135,29 @@ public class OrderService
             entity.setTimeInForce( command.getTimeInForce() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Order {0} ", entity.toString() );
+		LOGGER.info( "done creating of Order {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Order - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateOrderCommand
+	 * @return		Order
+	 */
+	public Order updateOrder( UpdateOrderCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateOrderCommand
-		 * @exception    BusinessException
-		 * @return		Order
-		 */
-		public Order updateOrder( UpdateOrderCommand command )
-  	  	throws BusinessException {
+		Order entity = new Order();
 
-			Order entity = new Order();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setOrderId( command.getOrderId() );
             entity.setOrderNumber( command.getOrderNumber() );
@@ -191,376 +174,267 @@ public class OrderService
             entity.setTimeInForce( command.getTimeInForce() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Order {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Order - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Order {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteOrderCommand
+	 */
+	public void delete( DeleteOrderCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getOrderId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Order {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Order via OrderFetchOneSummary
+	 * @param 	summary OrderFetchOneSummary
+	 * @return 	OrderFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Order getOrder( OrderFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "OrderFetchOneSummary arg cannot be null" );
+
+		Order entity = null;
+		UUID id = summary.getOrderId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Order using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Order with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteOrderCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteOrderCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getOrderId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Order {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Order using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Order via OrderFetchOneSummary
-		 * @param 	summary OrderFetchOneSummary
-		 * @return 	OrderFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Order getOrder( OrderFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "OrderFetchOneSummary arg cannot be null" );
-
-			Order entity = null;
-			UUID id = summary.getOrderId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Order using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Order with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Orders
-		 *
-		 * @return 	List<Order>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Order> getAllOrder() 
-    throws BusinessException {
-			List<Order> list = null;
+	/**
+	 * Method to retrieve a collection of all Orders
+	 *
+	 * @return 	List<Order>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Order> getAllOrder() {
+		List<Order> list = projector.findAll( new FindAllOrderQuery() );
 
-			try {
-				list = projector.findAll( new FindAllOrderQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Order";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Account on Order
+	 * @param		command AssignAccountToOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Account on Order
-		 * @param		command AssignAccountToOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getOrderId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getOrderId(), command.getAssignment());
+	/**
+	 * unAssign Account on Order
+	 * @param		command UnAssignAccountFromOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromOrderCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getOrderId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Account on Order
-		 * @param		command UnAssignAccountFromOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromOrderCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getOrderId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on Order";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getOrderId());
+	}
 	
-		/**
-		 * assign Security on Order
-		 * @param		command AssignSecurityToOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void assignSecurity( AssignSecurityToOrderCommand command ) throws BusinessException {
+	/**
+	 * assign Security on Order
+	 * @param		command AssignSecurityToOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void assignSecurity( AssignSecurityToOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignSecurity(command.getOrderId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignSecurity(command.getOrderId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Security using id " + command.getOrderId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Security on Order
+	 * @param		command UnAssignSecurityFromOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignSecurity( UnAssignSecurityFromOrderCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Security on Order
-		 * @param		command UnAssignSecurityFromOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignSecurity( UnAssignSecurityFromOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignSecurity(command.getOrderId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Security on Order";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignSecurity(command.getOrderId());
+	}
 	
-		/**
-		 * assign Advisor on Order
-		 * @param		command AssignAdvisorToOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisor( AssignAdvisorToOrderCommand command ) throws BusinessException {
+	/**
+	 * assign Advisor on Order
+	 * @param		command AssignAdvisorToOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisor( AssignAdvisorToOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisor(command.getOrderId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisor(command.getOrderId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getOrderId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Advisor on Order
+	 * @param		command UnAssignAdvisorFromOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisor( UnAssignAdvisorFromOrderCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Advisor on Order
-		 * @param		command UnAssignAdvisorFromOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisor(command.getOrderId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Advisor on Order";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisor(command.getOrderId());
+	}
 	
 
-		/**
-		 * add OrderAllocation to Allocations
-		 * @param		command AssignAllocationsToOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAllocations( AssignAllocationsToOrderCommand command ) throws BusinessException {
+	/**
+	 * add OrderAllocation to Allocations
+	 * @param		command AssignAllocationsToOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAllocations( AssignAllocationsToOrderCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAllocations(command.getOrderId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a OrderAllocation as Allocations to Order" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAllocations(command.getOrderId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove OrderAllocation from Allocations
+	 * @param		command RemoveAllocationsFromOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAllocations( RemoveAllocationsFromOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove OrderAllocation from Allocations
-		 * @param		command RemoveAllocationsFromOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAllocations( RemoveAllocationsFromOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAllocations(command.getOrderId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Trade to Trades
+	 * @param		command AssignTradesToOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void addToTrades( AssignTradesToOrderCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAllocations(command.getOrderId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToTrades(command.getOrderId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getOrderId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Trade from Trades
+	 * @param		command RemoveTradesFromOrderCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromTrades( RemoveTradesFromOrderCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Trade to Trades
-		 * @param		command AssignTradesToOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void addToTrades( AssignTradesToOrderCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToTrades(command.getOrderId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Trade as Trades to Order" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Trade from Trades
-		 * @param		command RemoveTradesFromOrderCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromTrades( RemoveTradesFromOrderCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromTrades(command.getOrderId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getOrderId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromTrades(command.getOrderId(), command.getRemoveFrom());
+	}
 
 
 

@@ -97,37 +97,33 @@ public class MeetingService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public MeetingService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new MeetingEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(MeetingRepository.class) );
-			this.validator		= applicationContext.getBean(MeetingValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new MeetingEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(MeetingRepository.class) );
+		this.validator		= applicationContext.getBean(MeetingValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Meeting
-		 */
-			public Meeting createMeeting( CreateMeetingCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Meeting
+	 */
+		public Meeting createMeeting( CreateMeetingCommand command ) {
 
-			Meeting entity = new Meeting();
+		Meeting entity = new Meeting();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setMeetingId( command.getMeetingId() );
             entity.setMeetingDate( command.getMeetingDate() );
@@ -135,42 +131,29 @@ public class MeetingService
             entity.setSubject( command.getSubject() );
             entity.setNotes( command.getNotes() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Meeting {0} ", entity.toString() );
+		LOGGER.info( "done creating of Meeting {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Meeting - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateMeetingCommand
+	 * @return		Meeting
+	 */
+	public Meeting updateMeeting( UpdateMeetingCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateMeetingCommand
-		 * @exception    BusinessException
-		 * @return		Meeting
-		 */
-		public Meeting updateMeeting( UpdateMeetingCommand command )
-  	  	throws BusinessException {
+		Meeting entity = new Meeting();
 
-			Meeting entity = new Meeting();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setMeetingId( command.getMeetingId() );
             entity.setMeetingDate( command.getMeetingDate() );
@@ -181,273 +164,196 @@ public class MeetingService
             entity.setAdvisor( command.getAdvisor() );
             entity.setDocuments( command.getDocuments() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Meeting {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Meeting - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Meeting {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteMeetingCommand
+	 */
+	public void delete( DeleteMeetingCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getMeetingId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Meeting {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Meeting via MeetingFetchOneSummary
+	 * @param 	summary MeetingFetchOneSummary
+	 * @return 	MeetingFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Meeting getMeeting( MeetingFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "MeetingFetchOneSummary arg cannot be null" );
+
+		Meeting entity = null;
+		UUID id = summary.getMeetingId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Meeting using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Meeting with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteMeetingCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteMeetingCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getMeetingId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Meeting {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Meeting using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Meeting via MeetingFetchOneSummary
-		 * @param 	summary MeetingFetchOneSummary
-		 * @return 	MeetingFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Meeting getMeeting( MeetingFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "MeetingFetchOneSummary arg cannot be null" );
-
-			Meeting entity = null;
-			UUID id = summary.getMeetingId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Meeting using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Meeting with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Meetings
-		 *
-		 * @return 	List<Meeting>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Meeting> getAllMeeting() 
-    throws BusinessException {
-			List<Meeting> list = null;
+	/**
+	 * Method to retrieve a collection of all Meetings
+	 *
+	 * @return 	List<Meeting>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Meeting> getAllMeeting() {
+		List<Meeting> list = projector.findAll( new FindAllMeetingQuery() );
 
-			try {
-				list = projector.findAll( new FindAllMeetingQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Meeting";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Household on Meeting
+	 * @param		command AssignHouseholdToMeetingCommand
+	 * @exception	BusinessException
+	 */
+	public void assignHousehold( AssignHouseholdToMeetingCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Household on Meeting
-		 * @param		command AssignHouseholdToMeetingCommand
-		 * @exception	BusinessException
-		 */
-		public void assignHousehold( AssignHouseholdToMeetingCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignHousehold(command.getMeetingId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignHousehold(command.getMeetingId(), command.getAssignment());
+	/**
+	 * unAssign Household on Meeting
+	 * @param		command UnAssignHouseholdFromMeetingCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignHousehold( UnAssignHouseholdFromMeetingCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Household using id " + command.getMeetingId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Household on Meeting
-		 * @param		command UnAssignHouseholdFromMeetingCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignHousehold( UnAssignHouseholdFromMeetingCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignHousehold(command.getMeetingId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Household on Meeting";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignHousehold(command.getMeetingId());
+	}
 	
-		/**
-		 * assign Advisor on Meeting
-		 * @param		command AssignAdvisorToMeetingCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisor( AssignAdvisorToMeetingCommand command ) throws BusinessException {
+	/**
+	 * assign Advisor on Meeting
+	 * @param		command AssignAdvisorToMeetingCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisor( AssignAdvisorToMeetingCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisor(command.getMeetingId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisor(command.getMeetingId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getMeetingId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Advisor on Meeting
+	 * @param		command UnAssignAdvisorFromMeetingCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisor( UnAssignAdvisorFromMeetingCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Advisor on Meeting
-		 * @param		command UnAssignAdvisorFromMeetingCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromMeetingCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisor(command.getMeetingId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Advisor on Meeting";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisor(command.getMeetingId());
+	}
 	
 
-		/**
-		 * add Document to Documents
-		 * @param		command AssignDocumentsToMeetingCommand
-		 * @exception	BusinessException
-		 */
-		public void addToDocuments( AssignDocumentsToMeetingCommand command ) throws BusinessException {
+	/**
+	 * add Document to Documents
+	 * @param		command AssignDocumentsToMeetingCommand
+	 * @exception	BusinessException
+	 */
+	public void addToDocuments( AssignDocumentsToMeetingCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToDocuments(command.getMeetingId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Document as Documents to Meeting" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToDocuments(command.getMeetingId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Document from Documents
+	 * @param		command RemoveDocumentsFromMeetingCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromDocuments( RemoveDocumentsFromMeetingCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Document from Documents
-		 * @param		command RemoveDocumentsFromMeetingCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromDocuments( RemoveDocumentsFromMeetingCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromDocuments(command.getMeetingId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getMeetingId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromDocuments(command.getMeetingId(), command.getRemoveFrom());
+	}
 
 
 

@@ -97,37 +97,33 @@ public class KycRecordService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public KycRecordService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new KycRecordEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(KycRecordRepository.class) );
-			this.validator		= applicationContext.getBean(KycRecordValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new KycRecordEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(KycRecordRepository.class) );
+		this.validator		= applicationContext.getBean(KycRecordValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		KycRecord
-		 */
-			public KycRecord createKycRecord( CreateKycRecordCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		KycRecord
+	 */
+		public KycRecord createKycRecord( CreateKycRecordCommand command ) {
 
-			KycRecord entity = new KycRecord();
+		KycRecord entity = new KycRecord();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setKycRecordId( command.getKycRecordId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -135,42 +131,29 @@ public class KycRecordService
             entity.setSourceOfWealth( command.getSourceOfWealth() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of KycRecord {0} ", entity.toString() );
+		LOGGER.info( "done creating of KycRecord {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create KycRecord - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateKycRecordCommand
+	 * @return		KycRecord
+	 */
+	public KycRecord updateKycRecord( UpdateKycRecordCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateKycRecordCommand
-		 * @exception    BusinessException
-		 * @return		KycRecord
-		 */
-		public KycRecord updateKycRecord( UpdateKycRecordCommand command )
-  	  	throws BusinessException {
+		KycRecord entity = new KycRecord();
 
-			KycRecord entity = new KycRecord();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setKycRecordId( command.getKycRecordId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -180,222 +163,160 @@ public class KycRecordService
             entity.setDocuments( command.getDocuments() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of KycRecord {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save KycRecord - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of KycRecord {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteKycRecordCommand
+	 */
+	public void delete( DeleteKycRecordCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getKycRecordId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of KycRecord {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the KycRecord via KycRecordFetchOneSummary
+	 * @param 	summary KycRecordFetchOneSummary
+	 * @return 	KycRecordFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public KycRecord getKycRecord( KycRecordFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "KycRecordFetchOneSummary arg cannot be null" );
+
+		KycRecord entity = null;
+		UUID id = summary.getKycRecordId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a KycRecord using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate KycRecord with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteKycRecordCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteKycRecordCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getKycRecordId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of KycRecord {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete KycRecord using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the KycRecord via KycRecordFetchOneSummary
-		 * @param 	summary KycRecordFetchOneSummary
-		 * @return 	KycRecordFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public KycRecord getKycRecord( KycRecordFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "KycRecordFetchOneSummary arg cannot be null" );
-
-			KycRecord entity = null;
-			UUID id = summary.getKycRecordId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a KycRecord using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate KycRecord with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all KycRecords
-		 *
-		 * @return 	List<KycRecord>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<KycRecord> getAllKycRecord() 
-    throws BusinessException {
-			List<KycRecord> list = null;
+	/**
+	 * Method to retrieve a collection of all KycRecords
+	 *
+	 * @return 	List<KycRecord>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<KycRecord> getAllKycRecord() {
+		List<KycRecord> list = projector.findAll( new FindAllKycRecordQuery() );
 
-			try {
-				list = projector.findAll( new FindAllKycRecordQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all KycRecord";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Client on KycRecord
+	 * @param		command AssignClientToKycRecordCommand
+	 * @exception	BusinessException
+	 */
+	public void assignClient( AssignClientToKycRecordCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Client on KycRecord
-		 * @param		command AssignClientToKycRecordCommand
-		 * @exception	BusinessException
-		 */
-		public void assignClient( AssignClientToKycRecordCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignClient(command.getKycRecordId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignClient(command.getKycRecordId(), command.getAssignment());
+	/**
+	 * unAssign Client on KycRecord
+	 * @param		command UnAssignClientFromKycRecordCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignClient( UnAssignClientFromKycRecordCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Client using id " + command.getKycRecordId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Client on KycRecord
-		 * @param		command UnAssignClientFromKycRecordCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignClient( UnAssignClientFromKycRecordCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignClient(command.getKycRecordId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Client on KycRecord";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignClient(command.getKycRecordId());
+	}
 	
 
-		/**
-		 * add Document to Documents
-		 * @param		command AssignDocumentsToKycRecordCommand
-		 * @exception	BusinessException
-		 */
-		public void addToDocuments( AssignDocumentsToKycRecordCommand command ) throws BusinessException {
+	/**
+	 * add Document to Documents
+	 * @param		command AssignDocumentsToKycRecordCommand
+	 * @exception	BusinessException
+	 */
+	public void addToDocuments( AssignDocumentsToKycRecordCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToDocuments(command.getKycRecordId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Document as Documents to KycRecord" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToDocuments(command.getKycRecordId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Document from Documents
+	 * @param		command RemoveDocumentsFromKycRecordCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromDocuments( RemoveDocumentsFromKycRecordCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Document from Documents
-		 * @param		command RemoveDocumentsFromKycRecordCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromDocuments( RemoveDocumentsFromKycRecordCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromDocuments(command.getKycRecordId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getKycRecordId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromDocuments(command.getKycRecordId(), command.getRemoveFrom());
+	}
 
 
 

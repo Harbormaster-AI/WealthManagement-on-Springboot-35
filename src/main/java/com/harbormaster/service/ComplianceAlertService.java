@@ -97,37 +97,33 @@ public class ComplianceAlertService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public ComplianceAlertService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new ComplianceAlertEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(ComplianceAlertRepository.class) );
-			this.validator		= applicationContext.getBean(ComplianceAlertValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new ComplianceAlertEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(ComplianceAlertRepository.class) );
+		this.validator		= applicationContext.getBean(ComplianceAlertValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		ComplianceAlert
-		 */
-			public ComplianceAlert createComplianceAlert( CreateComplianceAlertCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		ComplianceAlert
+	 */
+		public ComplianceAlert createComplianceAlert( CreateComplianceAlertCommand command ) {
 
-			ComplianceAlert entity = new ComplianceAlert();
+		ComplianceAlert entity = new ComplianceAlert();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setComplianceAlertId( command.getComplianceAlertId() );
             entity.setAlertDate( command.getAlertDate() );
@@ -135,42 +131,29 @@ public class ComplianceAlertService
             entity.setStatus( command.getStatus() );
             entity.setSeverity( command.getSeverity() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of ComplianceAlert {0} ", entity.toString() );
+		LOGGER.info( "done creating of ComplianceAlert {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create ComplianceAlert - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateComplianceAlertCommand
+	 * @return		ComplianceAlert
+	 */
+	public ComplianceAlert updateComplianceAlert( UpdateComplianceAlertCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateComplianceAlertCommand
-		 * @exception    BusinessException
-		 * @return		ComplianceAlert
-		 */
-		public ComplianceAlert updateComplianceAlert( UpdateComplianceAlertCommand command )
-  	  	throws BusinessException {
+		ComplianceAlert entity = new ComplianceAlert();
 
-			ComplianceAlert entity = new ComplianceAlert();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setComplianceAlertId( command.getComplianceAlertId() );
             entity.setAlertDate( command.getAlertDate() );
@@ -182,323 +165,233 @@ public class ComplianceAlertService
             entity.setStatus( command.getStatus() );
             entity.setSeverity( command.getSeverity() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of ComplianceAlert {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save ComplianceAlert - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of ComplianceAlert {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteComplianceAlertCommand
+	 */
+	public void delete( DeleteComplianceAlertCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getComplianceAlertId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of ComplianceAlert {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the ComplianceAlert via ComplianceAlertFetchOneSummary
+	 * @param 	summary ComplianceAlertFetchOneSummary
+	 * @return 	ComplianceAlertFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public ComplianceAlert getComplianceAlert( ComplianceAlertFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "ComplianceAlertFetchOneSummary arg cannot be null" );
+
+		ComplianceAlert entity = null;
+		UUID id = summary.getComplianceAlertId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a ComplianceAlert using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate ComplianceAlert with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteComplianceAlertCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteComplianceAlertCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getComplianceAlertId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of ComplianceAlert {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete ComplianceAlert using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the ComplianceAlert via ComplianceAlertFetchOneSummary
-		 * @param 	summary ComplianceAlertFetchOneSummary
-		 * @return 	ComplianceAlertFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public ComplianceAlert getComplianceAlert( ComplianceAlertFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "ComplianceAlertFetchOneSummary arg cannot be null" );
-
-			ComplianceAlert entity = null;
-			UUID id = summary.getComplianceAlertId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a ComplianceAlert using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate ComplianceAlert with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all ComplianceAlerts
-		 *
-		 * @return 	List<ComplianceAlert>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<ComplianceAlert> getAllComplianceAlert() 
-    throws BusinessException {
-			List<ComplianceAlert> list = null;
+	/**
+	 * Method to retrieve a collection of all ComplianceAlerts
+	 *
+	 * @return 	List<ComplianceAlert>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<ComplianceAlert> getAllComplianceAlert() {
+		List<ComplianceAlert> list = projector.findAll( new FindAllComplianceAlertQuery() );
 
-			try {
-				list = projector.findAll( new FindAllComplianceAlertQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all ComplianceAlert";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Rule on ComplianceAlert
+	 * @param		command AssignRuleToComplianceAlertCommand
+	 * @exception	BusinessException
+	 */
+	public void assignRule( AssignRuleToComplianceAlertCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Rule on ComplianceAlert
-		 * @param		command AssignRuleToComplianceAlertCommand
-		 * @exception	BusinessException
-		 */
-		public void assignRule( AssignRuleToComplianceAlertCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignRule(command.getComplianceAlertId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignRule(command.getComplianceAlertId(), command.getAssignment());
+	/**
+	 * unAssign Rule on ComplianceAlert
+	 * @param		command UnAssignRuleFromComplianceAlertCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignRule( UnAssignRuleFromComplianceAlertCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get ComplianceRule using id " + command.getComplianceAlertId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Rule on ComplianceAlert
-		 * @param		command UnAssignRuleFromComplianceAlertCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignRule( UnAssignRuleFromComplianceAlertCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignRule(command.getComplianceAlertId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Rule on ComplianceAlert";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignRule(command.getComplianceAlertId());
+	}
 	
-		/**
-		 * assign Account on ComplianceAlert
-		 * @param		command AssignAccountToComplianceAlertCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToComplianceAlertCommand command ) throws BusinessException {
+	/**
+	 * assign Account on ComplianceAlert
+	 * @param		command AssignAccountToComplianceAlertCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToComplianceAlertCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getComplianceAlertId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getComplianceAlertId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getComplianceAlertId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Account on ComplianceAlert
+	 * @param		command UnAssignAccountFromComplianceAlertCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromComplianceAlertCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Account on ComplianceAlert
-		 * @param		command UnAssignAccountFromComplianceAlertCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromComplianceAlertCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getComplianceAlertId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on ComplianceAlert";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getComplianceAlertId());
+	}
 	
-		/**
-		 * assign Order on ComplianceAlert
-		 * @param		command AssignOrderToComplianceAlertCommand
-		 * @exception	BusinessException
-		 */
-		public void assignOrder( AssignOrderToComplianceAlertCommand command ) throws BusinessException {
+	/**
+	 * assign Order on ComplianceAlert
+	 * @param		command AssignOrderToComplianceAlertCommand
+	 * @exception	BusinessException
+	 */
+	public void assignOrder( AssignOrderToComplianceAlertCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignOrder(command.getComplianceAlertId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignOrder(command.getComplianceAlertId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Order using id " + command.getComplianceAlertId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Order on ComplianceAlert
+	 * @param		command UnAssignOrderFromComplianceAlertCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignOrder( UnAssignOrderFromComplianceAlertCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Order on ComplianceAlert
-		 * @param		command UnAssignOrderFromComplianceAlertCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignOrder( UnAssignOrderFromComplianceAlertCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignOrder(command.getComplianceAlertId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Order on ComplianceAlert";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignOrder(command.getComplianceAlertId());
+	}
 	
-		/**
-		 * assign Advisor on ComplianceAlert
-		 * @param		command AssignAdvisorToComplianceAlertCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisor( AssignAdvisorToComplianceAlertCommand command ) throws BusinessException {
+	/**
+	 * assign Advisor on ComplianceAlert
+	 * @param		command AssignAdvisorToComplianceAlertCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisor( AssignAdvisorToComplianceAlertCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisor(command.getComplianceAlertId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisor(command.getComplianceAlertId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getComplianceAlertId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Advisor on ComplianceAlert
+	 * @param		command UnAssignAdvisorFromComplianceAlertCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisor( UnAssignAdvisorFromComplianceAlertCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Advisor on ComplianceAlert
-		 * @param		command UnAssignAdvisorFromComplianceAlertCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromComplianceAlertCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisor(command.getComplianceAlertId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Advisor on ComplianceAlert";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisor(command.getComplianceAlertId());
+	}
 	
-
 
 
 

@@ -97,37 +97,33 @@ public class WealthGoalService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public WealthGoalService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new WealthGoalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(WealthGoalRepository.class) );
-			this.validator		= applicationContext.getBean(WealthGoalValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new WealthGoalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(WealthGoalRepository.class) );
+		this.validator		= applicationContext.getBean(WealthGoalValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		WealthGoal
-		 */
-			public WealthGoal createWealthGoal( CreateWealthGoalCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		WealthGoal
+	 */
+		public WealthGoal createWealthGoal( CreateWealthGoalCommand command ) {
 
-			WealthGoal entity = new WealthGoal();
+		WealthGoal entity = new WealthGoal();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setWealthGoalId( command.getWealthGoalId() );
             entity.setName( command.getName() );
@@ -136,42 +132,29 @@ public class WealthGoalService
             entity.setPriority( command.getPriority() );
             entity.setGoalType( command.getGoalType() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of WealthGoal {0} ", entity.toString() );
+		LOGGER.info( "done creating of WealthGoal {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create WealthGoal - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateWealthGoalCommand
+	 * @return		WealthGoal
+	 */
+	public WealthGoal updateWealthGoal( UpdateWealthGoalCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateWealthGoalCommand
-		 * @exception    BusinessException
-		 * @return		WealthGoal
-		 */
-		public WealthGoal updateWealthGoal( UpdateWealthGoalCommand command )
-  	  	throws BusinessException {
+		WealthGoal entity = new WealthGoal();
 
-			WealthGoal entity = new WealthGoal();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setWealthGoalId( command.getWealthGoalId() );
             entity.setName( command.getName() );
@@ -183,272 +166,197 @@ public class WealthGoalService
             entity.setInvestmentPolicy( command.getInvestmentPolicy() );
             entity.setGoalType( command.getGoalType() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of WealthGoal {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save WealthGoal - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of WealthGoal {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteWealthGoalCommand
+	 */
+	public void delete( DeleteWealthGoalCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getWealthGoalId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of WealthGoal {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the WealthGoal via WealthGoalFetchOneSummary
+	 * @param 	summary WealthGoalFetchOneSummary
+	 * @return 	WealthGoalFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public WealthGoal getWealthGoal( WealthGoalFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "WealthGoalFetchOneSummary arg cannot be null" );
+
+		WealthGoal entity = null;
+		UUID id = summary.getWealthGoalId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a WealthGoal using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate WealthGoal with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteWealthGoalCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteWealthGoalCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getWealthGoalId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of WealthGoal {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete WealthGoal using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the WealthGoal via WealthGoalFetchOneSummary
-		 * @param 	summary WealthGoalFetchOneSummary
-		 * @return 	WealthGoalFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public WealthGoal getWealthGoal( WealthGoalFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "WealthGoalFetchOneSummary arg cannot be null" );
-
-			WealthGoal entity = null;
-			UUID id = summary.getWealthGoalId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a WealthGoal using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate WealthGoal with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all WealthGoals
-		 *
-		 * @return 	List<WealthGoal>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<WealthGoal> getAllWealthGoal() 
-    throws BusinessException {
-			List<WealthGoal> list = null;
+	/**
+	 * Method to retrieve a collection of all WealthGoals
+	 *
+	 * @return 	List<WealthGoal>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<WealthGoal> getAllWealthGoal() {
+		List<WealthGoal> list = projector.findAll( new FindAllWealthGoalQuery() );
 
-			try {
-				list = projector.findAll( new FindAllWealthGoalQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all WealthGoal";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Household on WealthGoal
+	 * @param		command AssignHouseholdToWealthGoalCommand
+	 * @exception	BusinessException
+	 */
+	public void assignHousehold( AssignHouseholdToWealthGoalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Household on WealthGoal
-		 * @param		command AssignHouseholdToWealthGoalCommand
-		 * @exception	BusinessException
-		 */
-		public void assignHousehold( AssignHouseholdToWealthGoalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignHousehold(command.getWealthGoalId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignHousehold(command.getWealthGoalId(), command.getAssignment());
+	/**
+	 * unAssign Household on WealthGoal
+	 * @param		command UnAssignHouseholdFromWealthGoalCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignHousehold( UnAssignHouseholdFromWealthGoalCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Household using id " + command.getWealthGoalId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Household on WealthGoal
-		 * @param		command UnAssignHouseholdFromWealthGoalCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignHousehold( UnAssignHouseholdFromWealthGoalCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignHousehold(command.getWealthGoalId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Household on WealthGoal";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignHousehold(command.getWealthGoalId());
+	}
 	
-		/**
-		 * assign Portfolio on WealthGoal
-		 * @param		command AssignPortfolioToWealthGoalCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPortfolio( AssignPortfolioToWealthGoalCommand command ) throws BusinessException {
+	/**
+	 * assign Portfolio on WealthGoal
+	 * @param		command AssignPortfolioToWealthGoalCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPortfolio( AssignPortfolioToWealthGoalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPortfolio(command.getWealthGoalId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPortfolio(command.getWealthGoalId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Portfolio using id " + command.getWealthGoalId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Portfolio on WealthGoal
+	 * @param		command UnAssignPortfolioFromWealthGoalCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPortfolio( UnAssignPortfolioFromWealthGoalCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Portfolio on WealthGoal
-		 * @param		command UnAssignPortfolioFromWealthGoalCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromWealthGoalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPortfolio(command.getWealthGoalId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Portfolio on WealthGoal";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPortfolio(command.getWealthGoalId());
+	}
 	
-		/**
-		 * assign InvestmentPolicy on WealthGoal
-		 * @param		command AssignInvestmentPolicyToWealthGoalCommand
-		 * @exception	BusinessException
-		 */
-		public void assignInvestmentPolicy( AssignInvestmentPolicyToWealthGoalCommand command ) throws BusinessException {
+	/**
+	 * assign InvestmentPolicy on WealthGoal
+	 * @param		command AssignInvestmentPolicyToWealthGoalCommand
+	 * @exception	BusinessException
+	 */
+	public void assignInvestmentPolicy( AssignInvestmentPolicyToWealthGoalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignInvestmentPolicy(command.getWealthGoalId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignInvestmentPolicy(command.getWealthGoalId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get InvestmentPolicy using id " + command.getWealthGoalId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign InvestmentPolicy on WealthGoal
+	 * @param		command UnAssignInvestmentPolicyFromWealthGoalCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign InvestmentPolicy on WealthGoal
-		 * @param		command UnAssignInvestmentPolicyFromWealthGoalCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignInvestmentPolicy( UnAssignInvestmentPolicyFromWealthGoalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignInvestmentPolicy(command.getWealthGoalId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign InvestmentPolicy on WealthGoal";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignInvestmentPolicy(command.getWealthGoalId());
+	}
 	
-
 
 
 

@@ -97,37 +97,33 @@ public class ComplianceRuleService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public ComplianceRuleService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new ComplianceRuleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(ComplianceRuleRepository.class) );
-			this.validator		= applicationContext.getBean(ComplianceRuleValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new ComplianceRuleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(ComplianceRuleRepository.class) );
+		this.validator		= applicationContext.getBean(ComplianceRuleValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		ComplianceRule
-		 */
-			public ComplianceRule createComplianceRule( CreateComplianceRuleCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		ComplianceRule
+	 */
+		public ComplianceRule createComplianceRule( CreateComplianceRuleCommand command ) {
 
-			ComplianceRule entity = new ComplianceRule();
+		ComplianceRule entity = new ComplianceRule();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setComplianceRuleId( command.getComplianceRuleId() );
             entity.setName( command.getName() );
@@ -135,42 +131,29 @@ public class ComplianceRuleService
             entity.setDescription( command.getDescription() );
             entity.setRuleSeverity( command.getRuleSeverity() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of ComplianceRule {0} ", entity.toString() );
+		LOGGER.info( "done creating of ComplianceRule {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create ComplianceRule - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateComplianceRuleCommand
+	 * @return		ComplianceRule
+	 */
+	public ComplianceRule updateComplianceRule( UpdateComplianceRuleCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateComplianceRuleCommand
-		 * @exception    BusinessException
-		 * @return		ComplianceRule
-		 */
-		public ComplianceRule updateComplianceRule( UpdateComplianceRuleCommand command )
-  	  	throws BusinessException {
+		ComplianceRule entity = new ComplianceRule();
 
-			ComplianceRule entity = new ComplianceRule();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setComplianceRuleId( command.getComplianceRuleId() );
             entity.setName( command.getName() );
@@ -179,171 +162,124 @@ public class ComplianceRuleService
             entity.setAlerts( command.getAlerts() );
             entity.setRuleSeverity( command.getRuleSeverity() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of ComplianceRule {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save ComplianceRule - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of ComplianceRule {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteComplianceRuleCommand
+	 */
+	public void delete( DeleteComplianceRuleCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getComplianceRuleId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of ComplianceRule {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the ComplianceRule via ComplianceRuleFetchOneSummary
+	 * @param 	summary ComplianceRuleFetchOneSummary
+	 * @return 	ComplianceRuleFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public ComplianceRule getComplianceRule( ComplianceRuleFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "ComplianceRuleFetchOneSummary arg cannot be null" );
+
+		ComplianceRule entity = null;
+		UUID id = summary.getComplianceRuleId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a ComplianceRule using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate ComplianceRule with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteComplianceRuleCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteComplianceRuleCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getComplianceRuleId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of ComplianceRule {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete ComplianceRule using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the ComplianceRule via ComplianceRuleFetchOneSummary
-		 * @param 	summary ComplianceRuleFetchOneSummary
-		 * @return 	ComplianceRuleFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public ComplianceRule getComplianceRule( ComplianceRuleFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "ComplianceRuleFetchOneSummary arg cannot be null" );
-
-			ComplianceRule entity = null;
-			UUID id = summary.getComplianceRuleId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a ComplianceRule using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate ComplianceRule with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all ComplianceRules
-		 *
-		 * @return 	List<ComplianceRule>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<ComplianceRule> getAllComplianceRule() 
-    throws BusinessException {
-			List<ComplianceRule> list = null;
+	/**
+	 * Method to retrieve a collection of all ComplianceRules
+	 *
+	 * @return 	List<ComplianceRule>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<ComplianceRule> getAllComplianceRule() {
+		List<ComplianceRule> list = projector.findAll( new FindAllComplianceRuleQuery() );
 
-			try {
-				list = projector.findAll( new FindAllComplianceRuleQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all ComplianceRule";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return list;
-		}
+		return list;
+	}
 
 
-		/**
-		 * add ComplianceAlert to Alerts
-		 * @param		command AssignAlertsToComplianceRuleCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAlerts( AssignAlertsToComplianceRuleCommand command ) throws BusinessException {
+	/**
+	 * add ComplianceAlert to Alerts
+	 * @param		command AssignAlertsToComplianceRuleCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAlerts( AssignAlertsToComplianceRuleCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAlerts(command.getComplianceRuleId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a ComplianceAlert as Alerts to ComplianceRule" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAlerts(command.getComplianceRuleId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove ComplianceAlert from Alerts
+	 * @param		command RemoveAlertsFromComplianceRuleCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAlerts( RemoveAlertsFromComplianceRuleCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove ComplianceAlert from Alerts
-		 * @param		command RemoveAlertsFromComplianceRuleCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAlerts( RemoveAlertsFromComplianceRuleCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAlerts(command.getComplianceRuleId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getComplianceRuleId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAlerts(command.getComplianceRuleId(), command.getRemoveFrom());
+	}
 
 
 

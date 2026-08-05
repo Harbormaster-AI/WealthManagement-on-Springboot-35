@@ -97,37 +97,33 @@ public class WealthFirmService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public WealthFirmService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new WealthFirmEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(WealthFirmRepository.class) );
-			this.validator		= applicationContext.getBean(WealthFirmValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new WealthFirmEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(WealthFirmRepository.class) );
+		this.validator		= applicationContext.getBean(WealthFirmValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		WealthFirm
-		 */
-			public WealthFirm createWealthFirm( CreateWealthFirmCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		WealthFirm
+	 */
+		public WealthFirm createWealthFirm( CreateWealthFirmCommand command ) {
 
-			WealthFirm entity = new WealthFirm();
+		WealthFirm entity = new WealthFirm();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setWealthFirmId( command.getWealthFirmId() );
             entity.setName( command.getName() );
@@ -135,42 +131,29 @@ public class WealthFirmService
             entity.setDomicileCountry( command.getDomicileCountry() );
             entity.setWebsite( command.getWebsite() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of WealthFirm {0} ", entity.toString() );
+		LOGGER.info( "done creating of WealthFirm {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create WealthFirm - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateWealthFirmCommand
+	 * @return		WealthFirm
+	 */
+	public WealthFirm updateWealthFirm( UpdateWealthFirmCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateWealthFirmCommand
-		 * @exception    BusinessException
-		 * @return		WealthFirm
-		 */
-		public WealthFirm updateWealthFirm( UpdateWealthFirmCommand command )
-  	  	throws BusinessException {
+		WealthFirm entity = new WealthFirm();
 
-			WealthFirm entity = new WealthFirm();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setWealthFirmId( command.getWealthFirmId() );
             entity.setName( command.getName() );
@@ -182,327 +165,229 @@ public class WealthFirmService
             entity.setCustodians( command.getCustodians() );
             entity.setInvestmentPrograms( command.getInvestmentPrograms() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of WealthFirm {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save WealthFirm - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of WealthFirm {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteWealthFirmCommand
+	 */
+	public void delete( DeleteWealthFirmCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getWealthFirmId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of WealthFirm {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the WealthFirm via WealthFirmFetchOneSummary
+	 * @param 	summary WealthFirmFetchOneSummary
+	 * @return 	WealthFirmFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public WealthFirm getWealthFirm( WealthFirmFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "WealthFirmFetchOneSummary arg cannot be null" );
+
+		WealthFirm entity = null;
+		UUID id = summary.getWealthFirmId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a WealthFirm using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate WealthFirm with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteWealthFirmCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteWealthFirmCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getWealthFirmId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of WealthFirm {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete WealthFirm using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the WealthFirm via WealthFirmFetchOneSummary
-		 * @param 	summary WealthFirmFetchOneSummary
-		 * @return 	WealthFirmFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public WealthFirm getWealthFirm( WealthFirmFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "WealthFirmFetchOneSummary arg cannot be null" );
-
-			WealthFirm entity = null;
-			UUID id = summary.getWealthFirmId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a WealthFirm using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate WealthFirm with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all WealthFirms
-		 *
-		 * @return 	List<WealthFirm>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<WealthFirm> getAllWealthFirm() 
-    throws BusinessException {
-			List<WealthFirm> list = null;
+	/**
+	 * Method to retrieve a collection of all WealthFirms
+	 *
+	 * @return 	List<WealthFirm>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<WealthFirm> getAllWealthFirm() {
+		List<WealthFirm> list = projector.findAll( new FindAllWealthFirmQuery() );
 
-			try {
-				list = projector.findAll( new FindAllWealthFirmQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all WealthFirm";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return list;
-		}
+		return list;
+	}
 
 
-		/**
-		 * add Advisor to Advisors
-		 * @param		command AssignAdvisorsToWealthFirmCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAdvisors( AssignAdvisorsToWealthFirmCommand command ) throws BusinessException {
+	/**
+	 * add Advisor to Advisors
+	 * @param		command AssignAdvisorsToWealthFirmCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAdvisors( AssignAdvisorsToWealthFirmCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAdvisors(command.getWealthFirmId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Advisor as Advisors to WealthFirm" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAdvisors(command.getWealthFirmId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Advisor from Advisors
+	 * @param		command RemoveAdvisorsFromWealthFirmCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAdvisors( RemoveAdvisorsFromWealthFirmCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Advisor from Advisors
-		 * @param		command RemoveAdvisorsFromWealthFirmCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAdvisors( RemoveAdvisorsFromWealthFirmCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAdvisors(command.getWealthFirmId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Office to Offices
+	 * @param		command AssignOfficesToWealthFirmCommand
+	 * @exception	BusinessException
+	 */
+	public void addToOffices( AssignOfficesToWealthFirmCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAdvisors(command.getWealthFirmId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToOffices(command.getWealthFirmId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getWealthFirmId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Office from Offices
+	 * @param		command RemoveOfficesFromWealthFirmCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromOffices( RemoveOfficesFromWealthFirmCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Office to Offices
-		 * @param		command AssignOfficesToWealthFirmCommand
-		 * @exception	BusinessException
-		 */
-		public void addToOffices( AssignOfficesToWealthFirmCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromOffices(command.getWealthFirmId(), command.getRemoveFrom());
+	}
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add Custodian to Custodians
+	 * @param		command AssignCustodiansToWealthFirmCommand
+	 * @exception	BusinessException
+	 */
+	public void addToCustodians( AssignCustodiansToWealthFirmCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToOffices(command.getWealthFirmId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Office as Offices to WealthFirm" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToCustodians(command.getWealthFirmId(), command.getAddTo())
+	}
 
-		/**
-		 * remove Office from Offices
-		 * @param		command RemoveOfficesFromWealthFirmCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromOffices( RemoveOfficesFromWealthFirmCommand command ) throws BusinessException {
+	/**
+	 * remove Custodian from Custodians
+	 * @param		command RemoveCustodiansFromWealthFirmCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromCustodians( RemoveCustodiansFromWealthFirmCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromCustodians(command.getWealthFirmId(), command.getRemoveFrom());
+	}
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add InvestmentProgram to InvestmentPrograms
+	 * @param		command AssignInvestmentProgramsToWealthFirmCommand
+	 * @exception	BusinessException
+	 */
+	public void addToInvestmentPrograms( AssignInvestmentProgramsToWealthFirmCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromOffices(command.getWealthFirmId(), command.getRemoveFrom());
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getWealthFirmId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToInvestmentPrograms(command.getWealthFirmId(), command.getAddTo())
+	}
 
-		/**
-		 * add Custodian to Custodians
-		 * @param		command AssignCustodiansToWealthFirmCommand
-		 * @exception	BusinessException
-		 */
-		public void addToCustodians( AssignCustodiansToWealthFirmCommand command ) throws BusinessException {
+	/**
+	 * remove InvestmentProgram from InvestmentPrograms
+	 * @param		command RemoveInvestmentProgramsFromWealthFirmCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromInvestmentPrograms( RemoveInvestmentProgramsFromWealthFirmCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToCustodians(command.getWealthFirmId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Custodian as Custodians to WealthFirm" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Custodian from Custodians
-		 * @param		command RemoveCustodiansFromWealthFirmCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromCustodians( RemoveCustodiansFromWealthFirmCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromCustodians(command.getWealthFirmId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getWealthFirmId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
-		/**
-		 * add InvestmentProgram to InvestmentPrograms
-		 * @param		command AssignInvestmentProgramsToWealthFirmCommand
-		 * @exception	BusinessException
-		 */
-		public void addToInvestmentPrograms( AssignInvestmentProgramsToWealthFirmCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToInvestmentPrograms(command.getWealthFirmId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a InvestmentProgram as InvestmentPrograms to WealthFirm" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove InvestmentProgram from InvestmentPrograms
-		 * @param		command RemoveInvestmentProgramsFromWealthFirmCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromInvestmentPrograms( RemoveInvestmentProgramsFromWealthFirmCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromInvestmentPrograms(command.getWealthFirmId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getWealthFirmId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromInvestmentPrograms(command.getWealthFirmId(), command.getRemoveFrom());
+	}
 
 
 

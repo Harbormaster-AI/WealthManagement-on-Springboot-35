@@ -97,78 +97,61 @@ public class AdvisoryTeamService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public AdvisoryTeamService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new AdvisoryTeamEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(AdvisoryTeamRepository.class) );
-			this.validator		= applicationContext.getBean(AdvisoryTeamValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new AdvisoryTeamEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(AdvisoryTeamRepository.class) );
+		this.validator		= applicationContext.getBean(AdvisoryTeamValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		AdvisoryTeam
-		 */
-			public AdvisoryTeam createAdvisoryTeam( CreateAdvisoryTeamCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		AdvisoryTeam
+	 */
+		public AdvisoryTeam createAdvisoryTeam( CreateAdvisoryTeamCommand command ) {
 
-			AdvisoryTeam entity = new AdvisoryTeam();
+		AdvisoryTeam entity = new AdvisoryTeam();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAdvisoryTeamId( command.getAdvisoryTeamId() );
             entity.setName( command.getName() );
             entity.setSpecialization( command.getSpecialization() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of AdvisoryTeam {0} ", entity.toString() );
+		LOGGER.info( "done creating of AdvisoryTeam {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create AdvisoryTeam - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateAdvisoryTeamCommand
+	 * @return		AdvisoryTeam
+	 */
+	public AdvisoryTeam updateAdvisoryTeam( UpdateAdvisoryTeamCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateAdvisoryTeamCommand
-		 * @exception    BusinessException
-		 * @return		AdvisoryTeam
-		 */
-		public AdvisoryTeam updateAdvisoryTeam( UpdateAdvisoryTeamCommand command )
-  	  	throws BusinessException {
+		AdvisoryTeam entity = new AdvisoryTeam();
 
-			AdvisoryTeam entity = new AdvisoryTeam();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAdvisoryTeamId( command.getAdvisoryTeamId() );
             entity.setName( command.getName() );
@@ -176,223 +159,159 @@ public class AdvisoryTeamService
             entity.setAdvisors( command.getAdvisors() );
             entity.setHouseholds( command.getHouseholds() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of AdvisoryTeam {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save AdvisoryTeam - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of AdvisoryTeam {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteAdvisoryTeamCommand
+	 */
+	public void delete( DeleteAdvisoryTeamCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getAdvisoryTeamId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of AdvisoryTeam {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the AdvisoryTeam via AdvisoryTeamFetchOneSummary
+	 * @param 	summary AdvisoryTeamFetchOneSummary
+	 * @return 	AdvisoryTeamFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public AdvisoryTeam getAdvisoryTeam( AdvisoryTeamFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "AdvisoryTeamFetchOneSummary arg cannot be null" );
+
+		AdvisoryTeam entity = null;
+		UUID id = summary.getAdvisoryTeamId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a AdvisoryTeam using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate AdvisoryTeam with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteAdvisoryTeamCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteAdvisoryTeamCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getAdvisoryTeamId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of AdvisoryTeam {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete AdvisoryTeam using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the AdvisoryTeam via AdvisoryTeamFetchOneSummary
-		 * @param 	summary AdvisoryTeamFetchOneSummary
-		 * @return 	AdvisoryTeamFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public AdvisoryTeam getAdvisoryTeam( AdvisoryTeamFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "AdvisoryTeamFetchOneSummary arg cannot be null" );
-
-			AdvisoryTeam entity = null;
-			UUID id = summary.getAdvisoryTeamId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a AdvisoryTeam using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate AdvisoryTeam with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all AdvisoryTeams
-		 *
-		 * @return 	List<AdvisoryTeam>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<AdvisoryTeam> getAllAdvisoryTeam() 
-    throws BusinessException {
-			List<AdvisoryTeam> list = null;
+	/**
+	 * Method to retrieve a collection of all AdvisoryTeams
+	 *
+	 * @return 	List<AdvisoryTeam>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<AdvisoryTeam> getAllAdvisoryTeam() {
+		List<AdvisoryTeam> list = projector.findAll( new FindAllAdvisoryTeamQuery() );
 
-			try {
-				list = projector.findAll( new FindAllAdvisoryTeamQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all AdvisoryTeam";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return list;
-		}
+		return list;
+	}
 
 
-		/**
-		 * add Advisor to Advisors
-		 * @param		command AssignAdvisorsToAdvisoryTeamCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAdvisors( AssignAdvisorsToAdvisoryTeamCommand command ) throws BusinessException {
+	/**
+	 * add Advisor to Advisors
+	 * @param		command AssignAdvisorsToAdvisoryTeamCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAdvisors( AssignAdvisorsToAdvisoryTeamCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAdvisors(command.getAdvisoryTeamId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Advisor as Advisors to AdvisoryTeam" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAdvisors(command.getAdvisoryTeamId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Advisor from Advisors
+	 * @param		command RemoveAdvisorsFromAdvisoryTeamCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAdvisors( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Advisor from Advisors
-		 * @param		command RemoveAdvisorsFromAdvisoryTeamCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAdvisors( RemoveAdvisorsFromAdvisoryTeamCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAdvisors(command.getAdvisoryTeamId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Household to Households
+	 * @param		command AssignHouseholdsToAdvisoryTeamCommand
+	 * @exception	BusinessException
+	 */
+	public void addToHouseholds( AssignHouseholdsToAdvisoryTeamCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAdvisors(command.getAdvisoryTeamId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToHouseholds(command.getAdvisoryTeamId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAdvisoryTeamId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Household from Households
+	 * @param		command RemoveHouseholdsFromAdvisoryTeamCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromHouseholds( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Household to Households
-		 * @param		command AssignHouseholdsToAdvisoryTeamCommand
-		 * @exception	BusinessException
-		 */
-		public void addToHouseholds( AssignHouseholdsToAdvisoryTeamCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToHouseholds(command.getAdvisoryTeamId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Household as Households to AdvisoryTeam" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Household from Households
-		 * @param		command RemoveHouseholdsFromAdvisoryTeamCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromHouseholds( RemoveHouseholdsFromAdvisoryTeamCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromHouseholds(command.getAdvisoryTeamId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAdvisoryTeamId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromHouseholds(command.getAdvisoryTeamId(), command.getRemoveFrom());
+	}
 
 
 

@@ -97,37 +97,33 @@ public class AccountTransferService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public AccountTransferService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new AccountTransferEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(AccountTransferRepository.class) );
-			this.validator		= applicationContext.getBean(AccountTransferValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new AccountTransferEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(AccountTransferRepository.class) );
+		this.validator		= applicationContext.getBean(AccountTransferValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		AccountTransfer
-		 */
-			public AccountTransfer createAccountTransfer( CreateAccountTransferCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		AccountTransfer
+	 */
+		public AccountTransfer createAccountTransfer( CreateAccountTransferCommand command ) {
 
-			AccountTransfer entity = new AccountTransfer();
+		AccountTransfer entity = new AccountTransfer();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAccountTransferId( command.getAccountTransferId() );
             entity.setRequestDate( command.getRequestDate() );
@@ -135,42 +131,29 @@ public class AccountTransferService
             entity.setTransferType( command.getTransferType() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of AccountTransfer {0} ", entity.toString() );
+		LOGGER.info( "done creating of AccountTransfer {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create AccountTransfer - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateAccountTransferCommand
+	 * @return		AccountTransfer
+	 */
+	public AccountTransfer updateAccountTransfer( UpdateAccountTransferCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateAccountTransferCommand
-		 * @exception    BusinessException
-		 * @return		AccountTransfer
-		 */
-		public AccountTransfer updateAccountTransfer( UpdateAccountTransferCommand command )
-  	  	throws BusinessException {
+		AccountTransfer entity = new AccountTransfer();
 
-			AccountTransfer entity = new AccountTransfer();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAccountTransferId( command.getAccountTransferId() );
             entity.setRequestDate( command.getRequestDate() );
@@ -181,272 +164,197 @@ public class AccountTransferService
             entity.setTransferType( command.getTransferType() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of AccountTransfer {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save AccountTransfer - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of AccountTransfer {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteAccountTransferCommand
+	 */
+	public void delete( DeleteAccountTransferCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getAccountTransferId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of AccountTransfer {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the AccountTransfer via AccountTransferFetchOneSummary
+	 * @param 	summary AccountTransferFetchOneSummary
+	 * @return 	AccountTransferFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public AccountTransfer getAccountTransfer( AccountTransferFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "AccountTransferFetchOneSummary arg cannot be null" );
+
+		AccountTransfer entity = null;
+		UUID id = summary.getAccountTransferId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a AccountTransfer using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate AccountTransfer with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteAccountTransferCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteAccountTransferCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getAccountTransferId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of AccountTransfer {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete AccountTransfer using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the AccountTransfer via AccountTransferFetchOneSummary
-		 * @param 	summary AccountTransferFetchOneSummary
-		 * @return 	AccountTransferFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public AccountTransfer getAccountTransfer( AccountTransferFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "AccountTransferFetchOneSummary arg cannot be null" );
-
-			AccountTransfer entity = null;
-			UUID id = summary.getAccountTransferId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a AccountTransfer using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate AccountTransfer with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all AccountTransfers
-		 *
-		 * @return 	List<AccountTransfer>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<AccountTransfer> getAllAccountTransfer() 
-    throws BusinessException {
-			List<AccountTransfer> list = null;
+	/**
+	 * Method to retrieve a collection of all AccountTransfers
+	 *
+	 * @return 	List<AccountTransfer>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<AccountTransfer> getAllAccountTransfer() {
+		List<AccountTransfer> list = projector.findAll( new FindAllAccountTransferQuery() );
 
-			try {
-				list = projector.findAll( new FindAllAccountTransferQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all AccountTransfer";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign FromCustodian on AccountTransfer
+	 * @param		command AssignFromCustodianToAccountTransferCommand
+	 * @exception	BusinessException
+	 */
+	public void assignFromCustodian( AssignFromCustodianToAccountTransferCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign FromCustodian on AccountTransfer
-		 * @param		command AssignFromCustodianToAccountTransferCommand
-		 * @exception	BusinessException
-		 */
-		public void assignFromCustodian( AssignFromCustodianToAccountTransferCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignFromCustodian(command.getAccountTransferId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignFromCustodian(command.getAccountTransferId(), command.getAssignment());
+	/**
+	 * unAssign FromCustodian on AccountTransfer
+	 * @param		command UnAssignFromCustodianFromAccountTransferCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignFromCustodian( UnAssignFromCustodianFromAccountTransferCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Custodian using id " + command.getAccountTransferId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign FromCustodian on AccountTransfer
-		 * @param		command UnAssignFromCustodianFromAccountTransferCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignFromCustodian( UnAssignFromCustodianFromAccountTransferCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignFromCustodian(command.getAccountTransferId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign FromCustodian on AccountTransfer";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignFromCustodian(command.getAccountTransferId());
+	}
 	
-		/**
-		 * assign ToCustodian on AccountTransfer
-		 * @param		command AssignToCustodianToAccountTransferCommand
-		 * @exception	BusinessException
-		 */
-		public void assignToCustodian( AssignToCustodianToAccountTransferCommand command ) throws BusinessException {
+	/**
+	 * assign ToCustodian on AccountTransfer
+	 * @param		command AssignToCustodianToAccountTransferCommand
+	 * @exception	BusinessException
+	 */
+	public void assignToCustodian( AssignToCustodianToAccountTransferCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignToCustodian(command.getAccountTransferId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignToCustodian(command.getAccountTransferId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Custodian using id " + command.getAccountTransferId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign ToCustodian on AccountTransfer
+	 * @param		command UnAssignToCustodianFromAccountTransferCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignToCustodian( UnAssignToCustodianFromAccountTransferCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign ToCustodian on AccountTransfer
-		 * @param		command UnAssignToCustodianFromAccountTransferCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignToCustodian( UnAssignToCustodianFromAccountTransferCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignToCustodian(command.getAccountTransferId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign ToCustodian on AccountTransfer";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignToCustodian(command.getAccountTransferId());
+	}
 	
-		/**
-		 * assign Account on AccountTransfer
-		 * @param		command AssignAccountToAccountTransferCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToAccountTransferCommand command ) throws BusinessException {
+	/**
+	 * assign Account on AccountTransfer
+	 * @param		command AssignAccountToAccountTransferCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToAccountTransferCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getAccountTransferId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getAccountTransferId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getAccountTransferId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Account on AccountTransfer
+	 * @param		command UnAssignAccountFromAccountTransferCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromAccountTransferCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Account on AccountTransfer
-		 * @param		command UnAssignAccountFromAccountTransferCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromAccountTransferCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getAccountTransferId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on AccountTransfer";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getAccountTransferId());
+	}
 	
-
 
 
 

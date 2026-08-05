@@ -97,248 +97,186 @@ public class AssetAllocationSliceService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public AssetAllocationSliceService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new AssetAllocationSliceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(AssetAllocationSliceRepository.class) );
-			this.validator		= applicationContext.getBean(AssetAllocationSliceValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new AssetAllocationSliceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(AssetAllocationSliceRepository.class) );
+		this.validator		= applicationContext.getBean(AssetAllocationSliceValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		AssetAllocationSlice
-		 */
-			public AssetAllocationSlice createAssetAllocationSlice( CreateAssetAllocationSliceCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		AssetAllocationSlice
+	 */
+		public AssetAllocationSlice createAssetAllocationSlice( CreateAssetAllocationSliceCommand command ) {
 
-			AssetAllocationSlice entity = new AssetAllocationSlice();
+		AssetAllocationSlice entity = new AssetAllocationSlice();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAssetAllocationSliceId( command.getAssetAllocationSliceId() );
             entity.setTargetWeight( command.getTargetWeight() );
             entity.setAssetClass( command.getAssetClass() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of AssetAllocationSlice {0} ", entity.toString() );
+		LOGGER.info( "done creating of AssetAllocationSlice {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create AssetAllocationSlice - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateAssetAllocationSliceCommand
+	 * @return		AssetAllocationSlice
+	 */
+	public AssetAllocationSlice updateAssetAllocationSlice( UpdateAssetAllocationSliceCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateAssetAllocationSliceCommand
-		 * @exception    BusinessException
-		 * @return		AssetAllocationSlice
-		 */
-		public AssetAllocationSlice updateAssetAllocationSlice( UpdateAssetAllocationSliceCommand command )
-  	  	throws BusinessException {
+		AssetAllocationSlice entity = new AssetAllocationSlice();
 
-			AssetAllocationSlice entity = new AssetAllocationSlice();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAssetAllocationSliceId( command.getAssetAllocationSliceId() );
             entity.setTargetWeight( command.getTargetWeight() );
             entity.setModelPortfolio( command.getModelPortfolio() );
             entity.setAssetClass( command.getAssetClass() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of AssetAllocationSlice {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save AssetAllocationSlice - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of AssetAllocationSlice {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteAssetAllocationSliceCommand
+	 */
+	public void delete( DeleteAssetAllocationSliceCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getAssetAllocationSliceId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of AssetAllocationSlice {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the AssetAllocationSlice via AssetAllocationSliceFetchOneSummary
+	 * @param 	summary AssetAllocationSliceFetchOneSummary
+	 * @return 	AssetAllocationSliceFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public AssetAllocationSlice getAssetAllocationSlice( AssetAllocationSliceFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "AssetAllocationSliceFetchOneSummary arg cannot be null" );
+
+		AssetAllocationSlice entity = null;
+		UUID id = summary.getAssetAllocationSliceId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a AssetAllocationSlice using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate AssetAllocationSlice with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteAssetAllocationSliceCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteAssetAllocationSliceCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getAssetAllocationSliceId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of AssetAllocationSlice {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete AssetAllocationSlice using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the AssetAllocationSlice via AssetAllocationSliceFetchOneSummary
-		 * @param 	summary AssetAllocationSliceFetchOneSummary
-		 * @return 	AssetAllocationSliceFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public AssetAllocationSlice getAssetAllocationSlice( AssetAllocationSliceFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "AssetAllocationSliceFetchOneSummary arg cannot be null" );
-
-			AssetAllocationSlice entity = null;
-			UUID id = summary.getAssetAllocationSliceId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a AssetAllocationSlice using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate AssetAllocationSlice with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all AssetAllocationSlices
-		 *
-		 * @return 	List<AssetAllocationSlice>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<AssetAllocationSlice> getAllAssetAllocationSlice() 
-    throws BusinessException {
-			List<AssetAllocationSlice> list = null;
+	/**
+	 * Method to retrieve a collection of all AssetAllocationSlices
+	 *
+	 * @return 	List<AssetAllocationSlice>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<AssetAllocationSlice> getAllAssetAllocationSlice() {
+		List<AssetAllocationSlice> list = projector.findAll( new FindAllAssetAllocationSliceQuery() );
 
-			try {
-				list = projector.findAll( new FindAllAssetAllocationSliceQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all AssetAllocationSlice";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign ModelPortfolio on AssetAllocationSlice
+	 * @param		command AssignModelPortfolioToAssetAllocationSliceCommand
+	 * @exception	BusinessException
+	 */
+	public void assignModelPortfolio( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign ModelPortfolio on AssetAllocationSlice
-		 * @param		command AssignModelPortfolioToAssetAllocationSliceCommand
-		 * @exception	BusinessException
-		 */
-		public void assignModelPortfolio( AssignModelPortfolioToAssetAllocationSliceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignModelPortfolio(command.getAssetAllocationSliceId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignModelPortfolio(command.getAssetAllocationSliceId(), command.getAssignment());
+	/**
+	 * unAssign ModelPortfolio on AssetAllocationSlice
+	 * @param		command UnAssignModelPortfolioFromAssetAllocationSliceCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignModelPortfolio( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get ModelPortfolio using id " + command.getAssetAllocationSliceId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign ModelPortfolio on AssetAllocationSlice
-		 * @param		command UnAssignModelPortfolioFromAssetAllocationSliceCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignModelPortfolio( UnAssignModelPortfolioFromAssetAllocationSliceCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignModelPortfolio(command.getAssetAllocationSliceId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign ModelPortfolio on AssetAllocationSlice";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignModelPortfolio(command.getAssetAllocationSliceId());
+	}
 	
-
 
 
 

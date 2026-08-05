@@ -97,37 +97,33 @@ public class TransactionService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public TransactionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new TransactionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(TransactionRepository.class) );
-			this.validator		= applicationContext.getBean(TransactionValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new TransactionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(TransactionRepository.class) );
+		this.validator		= applicationContext.getBean(TransactionValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Transaction
-		 */
-			public Transaction createTransaction( CreateTransactionCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Transaction
+	 */
+		public Transaction createTransaction( CreateTransactionCommand command ) {
 
-			Transaction entity = new Transaction();
+		Transaction entity = new Transaction();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setTransactionId( command.getTransactionId() );
             entity.setTradeDate( command.getTradeDate() );
@@ -136,42 +132,29 @@ public class TransactionService
             entity.setQuantity( command.getQuantity() );
             entity.setTransactionType( command.getTransactionType() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Transaction {0} ", entity.toString() );
+		LOGGER.info( "done creating of Transaction {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Transaction - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateTransactionCommand
+	 * @return		Transaction
+	 */
+	public Transaction updateTransaction( UpdateTransactionCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateTransactionCommand
-		 * @exception    BusinessException
-		 * @return		Transaction
-		 */
-		public Transaction updateTransaction( UpdateTransactionCommand command )
-  	  	throws BusinessException {
+		Transaction entity = new Transaction();
 
-			Transaction entity = new Transaction();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setTransactionId( command.getTransactionId() );
             entity.setTradeDate( command.getTradeDate() );
@@ -184,323 +167,233 @@ public class TransactionService
             entity.setPosition( command.getPosition() );
             entity.setTransactionType( command.getTransactionType() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Transaction {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Transaction - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Transaction {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteTransactionCommand
+	 */
+	public void delete( DeleteTransactionCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getTransactionId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Transaction {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Transaction via TransactionFetchOneSummary
+	 * @param 	summary TransactionFetchOneSummary
+	 * @return 	TransactionFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Transaction getTransaction( TransactionFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "TransactionFetchOneSummary arg cannot be null" );
+
+		Transaction entity = null;
+		UUID id = summary.getTransactionId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Transaction using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Transaction with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteTransactionCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteTransactionCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getTransactionId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Transaction {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Transaction using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Transaction via TransactionFetchOneSummary
-		 * @param 	summary TransactionFetchOneSummary
-		 * @return 	TransactionFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Transaction getTransaction( TransactionFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "TransactionFetchOneSummary arg cannot be null" );
-
-			Transaction entity = null;
-			UUID id = summary.getTransactionId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Transaction using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Transaction with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Transactions
-		 *
-		 * @return 	List<Transaction>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Transaction> getAllTransaction() 
-    throws BusinessException {
-			List<Transaction> list = null;
+	/**
+	 * Method to retrieve a collection of all Transactions
+	 *
+	 * @return 	List<Transaction>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Transaction> getAllTransaction() {
+		List<Transaction> list = projector.findAll( new FindAllTransactionQuery() );
 
-			try {
-				list = projector.findAll( new FindAllTransactionQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Transaction";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Account on Transaction
+	 * @param		command AssignAccountToTransactionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToTransactionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Account on Transaction
-		 * @param		command AssignAccountToTransactionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToTransactionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getTransactionId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getTransactionId(), command.getAssignment());
+	/**
+	 * unAssign Account on Transaction
+	 * @param		command UnAssignAccountFromTransactionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromTransactionCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getTransactionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Account on Transaction
-		 * @param		command UnAssignAccountFromTransactionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromTransactionCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getTransactionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on Transaction";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getTransactionId());
+	}
 	
-		/**
-		 * assign Security on Transaction
-		 * @param		command AssignSecurityToTransactionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignSecurity( AssignSecurityToTransactionCommand command ) throws BusinessException {
+	/**
+	 * assign Security on Transaction
+	 * @param		command AssignSecurityToTransactionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignSecurity( AssignSecurityToTransactionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignSecurity(command.getTransactionId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignSecurity(command.getTransactionId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Security using id " + command.getTransactionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Security on Transaction
+	 * @param		command UnAssignSecurityFromTransactionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignSecurity( UnAssignSecurityFromTransactionCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Security on Transaction
-		 * @param		command UnAssignSecurityFromTransactionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignSecurity( UnAssignSecurityFromTransactionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignSecurity(command.getTransactionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Security on Transaction";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignSecurity(command.getTransactionId());
+	}
 	
-		/**
-		 * assign Order on Transaction
-		 * @param		command AssignOrderToTransactionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignOrder( AssignOrderToTransactionCommand command ) throws BusinessException {
+	/**
+	 * assign Order on Transaction
+	 * @param		command AssignOrderToTransactionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignOrder( AssignOrderToTransactionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignOrder(command.getTransactionId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignOrder(command.getTransactionId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Order using id " + command.getTransactionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Order on Transaction
+	 * @param		command UnAssignOrderFromTransactionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignOrder( UnAssignOrderFromTransactionCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Order on Transaction
-		 * @param		command UnAssignOrderFromTransactionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignOrder( UnAssignOrderFromTransactionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignOrder(command.getTransactionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Order on Transaction";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignOrder(command.getTransactionId());
+	}
 	
-		/**
-		 * assign Position on Transaction
-		 * @param		command AssignPositionToTransactionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPosition( AssignPositionToTransactionCommand command ) throws BusinessException {
+	/**
+	 * assign Position on Transaction
+	 * @param		command AssignPositionToTransactionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPosition( AssignPositionToTransactionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPosition(command.getTransactionId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPosition(command.getTransactionId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Position using id " + command.getTransactionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Position on Transaction
+	 * @param		command UnAssignPositionFromTransactionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPosition( UnAssignPositionFromTransactionCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Position on Transaction
-		 * @param		command UnAssignPositionFromTransactionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPosition( UnAssignPositionFromTransactionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPosition(command.getTransactionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Position on Transaction";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPosition(command.getTransactionId());
+	}
 	
-
 
 
 

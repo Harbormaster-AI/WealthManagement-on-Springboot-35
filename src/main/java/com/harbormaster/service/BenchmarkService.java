@@ -97,78 +97,61 @@ public class BenchmarkService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public BenchmarkService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new BenchmarkEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(BenchmarkRepository.class) );
-			this.validator		= applicationContext.getBean(BenchmarkValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new BenchmarkEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(BenchmarkRepository.class) );
+		this.validator		= applicationContext.getBean(BenchmarkValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Benchmark
-		 */
-			public Benchmark createBenchmark( CreateBenchmarkCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Benchmark
+	 */
+		public Benchmark createBenchmark( CreateBenchmarkCommand command ) {
 
-			Benchmark entity = new Benchmark();
+		Benchmark entity = new Benchmark();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setBenchmarkId( command.getBenchmarkId() );
             entity.setName( command.getName() );
             entity.setBenchmarkType( command.getBenchmarkType() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Benchmark {0} ", entity.toString() );
+		LOGGER.info( "done creating of Benchmark {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Benchmark - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateBenchmarkCommand
+	 * @return		Benchmark
+	 */
+	public Benchmark updateBenchmark( UpdateBenchmarkCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateBenchmarkCommand
-		 * @exception    BusinessException
-		 * @return		Benchmark
-		 */
-		public Benchmark updateBenchmark( UpdateBenchmarkCommand command )
-  	  	throws BusinessException {
+		Benchmark entity = new Benchmark();
 
-			Benchmark entity = new Benchmark();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setBenchmarkId( command.getBenchmarkId() );
             entity.setName( command.getName() );
@@ -176,223 +159,159 @@ public class BenchmarkService
             entity.setConstituents( command.getConstituents() );
             entity.setBenchmarkType( command.getBenchmarkType() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Benchmark {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Benchmark - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Benchmark {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteBenchmarkCommand
+	 */
+	public void delete( DeleteBenchmarkCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getBenchmarkId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Benchmark {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Benchmark via BenchmarkFetchOneSummary
+	 * @param 	summary BenchmarkFetchOneSummary
+	 * @return 	BenchmarkFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Benchmark getBenchmark( BenchmarkFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "BenchmarkFetchOneSummary arg cannot be null" );
+
+		Benchmark entity = null;
+		UUID id = summary.getBenchmarkId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Benchmark using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Benchmark with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteBenchmarkCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteBenchmarkCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getBenchmarkId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Benchmark {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Benchmark using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Benchmark via BenchmarkFetchOneSummary
-		 * @param 	summary BenchmarkFetchOneSummary
-		 * @return 	BenchmarkFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Benchmark getBenchmark( BenchmarkFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "BenchmarkFetchOneSummary arg cannot be null" );
-
-			Benchmark entity = null;
-			UUID id = summary.getBenchmarkId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Benchmark using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Benchmark with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Benchmarks
-		 *
-		 * @return 	List<Benchmark>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Benchmark> getAllBenchmark() 
-    throws BusinessException {
-			List<Benchmark> list = null;
+	/**
+	 * Method to retrieve a collection of all Benchmarks
+	 *
+	 * @return 	List<Benchmark>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Benchmark> getAllBenchmark() {
+		List<Benchmark> list = projector.findAll( new FindAllBenchmarkQuery() );
 
-			try {
-				list = projector.findAll( new FindAllBenchmarkQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Benchmark";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return list;
-		}
+		return list;
+	}
 
 
-		/**
-		 * add PerformanceReport to PerformanceReports
-		 * @param		command AssignPerformanceReportsToBenchmarkCommand
-		 * @exception	BusinessException
-		 */
-		public void addToPerformanceReports( AssignPerformanceReportsToBenchmarkCommand command ) throws BusinessException {
+	/**
+	 * add PerformanceReport to PerformanceReports
+	 * @param		command AssignPerformanceReportsToBenchmarkCommand
+	 * @exception	BusinessException
+	 */
+	public void addToPerformanceReports( AssignPerformanceReportsToBenchmarkCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToPerformanceReports(command.getBenchmarkId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a PerformanceReport as PerformanceReports to Benchmark" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToPerformanceReports(command.getBenchmarkId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove PerformanceReport from PerformanceReports
+	 * @param		command RemovePerformanceReportsFromBenchmarkCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromPerformanceReports( RemovePerformanceReportsFromBenchmarkCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove PerformanceReport from PerformanceReports
-		 * @param		command RemovePerformanceReportsFromBenchmarkCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromPerformanceReports( RemovePerformanceReportsFromBenchmarkCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromPerformanceReports(command.getBenchmarkId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Security to Constituents
+	 * @param		command AssignConstituentsToBenchmarkCommand
+	 * @exception	BusinessException
+	 */
+	public void addToConstituents( AssignConstituentsToBenchmarkCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromPerformanceReports(command.getBenchmarkId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToConstituents(command.getBenchmarkId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getBenchmarkId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Security from Constituents
+	 * @param		command RemoveConstituentsFromBenchmarkCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromConstituents( RemoveConstituentsFromBenchmarkCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Security to Constituents
-		 * @param		command AssignConstituentsToBenchmarkCommand
-		 * @exception	BusinessException
-		 */
-		public void addToConstituents( AssignConstituentsToBenchmarkCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToConstituents(command.getBenchmarkId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Security as Constituents to Benchmark" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Security from Constituents
-		 * @param		command RemoveConstituentsFromBenchmarkCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromConstituents( RemoveConstituentsFromBenchmarkCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromConstituents(command.getBenchmarkId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getBenchmarkId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromConstituents(command.getBenchmarkId(), command.getRemoveFrom());
+	}
 
 
 

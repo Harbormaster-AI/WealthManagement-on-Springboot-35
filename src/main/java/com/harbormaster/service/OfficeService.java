@@ -97,78 +97,61 @@ public class OfficeService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public OfficeService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new OfficeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(OfficeRepository.class) );
-			this.validator		= applicationContext.getBean(OfficeValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new OfficeEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(OfficeRepository.class) );
+		this.validator		= applicationContext.getBean(OfficeValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Office
-		 */
-			public Office createOffice( CreateOfficeCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Office
+	 */
+		public Office createOffice( CreateOfficeCommand command ) {
 
-			Office entity = new Office();
+		Office entity = new Office();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setOfficeId( command.getOfficeId() );
             entity.setName( command.getName() );
             entity.setAddress( command.getAddress() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Office {0} ", entity.toString() );
+		LOGGER.info( "done creating of Office {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Office - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateOfficeCommand
+	 * @return		Office
+	 */
+	public Office updateOffice( UpdateOfficeCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateOfficeCommand
-		 * @exception    BusinessException
-		 * @return		Office
-		 */
-		public Office updateOffice( UpdateOfficeCommand command )
-  	  	throws BusinessException {
+		Office entity = new Office();
 
-			Office entity = new Office();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setOfficeId( command.getOfficeId() );
             entity.setName( command.getName() );
@@ -176,222 +159,160 @@ public class OfficeService
             entity.setFirm( command.getFirm() );
             entity.setAdvisors( command.getAdvisors() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Office {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Office - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Office {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteOfficeCommand
+	 */
+	public void delete( DeleteOfficeCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getOfficeId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Office {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Office via OfficeFetchOneSummary
+	 * @param 	summary OfficeFetchOneSummary
+	 * @return 	OfficeFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Office getOffice( OfficeFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "OfficeFetchOneSummary arg cannot be null" );
+
+		Office entity = null;
+		UUID id = summary.getOfficeId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Office using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Office with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteOfficeCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteOfficeCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getOfficeId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Office {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Office using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Office via OfficeFetchOneSummary
-		 * @param 	summary OfficeFetchOneSummary
-		 * @return 	OfficeFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Office getOffice( OfficeFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "OfficeFetchOneSummary arg cannot be null" );
-
-			Office entity = null;
-			UUID id = summary.getOfficeId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Office using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Office with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Offices
-		 *
-		 * @return 	List<Office>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Office> getAllOffice() 
-    throws BusinessException {
-			List<Office> list = null;
+	/**
+	 * Method to retrieve a collection of all Offices
+	 *
+	 * @return 	List<Office>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Office> getAllOffice() {
+		List<Office> list = projector.findAll( new FindAllOfficeQuery() );
 
-			try {
-				list = projector.findAll( new FindAllOfficeQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Office";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Firm on Office
+	 * @param		command AssignFirmToOfficeCommand
+	 * @exception	BusinessException
+	 */
+	public void assignFirm( AssignFirmToOfficeCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Firm on Office
-		 * @param		command AssignFirmToOfficeCommand
-		 * @exception	BusinessException
-		 */
-		public void assignFirm( AssignFirmToOfficeCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignFirm(command.getOfficeId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignFirm(command.getOfficeId(), command.getAssignment());
+	/**
+	 * unAssign Firm on Office
+	 * @param		command UnAssignFirmFromOfficeCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignFirm( UnAssignFirmFromOfficeCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get WealthFirm using id " + command.getOfficeId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Firm on Office
-		 * @param		command UnAssignFirmFromOfficeCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignFirm( UnAssignFirmFromOfficeCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignFirm(command.getOfficeId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Firm on Office";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignFirm(command.getOfficeId());
+	}
 	
 
-		/**
-		 * add Advisor to Advisors
-		 * @param		command AssignAdvisorsToOfficeCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAdvisors( AssignAdvisorsToOfficeCommand command ) throws BusinessException {
+	/**
+	 * add Advisor to Advisors
+	 * @param		command AssignAdvisorsToOfficeCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAdvisors( AssignAdvisorsToOfficeCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAdvisors(command.getOfficeId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Advisor as Advisors to Office" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAdvisors(command.getOfficeId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Advisor from Advisors
+	 * @param		command RemoveAdvisorsFromOfficeCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAdvisors( RemoveAdvisorsFromOfficeCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Advisor from Advisors
-		 * @param		command RemoveAdvisorsFromOfficeCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAdvisors( RemoveAdvisorsFromOfficeCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAdvisors(command.getOfficeId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getOfficeId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAdvisors(command.getOfficeId(), command.getRemoveFrom());
+	}
 
 
 

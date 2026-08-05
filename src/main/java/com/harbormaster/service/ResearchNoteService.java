@@ -97,37 +97,33 @@ public class ResearchNoteService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public ResearchNoteService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new ResearchNoteEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(ResearchNoteRepository.class) );
-			this.validator		= applicationContext.getBean(ResearchNoteValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new ResearchNoteEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(ResearchNoteRepository.class) );
+		this.validator		= applicationContext.getBean(ResearchNoteValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		ResearchNote
-		 */
-			public ResearchNote createResearchNote( CreateResearchNoteCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		ResearchNote
+	 */
+		public ResearchNote createResearchNote( CreateResearchNoteCommand command ) {
 
-			ResearchNote entity = new ResearchNote();
+		ResearchNote entity = new ResearchNote();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setResearchNoteId( command.getResearchNoteId() );
             entity.setTitle( command.getTitle() );
@@ -136,42 +132,29 @@ public class ResearchNoteService
             entity.setContentSummary( command.getContentSummary() );
             entity.setRating( command.getRating() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of ResearchNote {0} ", entity.toString() );
+		LOGGER.info( "done creating of ResearchNote {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create ResearchNote - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateResearchNoteCommand
+	 * @return		ResearchNote
+	 */
+	public ResearchNote updateResearchNote( UpdateResearchNoteCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateResearchNoteCommand
-		 * @exception    BusinessException
-		 * @return		ResearchNote
-		 */
-		public ResearchNote updateResearchNote( UpdateResearchNoteCommand command )
-  	  	throws BusinessException {
+		ResearchNote entity = new ResearchNote();
 
-			ResearchNote entity = new ResearchNote();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setResearchNoteId( command.getResearchNoteId() );
             entity.setTitle( command.getTitle() );
@@ -182,221 +165,161 @@ public class ResearchNoteService
             entity.setAdvisor( command.getAdvisor() );
             entity.setRating( command.getRating() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of ResearchNote {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save ResearchNote - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of ResearchNote {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteResearchNoteCommand
+	 */
+	public void delete( DeleteResearchNoteCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getResearchNoteId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of ResearchNote {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the ResearchNote via ResearchNoteFetchOneSummary
+	 * @param 	summary ResearchNoteFetchOneSummary
+	 * @return 	ResearchNoteFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public ResearchNote getResearchNote( ResearchNoteFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "ResearchNoteFetchOneSummary arg cannot be null" );
+
+		ResearchNote entity = null;
+		UUID id = summary.getResearchNoteId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a ResearchNote using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate ResearchNote with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteResearchNoteCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteResearchNoteCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getResearchNoteId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of ResearchNote {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete ResearchNote using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the ResearchNote via ResearchNoteFetchOneSummary
-		 * @param 	summary ResearchNoteFetchOneSummary
-		 * @return 	ResearchNoteFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public ResearchNote getResearchNote( ResearchNoteFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "ResearchNoteFetchOneSummary arg cannot be null" );
-
-			ResearchNote entity = null;
-			UUID id = summary.getResearchNoteId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a ResearchNote using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate ResearchNote with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all ResearchNotes
-		 *
-		 * @return 	List<ResearchNote>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<ResearchNote> getAllResearchNote() 
-    throws BusinessException {
-			List<ResearchNote> list = null;
+	/**
+	 * Method to retrieve a collection of all ResearchNotes
+	 *
+	 * @return 	List<ResearchNote>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<ResearchNote> getAllResearchNote() {
+		List<ResearchNote> list = projector.findAll( new FindAllResearchNoteQuery() );
 
-			try {
-				list = projector.findAll( new FindAllResearchNoteQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all ResearchNote";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Security on ResearchNote
+	 * @param		command AssignSecurityToResearchNoteCommand
+	 * @exception	BusinessException
+	 */
+	public void assignSecurity( AssignSecurityToResearchNoteCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Security on ResearchNote
-		 * @param		command AssignSecurityToResearchNoteCommand
-		 * @exception	BusinessException
-		 */
-		public void assignSecurity( AssignSecurityToResearchNoteCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignSecurity(command.getResearchNoteId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignSecurity(command.getResearchNoteId(), command.getAssignment());
+	/**
+	 * unAssign Security on ResearchNote
+	 * @param		command UnAssignSecurityFromResearchNoteCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignSecurity( UnAssignSecurityFromResearchNoteCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Security using id " + command.getResearchNoteId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Security on ResearchNote
-		 * @param		command UnAssignSecurityFromResearchNoteCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignSecurity( UnAssignSecurityFromResearchNoteCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignSecurity(command.getResearchNoteId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Security on ResearchNote";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignSecurity(command.getResearchNoteId());
+	}
 	
-		/**
-		 * assign Advisor on ResearchNote
-		 * @param		command AssignAdvisorToResearchNoteCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisor( AssignAdvisorToResearchNoteCommand command ) throws BusinessException {
+	/**
+	 * assign Advisor on ResearchNote
+	 * @param		command AssignAdvisorToResearchNoteCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisor( AssignAdvisorToResearchNoteCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisor(command.getResearchNoteId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisor(command.getResearchNoteId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getResearchNoteId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Advisor on ResearchNote
+	 * @param		command UnAssignAdvisorFromResearchNoteCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisor( UnAssignAdvisorFromResearchNoteCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Advisor on ResearchNote
-		 * @param		command UnAssignAdvisorFromResearchNoteCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromResearchNoteCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisor(command.getResearchNoteId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Advisor on ResearchNote";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisor(command.getResearchNoteId());
+	}
 	
-
 
 
 

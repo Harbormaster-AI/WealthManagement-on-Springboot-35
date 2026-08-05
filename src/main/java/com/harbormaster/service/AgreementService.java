@@ -97,79 +97,62 @@ public class AgreementService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public AgreementService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new AgreementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(AgreementRepository.class) );
-			this.validator		= applicationContext.getBean(AgreementValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new AgreementEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(AgreementRepository.class) );
+		this.validator		= applicationContext.getBean(AgreementValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Agreement
-		 */
-			public Agreement createAgreement( CreateAgreementCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Agreement
+	 */
+		public Agreement createAgreement( CreateAgreementCommand command ) {
 
-			Agreement entity = new Agreement();
+		Agreement entity = new Agreement();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAgreementId( command.getAgreementId() );
             entity.setEffectiveDate( command.getEffectiveDate() );
             entity.setAgreementType( command.getAgreementType() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Agreement {0} ", entity.toString() );
+		LOGGER.info( "done creating of Agreement {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Agreement - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateAgreementCommand
+	 * @return		Agreement
+	 */
+	public Agreement updateAgreement( UpdateAgreementCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateAgreementCommand
-		 * @exception    BusinessException
-		 * @return		Agreement
-		 */
-		public Agreement updateAgreement( UpdateAgreementCommand command )
-  	  	throws BusinessException {
+		Agreement entity = new Agreement();
 
-			Agreement entity = new Agreement();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setAgreementId( command.getAgreementId() );
             entity.setEffectiveDate( command.getEffectiveDate() );
@@ -179,273 +162,196 @@ public class AgreementService
             entity.setAgreementType( command.getAgreementType() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Agreement {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Agreement - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Agreement {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteAgreementCommand
+	 */
+	public void delete( DeleteAgreementCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getAgreementId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Agreement {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Agreement via AgreementFetchOneSummary
+	 * @param 	summary AgreementFetchOneSummary
+	 * @return 	AgreementFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Agreement getAgreement( AgreementFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "AgreementFetchOneSummary arg cannot be null" );
+
+		Agreement entity = null;
+		UUID id = summary.getAgreementId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Agreement using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Agreement with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteAgreementCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteAgreementCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getAgreementId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Agreement {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Agreement using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Agreement via AgreementFetchOneSummary
-		 * @param 	summary AgreementFetchOneSummary
-		 * @return 	AgreementFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Agreement getAgreement( AgreementFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "AgreementFetchOneSummary arg cannot be null" );
-
-			Agreement entity = null;
-			UUID id = summary.getAgreementId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Agreement using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Agreement with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Agreements
-		 *
-		 * @return 	List<Agreement>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Agreement> getAllAgreement() 
-    throws BusinessException {
-			List<Agreement> list = null;
+	/**
+	 * Method to retrieve a collection of all Agreements
+	 *
+	 * @return 	List<Agreement>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Agreement> getAllAgreement() {
+		List<Agreement> list = projector.findAll( new FindAllAgreementQuery() );
 
-			try {
-				list = projector.findAll( new FindAllAgreementQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Agreement";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Client on Agreement
+	 * @param		command AssignClientToAgreementCommand
+	 * @exception	BusinessException
+	 */
+	public void assignClient( AssignClientToAgreementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Client on Agreement
-		 * @param		command AssignClientToAgreementCommand
-		 * @exception	BusinessException
-		 */
-		public void assignClient( AssignClientToAgreementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignClient(command.getAgreementId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignClient(command.getAgreementId(), command.getAssignment());
+	/**
+	 * unAssign Client on Agreement
+	 * @param		command UnAssignClientFromAgreementCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignClient( UnAssignClientFromAgreementCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Client using id " + command.getAgreementId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Client on Agreement
-		 * @param		command UnAssignClientFromAgreementCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignClient( UnAssignClientFromAgreementCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignClient(command.getAgreementId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Client on Agreement";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignClient(command.getAgreementId());
+	}
 	
-		/**
-		 * assign Account on Agreement
-		 * @param		command AssignAccountToAgreementCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToAgreementCommand command ) throws BusinessException {
+	/**
+	 * assign Account on Agreement
+	 * @param		command AssignAccountToAgreementCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToAgreementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getAgreementId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getAgreementId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getAgreementId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Account on Agreement
+	 * @param		command UnAssignAccountFromAgreementCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromAgreementCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Account on Agreement
-		 * @param		command UnAssignAccountFromAgreementCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromAgreementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getAgreementId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on Agreement";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getAgreementId());
+	}
 	
 
-		/**
-		 * add Document to Documents
-		 * @param		command AssignDocumentsToAgreementCommand
-		 * @exception	BusinessException
-		 */
-		public void addToDocuments( AssignDocumentsToAgreementCommand command ) throws BusinessException {
+	/**
+	 * add Document to Documents
+	 * @param		command AssignDocumentsToAgreementCommand
+	 * @exception	BusinessException
+	 */
+	public void addToDocuments( AssignDocumentsToAgreementCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToDocuments(command.getAgreementId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Document as Documents to Agreement" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToDocuments(command.getAgreementId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Document from Documents
+	 * @param		command RemoveDocumentsFromAgreementCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromDocuments( RemoveDocumentsFromAgreementCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Document from Documents
-		 * @param		command RemoveDocumentsFromAgreementCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromDocuments( RemoveDocumentsFromAgreementCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromDocuments(command.getAgreementId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getAgreementId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromDocuments(command.getAgreementId(), command.getRemoveFrom());
+	}
 
 
 

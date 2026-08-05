@@ -97,37 +97,33 @@ public class InvoiceService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public InvoiceService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new InvoiceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(InvoiceRepository.class) );
-			this.validator		= applicationContext.getBean(InvoiceValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new InvoiceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(InvoiceRepository.class) );
+		this.validator		= applicationContext.getBean(InvoiceValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Invoice
-		 */
-			public Invoice createInvoice( CreateInvoiceCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Invoice
+	 */
+		public Invoice createInvoice( CreateInvoiceCommand command ) {
 
-			Invoice entity = new Invoice();
+		Invoice entity = new Invoice();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setInvoiceId( command.getInvoiceId() );
             entity.setInvoiceNumber( command.getInvoiceNumber() );
@@ -136,42 +132,29 @@ public class InvoiceService
             entity.setTotalDue( command.getTotalDue() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Invoice {0} ", entity.toString() );
+		LOGGER.info( "done creating of Invoice {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Invoice - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateInvoiceCommand
+	 * @return		Invoice
+	 */
+	public Invoice updateInvoice( UpdateInvoiceCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateInvoiceCommand
-		 * @exception    BusinessException
-		 * @return		Invoice
-		 */
-		public Invoice updateInvoice( UpdateInvoiceCommand command )
-  	  	throws BusinessException {
+		Invoice entity = new Invoice();
 
-			Invoice entity = new Invoice();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setInvoiceId( command.getInvoiceId() );
             entity.setInvoiceNumber( command.getInvoiceNumber() );
@@ -183,273 +166,196 @@ public class InvoiceService
             entity.setBillingRun( command.getBillingRun() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Invoice {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Invoice - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Invoice {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteInvoiceCommand
+	 */
+	public void delete( DeleteInvoiceCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getInvoiceId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Invoice {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Invoice via InvoiceFetchOneSummary
+	 * @param 	summary InvoiceFetchOneSummary
+	 * @return 	InvoiceFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Invoice getInvoice( InvoiceFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "InvoiceFetchOneSummary arg cannot be null" );
+
+		Invoice entity = null;
+		UUID id = summary.getInvoiceId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Invoice using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Invoice with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteInvoiceCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteInvoiceCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getInvoiceId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Invoice {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Invoice using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Invoice via InvoiceFetchOneSummary
-		 * @param 	summary InvoiceFetchOneSummary
-		 * @return 	InvoiceFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Invoice getInvoice( InvoiceFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "InvoiceFetchOneSummary arg cannot be null" );
-
-			Invoice entity = null;
-			UUID id = summary.getInvoiceId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Invoice using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Invoice with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Invoices
-		 *
-		 * @return 	List<Invoice>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Invoice> getAllInvoice() 
-    throws BusinessException {
-			List<Invoice> list = null;
+	/**
+	 * Method to retrieve a collection of all Invoices
+	 *
+	 * @return 	List<Invoice>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Invoice> getAllInvoice() {
+		List<Invoice> list = projector.findAll( new FindAllInvoiceQuery() );
 
-			try {
-				list = projector.findAll( new FindAllInvoiceQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Invoice";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Account on Invoice
+	 * @param		command AssignAccountToInvoiceCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToInvoiceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Account on Invoice
-		 * @param		command AssignAccountToInvoiceCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToInvoiceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getInvoiceId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getInvoiceId(), command.getAssignment());
+	/**
+	 * unAssign Account on Invoice
+	 * @param		command UnAssignAccountFromInvoiceCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromInvoiceCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getInvoiceId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Account on Invoice
-		 * @param		command UnAssignAccountFromInvoiceCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromInvoiceCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getInvoiceId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on Invoice";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getInvoiceId());
+	}
 	
-		/**
-		 * assign BillingRun on Invoice
-		 * @param		command AssignBillingRunToInvoiceCommand
-		 * @exception	BusinessException
-		 */
-		public void assignBillingRun( AssignBillingRunToInvoiceCommand command ) throws BusinessException {
+	/**
+	 * assign BillingRun on Invoice
+	 * @param		command AssignBillingRunToInvoiceCommand
+	 * @exception	BusinessException
+	 */
+	public void assignBillingRun( AssignBillingRunToInvoiceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignBillingRun(command.getInvoiceId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignBillingRun(command.getInvoiceId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get BillingRun using id " + command.getInvoiceId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign BillingRun on Invoice
+	 * @param		command UnAssignBillingRunFromInvoiceCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignBillingRun( UnAssignBillingRunFromInvoiceCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign BillingRun on Invoice
-		 * @param		command UnAssignBillingRunFromInvoiceCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignBillingRun( UnAssignBillingRunFromInvoiceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignBillingRun(command.getInvoiceId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign BillingRun on Invoice";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignBillingRun(command.getInvoiceId());
+	}
 	
 
-		/**
-		 * add Fee to Fees
-		 * @param		command AssignFeesToInvoiceCommand
-		 * @exception	BusinessException
-		 */
-		public void addToFees( AssignFeesToInvoiceCommand command ) throws BusinessException {
+	/**
+	 * add Fee to Fees
+	 * @param		command AssignFeesToInvoiceCommand
+	 * @exception	BusinessException
+	 */
+	public void addToFees( AssignFeesToInvoiceCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToFees(command.getInvoiceId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Fee as Fees to Invoice" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToFees(command.getInvoiceId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Fee from Fees
+	 * @param		command RemoveFeesFromInvoiceCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromFees( RemoveFeesFromInvoiceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Fee from Fees
-		 * @param		command RemoveFeesFromInvoiceCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromFees( RemoveFeesFromInvoiceCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromFees(command.getInvoiceId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getInvoiceId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromFees(command.getInvoiceId(), command.getRemoveFrom());
+	}
 
 
 

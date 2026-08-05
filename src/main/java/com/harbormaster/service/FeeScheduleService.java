@@ -97,37 +97,33 @@ public class FeeScheduleService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public FeeScheduleService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new FeeScheduleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(FeeScheduleRepository.class) );
-			this.validator		= applicationContext.getBean(FeeScheduleValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new FeeScheduleEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(FeeScheduleRepository.class) );
+		this.validator		= applicationContext.getBean(FeeScheduleValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		FeeSchedule
-		 */
-			public FeeSchedule createFeeSchedule( CreateFeeScheduleCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		FeeSchedule
+	 */
+		public FeeSchedule createFeeSchedule( CreateFeeScheduleCommand command ) {
 
-			FeeSchedule entity = new FeeSchedule();
+		FeeSchedule entity = new FeeSchedule();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setFeeScheduleId( command.getFeeScheduleId() );
             entity.setName( command.getName() );
@@ -136,42 +132,29 @@ public class FeeScheduleService
             entity.setFeeType( command.getFeeType() );
             entity.setBillingMethod( command.getBillingMethod() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of FeeSchedule {0} ", entity.toString() );
+		LOGGER.info( "done creating of FeeSchedule {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create FeeSchedule - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateFeeScheduleCommand
+	 * @return		FeeSchedule
+	 */
+	public FeeSchedule updateFeeSchedule( UpdateFeeScheduleCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateFeeScheduleCommand
-		 * @exception    BusinessException
-		 * @return		FeeSchedule
-		 */
-		public FeeSchedule updateFeeSchedule( UpdateFeeScheduleCommand command )
-  	  	throws BusinessException {
+		FeeSchedule entity = new FeeSchedule();
 
-			FeeSchedule entity = new FeeSchedule();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setFeeScheduleId( command.getFeeScheduleId() );
             entity.setName( command.getName() );
@@ -182,223 +165,159 @@ public class FeeScheduleService
             entity.setFeeType( command.getFeeType() );
             entity.setBillingMethod( command.getBillingMethod() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of FeeSchedule {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save FeeSchedule - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of FeeSchedule {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteFeeScheduleCommand
+	 */
+	public void delete( DeleteFeeScheduleCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getFeeScheduleId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of FeeSchedule {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the FeeSchedule via FeeScheduleFetchOneSummary
+	 * @param 	summary FeeScheduleFetchOneSummary
+	 * @return 	FeeScheduleFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public FeeSchedule getFeeSchedule( FeeScheduleFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "FeeScheduleFetchOneSummary arg cannot be null" );
+
+		FeeSchedule entity = null;
+		UUID id = summary.getFeeScheduleId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a FeeSchedule using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate FeeSchedule with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteFeeScheduleCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteFeeScheduleCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getFeeScheduleId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of FeeSchedule {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete FeeSchedule using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the FeeSchedule via FeeScheduleFetchOneSummary
-		 * @param 	summary FeeScheduleFetchOneSummary
-		 * @return 	FeeScheduleFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public FeeSchedule getFeeSchedule( FeeScheduleFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "FeeScheduleFetchOneSummary arg cannot be null" );
-
-			FeeSchedule entity = null;
-			UUID id = summary.getFeeScheduleId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a FeeSchedule using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate FeeSchedule with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all FeeSchedules
-		 *
-		 * @return 	List<FeeSchedule>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<FeeSchedule> getAllFeeSchedule() 
-    throws BusinessException {
-			List<FeeSchedule> list = null;
+	/**
+	 * Method to retrieve a collection of all FeeSchedules
+	 *
+	 * @return 	List<FeeSchedule>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<FeeSchedule> getAllFeeSchedule() {
+		List<FeeSchedule> list = projector.findAll( new FindAllFeeScheduleQuery() );
 
-			try {
-				list = projector.findAll( new FindAllFeeScheduleQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all FeeSchedule";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return list;
-		}
+		return list;
+	}
 
 
-		/**
-		 * add Account to Accounts
-		 * @param		command AssignAccountsToFeeScheduleCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAccounts( AssignAccountsToFeeScheduleCommand command ) throws BusinessException {
+	/**
+	 * add Account to Accounts
+	 * @param		command AssignAccountsToFeeScheduleCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAccounts( AssignAccountsToFeeScheduleCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAccounts(command.getFeeScheduleId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Account as Accounts to FeeSchedule" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAccounts(command.getFeeScheduleId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Account from Accounts
+	 * @param		command RemoveAccountsFromFeeScheduleCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAccounts( RemoveAccountsFromFeeScheduleCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Account from Accounts
-		 * @param		command RemoveAccountsFromFeeScheduleCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAccounts( RemoveAccountsFromFeeScheduleCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAccounts(command.getFeeScheduleId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add BillingRun to BillingRuns
+	 * @param		command AssignBillingRunsToFeeScheduleCommand
+	 * @exception	BusinessException
+	 */
+	public void addToBillingRuns( AssignBillingRunsToFeeScheduleCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAccounts(command.getFeeScheduleId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToBillingRuns(command.getFeeScheduleId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getFeeScheduleId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove BillingRun from BillingRuns
+	 * @param		command RemoveBillingRunsFromFeeScheduleCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromBillingRuns( RemoveBillingRunsFromFeeScheduleCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add BillingRun to BillingRuns
-		 * @param		command AssignBillingRunsToFeeScheduleCommand
-		 * @exception	BusinessException
-		 */
-		public void addToBillingRuns( AssignBillingRunsToFeeScheduleCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToBillingRuns(command.getFeeScheduleId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a BillingRun as BillingRuns to FeeSchedule" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove BillingRun from BillingRuns
-		 * @param		command RemoveBillingRunsFromFeeScheduleCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromBillingRuns( RemoveBillingRunsFromFeeScheduleCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromBillingRuns(command.getFeeScheduleId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getFeeScheduleId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromBillingRuns(command.getFeeScheduleId(), command.getRemoveFrom());
+	}
 
 
 

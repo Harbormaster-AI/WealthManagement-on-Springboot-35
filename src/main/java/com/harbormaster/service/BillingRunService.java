@@ -97,37 +97,33 @@ public class BillingRunService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public BillingRunService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new BillingRunEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(BillingRunRepository.class) );
-			this.validator		= applicationContext.getBean(BillingRunValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new BillingRunEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(BillingRunRepository.class) );
+		this.validator		= applicationContext.getBean(BillingRunValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		BillingRun
-		 */
-			public BillingRun createBillingRun( CreateBillingRunCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		BillingRun
+	 */
+		public BillingRun createBillingRun( CreateBillingRunCommand command ) {
 
-			BillingRun entity = new BillingRun();
+		BillingRun entity = new BillingRun();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setBillingRunId( command.getBillingRunId() );
             entity.setRunDate( command.getRunDate() );
@@ -135,42 +131,29 @@ public class BillingRunService
             entity.setPeriodEnd( command.getPeriodEnd() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of BillingRun {0} ", entity.toString() );
+		LOGGER.info( "done creating of BillingRun {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create BillingRun - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateBillingRunCommand
+	 * @return		BillingRun
+	 */
+	public BillingRun updateBillingRun( UpdateBillingRunCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateBillingRunCommand
-		 * @exception    BusinessException
-		 * @return		BillingRun
-		 */
-		public BillingRun updateBillingRun( UpdateBillingRunCommand command )
-  	  	throws BusinessException {
+		BillingRun entity = new BillingRun();
 
-			BillingRun entity = new BillingRun();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setBillingRunId( command.getBillingRunId() );
             entity.setRunDate( command.getRunDate() );
@@ -180,222 +163,160 @@ public class BillingRunService
             entity.setInvoices( command.getInvoices() );
             entity.setStatus( command.getStatus() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of BillingRun {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save BillingRun - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of BillingRun {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteBillingRunCommand
+	 */
+	public void delete( DeleteBillingRunCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getBillingRunId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of BillingRun {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the BillingRun via BillingRunFetchOneSummary
+	 * @param 	summary BillingRunFetchOneSummary
+	 * @return 	BillingRunFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public BillingRun getBillingRun( BillingRunFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "BillingRunFetchOneSummary arg cannot be null" );
+
+		BillingRun entity = null;
+		UUID id = summary.getBillingRunId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a BillingRun using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate BillingRun with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteBillingRunCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteBillingRunCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getBillingRunId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of BillingRun {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete BillingRun using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the BillingRun via BillingRunFetchOneSummary
-		 * @param 	summary BillingRunFetchOneSummary
-		 * @return 	BillingRunFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public BillingRun getBillingRun( BillingRunFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "BillingRunFetchOneSummary arg cannot be null" );
-
-			BillingRun entity = null;
-			UUID id = summary.getBillingRunId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a BillingRun using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate BillingRun with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all BillingRuns
-		 *
-		 * @return 	List<BillingRun>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<BillingRun> getAllBillingRun() 
-    throws BusinessException {
-			List<BillingRun> list = null;
+	/**
+	 * Method to retrieve a collection of all BillingRuns
+	 *
+	 * @return 	List<BillingRun>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<BillingRun> getAllBillingRun() {
+		List<BillingRun> list = projector.findAll( new FindAllBillingRunQuery() );
 
-			try {
-				list = projector.findAll( new FindAllBillingRunQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all BillingRun";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign FeeSchedule on BillingRun
+	 * @param		command AssignFeeScheduleToBillingRunCommand
+	 * @exception	BusinessException
+	 */
+	public void assignFeeSchedule( AssignFeeScheduleToBillingRunCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign FeeSchedule on BillingRun
-		 * @param		command AssignFeeScheduleToBillingRunCommand
-		 * @exception	BusinessException
-		 */
-		public void assignFeeSchedule( AssignFeeScheduleToBillingRunCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignFeeSchedule(command.getBillingRunId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignFeeSchedule(command.getBillingRunId(), command.getAssignment());
+	/**
+	 * unAssign FeeSchedule on BillingRun
+	 * @param		command UnAssignFeeScheduleFromBillingRunCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignFeeSchedule( UnAssignFeeScheduleFromBillingRunCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get FeeSchedule using id " + command.getBillingRunId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign FeeSchedule on BillingRun
-		 * @param		command UnAssignFeeScheduleFromBillingRunCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignFeeSchedule( UnAssignFeeScheduleFromBillingRunCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignFeeSchedule(command.getBillingRunId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign FeeSchedule on BillingRun";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignFeeSchedule(command.getBillingRunId());
+	}
 	
 
-		/**
-		 * add Invoice to Invoices
-		 * @param		command AssignInvoicesToBillingRunCommand
-		 * @exception	BusinessException
-		 */
-		public void addToInvoices( AssignInvoicesToBillingRunCommand command ) throws BusinessException {
+	/**
+	 * add Invoice to Invoices
+	 * @param		command AssignInvoicesToBillingRunCommand
+	 * @exception	BusinessException
+	 */
+	public void addToInvoices( AssignInvoicesToBillingRunCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToInvoices(command.getBillingRunId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Invoice as Invoices to BillingRun" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToInvoices(command.getBillingRunId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Invoice from Invoices
+	 * @param		command RemoveInvoicesFromBillingRunCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromInvoices( RemoveInvoicesFromBillingRunCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Invoice from Invoices
-		 * @param		command RemoveInvoicesFromBillingRunCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromInvoices( RemoveInvoicesFromBillingRunCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromInvoices(command.getBillingRunId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getBillingRunId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromInvoices(command.getBillingRunId(), command.getRemoveFrom());
+	}
 
 
 

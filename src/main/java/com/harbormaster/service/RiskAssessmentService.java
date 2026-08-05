@@ -97,37 +97,33 @@ public class RiskAssessmentService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public RiskAssessmentService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new RiskAssessmentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(RiskAssessmentRepository.class) );
-			this.validator		= applicationContext.getBean(RiskAssessmentValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new RiskAssessmentEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(RiskAssessmentRepository.class) );
+		this.validator		= applicationContext.getBean(RiskAssessmentValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		RiskAssessment
-		 */
-			public RiskAssessment createRiskAssessment( CreateRiskAssessmentCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		RiskAssessment
+	 */
+		public RiskAssessment createRiskAssessment( CreateRiskAssessmentCommand command ) {
 
-			RiskAssessment entity = new RiskAssessment();
+		RiskAssessment entity = new RiskAssessment();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setRiskAssessmentId( command.getRiskAssessmentId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -135,42 +131,29 @@ public class RiskAssessmentService
             entity.setHorizonYears( command.getHorizonYears() );
             entity.setRiskTolerance( command.getRiskTolerance() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of RiskAssessment {0} ", entity.toString() );
+		LOGGER.info( "done creating of RiskAssessment {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create RiskAssessment - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateRiskAssessmentCommand
+	 * @return		RiskAssessment
+	 */
+	public RiskAssessment updateRiskAssessment( UpdateRiskAssessmentCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateRiskAssessmentCommand
-		 * @exception    BusinessException
-		 * @return		RiskAssessment
-		 */
-		public RiskAssessment updateRiskAssessment( UpdateRiskAssessmentCommand command )
-  	  	throws BusinessException {
+		RiskAssessment entity = new RiskAssessment();
 
-			RiskAssessment entity = new RiskAssessment();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setRiskAssessmentId( command.getRiskAssessmentId() );
             entity.setAssessmentDate( command.getAssessmentDate() );
@@ -180,221 +163,161 @@ public class RiskAssessmentService
             entity.setAdvisor( command.getAdvisor() );
             entity.setRiskTolerance( command.getRiskTolerance() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of RiskAssessment {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save RiskAssessment - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of RiskAssessment {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteRiskAssessmentCommand
+	 */
+	public void delete( DeleteRiskAssessmentCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getRiskAssessmentId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of RiskAssessment {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the RiskAssessment via RiskAssessmentFetchOneSummary
+	 * @param 	summary RiskAssessmentFetchOneSummary
+	 * @return 	RiskAssessmentFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public RiskAssessment getRiskAssessment( RiskAssessmentFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "RiskAssessmentFetchOneSummary arg cannot be null" );
+
+		RiskAssessment entity = null;
+		UUID id = summary.getRiskAssessmentId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a RiskAssessment using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate RiskAssessment with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteRiskAssessmentCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteRiskAssessmentCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getRiskAssessmentId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of RiskAssessment {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete RiskAssessment using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the RiskAssessment via RiskAssessmentFetchOneSummary
-		 * @param 	summary RiskAssessmentFetchOneSummary
-		 * @return 	RiskAssessmentFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public RiskAssessment getRiskAssessment( RiskAssessmentFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "RiskAssessmentFetchOneSummary arg cannot be null" );
-
-			RiskAssessment entity = null;
-			UUID id = summary.getRiskAssessmentId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a RiskAssessment using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate RiskAssessment with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all RiskAssessments
-		 *
-		 * @return 	List<RiskAssessment>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<RiskAssessment> getAllRiskAssessment() 
-    throws BusinessException {
-			List<RiskAssessment> list = null;
+	/**
+	 * Method to retrieve a collection of all RiskAssessments
+	 *
+	 * @return 	List<RiskAssessment>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<RiskAssessment> getAllRiskAssessment() {
+		List<RiskAssessment> list = projector.findAll( new FindAllRiskAssessmentQuery() );
 
-			try {
-				list = projector.findAll( new FindAllRiskAssessmentQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all RiskAssessment";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Household on RiskAssessment
+	 * @param		command AssignHouseholdToRiskAssessmentCommand
+	 * @exception	BusinessException
+	 */
+	public void assignHousehold( AssignHouseholdToRiskAssessmentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Household on RiskAssessment
-		 * @param		command AssignHouseholdToRiskAssessmentCommand
-		 * @exception	BusinessException
-		 */
-		public void assignHousehold( AssignHouseholdToRiskAssessmentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignHousehold(command.getRiskAssessmentId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignHousehold(command.getRiskAssessmentId(), command.getAssignment());
+	/**
+	 * unAssign Household on RiskAssessment
+	 * @param		command UnAssignHouseholdFromRiskAssessmentCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignHousehold( UnAssignHouseholdFromRiskAssessmentCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Household using id " + command.getRiskAssessmentId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Household on RiskAssessment
-		 * @param		command UnAssignHouseholdFromRiskAssessmentCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignHousehold( UnAssignHouseholdFromRiskAssessmentCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignHousehold(command.getRiskAssessmentId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Household on RiskAssessment";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignHousehold(command.getRiskAssessmentId());
+	}
 	
-		/**
-		 * assign Advisor on RiskAssessment
-		 * @param		command AssignAdvisorToRiskAssessmentCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisor( AssignAdvisorToRiskAssessmentCommand command ) throws BusinessException {
+	/**
+	 * assign Advisor on RiskAssessment
+	 * @param		command AssignAdvisorToRiskAssessmentCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisor( AssignAdvisorToRiskAssessmentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisor(command.getRiskAssessmentId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisor(command.getRiskAssessmentId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getRiskAssessmentId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Advisor on RiskAssessment
+	 * @param		command UnAssignAdvisorFromRiskAssessmentCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisor( UnAssignAdvisorFromRiskAssessmentCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Advisor on RiskAssessment
-		 * @param		command UnAssignAdvisorFromRiskAssessmentCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromRiskAssessmentCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisor(command.getRiskAssessmentId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Advisor on RiskAssessment";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisor(command.getRiskAssessmentId());
+	}
 	
-
 
 
 

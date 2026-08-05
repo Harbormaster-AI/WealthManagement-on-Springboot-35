@@ -97,37 +97,33 @@ public class ProposalService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public ProposalService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new ProposalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(ProposalRepository.class) );
-			this.validator		= applicationContext.getBean(ProposalValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new ProposalEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(ProposalRepository.class) );
+		this.validator		= applicationContext.getBean(ProposalValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Proposal
-		 */
-			public Proposal createProposal( CreateProposalCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Proposal
+	 */
+		public Proposal createProposal( CreateProposalCommand command ) {
 
-			Proposal entity = new Proposal();
+		Proposal entity = new Proposal();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setProposalId( command.getProposalId() );
             entity.setProposalNumber( command.getProposalNumber() );
@@ -136,42 +132,29 @@ public class ProposalService
             entity.setStatus( command.getStatus() );
             entity.setExpectedRisk( command.getExpectedRisk() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Proposal {0} ", entity.toString() );
+		LOGGER.info( "done creating of Proposal {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Proposal - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateProposalCommand
+	 * @return		Proposal
+	 */
+	public Proposal updateProposal( UpdateProposalCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateProposalCommand
-		 * @exception    BusinessException
-		 * @return		Proposal
-		 */
-		public Proposal updateProposal( UpdateProposalCommand command )
-  	  	throws BusinessException {
+		Proposal entity = new Proposal();
 
-			Proposal entity = new Proposal();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setProposalId( command.getProposalId() );
             entity.setProposalNumber( command.getProposalNumber() );
@@ -184,323 +167,233 @@ public class ProposalService
             entity.setStatus( command.getStatus() );
             entity.setExpectedRisk( command.getExpectedRisk() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Proposal {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Proposal - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Proposal {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteProposalCommand
+	 */
+	public void delete( DeleteProposalCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getProposalId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Proposal {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Proposal via ProposalFetchOneSummary
+	 * @param 	summary ProposalFetchOneSummary
+	 * @return 	ProposalFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Proposal getProposal( ProposalFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "ProposalFetchOneSummary arg cannot be null" );
+
+		Proposal entity = null;
+		UUID id = summary.getProposalId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Proposal using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Proposal with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteProposalCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteProposalCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getProposalId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Proposal {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Proposal using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Proposal via ProposalFetchOneSummary
-		 * @param 	summary ProposalFetchOneSummary
-		 * @return 	ProposalFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Proposal getProposal( ProposalFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "ProposalFetchOneSummary arg cannot be null" );
-
-			Proposal entity = null;
-			UUID id = summary.getProposalId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Proposal using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Proposal with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Proposals
-		 *
-		 * @return 	List<Proposal>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Proposal> getAllProposal() 
-    throws BusinessException {
-			List<Proposal> list = null;
+	/**
+	 * Method to retrieve a collection of all Proposals
+	 *
+	 * @return 	List<Proposal>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Proposal> getAllProposal() {
+		List<Proposal> list = projector.findAll( new FindAllProposalQuery() );
 
-			try {
-				list = projector.findAll( new FindAllProposalQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Proposal";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Household on Proposal
+	 * @param		command AssignHouseholdToProposalCommand
+	 * @exception	BusinessException
+	 */
+	public void assignHousehold( AssignHouseholdToProposalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Household on Proposal
-		 * @param		command AssignHouseholdToProposalCommand
-		 * @exception	BusinessException
-		 */
-		public void assignHousehold( AssignHouseholdToProposalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignHousehold(command.getProposalId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignHousehold(command.getProposalId(), command.getAssignment());
+	/**
+	 * unAssign Household on Proposal
+	 * @param		command UnAssignHouseholdFromProposalCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignHousehold( UnAssignHouseholdFromProposalCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Household using id " + command.getProposalId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Household on Proposal
-		 * @param		command UnAssignHouseholdFromProposalCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignHousehold( UnAssignHouseholdFromProposalCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignHousehold(command.getProposalId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Household on Proposal";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignHousehold(command.getProposalId());
+	}
 	
-		/**
-		 * assign Advisor on Proposal
-		 * @param		command AssignAdvisorToProposalCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAdvisor( AssignAdvisorToProposalCommand command ) throws BusinessException {
+	/**
+	 * assign Advisor on Proposal
+	 * @param		command AssignAdvisorToProposalCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAdvisor( AssignAdvisorToProposalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAdvisor(command.getProposalId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAdvisor(command.getProposalId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getProposalId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Advisor on Proposal
+	 * @param		command UnAssignAdvisorFromProposalCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAdvisor( UnAssignAdvisorFromProposalCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Advisor on Proposal
-		 * @param		command UnAssignAdvisorFromProposalCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAdvisor( UnAssignAdvisorFromProposalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAdvisor(command.getProposalId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Advisor on Proposal";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAdvisor(command.getProposalId());
+	}
 	
-		/**
-		 * assign ModelPortfolio on Proposal
-		 * @param		command AssignModelPortfolioToProposalCommand
-		 * @exception	BusinessException
-		 */
-		public void assignModelPortfolio( AssignModelPortfolioToProposalCommand command ) throws BusinessException {
+	/**
+	 * assign ModelPortfolio on Proposal
+	 * @param		command AssignModelPortfolioToProposalCommand
+	 * @exception	BusinessException
+	 */
+	public void assignModelPortfolio( AssignModelPortfolioToProposalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignModelPortfolio(command.getProposalId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignModelPortfolio(command.getProposalId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get ModelPortfolio using id " + command.getProposalId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign ModelPortfolio on Proposal
+	 * @param		command UnAssignModelPortfolioFromProposalCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignModelPortfolio( UnAssignModelPortfolioFromProposalCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign ModelPortfolio on Proposal
-		 * @param		command UnAssignModelPortfolioFromProposalCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignModelPortfolio( UnAssignModelPortfolioFromProposalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignModelPortfolio(command.getProposalId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign ModelPortfolio on Proposal";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignModelPortfolio(command.getProposalId());
+	}
 	
-		/**
-		 * assign Account on Proposal
-		 * @param		command AssignAccountToProposalCommand
-		 * @exception	BusinessException
-		 */
-		public void assignAccount( AssignAccountToProposalCommand command ) throws BusinessException {
+	/**
+	 * assign Account on Proposal
+	 * @param		command AssignAccountToProposalCommand
+	 * @exception	BusinessException
+	 */
+	public void assignAccount( AssignAccountToProposalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignAccount(command.getProposalId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignAccount(command.getProposalId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Account using id " + command.getProposalId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Account on Proposal
+	 * @param		command UnAssignAccountFromProposalCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignAccount( UnAssignAccountFromProposalCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Account on Proposal
-		 * @param		command UnAssignAccountFromProposalCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignAccount( UnAssignAccountFromProposalCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignAccount(command.getProposalId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Account on Proposal";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignAccount(command.getProposalId());
+	}
 	
-
 
 
 

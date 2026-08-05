@@ -97,37 +97,33 @@ public class PositionService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public PositionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new PositionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(PositionRepository.class) );
-			this.validator		= applicationContext.getBean(PositionValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new PositionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(PositionRepository.class) );
+		this.validator		= applicationContext.getBean(PositionValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Position
-		 */
-			public Position createPosition( CreatePositionCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Position
+	 */
+		public Position createPosition( CreatePositionCommand command ) {
 
-			Position entity = new Position();
+		Position entity = new Position();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setPositionId( command.getPositionId() );
             entity.setQuantity( command.getQuantity() );
@@ -135,42 +131,29 @@ public class PositionService
             entity.setPositionType( command.getPositionType() );
             entity.setLotMethod( command.getLotMethod() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Position {0} ", entity.toString() );
+		LOGGER.info( "done creating of Position {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Position - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdatePositionCommand
+	 * @return		Position
+	 */
+	public Position updatePosition( UpdatePositionCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdatePositionCommand
-		 * @exception    BusinessException
-		 * @return		Position
-		 */
-		public Position updatePosition( UpdatePositionCommand command )
-  	  	throws BusinessException {
+		Position entity = new Position();
 
-			Position entity = new Position();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setPositionId( command.getPositionId() );
             entity.setQuantity( command.getQuantity() );
@@ -182,325 +165,231 @@ public class PositionService
             entity.setPositionType( command.getPositionType() );
             entity.setLotMethod( command.getLotMethod() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Position {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Position - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Position {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeletePositionCommand
+	 */
+	public void delete( DeletePositionCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getPositionId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Position {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Position via PositionFetchOneSummary
+	 * @param 	summary PositionFetchOneSummary
+	 * @return 	PositionFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Position getPosition( PositionFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "PositionFetchOneSummary arg cannot be null" );
+
+		Position entity = null;
+		UUID id = summary.getPositionId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Position using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Position with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeletePositionCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeletePositionCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getPositionId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Position {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Position using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Position via PositionFetchOneSummary
-		 * @param 	summary PositionFetchOneSummary
-		 * @return 	PositionFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Position getPosition( PositionFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "PositionFetchOneSummary arg cannot be null" );
-
-			Position entity = null;
-			UUID id = summary.getPositionId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Position using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Position with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Positions
-		 *
-		 * @return 	List<Position>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Position> getAllPosition() 
-    throws BusinessException {
-			List<Position> list = null;
+	/**
+	 * Method to retrieve a collection of all Positions
+	 *
+	 * @return 	List<Position>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Position> getAllPosition() {
+		List<Position> list = projector.findAll( new FindAllPositionQuery() );
 
-			try {
-				list = projector.findAll( new FindAllPositionQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Position";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Portfolio on Position
+	 * @param		command AssignPortfolioToPositionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPortfolio( AssignPortfolioToPositionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Portfolio on Position
-		 * @param		command AssignPortfolioToPositionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPortfolio( AssignPortfolioToPositionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPortfolio(command.getPositionId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPortfolio(command.getPositionId(), command.getAssignment());
+	/**
+	 * unAssign Portfolio on Position
+	 * @param		command UnAssignPortfolioFromPositionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPortfolio( UnAssignPortfolioFromPositionCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Portfolio using id " + command.getPositionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Portfolio on Position
-		 * @param		command UnAssignPortfolioFromPositionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromPositionCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPortfolio(command.getPositionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Portfolio on Position";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPortfolio(command.getPositionId());
+	}
 	
-		/**
-		 * assign Security on Position
-		 * @param		command AssignSecurityToPositionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignSecurity( AssignSecurityToPositionCommand command ) throws BusinessException {
+	/**
+	 * assign Security on Position
+	 * @param		command AssignSecurityToPositionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignSecurity( AssignSecurityToPositionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignSecurity(command.getPositionId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignSecurity(command.getPositionId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Security using id " + command.getPositionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign Security on Position
+	 * @param		command UnAssignSecurityFromPositionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignSecurity( UnAssignSecurityFromPositionCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign Security on Position
-		 * @param		command UnAssignSecurityFromPositionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignSecurity( UnAssignSecurityFromPositionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignSecurity(command.getPositionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Security on Position";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignSecurity(command.getPositionId());
+	}
 	
 
-		/**
-		 * add TaxLot to TaxLots
-		 * @param		command AssignTaxLotsToPositionCommand
-		 * @exception	BusinessException
-		 */
-		public void addToTaxLots( AssignTaxLotsToPositionCommand command ) throws BusinessException {
+	/**
+	 * add TaxLot to TaxLots
+	 * @param		command AssignTaxLotsToPositionCommand
+	 * @exception	BusinessException
+	 */
+	public void addToTaxLots( AssignTaxLotsToPositionCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToTaxLots(command.getPositionId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a TaxLot as TaxLots to Position" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToTaxLots(command.getPositionId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove TaxLot from TaxLots
+	 * @param		command RemoveTaxLotsFromPositionCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromTaxLots( RemoveTaxLotsFromPositionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove TaxLot from TaxLots
-		 * @param		command RemoveTaxLotsFromPositionCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromTaxLots( RemoveTaxLotsFromPositionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromTaxLots(command.getPositionId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Transaction to Transactions
+	 * @param		command AssignTransactionsToPositionCommand
+	 * @exception	BusinessException
+	 */
+	public void addToTransactions( AssignTransactionsToPositionCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromTaxLots(command.getPositionId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToTransactions(command.getPositionId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getPositionId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Transaction from Transactions
+	 * @param		command RemoveTransactionsFromPositionCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromTransactions( RemoveTransactionsFromPositionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Transaction to Transactions
-		 * @param		command AssignTransactionsToPositionCommand
-		 * @exception	BusinessException
-		 */
-		public void addToTransactions( AssignTransactionsToPositionCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToTransactions(command.getPositionId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Transaction as Transactions to Position" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Transaction from Transactions
-		 * @param		command RemoveTransactionsFromPositionCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromTransactions( RemoveTransactionsFromPositionCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromTransactions(command.getPositionId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getPositionId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromTransactions(command.getPositionId(), command.getRemoveFrom());
+	}
 
 
 

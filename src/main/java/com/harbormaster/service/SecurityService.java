@@ -97,37 +97,33 @@ public class SecurityService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public SecurityService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new SecurityEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(SecurityRepository.class) );
-			this.validator		= applicationContext.getBean(SecurityValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new SecurityEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(SecurityRepository.class) );
+		this.validator		= applicationContext.getBean(SecurityValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Security
-		 */
-			public Security createSecurity( CreateSecurityCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Security
+	 */
+		public Security createSecurity( CreateSecurityCommand command ) {
 
-			Security entity = new Security();
+		Security entity = new Security();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setSecurityId( command.getSecurityId() );
             entity.setTicker( command.getTicker() );
@@ -139,42 +135,29 @@ public class SecurityService
             entity.setSecurityType( command.getSecurityType() );
             entity.setAssetClass( command.getAssetClass() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Security {0} ", entity.toString() );
+		LOGGER.info( "done creating of Security {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Security - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateSecurityCommand
+	 * @return		Security
+	 */
+	public Security updateSecurity( UpdateSecurityCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateSecurityCommand
-		 * @exception    BusinessException
-		 * @return		Security
-		 */
-		public Security updateSecurity( UpdateSecurityCommand command )
-  	  	throws BusinessException {
+		Security entity = new Security();
 
-			Security entity = new Security();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setSecurityId( command.getSecurityId() );
             entity.setTicker( command.getTicker() );
@@ -189,275 +172,194 @@ public class SecurityService
             entity.setSecurityType( command.getSecurityType() );
             entity.setAssetClass( command.getAssetClass() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Security {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Security - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Security {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteSecurityCommand
+	 */
+	public void delete( DeleteSecurityCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getSecurityId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Security {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Security via SecurityFetchOneSummary
+	 * @param 	summary SecurityFetchOneSummary
+	 * @return 	SecurityFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Security getSecurity( SecurityFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "SecurityFetchOneSummary arg cannot be null" );
+
+		Security entity = null;
+		UUID id = summary.getSecurityId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Security using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Security with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteSecurityCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteSecurityCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getSecurityId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Security {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Security using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Security via SecurityFetchOneSummary
-		 * @param 	summary SecurityFetchOneSummary
-		 * @return 	SecurityFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Security getSecurity( SecurityFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "SecurityFetchOneSummary arg cannot be null" );
-
-			Security entity = null;
-			UUID id = summary.getSecurityId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Security using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Security with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Securitys
-		 *
-		 * @return 	List<Security>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Security> getAllSecurity() 
-    throws BusinessException {
-			List<Security> list = null;
+	/**
+	 * Method to retrieve a collection of all Securitys
+	 *
+	 * @return 	List<Security>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Security> getAllSecurity() {
+		List<Security> list = projector.findAll( new FindAllSecurityQuery() );
 
-			try {
-				list = projector.findAll( new FindAllSecurityQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Security";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return list;
-		}
+		return list;
+	}
 
 
-		/**
-		 * add CorporateAction to CorporateActions
-		 * @param		command AssignCorporateActionsToSecurityCommand
-		 * @exception	BusinessException
-		 */
-		public void addToCorporateActions( AssignCorporateActionsToSecurityCommand command ) throws BusinessException {
+	/**
+	 * add CorporateAction to CorporateActions
+	 * @param		command AssignCorporateActionsToSecurityCommand
+	 * @exception	BusinessException
+	 */
+	public void addToCorporateActions( AssignCorporateActionsToSecurityCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToCorporateActions(command.getSecurityId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a CorporateAction as CorporateActions to Security" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToCorporateActions(command.getSecurityId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove CorporateAction from CorporateActions
+	 * @param		command RemoveCorporateActionsFromSecurityCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromCorporateActions( RemoveCorporateActionsFromSecurityCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove CorporateAction from CorporateActions
-		 * @param		command RemoveCorporateActionsFromSecurityCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromCorporateActions( RemoveCorporateActionsFromSecurityCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromCorporateActions(command.getSecurityId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add MarketPrice to Prices
+	 * @param		command AssignPricesToSecurityCommand
+	 * @exception	BusinessException
+	 */
+	public void addToPrices( AssignPricesToSecurityCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromCorporateActions(command.getSecurityId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToPrices(command.getSecurityId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getSecurityId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove MarketPrice from Prices
+	 * @param		command RemovePricesFromSecurityCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromPrices( RemovePricesFromSecurityCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add MarketPrice to Prices
-		 * @param		command AssignPricesToSecurityCommand
-		 * @exception	BusinessException
-		 */
-		public void addToPrices( AssignPricesToSecurityCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromPrices(command.getSecurityId(), command.getRemoveFrom());
+	}
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add Benchmark to Benchmarks
+	 * @param		command AssignBenchmarksToSecurityCommand
+	 * @exception	BusinessException
+	 */
+	public void addToBenchmarks( AssignBenchmarksToSecurityCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToPrices(command.getSecurityId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a MarketPrice as Prices to Security" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToBenchmarks(command.getSecurityId(), command.getAddTo())
+	}
 
-		/**
-		 * remove MarketPrice from Prices
-		 * @param		command RemovePricesFromSecurityCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromPrices( RemovePricesFromSecurityCommand command ) throws BusinessException {
+	/**
+	 * remove Benchmark from Benchmarks
+	 * @param		command RemoveBenchmarksFromSecurityCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromBenchmarks( RemoveBenchmarksFromSecurityCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromPrices(command.getSecurityId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getSecurityId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
-		/**
-		 * add Benchmark to Benchmarks
-		 * @param		command AssignBenchmarksToSecurityCommand
-		 * @exception	BusinessException
-		 */
-		public void addToBenchmarks( AssignBenchmarksToSecurityCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToBenchmarks(command.getSecurityId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Benchmark as Benchmarks to Security" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Benchmark from Benchmarks
-		 * @param		command RemoveBenchmarksFromSecurityCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromBenchmarks( RemoveBenchmarksFromSecurityCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromBenchmarks(command.getSecurityId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getSecurityId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromBenchmarks(command.getSecurityId(), command.getRemoveFrom());
+	}
 
 
 

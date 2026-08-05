@@ -97,37 +97,33 @@ public class ClientService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public ClientService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new ClientEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(ClientRepository.class) );
-			this.validator		= applicationContext.getBean(ClientValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new ClientEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(ClientRepository.class) );
+		this.validator		= applicationContext.getBean(ClientValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Client
-		 */
-			public Client createClient( CreateClientCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Client
+	 */
+		public Client createClient( CreateClientCommand command ) {
 
-			Client entity = new Client();
+		Client entity = new Client();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setClientId( command.getClientId() );
             entity.setFirstName( command.getFirstName() );
@@ -136,42 +132,29 @@ public class ClientService
             entity.setDateOfBirth( command.getDateOfBirth() );
             entity.setEmail( command.getEmail() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Client {0} ", entity.toString() );
+		LOGGER.info( "done creating of Client {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Client - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateClientCommand
+	 * @return		Client
+	 */
+	public Client updateClient( UpdateClientCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateClientCommand
-		 * @exception    BusinessException
-		 * @return		Client
-		 */
-		public Client updateClient( UpdateClientCommand command )
-  	  	throws BusinessException {
+		Client entity = new Client();
 
-			Client entity = new Client();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setClientId( command.getClientId() );
             entity.setFirstName( command.getFirstName() );
@@ -186,429 +169,301 @@ public class ClientService
             entity.setKycRecord( command.getKycRecord() );
             entity.setAgreements( command.getAgreements() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Client {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Client - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Client {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteClientCommand
+	 */
+	public void delete( DeleteClientCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getClientId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Client {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Client via ClientFetchOneSummary
+	 * @param 	summary ClientFetchOneSummary
+	 * @return 	ClientFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Client getClient( ClientFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "ClientFetchOneSummary arg cannot be null" );
+
+		Client entity = null;
+		UUID id = summary.getClientId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Client using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Client with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteClientCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteClientCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getClientId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Client {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Client using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Client via ClientFetchOneSummary
-		 * @param 	summary ClientFetchOneSummary
-		 * @return 	ClientFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Client getClient( ClientFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "ClientFetchOneSummary arg cannot be null" );
-
-			Client entity = null;
-			UUID id = summary.getClientId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Client using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Client with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Clients
-		 *
-		 * @return 	List<Client>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Client> getAllClient() 
-    throws BusinessException {
-			List<Client> list = null;
+	/**
+	 * Method to retrieve a collection of all Clients
+	 *
+	 * @return 	List<Client>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Client> getAllClient() {
+		List<Client> list = projector.findAll( new FindAllClientQuery() );
 
-			try {
-				list = projector.findAll( new FindAllClientQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Client";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Household on Client
+	 * @param		command AssignHouseholdToClientCommand
+	 * @exception	BusinessException
+	 */
+	public void assignHousehold( AssignHouseholdToClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Household on Client
-		 * @param		command AssignHouseholdToClientCommand
-		 * @exception	BusinessException
-		 */
-		public void assignHousehold( AssignHouseholdToClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignHousehold(command.getClientId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignHousehold(command.getClientId(), command.getAssignment());
+	/**
+	 * unAssign Household on Client
+	 * @param		command UnAssignHouseholdFromClientCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignHousehold( UnAssignHouseholdFromClientCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Household using id " + command.getClientId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Household on Client
-		 * @param		command UnAssignHouseholdFromClientCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignHousehold( UnAssignHouseholdFromClientCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignHousehold(command.getClientId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Household on Client";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignHousehold(command.getClientId());
+	}
 	
-		/**
-		 * assign KycRecord on Client
-		 * @param		command AssignKycRecordToClientCommand
-		 * @exception	BusinessException
-		 */
-		public void assignKycRecord( AssignKycRecordToClientCommand command ) throws BusinessException {
+	/**
+	 * assign KycRecord on Client
+	 * @param		command AssignKycRecordToClientCommand
+	 * @exception	BusinessException
+	 */
+	public void assignKycRecord( AssignKycRecordToClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignKycRecord(command.getClientId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignKycRecord(command.getClientId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get KycRecord using id " + command.getClientId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign KycRecord on Client
+	 * @param		command UnAssignKycRecordFromClientCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignKycRecord( UnAssignKycRecordFromClientCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign KycRecord on Client
-		 * @param		command UnAssignKycRecordFromClientCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignKycRecord( UnAssignKycRecordFromClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignKycRecord(command.getClientId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign KycRecord on Client";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignKycRecord(command.getClientId());
+	}
 	
 
-		/**
-		 * add Account to Accounts
-		 * @param		command AssignAccountsToClientCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAccounts( AssignAccountsToClientCommand command ) throws BusinessException {
+	/**
+	 * add Account to Accounts
+	 * @param		command AssignAccountsToClientCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAccounts( AssignAccountsToClientCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAccounts(command.getClientId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Account as Accounts to Client" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAccounts(command.getClientId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Account from Accounts
+	 * @param		command RemoveAccountsFromClientCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAccounts( RemoveAccountsFromClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Account from Accounts
-		 * @param		command RemoveAccountsFromClientCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAccounts( RemoveAccountsFromClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAccounts(command.getClientId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Document to Documents
+	 * @param		command AssignDocumentsToClientCommand
+	 * @exception	BusinessException
+	 */
+	public void addToDocuments( AssignDocumentsToClientCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAccounts(command.getClientId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToDocuments(command.getClientId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getClientId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Document from Documents
+	 * @param		command RemoveDocumentsFromClientCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromDocuments( RemoveDocumentsFromClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Document to Documents
-		 * @param		command AssignDocumentsToClientCommand
-		 * @exception	BusinessException
-		 */
-		public void addToDocuments( AssignDocumentsToClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromDocuments(command.getClientId(), command.getRemoveFrom());
+	}
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add Beneficiary to Beneficiaries
+	 * @param		command AssignBeneficiariesToClientCommand
+	 * @exception	BusinessException
+	 */
+	public void addToBeneficiaries( AssignBeneficiariesToClientCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToDocuments(command.getClientId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Document as Documents to Client" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToBeneficiaries(command.getClientId(), command.getAddTo())
+	}
 
-		/**
-		 * remove Document from Documents
-		 * @param		command RemoveDocumentsFromClientCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromDocuments( RemoveDocumentsFromClientCommand command ) throws BusinessException {
+	/**
+	 * remove Beneficiary from Beneficiaries
+	 * @param		command RemoveBeneficiariesFromClientCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromBeneficiaries( RemoveBeneficiariesFromClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromBeneficiaries(command.getClientId(), command.getRemoveFrom());
+	}
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add Agreement to Agreements
+	 * @param		command AssignAgreementsToClientCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAgreements( AssignAgreementsToClientCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromDocuments(command.getClientId(), command.getRemoveFrom());
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getClientId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAgreements(command.getClientId(), command.getAddTo())
+	}
 
-		/**
-		 * add Beneficiary to Beneficiaries
-		 * @param		command AssignBeneficiariesToClientCommand
-		 * @exception	BusinessException
-		 */
-		public void addToBeneficiaries( AssignBeneficiariesToClientCommand command ) throws BusinessException {
+	/**
+	 * remove Agreement from Agreements
+	 * @param		command RemoveAgreementsFromClientCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAgreements( RemoveAgreementsFromClientCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToBeneficiaries(command.getClientId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Beneficiary as Beneficiaries to Client" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Beneficiary from Beneficiaries
-		 * @param		command RemoveBeneficiariesFromClientCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromBeneficiaries( RemoveBeneficiariesFromClientCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromBeneficiaries(command.getClientId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getClientId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
-		/**
-		 * add Agreement to Agreements
-		 * @param		command AssignAgreementsToClientCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAgreements( AssignAgreementsToClientCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAgreements(command.getClientId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Agreement as Agreements to Client" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Agreement from Agreements
-		 * @param		command RemoveAgreementsFromClientCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAgreements( RemoveAgreementsFromClientCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAgreements(command.getClientId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getClientId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAgreements(command.getClientId(), command.getRemoveFrom());
+	}
 
 
 

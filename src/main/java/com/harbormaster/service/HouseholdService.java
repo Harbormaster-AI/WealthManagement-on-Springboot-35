@@ -97,77 +97,60 @@ public class HouseholdService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public HouseholdService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new HouseholdEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(HouseholdRepository.class) );
-			this.validator		= applicationContext.getBean(HouseholdValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new HouseholdEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(HouseholdRepository.class) );
+		this.validator		= applicationContext.getBean(HouseholdValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		Household
-		 */
-			public Household createHousehold( CreateHouseholdCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		Household
+	 */
+		public Household createHousehold( CreateHouseholdCommand command ) {
 
-			Household entity = new Household();
+		Household entity = new Household();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setHouseholdId( command.getHouseholdId() );
             entity.setName( command.getName() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of Household {0} ", entity.toString() );
+		LOGGER.info( "done creating of Household {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create Household - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateHouseholdCommand
+	 * @return		Household
+	 */
+	public Household updateHousehold( UpdateHouseholdCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateHouseholdCommand
-		 * @exception    BusinessException
-		 * @return		Household
-		 */
-		public Household updateHousehold( UpdateHouseholdCommand command )
-  	  	throws BusinessException {
+		Household entity = new Household();
 
-			Household entity = new Household();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setHouseholdId( command.getHouseholdId() );
             entity.setName( command.getName() );
@@ -177,378 +160,265 @@ public class HouseholdService
             entity.setGoals( command.getGoals() );
             entity.setRiskAssessments( command.getRiskAssessments() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of Household {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save Household - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of Household {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteHouseholdCommand
+	 */
+	public void delete( DeleteHouseholdCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getHouseholdId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of Household {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the Household via HouseholdFetchOneSummary
+	 * @param 	summary HouseholdFetchOneSummary
+	 * @return 	HouseholdFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public Household getHousehold( HouseholdFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "HouseholdFetchOneSummary arg cannot be null" );
+
+		Household entity = null;
+		UUID id = summary.getHouseholdId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a Household using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate Household with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteHouseholdCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteHouseholdCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getHouseholdId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of Household {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete Household using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the Household via HouseholdFetchOneSummary
-		 * @param 	summary HouseholdFetchOneSummary
-		 * @return 	HouseholdFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public Household getHousehold( HouseholdFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "HouseholdFetchOneSummary arg cannot be null" );
-
-			Household entity = null;
-			UUID id = summary.getHouseholdId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a Household using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate Household with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all Households
-		 *
-		 * @return 	List<Household>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<Household> getAllHousehold() 
-    throws BusinessException {
-			List<Household> list = null;
+	/**
+	 * Method to retrieve a collection of all Households
+	 *
+	 * @return 	List<Household>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<Household> getAllHousehold() {
+		List<Household> list = projector.findAll( new FindAllHouseholdQuery() );
 
-			try {
-				list = projector.findAll( new FindAllHouseholdQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all Household";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign PrimaryAdvisor on Household
+	 * @param		command AssignPrimaryAdvisorToHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPrimaryAdvisor( AssignPrimaryAdvisorToHouseholdCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign PrimaryAdvisor on Household
-		 * @param		command AssignPrimaryAdvisorToHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPrimaryAdvisor( AssignPrimaryAdvisorToHouseholdCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPrimaryAdvisor(command.getHouseholdId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPrimaryAdvisor(command.getHouseholdId(), command.getAssignment());
+	/**
+	 * unAssign PrimaryAdvisor on Household
+	 * @param		command UnAssignPrimaryAdvisorFromHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPrimaryAdvisor( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Advisor using id " + command.getHouseholdId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign PrimaryAdvisor on Household
-		 * @param		command UnAssignPrimaryAdvisorFromHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPrimaryAdvisor( UnAssignPrimaryAdvisorFromHouseholdCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPrimaryAdvisor(command.getHouseholdId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign PrimaryAdvisor on Household";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPrimaryAdvisor(command.getHouseholdId());
+	}
 	
 
-		/**
-		 * add Client to Clients
-		 * @param		command AssignClientsToHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void addToClients( AssignClientsToHouseholdCommand command ) throws BusinessException {
+	/**
+	 * add Client to Clients
+	 * @param		command AssignClientsToHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void addToClients( AssignClientsToHouseholdCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToClients(command.getHouseholdId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Client as Clients to Household" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToClients(command.getHouseholdId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Client from Clients
+	 * @param		command RemoveClientsFromHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromClients( RemoveClientsFromHouseholdCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Client from Clients
-		 * @param		command RemoveClientsFromHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromClients( RemoveClientsFromHouseholdCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromClients(command.getHouseholdId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Portfolio to Portfolios
+	 * @param		command AssignPortfoliosToHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void addToPortfolios( AssignPortfoliosToHouseholdCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromClients(command.getHouseholdId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToPortfolios(command.getHouseholdId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Portfolio from Portfolios
+	 * @param		command RemovePortfoliosFromHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromPortfolios( RemovePortfoliosFromHouseholdCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Portfolio to Portfolios
-		 * @param		command AssignPortfoliosToHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void addToPortfolios( AssignPortfoliosToHouseholdCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromPortfolios(command.getHouseholdId(), command.getRemoveFrom());
+	}
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add WealthGoal to Goals
+	 * @param		command AssignGoalsToHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void addToGoals( AssignGoalsToHouseholdCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToPortfolios(command.getHouseholdId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Portfolio as Portfolios to Household" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToGoals(command.getHouseholdId(), command.getAddTo())
+	}
 
-		/**
-		 * remove Portfolio from Portfolios
-		 * @param		command RemovePortfoliosFromHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromPortfolios( RemovePortfoliosFromHouseholdCommand command ) throws BusinessException {
+	/**
+	 * remove WealthGoal from Goals
+	 * @param		command RemoveGoalsFromHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromGoals( RemoveGoalsFromHouseholdCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromGoals(command.getHouseholdId(), command.getRemoveFrom());
+	}
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+	/**
+	 * add RiskAssessment to RiskAssessments
+	 * @param		command AssignRiskAssessmentsToHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void addToRiskAssessments( AssignRiskAssessmentsToHouseholdCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromPortfolios(command.getHouseholdId(), command.getRemoveFrom());
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToRiskAssessments(command.getHouseholdId(), command.getAddTo())
+	}
 
-		/**
-		 * add WealthGoal to Goals
-		 * @param		command AssignGoalsToHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void addToGoals( AssignGoalsToHouseholdCommand command ) throws BusinessException {
+	/**
+	 * remove RiskAssessment from RiskAssessments
+	 * @param		command RemoveRiskAssessmentsFromHouseholdCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromRiskAssessments( RemoveRiskAssessmentsFromHouseholdCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToGoals(command.getHouseholdId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a WealthGoal as Goals to Household" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove WealthGoal from Goals
-		 * @param		command RemoveGoalsFromHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromGoals( RemoveGoalsFromHouseholdCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromGoals(command.getHouseholdId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
-		/**
-		 * add RiskAssessment to RiskAssessments
-		 * @param		command AssignRiskAssessmentsToHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void addToRiskAssessments( AssignRiskAssessmentsToHouseholdCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToRiskAssessments(command.getHouseholdId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a RiskAssessment as RiskAssessments to Household" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove RiskAssessment from RiskAssessments
-		 * @param		command RemoveRiskAssessmentsFromHouseholdCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromRiskAssessments( RemoveRiskAssessmentsFromHouseholdCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromRiskAssessments(command.getHouseholdId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getHouseholdId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromRiskAssessments(command.getHouseholdId(), command.getRemoveFrom());
+	}
 
 
 

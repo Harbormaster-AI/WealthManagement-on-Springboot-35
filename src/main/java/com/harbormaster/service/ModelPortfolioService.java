@@ -97,79 +97,62 @@ public class ModelPortfolioService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public ModelPortfolioService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new ModelPortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(ModelPortfolioRepository.class) );
-			this.validator		= applicationContext.getBean(ModelPortfolioValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new ModelPortfolioEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(ModelPortfolioRepository.class) );
+		this.validator		= applicationContext.getBean(ModelPortfolioValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		ModelPortfolio
-		 */
-			public ModelPortfolio createModelPortfolio( CreateModelPortfolioCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		ModelPortfolio
+	 */
+		public ModelPortfolio createModelPortfolio( CreateModelPortfolioCommand command ) {
 
-			ModelPortfolio entity = new ModelPortfolio();
+		ModelPortfolio entity = new ModelPortfolio();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setModelPortfolioId( command.getModelPortfolioId() );
             entity.setName( command.getName() );
             entity.setObjective( command.getObjective() );
             entity.setRiskLevel( command.getRiskLevel() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of ModelPortfolio {0} ", entity.toString() );
+		LOGGER.info( "done creating of ModelPortfolio {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create ModelPortfolio - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateModelPortfolioCommand
+	 * @return		ModelPortfolio
+	 */
+	public ModelPortfolio updateModelPortfolio( UpdateModelPortfolioCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateModelPortfolioCommand
-		 * @exception    BusinessException
-		 * @return		ModelPortfolio
-		 */
-		public ModelPortfolio updateModelPortfolio( UpdateModelPortfolioCommand command )
-  	  	throws BusinessException {
+		ModelPortfolio entity = new ModelPortfolio();
 
-			ModelPortfolio entity = new ModelPortfolio();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setModelPortfolioId( command.getModelPortfolioId() );
             entity.setName( command.getName() );
@@ -178,223 +161,159 @@ public class ModelPortfolioService
             entity.setPortfolios( command.getPortfolios() );
             entity.setRiskLevel( command.getRiskLevel() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of ModelPortfolio {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save ModelPortfolio - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of ModelPortfolio {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteModelPortfolioCommand
+	 */
+	public void delete( DeleteModelPortfolioCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getModelPortfolioId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of ModelPortfolio {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the ModelPortfolio via ModelPortfolioFetchOneSummary
+	 * @param 	summary ModelPortfolioFetchOneSummary
+	 * @return 	ModelPortfolioFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public ModelPortfolio getModelPortfolio( ModelPortfolioFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "ModelPortfolioFetchOneSummary arg cannot be null" );
+
+		ModelPortfolio entity = null;
+		UUID id = summary.getModelPortfolioId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a ModelPortfolio using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate ModelPortfolio with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteModelPortfolioCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteModelPortfolioCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getModelPortfolioId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of ModelPortfolio {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete ModelPortfolio using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the ModelPortfolio via ModelPortfolioFetchOneSummary
-		 * @param 	summary ModelPortfolioFetchOneSummary
-		 * @return 	ModelPortfolioFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public ModelPortfolio getModelPortfolio( ModelPortfolioFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "ModelPortfolioFetchOneSummary arg cannot be null" );
-
-			ModelPortfolio entity = null;
-			UUID id = summary.getModelPortfolioId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a ModelPortfolio using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate ModelPortfolio with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all ModelPortfolios
-		 *
-		 * @return 	List<ModelPortfolio>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<ModelPortfolio> getAllModelPortfolio() 
-    throws BusinessException {
-			List<ModelPortfolio> list = null;
+	/**
+	 * Method to retrieve a collection of all ModelPortfolios
+	 *
+	 * @return 	List<ModelPortfolio>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<ModelPortfolio> getAllModelPortfolio() {
+		List<ModelPortfolio> list = projector.findAll( new FindAllModelPortfolioQuery() );
 
-			try {
-				list = projector.findAll( new FindAllModelPortfolioQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all ModelPortfolio";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return list;
-		}
+		return list;
+	}
 
 
-		/**
-		 * add AssetAllocationSlice to Allocations
-		 * @param		command AssignAllocationsToModelPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void addToAllocations( AssignAllocationsToModelPortfolioCommand command ) throws BusinessException {
+	/**
+	 * add AssetAllocationSlice to Allocations
+	 * @param		command AssignAllocationsToModelPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void addToAllocations( AssignAllocationsToModelPortfolioCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToAllocations(command.getModelPortfolioId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a AssetAllocationSlice as Allocations to ModelPortfolio" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToAllocations(command.getModelPortfolioId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove AssetAllocationSlice from Allocations
+	 * @param		command RemoveAllocationsFromModelPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromAllocations( RemoveAllocationsFromModelPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove AssetAllocationSlice from Allocations
-		 * @param		command RemoveAllocationsFromModelPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromAllocations( RemoveAllocationsFromModelPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromAllocations(command.getModelPortfolioId(), command.getRemoveFrom());
+	}
 
-			try {
+	/**
+	 * add Portfolio to Portfolios
+	 * @param		command AssignPortfoliosToModelPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void addToPortfolios( AssignPortfoliosToModelPortfolioCommand command ) throws BusinessException {
 
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromAllocations(command.getModelPortfolioId(), command.getRemoveFrom());
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToPortfolios(command.getModelPortfolioId(), command.getAddTo())
+	}
 
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getModelPortfolioId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * remove Portfolio from Portfolios
+	 * @param		command RemovePortfoliosFromModelPortfolioCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromPortfolios( RemovePortfoliosFromModelPortfolioCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * add Portfolio to Portfolios
-		 * @param		command AssignPortfoliosToModelPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void addToPortfolios( AssignPortfoliosToModelPortfolioCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToPortfolios(command.getModelPortfolioId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Portfolio as Portfolios to ModelPortfolio" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-
-		}
-
-		/**
-		 * remove Portfolio from Portfolios
-		 * @param		command RemovePortfoliosFromModelPortfolioCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromPortfolios( RemovePortfoliosFromModelPortfolioCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromPortfolios(command.getModelPortfolioId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getModelPortfolioId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromPortfolios(command.getModelPortfolioId(), command.getRemoveFrom());
+	}
 
 
 

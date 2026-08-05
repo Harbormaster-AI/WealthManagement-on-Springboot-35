@@ -97,79 +97,62 @@ public class MarketPriceService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public MarketPriceService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new MarketPriceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(MarketPriceRepository.class) );
-			this.validator		= applicationContext.getBean(MarketPriceValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new MarketPriceEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(MarketPriceRepository.class) );
+		this.validator		= applicationContext.getBean(MarketPriceValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		MarketPrice
-		 */
-			public MarketPrice createMarketPrice( CreateMarketPriceCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		MarketPrice
+	 */
+		public MarketPrice createMarketPrice( CreateMarketPriceCommand command ) {
 
-			MarketPrice entity = new MarketPrice();
+		MarketPrice entity = new MarketPrice();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setMarketPriceId( command.getMarketPriceId() );
             entity.setPrice( command.getPrice() );
             entity.setPriceDate( command.getPriceDate() );
             entity.setSource( command.getSource() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of MarketPrice {0} ", entity.toString() );
+		LOGGER.info( "done creating of MarketPrice {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create MarketPrice - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateMarketPriceCommand
+	 * @return		MarketPrice
+	 */
+	public MarketPrice updateMarketPrice( UpdateMarketPriceCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateMarketPriceCommand
-		 * @exception    BusinessException
-		 * @return		MarketPrice
-		 */
-		public MarketPrice updateMarketPrice( UpdateMarketPriceCommand command )
-  	  	throws BusinessException {
+		MarketPrice entity = new MarketPrice();
 
-			MarketPrice entity = new MarketPrice();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setMarketPriceId( command.getMarketPriceId() );
             entity.setPrice( command.getPrice() );
@@ -177,170 +160,125 @@ public class MarketPriceService
             entity.setSecurity( command.getSecurity() );
             entity.setSource( command.getSource() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of MarketPrice {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save MarketPrice - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of MarketPrice {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteMarketPriceCommand
+	 */
+	public void delete( DeleteMarketPriceCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getMarketPriceId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of MarketPrice {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the MarketPrice via MarketPriceFetchOneSummary
+	 * @param 	summary MarketPriceFetchOneSummary
+	 * @return 	MarketPriceFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public MarketPrice getMarketPrice( MarketPriceFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "MarketPriceFetchOneSummary arg cannot be null" );
+
+		MarketPrice entity = null;
+		UUID id = summary.getMarketPriceId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a MarketPrice using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate MarketPrice with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteMarketPriceCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteMarketPriceCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getMarketPriceId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of MarketPrice {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete MarketPrice using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the MarketPrice via MarketPriceFetchOneSummary
-		 * @param 	summary MarketPriceFetchOneSummary
-		 * @return 	MarketPriceFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public MarketPrice getMarketPrice( MarketPriceFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "MarketPriceFetchOneSummary arg cannot be null" );
-
-			MarketPrice entity = null;
-			UUID id = summary.getMarketPriceId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a MarketPrice using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate MarketPrice with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all MarketPrices
-		 *
-		 * @return 	List<MarketPrice>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<MarketPrice> getAllMarketPrice() 
-    throws BusinessException {
-			List<MarketPrice> list = null;
+	/**
+	 * Method to retrieve a collection of all MarketPrices
+	 *
+	 * @return 	List<MarketPrice>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<MarketPrice> getAllMarketPrice() {
+		List<MarketPrice> list = projector.findAll( new FindAllMarketPriceQuery() );
 
-			try {
-				list = projector.findAll( new FindAllMarketPriceQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all MarketPrice";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Security on MarketPrice
+	 * @param		command AssignSecurityToMarketPriceCommand
+	 * @exception	BusinessException
+	 */
+	public void assignSecurity( AssignSecurityToMarketPriceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Security on MarketPrice
-		 * @param		command AssignSecurityToMarketPriceCommand
-		 * @exception	BusinessException
-		 */
-		public void assignSecurity( AssignSecurityToMarketPriceCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignSecurity(command.getMarketPriceId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignSecurity(command.getMarketPriceId(), command.getAssignment());
+	/**
+	 * unAssign Security on MarketPrice
+	 * @param		command UnAssignSecurityFromMarketPriceCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignSecurity( UnAssignSecurityFromMarketPriceCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Security using id " + command.getMarketPriceId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Security on MarketPrice
-		 * @param		command UnAssignSecurityFromMarketPriceCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignSecurity( UnAssignSecurityFromMarketPriceCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignSecurity(command.getMarketPriceId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Security on MarketPrice";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignSecurity(command.getMarketPriceId());
+	}
 	
-
 
 
 

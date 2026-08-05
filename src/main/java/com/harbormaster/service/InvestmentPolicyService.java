@@ -97,79 +97,62 @@ public class InvestmentPolicyService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public InvestmentPolicyService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new InvestmentPolicyEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(InvestmentPolicyRepository.class) );
-			this.validator		= applicationContext.getBean(InvestmentPolicyValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new InvestmentPolicyEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(InvestmentPolicyRepository.class) );
+		this.validator		= applicationContext.getBean(InvestmentPolicyValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		InvestmentPolicy
-		 */
-			public InvestmentPolicy createInvestmentPolicy( CreateInvestmentPolicyCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		InvestmentPolicy
+	 */
+		public InvestmentPolicy createInvestmentPolicy( CreateInvestmentPolicyCommand command ) {
 
-			InvestmentPolicy entity = new InvestmentPolicy();
+		InvestmentPolicy entity = new InvestmentPolicy();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setInvestmentPolicyId( command.getInvestmentPolicyId() );
             entity.setPolicyNumber( command.getPolicyNumber() );
             entity.setConstraints( command.getConstraints() );
             entity.setSuitabilityStatus( command.getSuitabilityStatus() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of InvestmentPolicy {0} ", entity.toString() );
+		LOGGER.info( "done creating of InvestmentPolicy {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create InvestmentPolicy - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateInvestmentPolicyCommand
+	 * @return		InvestmentPolicy
+	 */
+	public InvestmentPolicy updateInvestmentPolicy( UpdateInvestmentPolicyCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateInvestmentPolicyCommand
-		 * @exception    BusinessException
-		 * @return		InvestmentPolicy
-		 */
-		public InvestmentPolicy updateInvestmentPolicy( UpdateInvestmentPolicyCommand command )
-  	  	throws BusinessException {
+		InvestmentPolicy entity = new InvestmentPolicy();
 
-			InvestmentPolicy entity = new InvestmentPolicy();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setInvestmentPolicyId( command.getInvestmentPolicyId() );
             entity.setPolicyNumber( command.getPolicyNumber() );
@@ -179,273 +162,196 @@ public class InvestmentPolicyService
             entity.setGoals( command.getGoals() );
             entity.setSuitabilityStatus( command.getSuitabilityStatus() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of InvestmentPolicy {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save InvestmentPolicy - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of InvestmentPolicy {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteInvestmentPolicyCommand
+	 */
+	public void delete( DeleteInvestmentPolicyCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getInvestmentPolicyId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of InvestmentPolicy {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the InvestmentPolicy via InvestmentPolicyFetchOneSummary
+	 * @param 	summary InvestmentPolicyFetchOneSummary
+	 * @return 	InvestmentPolicyFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public InvestmentPolicy getInvestmentPolicy( InvestmentPolicyFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "InvestmentPolicyFetchOneSummary arg cannot be null" );
+
+		InvestmentPolicy entity = null;
+		UUID id = summary.getInvestmentPolicyId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a InvestmentPolicy using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate InvestmentPolicy with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteInvestmentPolicyCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteInvestmentPolicyCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getInvestmentPolicyId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of InvestmentPolicy {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete InvestmentPolicy using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the InvestmentPolicy via InvestmentPolicyFetchOneSummary
-		 * @param 	summary InvestmentPolicyFetchOneSummary
-		 * @return 	InvestmentPolicyFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public InvestmentPolicy getInvestmentPolicy( InvestmentPolicyFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "InvestmentPolicyFetchOneSummary arg cannot be null" );
-
-			InvestmentPolicy entity = null;
-			UUID id = summary.getInvestmentPolicyId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a InvestmentPolicy using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate InvestmentPolicy with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all InvestmentPolicys
-		 *
-		 * @return 	List<InvestmentPolicy>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<InvestmentPolicy> getAllInvestmentPolicy() 
-    throws BusinessException {
-			List<InvestmentPolicy> list = null;
+	/**
+	 * Method to retrieve a collection of all InvestmentPolicys
+	 *
+	 * @return 	List<InvestmentPolicy>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<InvestmentPolicy> getAllInvestmentPolicy() {
+		List<InvestmentPolicy> list = projector.findAll( new FindAllInvestmentPolicyQuery() );
 
-			try {
-				list = projector.findAll( new FindAllInvestmentPolicyQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all InvestmentPolicy";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Portfolio on InvestmentPolicy
+	 * @param		command AssignPortfolioToInvestmentPolicyCommand
+	 * @exception	BusinessException
+	 */
+	public void assignPortfolio( AssignPortfolioToInvestmentPolicyCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Portfolio on InvestmentPolicy
-		 * @param		command AssignPortfolioToInvestmentPolicyCommand
-		 * @exception	BusinessException
-		 */
-		public void assignPortfolio( AssignPortfolioToInvestmentPolicyCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignPortfolio(command.getInvestmentPolicyId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignPortfolio(command.getInvestmentPolicyId(), command.getAssignment());
+	/**
+	 * unAssign Portfolio on InvestmentPolicy
+	 * @param		command UnAssignPortfolioFromInvestmentPolicyCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignPortfolio( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Portfolio using id " + command.getInvestmentPolicyId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Portfolio on InvestmentPolicy
-		 * @param		command UnAssignPortfolioFromInvestmentPolicyCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignPortfolio( UnAssignPortfolioFromInvestmentPolicyCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignPortfolio(command.getInvestmentPolicyId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Portfolio on InvestmentPolicy";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignPortfolio(command.getInvestmentPolicyId());
+	}
 	
-		/**
-		 * assign RiskAssessment on InvestmentPolicy
-		 * @param		command AssignRiskAssessmentToInvestmentPolicyCommand
-		 * @exception	BusinessException
-		 */
-		public void assignRiskAssessment( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws BusinessException {
+	/**
+	 * assign RiskAssessment on InvestmentPolicy
+	 * @param		command AssignRiskAssessmentToInvestmentPolicyCommand
+	 * @exception	BusinessException
+	 */
+	public void assignRiskAssessment( AssignRiskAssessmentToInvestmentPolicyCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignRiskAssessment(command.getInvestmentPolicyId(), command.getAssignment());
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignRiskAssessment(command.getInvestmentPolicyId(), command.getAssignment());
+	}
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get RiskAssessment using id " + command.getInvestmentPolicyId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+	/**
+	 * unAssign RiskAssessment on InvestmentPolicy
+	 * @param		command UnAssignRiskAssessmentFromInvestmentPolicyCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignRiskAssessment( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws BusinessException {
 
-		/**
-		 * unAssign RiskAssessment on InvestmentPolicy
-		 * @param		command UnAssignRiskAssessmentFromInvestmentPolicyCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignRiskAssessment( UnAssignRiskAssessmentFromInvestmentPolicyCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignRiskAssessment(command.getInvestmentPolicyId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign RiskAssessment on InvestmentPolicy";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignRiskAssessment(command.getInvestmentPolicyId());
+	}
 	
 
-		/**
-		 * add WealthGoal to Goals
-		 * @param		command AssignGoalsToInvestmentPolicyCommand
-		 * @exception	BusinessException
-		 */
-		public void addToGoals( AssignGoalsToInvestmentPolicyCommand command ) throws BusinessException {
+	/**
+	 * add WealthGoal to Goals
+	 * @param		command AssignGoalsToInvestmentPolicyCommand
+	 * @exception	BusinessException
+	 */
+	public void addToGoals( AssignGoalsToInvestmentPolicyCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToGoals(command.getInvestmentPolicyId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a WealthGoal as Goals to InvestmentPolicy" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToGoals(command.getInvestmentPolicyId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove WealthGoal from Goals
+	 * @param		command RemoveGoalsFromInvestmentPolicyCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromGoals( RemoveGoalsFromInvestmentPolicyCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove WealthGoal from Goals
-		 * @param		command RemoveGoalsFromInvestmentPolicyCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromGoals( RemoveGoalsFromInvestmentPolicyCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromGoals(command.getInvestmentPolicyId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getInvestmentPolicyId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromGoals(command.getInvestmentPolicyId(), command.getRemoveFrom());
+	}
 
 
 

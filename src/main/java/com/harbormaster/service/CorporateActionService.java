@@ -97,37 +97,33 @@ public class CorporateActionService
 //************************************************************************
 // Public Methods
 //************************************************************************
-		/**
-		 * Default Constructor
-		 */
+	/**
+	 * Default Constructor
+	 */
     public CorporateActionService(CurrentIdentity identity,
 				ApplicationContext applicationContext)  {
 
-			this.identity		= identity;
-			this.projector 		= new CorporateActionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
-											applicationContext.getBean(CorporateActionRepository.class) );
-			this.validator		= applicationContext.getBean(CorporateActionValidator.class) ;
-		}
+		this.identity		= identity;
+		this.projector 		= new CorporateActionEntityProjector( applicationContext.getBean(ProjectorRegistry.class),
+										applicationContext.getBean(CorporateActionRepository.class) );
+		this.validator		= applicationContext.getBean(CorporateActionValidator.class) ;
+	}
 
 
-		/**
-		 * Creates the provided command.
-		 *
-		 * @param		command ${class.getCreateCommandAlias()}
-		 * @exception    BusinessException
-		 * @exception	IllegalArgumentException
-		 * @return		CorporateAction
-		 */
-			public CorporateAction createCorporateAction( CreateCorporateActionCommand command )
-    		throws BusinessException, IllegalArgumentException {
+	/**
+	 * Creates the provided command.
+	 *
+	 * @param		command ${class.getCreateCommandAlias()}
+	 * @return		CorporateAction
+	 */
+		public CorporateAction createCorporateAction( CreateCorporateActionCommand command ) {
 
-			CorporateAction entity = new CorporateAction();
+		CorporateAction entity = new CorporateAction();
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setCorporateActionId( command.getCorporateActionId() );
             entity.setRecordDate( command.getRecordDate() );
@@ -135,42 +131,29 @@ public class CorporateActionService
             entity.setDetails( command.getDetails() );
             entity.setActionType( command.getActionType() );
 
-				// ------------------------------------------
-				// persist a new one
-				// ------------------------------------------
-				entity = projector.create(entity);
+		// ------------------------------------------
+		// persist a new one
+		// ------------------------------------------
+		entity = projector.create(entity);
 
-				LOGGER.info( "done creating of CorporateAction {0} ", entity.toString() );
+		LOGGER.info( "done creating of CorporateAction {0} ", entity.toString() );
 
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to create CorporateAction - " + exc;
-				LOGGER.warn(  errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return entity;
+	}
 
-			return entity;
-		}
+	/**
+	 * Update the provided command.
+	 * @param		command UpdateCorporateActionCommand
+	 * @return		CorporateAction
+	 */
+	public CorporateAction updateCorporateAction( UpdateCorporateActionCommand command ) {
 
-		/**
-		 * Update the provided command.
-		 * @param		command UpdateCorporateActionCommand
-		 * @exception    BusinessException
-		 * @return		CorporateAction
-		 */
-		public CorporateAction updateCorporateAction( UpdateCorporateActionCommand command )
-  	  	throws BusinessException {
+		CorporateAction entity = new CorporateAction();
 
-			CorporateAction entity = new CorporateAction();
-
-			try {
-
-				// --------------------------------------
-				// validate
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate
+		// --------------------------------------
+		validator.validate( command );
 
             entity.setCorporateActionId( command.getCorporateActionId() );
             entity.setRecordDate( command.getRecordDate() );
@@ -180,222 +163,160 @@ public class CorporateActionService
             entity.setDividends( command.getDividends() );
             entity.setActionType( command.getActionType() );
 
-				// ------------------------------------------
-				// persist an existing one
-				// ------------------------------------------
-				entity = projector.update(entity);
+		// ------------------------------------------
+		// persist an existing one
+		// ------------------------------------------
+		entity = projector.update(entity);
 
-				LOGGER.info( "done saving of CorporateAction {0} ", entity.toString() );
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to save CorporateAction - " + exc;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
+		LOGGER.info( "done saving of CorporateAction {0} ", entity.toString() );
 
-			return entity;
+		return entity;
+	}
+
+	/**
+	 * Deletes the associatied value object
+	 * @param		command DeleteCorporateActionCommand
+	 */
+	public void delete( DeleteCorporateActionCommand command ) {
+		UUID id = null;
+
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
+
+		id = command.getCorporateActionId();
+
+		// ------------------------------------------
+		// delete the entity
+		// ------------------------------------------
+		projector.delete(id);
+
+		LOGGER.info( "done deleting of CorporateAction {0} ", id );
+
+	}
+
+	/**
+	 * Method to retrieve the CorporateAction via CorporateActionFetchOneSummary
+	 * @param 	summary CorporateActionFetchOneSummary
+	 * @return 	CorporateActionFetchOneResponse
+	 * @exception BusinessException - Thrown if processing any related problems
+	 */
+public CorporateAction getCorporateAction( CorporateActionFetchOneSummary summary )
+throws BusinessException {
+
+		if( summary == null )
+			throw new IllegalArgumentException( "CorporateActionFetchOneSummary arg cannot be null" );
+
+		CorporateAction entity = null;
+		UUID id = summary.getCorporateActionId();
+
+		try {
+			// --------------------------------------
+			// validate the fetch one summary
+			// --------------------------------------
+			validator.validate( summary );
+
+			// --------------------------------------
+			// find a CorporateAction using the provided id
+			// --------------------------------------
+			entity = projector.find( id );
+		}
+		catch( Exception exc ) {
+			final String errMsg = "Unable to locate CorporateAction with id " + id;
+			LOGGER.warn( errMsg, exc );
+			throw new BusinessException( errMsg, exc );
+		}
+		finally {
 		}
 
-		/**
-		 * Deletes the associatied value object
-		 * @param		command DeleteCorporateActionCommand
-		 * @exception 	BusinessException
-		 */
-		public void delete( DeleteCorporateActionCommand command )
-    	throws BusinessException {
-			UUID id = null;
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				id = command.getCorporateActionId();
-
-				// ------------------------------------------
-				// delete the entity
-				// ------------------------------------------
-				projector.delete(id);
-
-				LOGGER.info( "done deleting of CorporateAction {0} ", id );
-
-			}
-			catch (Exception exc) {
-				final String errMsg = "Unable to delete CorporateAction using Id = "  + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-		}
-
-		/**
-		 * Method to retrieve the CorporateAction via CorporateActionFetchOneSummary
-		 * @param 	summary CorporateActionFetchOneSummary
-		 * @return 	CorporateActionFetchOneResponse
-		 * @exception BusinessException - Thrown if processing any related problems
-		 */
-    public CorporateAction getCorporateAction( CorporateActionFetchOneSummary summary ) 
-    throws BusinessException {
-
-			if( summary == null )
-				throw new IllegalArgumentException( "CorporateActionFetchOneSummary arg cannot be null" );
-
-			CorporateAction entity = null;
-			UUID id = summary.getCorporateActionId();
-
-			try {
-				// --------------------------------------
-				// validate the fetch one summary
-				// --------------------------------------
-				validator.validate( summary );
-
-				// --------------------------------------
-				// find a CorporateAction using the provided id
-				// --------------------------------------
-				entity = projector.find( id );
-			}
-			catch( Exception exc ) {
-				final String errMsg = "Unable to locate CorporateAction with id " + id;
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
-
-			return entity;
-		}
+		return entity;
+	}
 
 
-		/**
-		 * Method to retrieve a collection of all CorporateActions
-		 *
-		 * @return 	List<CorporateAction>
-		 * @exception BusinessException Thrown if any problems
-		 */
-    public List<CorporateAction> getAllCorporateAction() 
-    throws BusinessException {
-			List<CorporateAction> list = null;
+	/**
+	 * Method to retrieve a collection of all CorporateActions
+	 *
+	 * @return 	List<CorporateAction>
+	 * @exception BusinessException Thrown if any problems
+	 */
+    public List<CorporateAction> getAllCorporateAction() {
+		List<CorporateAction> list = projector.findAll( new FindAllCorporateActionQuery() );
 
-			try {
-				list = projector.findAll( new FindAllCorporateActionQuery() );
-			}
-			catch( Exception exc ) {
-				String errMsg = "Failed to get all CorporateAction";
-				LOGGER.warn( errMsg, exc );
-				throw new BusinessException( errMsg, exc );
-			}
-			finally {
-			}
+		return list;
+	}
 
-			return list;
-		}
+	/**
+	 * assign Security on CorporateAction
+	 * @param		command AssignSecurityToCorporateActionCommand
+	 * @exception	BusinessException
+	 */
+	public void assignSecurity( AssignSecurityToCorporateActionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// best to validate the command now
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * assign Security on CorporateAction
-		 * @param		command AssignSecurityToCorporateActionCommand
-		 * @exception	BusinessException
-		 */
-		public void assignSecurity( AssignSecurityToCorporateActionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.assignSecurity(command.getCorporateActionId(), command.getAssignment());
 
-			try {
-				// --------------------------------------
-				// best to validate the command now
-				// --------------------------------------
-				validator.validate( command );
+	}
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.assignSecurity(command.getCorporateActionId(), command.getAssignment());
+	/**
+	 * unAssign Security on CorporateAction
+	 * @param		command UnAssignSecurityFromCorporateActionCommand
+	 * @exception	BusinessException
+	 */
+	public void unAssignSecurity( UnAssignSecurityFromCorporateActionCommand command ) throws BusinessException {
 
-			}
-			catch( Throwable exc ) {
-				final String msg = "Failed to get Security using id " + command.getCorporateActionId();
-				LOGGER.warn( msg );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * unAssign Security on CorporateAction
-		 * @param		command UnAssignSecurityFromCorporateActionCommand
-		 * @exception	BusinessException
-		 */
-		public void unAssignSecurity( UnAssignSecurityFromCorporateActionCommand command ) throws BusinessException {
-
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.unAssignSecurity(command.getCorporateActionId());
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to unassign Security on CorporateAction";
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.unAssignSecurity(command.getCorporateActionId());
+	}
 	
 
-		/**
-		 * add Dividend to Dividends
-		 * @param		command AssignDividendsToCorporateActionCommand
-		 * @exception	BusinessException
-		 */
-		public void addToDividends( AssignDividendsToCorporateActionCommand command ) throws BusinessException {
+	/**
+	 * add Dividend to Dividends
+	 * @param		command AssignDividendsToCorporateActionCommand
+	 * @exception	BusinessException
+	 */
+	public void addToDividends( AssignDividendsToCorporateActionCommand command ) throws BusinessException {
 
-			try {
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.addToDividends(command.getCorporateActionId(), command.getAddTo());		}
-			catch( Exception exc ) {
-				final String msg = "Failed to add a Dividend as Dividends to CorporateAction" ;
-				LOGGER.warn( msg, exc );
-				throw new BusinessException( msg, exc );
-			}
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.addToDividends(command.getCorporateActionId(), command.getAddTo())
+	}
 
-		}
+	/**
+	 * remove Dividend from Dividends
+	 * @param		command RemoveDividendsFromCorporateActionCommand
+	 * @exception	BusinessException
+	 */
+	public void removeFromDividends( RemoveDividendsFromCorporateActionCommand command ) throws BusinessException {
+		// --------------------------------------
+		// validate the command
+		// --------------------------------------
+		validator.validate( command );
 
-		/**
-		 * remove Dividend from Dividends
-		 * @param		command RemoveDividendsFromCorporateActionCommand
-		 * @exception	BusinessException
-		 */
-		public void removeFromDividends( RemoveDividendsFromCorporateActionCommand command ) throws BusinessException {
-
-			try {
-
-				// --------------------------------------
-				// validate the command
-				// --------------------------------------
-				validator.validate( command );
-
-				// --------------------------------------
-				// delegate to the projector
-				// --------------------------------------
-				projector.removeFromDividends(command.getCorporateActionId(), command.getRemoveFrom());
-
-			}
-			catch( Exception exc ) {
-				final String msg = "Failed to remove child using Id " + command.getCorporateActionId();
-				LOGGER.warn(  msg, exc );
-				throw new BusinessException( msg, exc );
-			}
-		}
-
+		// --------------------------------------
+		// delegate to the projector
+		// --------------------------------------
+		projector.removeFromDividends(command.getCorporateActionId(), command.getRemoveFrom());
+	}
 
 
 

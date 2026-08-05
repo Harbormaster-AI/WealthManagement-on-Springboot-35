@@ -88,8 +88,6 @@ public class BenchmarkValidator {
 	public void validate( CreateBenchmarkCommand benchmark )throws ValidationException {
 		if ( benchmark == null )
 		throw new ValidationException( "Benchmark", "validating CreateBenchmarkCommand" );
-
-//		Assert.isNull( benchmark.getBenchmarkId(), "CreateBenchmarkCommand identifier should be null" );
 		if ( benchmark.getName() == null )
 		throw new ValidationException( "Benchmark", "validating access on getName" );
 	}
@@ -148,16 +146,16 @@ public void validate( AssignPerformanceReportsToBenchmarkCommand command ) throw
  */
 public void validate( RemovePerformanceReportsFromBenchmarkCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Benchmark", "validating RemovePerformanceReportsFromBenchmarkCommand");
+		throw new ValidationException("Benchmark", "validating RemovePerformanceReportsFromBenchmarkCommand" );
 
 	if( command.getBenchmarkId() == null )
-	throw new ValidationException"Benchmark", "validating id on RemovePerformanceReportsFromBenchmarkCommand";
+		throw new ValidationException"Benchmark", "validating id on RemovePerformanceReportsFromBenchmarkCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Benchmark", "validating remove from";
+		throw new ValidationException"Benchmark", "validating remove from RemovePerformanceReportsFromBenchmarkCommand" );
 
 	if( command.getRemoveFrom().getPerformanceReportId() == null )
-	throw new ValidationException"Benchmark", "validating id on remove from}";
+		throw new ValidationException"Benchmark", "validating id on remove from RemovePerformanceReportsFromBenchmarkCommand" );
 }
 	
 /**
@@ -184,16 +182,16 @@ public void validate( AssignConstituentsToBenchmarkCommand command ) throws Vali
  */
 public void validate( RemoveConstituentsFromBenchmarkCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Benchmark", "validating RemoveConstituentsFromBenchmarkCommand");
+		throw new ValidationException("Benchmark", "validating RemoveConstituentsFromBenchmarkCommand" );
 
 	if( command.getBenchmarkId() == null )
-	throw new ValidationException"Benchmark", "validating id on RemoveConstituentsFromBenchmarkCommand";
+		throw new ValidationException"Benchmark", "validating id on RemoveConstituentsFromBenchmarkCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Benchmark", "validating remove from";
+		throw new ValidationException"Benchmark", "validating remove from RemoveConstituentsFromBenchmarkCommand" );
 
 	if( command.getRemoveFrom().getSecurityId() == null )
-	throw new ValidationException"Benchmark", "validating id on remove from}";
+		throw new ValidationException"Benchmark", "validating id on remove from RemoveConstituentsFromBenchmarkCommand" );
 }
 	
 

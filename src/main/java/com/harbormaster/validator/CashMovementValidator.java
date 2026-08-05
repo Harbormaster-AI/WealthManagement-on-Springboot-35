@@ -86,8 +86,6 @@ public class CashMovementValidator {
 	public void validate( CreateCashMovementCommand cashMovement )throws ValidationException {
 		if ( cashMovement == null )
 		throw new ValidationException( "CashMovement", "validating CreateCashMovementCommand" );
-
-//		Assert.isNull( cashMovement.getCashMovementId(), "CreateCashMovementCommand identifier should be null" );
 		if ( cashMovement.getAmount() == null )
 		throw new ValidationException( "CashMovement", "validating access on getAmount" );
 		if ( cashMovement.getValueDate() == null )

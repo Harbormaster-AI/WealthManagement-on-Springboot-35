@@ -86,8 +86,6 @@ public class DocumentValidator {
 	public void validate( CreateDocumentCommand document )throws ValidationException {
 		if ( document == null )
 		throw new ValidationException( "Document", "validating CreateDocumentCommand" );
-
-//		Assert.isNull( document.getDocumentId(), "CreateDocumentCommand identifier should be null" );
 		if ( document.getTitle() == null )
 		throw new ValidationException( "Document", "validating access on getTitle" );
 		if ( document.getFileName() == null )

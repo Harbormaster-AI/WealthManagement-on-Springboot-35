@@ -86,8 +86,6 @@ public class AccountTransferValidator {
 	public void validate( CreateAccountTransferCommand accountTransfer )throws ValidationException {
 		if ( accountTransfer == null )
 		throw new ValidationException( "AccountTransfer", "validating CreateAccountTransferCommand" );
-
-//		Assert.isNull( accountTransfer.getAccountTransferId(), "CreateAccountTransferCommand identifier should be null" );
 		if ( accountTransfer.getRequestDate() == null )
 		throw new ValidationException( "AccountTransfer", "validating access on getRequestDate" );
 		if ( accountTransfer.getCompletionDate() == null )

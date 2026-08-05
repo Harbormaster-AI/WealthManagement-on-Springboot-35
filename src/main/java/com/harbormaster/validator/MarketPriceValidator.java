@@ -82,8 +82,6 @@ public class MarketPriceValidator {
 	public void validate( CreateMarketPriceCommand marketPrice )throws ValidationException {
 		if ( marketPrice == null )
 		throw new ValidationException( "MarketPrice", "validating CreateMarketPriceCommand" );
-
-//		Assert.isNull( marketPrice.getMarketPriceId(), "CreateMarketPriceCommand identifier should be null" );
 		if ( marketPrice.getPrice() == null )
 		throw new ValidationException( "MarketPrice", "validating access on getPrice" );
 		if ( marketPrice.getPriceDate() == null )

@@ -88,8 +88,6 @@ public class MeetingValidator {
 	public void validate( CreateMeetingCommand meeting )throws ValidationException {
 		if ( meeting == null )
 		throw new ValidationException( "Meeting", "validating CreateMeetingCommand" );
-
-//		Assert.isNull( meeting.getMeetingId(), "CreateMeetingCommand identifier should be null" );
 		if ( meeting.getMeetingDate() == null )
 		throw new ValidationException( "Meeting", "validating access on getMeetingDate" );
 		if ( meeting.getLocation() == null )
@@ -218,16 +216,16 @@ public void validate( AssignDocumentsToMeetingCommand command ) throws Validatio
  */
 public void validate( RemoveDocumentsFromMeetingCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Meeting", "validating RemoveDocumentsFromMeetingCommand");
+		throw new ValidationException("Meeting", "validating RemoveDocumentsFromMeetingCommand" );
 
 	if( command.getMeetingId() == null )
-	throw new ValidationException"Meeting", "validating id on RemoveDocumentsFromMeetingCommand";
+		throw new ValidationException"Meeting", "validating id on RemoveDocumentsFromMeetingCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Meeting", "validating remove from";
+		throw new ValidationException"Meeting", "validating remove from RemoveDocumentsFromMeetingCommand" );
 
 	if( command.getRemoveFrom().getDocumentId() == null )
-	throw new ValidationException"Meeting", "validating id on remove from}";
+		throw new ValidationException"Meeting", "validating id on remove from RemoveDocumentsFromMeetingCommand" );
 }
 	
 

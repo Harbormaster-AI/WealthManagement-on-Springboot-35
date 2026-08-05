@@ -92,8 +92,6 @@ public class SecurityValidator {
 	public void validate( CreateSecurityCommand security )throws ValidationException {
 		if ( security == null )
 		throw new ValidationException( "Security", "validating CreateSecurityCommand" );
-
-//		Assert.isNull( security.getSecurityId(), "CreateSecurityCommand identifier should be null" );
 		if ( security.getTicker() == null )
 		throw new ValidationException( "Security", "validating access on getTicker" );
 		if ( security.getName() == null )
@@ -172,16 +170,16 @@ public void validate( AssignCorporateActionsToSecurityCommand command ) throws V
  */
 public void validate( RemoveCorporateActionsFromSecurityCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Security", "validating RemoveCorporateActionsFromSecurityCommand");
+		throw new ValidationException("Security", "validating RemoveCorporateActionsFromSecurityCommand" );
 
 	if( command.getSecurityId() == null )
-	throw new ValidationException"Security", "validating id on RemoveCorporateActionsFromSecurityCommand";
+		throw new ValidationException"Security", "validating id on RemoveCorporateActionsFromSecurityCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Security", "validating remove from";
+		throw new ValidationException"Security", "validating remove from RemoveCorporateActionsFromSecurityCommand" );
 
 	if( command.getRemoveFrom().getCorporateActionId() == null )
-	throw new ValidationException"Security", "validating id on remove from}";
+		throw new ValidationException"Security", "validating id on remove from RemoveCorporateActionsFromSecurityCommand" );
 }
 	
 /**
@@ -208,16 +206,16 @@ public void validate( AssignPricesToSecurityCommand command ) throws ValidationE
  */
 public void validate( RemovePricesFromSecurityCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Security", "validating RemovePricesFromSecurityCommand");
+		throw new ValidationException("Security", "validating RemovePricesFromSecurityCommand" );
 
 	if( command.getSecurityId() == null )
-	throw new ValidationException"Security", "validating id on RemovePricesFromSecurityCommand";
+		throw new ValidationException"Security", "validating id on RemovePricesFromSecurityCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Security", "validating remove from";
+		throw new ValidationException"Security", "validating remove from RemovePricesFromSecurityCommand" );
 
 	if( command.getRemoveFrom().getMarketPriceId() == null )
-	throw new ValidationException"Security", "validating id on remove from}";
+		throw new ValidationException"Security", "validating id on remove from RemovePricesFromSecurityCommand" );
 }
 	
 /**
@@ -244,16 +242,16 @@ public void validate( AssignBenchmarksToSecurityCommand command ) throws Validat
  */
 public void validate( RemoveBenchmarksFromSecurityCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Security", "validating RemoveBenchmarksFromSecurityCommand");
+		throw new ValidationException("Security", "validating RemoveBenchmarksFromSecurityCommand" );
 
 	if( command.getSecurityId() == null )
-	throw new ValidationException"Security", "validating id on RemoveBenchmarksFromSecurityCommand";
+		throw new ValidationException"Security", "validating id on RemoveBenchmarksFromSecurityCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Security", "validating remove from";
+		throw new ValidationException"Security", "validating remove from RemoveBenchmarksFromSecurityCommand" );
 
 	if( command.getRemoveFrom().getBenchmarkId() == null )
-	throw new ValidationException"Security", "validating id on remove from}";
+		throw new ValidationException"Security", "validating id on remove from RemoveBenchmarksFromSecurityCommand" );
 }
 	
 

@@ -88,8 +88,6 @@ public class AdvisoryTeamValidator {
 	public void validate( CreateAdvisoryTeamCommand advisoryTeam )throws ValidationException {
 		if ( advisoryTeam == null )
 		throw new ValidationException( "AdvisoryTeam", "validating CreateAdvisoryTeamCommand" );
-
-//		Assert.isNull( advisoryTeam.getAdvisoryTeamId(), "CreateAdvisoryTeamCommand identifier should be null" );
 		if ( advisoryTeam.getName() == null )
 		throw new ValidationException( "AdvisoryTeam", "validating access on getName" );
 		if ( advisoryTeam.getSpecialization() == null )
@@ -152,16 +150,16 @@ public void validate( AssignAdvisorsToAdvisoryTeamCommand command ) throws Valid
  */
 public void validate( RemoveAdvisorsFromAdvisoryTeamCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("AdvisoryTeam", "validating RemoveAdvisorsFromAdvisoryTeamCommand");
+		throw new ValidationException("AdvisoryTeam", "validating RemoveAdvisorsFromAdvisoryTeamCommand" );
 
 	if( command.getAdvisoryTeamId() == null )
-	throw new ValidationException"AdvisoryTeam", "validating id on RemoveAdvisorsFromAdvisoryTeamCommand";
+		throw new ValidationException"AdvisoryTeam", "validating id on RemoveAdvisorsFromAdvisoryTeamCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"AdvisoryTeam", "validating remove from";
+		throw new ValidationException"AdvisoryTeam", "validating remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
 
 	if( command.getRemoveFrom().getAdvisorId() == null )
-	throw new ValidationException"AdvisoryTeam", "validating id on remove from}";
+		throw new ValidationException"AdvisoryTeam", "validating id on remove from RemoveAdvisorsFromAdvisoryTeamCommand" );
 }
 	
 /**
@@ -188,16 +186,16 @@ public void validate( AssignHouseholdsToAdvisoryTeamCommand command ) throws Val
  */
 public void validate( RemoveHouseholdsFromAdvisoryTeamCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("AdvisoryTeam", "validating RemoveHouseholdsFromAdvisoryTeamCommand");
+		throw new ValidationException("AdvisoryTeam", "validating RemoveHouseholdsFromAdvisoryTeamCommand" );
 
 	if( command.getAdvisoryTeamId() == null )
-	throw new ValidationException"AdvisoryTeam", "validating id on RemoveHouseholdsFromAdvisoryTeamCommand";
+		throw new ValidationException"AdvisoryTeam", "validating id on RemoveHouseholdsFromAdvisoryTeamCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"AdvisoryTeam", "validating remove from";
+		throw new ValidationException"AdvisoryTeam", "validating remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
 
 	if( command.getRemoveFrom().getHouseholdId() == null )
-	throw new ValidationException"AdvisoryTeam", "validating id on remove from}";
+		throw new ValidationException"AdvisoryTeam", "validating id on remove from RemoveHouseholdsFromAdvisoryTeamCommand" );
 }
 	
 

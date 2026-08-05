@@ -88,8 +88,6 @@ public class TradeValidator {
 	public void validate( CreateTradeCommand trade )throws ValidationException {
 		if ( trade == null )
 		throw new ValidationException( "Trade", "validating CreateTradeCommand" );
-
-//		Assert.isNull( trade.getTradeId(), "CreateTradeCommand identifier should be null" );
 		if ( trade.getExecutionId() == null )
 		throw new ValidationException( "Trade", "validating access on getExecutionId" );
 		if ( trade.getExecutionPrice() == null )

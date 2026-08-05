@@ -94,8 +94,6 @@ public class OrderValidator {
 	public void validate( CreateOrderCommand order )throws ValidationException {
 		if ( order == null )
 		throw new ValidationException( "Order", "validating CreateOrderCommand" );
-
-//		Assert.isNull( order.getOrderId(), "CreateOrderCommand identifier should be null" );
 		if ( order.getOrderNumber() == null )
 		throw new ValidationException( "Order", "validating access on getOrderNumber" );
 		if ( order.getQuantity() == null )
@@ -249,16 +247,16 @@ public void validate( AssignAllocationsToOrderCommand command ) throws Validatio
  */
 public void validate( RemoveAllocationsFromOrderCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Order", "validating RemoveAllocationsFromOrderCommand");
+		throw new ValidationException("Order", "validating RemoveAllocationsFromOrderCommand" );
 
 	if( command.getOrderId() == null )
-	throw new ValidationException"Order", "validating id on RemoveAllocationsFromOrderCommand";
+		throw new ValidationException"Order", "validating id on RemoveAllocationsFromOrderCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Order", "validating remove from";
+		throw new ValidationException"Order", "validating remove from RemoveAllocationsFromOrderCommand" );
 
 	if( command.getRemoveFrom().getOrderAllocationId() == null )
-	throw new ValidationException"Order", "validating id on remove from}";
+		throw new ValidationException"Order", "validating id on remove from RemoveAllocationsFromOrderCommand" );
 }
 	
 /**
@@ -285,16 +283,16 @@ public void validate( AssignTradesToOrderCommand command ) throws ValidationExce
  */
 public void validate( RemoveTradesFromOrderCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Order", "validating RemoveTradesFromOrderCommand");
+		throw new ValidationException("Order", "validating RemoveTradesFromOrderCommand" );
 
 	if( command.getOrderId() == null )
-	throw new ValidationException"Order", "validating id on RemoveTradesFromOrderCommand";
+		throw new ValidationException"Order", "validating id on RemoveTradesFromOrderCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Order", "validating remove from";
+		throw new ValidationException"Order", "validating remove from RemoveTradesFromOrderCommand" );
 
 	if( command.getRemoveFrom().getTradeId() == null )
-	throw new ValidationException"Order", "validating id on remove from}";
+		throw new ValidationException"Order", "validating id on remove from RemoveTradesFromOrderCommand" );
 }
 	
 

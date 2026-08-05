@@ -82,8 +82,6 @@ public class DividendValidator {
 	public void validate( CreateDividendCommand dividend )throws ValidationException {
 		if ( dividend == null )
 		throw new ValidationException( "Dividend", "validating CreateDividendCommand" );
-
-//		Assert.isNull( dividend.getDividendId(), "CreateDividendCommand identifier should be null" );
 		if ( dividend.getGrossAmount() == null )
 		throw new ValidationException( "Dividend", "validating access on getGrossAmount" );
 		if ( dividend.getTaxWithheld() == null )

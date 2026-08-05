@@ -84,8 +84,6 @@ public class StandingInstructionValidator {
 	public void validate( CreateStandingInstructionCommand standingInstruction )throws ValidationException {
 		if ( standingInstruction == null )
 		throw new ValidationException( "StandingInstruction", "validating CreateStandingInstructionCommand" );
-
-//		Assert.isNull( standingInstruction.getStandingInstructionId(), "CreateStandingInstructionCommand identifier should be null" );
 		if ( standingInstruction.getNextExecutionDate() == null )
 		throw new ValidationException( "StandingInstruction", "validating access on getNextExecutionDate" );
 		if ( standingInstruction.getAmount() == null )

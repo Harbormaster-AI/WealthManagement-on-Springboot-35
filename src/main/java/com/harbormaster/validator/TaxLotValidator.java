@@ -82,8 +82,6 @@ public class TaxLotValidator {
 	public void validate( CreateTaxLotCommand taxLot )throws ValidationException {
 		if ( taxLot == null )
 		throw new ValidationException( "TaxLot", "validating CreateTaxLotCommand" );
-
-//		Assert.isNull( taxLot.getTaxLotId(), "CreateTaxLotCommand identifier should be null" );
 		if ( taxLot.getAcquisitionDate() == null )
 		throw new ValidationException( "TaxLot", "validating access on getAcquisitionDate" );
 		if ( taxLot.getQuantity() == null )

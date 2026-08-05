@@ -86,8 +86,6 @@ public class OrderAllocationValidator {
 	public void validate( CreateOrderAllocationCommand orderAllocation )throws ValidationException {
 		if ( orderAllocation == null )
 		throw new ValidationException( "OrderAllocation", "validating CreateOrderAllocationCommand" );
-
-//		Assert.isNull( orderAllocation.getOrderAllocationId(), "CreateOrderAllocationCommand identifier should be null" );
 		if ( orderAllocation.getAllocationPercent() == null )
 		throw new ValidationException( "OrderAllocation", "validating access on getAllocationPercent" );
 	}

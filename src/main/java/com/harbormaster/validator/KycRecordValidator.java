@@ -86,8 +86,6 @@ public class KycRecordValidator {
 	public void validate( CreateKycRecordCommand kycRecord )throws ValidationException {
 		if ( kycRecord == null )
 		throw new ValidationException( "KycRecord", "validating CreateKycRecordCommand" );
-
-//		Assert.isNull( kycRecord.getKycRecordId(), "CreateKycRecordCommand identifier should be null" );
 		if ( kycRecord.getAssessmentDate() == null )
 		throw new ValidationException( "KycRecord", "validating access on getAssessmentDate" );
 		if ( kycRecord.getSourceOfWealth() == null )
@@ -179,16 +177,16 @@ public void validate( AssignDocumentsToKycRecordCommand command ) throws Validat
  */
 public void validate( RemoveDocumentsFromKycRecordCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("KycRecord", "validating RemoveDocumentsFromKycRecordCommand");
+		throw new ValidationException("KycRecord", "validating RemoveDocumentsFromKycRecordCommand" );
 
 	if( command.getKycRecordId() == null )
-	throw new ValidationException"KycRecord", "validating id on RemoveDocumentsFromKycRecordCommand";
+		throw new ValidationException"KycRecord", "validating id on RemoveDocumentsFromKycRecordCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"KycRecord", "validating remove from";
+		throw new ValidationException"KycRecord", "validating remove from RemoveDocumentsFromKycRecordCommand" );
 
 	if( command.getRemoveFrom().getDocumentId() == null )
-	throw new ValidationException"KycRecord", "validating id on remove from}";
+		throw new ValidationException"KycRecord", "validating id on remove from RemoveDocumentsFromKycRecordCommand" );
 }
 	
 

@@ -84,8 +84,6 @@ public class PerformanceReportValidator {
 	public void validate( CreatePerformanceReportCommand performanceReport )throws ValidationException {
 		if ( performanceReport == null )
 		throw new ValidationException( "PerformanceReport", "validating CreatePerformanceReportCommand" );
-
-//		Assert.isNull( performanceReport.getPerformanceReportId(), "CreatePerformanceReportCommand identifier should be null" );
 		if ( performanceReport.getPeriodStart() == null )
 		throw new ValidationException( "PerformanceReport", "validating access on getPeriodStart" );
 		if ( performanceReport.getPeriodEnd() == null )

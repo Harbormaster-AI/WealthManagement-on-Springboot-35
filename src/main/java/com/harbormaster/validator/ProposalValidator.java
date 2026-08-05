@@ -88,8 +88,6 @@ public class ProposalValidator {
 	public void validate( CreateProposalCommand proposal )throws ValidationException {
 		if ( proposal == null )
 		throw new ValidationException( "Proposal", "validating CreateProposalCommand" );
-
-//		Assert.isNull( proposal.getProposalId(), "CreateProposalCommand identifier should be null" );
 		if ( proposal.getProposalNumber() == null )
 		throw new ValidationException( "Proposal", "validating access on getProposalNumber" );
 		if ( proposal.getCreatedDate() == null )

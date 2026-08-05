@@ -84,8 +84,6 @@ public class FeeValidator {
 	public void validate( CreateFeeCommand fee )throws ValidationException {
 		if ( fee == null )
 		throw new ValidationException( "Fee", "validating CreateFeeCommand" );
-
-//		Assert.isNull( fee.getFeeId(), "CreateFeeCommand identifier should be null" );
 		if ( fee.getFeeDate() == null )
 		throw new ValidationException( "Fee", "validating access on getFeeDate" );
 		if ( fee.getAmount() == null )

@@ -88,8 +88,6 @@ public class TransactionValidator {
 	public void validate( CreateTransactionCommand transaction )throws ValidationException {
 		if ( transaction == null )
 		throw new ValidationException( "Transaction", "validating CreateTransactionCommand" );
-
-//		Assert.isNull( transaction.getTransactionId(), "CreateTransactionCommand identifier should be null" );
 		if ( transaction.getTradeDate() == null )
 		throw new ValidationException( "Transaction", "validating access on getTradeDate" );
 		if ( transaction.getSettleDate() == null )

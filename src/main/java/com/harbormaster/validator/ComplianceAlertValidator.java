@@ -88,8 +88,6 @@ public class ComplianceAlertValidator {
 	public void validate( CreateComplianceAlertCommand complianceAlert )throws ValidationException {
 		if ( complianceAlert == null )
 		throw new ValidationException( "ComplianceAlert", "validating CreateComplianceAlertCommand" );
-
-//		Assert.isNull( complianceAlert.getComplianceAlertId(), "CreateComplianceAlertCommand identifier should be null" );
 		if ( complianceAlert.getAlertDate() == null )
 		throw new ValidationException( "ComplianceAlert", "validating access on getAlertDate" );
 		if ( complianceAlert.getMessage() == null )

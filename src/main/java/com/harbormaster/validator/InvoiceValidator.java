@@ -88,8 +88,6 @@ public class InvoiceValidator {
 	public void validate( CreateInvoiceCommand invoice )throws ValidationException {
 		if ( invoice == null )
 		throw new ValidationException( "Invoice", "validating CreateInvoiceCommand" );
-
-//		Assert.isNull( invoice.getInvoiceId(), "CreateInvoiceCommand identifier should be null" );
 		if ( invoice.getInvoiceNumber() == null )
 		throw new ValidationException( "Invoice", "validating access on getInvoiceNumber" );
 		if ( invoice.getIssueDate() == null )
@@ -218,16 +216,16 @@ public void validate( AssignFeesToInvoiceCommand command ) throws ValidationExce
  */
 public void validate( RemoveFeesFromInvoiceCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Invoice", "validating RemoveFeesFromInvoiceCommand");
+		throw new ValidationException("Invoice", "validating RemoveFeesFromInvoiceCommand" );
 
 	if( command.getInvoiceId() == null )
-	throw new ValidationException"Invoice", "validating id on RemoveFeesFromInvoiceCommand";
+		throw new ValidationException"Invoice", "validating id on RemoveFeesFromInvoiceCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Invoice", "validating remove from";
+		throw new ValidationException"Invoice", "validating remove from RemoveFeesFromInvoiceCommand" );
 
 	if( command.getRemoveFrom().getFeeId() == null )
-	throw new ValidationException"Invoice", "validating id on remove from}";
+		throw new ValidationException"Invoice", "validating id on remove from RemoveFeesFromInvoiceCommand" );
 }
 	
 

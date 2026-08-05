@@ -88,8 +88,6 @@ public class AgreementValidator {
 	public void validate( CreateAgreementCommand agreement )throws ValidationException {
 		if ( agreement == null )
 		throw new ValidationException( "Agreement", "validating CreateAgreementCommand" );
-
-//		Assert.isNull( agreement.getAgreementId(), "CreateAgreementCommand identifier should be null" );
 		if ( agreement.getEffectiveDate() == null )
 		throw new ValidationException( "Agreement", "validating access on getEffectiveDate" );
 	}
@@ -206,16 +204,16 @@ public void validate( AssignDocumentsToAgreementCommand command ) throws Validat
  */
 public void validate( RemoveDocumentsFromAgreementCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Agreement", "validating RemoveDocumentsFromAgreementCommand");
+		throw new ValidationException("Agreement", "validating RemoveDocumentsFromAgreementCommand" );
 
 	if( command.getAgreementId() == null )
-	throw new ValidationException"Agreement", "validating id on RemoveDocumentsFromAgreementCommand";
+		throw new ValidationException"Agreement", "validating id on RemoveDocumentsFromAgreementCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Agreement", "validating remove from";
+		throw new ValidationException"Agreement", "validating remove from RemoveDocumentsFromAgreementCommand" );
 
 	if( command.getRemoveFrom().getDocumentId() == null )
-	throw new ValidationException"Agreement", "validating id on remove from}";
+		throw new ValidationException"Agreement", "validating id on remove from RemoveDocumentsFromAgreementCommand" );
 }
 	
 

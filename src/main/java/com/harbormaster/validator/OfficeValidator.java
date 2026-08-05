@@ -86,8 +86,6 @@ public class OfficeValidator {
 	public void validate( CreateOfficeCommand office )throws ValidationException {
 		if ( office == null )
 		throw new ValidationException( "Office", "validating CreateOfficeCommand" );
-
-//		Assert.isNull( office.getOfficeId(), "CreateOfficeCommand identifier should be null" );
 		if ( office.getName() == null )
 		throw new ValidationException( "Office", "validating access on getName" );
 		if ( office.getAddress() == null )
@@ -179,16 +177,16 @@ public void validate( AssignAdvisorsToOfficeCommand command ) throws ValidationE
  */
 public void validate( RemoveAdvisorsFromOfficeCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Office", "validating RemoveAdvisorsFromOfficeCommand");
+		throw new ValidationException("Office", "validating RemoveAdvisorsFromOfficeCommand" );
 
 	if( command.getOfficeId() == null )
-	throw new ValidationException"Office", "validating id on RemoveAdvisorsFromOfficeCommand";
+		throw new ValidationException"Office", "validating id on RemoveAdvisorsFromOfficeCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Office", "validating remove from";
+		throw new ValidationException"Office", "validating remove from RemoveAdvisorsFromOfficeCommand" );
 
 	if( command.getRemoveFrom().getAdvisorId() == null )
-	throw new ValidationException"Office", "validating id on remove from}";
+		throw new ValidationException"Office", "validating id on remove from RemoveAdvisorsFromOfficeCommand" );
 }
 	
 

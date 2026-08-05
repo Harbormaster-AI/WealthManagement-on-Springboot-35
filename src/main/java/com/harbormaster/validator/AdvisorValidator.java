@@ -90,8 +90,6 @@ public class AdvisorValidator {
 	public void validate( CreateAdvisorCommand advisor )throws ValidationException {
 		if ( advisor == null )
 		throw new ValidationException( "Advisor", "validating CreateAdvisorCommand" );
-
-//		Assert.isNull( advisor.getAdvisorId(), "CreateAdvisorCommand identifier should be null" );
 		if ( advisor.getFirstName() == null )
 		throw new ValidationException( "Advisor", "validating access on getFirstName" );
 		if ( advisor.getLastName() == null )
@@ -245,16 +243,16 @@ public void validate( AssignClientsToAdvisorCommand command ) throws ValidationE
  */
 public void validate( RemoveClientsFromAdvisorCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Advisor", "validating RemoveClientsFromAdvisorCommand");
+		throw new ValidationException("Advisor", "validating RemoveClientsFromAdvisorCommand" );
 
 	if( command.getAdvisorId() == null )
-	throw new ValidationException"Advisor", "validating id on RemoveClientsFromAdvisorCommand";
+		throw new ValidationException"Advisor", "validating id on RemoveClientsFromAdvisorCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Advisor", "validating remove from";
+		throw new ValidationException"Advisor", "validating remove from RemoveClientsFromAdvisorCommand" );
 
 	if( command.getRemoveFrom().getClientId() == null )
-	throw new ValidationException"Advisor", "validating id on remove from}";
+		throw new ValidationException"Advisor", "validating id on remove from RemoveClientsFromAdvisorCommand" );
 }
 	
 

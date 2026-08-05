@@ -86,8 +86,6 @@ public class WealthGoalValidator {
 	public void validate( CreateWealthGoalCommand wealthGoal )throws ValidationException {
 		if ( wealthGoal == null )
 		throw new ValidationException( "WealthGoal", "validating CreateWealthGoalCommand" );
-
-//		Assert.isNull( wealthGoal.getWealthGoalId(), "CreateWealthGoalCommand identifier should be null" );
 		if ( wealthGoal.getName() == null )
 		throw new ValidationException( "WealthGoal", "validating access on getName" );
 		if ( wealthGoal.getTargetAmount() == null )

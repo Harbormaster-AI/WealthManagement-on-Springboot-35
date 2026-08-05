@@ -88,8 +88,6 @@ public class InvestmentPolicyValidator {
 	public void validate( CreateInvestmentPolicyCommand investmentPolicy )throws ValidationException {
 		if ( investmentPolicy == null )
 		throw new ValidationException( "InvestmentPolicy", "validating CreateInvestmentPolicyCommand" );
-
-//		Assert.isNull( investmentPolicy.getInvestmentPolicyId(), "CreateInvestmentPolicyCommand identifier should be null" );
 		if ( investmentPolicy.getPolicyNumber() == null )
 		throw new ValidationException( "InvestmentPolicy", "validating access on getPolicyNumber" );
 		if ( investmentPolicy.getConstraints() == null )
@@ -210,16 +208,16 @@ public void validate( AssignGoalsToInvestmentPolicyCommand command ) throws Vali
  */
 public void validate( RemoveGoalsFromInvestmentPolicyCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("InvestmentPolicy", "validating RemoveGoalsFromInvestmentPolicyCommand");
+		throw new ValidationException("InvestmentPolicy", "validating RemoveGoalsFromInvestmentPolicyCommand" );
 
 	if( command.getInvestmentPolicyId() == null )
-	throw new ValidationException"InvestmentPolicy", "validating id on RemoveGoalsFromInvestmentPolicyCommand";
+		throw new ValidationException"InvestmentPolicy", "validating id on RemoveGoalsFromInvestmentPolicyCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"InvestmentPolicy", "validating remove from";
+		throw new ValidationException"InvestmentPolicy", "validating remove from RemoveGoalsFromInvestmentPolicyCommand" );
 
 	if( command.getRemoveFrom().getWealthGoalId() == null )
-	throw new ValidationException"InvestmentPolicy", "validating id on remove from}";
+		throw new ValidationException"InvestmentPolicy", "validating id on remove from RemoveGoalsFromInvestmentPolicyCommand" );
 }
 	
 

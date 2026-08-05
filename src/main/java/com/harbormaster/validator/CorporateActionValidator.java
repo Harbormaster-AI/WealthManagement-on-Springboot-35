@@ -86,8 +86,6 @@ public class CorporateActionValidator {
 	public void validate( CreateCorporateActionCommand corporateAction )throws ValidationException {
 		if ( corporateAction == null )
 		throw new ValidationException( "CorporateAction", "validating CreateCorporateActionCommand" );
-
-//		Assert.isNull( corporateAction.getCorporateActionId(), "CreateCorporateActionCommand identifier should be null" );
 		if ( corporateAction.getRecordDate() == null )
 		throw new ValidationException( "CorporateAction", "validating access on getRecordDate" );
 		if ( corporateAction.getPayableDate() == null )
@@ -183,16 +181,16 @@ public void validate( AssignDividendsToCorporateActionCommand command ) throws V
  */
 public void validate( RemoveDividendsFromCorporateActionCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("CorporateAction", "validating RemoveDividendsFromCorporateActionCommand");
+		throw new ValidationException("CorporateAction", "validating RemoveDividendsFromCorporateActionCommand" );
 
 	if( command.getCorporateActionId() == null )
-	throw new ValidationException"CorporateAction", "validating id on RemoveDividendsFromCorporateActionCommand";
+		throw new ValidationException"CorporateAction", "validating id on RemoveDividendsFromCorporateActionCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"CorporateAction", "validating remove from";
+		throw new ValidationException"CorporateAction", "validating remove from RemoveDividendsFromCorporateActionCommand" );
 
 	if( command.getRemoveFrom().getDividendId() == null )
-	throw new ValidationException"CorporateAction", "validating id on remove from}";
+		throw new ValidationException"CorporateAction", "validating id on remove from RemoveDividendsFromCorporateActionCommand" );
 }
 	
 

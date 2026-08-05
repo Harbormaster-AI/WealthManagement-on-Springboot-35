@@ -84,8 +84,6 @@ public class ResearchNoteValidator {
 	public void validate( CreateResearchNoteCommand researchNote )throws ValidationException {
 		if ( researchNote == null )
 		throw new ValidationException( "ResearchNote", "validating CreateResearchNoteCommand" );
-
-//		Assert.isNull( researchNote.getResearchNoteId(), "CreateResearchNoteCommand identifier should be null" );
 		if ( researchNote.getTitle() == null )
 		throw new ValidationException( "ResearchNote", "validating access on getTitle" );
 		if ( researchNote.getPublishedDate() == null )

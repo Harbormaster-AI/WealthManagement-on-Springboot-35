@@ -96,8 +96,6 @@ public class WealthFirmValidator {
 	public void validate( CreateWealthFirmCommand wealthFirm )throws ValidationException {
 		if ( wealthFirm == null )
 		throw new ValidationException( "WealthFirm", "validating CreateWealthFirmCommand" );
-
-//		Assert.isNull( wealthFirm.getWealthFirmId(), "CreateWealthFirmCommand identifier should be null" );
 		if ( wealthFirm.getName() == null )
 		throw new ValidationException( "WealthFirm", "validating access on getName" );
 		if ( wealthFirm.getLegalName() == null )
@@ -168,16 +166,16 @@ public void validate( AssignAdvisorsToWealthFirmCommand command ) throws Validat
  */
 public void validate( RemoveAdvisorsFromWealthFirmCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("WealthFirm", "validating RemoveAdvisorsFromWealthFirmCommand");
+		throw new ValidationException("WealthFirm", "validating RemoveAdvisorsFromWealthFirmCommand" );
 
 	if( command.getWealthFirmId() == null )
-	throw new ValidationException"WealthFirm", "validating id on RemoveAdvisorsFromWealthFirmCommand";
+		throw new ValidationException"WealthFirm", "validating id on RemoveAdvisorsFromWealthFirmCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"WealthFirm", "validating remove from";
+		throw new ValidationException"WealthFirm", "validating remove from RemoveAdvisorsFromWealthFirmCommand" );
 
 	if( command.getRemoveFrom().getAdvisorId() == null )
-	throw new ValidationException"WealthFirm", "validating id on remove from}";
+		throw new ValidationException"WealthFirm", "validating id on remove from RemoveAdvisorsFromWealthFirmCommand" );
 }
 	
 /**
@@ -204,16 +202,16 @@ public void validate( AssignOfficesToWealthFirmCommand command ) throws Validati
  */
 public void validate( RemoveOfficesFromWealthFirmCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("WealthFirm", "validating RemoveOfficesFromWealthFirmCommand");
+		throw new ValidationException("WealthFirm", "validating RemoveOfficesFromWealthFirmCommand" );
 
 	if( command.getWealthFirmId() == null )
-	throw new ValidationException"WealthFirm", "validating id on RemoveOfficesFromWealthFirmCommand";
+		throw new ValidationException"WealthFirm", "validating id on RemoveOfficesFromWealthFirmCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"WealthFirm", "validating remove from";
+		throw new ValidationException"WealthFirm", "validating remove from RemoveOfficesFromWealthFirmCommand" );
 
 	if( command.getRemoveFrom().getOfficeId() == null )
-	throw new ValidationException"WealthFirm", "validating id on remove from}";
+		throw new ValidationException"WealthFirm", "validating id on remove from RemoveOfficesFromWealthFirmCommand" );
 }
 	
 /**
@@ -240,16 +238,16 @@ public void validate( AssignCustodiansToWealthFirmCommand command ) throws Valid
  */
 public void validate( RemoveCustodiansFromWealthFirmCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("WealthFirm", "validating RemoveCustodiansFromWealthFirmCommand");
+		throw new ValidationException("WealthFirm", "validating RemoveCustodiansFromWealthFirmCommand" );
 
 	if( command.getWealthFirmId() == null )
-	throw new ValidationException"WealthFirm", "validating id on RemoveCustodiansFromWealthFirmCommand";
+		throw new ValidationException"WealthFirm", "validating id on RemoveCustodiansFromWealthFirmCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"WealthFirm", "validating remove from";
+		throw new ValidationException"WealthFirm", "validating remove from RemoveCustodiansFromWealthFirmCommand" );
 
 	if( command.getRemoveFrom().getCustodianId() == null )
-	throw new ValidationException"WealthFirm", "validating id on remove from}";
+		throw new ValidationException"WealthFirm", "validating id on remove from RemoveCustodiansFromWealthFirmCommand" );
 }
 	
 /**
@@ -276,16 +274,16 @@ public void validate( AssignInvestmentProgramsToWealthFirmCommand command ) thro
  */
 public void validate( RemoveInvestmentProgramsFromWealthFirmCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("WealthFirm", "validating RemoveInvestmentProgramsFromWealthFirmCommand");
+		throw new ValidationException("WealthFirm", "validating RemoveInvestmentProgramsFromWealthFirmCommand" );
 
 	if( command.getWealthFirmId() == null )
-	throw new ValidationException"WealthFirm", "validating id on RemoveInvestmentProgramsFromWealthFirmCommand";
+		throw new ValidationException"WealthFirm", "validating id on RemoveInvestmentProgramsFromWealthFirmCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"WealthFirm", "validating remove from";
+		throw new ValidationException"WealthFirm", "validating remove from RemoveInvestmentProgramsFromWealthFirmCommand" );
 
 	if( command.getRemoveFrom().getInvestmentProgramId() == null )
-	throw new ValidationException"WealthFirm", "validating id on remove from}";
+		throw new ValidationException"WealthFirm", "validating id on remove from RemoveInvestmentProgramsFromWealthFirmCommand" );
 }
 	
 

@@ -92,8 +92,6 @@ public class PositionValidator {
 	public void validate( CreatePositionCommand position )throws ValidationException {
 		if ( position == null )
 		throw new ValidationException( "Position", "validating CreatePositionCommand" );
-
-//		Assert.isNull( position.getPositionId(), "CreatePositionCommand identifier should be null" );
 		if ( position.getQuantity() == null )
 		throw new ValidationException( "Position", "validating access on getQuantity" );
 		if ( position.getCostBasis() == null )
@@ -214,16 +212,16 @@ public void validate( AssignTaxLotsToPositionCommand command ) throws Validation
  */
 public void validate( RemoveTaxLotsFromPositionCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Position", "validating RemoveTaxLotsFromPositionCommand");
+		throw new ValidationException("Position", "validating RemoveTaxLotsFromPositionCommand" );
 
 	if( command.getPositionId() == null )
-	throw new ValidationException"Position", "validating id on RemoveTaxLotsFromPositionCommand";
+		throw new ValidationException"Position", "validating id on RemoveTaxLotsFromPositionCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Position", "validating remove from";
+		throw new ValidationException"Position", "validating remove from RemoveTaxLotsFromPositionCommand" );
 
 	if( command.getRemoveFrom().getTaxLotId() == null )
-	throw new ValidationException"Position", "validating id on remove from}";
+		throw new ValidationException"Position", "validating id on remove from RemoveTaxLotsFromPositionCommand" );
 }
 	
 /**
@@ -250,16 +248,16 @@ public void validate( AssignTransactionsToPositionCommand command ) throws Valid
  */
 public void validate( RemoveTransactionsFromPositionCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Position", "validating RemoveTransactionsFromPositionCommand");
+		throw new ValidationException("Position", "validating RemoveTransactionsFromPositionCommand" );
 
 	if( command.getPositionId() == null )
-	throw new ValidationException"Position", "validating id on RemoveTransactionsFromPositionCommand";
+		throw new ValidationException"Position", "validating id on RemoveTransactionsFromPositionCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Position", "validating remove from";
+		throw new ValidationException"Position", "validating remove from RemoveTransactionsFromPositionCommand" );
 
 	if( command.getRemoveFrom().getTransactionId() == null )
-	throw new ValidationException"Position", "validating id on remove from}";
+		throw new ValidationException"Position", "validating id on remove from RemoveTransactionsFromPositionCommand" );
 }
 	
 

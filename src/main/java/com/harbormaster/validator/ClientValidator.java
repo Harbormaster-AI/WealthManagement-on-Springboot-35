@@ -100,8 +100,6 @@ public class ClientValidator {
 	public void validate( CreateClientCommand client )throws ValidationException {
 		if ( client == null )
 		throw new ValidationException( "Client", "validating CreateClientCommand" );
-
-//		Assert.isNull( client.getClientId(), "CreateClientCommand identifier should be null" );
 		if ( client.getFirstName() == null )
 		throw new ValidationException( "Client", "validating access on getFirstName" );
 		if ( client.getLastName() == null )
@@ -234,16 +232,16 @@ public void validate( AssignAccountsToClientCommand command ) throws ValidationE
  */
 public void validate( RemoveAccountsFromClientCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Client", "validating RemoveAccountsFromClientCommand");
+		throw new ValidationException("Client", "validating RemoveAccountsFromClientCommand" );
 
 	if( command.getClientId() == null )
-	throw new ValidationException"Client", "validating id on RemoveAccountsFromClientCommand";
+		throw new ValidationException"Client", "validating id on RemoveAccountsFromClientCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Client", "validating remove from";
+		throw new ValidationException"Client", "validating remove from RemoveAccountsFromClientCommand" );
 
 	if( command.getRemoveFrom().getAccountId() == null )
-	throw new ValidationException"Client", "validating id on remove from}";
+		throw new ValidationException"Client", "validating id on remove from RemoveAccountsFromClientCommand" );
 }
 	
 /**
@@ -270,16 +268,16 @@ public void validate( AssignDocumentsToClientCommand command ) throws Validation
  */
 public void validate( RemoveDocumentsFromClientCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Client", "validating RemoveDocumentsFromClientCommand");
+		throw new ValidationException("Client", "validating RemoveDocumentsFromClientCommand" );
 
 	if( command.getClientId() == null )
-	throw new ValidationException"Client", "validating id on RemoveDocumentsFromClientCommand";
+		throw new ValidationException"Client", "validating id on RemoveDocumentsFromClientCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Client", "validating remove from";
+		throw new ValidationException"Client", "validating remove from RemoveDocumentsFromClientCommand" );
 
 	if( command.getRemoveFrom().getDocumentId() == null )
-	throw new ValidationException"Client", "validating id on remove from}";
+		throw new ValidationException"Client", "validating id on remove from RemoveDocumentsFromClientCommand" );
 }
 	
 /**
@@ -306,16 +304,16 @@ public void validate( AssignBeneficiariesToClientCommand command ) throws Valida
  */
 public void validate( RemoveBeneficiariesFromClientCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Client", "validating RemoveBeneficiariesFromClientCommand");
+		throw new ValidationException("Client", "validating RemoveBeneficiariesFromClientCommand" );
 
 	if( command.getClientId() == null )
-	throw new ValidationException"Client", "validating id on RemoveBeneficiariesFromClientCommand";
+		throw new ValidationException"Client", "validating id on RemoveBeneficiariesFromClientCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Client", "validating remove from";
+		throw new ValidationException"Client", "validating remove from RemoveBeneficiariesFromClientCommand" );
 
 	if( command.getRemoveFrom().getBeneficiaryId() == null )
-	throw new ValidationException"Client", "validating id on remove from}";
+		throw new ValidationException"Client", "validating id on remove from RemoveBeneficiariesFromClientCommand" );
 }
 	
 /**
@@ -342,16 +340,16 @@ public void validate( AssignAgreementsToClientCommand command ) throws Validatio
  */
 public void validate( RemoveAgreementsFromClientCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Client", "validating RemoveAgreementsFromClientCommand");
+		throw new ValidationException("Client", "validating RemoveAgreementsFromClientCommand" );
 
 	if( command.getClientId() == null )
-	throw new ValidationException"Client", "validating id on RemoveAgreementsFromClientCommand";
+		throw new ValidationException"Client", "validating id on RemoveAgreementsFromClientCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Client", "validating remove from";
+		throw new ValidationException"Client", "validating remove from RemoveAgreementsFromClientCommand" );
 
 	if( command.getRemoveFrom().getAgreementId() == null )
-	throw new ValidationException"Client", "validating id on remove from}";
+		throw new ValidationException"Client", "validating id on remove from RemoveAgreementsFromClientCommand" );
 }
 	
 

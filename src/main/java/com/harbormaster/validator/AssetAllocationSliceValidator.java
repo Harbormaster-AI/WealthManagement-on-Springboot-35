@@ -82,8 +82,6 @@ public class AssetAllocationSliceValidator {
 	public void validate( CreateAssetAllocationSliceCommand assetAllocationSlice )throws ValidationException {
 		if ( assetAllocationSlice == null )
 		throw new ValidationException( "AssetAllocationSlice", "validating CreateAssetAllocationSliceCommand" );
-
-//		Assert.isNull( assetAllocationSlice.getAssetAllocationSliceId(), "CreateAssetAllocationSliceCommand identifier should be null" );
 		if ( assetAllocationSlice.getTargetWeight() == null )
 		throw new ValidationException( "AssetAllocationSlice", "validating access on getTargetWeight" );
 	}

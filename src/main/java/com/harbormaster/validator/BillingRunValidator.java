@@ -86,8 +86,6 @@ public class BillingRunValidator {
 	public void validate( CreateBillingRunCommand billingRun )throws ValidationException {
 		if ( billingRun == null )
 		throw new ValidationException( "BillingRun", "validating CreateBillingRunCommand" );
-
-//		Assert.isNull( billingRun.getBillingRunId(), "CreateBillingRunCommand identifier should be null" );
 		if ( billingRun.getRunDate() == null )
 		throw new ValidationException( "BillingRun", "validating access on getRunDate" );
 		if ( billingRun.getPeriodStart() == null )
@@ -183,16 +181,16 @@ public void validate( AssignInvoicesToBillingRunCommand command ) throws Validat
  */
 public void validate( RemoveInvoicesFromBillingRunCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("BillingRun", "validating RemoveInvoicesFromBillingRunCommand");
+		throw new ValidationException("BillingRun", "validating RemoveInvoicesFromBillingRunCommand" );
 
 	if( command.getBillingRunId() == null )
-	throw new ValidationException"BillingRun", "validating id on RemoveInvoicesFromBillingRunCommand";
+		throw new ValidationException"BillingRun", "validating id on RemoveInvoicesFromBillingRunCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"BillingRun", "validating remove from";
+		throw new ValidationException"BillingRun", "validating remove from RemoveInvoicesFromBillingRunCommand" );
 
 	if( command.getRemoveFrom().getInvoiceId() == null )
-	throw new ValidationException"BillingRun", "validating id on remove from}";
+		throw new ValidationException"BillingRun", "validating id on remove from RemoveInvoicesFromBillingRunCommand" );
 }
 	
 

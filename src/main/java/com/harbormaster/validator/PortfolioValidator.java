@@ -100,8 +100,6 @@ public class PortfolioValidator {
 	public void validate( CreatePortfolioCommand portfolio )throws ValidationException {
 		if ( portfolio == null )
 		throw new ValidationException( "Portfolio", "validating CreatePortfolioCommand" );
-
-//		Assert.isNull( portfolio.getPortfolioId(), "CreatePortfolioCommand identifier should be null" );
 		if ( portfolio.getName() == null )
 		throw new ValidationException( "Portfolio", "validating access on getName" );
 		if ( portfolio.getBaseCurrency() == null )
@@ -284,16 +282,16 @@ public void validate( AssignPositionsToPortfolioCommand command ) throws Validat
  */
 public void validate( RemovePositionsFromPortfolioCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Portfolio", "validating RemovePositionsFromPortfolioCommand");
+		throw new ValidationException("Portfolio", "validating RemovePositionsFromPortfolioCommand" );
 
 	if( command.getPortfolioId() == null )
-	throw new ValidationException"Portfolio", "validating id on RemovePositionsFromPortfolioCommand";
+		throw new ValidationException"Portfolio", "validating id on RemovePositionsFromPortfolioCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Portfolio", "validating remove from";
+		throw new ValidationException"Portfolio", "validating remove from RemovePositionsFromPortfolioCommand" );
 
 	if( command.getRemoveFrom().getPositionId() == null )
-	throw new ValidationException"Portfolio", "validating id on remove from}";
+		throw new ValidationException"Portfolio", "validating id on remove from RemovePositionsFromPortfolioCommand" );
 }
 	
 /**
@@ -320,16 +318,16 @@ public void validate( AssignPerformanceReportsToPortfolioCommand command ) throw
  */
 public void validate( RemovePerformanceReportsFromPortfolioCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Portfolio", "validating RemovePerformanceReportsFromPortfolioCommand");
+		throw new ValidationException("Portfolio", "validating RemovePerformanceReportsFromPortfolioCommand" );
 
 	if( command.getPortfolioId() == null )
-	throw new ValidationException"Portfolio", "validating id on RemovePerformanceReportsFromPortfolioCommand";
+		throw new ValidationException"Portfolio", "validating id on RemovePerformanceReportsFromPortfolioCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Portfolio", "validating remove from";
+		throw new ValidationException"Portfolio", "validating remove from RemovePerformanceReportsFromPortfolioCommand" );
 
 	if( command.getRemoveFrom().getPerformanceReportId() == null )
-	throw new ValidationException"Portfolio", "validating id on remove from}";
+		throw new ValidationException"Portfolio", "validating id on remove from RemovePerformanceReportsFromPortfolioCommand" );
 }
 	
 /**
@@ -356,16 +354,16 @@ public void validate( AssignRebalancePlansToPortfolioCommand command ) throws Va
  */
 public void validate( RemoveRebalancePlansFromPortfolioCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Portfolio", "validating RemoveRebalancePlansFromPortfolioCommand");
+		throw new ValidationException("Portfolio", "validating RemoveRebalancePlansFromPortfolioCommand" );
 
 	if( command.getPortfolioId() == null )
-	throw new ValidationException"Portfolio", "validating id on RemoveRebalancePlansFromPortfolioCommand";
+		throw new ValidationException"Portfolio", "validating id on RemoveRebalancePlansFromPortfolioCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Portfolio", "validating remove from";
+		throw new ValidationException"Portfolio", "validating remove from RemoveRebalancePlansFromPortfolioCommand" );
 
 	if( command.getRemoveFrom().getRebalancePlanId() == null )
-	throw new ValidationException"Portfolio", "validating id on remove from}";
+		throw new ValidationException"Portfolio", "validating id on remove from RemoveRebalancePlansFromPortfolioCommand" );
 }
 	
 

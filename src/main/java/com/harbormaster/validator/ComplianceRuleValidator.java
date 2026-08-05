@@ -84,8 +84,6 @@ public class ComplianceRuleValidator {
 	public void validate( CreateComplianceRuleCommand complianceRule )throws ValidationException {
 		if ( complianceRule == null )
 		throw new ValidationException( "ComplianceRule", "validating CreateComplianceRuleCommand" );
-
-//		Assert.isNull( complianceRule.getComplianceRuleId(), "CreateComplianceRuleCommand identifier should be null" );
 		if ( complianceRule.getName() == null )
 		throw new ValidationException( "ComplianceRule", "validating access on getName" );
 		if ( complianceRule.getRuleCode() == null )
@@ -152,16 +150,16 @@ public void validate( AssignAlertsToComplianceRuleCommand command ) throws Valid
  */
 public void validate( RemoveAlertsFromComplianceRuleCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("ComplianceRule", "validating RemoveAlertsFromComplianceRuleCommand");
+		throw new ValidationException("ComplianceRule", "validating RemoveAlertsFromComplianceRuleCommand" );
 
 	if( command.getComplianceRuleId() == null )
-	throw new ValidationException"ComplianceRule", "validating id on RemoveAlertsFromComplianceRuleCommand";
+		throw new ValidationException"ComplianceRule", "validating id on RemoveAlertsFromComplianceRuleCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"ComplianceRule", "validating remove from";
+		throw new ValidationException"ComplianceRule", "validating remove from RemoveAlertsFromComplianceRuleCommand" );
 
 	if( command.getRemoveFrom().getComplianceAlertId() == null )
-	throw new ValidationException"ComplianceRule", "validating id on remove from}";
+		throw new ValidationException"ComplianceRule", "validating id on remove from RemoveAlertsFromComplianceRuleCommand" );
 }
 	
 

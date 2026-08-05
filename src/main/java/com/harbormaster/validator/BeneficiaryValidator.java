@@ -86,8 +86,6 @@ public class BeneficiaryValidator {
 	public void validate( CreateBeneficiaryCommand beneficiary )throws ValidationException {
 		if ( beneficiary == null )
 		throw new ValidationException( "Beneficiary", "validating CreateBeneficiaryCommand" );
-
-//		Assert.isNull( beneficiary.getBeneficiaryId(), "CreateBeneficiaryCommand identifier should be null" );
 		if ( beneficiary.getFirstName() == null )
 		throw new ValidationException( "Beneficiary", "validating access on getFirstName" );
 		if ( beneficiary.getLastName() == null )
@@ -187,16 +185,16 @@ public void validate( AssignAccountsToBeneficiaryCommand command ) throws Valida
  */
 public void validate( RemoveAccountsFromBeneficiaryCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Beneficiary", "validating RemoveAccountsFromBeneficiaryCommand");
+		throw new ValidationException("Beneficiary", "validating RemoveAccountsFromBeneficiaryCommand" );
 
 	if( command.getBeneficiaryId() == null )
-	throw new ValidationException"Beneficiary", "validating id on RemoveAccountsFromBeneficiaryCommand";
+		throw new ValidationException"Beneficiary", "validating id on RemoveAccountsFromBeneficiaryCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Beneficiary", "validating remove from";
+		throw new ValidationException"Beneficiary", "validating remove from RemoveAccountsFromBeneficiaryCommand" );
 
 	if( command.getRemoveFrom().getAccountId() == null )
-	throw new ValidationException"Beneficiary", "validating id on remove from}";
+		throw new ValidationException"Beneficiary", "validating id on remove from RemoveAccountsFromBeneficiaryCommand" );
 }
 	
 

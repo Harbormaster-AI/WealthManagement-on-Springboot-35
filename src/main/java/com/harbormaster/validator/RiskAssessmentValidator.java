@@ -84,8 +84,6 @@ public class RiskAssessmentValidator {
 	public void validate( CreateRiskAssessmentCommand riskAssessment )throws ValidationException {
 		if ( riskAssessment == null )
 		throw new ValidationException( "RiskAssessment", "validating CreateRiskAssessmentCommand" );
-
-//		Assert.isNull( riskAssessment.getRiskAssessmentId(), "CreateRiskAssessmentCommand identifier should be null" );
 		if ( riskAssessment.getAssessmentDate() == null )
 		throw new ValidationException( "RiskAssessment", "validating access on getAssessmentDate" );
 		if ( riskAssessment.getCapacityScore() == null )

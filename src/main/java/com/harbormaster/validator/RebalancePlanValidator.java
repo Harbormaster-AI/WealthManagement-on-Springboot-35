@@ -88,8 +88,6 @@ public class RebalancePlanValidator {
 	public void validate( CreateRebalancePlanCommand rebalancePlan )throws ValidationException {
 		if ( rebalancePlan == null )
 		throw new ValidationException( "RebalancePlan", "validating CreateRebalancePlanCommand" );
-
-//		Assert.isNull( rebalancePlan.getRebalancePlanId(), "CreateRebalancePlanCommand identifier should be null" );
 		if ( rebalancePlan.getPlanDate() == null )
 		throw new ValidationException( "RebalancePlan", "validating access on getPlanDate" );
 	}
@@ -206,16 +204,16 @@ public void validate( AssignProposedOrdersToRebalancePlanCommand command ) throw
  */
 public void validate( RemoveProposedOrdersFromRebalancePlanCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("RebalancePlan", "validating RemoveProposedOrdersFromRebalancePlanCommand");
+		throw new ValidationException("RebalancePlan", "validating RemoveProposedOrdersFromRebalancePlanCommand" );
 
 	if( command.getRebalancePlanId() == null )
-	throw new ValidationException"RebalancePlan", "validating id on RemoveProposedOrdersFromRebalancePlanCommand";
+		throw new ValidationException"RebalancePlan", "validating id on RemoveProposedOrdersFromRebalancePlanCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"RebalancePlan", "validating remove from";
+		throw new ValidationException"RebalancePlan", "validating remove from RemoveProposedOrdersFromRebalancePlanCommand" );
 
 	if( command.getRemoveFrom().getOrderId() == null )
-	throw new ValidationException"RebalancePlan", "validating id on remove from}";
+		throw new ValidationException"RebalancePlan", "validating id on remove from RemoveProposedOrdersFromRebalancePlanCommand" );
 }
 	
 

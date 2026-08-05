@@ -88,8 +88,6 @@ public class CustodianValidator {
 	public void validate( CreateCustodianCommand custodian )throws ValidationException {
 		if ( custodian == null )
 		throw new ValidationException( "Custodian", "validating CreateCustodianCommand" );
-
-//		Assert.isNull( custodian.getCustodianId(), "CreateCustodianCommand identifier should be null" );
 		if ( custodian.getName() == null )
 		throw new ValidationException( "Custodian", "validating access on getName" );
 		if ( custodian.getClearingNumber() == null )
@@ -156,16 +154,16 @@ public void validate( AssignAccountsToCustodianCommand command ) throws Validati
  */
 public void validate( RemoveAccountsFromCustodianCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Custodian", "validating RemoveAccountsFromCustodianCommand");
+		throw new ValidationException("Custodian", "validating RemoveAccountsFromCustodianCommand" );
 
 	if( command.getCustodianId() == null )
-	throw new ValidationException"Custodian", "validating id on RemoveAccountsFromCustodianCommand";
+		throw new ValidationException"Custodian", "validating id on RemoveAccountsFromCustodianCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Custodian", "validating remove from";
+		throw new ValidationException"Custodian", "validating remove from RemoveAccountsFromCustodianCommand" );
 
 	if( command.getRemoveFrom().getAccountId() == null )
-	throw new ValidationException"Custodian", "validating id on remove from}";
+		throw new ValidationException"Custodian", "validating id on remove from RemoveAccountsFromCustodianCommand" );
 }
 	
 /**
@@ -192,16 +190,16 @@ public void validate( AssignTransfersToCustodianCommand command ) throws Validat
  */
 public void validate( RemoveTransfersFromCustodianCommand ) throws ValidationException {
 	if ( command == null )
-		throw new ValidationException("Custodian", "validating RemoveTransfersFromCustodianCommand");
+		throw new ValidationException("Custodian", "validating RemoveTransfersFromCustodianCommand" );
 
 	if( command.getCustodianId() == null )
-	throw new ValidationException"Custodian", "validating id on RemoveTransfersFromCustodianCommand";
+		throw new ValidationException"Custodian", "validating id on RemoveTransfersFromCustodianCommand" );
 
 	if( command.getRemoveFrom() == null )
-		throw new ValidationException"Custodian", "validating remove from";
+		throw new ValidationException"Custodian", "validating remove from RemoveTransfersFromCustodianCommand" );
 
 	if( command.getRemoveFrom().getAccountTransferId() == null )
-	throw new ValidationException"Custodian", "validating id on remove from}";
+		throw new ValidationException"Custodian", "validating id on remove from RemoveTransfersFromCustodianCommand" );
 }
 	
 

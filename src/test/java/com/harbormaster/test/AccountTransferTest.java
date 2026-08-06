@@ -265,7 +265,7 @@ public class AccountTransferTest
      * @return CreateAccountTransferCommand alias
      */
 	protected CreateAccountTransferCommand generateNewCommand() {
-    CreateAccountTransferCommand command = new CreateAccountTransferCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateAccountTransferCommand command = new CreateAccountTransferCommand( null,   new Date(),   new Date(),  TransferType.values()[0],  TransferStatus.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AccountTransferTest
      * @return UpdateAccountTransferCommand alias
      */
 	protected UpdateAccountTransferCommand generateUpdateCommand() {
-    UpdateAccountTransferCommand command = new UpdateAccountTransferCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateAccountTransferCommand command = new UpdateAccountTransferCommand( null,   new Date(),   new Date(),  null,  null,  null,  TransferType.values()[0],  TransferStatus.values()[0] );
 
     return( command );
 }

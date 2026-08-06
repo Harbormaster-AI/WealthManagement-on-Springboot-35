@@ -265,7 +265,7 @@ public class OfficeTest
      * @return CreateOfficeCommand alias
      */
 	protected CreateOfficeCommand generateNewCommand() {
-    CreateOfficeCommand command = new CreateOfficeCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateOfficeCommand command = new CreateOfficeCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Address() );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class OfficeTest
      * @return UpdateOfficeCommand alias
      */
 	protected UpdateOfficeCommand generateUpdateCommand() {
-    UpdateOfficeCommand command = new UpdateOfficeCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateOfficeCommand command = new UpdateOfficeCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Address(),  null,  new HashSet<>() );
 
     return( command );
 }

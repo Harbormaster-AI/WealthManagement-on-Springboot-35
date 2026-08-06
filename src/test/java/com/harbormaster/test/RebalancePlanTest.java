@@ -265,7 +265,7 @@ public class RebalancePlanTest
      * @return CreateRebalancePlanCommand alias
      */
 	protected CreateRebalancePlanCommand generateNewCommand() {
-    CreateRebalancePlanCommand command = new CreateRebalancePlanCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateRebalancePlanCommand command = new CreateRebalancePlanCommand( null,   new Date(),  RebalanceStatus.values()[0],  RebalanceMethod.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class RebalancePlanTest
      * @return UpdateRebalancePlanCommand alias
      */
 	protected UpdateRebalancePlanCommand generateUpdateCommand() {
-    UpdateRebalancePlanCommand command = new UpdateRebalancePlanCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateRebalancePlanCommand command = new UpdateRebalancePlanCommand( null,   new Date(),  null,  new HashSet<>(),  null,  RebalanceStatus.values()[0],  RebalanceMethod.values()[0] );
 
     return( command );
 }

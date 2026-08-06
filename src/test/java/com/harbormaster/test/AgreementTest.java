@@ -265,7 +265,7 @@ public class AgreementTest
      * @return CreateAgreementCommand alias
      */
 	protected CreateAgreementCommand generateNewCommand() {
-    CreateAgreementCommand command = new CreateAgreementCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateAgreementCommand command = new CreateAgreementCommand( null,   new Date(),  AgreementType.values()[0],  AgreementStatus.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AgreementTest
      * @return UpdateAgreementCommand alias
      */
 	protected UpdateAgreementCommand generateUpdateCommand() {
-    UpdateAgreementCommand command = new UpdateAgreementCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateAgreementCommand command = new UpdateAgreementCommand( null,   new Date(),  null,  null,  new HashSet<>(),  AgreementType.values()[0],  AgreementStatus.values()[0] );
 
     return( command );
 }

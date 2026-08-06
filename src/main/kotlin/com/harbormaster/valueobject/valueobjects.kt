@@ -35,27 +35,32 @@ import jakarta.persistence.Column
 // --------------------------------------------
 
 data class Money(
-#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
+    var amount: java.math.BigDecimal? = null,
+    var currency: String? = null
 )
 
 data class Percentage(
-#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
+    var value: java.math.BigDecimal? = null
 )
 
 data class Address(
-#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
+    var street: String? = null,
+    var city: String? = null,
+    var state: String? = null,
+    var postalCode: String? = null,
+    var country: String? = null
 )
 
 data class ISIN(
-#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
+    var value: String? = null
 )
 
 data class CUSIP(
-#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
+    var value: String? = null
 )
 
 data class AccountNumber(
-#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
+    var value: String? = null
 )
 
 

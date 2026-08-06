@@ -265,7 +265,7 @@ public class AdvisorTest
      * @return CreateAdvisorCommand alias
      */
 	protected CreateAdvisorCommand generateNewCommand() {
-    CreateAdvisorCommand command = new CreateAdvisorCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateAdvisorCommand command = new CreateAdvisorCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AdvisorRole.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AdvisorTest
      * @return UpdateAdvisorCommand alias
      */
 	protected UpdateAdvisorCommand generateUpdateCommand() {
-    UpdateAdvisorCommand command = new UpdateAdvisorCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateAdvisorCommand command = new UpdateAdvisorCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  new HashSet<>(),  null,  AdvisorRole.values()[0] );
 
     return( command );
 }

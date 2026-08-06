@@ -265,7 +265,7 @@ public class CashMovementTest
      * @return CreateCashMovementCommand alias
      */
 	protected CreateCashMovementCommand generateNewCommand() {
-    CreateCashMovementCommand command = new CreateCashMovementCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateCashMovementCommand command = new CreateCashMovementCommand( null,  new Money(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  CashMovementType.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class CashMovementTest
      * @return UpdateCashMovementCommand alias
      */
 	protected UpdateCashMovementCommand generateUpdateCommand() {
-    UpdateCashMovementCommand command = new UpdateCashMovementCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateCashMovementCommand command = new UpdateCashMovementCommand( null,  new Money(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  CashMovementType.values()[0] );
 
     return( command );
 }

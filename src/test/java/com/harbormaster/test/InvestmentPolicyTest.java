@@ -265,7 +265,7 @@ public class InvestmentPolicyTest
      * @return CreateInvestmentPolicyCommand alias
      */
 	protected CreateInvestmentPolicyCommand generateNewCommand() {
-    CreateInvestmentPolicyCommand command = new CreateInvestmentPolicyCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateInvestmentPolicyCommand command = new CreateInvestmentPolicyCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  SuitabilityStatus.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class InvestmentPolicyTest
      * @return UpdateInvestmentPolicyCommand alias
      */
 	protected UpdateInvestmentPolicyCommand generateUpdateCommand() {
-    UpdateInvestmentPolicyCommand command = new UpdateInvestmentPolicyCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateInvestmentPolicyCommand command = new UpdateInvestmentPolicyCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  new HashSet<>(),  SuitabilityStatus.values()[0] );
 
     return( command );
 }

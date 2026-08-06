@@ -265,7 +265,7 @@ public class KycRecordTest
      * @return CreateKycRecordCommand alias
      */
 	protected CreateKycRecordCommand generateNewCommand() {
-    CreateKycRecordCommand command = new CreateKycRecordCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateKycRecordCommand command = new CreateKycRecordCommand( null,   new Date(),  new Boolean(true),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  KycStatus.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class KycRecordTest
      * @return UpdateKycRecordCommand alias
      */
 	protected UpdateKycRecordCommand generateUpdateCommand() {
-    UpdateKycRecordCommand command = new UpdateKycRecordCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateKycRecordCommand command = new UpdateKycRecordCommand( null,   new Date(),  new Boolean(true),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  KycStatus.values()[0] );
 
     return( command );
 }

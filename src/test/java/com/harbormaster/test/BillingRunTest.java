@@ -265,7 +265,7 @@ public class BillingRunTest
      * @return CreateBillingRunCommand alias
      */
 	protected CreateBillingRunCommand generateNewCommand() {
-    CreateBillingRunCommand command = new CreateBillingRunCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateBillingRunCommand command = new CreateBillingRunCommand( null,   new Date(),   new Date(),   new Date(),  BillingRunStatus.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class BillingRunTest
      * @return UpdateBillingRunCommand alias
      */
 	protected UpdateBillingRunCommand generateUpdateCommand() {
-    UpdateBillingRunCommand command = new UpdateBillingRunCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateBillingRunCommand command = new UpdateBillingRunCommand( null,   new Date(),   new Date(),   new Date(),  null,  new HashSet<>(),  BillingRunStatus.values()[0] );
 
     return( command );
 }

@@ -265,7 +265,7 @@ public class PositionTest
      * @return CreatePositionCommand alias
      */
 	protected CreatePositionCommand generateNewCommand() {
-    CreatePositionCommand command = new CreatePositionCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreatePositionCommand command = new CreatePositionCommand( null,  java.math.BigDecimal.ZERO,  new Money(),  PositionType.values()[0],  TaxLotMethod.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class PositionTest
      * @return UpdatePositionCommand alias
      */
 	protected UpdatePositionCommand generateUpdateCommand() {
-    UpdatePositionCommand command = new UpdatePositionCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdatePositionCommand command = new UpdatePositionCommand( null,  java.math.BigDecimal.ZERO,  new Money(),  null,  null,  new HashSet<>(),  new HashSet<>(),  PositionType.values()[0],  TaxLotMethod.values()[0] );
 
     return( command );
 }

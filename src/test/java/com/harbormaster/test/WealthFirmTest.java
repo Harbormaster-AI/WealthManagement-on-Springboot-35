@@ -265,7 +265,7 @@ public class WealthFirmTest
      * @return CreateWealthFirmCommand alias
      */
 	protected CreateWealthFirmCommand generateNewCommand() {
-    CreateWealthFirmCommand command = new CreateWealthFirmCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateWealthFirmCommand command = new CreateWealthFirmCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class WealthFirmTest
      * @return UpdateWealthFirmCommand alias
      */
 	protected UpdateWealthFirmCommand generateUpdateCommand() {
-    UpdateWealthFirmCommand command = new UpdateWealthFirmCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateWealthFirmCommand command = new UpdateWealthFirmCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>() );
 
     return( command );
 }

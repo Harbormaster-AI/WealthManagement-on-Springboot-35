@@ -265,7 +265,7 @@ public class CustodianTest
      * @return CreateCustodianCommand alias
      */
 	protected CreateCustodianCommand generateNewCommand() {
-    CreateCustodianCommand command = new CreateCustodianCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateCustodianCommand command = new CreateCustodianCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class CustodianTest
      * @return UpdateCustodianCommand alias
      */
 	protected UpdateCustodianCommand generateUpdateCommand() {
-    UpdateCustodianCommand command = new UpdateCustodianCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateCustodianCommand command = new UpdateCustodianCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>() );
 
     return( command );
 }

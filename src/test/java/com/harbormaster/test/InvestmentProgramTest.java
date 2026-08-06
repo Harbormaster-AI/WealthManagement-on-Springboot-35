@@ -265,7 +265,7 @@ public class InvestmentProgramTest
      * @return CreateInvestmentProgramCommand alias
      */
 	protected CreateInvestmentProgramCommand generateNewCommand() {
-    CreateInvestmentProgramCommand command = new CreateInvestmentProgramCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateInvestmentProgramCommand command = new CreateInvestmentProgramCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class InvestmentProgramTest
      * @return UpdateInvestmentProgramCommand alias
      */
 	protected UpdateInvestmentProgramCommand generateUpdateCommand() {
-    UpdateInvestmentProgramCommand command = new UpdateInvestmentProgramCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateInvestmentProgramCommand command = new UpdateInvestmentProgramCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>() );
 
     return( command );
 }

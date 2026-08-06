@@ -265,7 +265,7 @@ public class AssetAllocationSliceTest
      * @return CreateAssetAllocationSliceCommand alias
      */
 	protected CreateAssetAllocationSliceCommand generateNewCommand() {
-    CreateAssetAllocationSliceCommand command = new CreateAssetAllocationSliceCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateAssetAllocationSliceCommand command = new CreateAssetAllocationSliceCommand( null,  new Percentage(),  AssetClass.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AssetAllocationSliceTest
      * @return UpdateAssetAllocationSliceCommand alias
      */
 	protected UpdateAssetAllocationSliceCommand generateUpdateCommand() {
-    UpdateAssetAllocationSliceCommand command = new UpdateAssetAllocationSliceCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateAssetAllocationSliceCommand command = new UpdateAssetAllocationSliceCommand( null,  new Percentage(),  null,  AssetClass.values()[0] );
 
     return( command );
 }

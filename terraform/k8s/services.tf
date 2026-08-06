@@ -11,7 +11,7 @@ resource "kubernetes_service" "app-master" {
     port {
       name        = "http"
       port        = 80
-      target_port =     }
+      target_port = 8081    }
 
 
 
@@ -24,7 +24,7 @@ resource "kubernetes_service" "app-master" {
 
     port {
       name        = "app-port"
-      port        =       target_port =     }
+      port        = 8081      target_port = 8081    }
 
 
     type = "LoadBalancer"

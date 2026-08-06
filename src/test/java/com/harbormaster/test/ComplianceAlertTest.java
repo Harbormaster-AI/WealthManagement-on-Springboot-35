@@ -265,7 +265,7 @@ public class ComplianceAlertTest
      * @return CreateComplianceAlertCommand alias
      */
 	protected CreateComplianceAlertCommand generateNewCommand() {
-    CreateComplianceAlertCommand command = new CreateComplianceAlertCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateComplianceAlertCommand command = new CreateComplianceAlertCommand( null,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  ComplianceStatus.values()[0],  AlertSeverity.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ComplianceAlertTest
      * @return UpdateComplianceAlertCommand alias
      */
 	protected UpdateComplianceAlertCommand generateUpdateCommand() {
-    UpdateComplianceAlertCommand command = new UpdateComplianceAlertCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateComplianceAlertCommand command = new UpdateComplianceAlertCommand( null,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  null,  ComplianceStatus.values()[0],  AlertSeverity.values()[0] );
 
     return( command );
 }

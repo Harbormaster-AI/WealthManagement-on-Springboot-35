@@ -265,7 +265,7 @@ public class ClientTest
      * @return CreateClientCommand alias
      */
 	protected CreateClientCommand generateNewCommand() {
-    CreateClientCommand command = new CreateClientCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateClientCommand command = new CreateClientCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ClientTest
      * @return UpdateClientCommand alias
      */
 	protected UpdateClientCommand generateUpdateCommand() {
-    UpdateClientCommand command = new UpdateClientCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateClientCommand command = new UpdateClientCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  null,  new HashSet<>() );
 
     return( command );
 }

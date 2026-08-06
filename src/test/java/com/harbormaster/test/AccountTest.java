@@ -265,7 +265,7 @@ public class AccountTest
      * @return CreateAccountCommand alias
      */
 	protected CreateAccountCommand generateNewCommand() {
-    CreateAccountCommand command = new CreateAccountCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateAccountCommand command = new CreateAccountCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new AccountNumber(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  AccountType.values()[0],  RegistrationType.values()[0],  AccountStatus.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AccountTest
      * @return UpdateAccountCommand alias
      */
 	protected UpdateAccountCommand generateUpdateCommand() {
-    UpdateAccountCommand command = new UpdateAccountCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateAccountCommand command = new UpdateAccountCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new AccountNumber(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  null,  null,  null,  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  AccountType.values()[0],  RegistrationType.values()[0],  AccountStatus.values()[0] );
 
     return( command );
 }

@@ -265,7 +265,7 @@ public class StandingInstructionTest
      * @return CreateStandingInstructionCommand alias
      */
 	protected CreateStandingInstructionCommand generateNewCommand() {
-    CreateStandingInstructionCommand command = new CreateStandingInstructionCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateStandingInstructionCommand command = new CreateStandingInstructionCommand( null,   new Date(),  new Money(),  new Boolean(true),  InstructionType.values()[0],  InstructionFrequency.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class StandingInstructionTest
      * @return UpdateStandingInstructionCommand alias
      */
 	protected UpdateStandingInstructionCommand generateUpdateCommand() {
-    UpdateStandingInstructionCommand command = new UpdateStandingInstructionCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateStandingInstructionCommand command = new UpdateStandingInstructionCommand( null,   new Date(),  new Money(),  new Boolean(true),  null,  null,  InstructionType.values()[0],  InstructionFrequency.values()[0] );
 
     return( command );
 }

@@ -12,11 +12,11 @@ resource "kubernetes_replication_controller" "app-master" {
     template {        
     template {
       container {
-        image = "${dbEngine}:latest"
+        image = "mysql:latest"
         name  = "db-container"
 
         port {
-          container_port = ${dbPort}
+          container_port = 3306
         }
 
         resources {
@@ -33,7 +33,7 @@ resource "kubernetes_replication_controller" "app-master" {
         name  = "app-container"
 
         port {
-          container_port =         }
+          container_port = 8081        }
         resources {
           requests {
             cpu    = "100m"

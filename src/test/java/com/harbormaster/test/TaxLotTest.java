@@ -265,7 +265,7 @@ public class TaxLotTest
      * @return CreateTaxLotCommand alias
      */
 	protected CreateTaxLotCommand generateNewCommand() {
-    CreateTaxLotCommand command = new CreateTaxLotCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateTaxLotCommand command = new CreateTaxLotCommand( null,   new Date(),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class TaxLotTest
      * @return UpdateTaxLotCommand alias
      */
 	protected UpdateTaxLotCommand generateUpdateCommand() {
-    UpdateTaxLotCommand command = new UpdateTaxLotCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateTaxLotCommand command = new UpdateTaxLotCommand( null,   new Date(),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO,  null );
 
     return( command );
 }

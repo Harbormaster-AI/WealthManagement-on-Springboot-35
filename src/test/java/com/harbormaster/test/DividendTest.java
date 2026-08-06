@@ -265,7 +265,7 @@ public class DividendTest
      * @return CreateDividendCommand alias
      */
 	protected CreateDividendCommand generateNewCommand() {
-    CreateDividendCommand command = new CreateDividendCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateDividendCommand command = new CreateDividendCommand( null,  new Money(),  new Money() );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class DividendTest
      * @return UpdateDividendCommand alias
      */
 	protected UpdateDividendCommand generateUpdateCommand() {
-    UpdateDividendCommand command = new UpdateDividendCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateDividendCommand command = new UpdateDividendCommand( null,  new Money(),  new Money(),  null );
 
     return( command );
 }

@@ -265,7 +265,7 @@ public class ResearchNoteTest
      * @return CreateResearchNoteCommand alias
      */
 	protected CreateResearchNoteCommand generateNewCommand() {
-    CreateResearchNoteCommand command = new CreateResearchNoteCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateResearchNoteCommand command = new CreateResearchNoteCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AnalystRating.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ResearchNoteTest
      * @return UpdateResearchNoteCommand alias
      */
 	protected UpdateResearchNoteCommand generateUpdateCommand() {
-    UpdateResearchNoteCommand command = new UpdateResearchNoteCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateResearchNoteCommand command = new UpdateResearchNoteCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  AnalystRating.values()[0] );
 
     return( command );
 }

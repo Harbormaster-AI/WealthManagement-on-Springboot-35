@@ -265,7 +265,7 @@ public class SecurityTest
      * @return CreateSecurityCommand alias
      */
 	protected CreateSecurityCommand generateNewCommand() {
-    CreateSecurityCommand command = new CreateSecurityCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateSecurityCommand command = new CreateSecurityCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new ISIN(),  new CUSIP(),  new Percentage(),  SecurityType.values()[0],  AssetClass.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class SecurityTest
      * @return UpdateSecurityCommand alias
      */
 	protected UpdateSecurityCommand generateUpdateCommand() {
-    UpdateSecurityCommand command = new UpdateSecurityCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateSecurityCommand command = new UpdateSecurityCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new ISIN(),  new CUSIP(),  new Percentage(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  SecurityType.values()[0],  AssetClass.values()[0] );
 
     return( command );
 }

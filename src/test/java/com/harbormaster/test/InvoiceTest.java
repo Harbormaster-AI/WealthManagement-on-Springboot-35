@@ -265,7 +265,7 @@ public class InvoiceTest
      * @return CreateInvoiceCommand alias
      */
 	protected CreateInvoiceCommand generateNewCommand() {
-    CreateInvoiceCommand command = new CreateInvoiceCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateInvoiceCommand command = new CreateInvoiceCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),   new Date(),  new Money(),  InvoiceStatus.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class InvoiceTest
      * @return UpdateInvoiceCommand alias
      */
 	protected UpdateInvoiceCommand generateUpdateCommand() {
-    UpdateInvoiceCommand command = new UpdateInvoiceCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateInvoiceCommand command = new UpdateInvoiceCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),   new Date(),  new Money(),  null,  new HashSet<>(),  null,  InvoiceStatus.values()[0] );
 
     return( command );
 }

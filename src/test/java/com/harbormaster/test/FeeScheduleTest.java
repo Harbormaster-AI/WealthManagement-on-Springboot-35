@@ -265,7 +265,7 @@ public class FeeScheduleTest
      * @return CreateFeeScheduleCommand alias
      */
 	protected CreateFeeScheduleCommand generateNewCommand() {
-    CreateFeeScheduleCommand command = new CreateFeeScheduleCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateFeeScheduleCommand command = new CreateFeeScheduleCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Percentage(),  new Money(),  FeeType.values()[0],  BillingMethod.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class FeeScheduleTest
      * @return UpdateFeeScheduleCommand alias
      */
 	protected UpdateFeeScheduleCommand generateUpdateCommand() {
-    UpdateFeeScheduleCommand command = new UpdateFeeScheduleCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateFeeScheduleCommand command = new UpdateFeeScheduleCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Percentage(),  new Money(),  new HashSet<>(),  new HashSet<>(),  FeeType.values()[0],  BillingMethod.values()[0] );
 
     return( command );
 }

@@ -265,7 +265,7 @@ public class ComplianceRuleTest
      * @return CreateComplianceRuleCommand alias
      */
 	protected CreateComplianceRuleCommand generateNewCommand() {
-    CreateComplianceRuleCommand command = new CreateComplianceRuleCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateComplianceRuleCommand command = new CreateComplianceRuleCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AlertSeverity.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ComplianceRuleTest
      * @return UpdateComplianceRuleCommand alias
      */
 	protected UpdateComplianceRuleCommand generateUpdateCommand() {
-    UpdateComplianceRuleCommand command = new UpdateComplianceRuleCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateComplianceRuleCommand command = new UpdateComplianceRuleCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  AlertSeverity.values()[0] );
 
     return( command );
 }

@@ -265,7 +265,7 @@ public class OrderAllocationTest
      * @return CreateOrderAllocationCommand alias
      */
 	protected CreateOrderAllocationCommand generateNewCommand() {
-    CreateOrderAllocationCommand command = new CreateOrderAllocationCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateOrderAllocationCommand command = new CreateOrderAllocationCommand( null,  new Percentage() );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class OrderAllocationTest
      * @return UpdateOrderAllocationCommand alias
      */
 	protected UpdateOrderAllocationCommand generateUpdateCommand() {
-    UpdateOrderAllocationCommand command = new UpdateOrderAllocationCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateOrderAllocationCommand command = new UpdateOrderAllocationCommand( null,  new Percentage(),  null,  null,  null );
 
     return( command );
 }

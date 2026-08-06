@@ -265,7 +265,7 @@ public class AdvisoryTeamTest
      * @return CreateAdvisoryTeamCommand alias
      */
 	protected CreateAdvisoryTeamCommand generateNewCommand() {
-    CreateAdvisoryTeamCommand command = new CreateAdvisoryTeamCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateAdvisoryTeamCommand command = new CreateAdvisoryTeamCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AdvisoryTeamTest
      * @return UpdateAdvisoryTeamCommand alias
      */
 	protected UpdateAdvisoryTeamCommand generateUpdateCommand() {
-    UpdateAdvisoryTeamCommand command = new UpdateAdvisoryTeamCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateAdvisoryTeamCommand command = new UpdateAdvisoryTeamCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>() );
 
     return( command );
 }

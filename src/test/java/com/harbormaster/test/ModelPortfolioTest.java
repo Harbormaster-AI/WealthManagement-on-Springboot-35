@@ -265,7 +265,7 @@ public class ModelPortfolioTest
      * @return CreateModelPortfolioCommand alias
      */
 	protected CreateModelPortfolioCommand generateNewCommand() {
-    CreateModelPortfolioCommand command = new CreateModelPortfolioCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateModelPortfolioCommand command = new CreateModelPortfolioCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  RiskToleranceLevel.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ModelPortfolioTest
      * @return UpdateModelPortfolioCommand alias
      */
 	protected UpdateModelPortfolioCommand generateUpdateCommand() {
-    UpdateModelPortfolioCommand command = new UpdateModelPortfolioCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateModelPortfolioCommand command = new UpdateModelPortfolioCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>(),  RiskToleranceLevel.values()[0] );
 
     return( command );
 }

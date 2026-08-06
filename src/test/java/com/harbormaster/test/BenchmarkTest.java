@@ -265,7 +265,7 @@ public class BenchmarkTest
      * @return CreateBenchmarkCommand alias
      */
 	protected CreateBenchmarkCommand generateNewCommand() {
-    CreateBenchmarkCommand command = new CreateBenchmarkCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateBenchmarkCommand command = new CreateBenchmarkCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  BenchmarkType.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class BenchmarkTest
      * @return UpdateBenchmarkCommand alias
      */
 	protected UpdateBenchmarkCommand generateUpdateCommand() {
-    UpdateBenchmarkCommand command = new UpdateBenchmarkCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateBenchmarkCommand command = new UpdateBenchmarkCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>(),  BenchmarkType.values()[0] );
 
     return( command );
 }

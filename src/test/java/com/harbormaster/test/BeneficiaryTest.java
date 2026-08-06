@@ -265,7 +265,7 @@ public class BeneficiaryTest
      * @return CreateBeneficiaryCommand alias
      */
 	protected CreateBeneficiaryCommand generateNewCommand() {
-    CreateBeneficiaryCommand command = new CreateBeneficiaryCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateBeneficiaryCommand command = new CreateBeneficiaryCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Percentage() );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class BeneficiaryTest
      * @return UpdateBeneficiaryCommand alias
      */
 	protected UpdateBeneficiaryCommand generateUpdateCommand() {
-    UpdateBeneficiaryCommand command = new UpdateBeneficiaryCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateBeneficiaryCommand command = new UpdateBeneficiaryCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Percentage(),  null,  new HashSet<>() );
 
     return( command );
 }

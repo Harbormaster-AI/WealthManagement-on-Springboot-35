@@ -265,7 +265,7 @@ public class HouseholdTest
      * @return CreateHouseholdCommand alias
      */
 	protected CreateHouseholdCommand generateNewCommand() {
-    CreateHouseholdCommand command = new CreateHouseholdCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateHouseholdCommand command = new CreateHouseholdCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class HouseholdTest
      * @return UpdateHouseholdCommand alias
      */
 	protected UpdateHouseholdCommand generateUpdateCommand() {
-    UpdateHouseholdCommand command = new UpdateHouseholdCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateHouseholdCommand command = new UpdateHouseholdCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>() );
 
     return( command );
 }

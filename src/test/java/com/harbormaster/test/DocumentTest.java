@@ -265,7 +265,7 @@ public class DocumentTest
      * @return CreateDocumentCommand alias
      */
 	protected CreateDocumentCommand generateNewCommand() {
-    CreateDocumentCommand command = new CreateDocumentCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateDocumentCommand command = new CreateDocumentCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  DocumentType.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class DocumentTest
      * @return UpdateDocumentCommand alias
      */
 	protected UpdateDocumentCommand generateUpdateCommand() {
-    UpdateDocumentCommand command = new UpdateDocumentCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateDocumentCommand command = new UpdateDocumentCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  null,  null,  null,  DocumentType.values()[0] );
 
     return( command );
 }

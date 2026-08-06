@@ -265,7 +265,7 @@ public class MeetingTest
      * @return CreateMeetingCommand alias
      */
 	protected CreateMeetingCommand generateNewCommand() {
-    CreateMeetingCommand command = new CreateMeetingCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateMeetingCommand command = new CreateMeetingCommand( null,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class MeetingTest
      * @return UpdateMeetingCommand alias
      */
 	protected UpdateMeetingCommand generateUpdateCommand() {
-    UpdateMeetingCommand command = new UpdateMeetingCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateMeetingCommand command = new UpdateMeetingCommand( null,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  new HashSet<>() );
 
     return( command );
 }

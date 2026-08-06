@@ -265,7 +265,7 @@ public class PerformanceReportTest
      * @return CreatePerformanceReportCommand alias
      */
 	protected CreatePerformanceReportCommand generateNewCommand() {
-    CreatePerformanceReportCommand command = new CreatePerformanceReportCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreatePerformanceReportCommand command = new CreatePerformanceReportCommand( null,   new Date(),   new Date(),  new Percentage(),  new Percentage(),  PerformanceFrequency.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class PerformanceReportTest
      * @return UpdatePerformanceReportCommand alias
      */
 	protected UpdatePerformanceReportCommand generateUpdateCommand() {
-    UpdatePerformanceReportCommand command = new UpdatePerformanceReportCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdatePerformanceReportCommand command = new UpdatePerformanceReportCommand( null,   new Date(),   new Date(),  new Percentage(),  new Percentage(),  null,  null,  PerformanceFrequency.values()[0] );
 
     return( command );
 }

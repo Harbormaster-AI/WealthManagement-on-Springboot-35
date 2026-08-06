@@ -11,7 +11,7 @@ LABEL com.harbormaster.generated="2026-08-06"
 RUN addgroup -S spring && adduser -S -G spring spring
 USER spring:spring
 
-ARG JAR_FILE_RELATIVE_LOCATION=#jarFileRelativeLocation()
+ARG JAR_FILE_RELATIVE_LOCATION=.
 ARG JAR_FILE=${JAR_FILE_RELATIVE_LOCATION}/*.jar
 
 COPY ${JAR_FILE} app.jar

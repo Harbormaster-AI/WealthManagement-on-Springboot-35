@@ -265,7 +265,7 @@ public class PortfolioTest
      * @return CreatePortfolioCommand alias
      */
 	protected CreatePortfolioCommand generateNewCommand() {
-    CreatePortfolioCommand command = new CreatePortfolioCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreatePortfolioCommand command = new CreatePortfolioCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  PortfolioType.values()[0],  RebalanceFrequency.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class PortfolioTest
      * @return UpdatePortfolioCommand alias
      */
 	protected UpdatePortfolioCommand generateUpdateCommand() {
-    UpdatePortfolioCommand command = new UpdatePortfolioCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdatePortfolioCommand command = new UpdatePortfolioCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  null,  null,  null,  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  PortfolioType.values()[0],  RebalanceFrequency.values()[0] );
 
     return( command );
 }

@@ -265,7 +265,7 @@ public class ProposalTest
      * @return CreateProposalCommand alias
      */
 	protected CreateProposalCommand generateNewCommand() {
-    CreateProposalCommand command = new CreateProposalCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateProposalCommand command = new CreateProposalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  ProposalStatus.values()[0],  RiskToleranceLevel.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ProposalTest
      * @return UpdateProposalCommand alias
      */
 	protected UpdateProposalCommand generateUpdateCommand() {
-    UpdateProposalCommand command = new UpdateProposalCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateProposalCommand command = new UpdateProposalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  null,  ProposalStatus.values()[0],  RiskToleranceLevel.values()[0] );
 
     return( command );
 }

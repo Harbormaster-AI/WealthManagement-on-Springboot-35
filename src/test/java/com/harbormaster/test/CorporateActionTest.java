@@ -265,7 +265,7 @@ public class CorporateActionTest
      * @return CreateCorporateActionCommand alias
      */
 	protected CreateCorporateActionCommand generateNewCommand() {
-    CreateCorporateActionCommand command = new CreateCorporateActionCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateCorporateActionCommand command = new CreateCorporateActionCommand( null,   new Date(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  CorporateActionType.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class CorporateActionTest
      * @return UpdateCorporateActionCommand alias
      */
 	protected UpdateCorporateActionCommand generateUpdateCommand() {
-    UpdateCorporateActionCommand command = new UpdateCorporateActionCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateCorporateActionCommand command = new UpdateCorporateActionCommand( null,   new Date(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  CorporateActionType.values()[0] );
 
     return( command );
 }

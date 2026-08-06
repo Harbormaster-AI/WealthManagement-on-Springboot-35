@@ -265,7 +265,7 @@ public class WealthGoalTest
      * @return CreateWealthGoalCommand alias
      */
 	protected CreateWealthGoalCommand generateNewCommand() {
-    CreateWealthGoalCommand command = new CreateWealthGoalCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateWealthGoalCommand command = new CreateWealthGoalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),   new Date(),  0,  GoalType.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class WealthGoalTest
      * @return UpdateWealthGoalCommand alias
      */
 	protected UpdateWealthGoalCommand generateUpdateCommand() {
-    UpdateWealthGoalCommand command = new UpdateWealthGoalCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateWealthGoalCommand command = new UpdateWealthGoalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),   new Date(),  0,  null,  null,  null,  GoalType.values()[0] );
 
     return( command );
 }

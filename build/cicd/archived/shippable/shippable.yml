@@ -1,8 +1,17 @@
-#Shippable_Language_Declaration()
+language: java
 
-#Shippable_EnvVar_Declarations()
+jdk:
+  - oraclejdk8
+
+env:
+  - DATABASE_USERNAME=shippable DATABASE_PASSWORD= DATABASE_DIALECT=org.hibernate.dialect.MySQL8Dialect DATABASE_DRIVER=com.mysql.cj.jdbc.Driver
 
 build:
-#Shippable_Cache()
-#Shippable_CI()
-#Shippable_Services()
+  cache: true
+  ci:
+    - mysql -e "CREATE USER shippable@localhost IDENTIFIED BY ''; GRANT ALL ON *.* TO shippable@localhost; FLUSH PRIVILEGES;"
+    - mvn test
+    - mkdir -p shippable/testresults
+    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} shippable/testresults/ \;
+services:
+  - mysql    

@@ -265,7 +265,7 @@ public class MarketPriceTest
      * @return CreateMarketPriceCommand alias
      */
 	protected CreateMarketPriceCommand generateNewCommand() {
-    CreateMarketPriceCommand command = new CreateMarketPriceCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateMarketPriceCommand command = new CreateMarketPriceCommand( null,  new Money(),   new Date(),  PricingSourceType.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class MarketPriceTest
      * @return UpdateMarketPriceCommand alias
      */
 	protected UpdateMarketPriceCommand generateUpdateCommand() {
-    UpdateMarketPriceCommand command = new UpdateMarketPriceCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateMarketPriceCommand command = new UpdateMarketPriceCommand( null,  new Money(),   new Date(),  null,  PricingSourceType.values()[0] );
 
     return( command );
 }

@@ -265,7 +265,7 @@ public class TransactionTest
      * @return CreateTransactionCommand alias
      */
 	protected CreateTransactionCommand generateNewCommand() {
-    CreateTransactionCommand command = new CreateTransactionCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateTransactionCommand command = new CreateTransactionCommand( null,   new Date(),   new Date(),  new Money(),  java.math.BigDecimal.ZERO,  TransactionType.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class TransactionTest
      * @return UpdateTransactionCommand alias
      */
 	protected UpdateTransactionCommand generateUpdateCommand() {
-    UpdateTransactionCommand command = new UpdateTransactionCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateTransactionCommand command = new UpdateTransactionCommand( null,   new Date(),   new Date(),  new Money(),  java.math.BigDecimal.ZERO,  null,  null,  null,  null,  TransactionType.values()[0] );
 
     return( command );
 }

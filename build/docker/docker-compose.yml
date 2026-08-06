@@ -11,7 +11,7 @@ services:
   platform:
     image: theharbormaster/WealthManagement-on-springboot-35:latest
     ports:
-      - ":"
+      - "8081:8081"
     depends_on:
       - db
     links:

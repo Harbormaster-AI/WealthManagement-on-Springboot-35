@@ -265,7 +265,7 @@ public class TradeTest
      * @return CreateTradeCommand alias
      */
 	protected CreateTradeCommand generateNewCommand() {
-    CreateTradeCommand command = new CreateTradeCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    CreateTradeCommand command = new CreateTradeCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),  java.math.BigDecimal.ZERO,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  TradeStatus.values()[0] );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class TradeTest
      * @return UpdateTradeCommand alias
      */
 	protected UpdateTradeCommand generateUpdateCommand() {
-    UpdateTradeCommand command = new UpdateTradeCommand( #determineDefaultArgs( ${includeAssociations} ) );
+    UpdateTradeCommand command = new UpdateTradeCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),  java.math.BigDecimal.ZERO,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  null,  TradeStatus.values()[0] );
 
     return( command );
 }

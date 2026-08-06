@@ -255,14 +255,14 @@ public class ComplianceAlertEntityProjector implements EntityProjector<Complianc
      * Assign a Order
      * 
      * @param	parentId	UUID
-     * @param	assignment 	Order 
+     * @param	assignment 	Order_ 
      * @return	ComplianceAlert
      */
-    public ComplianceAlert assignOrder( UUID parentId, Order assignment ) {
+    public ComplianceAlert assignOrder( UUID parentId, Order_ assignment ) {
 	    LOGGER.info("assigning Order as " + assignment.toString() );
 
 	    ComplianceAlert parentEntity = repository.findById( parentId ).get();
-	    assignment = registry.project( Order.class, assignment.getOrderId());
+	    assignment = registry.project( Order_.class, assignment.getOrder_Id());
 
 	    // ------------------------------------------
 		// assign the Order to the parent entity

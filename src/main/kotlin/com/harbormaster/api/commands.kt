@@ -900,7 +900,7 @@ data class UpdateTransactionCommand(
     var quantity: java.math.BigDecimal? = null,
     var account: Account? = null,
     var security: Security? = null,
-    var order: Order? = null,
+    var order: Order_? = null,
     var position: Position? = null,
     @Enumerated(EnumType.STRING) var transactionType: TransactionType? = null
 )
@@ -912,7 +912,7 @@ data class AssignAccountToTransactionCommand(@Id  val transactionId: UUID, val a
 data class UnAssignAccountFromTransactionCommand(@Id  val transactionId: UUID )
 data class AssignSecurityToTransactionCommand(@Id  val transactionId: UUID, val assignment: Security )
 data class UnAssignSecurityFromTransactionCommand(@Id  val transactionId: UUID )
-data class AssignOrderToTransactionCommand(@Id  val transactionId: UUID, val assignment: Order )
+data class AssignOrderToTransactionCommand(@Id  val transactionId: UUID, val assignment: Order_ )
 data class UnAssignOrderFromTransactionCommand(@Id  val transactionId: UUID )
 data class AssignPositionToTransactionCommand(@Id  val transactionId: UUID, val assignment: Position )
 data class UnAssignPositionFromTransactionCommand(@Id  val transactionId: UUID )
@@ -920,9 +920,9 @@ data class UnAssignPositionFromTransactionCommand(@Id  val transactionId: UUID )
 // multiple association commands
 
 
-// Order Commands
-data class CreateOrderCommand(
-    @Id var orderId: UUID? = null,
+// Order_ Commands
+data class CreateOrder_Command(
+    @Id var order_Id: UUID? = null,
     var orderNumber: String? = null,
     var quantity: java.math.BigDecimal? = null,
     var limitPrice: java.math.BigDecimal? = null,
@@ -933,8 +933,8 @@ data class CreateOrderCommand(
     @Enumerated(EnumType.STRING) var status: OrderStatus? = null
 )
 
-data class UpdateOrderCommand(
-    @Id var orderId: UUID? = null,
+data class UpdateOrder_Command(
+    @Id var order_Id: UUID? = null,
     var orderNumber: String? = null,
     var quantity: java.math.BigDecimal? = null,
     var limitPrice: java.math.BigDecimal? = null,
@@ -950,21 +950,21 @@ data class UpdateOrderCommand(
     @Enumerated(EnumType.STRING) var status: OrderStatus? = null
 )
 
-data class DeleteOrderCommand(@Id  var orderId: UUID? = null)
+data class DeleteOrder_Command(@Id  var order_Id: UUID? = null)
 
 // single association commands
-data class AssignAccountToOrderCommand(@Id  val orderId: UUID, val assignment: Account )
-data class UnAssignAccountFromOrderCommand(@Id  val orderId: UUID )
-data class AssignSecurityToOrderCommand(@Id  val orderId: UUID, val assignment: Security )
-data class UnAssignSecurityFromOrderCommand(@Id  val orderId: UUID )
-data class AssignAdvisorToOrderCommand(@Id  val orderId: UUID, val assignment: Advisor )
-data class UnAssignAdvisorFromOrderCommand(@Id  val orderId: UUID )
+data class AssignAccountToOrder_Command(@Id  val order_Id: UUID, val assignment: Account )
+data class UnAssignAccountFromOrder_Command(@Id  val order_Id: UUID )
+data class AssignSecurityToOrder_Command(@Id  val order_Id: UUID, val assignment: Security )
+data class UnAssignSecurityFromOrder_Command(@Id  val order_Id: UUID )
+data class AssignAdvisorToOrder_Command(@Id  val order_Id: UUID, val assignment: Advisor )
+data class UnAssignAdvisorFromOrder_Command(@Id  val order_Id: UUID )
 
 // multiple association commands
-data class AssignAllocationsToOrderCommand(@Id  val orderId: UUID, val addTo: OrderAllocation )
-data class RemoveAllocationsFromOrderCommand(@Id  val orderId: UUID, val removeFrom: OrderAllocation )
-data class AssignTradesToOrderCommand(@Id  val orderId: UUID, val addTo: Trade )
-data class RemoveTradesFromOrderCommand(@Id  val orderId: UUID, val removeFrom: Trade )
+data class AssignAllocationsToOrder_Command(@Id  val order_Id: UUID, val addTo: OrderAllocation )
+data class RemoveAllocationsFromOrder_Command(@Id  val order_Id: UUID, val removeFrom: OrderAllocation )
+data class AssignTradesToOrder_Command(@Id  val order_Id: UUID, val addTo: Trade )
+data class RemoveTradesFromOrder_Command(@Id  val order_Id: UUID, val removeFrom: Trade )
 
 
 // OrderAllocation Commands
@@ -982,7 +982,7 @@ data class UpdateOrderAllocationCommand(
       AttributeOverride( name = "value", column = Column(name = "allocationPercent_value"))
     )
     var allocationPercent: Percentage? = null,
-    var order: Order? = null,
+    var order: Order_? = null,
     var account: Account? = null,
     var portfolio: Portfolio? = null
 )
@@ -990,7 +990,7 @@ data class UpdateOrderAllocationCommand(
 data class DeleteOrderAllocationCommand(@Id  var orderAllocationId: UUID? = null)
 
 // single association commands
-data class AssignOrderToOrderAllocationCommand(@Id  val orderAllocationId: UUID, val assignment: Order )
+data class AssignOrderToOrderAllocationCommand(@Id  val orderAllocationId: UUID, val assignment: Order_ )
 data class UnAssignOrderFromOrderAllocationCommand(@Id  val orderAllocationId: UUID )
 data class AssignAccountToOrderAllocationCommand(@Id  val orderAllocationId: UUID, val assignment: Account )
 data class UnAssignAccountFromOrderAllocationCommand(@Id  val orderAllocationId: UUID )
@@ -1026,7 +1026,7 @@ data class UpdateTradeCommand(
     var executedQuantity: java.math.BigDecimal? = null,
     var tradeDate:  Date? = null,
     var venue: String? = null,
-    var order: Order? = null,
+    var order: Order_? = null,
     var account: Account? = null,
     var security: Security? = null,
     var transaction: Transaction? = null,
@@ -1036,7 +1036,7 @@ data class UpdateTradeCommand(
 data class DeleteTradeCommand(@Id  var tradeId: UUID? = null)
 
 // single association commands
-data class AssignOrderToTradeCommand(@Id  val tradeId: UUID, val assignment: Order )
+data class AssignOrderToTradeCommand(@Id  val tradeId: UUID, val assignment: Order_ )
 data class UnAssignOrderFromTradeCommand(@Id  val tradeId: UUID )
 data class AssignAccountToTradeCommand(@Id  val tradeId: UUID, val assignment: Account )
 data class UnAssignAccountFromTradeCommand(@Id  val tradeId: UUID )
@@ -1060,7 +1060,7 @@ data class UpdateRebalancePlanCommand(
     @Id var rebalancePlanId: UUID? = null,
     var planDate:  Date? = null,
     var portfolio: Portfolio? = null,
-    var proposedOrders:  Set<Order>? = null,
+    var proposedOrders:  Set<Order_>? = null,
     var advisor: Advisor? = null,
     @Enumerated(EnumType.STRING) var status: RebalanceStatus? = null,
     @Enumerated(EnumType.STRING) var method: RebalanceMethod? = null
@@ -1075,8 +1075,8 @@ data class AssignAdvisorToRebalancePlanCommand(@Id  val rebalancePlanId: UUID, v
 data class UnAssignAdvisorFromRebalancePlanCommand(@Id  val rebalancePlanId: UUID )
 
 // multiple association commands
-data class AssignProposedOrdersToRebalancePlanCommand(@Id  val rebalancePlanId: UUID, val addTo: Order )
-data class RemoveProposedOrdersFromRebalancePlanCommand(@Id  val rebalancePlanId: UUID, val removeFrom: Order )
+data class AssignProposedOrdersToRebalancePlanCommand(@Id  val rebalancePlanId: UUID, val addTo: Order_ )
+data class RemoveProposedOrdersFromRebalancePlanCommand(@Id  val rebalancePlanId: UUID, val removeFrom: Order_ )
 
 
 // PerformanceReport Commands
@@ -1412,7 +1412,7 @@ data class UpdateComplianceAlertCommand(
     var message: String? = null,
     var rule: ComplianceRule? = null,
     var account: Account? = null,
-    var order: Order? = null,
+    var order: Order_? = null,
     var advisor: Advisor? = null,
     @Enumerated(EnumType.STRING) var status: ComplianceStatus? = null,
     @Enumerated(EnumType.STRING) var severity: AlertSeverity? = null
@@ -1425,7 +1425,7 @@ data class AssignRuleToComplianceAlertCommand(@Id  val complianceAlertId: UUID, 
 data class UnAssignRuleFromComplianceAlertCommand(@Id  val complianceAlertId: UUID )
 data class AssignAccountToComplianceAlertCommand(@Id  val complianceAlertId: UUID, val assignment: Account )
 data class UnAssignAccountFromComplianceAlertCommand(@Id  val complianceAlertId: UUID )
-data class AssignOrderToComplianceAlertCommand(@Id  val complianceAlertId: UUID, val assignment: Order )
+data class AssignOrderToComplianceAlertCommand(@Id  val complianceAlertId: UUID, val assignment: Order_ )
 data class UnAssignOrderFromComplianceAlertCommand(@Id  val complianceAlertId: UUID )
 data class AssignAdvisorToComplianceAlertCommand(@Id  val complianceAlertId: UUID, val assignment: Advisor )
 data class UnAssignAdvisorFromComplianceAlertCommand(@Id  val complianceAlertId: UUID )

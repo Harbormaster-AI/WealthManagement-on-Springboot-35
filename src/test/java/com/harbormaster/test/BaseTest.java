@@ -69,7 +69,7 @@ public class BaseTest
 		    new PositionTest(context.getBean(PositionService.class)).setHandler(logHandler).testCRUD();
 		    new TaxLotTest(context.getBean(TaxLotService.class)).setHandler(logHandler).testCRUD();
 		    new TransactionTest(context.getBean(TransactionService.class)).setHandler(logHandler).testCRUD();
-		    new OrderTest(context.getBean(OrderService.class)).setHandler(logHandler).testCRUD();
+		    new Order_Test(context.getBean(Order_Service.class)).setHandler(logHandler).testCRUD();
 		    new OrderAllocationTest(context.getBean(OrderAllocationService.class)).setHandler(logHandler).testCRUD();
 		    new TradeTest(context.getBean(TradeService.class)).setHandler(logHandler).testCRUD();
 		    new RebalancePlanTest(context.getBean(RebalancePlanService.class)).setHandler(logHandler).testCRUD();

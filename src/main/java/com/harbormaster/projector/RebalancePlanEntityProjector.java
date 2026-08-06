@@ -259,11 +259,11 @@ public class RebalancePlanEntityProjector implements EntityProjector<RebalancePl
      * @param	addTo		childType
      * @return	RebalancePlan
      */
-    public RebalancePlan addToProposedOrders( UUID parentId, Order addTo ) {
+    public RebalancePlan addToProposedOrders( UUID parentId, Order_ addTo ) {
 	    LOGGER.info("handling AssignProposedOrdersToRebalancePlanEvent - " );
 	    
 	    RebalancePlan parentEntity = repository.findById(parentId).get();
-	    Order child = registry.project( Order.class, addTo.getOrderId());
+	    Order_ child = registry.project( Order_.class, addTo.getOrder_Id());
 	    
 	    parentEntity.getProposedOrders().add( child );
 
@@ -283,11 +283,11 @@ public class RebalancePlanEntityProjector implements EntityProjector<RebalancePl
      * @param	removeFrom	childType
      * @return	RebalancePlan
      */
-	public RebalancePlan removeFromProposedOrders( UUID parentId, Order removeFrom ) {
+	public RebalancePlan removeFromProposedOrders( UUID parentId, Order_ removeFrom ) {
 	    LOGGER.info("handling RemoveProposedOrdersFromRebalancePlanEvent " );
 	
 	    RebalancePlan parentEntity = repository.findById(parentId).get();
-	    Order child = registry.project( Order.class, removeFrom.getOrderId());
+	    Order_ child = registry.project( Order_.class, removeFrom.getOrder_Id());
 	    
 	    parentEntity.getProposedOrders().remove( child );
 	

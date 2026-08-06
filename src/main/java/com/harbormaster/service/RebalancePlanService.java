@@ -302,7 +302,7 @@ public class RebalancePlanService
 	
 
 	/**
-	 * add Order to ProposedOrders
+	 * add Order_ to ProposedOrders
 	 * @param		command AssignProposedOrdersToRebalancePlanCommand
 	 */
 	public void addToProposedOrders( AssignProposedOrdersToRebalancePlanCommand command ) {
@@ -319,7 +319,7 @@ public class RebalancePlanService
 	}
 
 	/**
-	 * remove Order from ProposedOrders
+	 * remove Order_ from ProposedOrders
 	 * @param		command RemoveProposedOrdersFromRebalancePlanCommand
 	 */
 	public void removeFromProposedOrders( RemoveProposedOrdersFromRebalancePlanCommand command )  {

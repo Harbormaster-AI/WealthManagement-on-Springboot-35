@@ -43,10 +43,10 @@ import com.harbormaster.exception.*;
 import com.harbormaster.repository.*;
 
 /**
- * <h2>TransactionEntity Projector</h2>
+ * <h2>Order_Entity Projector</h2>
  * <p>
- * The Transaction Entity Projector is responsible for maintaining the write model for
- * Transaction entities. It subscribes to domain events published by the Transaction
+ * The Order_ Entity Projector is responsible for maintaining the write model for
+ * Order_ entities. It subscribes to domain events published by the Order_
  * Aggregate and updates query-optimized projections used by REST APIs,
  * dashboards, and reporting services.
  * </p>
@@ -77,33 +77,33 @@ import com.harbormaster.repository.*;
  * <h3>Services Used</h3>
  *
  *      <ul>
- *          <li>TransactionRepository</li>
+ *          <li>Order_Repository</li>
  *          <li>ProjectorRegistry</li>
  *      </ul>
  *
  * <p>@author Harbormaster Dev Team</p>
  */
-@Component("transaction-entity-projector")
-public class TransactionEntityProjector implements EntityProjector<Transaction>{
+@Component("order_-entity-projector")
+public class Order_EntityProjector implements EntityProjector<Order_>{
 		
 	// core constructor
-	public TransactionEntityProjector(ProjectorRegistry registry,
-										TransactionRepository repository ) {
+	public Order_EntityProjector(ProjectorRegistry registry,
+										Order_Repository repository ) {
         this.registry 	= registry;
 		this.repository = repository;
     }
 
 	@Override
-	public Class<Transaction> getEntityClass() {
-		return Transaction.class;
+	public Class<Order_> getEntityClass() {
+		return Order_.class;
 	}
 
     /*
-	 * Insert a Transaction
+	 * Insert a Order_
 	 * 
-     * @param	entity Transaction
+     * @param	entity Order_
      */
-    public Transaction create( Transaction entity) {
+    public Order_ create( Order_ entity) {
 	    LOGGER.info("creating " + entity.toString() );
 	   
     	// ------------------------------------------
@@ -114,11 +114,11 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
     }
 
 	/*
-	 * Update a Transaction
+	 * Update a Order_
 	 * 
-     * @param	entity Transaction
+     * @param	entity Order_
      */
-    public Transaction update( Transaction entity) {
+    public Order_ update( Order_ entity) {
 	    LOGGER.info("updating " + entity.toString() );
 
 	    // ------------------------------------------
@@ -129,17 +129,17 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
     }
     
 	/*
-	 * Delete a Transaction
+	 * Delete a Order_
 	 * 
      * @param	id		UUID
      */
-    public Transaction delete( UUID id ) {
+    public Order_ delete( UUID id ) {
 	    LOGGER.info("deleting " + id.toString() );
 
     	// ------------------------------------------
     	// locate the entity by the provided id
     	// ------------------------------------------
-	    Transaction entity = repository.findById(id).get();
+	    Order_ entity = repository.findById(id).get();
 	    
     	// ------------------------------------------
     	// delete what is discovered 
@@ -154,12 +154,12 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
      * 
      * @param	parentId	UUID
      * @param	assignment 	Account 
-     * @return	Transaction
+     * @return	Order_
      */
-    public Transaction assignAccount( UUID parentId, Account assignment ) {
+    public Order_ assignAccount( UUID parentId, Account assignment ) {
 	    LOGGER.info("assigning Account as " + assignment.toString() );
 
-	    Transaction parentEntity = repository.findById( parentId ).get();
+	    Order_ parentEntity = repository.findById( parentId ).get();
 	    assignment = registry.project( Account.class, assignment.getAccountId());
 
 	    // ------------------------------------------
@@ -180,10 +180,10 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
 	 * Unassign the Account
 	 * 
 	 * @param	parentId		UUID
-	 * @return	Transaction
+	 * @return	Order_
 	 */
-	public Transaction unAssignAccount( UUID parentId ) {
-		Transaction parentEntity = repository.findById(parentId).get();
+	public Order_ unAssignAccount( UUID parentId ) {
+		Order_ parentEntity = repository.findById(parentId).get();
 
 		LOGGER.info("unAssigning Account on " + parentEntity.toString() );
 		
@@ -205,12 +205,12 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
      * 
      * @param	parentId	UUID
      * @param	assignment 	Security 
-     * @return	Transaction
+     * @return	Order_
      */
-    public Transaction assignSecurity( UUID parentId, Security assignment ) {
+    public Order_ assignSecurity( UUID parentId, Security assignment ) {
 	    LOGGER.info("assigning Security as " + assignment.toString() );
 
-	    Transaction parentEntity = repository.findById( parentId ).get();
+	    Order_ parentEntity = repository.findById( parentId ).get();
 	    assignment = registry.project( Security.class, assignment.getSecurityId());
 
 	    // ------------------------------------------
@@ -231,10 +231,10 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
 	 * Unassign the Security
 	 * 
 	 * @param	parentId		UUID
-	 * @return	Transaction
+	 * @return	Order_
 	 */
-	public Transaction unAssignSecurity( UUID parentId ) {
-		Transaction parentEntity = repository.findById(parentId).get();
+	public Order_ unAssignSecurity( UUID parentId ) {
+		Order_ parentEntity = repository.findById(parentId).get();
 
 		LOGGER.info("unAssigning Security on " + parentEntity.toString() );
 		
@@ -252,22 +252,22 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
 	}
 
     /*
-     * Assign a Order
+     * Assign a Advisor
      * 
      * @param	parentId	UUID
-     * @param	assignment 	Order_ 
-     * @return	Transaction
+     * @param	assignment 	Advisor 
+     * @return	Order_
      */
-    public Transaction assignOrder( UUID parentId, Order_ assignment ) {
-	    LOGGER.info("assigning Order as " + assignment.toString() );
+    public Order_ assignAdvisor( UUID parentId, Advisor assignment ) {
+	    LOGGER.info("assigning Advisor as " + assignment.toString() );
 
-	    Transaction parentEntity = repository.findById( parentId ).get();
-	    assignment = registry.project( Order_.class, assignment.getOrder_Id());
+	    Order_ parentEntity = repository.findById( parentId ).get();
+	    assignment = registry.project( Advisor.class, assignment.getAdvisorId());
 
 	    // ------------------------------------------
-		// assign the Order to the parent entity
+		// assign the Advisor to the parent entity
 		// ------------------------------------------ 
-	    parentEntity.setOrder( assignment );
+	    parentEntity.setAdvisor( assignment );
 
 	    // ------------------------------------------
     	// save the parent entity
@@ -279,49 +279,94 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
     
 
 	/*
-	 * Unassign the Order
+	 * Unassign the Advisor
 	 * 
 	 * @param	parentId		UUID
-	 * @return	Transaction
+	 * @return	Order_
 	 */
-	public Transaction unAssignOrder( UUID parentId ) {
-		Transaction parentEntity = repository.findById(parentId).get();
+	public Order_ unAssignAdvisor( UUID parentId ) {
+		Order_ parentEntity = repository.findById(parentId).get();
 
-		LOGGER.info("unAssigning Order on " + parentEntity.toString() );
+		LOGGER.info("unAssigning Advisor on " + parentEntity.toString() );
 		
 	    // ------------------------------------------
-		// null out the Order on the parent entithy
+		// null out the Advisor on the parent entithy
 		// ------------------------------------------     
-	    parentEntity.setOrder(null);
+	    parentEntity.setAdvisor(null);
 
 	    // ------------------------------------------
 		// save the parent entity
 		// ------------------------------------------ 
 	    repository.save(parentEntity);
     
+	    return parentEntity;
+	}
+
+
+    /*
+     * Add to the Allocations
+     * 
+     * @param	parentID	UUID
+     * @param	addTo		childType
+     * @return	Order_
+     */
+    public Order_ addToAllocations( UUID parentId, OrderAllocation addTo ) {
+	    LOGGER.info("handling AssignAllocationsToOrder_Event - " );
+	    
+	    Order_ parentEntity = repository.findById(parentId).get();
+	    OrderAllocation child = registry.project( OrderAllocation.class, addTo.getOrderAllocationId());
+	    
+	    parentEntity.getAllocations().add( child );
+
+	    // ------------------------------------------
+    	// save 
+    	// ------------------------------------------ 
+	    repository.save(parentEntity);
+        
+	    return parentEntity;
+    }
+    
+
+    /*
+     * Remove from the Allocations
+     * 
+     * @param	parentID	UUID
+     * @param	removeFrom	childType
+     * @return	Order_
+     */
+	public Order_ removeFromAllocations( UUID parentId, OrderAllocation removeFrom ) {
+	    LOGGER.info("handling RemoveAllocationsFromOrder_Event " );
+	
+	    Order_ parentEntity = repository.findById(parentId).get();
+	    OrderAllocation child = registry.project( OrderAllocation.class, removeFrom.getOrderAllocationId());
+	    
+	    parentEntity.getAllocations().remove( child );
+	
+	    // ------------------------------------------
+		// save
+		// ------------------------------------------ 
+	    update(parentEntity);
+	    
 	    return parentEntity;
 	}
 
     /*
-     * Assign a Position
+     * Add to the Trades
      * 
-     * @param	parentId	UUID
-     * @param	assignment 	Position 
-     * @return	Transaction
+     * @param	parentID	UUID
+     * @param	addTo		childType
+     * @return	Order_
      */
-    public Transaction assignPosition( UUID parentId, Position assignment ) {
-	    LOGGER.info("assigning Position as " + assignment.toString() );
-
-	    Transaction parentEntity = repository.findById( parentId ).get();
-	    assignment = registry.project( Position.class, assignment.getPositionId());
-
-	    // ------------------------------------------
-		// assign the Position to the parent entity
-		// ------------------------------------------ 
-	    parentEntity.setPosition( assignment );
+    public Order_ addToTrades( UUID parentId, Trade addTo ) {
+	    LOGGER.info("handling AssignTradesToOrder_Event - " );
+	    
+	    Order_ parentEntity = repository.findById(parentId).get();
+	    Trade child = registry.project( Trade.class, addTo.getTradeId());
+	    
+	    parentEntity.getTrades().add( child );
 
 	    // ------------------------------------------
-    	// save the parent entity
+    	// save 
     	// ------------------------------------------ 
 	    repository.save(parentEntity);
         
@@ -329,63 +374,61 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
     }
     
 
-	/*
-	 * Unassign the Position
-	 * 
-	 * @param	parentId		UUID
-	 * @return	Transaction
-	 */
-	public Transaction unAssignPosition( UUID parentId ) {
-		Transaction parentEntity = repository.findById(parentId).get();
-
-		LOGGER.info("unAssigning Position on " + parentEntity.toString() );
-		
+    /*
+     * Remove from the Trades
+     * 
+     * @param	parentID	UUID
+     * @param	removeFrom	childType
+     * @return	Order_
+     */
+	public Order_ removeFromTrades( UUID parentId, Trade removeFrom ) {
+	    LOGGER.info("handling RemoveTradesFromOrder_Event " );
+	
+	    Order_ parentEntity = repository.findById(parentId).get();
+	    Trade child = registry.project( Trade.class, removeFrom.getTradeId());
+	    
+	    parentEntity.getTrades().remove( child );
+	
 	    // ------------------------------------------
-		// null out the Position on the parent entithy
-		// ------------------------------------------     
-	    parentEntity.setPosition(null);
-
-	    // ------------------------------------------
-		// save the parent entity
+		// save
 		// ------------------------------------------ 
-	    repository.save(parentEntity);
-    
+	    update(parentEntity);
+	    
 	    return parentEntity;
 	}
 
 
 
-
     /**
-     * Method to retrieve the Transaction via an FindTransactionQuery
-     * @return 	query	FindTransactionQuery
+     * Method to retrieve the Order_ via an FindOrder_Query
+     * @return 	query	FindOrder_Query
      */
     @SuppressWarnings("unused")
-    public Transaction find( UUID id ) {
+    public Order_ find( UUID id ) {
     	LOGGER.info("handling find using " + id.toString() );
     	try {
     		return repository.findById(id).get();
     	}
     	catch( IllegalArgumentException exc ) {
-    		LOGGER.warn( "Failed to find a Transaction - {0}", exc.getMessage() );
+    		LOGGER.warn( "Failed to find a Order_ - {0}", exc.getMessage() );
     	}
     	return null;
     }
     
     /**
-     * Method to retrieve a collection of all Transactions
+     * Method to retrieve a collection of all Order_s
      *
-     * @param	query	FindAllTransactionQuery 
-     * @return 	List<Transaction> 
+     * @param	query	FindAllOrder_Query 
+     * @return 	List<Order_> 
      */
     @SuppressWarnings("unused")
-    public List<Transaction> findAll( FindAllTransactionQuery query ) {
+    public List<Order_> findAll( FindAllOrder_Query query ) {
     	LOGGER.info("handling findAll using " + query.toString() );
     	try {
     		return repository.findAll();
     	}
     	catch( IllegalArgumentException exc ) {
-    		LOGGER.warn( "Failed to find all Transaction - {0}", exc.getMessage() );
+    		LOGGER.warn( "Failed to find all Order_ - {0}", exc.getMessage() );
     	}
     	return null;
     }
@@ -395,10 +438,10 @@ public class TransactionEntityProjector implements EntityProjector<Transaction>{
     // attributes
     // --------------------------------------------------
 	@Autowired
-    protected final TransactionRepository repository;
+    protected final Order_Repository repository;
 	protected final ProjectorRegistry registry;
 
 
-    private static final Logger LOGGER 	= LoggerFactory.getLogger(TransactionEntityProjector.class.getName());
+    private static final Logger LOGGER 	= LoggerFactory.getLogger(Order_EntityProjector.class.getName());
 
 }

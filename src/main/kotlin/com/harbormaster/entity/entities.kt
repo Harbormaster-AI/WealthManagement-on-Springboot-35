@@ -361,14 +361,14 @@ data class Transaction(
     var quantity: java.math.BigDecimal? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "account") var account: Account? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "security") var security: Security? = null,
-    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "order") var order: Order? = null,
+    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "order") var order: Order_? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "position") var position: Position? = null,
     @Enumerated(EnumType.STRING) var transactionType: TransactionType? = null
 )
 
 @Entity
-data class Order(
-    @Id var orderId: UUID? = null,
+data class Order_(
+    @Id var order_Id: UUID? = null,
     var orderNumber: String? = null,
     var quantity: java.math.BigDecimal? = null,
     var limitPrice: java.math.BigDecimal? = null,
@@ -391,7 +391,7 @@ data class OrderAllocation(
       AttributeOverride( name = "value", column = Column(name = "allocationPercent_value"))
     )
     var allocationPercent: Percentage? = null,
-    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "order") var order: Order? = null,
+    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "order") var order: Order_? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "account") var account: Account? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "portfolio") var portfolio: Portfolio? = null
 )
@@ -408,7 +408,7 @@ data class Trade(
     var executedQuantity: java.math.BigDecimal? = null,
     var tradeDate:  Date? = null,
     var venue: String? = null,
-    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "order") var order: Order? = null,
+    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "order") var order: Order_? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "account") var account: Account? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "security") var security: Security? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "transaction") var transaction: Transaction? = null,
@@ -420,7 +420,7 @@ data class RebalancePlan(
     @Id var rebalancePlanId: UUID? = null,
     var planDate:  Date? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "portfolio") var portfolio: Portfolio? = null,
-    @OneToMany(fetch = FetchType.EAGER) @JoinColumn(name = "proposedOrders") var proposedOrders:  Set<Order>? = null,
+    @OneToMany(fetch = FetchType.EAGER) @JoinColumn(name = "proposedOrders") var proposedOrders:  Set<Order_>? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "advisor") var advisor: Advisor? = null,
     @Enumerated(EnumType.STRING) var status: RebalanceStatus? = null,
     @Enumerated(EnumType.STRING) var method: RebalanceMethod? = null
@@ -555,7 +555,7 @@ data class ComplianceAlert(
     var message: String? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "rule") var rule: ComplianceRule? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "account") var account: Account? = null,
-    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "order") var order: Order? = null,
+    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "order") var order: Order_? = null,
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "advisor") var advisor: Advisor? = null,
     @Enumerated(EnumType.STRING) var status: ComplianceStatus? = null,
     @Enumerated(EnumType.STRING) var severity: AlertSeverity? = null

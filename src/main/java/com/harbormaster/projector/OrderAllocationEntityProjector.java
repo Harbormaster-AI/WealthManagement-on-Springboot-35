@@ -153,14 +153,14 @@ public class OrderAllocationEntityProjector implements EntityProjector<OrderAllo
      * Assign a Order
      * 
      * @param	parentId	UUID
-     * @param	assignment 	Order 
+     * @param	assignment 	Order_ 
      * @return	OrderAllocation
      */
-    public OrderAllocation assignOrder( UUID parentId, Order assignment ) {
+    public OrderAllocation assignOrder( UUID parentId, Order_ assignment ) {
 	    LOGGER.info("assigning Order as " + assignment.toString() );
 
 	    OrderAllocation parentEntity = repository.findById( parentId ).get();
-	    assignment = registry.project( Order.class, assignment.getOrderId());
+	    assignment = registry.project( Order_.class, assignment.getOrder_Id());
 
 	    // ------------------------------------------
 		// assign the Order to the parent entity

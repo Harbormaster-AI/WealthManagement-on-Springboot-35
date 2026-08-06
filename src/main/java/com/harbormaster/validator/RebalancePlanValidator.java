@@ -207,7 +207,7 @@ public class RebalancePlanValidator {
 		if( command.getRemoveFrom() == null )
 			throw new ValidationException("RebalancePlan", "validating remove from RemoveProposedOrdersFromRebalancePlanCommand" );
 
-		if( command.getRemoveFrom().getOrderId() == null )
+		if( command.getRemoveFrom().getOrder_Id() == null )
 			throw new ValidationException("RebalancePlan", "validating id on remove from RemoveProposedOrdersFromRebalancePlanCommand" );
 	}
 

@@ -536,20 +536,20 @@ data class TransactionFetchOneSummary(@Id var transactionId : UUID? = null) {
 
 
 // -----------------------------------------
-// Order Queries 
+// Order_ Queries 
 // -----------------------------------------
 
-data class LoadOrderFilter(val orderId :  UUID? = null )
+data class LoadOrder_Filter(val order_Id :  UUID? = null )
 
-class FindOrderQuery(val filter: LoadOrderFilter = LoadOrderFilter()) {
-    override fun toString(): String = "LoadOrderQuery"
+class FindOrder_Query(val filter: LoadOrder_Filter = LoadOrder_Filter()) {
+    override fun toString(): String = "LoadOrder_Query"
 }
 
-class FindAllOrderQuery() {
-    override fun toString(): String = "LoadAllOrderQuery"
+class FindAllOrder_Query() {
+    override fun toString(): String = "LoadAllOrder_Query"
 }
 
-data class OrderFetchOneSummary(@Id var orderId : UUID? = null) {
+data class Order_FetchOneSummary(@Id var order_Id : UUID? = null) {
 }
 
 

@@ -139,16 +139,16 @@ AnalystRating
 - Tag: latest
 
 ## AWS
-- accessKey: $aib.getParam( "aws.access-key" )
-- secretKey: $aib.getParam( "aws.secret-key" )
+- accessKey: xxxxxxxxxxxxxxxx
+- secretKey: xxxxxxxxxxxxxxxx
 - region: us-east-2
 - ec2InstanceType: t2.medium
 - dbInstanceType: db.t3.medium
-- vpc: $aib.getParam( "aws.vpc"  )
+- vpc: xxxxxxxxxxxxxxx
 - AMI Image Id: 99889988998899
 
 
-    ## Spring Boot v3.5x Details
+## Spring Boot v3.5x Details
 ### Overview
 
 > Spring Boot is a mature, enterprise-ready application framework built on Spring Framework 5 that simplifies the development of ]
@@ -221,7 +221,7 @@ This architecture provides operational visibility into application behavior, all
 - enable-entity-auditing:     	generate audit related attributes for each entity, options: true/false
 - enable-service-level-monitoring: apply telemetry at the Service level. options: true/false
 
-    ## Build
+## Build
 
 Tool - Maven v 2.8.1
 JDK - 17

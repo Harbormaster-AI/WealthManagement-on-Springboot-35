@@ -166,8 +166,8 @@ dependency injection and convention-over-configuration.
 ### Security
 
 > Spring Boot integrates with Spring Security 5 to provide a comprehensive security framework for securing web applications, REST APIs, and microservices. I
-t supports multiple authentication mechanismsâincluding Form Login, HTTP Basic Authentication, OAuth2 Login, OAuth2 Resource Server (JWT), nd custom
-authentication providersâwhile offering robust authorization through role- and authority-based access control.
+t supports multiple authentication mechanisms including Form Login, HTTP Basic Authentication, OAuth2 Login, OAuth2 Resource Server (JWT), and custom
+authentication providers while offering robust authorization through role- and authority-based access control.
 
 To apply security, see options below (form-l ogin, jwt, oauth2, none)
 
@@ -228,29 +228,29 @@ JDK - 17
 
 **Key Build Dependencies**
 
-org.springdoc/springdoc-openapi-starter-webmvc-ui:2.8.17:compile
-org.springframework/spring-messaging
-org.springframework.boot/spring-boot-starter-web
-org.springframework.boot/spring-boot-starter-data-jpa
-org.springframework.boot/spring-boot-starter-actuator
-org.springframework.boot/spring-boot-starter-security
-org.springframework.boot/spring-boot-starter-oauth2-resource-server
-org.springframework.boot:/spring-boot-starter-oauth2-client
-org.springframework.boot/spring-boot-starter-test:test
-org.springframework.boot/spring-boot-configuration-processor:true
-org.springframework.boot/spring-boot-starter
-org.jetbrains.kotlin/kotlin-stdlib
-org.jetbrains.kotlin/kotlin-reflect
-io.projectreactor/reactor-core
-org.projectlombok/lombok:true
-org.slf4j/slf4j-ext
-com.fasterxml.jackson.module/jackson-module-kotlin
-com.thoughtworks.xstream/xstream:${thoughtworks.xstream.version}
-org.projectlombok/lombok
+org.springdoc/springdoc-openapi-starter-webmvc-ui:2.8.17:compile  
+org.springframework/spring-messaging  
+org.springframework.boot/spring-boot-starter-web  
+org.springframework.boot/spring-boot-starter-data-jpa  
+org.springframework.boot/spring-boot-starter-actuator  
+org.springframework.boot/spring-boot-starter-security  
+org.springframework.boot/spring-boot-starter-oauth2-resource-server  
+org.springframework.boot:/spring-boot-starter-oauth2-client  
+org.springframework.boot/spring-boot-starter-test:test  
+org.springframework.boot/spring-boot-configuration-processor:true  
+org.springframework.boot/spring-boot-starter  
+org.jetbrains.kotlin/kotlin-stdlib  
+org.jetbrains.kotlin/kotlin-reflect  
+io.projectreactor/reactor-core  
+org.projectlombok/lombok:true  
+org.slf4j/slf4j-ext  
+com.fasterxml.jackson.module/jackson-module-kotlin  
+com.thoughtworks.xstream/xstream:${thoughtworks.xstream.version}  
+org.projectlombok/lombok  
 
 **Optional**
 
-org.springframework.boot/spring-boot-starter-data-mongodb
-com.mysql/mysql-connector-j
-org.postgresql/postgresql
-com.h2database/h2:runtime
+org.springframework.boot/spring-boot-starter-data-mongodb  
+com.mysql/mysql-connector-j  
+org.postgresql/postgresql  
+com.h2database/h2:runtime  

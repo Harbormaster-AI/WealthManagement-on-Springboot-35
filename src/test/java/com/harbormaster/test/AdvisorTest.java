@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class AdvisorTest
      * @return CreateAdvisorCommand alias
      */
 	protected CreateAdvisorCommand generateNewCommand() {
-    CreateAdvisorCommand command = new CreateAdvisorCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AdvisorRole.values()[0] );
+    CreateAdvisorCommand command = new CreateAdvisorCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AdvisorTest
      * @return UpdateAdvisorCommand alias
      */
 	protected UpdateAdvisorCommand generateUpdateCommand() {
-    UpdateAdvisorCommand command = new UpdateAdvisorCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  new HashSet<>(),  null,  AdvisorRole.values()[0] );
+    UpdateAdvisorCommand command = new UpdateAdvisorCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

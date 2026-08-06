@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class CorporateActionTest
      * @return CreateCorporateActionCommand alias
      */
 	protected CreateCorporateActionCommand generateNewCommand() {
-    CreateCorporateActionCommand command = new CreateCorporateActionCommand( null,   new Date(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  CorporateActionType.values()[0] );
+    CreateCorporateActionCommand command = new CreateCorporateActionCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class CorporateActionTest
      * @return UpdateCorporateActionCommand alias
      */
 	protected UpdateCorporateActionCommand generateUpdateCommand() {
-    UpdateCorporateActionCommand command = new UpdateCorporateActionCommand( null,   new Date(),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  CorporateActionType.values()[0] );
+    UpdateCorporateActionCommand command = new UpdateCorporateActionCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

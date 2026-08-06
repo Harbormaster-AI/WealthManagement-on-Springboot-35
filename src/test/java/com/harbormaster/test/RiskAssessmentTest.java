@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class RiskAssessmentTest
      * @return CreateRiskAssessmentCommand alias
      */
 	protected CreateRiskAssessmentCommand generateNewCommand() {
-    CreateRiskAssessmentCommand command = new CreateRiskAssessmentCommand( null,   new Date(),  0,  0,  RiskToleranceLevel.values()[0] );
+    CreateRiskAssessmentCommand command = new CreateRiskAssessmentCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class RiskAssessmentTest
      * @return UpdateRiskAssessmentCommand alias
      */
 	protected UpdateRiskAssessmentCommand generateUpdateCommand() {
-    UpdateRiskAssessmentCommand command = new UpdateRiskAssessmentCommand( null,   new Date(),  0,  0,  null,  null,  RiskToleranceLevel.values()[0] );
+    UpdateRiskAssessmentCommand command = new UpdateRiskAssessmentCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

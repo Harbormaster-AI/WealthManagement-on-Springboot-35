@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class RebalancePlanTest
      * @return CreateRebalancePlanCommand alias
      */
 	protected CreateRebalancePlanCommand generateNewCommand() {
-    CreateRebalancePlanCommand command = new CreateRebalancePlanCommand( null,   new Date(),  RebalanceStatus.values()[0],  RebalanceMethod.values()[0] );
+    CreateRebalancePlanCommand command = new CreateRebalancePlanCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class RebalancePlanTest
      * @return UpdateRebalancePlanCommand alias
      */
 	protected UpdateRebalancePlanCommand generateUpdateCommand() {
-    UpdateRebalancePlanCommand command = new UpdateRebalancePlanCommand( null,   new Date(),  null,  new HashSet<>(),  null,  RebalanceStatus.values()[0],  RebalanceMethod.values()[0] );
+    UpdateRebalancePlanCommand command = new UpdateRebalancePlanCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

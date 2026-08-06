@@ -75,15 +75,7 @@ resources:
   # ==========================================================
   - name: buildArchiveFile                                   # Unique name <required>
     type: FileSpec                                           # File spec type <required> 
-     # ==========================================================
-    # File spec configuration
-    # ========================================================== 
-    configuration:
-      
-      sourceArtifactory:              # The name of the Artifactory Integration <required>
-      pattern:             /**/**/WealthManagementonspringboot35*.jar    # Fhe application archive file to download <required>
-      target:              target/                             # Where to download the file to <optional for download>
-
+ 
   # ==========================================================
   # Used to add a reference to a Docker image to this pipeline
   # ==========================================================

@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class PerformanceReportTest
      * @return CreatePerformanceReportCommand alias
      */
 	protected CreatePerformanceReportCommand generateNewCommand() {
-    CreatePerformanceReportCommand command = new CreatePerformanceReportCommand( null,   new Date(),   new Date(),  new Percentage(),  new Percentage(),  PerformanceFrequency.values()[0] );
+    CreatePerformanceReportCommand command = new CreatePerformanceReportCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class PerformanceReportTest
      * @return UpdatePerformanceReportCommand alias
      */
 	protected UpdatePerformanceReportCommand generateUpdateCommand() {
-    UpdatePerformanceReportCommand command = new UpdatePerformanceReportCommand( null,   new Date(),   new Date(),  new Percentage(),  new Percentage(),  null,  null,  PerformanceFrequency.values()[0] );
+    UpdatePerformanceReportCommand command = new UpdatePerformanceReportCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

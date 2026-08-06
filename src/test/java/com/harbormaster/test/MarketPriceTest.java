@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class MarketPriceTest
      * @return CreateMarketPriceCommand alias
      */
 	protected CreateMarketPriceCommand generateNewCommand() {
-    CreateMarketPriceCommand command = new CreateMarketPriceCommand( null,  new Money(),   new Date(),  PricingSourceType.values()[0] );
+    CreateMarketPriceCommand command = new CreateMarketPriceCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class MarketPriceTest
      * @return UpdateMarketPriceCommand alias
      */
 	protected UpdateMarketPriceCommand generateUpdateCommand() {
-    UpdateMarketPriceCommand command = new UpdateMarketPriceCommand( null,  new Money(),   new Date(),  null,  PricingSourceType.values()[0] );
+    UpdateMarketPriceCommand command = new UpdateMarketPriceCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

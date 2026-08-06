@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class ClientTest
      * @return CreateClientCommand alias
      */
 	protected CreateClientCommand generateNewCommand() {
-    CreateClientCommand command = new CreateClientCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
+    CreateClientCommand command = new CreateClientCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ClientTest
      * @return UpdateClientCommand alias
      */
 	protected UpdateClientCommand generateUpdateCommand() {
-    UpdateClientCommand command = new UpdateClientCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  null,  new HashSet<>() );
+    UpdateClientCommand command = new UpdateClientCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

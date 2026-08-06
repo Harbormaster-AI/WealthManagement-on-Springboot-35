@@ -7,6 +7,6 @@ import jakarta.persistence.Version
 abstract class BaseEntity(
 
     @Version
-    open var version: Long? = null
+    open var version_: Long? = null
 
 )

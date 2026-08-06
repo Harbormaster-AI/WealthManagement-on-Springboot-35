@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.api;
 
@@ -35,32 +35,27 @@ import jakarta.persistence.Column
 // --------------------------------------------
 
 data class Money(
-    var amount: java.math.BigDecimal? = null,
-    var currency: String? = null
+#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
 )
 
 data class Percentage(
-    var value: java.math.BigDecimal? = null
+#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
 )
 
 data class Address(
-    var street: String? = null,
-    var city: String? = null,
-    var state: String? = null,
-    var postalCode: String? = null,
-    var country: String? = null
+#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
 )
 
 data class ISIN(
-    var value: String? = null
+#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
 )
 
 data class CUSIP(
-    var value: String? = null
+#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
 )
 
 data class AccountNumber(
-    var value: String? = null
+#outputKotlinArgDeclarations( $valueObject $includeAssociations $includeId $forAggregate $forEntity $forValueObject )
 )
 
 

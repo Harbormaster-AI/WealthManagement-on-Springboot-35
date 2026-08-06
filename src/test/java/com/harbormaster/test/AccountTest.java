@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class AccountTest
      * @return CreateAccountCommand alias
      */
 	protected CreateAccountCommand generateNewCommand() {
-    CreateAccountCommand command = new CreateAccountCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new AccountNumber(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  AccountType.values()[0],  RegistrationType.values()[0],  AccountStatus.values()[0] );
+    CreateAccountCommand command = new CreateAccountCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AccountTest
      * @return UpdateAccountCommand alias
      */
 	protected UpdateAccountCommand generateUpdateCommand() {
-    UpdateAccountCommand command = new UpdateAccountCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new AccountNumber(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  null,  null,  null,  null,  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  AccountType.values()[0],  RegistrationType.values()[0],  AccountStatus.values()[0] );
+    UpdateAccountCommand command = new UpdateAccountCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

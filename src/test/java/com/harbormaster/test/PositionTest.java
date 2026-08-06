@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class PositionTest
      * @return CreatePositionCommand alias
      */
 	protected CreatePositionCommand generateNewCommand() {
-    CreatePositionCommand command = new CreatePositionCommand( null,  java.math.BigDecimal.ZERO,  new Money(),  PositionType.values()[0],  TaxLotMethod.values()[0] );
+    CreatePositionCommand command = new CreatePositionCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class PositionTest
      * @return UpdatePositionCommand alias
      */
 	protected UpdatePositionCommand generateUpdateCommand() {
-    UpdatePositionCommand command = new UpdatePositionCommand( null,  java.math.BigDecimal.ZERO,  new Money(),  null,  null,  new HashSet<>(),  new HashSet<>(),  PositionType.values()[0],  TaxLotMethod.values()[0] );
+    UpdatePositionCommand command = new UpdatePositionCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

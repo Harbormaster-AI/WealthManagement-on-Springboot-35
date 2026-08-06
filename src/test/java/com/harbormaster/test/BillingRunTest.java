@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class BillingRunTest
      * @return CreateBillingRunCommand alias
      */
 	protected CreateBillingRunCommand generateNewCommand() {
-    CreateBillingRunCommand command = new CreateBillingRunCommand( null,   new Date(),   new Date(),   new Date(),  BillingRunStatus.values()[0] );
+    CreateBillingRunCommand command = new CreateBillingRunCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class BillingRunTest
      * @return UpdateBillingRunCommand alias
      */
 	protected UpdateBillingRunCommand generateUpdateCommand() {
-    UpdateBillingRunCommand command = new UpdateBillingRunCommand( null,   new Date(),   new Date(),   new Date(),  null,  new HashSet<>(),  BillingRunStatus.values()[0] );
+    UpdateBillingRunCommand command = new UpdateBillingRunCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

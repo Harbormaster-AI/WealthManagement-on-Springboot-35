@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class BeneficiaryTest
      * @return CreateBeneficiaryCommand alias
      */
 	protected CreateBeneficiaryCommand generateNewCommand() {
-    CreateBeneficiaryCommand command = new CreateBeneficiaryCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Percentage() );
+    CreateBeneficiaryCommand command = new CreateBeneficiaryCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class BeneficiaryTest
      * @return UpdateBeneficiaryCommand alias
      */
 	protected UpdateBeneficiaryCommand generateUpdateCommand() {
-    UpdateBeneficiaryCommand command = new UpdateBeneficiaryCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Percentage(),  null,  new HashSet<>() );
+    UpdateBeneficiaryCommand command = new UpdateBeneficiaryCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

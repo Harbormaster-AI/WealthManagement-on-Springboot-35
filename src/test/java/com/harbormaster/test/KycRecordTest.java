@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class KycRecordTest
      * @return CreateKycRecordCommand alias
      */
 	protected CreateKycRecordCommand generateNewCommand() {
-    CreateKycRecordCommand command = new CreateKycRecordCommand( null,   new Date(),  new Boolean(true),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  KycStatus.values()[0] );
+    CreateKycRecordCommand command = new CreateKycRecordCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class KycRecordTest
      * @return UpdateKycRecordCommand alias
      */
 	protected UpdateKycRecordCommand generateUpdateCommand() {
-    UpdateKycRecordCommand command = new UpdateKycRecordCommand( null,   new Date(),  new Boolean(true),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  new HashSet<>(),  KycStatus.values()[0] );
+    UpdateKycRecordCommand command = new UpdateKycRecordCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

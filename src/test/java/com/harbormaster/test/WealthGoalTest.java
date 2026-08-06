@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class WealthGoalTest
      * @return CreateWealthGoalCommand alias
      */
 	protected CreateWealthGoalCommand generateNewCommand() {
-    CreateWealthGoalCommand command = new CreateWealthGoalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),   new Date(),  0,  GoalType.values()[0] );
+    CreateWealthGoalCommand command = new CreateWealthGoalCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class WealthGoalTest
      * @return UpdateWealthGoalCommand alias
      */
 	protected UpdateWealthGoalCommand generateUpdateCommand() {
-    UpdateWealthGoalCommand command = new UpdateWealthGoalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new Money(),   new Date(),  0,  null,  null,  null,  GoalType.values()[0] );
+    UpdateWealthGoalCommand command = new UpdateWealthGoalCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

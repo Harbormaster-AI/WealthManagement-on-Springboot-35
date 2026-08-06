@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class Order_Test
      * @return CreateOrder_Command alias
      */
 	protected CreateOrder_Command generateNewCommand() {
-    CreateOrder_Command command = new CreateOrder_Command( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO,  OrderType.values()[0],  OrderSide.values()[0],  PriceType.values()[0],  TimeInForce.values()[0],  OrderStatus.values()[0] );
+    CreateOrder_Command command = new CreateOrder_Command( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class Order_Test
      * @return UpdateOrder_Command alias
      */
 	protected UpdateOrder_Command generateUpdateCommand() {
-    UpdateOrder_Command command = new UpdateOrder_Command( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO,  null,  null,  new HashSet<>(),  new HashSet<>(),  null,  OrderType.values()[0],  OrderSide.values()[0],  PriceType.values()[0],  TimeInForce.values()[0],  OrderStatus.values()[0] );
+    UpdateOrder_Command command = new UpdateOrder_Command( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

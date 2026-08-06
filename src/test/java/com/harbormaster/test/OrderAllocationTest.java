@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class OrderAllocationTest
      * @return CreateOrderAllocationCommand alias
      */
 	protected CreateOrderAllocationCommand generateNewCommand() {
-    CreateOrderAllocationCommand command = new CreateOrderAllocationCommand( null,  new Percentage() );
+    CreateOrderAllocationCommand command = new CreateOrderAllocationCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class OrderAllocationTest
      * @return UpdateOrderAllocationCommand alias
      */
 	protected UpdateOrderAllocationCommand generateUpdateCommand() {
-    UpdateOrderAllocationCommand command = new UpdateOrderAllocationCommand( null,  new Percentage(),  null,  null,  null );
+    UpdateOrderAllocationCommand command = new UpdateOrderAllocationCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

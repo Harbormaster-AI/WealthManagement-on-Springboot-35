@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class ProposalTest
      * @return CreateProposalCommand alias
      */
 	protected CreateProposalCommand generateNewCommand() {
-    CreateProposalCommand command = new CreateProposalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  ProposalStatus.values()[0],  RiskToleranceLevel.values()[0] );
+    CreateProposalCommand command = new CreateProposalCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ProposalTest
      * @return UpdateProposalCommand alias
      */
 	protected UpdateProposalCommand generateUpdateCommand() {
-    UpdateProposalCommand command = new UpdateProposalCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  null,  ProposalStatus.values()[0],  RiskToleranceLevel.values()[0] );
+    UpdateProposalCommand command = new UpdateProposalCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

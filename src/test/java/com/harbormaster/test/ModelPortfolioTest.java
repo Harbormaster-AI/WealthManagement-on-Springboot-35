@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class ModelPortfolioTest
      * @return CreateModelPortfolioCommand alias
      */
 	protected CreateModelPortfolioCommand generateNewCommand() {
-    CreateModelPortfolioCommand command = new CreateModelPortfolioCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  RiskToleranceLevel.values()[0] );
+    CreateModelPortfolioCommand command = new CreateModelPortfolioCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ModelPortfolioTest
      * @return UpdateModelPortfolioCommand alias
      */
 	protected UpdateModelPortfolioCommand generateUpdateCommand() {
-    UpdateModelPortfolioCommand command = new UpdateModelPortfolioCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>(),  RiskToleranceLevel.values()[0] );
+    UpdateModelPortfolioCommand command = new UpdateModelPortfolioCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

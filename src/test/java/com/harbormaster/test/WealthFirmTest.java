@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class WealthFirmTest
      * @return CreateWealthFirmCommand alias
      */
 	protected CreateWealthFirmCommand generateNewCommand() {
-    CreateWealthFirmCommand command = new CreateWealthFirmCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
+    CreateWealthFirmCommand command = new CreateWealthFirmCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class WealthFirmTest
      * @return UpdateWealthFirmCommand alias
      */
 	protected UpdateWealthFirmCommand generateUpdateCommand() {
-    UpdateWealthFirmCommand command = new UpdateWealthFirmCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>() );
+    UpdateWealthFirmCommand command = new UpdateWealthFirmCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

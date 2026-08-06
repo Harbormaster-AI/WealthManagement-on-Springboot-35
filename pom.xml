@@ -9,16 +9,16 @@
 
   Do not edit manually.
 
-  Turnstone Biologics Confidential
+  Turnstone National Bank Confidential
   
-  2026 Turnstone Biologics, Inc.
+  2026 Turnstone National Bank, Inc.
   All Rights Reserved.
   
   This file is subject to the terms and conditions defined in
   file 'license.txt', which is part of this source code package.
    
   Contributors :
-        Turnstone Biologics - General Release
+        Turnstone National Bank - General Release
 -->
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
@@ -29,7 +29,7 @@
     <packaging>jar</packaging>
     <artifactId>WealthManagement-on-springboot-35</artifactId>
     <name>WealthManagement-on-springboot-35</name>
-    <description>Banking Restful backend</description>
+    <description>Banking Restful Backend</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -146,70 +146,7 @@
                     </execution>
                 </executions>
             </plugin>
-                        <!-- Apache maven ant plugin -->
-	  		<plugin>
-		        <artifactId>maven-antrun-plugin</artifactId>
-		        <version>1.7</version>
-				<dependencies>
-                        <dependency>
-                            <groupId>ant-contrib</groupId>
-                            <artifactId>ant-contrib</artifactId>
-                            <version>1.0b3</version>
-                            <exclusions>
-                                <exclusion>
-                                    <groupId>ant</groupId>
-                                    <artifactId>ant</artifactId>
-                                </exclusion>
-                            </exclusions>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.apache.ant</groupId>
-                            <artifactId>ant-nodeps</artifactId>
-                            <version>1.8.1</version>
-                        </dependency>
-                    </dependencies>
-		  		<configuration>
-		  		</configuration>
-				<executions>
-<!-- git execution -->
-		     		<execution>
-			        	<id>git</id>
-			     		<phase>compile</phase>
-			            <inherited>false</inherited>
-			            <configuration>
-						  <target name = "git">
-                            <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
-							<if>
-							  <equals arg1="${git}" arg2="true" />
-							  <then>
-							      <if>
-							        <os family="unix"/>
-									<then>
-								      <exec executable="dos2unix" logError="false" failonerror="false" failifexecutionfails="false">
-									    <arg value="${basedir}/*.sh"/>
-									  </exec>
-									  <exec executable="chmod" logError="false" failonerror="false" failifexecutionfails="false">
-									    <arg value="+x"/>
-										<arg value="${basedir}/*.sh"/>
-									  </exec>
-									</then>
-							      </if>
-   							      <exec executable="bash" logError="false" failonerror="false" failifexecutionfails="false">
-							        <arg value="--login"/>
-							        <arg value="${basedir}/gitpush.sh"/>
-									<arg value="${basedir}"/>
-							      </exec>	
-							      
-							  </then>
-							</if>
-						  </target>
-						</configuration>
-		                <goals>
-			            	<goal>run</goal>
-			            </goals>
-				  	</execution>          
-	    		</executions>    		
-			</plugin>    
+                        #apacheMavenAntRunPluginGitOnlyDecl()
                     </plugins>
     </build>
     <dependencies>

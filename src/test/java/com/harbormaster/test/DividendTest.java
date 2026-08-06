@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class DividendTest
      * @return CreateDividendCommand alias
      */
 	protected CreateDividendCommand generateNewCommand() {
-    CreateDividendCommand command = new CreateDividendCommand( null,  new Money(),  new Money() );
+    CreateDividendCommand command = new CreateDividendCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class DividendTest
      * @return UpdateDividendCommand alias
      */
 	protected UpdateDividendCommand generateUpdateCommand() {
-    UpdateDividendCommand command = new UpdateDividendCommand( null,  new Money(),  new Money(),  null );
+    UpdateDividendCommand command = new UpdateDividendCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

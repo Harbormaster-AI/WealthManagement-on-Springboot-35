@@ -6,13 +6,13 @@ import jakarta.persistence.MappedSuperclass
 @MappedSuperclass
 abstract class SoftDeleteEntity(
 
-    version: Long? = null
+    version_: Long? = null
 
-) : AuditableEntity(version) {
+) : AuditableEntity(version_) {
 
-    open var deleted: Boolean = false
+    open var deleted_: Boolean = false
 
-    open var deletedBy: String? = null
+    open var deletedBy_: String? = null
 
-    open var deletedDate: Instant? = null
+    open var deletedDate_: Instant? = null
 }

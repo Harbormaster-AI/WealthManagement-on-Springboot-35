@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class MeetingTest
      * @return CreateMeetingCommand alias
      */
 	protected CreateMeetingCommand generateNewCommand() {
-    CreateMeetingCommand command = new CreateMeetingCommand( null,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
+    CreateMeetingCommand command = new CreateMeetingCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class MeetingTest
      * @return UpdateMeetingCommand alias
      */
 	protected UpdateMeetingCommand generateUpdateCommand() {
-    UpdateMeetingCommand command = new UpdateMeetingCommand( null,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  new HashSet<>() );
+    UpdateMeetingCommand command = new UpdateMeetingCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

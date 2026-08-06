@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class AgreementTest
      * @return CreateAgreementCommand alias
      */
 	protected CreateAgreementCommand generateNewCommand() {
-    CreateAgreementCommand command = new CreateAgreementCommand( null,   new Date(),  AgreementType.values()[0],  AgreementStatus.values()[0] );
+    CreateAgreementCommand command = new CreateAgreementCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class AgreementTest
      * @return UpdateAgreementCommand alias
      */
 	protected UpdateAgreementCommand generateUpdateCommand() {
-    UpdateAgreementCommand command = new UpdateAgreementCommand( null,   new Date(),  null,  null,  new HashSet<>(),  AgreementType.values()[0],  AgreementStatus.values()[0] );
+    UpdateAgreementCommand command = new UpdateAgreementCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

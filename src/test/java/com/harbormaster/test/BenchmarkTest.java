@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class BenchmarkTest
      * @return CreateBenchmarkCommand alias
      */
 	protected CreateBenchmarkCommand generateNewCommand() {
-    CreateBenchmarkCommand command = new CreateBenchmarkCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  BenchmarkType.values()[0] );
+    CreateBenchmarkCommand command = new CreateBenchmarkCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class BenchmarkTest
      * @return UpdateBenchmarkCommand alias
      */
 	protected UpdateBenchmarkCommand generateUpdateCommand() {
-    UpdateBenchmarkCommand command = new UpdateBenchmarkCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>(),  BenchmarkType.values()[0] );
+    UpdateBenchmarkCommand command = new UpdateBenchmarkCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

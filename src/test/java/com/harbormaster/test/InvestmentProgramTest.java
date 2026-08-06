@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class InvestmentProgramTest
      * @return CreateInvestmentProgramCommand alias
      */
 	protected CreateInvestmentProgramCommand generateNewCommand() {
-    CreateInvestmentProgramCommand command = new CreateInvestmentProgramCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16) );
+    CreateInvestmentProgramCommand command = new CreateInvestmentProgramCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class InvestmentProgramTest
      * @return UpdateInvestmentProgramCommand alias
      */
 	protected UpdateInvestmentProgramCommand generateUpdateCommand() {
-    UpdateInvestmentProgramCommand command = new UpdateInvestmentProgramCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  new HashSet<>() );
+    UpdateInvestmentProgramCommand command = new UpdateInvestmentProgramCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

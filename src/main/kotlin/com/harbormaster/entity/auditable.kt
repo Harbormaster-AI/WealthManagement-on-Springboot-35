@@ -14,21 +14,21 @@ import java.time.Instant
 @EntityListeners(AuditingEntityListener::class)
 abstract class AuditableEntity(
 
-    version: Long? = null
+    version_: Long? = null
 
-) : BaseEntity(version) {
+) : BaseEntity(version_) {
 
     @CreatedBy
     @Column(updatable = false)
-    open var createdBy: String? = null
+    open var createdBy_: String? = null
 
     @CreatedDate
     @Column(updatable = false)
-    open var createdDate: Instant? = null
+    open var createdDate_: Instant? = null
 
     @LastModifiedBy
-    open var modifiedBy: String? = null
+    open var modifiedBy_: String? = null
 
     @LastModifiedDate
-    open var modifiedDate: Instant? = null
+    open var modifiedDate_: Instant? = null
 }

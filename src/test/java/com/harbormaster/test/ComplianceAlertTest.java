@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class ComplianceAlertTest
      * @return CreateComplianceAlertCommand alias
      */
 	protected CreateComplianceAlertCommand generateNewCommand() {
-    CreateComplianceAlertCommand command = new CreateComplianceAlertCommand( null,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  ComplianceStatus.values()[0],  AlertSeverity.values()[0] );
+    CreateComplianceAlertCommand command = new CreateComplianceAlertCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ComplianceAlertTest
      * @return UpdateComplianceAlertCommand alias
      */
 	protected UpdateComplianceAlertCommand generateUpdateCommand() {
-    UpdateComplianceAlertCommand command = new UpdateComplianceAlertCommand( null,   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  null,  null,  ComplianceStatus.values()[0],  AlertSeverity.values()[0] );
+    UpdateComplianceAlertCommand command = new UpdateComplianceAlertCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

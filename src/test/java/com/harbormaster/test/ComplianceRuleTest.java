@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class ComplianceRuleTest
      * @return CreateComplianceRuleCommand alias
      */
 	protected CreateComplianceRuleCommand generateNewCommand() {
-    CreateComplianceRuleCommand command = new CreateComplianceRuleCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AlertSeverity.values()[0] );
+    CreateComplianceRuleCommand command = new CreateComplianceRuleCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ComplianceRuleTest
      * @return UpdateComplianceRuleCommand alias
      */
 	protected UpdateComplianceRuleCommand generateUpdateCommand() {
-    UpdateComplianceRuleCommand command = new UpdateComplianceRuleCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new HashSet<>(),  AlertSeverity.values()[0] );
+    UpdateComplianceRuleCommand command = new UpdateComplianceRuleCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

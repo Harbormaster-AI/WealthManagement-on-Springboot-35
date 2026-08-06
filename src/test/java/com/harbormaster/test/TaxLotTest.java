@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class TaxLotTest
      * @return CreateTaxLotCommand alias
      */
 	protected CreateTaxLotCommand generateNewCommand() {
-    CreateTaxLotCommand command = new CreateTaxLotCommand( null,   new Date(),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO );
+    CreateTaxLotCommand command = new CreateTaxLotCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class TaxLotTest
      * @return UpdateTaxLotCommand alias
      */
 	protected UpdateTaxLotCommand generateUpdateCommand() {
-    UpdateTaxLotCommand command = new UpdateTaxLotCommand( null,   new Date(),  java.math.BigDecimal.ZERO,  java.math.BigDecimal.ZERO,  null );
+    UpdateTaxLotCommand command = new UpdateTaxLotCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

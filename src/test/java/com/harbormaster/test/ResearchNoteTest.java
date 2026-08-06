@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class ResearchNoteTest
      * @return CreateResearchNoteCommand alias
      */
 	protected CreateResearchNoteCommand generateNewCommand() {
-    CreateResearchNoteCommand command = new CreateResearchNoteCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  AnalystRating.values()[0] );
+    CreateResearchNoteCommand command = new CreateResearchNoteCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class ResearchNoteTest
      * @return UpdateResearchNoteCommand alias
      */
 	protected UpdateResearchNoteCommand generateUpdateCommand() {
-    UpdateResearchNoteCommand command = new UpdateResearchNoteCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),   new Date(),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  null,  null,  AnalystRating.values()[0] );
+    UpdateResearchNoteCommand command = new UpdateResearchNoteCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

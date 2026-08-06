@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class StandingInstructionTest
      * @return CreateStandingInstructionCommand alias
      */
 	protected CreateStandingInstructionCommand generateNewCommand() {
-    CreateStandingInstructionCommand command = new CreateStandingInstructionCommand( null,   new Date(),  new Money(),  new Boolean(true),  InstructionType.values()[0],  InstructionFrequency.values()[0] );
+    CreateStandingInstructionCommand command = new CreateStandingInstructionCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class StandingInstructionTest
      * @return UpdateStandingInstructionCommand alias
      */
 	protected UpdateStandingInstructionCommand generateUpdateCommand() {
-    UpdateStandingInstructionCommand command = new UpdateStandingInstructionCommand( null,   new Date(),  new Money(),  new Boolean(true),  null,  null,  InstructionType.values()[0],  InstructionFrequency.values()[0] );
+    UpdateStandingInstructionCommand command = new UpdateStandingInstructionCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

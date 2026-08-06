@@ -10,16 +10,16 @@
  *
  * Do not edit manually.
  ********************************************************
- * Turnstone Biologics Confidential
+ * Turnstone National Bank Confidential
  *
- * 2026 Turnstone Biologics
+ * 2026 Turnstone National Bank
  * All Rights Reserved.
  *
  * This file is subject to the terms and conditions defined in
  * file 'license.txt', which is part of this source code package.
  *
  * Contributors :
- *       Turnstone Biologics - General Release
+ *       Turnstone National Bank - General Release
  */
 package com.harbormaster.test;
 
@@ -265,7 +265,7 @@ public class SecurityTest
      * @return CreateSecurityCommand alias
      */
 	protected CreateSecurityCommand generateNewCommand() {
-    CreateSecurityCommand command = new CreateSecurityCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new ISIN(),  new CUSIP(),  new Percentage(),  SecurityType.values()[0],  AssetClass.values()[0] );
+    CreateSecurityCommand command = new CreateSecurityCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }
@@ -276,7 +276,7 @@ public class SecurityTest
      * @return UpdateSecurityCommand alias
      */
 	protected UpdateSecurityCommand generateUpdateCommand() {
-    UpdateSecurityCommand command = new UpdateSecurityCommand( null,  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16),  new ISIN(),  new CUSIP(),  new Percentage(),  new HashSet<>(),  new HashSet<>(),  new HashSet<>(),  SecurityType.values()[0],  AssetClass.values()[0] );
+    UpdateSecurityCommand command = new UpdateSecurityCommand( #determineDefaultArgs( ${includeAssociations} ) );
 
     return( command );
 }

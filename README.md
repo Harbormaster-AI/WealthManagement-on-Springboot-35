@@ -21,108 +21,108 @@ Harbormaster
 - Name: Wealth Management Capabilities Model
 - Version: 1.0.0
 
-## #Entities
+### Entities
 
-    WealthFirm
-    Office
-    Advisor
-    AdvisoryTeam
-    Household
-    Client
-    KycRecord
-    Beneficiary
-    Custodian
-    Account
-    Portfolio
-    InvestmentProgram
-    ModelPortfolio
-    AssetAllocationSlice
-    InvestmentPolicy
-    RiskAssessment
-    WealthGoal
-    Security
-    MarketPrice
-    CorporateAction
-    Dividend
-    Position
-    TaxLot
-    Transaction
-    Order_
-    OrderAllocation
-    Trade
-    RebalancePlan
-    PerformanceReport
-    Benchmark
-    FeeSchedule
-    Fee
-    BillingRun
-    Invoice
-    Document
-    Agreement
-    ComplianceRule
-    ComplianceAlert
-    Proposal
-    AccountTransfer
-    StandingInstruction
-    CashMovement
-    ResearchNote
-    Meeting
-    
+WealthFirm
+Office
+Advisor
+AdvisoryTeam
+Household
+Client
+KycRecord
+Beneficiary
+Custodian
+Account
+Portfolio
+InvestmentProgram
+ModelPortfolio
+AssetAllocationSlice
+InvestmentPolicy
+RiskAssessment
+WealthGoal
+Security
+MarketPrice
+CorporateAction
+Dividend
+Position
+TaxLot
+Transaction
+Order_
+OrderAllocation
+Trade
+RebalancePlan
+PerformanceReport
+Benchmark
+FeeSchedule
+Fee
+BillingRun
+Invoice
+Document
+Agreement
+ComplianceRule
+ComplianceAlert
+Proposal
+AccountTransfer
+StandingInstruction
+CashMovement
+ResearchNote
+Meeting
+
 ## #Value Objects
 
-    Money
-    Percentage
-    Address
-    ISIN
-    CUSIP
-    AccountNumber
-    
+Money
+Percentage
+Address
+ISIN
+CUSIP
+AccountNumber
+
 ### Enums
 
-    AdvisorRole
-    AccountType
-    RegistrationType
-    AccountStatus
-    PortfolioType
-    RebalanceFrequency
-    RiskToleranceLevel
-    SuitabilityStatus
-    GoalType
-    SecurityType
-    AssetClass
-    PricingSourceType
-    CorporateActionType
-    PositionType
-    TaxLotMethod
-    TransactionType
-    OrderType
-    OrderSide
-    PriceType
-    TimeInForce
-    OrderStatus
-    TradeStatus
-    RebalanceStatus
-    RebalanceMethod
-    PerformanceFrequency
-    BenchmarkType
-    FeeType
-    BillingMethod
-    BillingRunStatus
-    InvoiceStatus
-    DocumentType
-    AgreementType
-    AgreementStatus
-    KycStatus
-    ComplianceStatus
-    AlertSeverity
-    ProposalStatus
-    TransferType
-    TransferStatus
-    InstructionType
-    InstructionFrequency
-    CashMovementType
-    AnalystRating
-    
+AdvisorRole
+AccountType
+RegistrationType
+AccountStatus
+PortfolioType
+RebalanceFrequency
+RiskToleranceLevel
+SuitabilityStatus
+GoalType
+SecurityType
+AssetClass
+PricingSourceType
+CorporateActionType
+PositionType
+TaxLotMethod
+TransactionType
+OrderType
+OrderSide
+PriceType
+TimeInForce
+OrderStatus
+TradeStatus
+RebalanceStatus
+RebalanceMethod
+PerformanceFrequency
+BenchmarkType
+FeeType
+BillingMethod
+BillingRunStatus
+InvoiceStatus
+DocumentType
+AgreementType
+AgreementStatus
+KycStatus
+ComplianceStatus
+AlertSeverity
+ProposalStatus
+TransferType
+TransferStatus
+InstructionType
+InstructionFrequency
+CashMovementType
+AnalystRating
+
 
 ## CI Platform
 - Name: circlci
@@ -148,7 +148,7 @@ Harbormaster
 - AMI Image Id: 99889988998899
 
 
-## Spring Boot v2.5x Details
+    ## Spring Boot v3.5x Details
 ### Overview
 
 > Spring Boot is a mature, enterprise-ready application framework built on Spring Framework 5 that simplifies the development of ]
@@ -209,7 +209,7 @@ This architecture provides operational visibility into application behavior, all
 ## Options
 
 > The following options are available to be applied from the Web UI and a System-as-Code Yanl file.
->
+
 - server-port:              	port to listen on. default: 8080
 - entity-store-type:        	database engine to use to store entities. options: h2, mongodb, mysql, postgres
 - entity-store-url:           	Url to connect to the database
@@ -221,29 +221,36 @@ This architecture provides operational visibility into application behavior, all
 - enable-entity-auditing:     	generate audit related attributes for each entity, options: true/false
 - enable-service-level-monitoring: apply telemetry at the Service level. options: true/false
 
-## Build
+    ## Build
 
-Tool - Maven v 2.8.1  
-JDK - 11
+Tool - Maven v 2.8.1
+JDK - 17
 
-** Key Build Dependencies **
+**Key Build Dependencies**
 
-org.springframework.boot/spring-boot-starter-web  
-org.springframework/spring-messaging:5.3.12  
-org.springframework.boot/spring-boot-starter-data-jpa  
-org.springframework.boot/spring-boot-starter-actuator  
-org.jetbrains.kotlin/kotlin-stdlib   
-org.jetbrains.kotlin/kotlin-reflect  
-io.projectreactor/reactor-core  
-org.projectlombok/lombok  
-org.slf4j/slf4j-ext  
-org.apache.commons/commons-lang3:3.12.0  
-io.springfox/springfox-boot-starter:3.0.0  
-com.thoughtworks.xstream/xstream  
-org.projectlombok/lombok  
-** Conditionals **  
-org.springframework.boot/spring-boot-starter-data-mongodb:2.6.0  
-mysql/mysql-connector-java:8.0.13  
-org.postgresql/postgresql:42.3.1  
-com.h2database/h2/runtime
+org.springdoc/springdoc-openapi-starter-webmvc-ui:2.8.17:compile
+org.springframework/spring-messaging
+org.springframework.boot/spring-boot-starter-web
+org.springframework.boot/spring-boot-starter-data-jpa
+org.springframework.boot/spring-boot-starter-actuator
+org.springframework.boot/spring-boot-starter-security
+org.springframework.boot/spring-boot-starter-oauth2-resource-server
+org.springframework.boot:/spring-boot-starter-oauth2-client
+org.springframework.boot/spring-boot-starter-test:test
+org.springframework.boot/spring-boot-configuration-processor:true
+org.springframework.boot/spring-boot-starter
+org.jetbrains.kotlin/kotlin-stdlib
+org.jetbrains.kotlin/kotlin-reflect
+io.projectreactor/reactor-core
+org.projectlombok/lombok:true
+org.slf4j/slf4j-ext
+com.fasterxml.jackson.module/jackson-module-kotlin
+com.thoughtworks.xstream/xstream:${thoughtworks.xstream.version}
+org.projectlombok/lombok
 
+**Optional**
+
+org.springframework.boot/spring-boot-starter-data-mongodb
+com.mysql/mysql-connector-j
+org.postgresql/postgresql
+com.h2database/h2:runtime

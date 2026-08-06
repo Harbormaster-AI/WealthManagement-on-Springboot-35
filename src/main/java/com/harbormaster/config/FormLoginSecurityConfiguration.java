@@ -1,4 +1,4 @@
-package ${.aib}security;
+package com.harbormaster.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
